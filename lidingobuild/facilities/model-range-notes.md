@@ -32,3 +32,17 @@ All parents carry an evidence record. Only actual source **building** IDs are pa
 The CPU build audit validates finite coordinates, face indices, positive dimensions, terrain coverage, unique facility IDs and the sub-50,000 range-triangle budget. It is an implementation check, not a geometry survey. Its local report is `lidingobuild/cache/facilities-reference-2026-09-10/range-authoring-validation.json`. The production builder uses the exact retained 1 m terrain; the isolated CPU audit uses the reference terrain mesh only to verify geometry construction without accessing live Blender.
 
 References: [orthophoto provenance](orthophoto-reference.md), [photo evidence](web-reference.md), [club range photograph](https://www.lidingogk.se/trana/rangen-ovningsomraden/), [club gallery](https://www.lidingogk.se/banan/bildgalleri/).
+
+## The barns after the owner's photograph (9 November 2026)
+
+The owner's photograph of hole 1 at dawn shows the east barn's north gable and road-side west wall, and the west barn beyond. Both barns keep their exact footprints and retained roof envelopes and gain what the photograph shows and the retained envelope lacked:
+
+- **Overhangs.** Eaves (0.45 m) and gables (0.3 m) continue each roof plane past the walls (`overhangs`, one slab per metre along the eaves and a profile-following slab across each gable, cuts closer than 1 cm merged so the GLB's 32-bit floats never collapse a slab). They have dark fascia and barge boards.
+- **Walls.** Board and batten above the lower horizontal boarding (2.45 m), every 0.52 m. The earlier full-height joints crossed the horizontal seams and read as a grid.
+- **Doors.** The big doors are framed in white, with a white mid-line on a pair of leaves.
+- **Gables.** The east barn has a white-framed hatch high in its north gable. The west barn has a white-framed door in its north gable.
+- **Wall unit.** A white wall unit sits near the eave at the south end of the east barn's road-side wall.
+
+Dimensions are display estimates.
+
+**Build.** It was built headless in Blender 5.2 (`blender --background --factory-startup --python build-production-model.py`, then the exporter on the library). The orthophoto crops the range traces read were re-cut from the re-downloaded 2025 tile, and they match the hashes `authored-layout.json` pins.

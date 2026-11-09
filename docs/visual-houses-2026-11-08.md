@@ -366,6 +366,56 @@ barns pitched roofs where they had flat ones:
 
 The roofs were checked on the GPU at Veckefjärden, Norrfällsviken and Lidingö.
 
+## Johannesberg, and Lidingö's range barns (9 November)
+
+**Owner request:** "Can we fix all the buildings in Johannesberg now before we
+continue? And can we improve the two red buildings next to hole one in Lidingö
+golf (se reference photo). Use blender." The reference photograph shows hole 1
+from the clubhouse at dawn: the east range barn's north gable and its road-side
+wall in falu red under a black roof, its big doors framed in white, and the west
+barn beyond.
+
+**Johannesberg opts in** (`scenery/johannesberg.js`).
+- **Roofs.** Their colours come from Lantmäteriet's June 2025 orthophoto
+  (`roof-colours.py --course johannesberg`, the tree pipeline's Python environment):
+  288 of 307 footprints are coloured. The course is shifted 0.96 m east and 1.28 m
+  north onto its roofs (+4.3 points of open roof per footprint).
+- **Houses.** 287 are drawn with the kit: 163 villas, 70 outbuildings, 32 barns,
+  15 sheds and 4 halls; 85 of them stand within 800 m of a hole.
+- **Kept.** The clubhouse, the manor and the estate buildings keep their verified
+  Blender asset.
+- **The horse farm about 1 km west of the course** (SWEREF 99 TM about E 678560,
+  N 6624935). OpenStreetMap calls its three buildings residential, and two of them
+  stand close enough to be drawn as blocks of flats. The 2025 and 2021
+  orthophotos show two long stables, one by the riding arena and one across the
+  road, and a farmhouse at the arena's east side. They are stated as two barns
+  and a villa (`houseKitBuildings`), so no block of flats is left on the ground.
+
+**Lidingö's range barns** (`lidingobuild/facilities/model-range.py`).
+- **What changed.** The facility model's two barns (`way/26408211` east,
+  `way/26408210` west) keep their exact footprints and roof envelopes, and gain:
+  - eaves and gable overhangs (0.45 m and 0.3 m) continuing each roof plane, with
+    dark fascia and barge boards;
+  - board and batten above the photographed lower boarding (2.45 m): the old
+    full-height joints over the horizontal seams read as a grid;
+  - the big doors framed in white, with a white mid-line on a pair of leaves;
+  - a white-framed hatch high in the east barn's north gable, and the white wall
+    unit near the eave at the south end of its road-side wall;
+  - a white-framed door in the west barn's north gable.
+- **How it was built.** Headless in Blender 5.2:
+  - the builder now takes the repository from its own path;
+  - it saves the whole session as the library, since Blender 5.2's partial write
+    (`libraries.write`) crashes copying a scene in background mode;
+  - the exporter names Eevee for Blender 4 or 5.
+- **Inputs.** The range traces' orthophoto crops were re-cut from the re-downloaded
+  2025 tile and match their pinned hashes byte for byte.
+- **Result.** Every other facility keeps its triangle count, the barns go from
+  3,781 and 3,470 to 5,377 and 6,074 triangles, and the independent audit passes.
+  The superseded GLB is removed.
+
+**The source revision moves** (a scenery module changed), so every course's
+prepared tints, water, far vista and scatter were re-baked on the owner's GPU.
+
 ## The befores
 
 - `?houses=before` draws every house as the batch did.
