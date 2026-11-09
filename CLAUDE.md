@@ -63,7 +63,10 @@ this guide or the current production workflow.
   (`keepWoodlandRecord`, 0.55). `near` records are always drawn. Johannesberg's
   inner frontier is the first such generation; see
   [its review](geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md)
-  and [the tree placement workflow](docs/tree-placement-workflow.md).
+  and [the tree placement workflow](docs/tree-placement-workflow.md). Norrfällsviken's
+  is the second (9 November): the first to pass the 90% held-out gate, from a leaf-on
+  June 2025 scan; see
+  [its review](geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/README.md).
 - Terrain detail is the same on every device and backend (owner request,
   24 September): native tile grids and a 128-tile budget. The playable course
   -- every hole's tiles, within 80-90 m of each tee-to-green line, and the
