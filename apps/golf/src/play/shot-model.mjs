@@ -299,15 +299,25 @@ export function puttRangeFor(distance) {
 }
 
 const flats = new Map();
-/** How far a swing of this power carries and rolls on flat ground (fairway, or the green it lands on) with no wind. */
-export function flatShot(club, power, lie = 'fairway', setup = STOCK_SETUP, quality = null, landOn = 'fairway') {
+/* A green's half depth round its pin, for a hole's shape on flat ground. */
+const GREEN_HALF = 15;
+/**
+ * How far a swing of this power carries and rolls on flat ground with no wind:
+ * on fairway, or, with `landOn` 'green' and a `pin` distance, on a hole's shape:
+ * fairway in front, a green 15 m either side of the pin, rough behind. (On a green
+ * with no end, a low shot ran 100 m and more, which no real green allows.)
+ */
+export function flatShot(club, power, lie = 'fairway', setup = STOCK_SETUP, quality = null, landOn = 'fairway', pin = null) {
   const set = fitSetup(club, setup);
-  const key = `${club.cat}:${club.carry}:${power.toFixed(4)}:${lie}:${set.type}:${set.height}:${set.spin}:${quality ? `${quality.speed}:${quality.spin}:${quality.launch}` : ''}:${landOn}`;
+  const shaped = landOn === 'green' && Number.isFinite(pin) ? Math.round(pin) : null;
+  const key = `${club.cat}:${club.carry}:${power.toFixed(4)}:${lie}:${set.type}:${set.height}:${set.spin}:${quality ? `${quality.speed}:${quality.spin}:${quality.launch}` : ''}:${landOn}:${shaped ?? ''}`;
   if (flats.has(key)) return flats.get(key);
   // Straight: the shape's start line is turned so the carry is the same.
   const L = launchFor({ club, power, yaw: 0, lie, difficulty: 'normal', setup: { ...set, shape: 0 }, quality });
   const { velocity, spin } = launchState({ speed: L.speed, launchDeg: L.launchDeg, yaw: 0, spinRpm: L.spinRpm });
-  const r = simulateShot({ heightAt: () => 0, surfaceAt: () => landOn, cup: null },
+  const surfaceAt = shaped === null ? () => landOn
+    : (x, z) => (z < shaped - GREEN_HALF ? 'fairway' : z <= shaped + GREEN_HALF ? 'green' : 'rough');
+  const r = simulateShot({ heightAt: () => 0, surfaceAt, cup: null },
     { start: [0, BALL.radius, 0], velocity, spin }, { record: false, dt: 1 / 120 });
   const out = { carry: r.carry, total: r.total };
   if (flats.size > 6000) flats.clear();
@@ -331,34 +341,18 @@ export function clubReach(club, lie = 'fairway', setup = STOCK_SETUP, quality = 
 
 /**
  * The power a shot is planned at to reach `distance` (the pin, or a set target),
- * which the swing pad's line and the landing ring show. A full swing or a punch
- * flies to it: it lands at the distance less the roll a full one has on that
- * ground, and runs on. So every club's ring stands by the target, a little shorter
- * for a club that runs further, and a long club swung softly runs on past it, as it
- * would. (Planned by its whole run, a soft long iron had to land far short and skid
- * the rest, and its ring stood well short of the next shorter club's.) The short
- * game is played to run, so a chip, a pitch or a bump and run is planned by its
- * whole run (powerFor).
+ * which the swing pad's line, the landing ring and its roll trail show: the
+ * strongest swing that stops the ball there (powerFor), its run reckoned over the
+ * hole's shape when it is played to a green (flatShot). Every club then stops at
+ * the target, and a club swung softly lands shorter and runs up, as a real one
+ * does: at a 100 m pin a 7-iron lands about 71 m out, a near-full 8-iron 90 m.
+ * (9 November, twice: a full swing first flew to the target less a capped roll,
+ * so a soft long iron ran 6-31 m past; before that the run was reckoned on a
+ * green with no end, where a soft shot skidded 100 m and its ring stood far short.)
  */
 export function planPower(club, distance, lie = 'fairway', setup = STOCK_SETUP, quality = null, landOn = 'fairway') {
   if (club.cat === 'putter') return null;
-  const set = fitSetup(club, setup);
-  if (set.type !== 'full' && set.type !== 'punch') return powerFor(club, distance, lie, set, quality, landOn);
-  const carry = p => flatShot(club, p, lie, set, quality, landOn).carry;
-  const full = flatShot(club, 1, lie, set, quality, landOn);
-  // The roll allowed for is at most a tenth of the distance (4-15 m): a wood or a punch
-  // runs 40 m and more on a flat model green, and a ball planned to land that far short
-  // would come down off the green, so its ring stood far short of the irons'.
-  const aim = distance - Math.min(full.total - full.carry, Math.max(4, Math.min(15, distance * .1)));
-  if (full.carry <= aim) return 1;
-  let lo = .05, hi = 1;
-  if (carry(lo) >= aim) return lo;
-  // a harder swing always carries further, so a bisection finds the one swing
-  for (let i = 0; i < 14; i++) {
-    const mid = (lo + hi) / 2;
-    if (carry(mid) < aim) lo = mid; else hi = mid;
-  }
-  return Math.round((lo + hi) / 2 * 100) / 100;
+  return powerFor(club, distance, lie, fitSetup(club, setup), quality, landOn);
 }
 
 /**
@@ -372,7 +366,8 @@ export function planPower(club, distance, lie = 'fairway', setup = STOCK_SETUP, 
  */
 export function powerFor(club, distance, lie = 'fairway', setup = STOCK_SETUP, quality = null, landOn = 'fairway') {
   if (club.cat === 'putter') return null;
-  const run = p => flatShot(club, p, lie, setup, quality, landOn).total;
+  // played to a green, the run is reckoned over a hole's shape round the pin at this distance
+  const run = p => flatShot(club, p, lie, setup, quality, landOn, distance).total;
   if (run(1) <= distance) return 1;
   let hi = 1, lo = null;
   for (let k = 19; k >= 1; k--) {

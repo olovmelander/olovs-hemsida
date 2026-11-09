@@ -162,6 +162,15 @@ async function startPlay(h, query) {
   const DOTS = 60;
   const dots = new THREE.InstancedMesh(new THREE.SphereGeometry(.022, 8, 6), new THREE.MeshBasicNodeMaterial({ color: '#ffffff', transparent: true, opacity: .85, depthWrite: false }), DOTS);
   dots.renderOrder = 3; dots.count = 0; dots.frustumCulled = false; h.scene.add(dots);
+  /* The run after the landing ring: flat discs along the ground to where the planned swing
+     stops, and a small ring there. A soft long club lands short and runs up to the pin;
+     without the run its ring alone read as a shot coming up short. */
+  const RUN_DOTS = 40;
+  const runMaterial = new THREE.MeshBasicNodeMaterial({ color: '#ffffff', transparent: true, opacity: .8, depthTest: false, depthWrite: false });
+  const runDots = new THREE.InstancedMesh(new THREE.CircleGeometry(.16, 16).rotateX(-Math.PI / 2), runMaterial, RUN_DOTS);
+  runDots.renderOrder = 3; runDots.count = 0; runDots.frustumCulled = false; h.scene.add(runDots);
+  const restMark = new THREE.Mesh(new THREE.RingGeometry(.42, .6, 40), runMaterial);
+  restMark.rotation.x = -Math.PI / 2; restMark.renderOrder = 3; restMark.visible = false; h.scene.add(restMark);
   const tracer = createRibbonTracer({ scene: h.scene, camera: h.camera });
   const greenRead = createGreenRead({ scene: h.scene, heightAt });
   hud.help(KEY_HELP);
@@ -530,7 +539,7 @@ async function startPlay(h, query) {
   }
   function preview() {
     const level = DIFFICULTY[settings.difficulty] || DIFFICULTY.normal;
-    marker.visible = false; dots.count = 0; spread.visible = false;
+    marker.visible = false; dots.count = 0; spread.visible = false; runDots.count = 0; restMark.visible = false;
     if (state !== 'address') return;
     const putt = putting();
     // Svår shows nothing ahead: the map has only the aim line.
@@ -558,6 +567,7 @@ async function startPlay(h, query) {
     marker.position.set(land[0], heightAt(land[0], land[2]) + .08, land[2]);
     const carry = Math.hypot(land[0] - ball.x, land[2] - ball.z);
     marker.scale.setScalar(Math.max(1, carry / 60)); marker.visible = true;
+    showRun(result, land, carry, m);
     // The spread: a typical miss either way (a third of the pad's width), and the depth of a strike's pace.
     const sigma = .3;
     const a = simulateLaunch(launchFor({ ...base, face: sigma, path: sigma }), windNow);
@@ -578,7 +588,29 @@ async function startPlay(h, query) {
       dots.count = k; dots.instanceMatrix.needsUpdate = true;
     }
   }
-  function hideAids() { marker.visible = false; dots.count = 0; spread.visible = false; greenRead.hide(); }
+  /** The run from the landing ring to where the planned swing stops: a disc every few metres
+      along the ball's own ground path (it follows the slopes), and a small ring at the stop. */
+  function showRun(result, land, carry, m) {
+    const rest = result.rest;
+    if (Math.hypot(rest[0] - land[0], rest[2] - land[2]) < 2.5) return;
+    const size = Math.max(1, carry / 60), gap = 2.6 * size;
+    // the path beyond the landing (its hops and its roll), then the stop
+    const ground = result.path.filter(q => Math.hypot(q[1] - ball.x, q[3] - ball.z) > carry + .5)
+      .map(q => [q[1], q[3]]).concat([[rest[0], rest[2]]]);
+    let k = 0, since = 0, prev = [land[0], land[2]];
+    for (const q of ground) {
+      since += Math.hypot(q[0] - prev[0], q[1] - prev[1]); prev = q;
+      if (since < gap || k >= RUN_DOTS) continue;
+      if (Math.hypot(q[0] - rest[0], q[1] - rest[2]) < gap * .6) break;      // the stop's own ring
+      since = 0;
+      m.makeScale(size, 1, size); m.setPosition(q[0], heightAt(q[0], q[1]) + .07, q[1]);
+      runDots.setMatrixAt(k++, m);
+    }
+    runDots.count = k; runDots.instanceMatrix.needsUpdate = true;
+    restMark.position.set(rest[0], heightAt(rest[0], rest[2]) + .08, rest[2]);
+    restMark.scale.setScalar(size); restMark.visible = true;
+  }
+  function hideAids() { marker.visible = false; dots.count = 0; spread.visible = false; runDots.count = 0; restMark.visible = false; greenRead.hide(); }
 
   /* -- the swing and the ball ----------------------------------------------- */
   /** From the backswing's top (or as far as it went) down through the ball. */
@@ -1141,7 +1173,8 @@ async function startPlay(h, query) {
       greenArrows: greenRead.visible, round, view, targetDist, conditions, light: lightNow(), mapReady: holeMap.ready,
       guideOpen: hud.guideOpen, clean,
       // the landing ring where it stands (null when not drawn): for a harness
-      ring: marker.visible ? [marker.position.x, marker.position.z] : null }),
+      ring: marker.visible ? [marker.position.x, marker.position.z] : null,
+      run: restMark.visible ? [restMark.position.x, restMark.position.z] : null }),
     /** For a harness: swing without the pad. back/down (seconds) time the tempo. */
     swing(input = { power: 1, face: 0, path: 0 }) {
       const tempo = input.back && input.down ? tempoOf({ back: input.back, down: input.down, power: input.power }) : input.tempo;
@@ -1164,7 +1197,7 @@ async function startPlay(h, query) {
     dispose() {
       abort.abort(); pad.dispose(); holeMap.dispose(); hud.dispose(); golfer.dispose(); audio.dispose(); tracer.dispose(); greenRead.dispose();
       glow.dispose();
-      for (const o of [ballMesh, marker, dots, halo, spreadFill, spreadEdge]) { o.parent?.remove(o); o.geometry.dispose(); o.material.dispose(); }
+      for (const o of [ballMesh, marker, dots, halo, spreadFill, spreadEdge, runDots, restMark]) { o.parent?.remove(o); o.geometry.dispose(); o.material.dispose(); }
       h.scene.remove(spread);
       document.body.classList.remove('pl-on', 'pl-cinema'); h.controls.enabled = true;
     },
