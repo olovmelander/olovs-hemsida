@@ -1772,11 +1772,26 @@ decided candidates, what the app draws after the holds, scored on Y1-Y8
 
 - The felled list (20, up from 16: four tall conifers thinned since 2021, `hold-review.json`
   145-148), the species-mix flags, and screenshots and frame time on his GPU, as before.
-- Whether round 5 should be published under an exception (its decided candidates
-  score better on Y; its detector misses the declared precision floor).
-- The prepared tints, water, far vista and scatter of both routings are re-baked
-  for these records only with the owner's word on the GPU. The stand field is unchanged
-  (the residual rasters keep their pins), so the map's forest picture stays.
+- Round 5 is not published. The owner chose the recommendation on 2026-11-09 ("Continue
+  with what you recommend, you have access to the gpu"): keep round 4 live, and build
+  a round whose split never touches a building, scored on a fresh sample.
+
+### Re-baked (2026-11-09, on the owner's GPU)
+
+The prepared data are keyed by the ground manifest's checksum, so
+`check-prepared-startup` failed until these were re-baked. Each ran on the owner's
+RTX 5080 (`BANVY_GPU=1`), `--only johannesberg,johannesberg-9`, against a served
+build, with the app rebuilt between steps:
+
+- **Water** (`bake-water`): new files.
+- **Ground tints** (`bake-ground-tints`): the same bytes, new identities.
+- **Far vista and scatter** (`bake-vista`): the same bytes, new identities.
+- **Map land** (`bake-map-land`): only Johannesberg's terrain pin moves. The pictures
+  are unchanged, since the stand field keeps its pins.
+
+**Checks.** `check-prepared-startup`, `check-startup-packs` and `check-app-build`
+pass. Vitest for `apps/golf` passes 1,933 of 1,933. The repository's node tests
+show 528 passed, 0 failed and 3 skipped. The pipeline tests pass 34 of 34.
 
 ### Reproduce round 5 and the held trees
 
