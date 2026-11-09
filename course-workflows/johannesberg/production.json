@@ -19,8 +19,8 @@
     "verticalCrs": "EPSG:5613"
   },
   "baselineGround": {
-    "path": "apps/golf/public/grounds/johannesberg/ground-v2-b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925.json",
-    "sha256": "b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925"
+    "path": "apps/golf/public/grounds/johannesberg/ground-v2-76382da99fa4508d5fa77a0228c6315bf0898a0c1960c5f51a5fd140f8568470.json",
+    "sha256": "76382da99fa4508d5fa77a0228c6315bf0898a0c1960c5f51a5fd140f8568470"
   },
   "terrain": {
     "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-ground-rings",
@@ -42,11 +42,11 @@
     },
     "reviewMode": "reviewed-candidates-v1",
     "observedOn": "2026-11-08",
-    "reviewNote": "Round 4 of review-2026-11-08, selected on round 4b's sample and published under the owner's answer of 2026-11-08 (\"The best round go!\") below the 90% target (benchmark-r4b: the round-4 lock at P 0.971 / R 0.810 / F1 0.883 on 126 unseen crowns, round 3 0.976 / 0.643 / 0.775, round 4b 0.978 / 0.714 / 0.826; round 4 on its own sample W1-W5 0.935 / 0.758 / 0.837): the round-3 refined detector, then suppressed laser tops confirmed by a learned photo crown (DeepForest on the June 2025 photo, matched in photo space after the relief displacement; the photo never places a tree of its own), and reviewed pole-like and felling-screened crowns. Re-published on 2026-11-09 with the same detector lock (owner report of missing shore trees at the 18th; owner request \"Do whats recommended\"): crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank), and crowns held on buildings or without June 2025 vegetation decided on the photos (hold-review.json); 32,122 placed records in the inner frontier (+49). Round 5 (a width split) was scored once on a third unseen sample (Y1-Y8: P 0.890 / R 0.808 / F1 0.847 against round 4 0.948 / 0.758 / 0.843) and is not published: its precision is below the declared 0.95. Every placed tree is a record with type and play zone, broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); residual canopy only as stands; tiles outside the inner 2,048 m frontier keep the 2026-09-11 machine-v1 generation.",
+    "reviewNote": "Round 6 of review-2026-11-08, published under the owner's answer of 2026-11-09 (\"Yes, publish round 6 (Recommended)\") below the 90% target (benchmark-r6: P 0.934 / R 0.810 / F1 0.867 on 105 unseen crowns Z1-Z6, against the round-4 lock's 0.931 / 0.771 / 0.844; four more crowns found and the same six extras, five of them roof crowns the candidates stage holds; the declared absolute floor of 0.95 is missed by both): the round-4 fused detector, then the width split (suppressed laser tops taken back inside crowns too wide for one tree of their height, never on a mapped building), with crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank (holds.bank) and held crowns decided on the photos (hold-review.json, pole-review.json); 32,915 placed records in the inner frontier. As the app draws them on Z1-Z6: P 0.978 / R 0.829. Earlier: round 4 (benchmark-r4b, \"The best round go!\"), re-published on 2026-11-09 with the held trees decided (PR #161). Every placed tree is a record with type and play zone, broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); residual canopy only as stands; tiles outside the inner 2,048 m frontier keep the 2026-09-11 machine-v1 generation.",
     "reviewed": {
       "candidates": {
         "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
-        "sha256": "4e0faa7d8786a684daa9200e353472735dec2b36739918d36f9c54f1e8e503fc"
+        "sha256": "83ccf034a83ae8ac9d09e64aaa2bf5ff0cdd211ab17af710edb0208c4b033c92"
       },
       "residualChm": {
         "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-chm-050.bin",
@@ -54,7 +54,7 @@
       },
       "residualLabels": {
         "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-labels-050.bin",
-        "sha256": "f70c1307c1cb9316bcdeca6cddd4cb911c50b9bcb2bcbb4f893ec46526c194d0"
+        "sha256": "8d322836adbe279684b0aa33429eed8ba1a7dd03762e71efa3f7e32c195b5938"
       },
       "scope": [
         678403.5,

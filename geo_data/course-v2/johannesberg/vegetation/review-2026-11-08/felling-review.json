@@ -12,7 +12,7 @@
  },
  "counts": {
   "unclear": 18,
-  "absent": 19,
+  "absent": 21,
   "structure": 25,
   "present": 27
  },
@@ -753,6 +753,24 @@
    "northing": 6626114.41,
    "heightMetres": 8.87,
    "round": "r4"
+  },
+  "679259.6_6626208.6": {
+   "index": 1,
+   "verdict": "absent",
+   "note": "a leafless crown by the car park in April 2021; lawn in June 2025 (round 6)",
+   "easting": 679259.62,
+   "northing": 6626208.6,
+   "heightMetres": 12.02,
+   "round": "r6"
+  },
+  "679264.1_6626208.8": {
+   "index": 2,
+   "verdict": "absent",
+   "note": "a leafless crown by the car park in April 2021; lawn and the car park edge in June 2025 (round 6)",
+   "easting": 679264.05,
+   "northing": 6626208.77,
+   "heightMetres": 10.57,
+   "round": "r6"
   }
  },
  "note": "Round 1 reviewed 64 screened crowns at round-1 positions; round 2 (the owner-chosen detector) adds 13 screened crowns at new positions. A verdict applies to the crown whose position is within 2 m. Round 3 (the refined detector) adds 3 screened crowns at new positions, reviewed on compact native chips at the displaced top: 2 absent, 1 present.",
@@ -764,6 +782,14 @@
    "present": 4,
    "absent": 3,
    "unclear": 2
+  }
+ },
+ "round6": {
+  "reviewedAt": "2026-11-09T10:13:06.210Z",
+  "reviewer": "agent-led visual review (Claude: the main session and three helper agents it briefed and spot-checked) of compact chips (June 2025 colour, April 2021 colour infrared, native 0.16 m, centred between the laser base and the displaced top); not a field check",
+  "screen": "the round-6 candidates: compact-felling-01, chips 1-2",
+  "added": {
+   "absent": 2
   }
  }
 }

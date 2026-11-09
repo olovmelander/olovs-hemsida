@@ -7,7 +7,7 @@
     "johannesberg",
     "johannesberg-9"
   ],
-  "groundManifestSha256": "b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925",
+  "groundManifestSha256": "76382da99fa4508d5fa77a0228c6315bf0898a0c1960c5f51a5fd140f8568470",
   "courses": [
     {
       "schemaVersion": 1,
@@ -16,25 +16,25 @@
       "groundId": "johannesberg",
       "slug": "johannesberg",
       "observedOn": "2026-11-08",
-      "review": "reviewed candidates, review-2026-11-08 round 4 (selected on round 4b's sample), published under the owner's answer of 2026-11-08 (\"The best round go!\") below the 90% target: on the second new unseen sample X1-X5 (126 crowns) the round-4 fused detector reaches P 0.971 / R 0.810 / F1 0.883 against round 3's 0.976 / 0.643 / 0.775 (round 4b 0.978 / 0.714 / 0.826), chosen by the rule declared before scoring (the highest F1 among rounds beating round 3 on F1 and recall with precision at least 0.95): the round-3 refined detector, then suppressed laser tops confirmed by a learned photo crown (DeepForest on the June 2025 photo, matched in photo space after the relief displacement; the photo never places a tree of its own); agent-led reference benchmark, gate not met (recall); pole-like and felling-screened crowns reviewed on the photos; crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank, 2026-11-09), and crowns held on buildings or without June 2025 vegetation decided on the photos (hold-review.json: trees beside buildings and shaded conifers placed, roofs and thinned trees not); broadleaf only where the April 2021 crown is clearly leafless; holds, merges, removals and unresolved cases listed in the review",
+      "review": "reviewed candidates, review-2026-11-08 round 6, published under the owner's answer of 2026-11-09 (\"Yes, publish round 6 (Recommended)\") below the 90% target: on the fourth new unseen sample Z1-Z6 (105 crowns) the round-6 detector reaches P 0.934 / R 0.810 / F1 0.867 against round 4 as locked 0.931 / 0.771 / 0.844 (four more crowns found, the same six extras, five of them roof crowns the candidates stage holds), below the declared absolute precision floor of 0.95 that round 4 also misses there: the round-4 fused detector (the round-3 refined detector, then suppressed laser tops confirmed by a learned photo crown, DeepForest on the June 2025 photo), then the width split (suppressed laser tops taken back inside crowns too wide for one tree of their height, never on a mapped building; the photo never places a tree); agent-led reference benchmark, gate not met (recall); pole-like and felling-screened crowns reviewed on the photos; crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank), and crowns held on buildings or without June 2025 vegetation decided on the photos (hold-review.json); broadleaf only where the April 2021 crown is clearly leafless; holds, merges, removals and unresolved cases listed in the review",
       "activeRoot": {
         "url": "courses/v2-index.json",
         "bytes": 6993,
-        "sha256": "714a00eaf60a2e35904cb6ac63cc6e53f65427fddb37467f78706b54251e6b74"
+        "sha256": "f6dee5305d6eb7e3bc9af81b51d8e8e2f68ac1c1b11f8eb52eb1f9c6feab754c"
       },
       "graph": {
         "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
         "courseManifest": {
-          "url": "courses/johannesberg/course-v2-c281a4138feab59b1a8f90ac725914e281e3edfc63acb35519bd73962cfa108d.json",
+          "url": "courses/johannesberg/course-v2-f76c2eaec3f2293d7713ec3b5b6d4619f127d0dd1660ac804ca76379beef396d.json",
           "mediaType": "application/vnd.banvy.course-manifest-v2+json",
           "bytes": 3881,
-          "sha256": "c281a4138feab59b1a8f90ac725914e281e3edfc63acb35519bd73962cfa108d"
+          "sha256": "f76c2eaec3f2293d7713ec3b5b6d4619f127d0dd1660ac804ca76379beef396d"
         },
         "groundManifest": {
-          "url": "grounds/johannesberg/ground-v2-b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925.json",
+          "url": "grounds/johannesberg/ground-v2-76382da99fa4508d5fa77a0228c6315bf0898a0c1960c5f51a5fd140f8568470.json",
           "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
-          "bytes": 571621,
-          "sha256": "b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925"
+          "bytes": 571622,
+          "sha256": "76382da99fa4508d5fa77a0228c6315bf0898a0c1960c5f51a5fd140f8568470"
         },
         "routing": {
           "kind": "routing",
@@ -61,18 +61,18 @@
         "finestTiles": 256,
         "shellBytes": 70428,
         "chunks": 960,
-        "encodedChunkBytes": 34338293,
-        "decodedChunkBytes": 88600880
+        "encodedChunkBytes": 34362731,
+        "decodedChunkBytes": 89008144
       },
       "vegetation": {
         "objectTiles": 233,
         "standTiles": 256,
         "records": {
-          "inScope": 32122,
+          "inScope": 32915,
           "retainedOutsideScope": 12336,
           "baseHeightMisses": [],
-          "replacedPublishedInScope": 32073,
-          "publishedIdsKeptInScope": 32008
+          "replacedPublishedInScope": 32122,
+          "publishedIdsKeptInScope": 31936
         },
         "stands": {
           "cellMetres": 4,
@@ -89,25 +89,25 @@
       "groundId": "johannesberg",
       "slug": "johannesberg-9",
       "observedOn": "2026-11-08",
-      "review": "reviewed candidates, review-2026-11-08 round 4 (selected on round 4b's sample), published under the owner's answer of 2026-11-08 (\"The best round go!\") below the 90% target: on the second new unseen sample X1-X5 (126 crowns) the round-4 fused detector reaches P 0.971 / R 0.810 / F1 0.883 against round 3's 0.976 / 0.643 / 0.775 (round 4b 0.978 / 0.714 / 0.826), chosen by the rule declared before scoring (the highest F1 among rounds beating round 3 on F1 and recall with precision at least 0.95): the round-3 refined detector, then suppressed laser tops confirmed by a learned photo crown (DeepForest on the June 2025 photo, matched in photo space after the relief displacement; the photo never places a tree of its own); agent-led reference benchmark, gate not met (recall); pole-like and felling-screened crowns reviewed on the photos; crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank, 2026-11-09), and crowns held on buildings or without June 2025 vegetation decided on the photos (hold-review.json: trees beside buildings and shaded conifers placed, roofs and thinned trees not); broadleaf only where the April 2021 crown is clearly leafless; holds, merges, removals and unresolved cases listed in the review",
+      "review": "reviewed candidates, review-2026-11-08 round 6, published under the owner's answer of 2026-11-09 (\"Yes, publish round 6 (Recommended)\") below the 90% target: on the fourth new unseen sample Z1-Z6 (105 crowns) the round-6 detector reaches P 0.934 / R 0.810 / F1 0.867 against round 4 as locked 0.931 / 0.771 / 0.844 (four more crowns found, the same six extras, five of them roof crowns the candidates stage holds), below the declared absolute precision floor of 0.95 that round 4 also misses there: the round-4 fused detector (the round-3 refined detector, then suppressed laser tops confirmed by a learned photo crown, DeepForest on the June 2025 photo), then the width split (suppressed laser tops taken back inside crowns too wide for one tree of their height, never on a mapped building; the photo never places a tree); agent-led reference benchmark, gate not met (recall); pole-like and felling-screened crowns reviewed on the photos; crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank), and crowns held on buildings or without June 2025 vegetation decided on the photos (hold-review.json); broadleaf only where the April 2021 crown is clearly leafless; holds, merges, removals and unresolved cases listed in the review",
       "activeRoot": {
         "url": "courses/v2-index.json",
         "bytes": 6993,
-        "sha256": "b22b3ac37a27f69b63b7f6383328f3462a87b1ba540ec08bafb5e98b4f9bf561"
+        "sha256": "228239e3a0bec1be4e0d57d438108c8d38f122099176b4fdceb0b4ee5a3be724"
       },
       "graph": {
         "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
         "courseManifest": {
-          "url": "courses/johannesberg-9/course-v2-4aa1e40cd79baeb80cf6c4852414022d3de76107601f6df04a0dab699109e155.json",
+          "url": "courses/johannesberg-9/course-v2-d0de14244bf30a416d420bcad703ab1d8966f742ecdd756a96ec892c72401600.json",
           "mediaType": "application/vnd.banvy.course-manifest-v2+json",
           "bytes": 2472,
-          "sha256": "4aa1e40cd79baeb80cf6c4852414022d3de76107601f6df04a0dab699109e155"
+          "sha256": "d0de14244bf30a416d420bcad703ab1d8966f742ecdd756a96ec892c72401600"
         },
         "groundManifest": {
-          "url": "grounds/johannesberg/ground-v2-b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925.json",
+          "url": "grounds/johannesberg/ground-v2-76382da99fa4508d5fa77a0228c6315bf0898a0c1960c5f51a5fd140f8568470.json",
           "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
-          "bytes": 571621,
-          "sha256": "b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925"
+          "bytes": 571622,
+          "sha256": "76382da99fa4508d5fa77a0228c6315bf0898a0c1960c5f51a5fd140f8568470"
         },
         "routing": {
           "kind": "routing",
@@ -134,18 +134,18 @@
         "finestTiles": 256,
         "shellBytes": 70428,
         "chunks": 960,
-        "encodedChunkBytes": 34337454,
-        "decodedChunkBytes": 88598845
+        "encodedChunkBytes": 34361892,
+        "decodedChunkBytes": 89006109
       },
       "vegetation": {
         "objectTiles": 233,
         "standTiles": 256,
         "records": {
-          "inScope": 32122,
+          "inScope": 32915,
           "retainedOutsideScope": 12336,
           "baseHeightMisses": [],
-          "replacedPublishedInScope": 32073,
-          "publishedIdsKeptInScope": 32008
+          "replacedPublishedInScope": 32122,
+          "publishedIdsKeptInScope": 31936
         },
         "stands": {
           "cellMetres": 4,

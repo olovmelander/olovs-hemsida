@@ -20,9 +20,10 @@
     "standTrees": 0
    },
    "candidates": {
-    "retain": 77,
-    "adjust": 9,
-    "add": 3
+    "retain": 70,
+    "add": 11,
+    "adjust": 14,
+    "merge": 1
    }
   },
   {
@@ -41,11 +42,10 @@
     "standTrees": 0
    },
    "candidates": {
-    "retain": 137,
-    "add": 20,
+    "retain": 138,
+    "add": 33,
     "adjust": 29,
     "hold": 2,
-    "remove": 1,
     "merge": 4
    }
   },
@@ -65,9 +65,9 @@
     "standTrees": 1
    },
    "candidates": {
-    "retain": 113,
-    "adjust": 28,
-    "add": 19
+    "adjust": 41,
+    "retain": 100,
+    "add": 29
    }
   },
   {
@@ -108,10 +108,10 @@
     "standTrees": 0
    },
    "candidates": {
-    "adjust": 6,
-    "retain": 38,
-    "add": 4,
-    "hold": 1
+    "adjust": 4,
+    "retain": 40,
+    "hold": 1,
+    "add": 5
    }
   },
   {
@@ -130,7 +130,9 @@
     "standTrees": 0
    },
    "candidates": {
-    "retain": 7
+    "adjust": 2,
+    "retain": 5,
+    "add": 2
    }
   },
   {
@@ -149,12 +151,11 @@
     "standTrees": 0
    },
    "candidates": {
-    "adjust": 21,
-    "retain": 102,
-    "add": 10,
+    "adjust": 18,
+    "retain": 106,
     "not-placed": 1,
     "hold": 3,
-    "merge": 1
+    "add": 15
    }
   }
  ]

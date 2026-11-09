@@ -12,12 +12,12 @@
   "unclear": "held"
  },
  "counts": {
-  "building:not-tree": 82,
+  "building:not-tree": 85,
   "no-vegetation:not-tree": 16,
-  "building:unclear": 3,
+  "building:unclear": 4,
   "no-vegetation:unclear": 45,
-  "no-vegetation:present": 14,
-  "building:bank": 10,
+  "no-vegetation:present": 16,
+  "building:bank": 12,
   "no-vegetation:absent": 4
  },
  "decisions": {
@@ -1586,6 +1586,97 @@
    "easting": 680441.38,
    "northing": 6624935.01,
    "heightMetres": 4.54
+  },
+  "678454.5_6624356.0": {
+   "index": 1,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy) (round 6)",
+   "easting": 678454.52,
+   "northing": 6624355.96,
+   "heightMetres": 6.03,
+   "round": "r6"
+  },
+  "678748.8_6624809.2": {
+   "index": 2,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a 14 m tree over the building: leafless branches in April 2021, a green crown at the roof edge in June 2025 (round 6)",
+   "easting": 678748.79,
+   "northing": 6624809.18,
+   "heightMetres": 14.13,
+   "round": "r6"
+  },
+  "679204.8_6624483.0": {
+   "index": 3,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025 (round 6)",
+   "easting": 679204.8,
+   "northing": 6624482.97,
+   "heightMetres": 10.99,
+   "round": "r6"
+  },
+  "679333.7_6624464.1": {
+   "index": 4,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a conifer beside the small building (red in April 2021, green in June 2025) (round 6)",
+   "easting": 679333.72,
+   "northing": 6624464.1,
+   "heightMetres": 3.79,
+   "round": "r6"
+  },
+  "679388.4_6626302.0": {
+   "index": 5,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy) (round 6)",
+   "easting": 679388.4,
+   "northing": 6626301.95,
+   "heightMetres": 5.24,
+   "round": "r6"
+  },
+  "679414.4_6626189.3": {
+   "index": 6,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy) (round 6)",
+   "easting": 679414.36,
+   "northing": 6626189.34,
+   "heightMetres": 10.87,
+   "round": "r6"
+  },
+  "679626.0_6626177.3": {
+   "index": 7,
+   "kind": "building",
+   "verdict": "unclear",
+   "note": "at a roof edge beside trees: the displaced top on the roof (round 6)",
+   "easting": 679626.01,
+   "northing": 6626177.27,
+   "heightMetres": 7.03,
+   "round": "r6"
+  },
+  "680131.0_6625012.8": {
+   "index": 8,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025 (round 6)",
+   "easting": 680130.96,
+   "northing": 6625012.79,
+   "heightMetres": 8.76,
+   "round": "r6"
+  }
+ },
+ "round6": {
+  "reviewedAt": "2026-11-09T10:13:06.210Z",
+  "reviewer": "agent-led visual review (Claude: the main session and three helper agents it briefed and spot-checked) of compact chips (June 2025 colour, April 2021 colour infrared, native 0.16 m, centred between the laser base and the displaced top); not a field check",
+  "screen": "the round-6 candidates: compact-holds-01, chips 1-8",
+  "added": {
+   "building:not-tree": 3,
+   "building:bank": 2,
+   "no-vegetation:present": 2,
+   "building:unclear": 1
   }
  }
 }

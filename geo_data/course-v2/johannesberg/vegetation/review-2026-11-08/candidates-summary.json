@@ -98,15 +98,34 @@
         "broadleaf"
       ]
     },
+    "split": {
+      "widthFactor": 1.7,
+      "minimumSeparationMetres": 2,
+      "minimumDipMetres": 1,
+      "heightShare": 0.5,
+      "photoScore": 0,
+      "maximumPerCrown": 5,
+      "protect": false,
+      "types": [
+        "conifer",
+        "broadleaf"
+      ],
+      "excludeBuildings": true
+    },
+    "typical": {
+      "a": 2.309,
+      "b": 0.03,
+      "crowns": 507
+    },
     "calibration": {
-      "f1": 0.913,
-      "precision": 0.896,
-      "recall": 0.93,
-      "iou": 0.601,
-      "offset": 0.89,
-      "tp": 120,
-      "missed": 9,
-      "extra": 14
+      "f1": 0.886,
+      "precision": 0.931,
+      "recall": 0.846,
+      "iou": 0.609,
+      "offset": 0.79,
+      "tp": 429,
+      "missed": 78,
+      "extra": 32
     }
   },
   "publishedGroundManifest": "grounds/johannesberg/ground-v2-4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c.json",
@@ -116,49 +135,47 @@
     "total": 27274
   },
   "notPlacedOrRemovedByReview": {
-    "not-placed:not a tree": 116,
-    "not-placed:felled after 2021": 17,
-    "remove:felled after 2021": 3
+    "not-placed:not a tree": 113,
+    "not-placed:felled after 2021": 18
   },
   "candidates": {
-    "total": 32433,
+    "total": 33254,
     "byDecision": {
-      "adjust": 5380,
-      "retain": 21783,
-      "add": 4959,
-      "not-placed": 133,
-      "remove": 3,
-      "hold": 112,
-      "merge": 63
+      "adjust": 5918,
+      "retain": 21214,
+      "add": 5783,
+      "not-placed": 131,
+      "hold": 115,
+      "merge": 93
     },
-    "placedTrees": 32122,
+    "placedTrees": 32915,
     "placedByType": {
-      "conifer": 24953,
-      "unknown": 4231,
-      "broadleaf": 2938
+      "conifer": 25499,
+      "unknown": 4360,
+      "broadleaf": 3056
     },
     "placedBySource": {
-      "detector": 32015,
-      "sparse-laser-recovery": 107
+      "detector": 32824,
+      "sparse-laser-recovery": 91
     },
     "holdByReason": {
-      "felling screen": 15,
-      "no June 2025 vegetation (reviewed unclear)": 40,
-      "pole-like crown": 40,
+      "felling screen": 12,
+      "no June 2025 vegetation (reviewed unclear)": 39,
+      "pole-like crown": 39,
       "crown over a played surface": 1,
       "structure suspect": 7,
       "on water, road or path": 2,
       "on a mapped building (reviewed unclear)": 1,
-      "record without crown": 6
+      "record without crown": 14
     }
   },
   "fellingScreen": {
-    "screened": 67,
+    "screened": 56,
     "byVerdict": {
-      "absent": 16,
-      "unclear": 16,
-      "structure": 14,
-      "present": 21
+      "absent": 14,
+      "unclear": 13,
+      "structure": 12,
+      "present": 17
     }
   },
   "poleScreen": {
@@ -166,11 +183,11 @@
       "maximumRadiusMetres": 1,
       "minimumHeightMetres": 5
     },
-    "screened": 639,
+    "screened": 710,
     "byVerdict": {
       "not-tree": 12,
-      "tree": 587,
-      "unclear": 40
+      "unclear": 39,
+      "tree": 659
     }
   },
   "bank": {
@@ -192,82 +209,80 @@
       "minimumPresenceVegetatedShare": 0.15,
       "note": "On since 2026-11-09 (owner report: shore trees missing at the 18th; owner request \"Do whats recommended\"). A crown centroid over mapped water, a path, a road or a played surface is a tree leaning over it when its own laser crown reaches land: the stem moves to the nearest crown cell 0.5 m clear of every mapped surface (else to laser canopy of at least 2 m within 1.5 m of its crown); inside a traced water outline, a cell where the laser hit ground at least twice within 0.75 m is bank, since water returns almost no pulses and an outline can lie metres over its bank (about 4 m at the 18th), if the June 2025 crown disc is vegetated (the no-vegetation hold's 0.15). Buildings are decided on the chips (hold-review.json): roofs are canopy in the pit-free CHM."
     },
-    "banked": 34,
+    "banked": 39,
     "bySurface": {
-      "path": 11,
-      "building": 10,
+      "path": 15,
       "tee": 2,
-      "water": 9,
+      "building": 10,
+      "water": 10,
       "road": 1,
       "fairway": 1
     },
     "byWho": {
-      "rule": 24,
+      "rule": 29,
       "hold review": 10
     },
-    "placed": 34
+    "placed": 39
   },
   "holdScreen": {
     "screened": 164,
     "byKind": {
-      "building": 85,
-      "no-vegetation": 79
+      "building": 84,
+      "no-vegetation": 80
     },
     "byVerdict": {
-      "building:not-tree": 82,
+      "building:not-tree": 81,
       "no-vegetation:absent": 4,
-      "no-vegetation:present": 14,
+      "no-vegetation:present": 16,
       "no-vegetation:not-tree": 16,
-      "no-vegetation:unclear": 45,
+      "no-vegetation:unclear": 44,
       "building:unclear": 3
     }
   },
   "playTypeDecision": {
     "woodland|conifer": {
-      "adjust": 3629,
-      "retain": 12957,
-      "add": 3437,
+      "adjust": 3860,
+      "retain": 12717,
+      "add": 3838,
       "not-placed": 5,
-      "hold": 6
-    },
-    "near|conifer": {
-      "retain": 3244,
-      "adjust": 956,
-      "add": 730,
-      "not-placed": 3,
       "hold": 5
     },
+    "near|conifer": {
+      "retain": 3160,
+      "adjust": 1050,
+      "add": 874,
+      "hold": 2,
+      "not-placed": 3
+    },
     "woodland|unknown": {
-      "adjust": 433,
-      "retain": 2455,
-      "add": 424,
-      "not-placed": 21,
-      "hold": 13,
-      "merge": 46
+      "retain": 2377,
+      "add": 535,
+      "adjust": 496,
+      "not-placed": 20,
+      "hold": 21,
+      "merge": 70
     },
     "near|unknown": {
-      "retain": 732,
-      "adjust": 102,
-      "add": 85,
-      "not-placed": 5,
-      "remove": 1,
-      "hold": 5,
-      "merge": 17
+      "retain": 678,
+      "adjust": 151,
+      "add": 123,
+      "not-placed": 6,
+      "hold": 6,
+      "merge": 23
     },
     "woodland|broadleaf": {
-      "retain": 1769,
-      "adjust": 195,
-      "add": 215,
-      "not-placed": 88,
-      "hold": 62
+      "retain": 1674,
+      "adjust": 278,
+      "add": 312,
+      "not-placed": 86,
+      "hold": 61
     },
     "near|broadleaf": {
-      "retain": 626,
-      "adjust": 65,
-      "add": 68,
-      "remove": 2,
+      "retain": 608,
+      "adjust": 83,
+      "add": 101,
       "not-placed": 11,
-      "hold": 21
+      "hold": 20
     }
   },
   "typeModel": {
@@ -286,59 +301,59 @@
     "practiceRings": 4
   },
   "identity": {
-    "matchedWithin15m": 26007,
-    "matchedWithin3m": 1165,
-    "newIds": 5059,
-    "nextSequence": 45547,
+    "matchedWithin15m": 25768,
+    "matchedWithin3m": 1366,
+    "newIds": 5882,
+    "nextSequence": 46368,
     "previousGenerationRecords": 2417,
     "previousGenerationLineageCarried": 589
   },
   "presence": {
-    "referenceFloor": 0.626,
+    "referenceFloor": 0.595,
     "scale": {
-      "vegetatedShare": 0.9876404494382023,
-      "nirTexture": 6.692546583850931,
-      "darkShare": 0.11850311850311851
+      "vegetatedShare": 0.9869540555870675,
+      "nirTexture": 6.735307945463093,
+      "darkShare": 0.0944055944055944
     }
   },
   "unresolved": {
-    "sparseLaserWithoutPhotoCrown": 61,
-    "photoOnlyCanopy": 255
+    "sparseLaserWithoutPhotoCrown": 54,
+    "photoOnlyCanopy": 251
   },
-  "elapsedSeconds": 51,
+  "elapsedSeconds": 58.8,
   "typeCheck": {
     "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, used-holdout and evaluation were not",
     "calibration": {
-      "matched": 107,
-      "typed": 100,
-      "correct": 96,
-      "accuracyOfTyped": 0.96,
-      "unknown": 7,
+      "matched": 780,
+      "typed": 680,
+      "correct": 659,
+      "accuracyOfTyped": 0.969,
+      "unknown": 100,
       "confidence80": {
-        "n": 95,
-        "accuracy": 0.979
+        "n": 642,
+        "accuracy": 0.978
       }
     },
     "used-holdout": {
-      "matched": 411,
-      "typed": 353,
-      "correct": 341,
-      "accuracyOfTyped": 0.966,
-      "unknown": 58,
+      "matched": 153,
+      "typed": 109,
+      "correct": 101,
+      "accuracyOfTyped": 0.927,
+      "unknown": 44,
       "confidence80": {
-        "n": 339,
-        "accuracy": 0.976
+        "n": 104,
+        "accuracy": 0.942
       }
     },
     "evaluation": {
-      "matched": 226,
-      "typed": 186,
-      "correct": 182,
-      "accuracyOfTyped": 0.978,
-      "unknown": 40,
+      "matched": 190,
+      "typed": 163,
+      "correct": 159,
+      "accuracyOfTyped": 0.975,
+      "unknown": 27,
       "confidence80": {
-        "n": 177,
-        "accuracy": 0.977
+        "n": 153,
+        "accuracy": 0.98
       }
     }
   }
