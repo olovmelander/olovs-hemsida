@@ -33,8 +33,8 @@ import { GROUND_WETNESS } from '../engine/painted-world-lighting.mjs';
 import { LIGHTS, NOW_LIGHT, MAP_KEYS, readText } from '../shell/settings-store.mjs';
 import { launchState, simulateShot, seeded, BALL } from './ball-physics.mjs';
 import {
-  playBag, launchFor, puttRangeFor, powerFor, flatShot, LIE_NAME, DIFFICULTY, SHOT_TYPES, SHAPES, HEIGHTS, SPINS, STOCK_SETUP,
-  shotTypesFor, shapeable, swingFor, fitSetup, lieQuality, slopeLie, slopeWords, suggestShot, puttPlaysLike,
+  playBag, launchFor, puttRangeFor, planPower, LIE_NAME, DIFFICULTY, SHOT_TYPES, SHAPES, HEIGHTS, SPINS, STOCK_SETUP,
+  shotTypesFor, shapeable, swingFor, fitSetup, lieQuality, slopeLie, slopeWords, suggestShot, puttPlaysLike, clubReach, setupForClub,
 } from './shot-model.mjs';
 import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, savePlayedRound, dropPoint, PLAY_KEYS,
   receivedOn, pointsOn, roundStats } from './play-rules.mjs';
@@ -176,7 +176,7 @@ async function startPlay(h, query) {
   const ball = new THREE.Vector3();
   let state = 'loading', lie = 'tee', yaw = 0, clubIndex = 0, cup = [0, 0, 0], puttRange = 10;
   let shot = null, flightT = 0, fast = 1, airTime = 1, waitFor = 0, after = null;
-  let strokeFrom = [0, 0], pending = null, planned = 1, eventIdx = 0, clock = 0;
+  let strokeFrom = [0, 0], pending = null, planned = 1, eventIdx = 0, clock = 0, teeSpot = null;
   let setup = { ...STOCK_SETUP }, quality = null, slope = null, nextPlugged = false;
   let backTween = null, last = null, replay = null, fly = null;
   let targetDist = null, view = 'bakom', conditions = null, clean = false, mapMarks = null, flightMarks = [], mapClock = 0, menuTab = 'game';
@@ -359,7 +359,11 @@ async function startPlay(h, query) {
   }
   /** How the ball lies here: its surface, how it sits (seeded per stroke) and a plugged ball in sand. */
   function readLie() {
-    lie = world.surfaceAt(ball.x, ball.z);
+    // A ball on its own tee marker is teed up (again after a ball out of bounds from it),
+    // whatever the drawn ground under the marker reads: at Ängsö's 1st it read as rough,
+    // and every drive flew as from the rough, 15% short.
+    const teed = teeSpot && Math.hypot(ball.x - teeSpot[0], ball.z - teeSpot[1]) < .5;
+    lie = teed ? 'tee' : world.surfaceAt(ball.x, ball.z);
     if (lie === 'water') lie = 'rough';
     const stroke = holeCard(round, round.current).strokes + 1;
     const rand = seeded(round.id % 1e9 + round.current * 977 + stroke * 7919);
@@ -368,8 +372,9 @@ async function startPlay(h, query) {
     nextPlugged = false;
   }
   const readSlope = () => { slope = putting() ? null : slopeLie(heightAt, ball.x, ball.z, yaw); };
-  /** How far this club and shot type go at full power: its carry for a full swing, its whole run otherwise. */
-  const reachOf = () => (putting() ? toCup() : setup.type === 'full' ? club().carry : flatShot(club(), 1, 'fairway', { type: setup.type }).total);
+  /** How far this club and shot type go at full power from this lie, as set up: its carry for a full
+      swing, its whole run otherwise (clubReach; the bag's carry only from a clean fairway lie). */
+  const reachOf = () => (putting() ? toCup() : clubReach(club(), lie, setup, quality) ?? club().carry);
   /** The share of a full swing that reaches the target (the pin, or the club's lay-up point). */
   function plan() {
     const c = club(), easy = settings.difficulty === 'latt', aimAt = targetPoint();
@@ -381,7 +386,7 @@ async function startPlay(h, query) {
       const reach = Math.min(goal, c.carry * 1.3);
       const end = aimAt || [cup[0], cup[1]];
       const landOn = (aimAt || reach >= toCup() * .85) && world.surfaceAt(end[0], end[1]) === 'green' ? 'green' : 'fairway';
-      planned = powerFor(c, reach, lie, setup, quality, landOn) ?? 1;
+      planned = planPower(c, reach, lie, setup, quality, landOn) ?? 1;
     }
     pad.target(planned);
   }
@@ -423,7 +428,9 @@ async function startPlay(h, query) {
       cond: { label: conditions.label, note: conditions.note },
       windMs: ms, windDeg: -rel, windWord: ms > .2 ? `${along[0].toUpperCase()}${along.slice(1)}${gust > ms + 1.5 ? ` · byar ${Math.round(gust)}` : ''}` : 'Stilla',
       windLabel: `Vind ${ms.toFixed(1)} m/s, ${along}${gust > ms + 1.5 ? `, byar till ${Math.round(gust)} m/s` : ''}. Pilen visar vart vinden blåser; upp är mot målet.` });
-    hud.club({ name: club().name, carry: reachOf(), putt, range: puttRange });
+    const shotType = fitSetup(club(), setup).type;
+    hud.club({ name: club().name, carry: reachOf(), putt, range: puttRange, stock: club().carry,
+      full: shotType === 'full', type: shotType === 'full' ? null : SHOT_TYPES[shotType]?.label });
     hud.setup({ types: shotTypesFor(club()), labels: SETUP_LABELS, current: setup, shapeable: shapeable(setup.type), putt });
   }
   function showGreenRead() {
@@ -478,10 +485,11 @@ async function startPlay(h, query) {
     frameView();
     plan(); showHud(); preview(); showGreenRead();
   }
-  function changeClub(d) {
+  /** Another club, with the set-up it starts with (setupForClub). */
+  function changeClub(d, from = club()) {
     if (state !== 'address') return;
     clubIndex = Math.max(0, Math.min(bag.length - 1, clubIndex + d));
-    setup = fitSetup(club(), setup);
+    setup = setupForClub(setup, from, club());
     reAddress();
   }
   function changeSetup(key, value) {
@@ -865,6 +873,7 @@ async function startPlay(h, query) {
     cup = world.cupOf(n);
     setBall(mark.c[0], mark.c[1]);
     strokeFrom = mark.c.slice();
+    teeSpot = mark.c.slice();
     last = null; nextPlugged = false; hud.stats(null); hud.toggleGuide(false);
     tracer.reset(); flightMarks = [];
     audio.wind(Math.hypot(...wind()));
@@ -1130,7 +1139,9 @@ async function startPlay(h, query) {
       club: club().id, yaw, toCup: toCup(), planned, setup: { ...setup }, quality, slope, plays: state === 'address' ? playsNow() : null,
       shot: shot ? { outcome: shot.outcome, carry: shot.carry, total: shot.total, plugged: shot.plugged, events: shot.events.map(e => e.surface || e.type) } : null,
       greenArrows: greenRead.visible, round, view, targetDist, conditions, light: lightNow(), mapReady: holeMap.ready,
-      guideOpen: hud.guideOpen, clean }),
+      guideOpen: hud.guideOpen, clean,
+      // the landing ring where it stands (null when not drawn): for a harness
+      ring: marker.visible ? [marker.position.x, marker.position.z] : null }),
     /** For a harness: swing without the pad. back/down (seconds) time the tempo. */
     swing(input = { power: 1, face: 0, path: 0 }) {
       const tempo = input.back && input.down ? tempoOf({ back: input.back, down: input.down, power: input.power }) : input.tempo;
@@ -1149,7 +1160,7 @@ async function startPlay(h, query) {
     probe: (x, z) => world.surfaceAt(x, z),
     /** For a harness or the card art: put the camera at eye looking at target ([x, y, z] each), at once. */
     look(eye, target) { cam.frame(new THREE.Vector3(...eye), new THREE.Vector3(...target)); cam.snap(); },
-    club(id) { const i = bag.findIndex(c => c.id === id); if (i >= 0 && state === 'address') { clubIndex = i; changeClub(0); } },
+    club(id) { const i = bag.findIndex(c => c.id === id); if (i >= 0 && state === 'address') { const from = club(); clubIndex = i; changeClub(0, from); } },
     dispose() {
       abort.abort(); pad.dispose(); holeMap.dispose(); hud.dispose(); golfer.dispose(); audio.dispose(); tracer.dispose(); greenRead.dispose();
       glow.dispose();
