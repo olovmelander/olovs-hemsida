@@ -84,11 +84,17 @@
       "methodName": "round5-detector",
       "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
       "note": "round 5 (owner request of 2026-11-09, \"Do whats recommended to improve the tree placements, pipeline and agent\"): every crown missed on W1-W5 and X1-X5 stood within 7 m of a drawn crown (two trees drawn as one), so the round-4 lock is extended by a photo split: a photo crown no laser top claims may seed a tree inside laser canopy too wide for one tree of its height. The W and X windows, spent as held-out samples, become calibration; a third new unseen held-out sample (Y1-Y8, with shore and garden windows) is frozen before any round-5 code runs; round 4 (live) and round 5 are each scored once on it. Scored 2026-11-09 on Y1-Y8 (120 crowns): round 5 P 0.890 R 0.808 F1 0.847 against round 4 P 0.948 R 0.758 F1 0.843. Round 5 beats round 4 on F1 and recall but its precision is below the declared 0.95, so it does not replace round 4: 9 of its 12 extras are splits of barn roofs in the farmyard window Y8 (the candidates stage holds crowns on mapped buildings, but the declared rule scores the detector). The trees stay at round 4's detector (activeRound r4b)"
+    },
+    {
+      "id": "r6", "sampleSuffix": "-r6", "detector": "fused", "startFrom": "r3",
+      "methodName": "round6-detector",
+      "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
+      "note": "round 6 (owner answer of 2026-11-09: \"Continue with what you recommend, you have access to the gpu\", choosing to keep round 4 live and build a round whose split never touches a building): round 5's width split with every top on a mapped building (0.5 m buffer) left out, re-tuned on calibration that now holds Y1-Y8 (round 5's spent sample, with its farmyard); a fourth new unseen held-out sample (Z1-Z6, with two garden windows) frozen before any round-6 code runs; round 4 (live) and round 6 are each scored once on it"
     }
   ],
   "photoDetect": {
     "$comment": "Round 4 (owner request of 2026-11-08): the learned crown detector on the June 2025 photo, run by --stage photo-detect on the GPU. DeepForest (weecology, MIT licence) through photo/crowns.py; pretrained sources at four patch sizes and fine-tuned sources (calibration windows only, cross-fitted by the two folds for tuning). The benchmark's fused tuning chooses one source and the fusion settings on calibration only.",
-    "rounds": ["r4", "r4b", "r5"],
+    "rounds": ["r4", "r4b", "r5", "r6"],
     "python": "johannesbergbuild/cache/venv-photo/Scripts/python.exe",
     "requirements": "tools/tree-pipeline/photo/requirements-photo.txt",
     "model": { "id": "weecology/deepforest-tree", "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace", "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8", "licence": "MIT" },
@@ -116,6 +122,13 @@
         "extends": "r4",
         "crowns": "all",
         "precisionAtLeastStart": true
+      },
+      "r6": {
+        "$comment": "main session, 2026-11-09: round 6 keeps the round-4 lock and searches only the width split, with excludeBuildings fixed on (no split top on a mapped building or within 0.5 m of one), on calibration (C, K, W, X and Y), on the whole-window detections the score reads; the best calibration F1 among settings whose calibration precision is at least the round-4 lock's on the same windows.",
+        "extends": "r4",
+        "crowns": "all",
+        "precisionAtLeastStart": true,
+        "splitFixed": { "excludeBuildings": true }
       }
     }
   },
