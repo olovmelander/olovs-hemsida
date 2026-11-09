@@ -138,6 +138,17 @@ shore trees, each got its own fix.
   scored on the sample (`photo/score-candidates-r5.mjs`): round 4 with the fixes reaches
   P 0.978 / R 0.750 there.
 
+**Round 6 (2026-11-09, published under the owner's exception).** The width split never
+takes a top on a mapped building (`excludeBuildings`, `geometry.mjs` `buildingMask`;
+fixed per round with `photoDetect.tuning.<round>.splitFixed`). On a fourth sample
+(Z1-Z6) it found 4 more of 105 crowns than round 4 with the same extras, five of them
+unsplit roofs. It missed the declared absolute 0.95 floor, which round 4 also missed, so
+the owner accepted it. 32,915 trees are placed. As the app draws them, the score is
+P 0.978 / R 0.829.
+
+Declare a floor relative to the live round, or score the decided candidates: an absolute
+floor rejects a round that is strictly better when the live one is below it too.
+
 **Still manual.** Choosing and interpreting reference windows; the felling, hold,
 pole and species reviews on the photo chips; the owner's screenshots of the app
 and frame-time measurements on his GPU; owner exceptions; and the promotion of a

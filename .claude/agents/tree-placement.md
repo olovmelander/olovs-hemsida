@@ -322,6 +322,26 @@ ignored cache is evidence by itself; its hashes are.
   windows file, when a fresh unseen sample decides. Commit the frozen sample before
   writing the round's code, and the lock before scoring.
 
+### Round 6 (Johannesberg, 2026-11-09): a split that leaves buildings alone
+
+- **Keep detector steps off buildings.** `excludeBuildings` (fixed in
+  `photoDetect.tuning.<round>.splitFixed`) leaves out any split top on a mapped footprint
+  or within 0.5 m of one. The benchmark and the candidates stage build the same mask
+  (`geometry.mjs` `buildingMask`).
+- **List drafts on footprints when you interpret a garden window.** Decide each one on
+  the photos: a roof is rejected, a top at a wall is an ambiguity box. The two photos
+  shift a roof differently from the canopy, so do not trust the panel's position alone.
+- **Write the decision rule relative to the live round** (no more extras than it on the
+  sample, precision not below its own), or decide on the decided candidates. An absolute
+  floor rejected round 6, which found 4 more crowns than round 4 with the same extras,
+  because round 4 itself was below the floor on that sample. Only the owner could
+  accept it.
+- **Helper agents can review chip sheets in parallel** when the main session briefs them
+  (what each photo shows, the verdicts, what to expect) and spot-checks a sheet from
+  each helper. Record who reviewed what in the verdict file.
+- **A split changes the residual canopy.** The stand chunks are republished, so re-bake
+  the map land as well as the prepared data.
+
 ## Report
 
 End with: the ground and review id, the stage reached and its exit, the gate result

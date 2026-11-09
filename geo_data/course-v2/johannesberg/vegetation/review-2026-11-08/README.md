@@ -8,6 +8,8 @@
 
 **2026-11-09 (branch `trees-round5`):** the same round-4 lock is re-published with the held trees decided. Crowns leaning over mapped water, paths, roads and played surfaces get a stem on the bank (24, including the eight standing shore trees the owner missed at the 18th). Crowns held on buildings or without June 2025 vegetation were decided on the photos (174: 10 trees beside buildings and 14 shaded conifers placed, 98 roofs and posts and 4 thinned trees not). 32,122 are placed (+49). Round 5, a width split for two trees drawn as one, was scored once on a third unseen sample, Y1-Y8. It reached P 0.890 / R 0.808 / F1 0.847 against round 4's 0.948 / 0.758 / 0.843 and is not published (precision below the declared 0.95). See Round 5 and the held trees.
 
+**Round 6 (2026-11-09, published under the owner's answer "Yes, publish round 6 (Recommended)"):** round 5's width split, kept off mapped buildings and re-tuned on calibration that now holds Y1-Y8. On a fourth unseen sample (Z1-Z6, 105 crowns) it reaches P 0.934 / R 0.810 / F1 0.867 against round 4's 0.931 / 0.771 / 0.844: four more crowns found and the same six extras, five of them roof crowns the candidates stage holds. It misses the declared absolute precision floor of 0.95, which round 4 also misses there, so it is published under an owner exception pinned to benchmark-r6. 32,915 are placed (+793). As the app draws them on Z1-Z6: P 0.978 / R 0.829. See Round 6.
+
 The sections from Evidence ledger to What Stage B needs record **Stage A (round 1)**
 as it stood before publication: there, nothing was published, and the round-1 held-out
 precision of 0.82 missed the 90% gate. Their candidate counts are round 1's; the published
@@ -1812,6 +1814,110 @@ node tools/tree-pipeline/photo/record-hold-review-r5.mjs && node tools/tree-pipe
 node tools/tree-pipeline.mjs --ground johannesberg --stage review --only spots,mix --raw $RAW
 node tools/tree-pipeline.mjs --ground johannesberg --stage publish --execute --pending-owner --raw $RAW
 node tools/tree-pipeline/photo/score-candidates-r5.mjs
+```
+
+## Round 6: the width split kept off buildings (published under the owner's exception)
+
+The owner chose to keep round 4 live and build a round whose split never touches a
+building, scored on a fresh sample ("Continue with what you recommend, you have access
+to the gpu", 2026-11-09).
+
+- **Method.** It is round 5's width split with every top on a mapped building, or within
+  0.5 m of one, left out (`excludeBuildings`, the `buildingMask` in `geometry.mjs`). It
+  extends the round-4 lock (`photoDetect.tuning.r6`: `extends: r4`, `splitFixed`).
+  Every seed is a laser maximum, and the photo never places a tree.
+- **Calibration.** C, K, W, X and now Y1-Y8 (507 crowns): round 5's spent sample, with
+  its farmyard. Tuned on calibration only (1,362 evaluations), it locked `widthFactor`
+  1.7, separation 2 m, dip 1 m, height share 0.5, up to 5 per crown, unprotected, both
+  types, buildings excluded. Calibration score: P 0.931 / R 0.846 / F1 0.886, against
+  the round-4 lock's 0.930 / 0.809 / 0.865.
+- **A fourth held-out sample, Z1-Z6 (105 scored crowns).** It was frozen and committed
+  before any round-6 code. It holds a closed square, two edges, a group window and two
+  gardens with houses. No shore was left outside earlier windows and the 18th.
+  - The interpreter listed draft crowns on mapped footprints and decided them on the
+    photos: 16 drafts on the clubhouse's and a house's roofs were rejected.
+  - Two tops at a house wall became ambiguity boxes, scored for no one.
+  - The edge by the 11th lost its front row of broadleaves between April 2021 and June
+    2025. They stay reference crowns, since the scores are for the 2021 canopy.
+- **The rule, declared before scoring.** As round 5's: round 6 replaces round 4 only if
+  it beats round 4 on Z on F1 and recall with precision at least 0.95. The rule noted
+  that roof crowns no detector splits count against both rounds alike.
+
+| Z1-Z6 (105 crowns) | TP | Missed | Extra | P | R | F1 |
+|---|---|---|---|---|---|---|
+| Round 4 (live detector) | 81 | 24 | 6 | 0.931 | 0.771 | 0.844 |
+| Round 6 | 85 | 20 | 6 | 0.934 | 0.810 | 0.867 |
+| Round 5 | 87 | 18 | 9 | 0.906 | 0.829 | 0.866 |
+| Round 3 | 74 | 31 | 4 | 0.949 | 0.705 | 0.809 |
+
+**Round 6 misses the declared floor.** It finds four more crowns than round 4 with the
+same six extras, five of them roof crowns in the two gardens. The candidates stage holds
+those roof crowns, so the app never draws them. The precision floor is absolute, and
+round 4 misses it too. Round 6 does not replace round 4 by the declared rule.
+
+**What the app draws** (secondary; the decided candidates, after the holds):
+
+| On Z1-Z6 | P | R | F1 |
+|---|---|---|---|
+| Round 4 with the hold fixes (live after #161) | 0.976 | 0.790 | 0.874 |
+| Round 6 as published | 0.978 | 0.829 | 0.897 |
+
+**The owner's decision (2026-11-09).** He was asked whether to publish round 6 under an
+owner exception and answered: "Yes, publish round 6 (Recommended)". The exception is in
+`trees.json`, pinned to benchmark-r6, and round 6 is the active round.
+
+**The screens, decided on the compact chips**
+([`photo/record-screen-review-r6.mjs`](../../../../../tools/tree-pipeline/photo/record-screen-review-r6.mjs)):
+
+- **Pole-like crowns.** The split made 225 new ones: 224 trees and 1 unclear (a stand
+  thinned since 2021). Three helper agents reviewed them, briefed by the main session,
+  which spot-checked sheets 1, 6 and 9.
+- **Felling-screened crowns.** 2, both felled (by the car park).
+- **Held crowns.** 8: 2 trees beside buildings, 2 shaded conifers, 3 roofs and 1 unclear.
+
+| | Round 4 with the hold fixes | Round 6 (now) |
+|---|---|---|
+| Placed records, inner frontier | 32,122 | 32,915 (+793) |
+| Held | 112 | 115 |
+| Decided felled since the laser | 20 | 18 (positions moved with the split) |
+
+**Publication.**
+- Staged with `--pending-owner` (`ground-v2-76382da9…`, 45,251 tree records, integrity
+  true) and adopted into `apps/golf/public` for both routings.
+- `production.json` re-pins the ground, `candidates.csv` and the residual labels. The
+  residual canopy changed with the split, so the stand chunks were republished too.
+- `workflow.json` is re-configured.
+
+**Re-baked on the owner's GPU** (`BANVY_GPU=1`, Johannesberg's two routings only, the app
+rebuilt between bakes): water, ground tints, far vista and scatter. The map land was
+re-baked too; the forest picture changes slightly with the stand field.
+
+**Checks.** `check-prepared-startup`, `check-startup-packs`, `check-app-build` and
+`lint-app` pass. Vitest for `apps/golf` passes 1,945 of 1,945. The repository's node
+tests show 529 passed, 0 failed and 3 skipped. The pipeline tests pass 35 of 35.
+
+**Lesson.** Declare the floor relative to the live round (no more extras than it has on
+the sample), or score the decided candidates. An absolute floor fails a round that is
+strictly better than the live one when the live one is below it too.
+
+### Reproduce round 6
+
+```sh
+RAW=<the pilot cache with copc/ and ortho/>
+node tools/tree-pipeline/photo/window-scan-r5.mjs --raw $RAW --earlier reference-windows-r5.json --top 8
+node tools/tree-pipeline.mjs --ground johannesberg --round r6 --stage reference --prepare --native --only Z1-h12-closed,Z2-h3-edge,Z3-h11-edge,Z4-h12-groups,Z5-h1-garden,Z6-n9-1-garden --raw $RAW
+node tools/tree-pipeline/photo/reference-draft.mjs --raw $RAW --round r6 --only Z
+node tools/tree-pipeline/photo/reference-annotate-r6.mjs
+node tools/tree-pipeline.mjs --ground johannesberg --round r6 --stage reference --freeze --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r6 --stage photo-detect --only none --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r6 --stage benchmark --tune --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r6 --stage benchmark --score --gate --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage candidates --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage review --only screens --raw $RAW
+node tools/tree-pipeline/photo/record-screen-review-r6.mjs && node tools/tree-pipeline.mjs --ground johannesberg --stage candidates --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage review --only spots,mix --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage publish --execute --pending-owner --raw $RAW
+node tools/tree-pipeline/photo/score-candidates-r5.mjs --round r6
 ```
 
 ## Reproduce
