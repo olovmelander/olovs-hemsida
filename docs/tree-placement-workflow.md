@@ -112,7 +112,33 @@ suppressed laser tops) beat round 3 on two fresh samples:
 The gate is still not met (recall). Recall rises most in closed conifer stands; touching
 broadleaves do not gain. Details: the review README's Round 4 and Round 4b.
 
-**Still manual.** Choosing and interpreting reference windows; the felling,
+**Round 5 additions (2026-11-09).** Two gaps, found from an owner report of missing
+shore trees, each got its own fix.
+
+- **Trees found but held.** Two fixes in the candidates and review stages:
+  - The bank rule (`holds.bank`): a crown whose centroid lies over mapped water, a path,
+    a road or a played surface gets a stem on its own crown's land side, when the
+    presence photo shows vegetation. Inside a traced water outline, cells where the
+    laser hit ground count as bank.
+  - The hold review (`hold-review.json`; `--stage review --only holds` draws the chips):
+    every crown held on a building or with no presence vegetation gets a verdict of
+    bank, present, absent, not-tree or unclear.
+
+  Buildings are never banked by rule: the pit-free CHM keeps roofs as canopy, and 82 of
+  Johannesberg's 95 building holds were roofs.
+- **Two trees drawn as one.** A `fused` round can extend an earlier fused lock
+  (`photoDetect.tuning.<round>.extends`) with a width split. A crown too wide for one
+  tree of its height takes back its own suppressed laser tops; typical(h) is fitted on
+  calibration reference crowns. On Johannesberg's third sample (Y1-Y8) it raised
+  recall 0.758 → 0.808. It missed the declared precision floor (0.890 < 0.95), mostly by
+  splitting barn roofs, so it is not published.
+- **New sample strata.** Samples now include shore and garden windows
+  (`photo/window-scan-r5.mjs` measures the distance to mapped water and buildings).
+- **Secondary score.** The decided candidates, what the app draws after the holds, are
+  scored on the sample (`photo/score-candidates-r5.mjs`): round 4 with the fixes reaches
+  P 0.978 / R 0.750 there.
+
+**Still manual.** Choosing and interpreting reference windows; the felling, hold,
 pole and species reviews on the photo chips; the owner's screenshots of the app
 and frame-time measurements on his GPU; owner exceptions; and the promotion of a
 staged root. The sun position of each photo flight is entered in the config, not

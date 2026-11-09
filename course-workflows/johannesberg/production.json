@@ -19,8 +19,8 @@
     "verticalCrs": "EPSG:5613"
   },
   "baselineGround": {
-    "path": "apps/golf/public/grounds/johannesberg/ground-v2-79b72b1d3a9a94840bb78e655de3faf4c20b61d54aaf4627af01eabaf2b68ce5.json",
-    "sha256": "79b72b1d3a9a94840bb78e655de3faf4c20b61d54aaf4627af01eabaf2b68ce5"
+    "path": "apps/golf/public/grounds/johannesberg/ground-v2-b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925.json",
+    "sha256": "b25888bcee208dc6bcf8a6e7061beb5ccc2368c2e3cfabed6ded3e5b07014925"
   },
   "terrain": {
     "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-ground-rings",
@@ -42,11 +42,11 @@
     },
     "reviewMode": "reviewed-candidates-v1",
     "observedOn": "2026-11-08",
-    "reviewNote": "Round 4 of review-2026-11-08, selected on round 4b's sample and published under the owner's answer of 2026-11-08 (\"The best round go!\") below the 90% target (benchmark-r4b: the round-4 lock at P 0.971 / R 0.810 / F1 0.883 on 126 unseen crowns, round 3 0.976 / 0.643 / 0.775, round 4b 0.978 / 0.714 / 0.826; round 4 on its own sample W1-W5 0.935 / 0.758 / 0.837): the round-3 refined detector, then suppressed laser tops confirmed by a learned photo crown (DeepForest on the June 2025 photo, matched in photo space after the relief displacement; the photo never places a tree of its own), and reviewed pole-like and felling-screened crowns. Every placed tree is a record with type and play zone, broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); residual canopy only as stands; tiles outside the inner 2,048 m frontier keep the 2026-09-11 machine-v1 generation.",
+    "reviewNote": "Round 4 of review-2026-11-08, selected on round 4b's sample and published under the owner's answer of 2026-11-08 (\"The best round go!\") below the 90% target (benchmark-r4b: the round-4 lock at P 0.971 / R 0.810 / F1 0.883 on 126 unseen crowns, round 3 0.976 / 0.643 / 0.775, round 4b 0.978 / 0.714 / 0.826; round 4 on its own sample W1-W5 0.935 / 0.758 / 0.837): the round-3 refined detector, then suppressed laser tops confirmed by a learned photo crown (DeepForest on the June 2025 photo, matched in photo space after the relief displacement; the photo never places a tree of its own), and reviewed pole-like and felling-screened crowns. Re-published on 2026-11-09 with the same detector lock (owner report of missing shore trees at the 18th; owner request \"Do whats recommended\"): crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank), and crowns held on buildings or without June 2025 vegetation decided on the photos (hold-review.json); 32,122 placed records in the inner frontier (+49). Round 5 (a width split) was scored once on a third unseen sample (Y1-Y8: P 0.890 / R 0.808 / F1 0.847 against round 4 0.948 / 0.758 / 0.843) and is not published: its precision is below the declared 0.95. Every placed tree is a record with type and play zone, broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); residual canopy only as stands; tiles outside the inner 2,048 m frontier keep the 2026-09-11 machine-v1 generation.",
     "reviewed": {
       "candidates": {
         "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
-        "sha256": "2c856dfd5b6c1315a74ffc19cf39bd590b890c0ffb9c65ab95e61631a25b4bea"
+        "sha256": "4e0faa7d8786a684daa9200e353472735dec2b36739918d36f9c54f1e8e503fc"
       },
       "residualChm": {
         "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-chm-050.bin",

@@ -72,7 +72,7 @@ owner exception": both mean stop and report.
    the orthophoto campaigns with dates and the sun at each flight (azimuth and
    elevation, computed for the flight time and place), the baseline ground manifest
    the review starts from, every routing slug, the play-zone distance (90 m, the
-   app's zone A). Keep `holds.poleLike` on. A new review gets a new `reviewId`,
+   app's zone A). Keep `holds.poleLike` on, and set `holds.bank` (never on buildings; see Round 5). A new review gets a new `reviewId`,
    review directory and cache directory.
 1. **acquire** (`--fetch` through `--env-file`): COPC items verified against the pinned
    size and SHA-256, orthophoto tiles with per-tile SHA-256 and a 0.32 m mosaic per
@@ -106,8 +106,10 @@ owner exception": both mean stop and report.
    pole-like crowns are unreviewed.
 8. **review** (human and owner review): spot panels, the species spot check on the
    photos, chips of every screened crown, `species-mix.json`, and
-   `review-checklist.json`. Record verdicts in `felling-review.json` and
-   `pole-review.json`, rerun candidates, then review again. Mark person items with
+   `review-checklist.json`. Record verdicts in `felling-review.json`,
+   `pole-review.json` and `hold-review.json` (crowns held on a building or with no
+   presence vegetation; `--only holds` draws just those chips: bank, present, absent,
+   not-tree or unclear), rerun candidates, then review again. Mark person items with
    who and when; only the owner marks owner items.
 9. **publish** (gate): checks the gate (or the owner exception), the checklist and the
    receipts, prints the staging plan and stops. `--execute` only after the owner
@@ -284,6 +286,41 @@ ignored cache is evidence by itself; its hashes are.
   pole-like crowns, almost all narrow tops the photo confirmed inside stands; 439 were
   trees on the chips. Budget the chip review (about a minute per sheet of 24) before
   publication.
+
+### Round 5 (Johannesberg, 2026-11-09): held trees, shores and two trees drawn as one
+
+- **Look at what is held before chasing recall.** The owner saw shore trees missing at
+  the 18th. The detector had found every one; the candidates stage held them because
+  the crown centroid lay over the mapped water. 255 crowns were held across the inner
+  frontier.
+- **Bank a crown that leans over a feature; never bank one on a building.**
+  `holds.bank` moves the stem of a crown over mapped water, a path, a road or a played
+  surface to its own crown's land side, when the presence photo shows vegetation.
+  - Traced water outlines can lie metres over the bank (about 4 m at the 18th). Inside
+    them, cells where the laser hit ground count as bank (`groundReturnsForLand`):
+    open water returns almost no pulses.
+  - The pit-free CHM keeps roofs as canopy: 82 of 95 building holds were roofs.
+    Building holds and crowns with no presence vegetation go to `hold-review.json`
+    on the chips: bank, present, absent, not-tree or unclear.
+  - A conifer in shade reads as having no vegetation in June: it is red in the April
+    colour infrared and a dark crown in June, so mark it present.
+- **Sample shores and gardens.** Earlier samples held neither, so the score could not
+  see these gaps. `photo/window-scan-r5.mjs` measures the distance to mapped water and
+  buildings. A farmyard window may hold no tree at all; it still measures extras on
+  roofs.
+- **Diagnose misses before designing a round.** `photo/diagnose-r5.mjs` (calibration
+  only) found that 57 of 68 missed crowns had their own suppressed laser top. The photo
+  had either no box there or a weak one. So the width split takes laser tops back, and
+  the photo stays a referee.
+- **Score detectors on what they see, and remember what the holds hide.** The width
+  split split barn roofs, and the declared rule (the detector on Y, P ≥ 0.95) rejected
+  it. After the holds, the same round scored P 0.969 / R 0.783. Declare beforehand
+  whether the decision reads the detector or the decided candidates, and never switch
+  after scoring. The decided-candidates score (`photo/score-candidates-r5.mjs`) is
+  reported as a secondary number.
+- **Spent held-out windows may become calibration** for a later round, declared in the
+  windows file, when a fresh unseen sample decides. Commit the frozen sample before
+  writing the round's code, and the lock before scoring.
 
 ## Report
 

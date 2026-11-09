@@ -22,7 +22,7 @@
      verify     --decide-only | --pairs a@b,... | --relief (the canopy's relief displacement per photo)
      reference  --prepare [--only w1,w2] [--mpp 0.12] [--native] | --freeze [--note text] [--interpreter text]
      benchmark  --tune | --types | --subtypes | --score | --gate   (none: whatever is missing, then the gate)
-     review     --only spots|types|screens|mix
+     review     --only spots|types|screens|holds|mix
      publish    --execute (compile into the staging root; never the live public root)
                 [--pending-owner] (stage a round whose remaining blockers are the owner's own decisions, covered by a
                 pendingOwnerApprovals record: labelled pending everywhere, never an exception)

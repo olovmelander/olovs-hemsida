@@ -281,7 +281,7 @@ test('a terrain disagreement stops the canopy stage', () => {
 });
 
 test('the checklist keeps person and owner marks, and publication needs them all closed', () => {
-  const auto = { 'reference-frozen': { status: 'done' }, 'held-out-gate': { status: 'excepted', by: 'owner', on: '2026-11-08' }, 'felling-screen-reviewed': { status: 'done' }, 'pole-like-reviewed': { status: 'not-applicable' }, 'species-mix-flags': { status: 'done' } };
+  const auto = { 'reference-frozen': { status: 'done' }, 'held-out-gate': { status: 'excepted', by: 'owner', on: '2026-11-08' }, 'felling-screen-reviewed': { status: 'done' }, 'pole-like-reviewed': { status: 'not-applicable' }, 'holds-reviewed': { status: 'done' }, 'species-mix-flags': { status: 'done' } };
   const first = { items: mergeChecklist(null, auto) };
   assert.deepEqual(openItems(first).map(i => i.id), ['felled-list-confirmed', 'species-spot-check-photos', 'species-mix-screenshots', 'runtime-cost-measured']);
   const marked = { items: first.items.map(i => (i.who === 'auto' ? i : { ...i, status: 'done', by: i.who === 'owner' ? 'owner' : 'agent', on: '2026-11-09' })) };
@@ -516,4 +516,69 @@ test('Johannesberg: round 4b publishes the round-4 lock, gated on X1-X5 under th
   /* round 4 on its own sample missed the owner's precision floor and is not covered there */
   const r4 = loadGroundConfig(ROOT, 'johannesberg', { round: 'r4' });
   assert.equal(gateReport(r4).verdict.allowed, false);
+});
+
+test('width split: only a crown too wide for one tree of its height gives back its own suppressed laser top', async () => {
+  const { splitWideCrowns, typicalCrownRadius, SPLIT_DEFAULTS } = await import('./photo-fusion.mjs');
+  /* typical(h) is a least-squares line through the reference crowns */
+  const typical = typicalCrownRadius([{ heightMetres: 10, segment: { equivalentRadiusMetres: 2 } }, { heightMetres: 20, segment: { equivalentRadiusMetres: 3 } }, { heightMetres: 2, segment: { equivalentRadiusMetres: 9 } }]);
+  assert.deepEqual(typical, { a: 1, b: 0.1, crowns: 2 }, 'crowns under 3 m are left out');
+  /* one 10 m crown (label 0) holding a second top 4 m away with a 2 m saddle */
+  const grid = { minEasting: 0, maxNorthing: 20, width: 40, height: 40, sampleSpacingMetres: 0.5 };
+  const smooth = new Float32Array(grid.width * grid.height);
+  const labels = new Int32Array(grid.width * grid.height).fill(0);
+  const at = (e, n) => Math.floor((grid.maxNorthing - n) / 0.5) * grid.width + Math.floor(e / 0.5);
+  for (let i = 0; i < smooth.length; i++) {
+    const e = (i % grid.width) * 0.5 + 0.25, n = grid.maxNorthing - Math.floor(i / grid.width) * 0.5 - 0.25;
+    smooth[i] = Math.max(0, 10 - 1.2 * Math.hypot(e - 8, n - 10), 9.5 - 1.2 * Math.hypot(e - 12, n - 10));
+  }
+  const top = { index: at(12, 10), easting: 12, northing: 10, height: 9.5, type: 'broadleaf' };
+  const seeds = [{ easting: 8, northing: 10, height: 10 }];
+  const crown = r => ({ detection: { labels, crowns: [{ id: 0, heightMetres: 10, equivalentRadiusMetres: r, areaSquareMetres: Math.PI * r * r }] } });
+  const split = { ...SPLIT_DEFAULTS, widthFactor: 1.4, minimumSeparationMetres: 3, minimumDipMetres: 1, heightShare: 0.4 };
+  /* typical(10) = 2 m: a 4 m crown is too wide, a 2.5 m crown is not */
+  assert.equal(splitWideCrowns(grid, crown(4).detection, [top], seeds, smooth, new Map(), typical, split).length, 1);
+  assert.equal(splitWideCrowns(grid, crown(2.5).detection, [top], seeds, smooth, new Map(), typical, split).length, 0);
+  /* its own cone, its separation, its type and (when asked) a paired photo box decide */
+  assert.equal(splitWideCrowns(grid, crown(4).detection, [top], seeds, smooth, new Map(), typical, { ...split, minimumDipMetres: 6 }).length, 0);
+  assert.equal(splitWideCrowns(grid, crown(4).detection, [top], seeds, smooth, new Map(), typical, { ...split, minimumSeparationMetres: 4.5 }).length, 0);
+  assert.equal(splitWideCrowns(grid, crown(4).detection, [top], seeds, smooth, new Map(), typical, { ...split, types: ['conifer'] }).length, 0);
+  assert.equal(splitWideCrowns(grid, crown(4).detection, [top], seeds, smooth, new Map(), typical, { ...split, photoScore: 0.2 }).length, 0);
+  assert.equal(splitWideCrowns(grid, crown(4).detection, [top], seeds, smooth, new Map([[top.index, 0.3]]), typical, { ...split, photoScore: 0.2 }).length, 1);
+  /* every accepted seed is the laser top itself, protected from the shallow-crown merge */
+  const [seed] = splitWideCrowns(grid, crown(4).detection, [top], seeds, smooth, new Map(), typical, split);
+  assert.equal(seed.index, top.index);
+  assert.equal(seed.protect, true);
+});
+
+test('Johannesberg: round 5 is scored once on Y1-Y8 and does not replace round 4 (precision under the declared 0.95)', () => {
+  const dir = 'geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/';
+  const benchmark = JSON.parse(fs.readFileSync(path.join(ROOT, dir, 'benchmark-r5.json'), 'utf8'));
+  const windows = JSON.parse(fs.readFileSync(path.join(ROOT, dir, 'reference-windows-r5.json'), 'utf8'));
+  assert.match(windows.declaredBeforeScoring.rule, /precision at least 0\.95/);
+  const r5 = benchmark.results['round5-detector'].evaluation, r4 = benchmark.results['round4-detector'].evaluation;
+  assert.equal(r5.tp + r5.missed, 120);
+  assert.ok(r5.f1 > r4.f1 && r5.recall > r4.recall, 'round 5 beats round 4 on F1 and recall');
+  assert.ok(r5.precision < 0.95, 'but misses the precision floor');
+  const ctx = loadGroundConfig(ROOT, 'johannesberg');
+  assert.equal(ctx.round.id, 'r4b', 'so the trees stay at round 4 (r4b publishes the round-4 lock)');
+  assert.equal(ctx.round.publishes, 'r4');
+});
+
+test('the bank rule: valid settings only, never buildings; the hold review matches within 0.5 m', async () => {
+  const { heldVerdict } = await import('./candidates.mjs');
+  const config = johannesberg();
+  assert.deepEqual(validateGroundConfig(config, { groundId: 'johannesberg' }), []);
+  assert.ok(config.holds.bank.surfaces.includes('water'));
+  const bad = johannesberg();
+  bad.holds.bank.surfaces = ['water', 'building'];
+  assert.ok(validateGroundConfig(bad).some(p => /never building/.test(p)));
+  bad.holds.bank = { ...johannesberg().holds.bank, reachMetres: 5 };
+  assert.ok(validateGroundConfig(bad).some(p => /reachMetres/.test(p)));
+  bad.holds.bank = { ...johannesberg().holds.bank, groundReturnsForLand: 1.5 };
+  assert.ok(validateGroundConfig(bad).some(p => /groundReturnsForLand/.test(p)));
+  const review = { decisions: { '100.0_200.0': { verdict: 'bank', easting: 100.04, northing: 200.01 } } };
+  assert.equal(heldVerdict(review, { easting: 100.04, northing: 200.01 })?.verdict, 'bank');
+  assert.equal(heldVerdict(review, { easting: 100.4, northing: 200.2 })?.verdict, 'bank');
+  assert.equal(heldVerdict(review, { easting: 101, northing: 200 }), null, 'a neighbour 1 m away is another crown');
 });
