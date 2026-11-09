@@ -558,9 +558,18 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
       q('[data-cond-row]').hidden = !cond;
       if (cond) { q('[data-cond]').textContent = cond.label; q('[data-cond-row]').title = cond.note; }
     },
-    club({ name, carry, putt, range }) {
+    /** The club and how far it goes from here as set up (play-mode reachOf). Where that is not the
+        bag's own full carry, the number says why on hover. */
+    club({ name, carry, putt, range, stock = null, full = true, type = null }) {
       q('[data-club-name]').textContent = name;
-      q('[data-club-carry]').textContent = putt ? `mätare ${range} m` : `${Math.round(carry)} m`;
+      const el = q('[data-club-carry]');
+      // another shot type than a full swing names itself: "Chip · 30 m" is a chip's run, not the club's
+      el.textContent = putt ? `mätare ${range} m` : `${type ? `${type} · ` : ''}${Math.round(carry)} m`;
+      const differs = !putt && Number.isFinite(stock) && (!full || Math.abs(carry - stock) >= 1.5);
+      const words = !differs ? '' : full
+        ? `Bär ${Math.round(carry)} m härifrån, som slaget är inställt. Fullt slag från fairway: ${Math.round(stock)} m.`
+        : `Går ${Math.round(carry)} m i allt härifrån, som slaget är inställt. Fullt slag från fairway bär ${Math.round(stock)} m.`;
+      el.title = words;
     },
     power(text) { clearTimeout(flashTimer); const el = q('[data-power]'); el.className = 'pl-power pl-glass'; el.textContent = text || ''; el.classList.toggle('show', Boolean(text)); },
     /** A word by the swing for a moment (the tempo's verdict). */

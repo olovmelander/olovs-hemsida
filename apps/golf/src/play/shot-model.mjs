@@ -13,6 +13,7 @@
    the same), and the slope under the feet (uphill launches higher, a ball above
    the feet hooks). */
 import { CLUB_LAUNCH, speedForCarry, puttSpeedFor, launchState, simulateShot, groundNormal, BALL, SURFACES } from './ball-physics.mjs';
+import { clubKind } from '../engine/club-design.mjs';
 
 /* The detailed course's lies (kikLie) as the physics' surfaces. */
 export const LIE_SURFACE = Object.freeze({
@@ -78,6 +79,18 @@ export function fitSetup(club, setup = STOCK_SETUP) {
     height: club.cat === 'putter' ? 0 : clampStep(setup.height, -1, 1), spin: club.cat === 'putter' ? 0 : clampStep(setup.spin, -1, 1) };
 }
 
+/**
+ * The set-up after a change of club: the new club starts its own full swing, a
+ * punch, the shape, height and spin kept where it can play them. A chip, pitch or
+ * flop stays only from one wedge to another, where the short game is chosen club
+ * by club. (Carried on to an iron or a wood, a chip read as that club's distance.)
+ */
+export function setupForClub(setup, from, to) {
+  const wedge = c => WEDGES.has(c?.cat);
+  const keep = setup.type === 'full' || setup.type === 'punch' || (wedge(from) && wedge(to));
+  return fitSetup(to, { ...setup, type: keep ? setup.type : 'full' });
+}
+
 /* How the ball sits. The lie % is the share of a clean strike's speed the lie
    allows (the tour games' number); each lie's spread is seeded per stroke. */
 export function lieQuality(surface, rand = Math.random, { plugged = false } = {}) {
@@ -129,21 +142,47 @@ export const DIFFICULTY = Object.freeze({
   svar:   { label: 'Svår', error: 1.2, preview: 'none' },
 });
 
-/** The launch family of a bag club: by its id first, by its carry otherwise. */
+/* A club's family by its carry alone: for a club nothing in the bag names. */
+const byCarry = carry => (carry >= 200 ? 'driver' : carry >= 180 ? 'wood' : carry >= 170 ? 'hybrid' : carry >= 160 ? 'iron5'
+  : carry >= 150 ? 'iron6' : carry >= 140 ? 'iron7' : carry >= 128 ? 'iron8' : carry >= 115 ? 'iron9'
+  : carry >= 100 ? 'pw' : carry >= 85 ? 'gw' : carry >= 65 ? 'sw' : 'lw');
+const IRON_WORD = /iron|järn|^i\d|^\d+i$/;
+
+/**
+ * The launch family of a bag club, read as the bag editor reads it
+ * (engine/club-design.mjs clubKind: the kind the player chose, then the name,
+ * then the id), so a club the editor shows as an iron plays as an iron. An
+ * iron's number and a wedge's loft come from the name before the id (a renamed
+ * row keeps its old id); a club nothing names is placed by its carry.
+ * Until 9 November the id came first, the kind was ignored and "6-järn" (the
+ * number first) went unread, so a 110 m "7-järn" played as a pitching wedge,
+ * took a chip or a pitch carried over from the last club, and its distance read
+ * as that short shot's.
+ */
 export function clubCategory(club) {
-  const id = String(club?.id || '').toLowerCase(), name = String(club?.name || '').toLowerCase();
-  if (id === 'putter' || club?.carry === 0 || name.includes('putter')) return 'putter';
-  if (id === 'driver' || name === 'driver') return 'driver';
-  if (/^wood|^trä|wood/.test(id) || /^trä|wood/.test(name)) return 'wood';
-  if (/hybrid/.test(id) || /hybrid/.test(name)) return 'hybrid';
-  const iron = /iron-?(\d)/.exec(id) || /järn\s*(\d)/.exec(name);
-  if (iron) return `iron${Math.min(9, Math.max(3, Number(iron[1])))}`;
-  for (const w of ['pw', 'gw', 'sw', 'lw']) if (id === w || name === w) return w;
-  if (/lob/.test(name)) return 'lw';
   const carry = Number(club?.carry) || 0;
-  return carry >= 200 ? 'driver' : carry >= 180 ? 'wood' : carry >= 170 ? 'hybrid' : carry >= 160 ? 'iron5'
-    : carry >= 150 ? 'iron6' : carry >= 140 ? 'iron7' : carry >= 128 ? 'iron8' : carry >= 115 ? 'iron9'
-    : carry >= 100 ? 'pw' : carry >= 85 ? 'gw' : carry >= 65 ? 'sw' : 'lw';
+  const kind = clubKind(club);
+  if (kind === 'putter' || carry === 0) return 'putter';
+  if (kind === 'driver') return 'driver';
+  if (kind === 'fairway') return 'wood';
+  if (kind === 'hybrid') return 'hybrid';
+  const name = String(club?.name || '').toLowerCase().trim();
+  // a custom id is a base-36 time, whose digits and letters say nothing
+  const id = /^custom-/.test(String(club?.id || '')) ? '' : String(club?.id || '').toLowerCase();
+  const number = Number(name.match(/\d+/)?.[0]);
+  if (kind === 'wedge') {
+    const words = `${name} ${id}`;
+    if (/\blw\b|lob/.test(words) || number >= 58) return 'lw';
+    if (/\bsw\b|sand/.test(words) || number >= 54) return 'sw';
+    if (/\bgw\b|gap|\baw\b/.test(words) || number >= 48) return 'gw';
+    if (/\bpw\b|pitch/.test(words) || Number.isFinite(number)) return 'pw';
+    // a wedge with no name for its loft: among the wedges, by its carry
+    return carry >= 100 ? 'pw' : carry >= 85 ? 'gw' : carry >= 65 ? 'sw' : 'lw';
+  }
+  const named = club?.kind === 'iron' || IRON_WORD.test(name) || IRON_WORD.test(id);
+  if (!named) return byCarry(carry);
+  const n = Number.isFinite(number) ? number : Number(/iron-?(\d)/.exec(id)?.[1]);
+  return Number.isFinite(n) ? `iron${Math.min(9, Math.max(3, n))}` : byCarry(carry);
 }
 
 /** The bag as the game plays it: longest first, a putter always last. */
@@ -276,14 +315,74 @@ export function flatShot(club, power, lie = 'fairway', setup = STOCK_SETUP, qual
   return out;
 }
 
-/** The share of a full swing that sends the ball `distance` metres in all (bisection), at most 1. */
-export function powerFor(club, distance, lie = 'fairway', setup = STOCK_SETUP, quality = null, landOn = 'fairway') {
+/**
+ * How far a club goes at full power from this lie, as the shot is set up: a full
+ * swing's carry, another shot type's whole run. On flat ground in still,
+ * standard air, as "Spelas som" is reckoned, so the two compare like with like.
+ * From a clean fairway lie a stock full swing is the bag's own carry; the rough,
+ * sand, a lie's quality and a low, high or spun shot all change it, as they change
+ * the shot (the HUD used to show the bag's carry from every lie).
+ */
+export function clubReach(club, lie = 'fairway', setup = STOCK_SETUP, quality = null) {
+  if (!club || club.cat === 'putter') return null;
+  const shot = flatShot(club, 1, lie, setup, quality);
+  return fitSetup(club, setup).type === 'full' ? shot.carry : shot.total;
+}
+
+/**
+ * The power a shot is planned at to reach `distance` (the pin, or a set target),
+ * which the swing pad's line and the landing ring show. A full swing or a punch
+ * flies to it: it lands at the distance less the roll a full one has on that
+ * ground, and runs on. So every club's ring stands by the target, a little shorter
+ * for a club that runs further, and a long club swung softly runs on past it, as it
+ * would. (Planned by its whole run, a soft long iron had to land far short and skid
+ * the rest, and its ring stood well short of the next shorter club's.) The short
+ * game is played to run, so a chip, a pitch or a bump and run is planned by its
+ * whole run (powerFor).
+ */
+export function planPower(club, distance, lie = 'fairway', setup = STOCK_SETUP, quality = null, landOn = 'fairway') {
   if (club.cat === 'putter') return null;
-  if (flatShot(club, 1, lie, setup, quality, landOn).total <= distance) return 1;
+  const set = fitSetup(club, setup);
+  if (set.type !== 'full' && set.type !== 'punch') return powerFor(club, distance, lie, set, quality, landOn);
+  const carry = p => flatShot(club, p, lie, set, quality, landOn).carry;
+  const full = flatShot(club, 1, lie, set, quality, landOn);
+  // The roll allowed for is at most a tenth of the distance (4-15 m): a wood or a punch
+  // runs 40 m and more on a flat model green, and a ball planned to land that far short
+  // would come down off the green, so its ring stood far short of the irons'.
+  const aim = distance - Math.min(full.total - full.carry, Math.max(4, Math.min(15, distance * .1)));
+  if (full.carry <= aim) return 1;
   let lo = .05, hi = 1;
+  if (carry(lo) >= aim) return lo;
+  // a harder swing always carries further, so a bisection finds the one swing
   for (let i = 0; i < 14; i++) {
     const mid = (lo + hi) / 2;
-    if (flatShot(club, mid, lie, setup, quality, landOn).total < distance) lo = mid; else hi = mid;
+    if (carry(mid) < aim) lo = mid; else hi = mid;
+  }
+  return Math.round((lo + hi) / 2 * 100) / 100;
+}
+
+/**
+ * The share of a full swing that sends the ball `distance` metres in all, at most 1:
+ * the strongest swing that does. A harder swing does not always run further. A long
+ * club swung softly comes out low with little spin and skids a long way, most of all
+ * on a green, so a plain bisection could settle on that skid (a 6-iron at 42% to land
+ * 36 m out and run 104 m to a 140 m pin, where the 7-iron flew 130 m at 94%), and the
+ * landing ring jumped short as the club got longer. So the search steps down from a
+ * full swing to the first that falls short, and bisects between it and the one above.
+ */
+export function powerFor(club, distance, lie = 'fairway', setup = STOCK_SETUP, quality = null, landOn = 'fairway') {
+  if (club.cat === 'putter') return null;
+  const run = p => flatShot(club, p, lie, setup, quality, landOn).total;
+  if (run(1) <= distance) return 1;
+  let hi = 1, lo = null;
+  for (let k = 19; k >= 1; k--) {
+    if (run(k / 20) <= distance) { lo = k / 20; break; }
+    hi = k / 20;
+  }
+  if (lo === null) return hi;                     // even the softest swing runs further
+  for (let i = 0; i < 10; i++) {
+    const mid = (lo + hi) / 2;
+    if (run(mid) < distance) lo = mid; else hi = mid;
   }
   return Math.round((lo + hi) / 2 * 100) / 100;
 }
