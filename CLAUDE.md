@@ -388,8 +388,9 @@ land cover's WATER class is a colour verdict: never paint from it. See
   take a lighter, lower foot through `groundModel`, which keeps their colours,
   leaves self-painting materials alone and gives shared geometry its own copy.
   Stamp a new building mesh the same way. See [the buildings batch](docs/visual-buildings-2026-09-25.md).
-- Every course's houses but Johannesberg's, in their own extract (a surroundings
-  record's `inner` box, else the whole pack), are drawn with the house kit (`house-kit.mjs`, owner request, 8 November).
+- Every course's houses, in their own extract (a surroundings record's `inner` box,
+  else the whole pack), are drawn with the house kit (`house-kit.mjs`, owner request,
+  8 November; Johannesberg since 9 November).
   Each footprint gets a shell in the batch: a plinth, a thick roof with eaves,
   barge boards and gutters, and a cross gable on an L. The Blender-modelled
   parts are instanced on its walls (`tools/blender-props/house_kit.py`, published
@@ -408,8 +409,7 @@ land cover's WATER class is a colour verdict: never paint from it. See
     (`clearOfTrees`).
   - A course opts in with `houseKit` and `roofColours` on its scenery module
     (`roof-colours.py --course <slug>`: the pack's own frame, the ground's flights
-    from its discovery records, one registration shift per course). Johannesberg
-    waits (owner request).
+    from its discovery records, one registration shift per course).
   - A pack that calls every building `house` (`genericHouseTag`) is typed by
     size, shape (a barn is deep) and land use.
   - A mapped-only ground (Upsala) takes no porch, balcony, chimney or canopy

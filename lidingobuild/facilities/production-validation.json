@@ -1,15 +1,15 @@
 {
   "status": "passed",
   "blendPath": "lidingobuild/cache/facilities-model-2026-09-10/lidingo-facilities-authored-r2.blend",
-  "blendSha256": "66ab7567b85f4899775827106118c01c0a7839836353e692d60cb8a3ef1c57b8",
+  "blendSha256": "51bcab0d7dbe9105a1dbff97b5bdeff3fca5b73ad75a5eef14de069039094875",
   "asset": {
-    "url": "models/lidingo/facilities-2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a.glb",
-    "sha256": "2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a",
-    "bytes": 6192028
+    "url": "models/lidingo/facilities-284ac1d116ec2a1c694f54c10364fe893fe009992cd8a4501d7bf5b5770c8018.glb",
+    "sha256": "284ac1d116ec2a1c694f54c10364fe893fe009992cd8a4501d7bf5b5770c8018",
+    "bytes": 6507488
   },
   "facilityCount": 21,
-  "triangles": 78148,
-  "meshCount": 191,
+  "triangles": 82276,
+  "meshCount": 197,
   "sourceBuildingIds": [
     "way/221846983",
     "way/26408210",
@@ -47,7 +47,7 @@
     },
     {
       "path": "lidingobuild/facilities/model-range.py",
-      "sha256": "1f8c69ca36eab17feec6d3d9ceb289fc7d4ddae4d785d48f2bcaab2254aff0f3",
+      "sha256": "903906eee6f5b7aa0c96883f8488795e572a513770a8bd57c13e03ad51abad18",
       "result": {
         "module": "range-facilities",
         "layoutPath": "lidingobuild/facilities/authored-layout.json",

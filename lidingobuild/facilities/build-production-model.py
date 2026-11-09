@@ -12,7 +12,11 @@ from pathlib import Path
 import bpy
 from mathutils import Vector
 
-ROOT = Path(r'C:/Users/olov_/repos/olovs-hemsida')
+# the repository this file lives in (run headless with --python, or through Blender MCP from the repository root)
+try:
+    ROOT = Path(__file__).resolve().parents[2]
+except NameError:
+    ROOT = Path.cwd()
 OUT = ROOT/'lidingobuild/cache/facilities-model-2026-09-10'
 SCENE = 'Lidingö | Authored facilities 2026-09-10 | r2'
 PREFIX = 'LID MODEL | '
@@ -177,7 +181,13 @@ def build():
     after={s.name:[(o.name,tuple(v for row in o.matrix_world for v in row)) for o in s.objects] for s in bpy.data.scenes}
     assert all(after[n]==objects for n,objects in before.items()),'Existing scene changed'
     assert bpy.context.scene.name==active and bpy.data.filepath==file
-    bpy.data.libraries.write(str(path),{scene,notes},fake_user=True,compress=True)
+    if bpy.app.background:
+        # Headless (blender --background --factory-startup): the session holds only the factory scene and
+        # this one, so the whole file is the library. Blender 5.2's partial write (libraries.write) crashes
+        # copying a scene's view layers in background mode (BKE_view_layer_copy_data, 9 November 2026).
+        bpy.ops.wm.save_as_mainfile(filepath=str(path),copy=True,compress=True)
+    else:
+        bpy.data.libraries.write(str(path),{scene,notes},fake_user=True,compress=True)
     result={'scene':SCENE,'libraryPath':path.relative_to(ROOT).as_posix(),'librarySha256':sha(path),
       'facilities':ctx.facilities,'materials':len(ctx.materials),'objects':len(scene.objects),
       'modules':modules,'previousScenesPreserved':True}

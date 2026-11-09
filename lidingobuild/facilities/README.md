@@ -94,7 +94,17 @@ also validates the generated asset/caching configuration.
 ## Reproduction
 
 Run from the repository root with the existing Python environment and Blender
-4.5. The source modules are `model-clubhouse.py`, `model-range.py` and
+4.5. Since 9 November 2026 the builder also runs headless, which is how the range
+barns were rebuilt after the owner's photograph (Blender 5.2):
+
+```sh
+blender --background --factory-startup --python-exit-code 1 --python lidingobuild/facilities/build-production-model.py
+blender --background lidingobuild/cache/facilities-model-2026-09-10/lidingo-authored-r2.library.blend --python-exit-code 1 --python lidingobuild/facilities/export-production-model.py -- --replace-manifest-sha256 <sha256 of facilities-v1.json>
+```
+
+The range traces need their orthophoto crops in the ignored cache (`authored-layout.json` pins them):
+re-cut them from the 2025 tile exactly as `prepare-geospatial-reference.py` does and check the hashes.
+The exporter writes Windows line endings on Windows; the repository is LF. The source modules are `model-clubhouse.py`, `model-range.py` and
 `model-ancillary.py`; they share the context in `build-production-model.py`.
 
 ```powershell

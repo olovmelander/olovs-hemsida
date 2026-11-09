@@ -5,7 +5,7 @@
   "output": {
     "path": "lidingobuild/cache/facilities-reference-2026-09-10/model-reference.json",
     "bytes": 5030762,
-    "sha256": "e5c13386bf057b72f83248e987980fcbd4b4f038ed197d8472de0934019f6ea5"
+    "sha256": "1fa8cac87956719b31ec5f3c34d23790cdc4b97c4661ae476f4c797facbc85b3"
   },
   "frame": {
     "horizontalCrs": "EPSG:3006",
@@ -252,18 +252,18 @@
   "sourceFiles": [
     {
       "path": "lidingobuild/architecture-fixture.mjs",
-      "bytes": 2400,
-      "sha256": "77a90875c8457c078e837fa68e740ec5aa1ebcdc2aa685d14e032a0d46d16cd4"
+      "bytes": 2368,
+      "sha256": "113d8d83e03a48b100dfd7d41ceae8feb3c43984331e15f33803125258ba89e3"
     },
     {
       "path": "apps/golf/src/engine/scenery/lidingo-architecture.js",
-      "bytes": 15318,
-      "sha256": "c06f5db203aee0d185ca2585bd6c6fe0966fdf2c22a9070b5ba322678bf48542"
+      "bytes": 15054,
+      "sha256": "5d571a5aefb2bdaa534ceaf81b7d9a2c5739151b862857781f2d0931b71014b9"
     },
     {
       "path": "apps/golf/public/courses/lidingo/pack.bin",
-      "bytes": 486299,
-      "sha256": "d25dfe74f48cb6584221c727735d0604d21729524b6d1d2b6e52796910f527c9"
+      "bytes": 488248,
+      "sha256": "a4b7d09c4cdf6f5f71e18b6693cd340581cc7b91d03c165740cda02bde5ec16f"
     },
     {
       "path": "lidingobuild/mapping/facilities.geojson",
@@ -272,8 +272,8 @@
     },
     {
       "path": "lidingobuild/mapping/building-roof-meshes.json",
-      "bytes": 869572,
-      "sha256": "4f25c1495768b4defe359c0b068a0df76667363e6fa67128f8602b34b3402934"
+      "bytes": 822005,
+      "sha256": "b4fba5a233fc72f168ceb0fd337f5aa43ed860c736c46afe6763e8447c10bd9a"
     },
     {
       "path": "geo_data/course-v2/lidingo/reference/osm-context-epsg3006.geojson",

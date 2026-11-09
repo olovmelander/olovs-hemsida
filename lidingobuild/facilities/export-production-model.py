@@ -187,7 +187,9 @@ def main():
     data.materials.append(mat)
     obj=bpy.data.objects.new('Source terrain preview - never exported',data)
     source.collection.objects.link(obj)
-    source.render.engine='BLENDER_EEVEE_NEXT'
+    # Blender 4 calls the engine BLENDER_EEVEE_NEXT, Blender 5 BLENDER_EEVEE
+    engines=[item.identifier for item in type(source.render).bl_rna.properties['engine'].enum_items]
+    source.render.engine='BLENDER_EEVEE_NEXT' if 'BLENDER_EEVEE_NEXT' in engines else 'BLENDER_EEVEE'
     source.render.resolution_x=1600
     source.render.resolution_y=1100
     source.render.resolution_percentage=100

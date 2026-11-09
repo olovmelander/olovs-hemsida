@@ -219,11 +219,12 @@ describe('the measured roofs', () => {
   /* each course that opts in, and every routing that shares its ground (and its scenery module) */
   const GROUNDS = { veckefjarden: ['veckefjarden', 'veckefjarden-korthalsbanan'], puttom: ['puttom'], angso: ['angso'],
     upsala: ['upsala', 'upsala-mellanbanan'], lidingo: ['lidingo'], norrfallsviken: ['norrfallsviken'],
-    ribbingsfors: ['ribbingsfors'], tortuna: ['tortuna'], visby: ['visby'] };
-  it('reach every course but Johannesberg\'s', () => {
+    ribbingsfors: ['ribbingsfors'], tortuna: ['tortuna'], visby: ['visby'],
+    johannesberg: ['johannesberg', 'johannesberg-9'] };
+  it('reach every course (Johannesberg since 9 November)', () => {
     const index = JSON.parse(fs.readFileSync(new URL('../../public/courses/index.json', import.meta.url), 'utf8'));
     const covered = Object.values(GROUNDS).flat();
-    for (const { slug } of index.courses) expect(covered.includes(slug)).toBe(!slug.startsWith('johannesberg'));
+    for (const { slug } of index.courses) expect(covered.includes(slug)).toBe(true);
   });
   const packBuildings = async slug => {
     const { inflateRawSync } = await import('node:zlib');
@@ -270,10 +271,6 @@ describe('the measured roofs', () => {
     expect(module).toContain(`import roofColours from './${name}-roof-colours.json' with { type: 'json' };`);
     expect(module).toMatch(/export const houseKit = true;/);
     expect(module).toMatch(/export \{ roofColours \};/);
-  });
-  it('leave Johannesberg as it was', () => {
-    const module = fs.readFileSync(new URL('./scenery/johannesberg.js', import.meta.url), 'utf8');
-    expect(module).not.toMatch(/houseKit/);
   });
   it('ease a glinting roof toward paint and give back the chroma the haze took', async () => {
     const { roofAlbedo, ROOF_EASE } = await import('./house-kit.mjs');
