@@ -129,13 +129,39 @@ own plantings).
 ## The shot (`shot-model.mjs`)
 
 - **The bag:** the game uses the player's own bag (`banvy-caddie-bag-v1`). Each
-  club is mapped to a launch family by its id, its name or, failing both, its carry.
+  club is mapped to a launch family as the bag editor reads it (`clubKind`: the
+  kind the player chose, then the name, then the id). An iron's number and a
+  wedge's loft come from the name before the id, and a club nothing names is
+  placed by its carry. Until 9 November the id came first, the kind was ignored
+  and "6-järn" went unread, so a 110 m "7-järn" played as a pitching wedge.
+- **Changing club** starts the new club's full swing (`setupForClub`). A punch,
+  and the shape, height and spin, are kept where the club can play them. A chip,
+  pitch or flop stays only from one wedge to another. A short-game number in the
+  HUD names its type ("Chip · 30 m").
 - **The lie:** takes speed, spin and accuracy off the shot. Out of the rough the
   ball comes slower and with less spin, forest and sand cost more, and a path
-  is slightly hard.
-- **Planned power:** each shot's planned power is the share of a full swing that
-  reaches the target, found by bisection over flat shots. The swing pad shows it
-  as an amber line to pull to, and the aid's preview uses it.
+  is slightly hard. A ball on its own tee marker is teed up, again after a ball
+  out of bounds from it, whatever the drawn ground under the marker reads.
+  Until 9 November Ängsö's 1st tee read as rough, and every drive there flew
+  15% short.
+- **Planned power** (`planPower`): the share of a full swing a shot is planned
+  at. The swing pad shows it as an amber line to pull to, and the aid's preview
+  and landing ring use it.
+  - A full swing or a punch **flies to the target**: it lands at the distance
+    less the roll a full one has on that ground, then runs on. The roll allowed
+    for is at most a tenth of the distance (4-15 m), since a wood or a punch runs
+    40 m and more on the flat model green. Every club's ring stands by the target,
+    a longer club's a few metres shorter because it runs further. A long club
+    swung softly runs on past the target, as it would.
+  - The short game is played to run, so a chip, pitch or bump and run is planned
+    by its whole run (`powerFor`).
+  - `powerFor` takes the strongest swing whose run reaches the distance. A softly
+    swung long club comes out low with little spin and skids a long way, so a
+    plain bisection could settle on a skid.
+  - Until 9 November every shot was planned by its whole run, with that
+    bisection. A 6-iron to a 140 m pin was planned at 42%, landing 36 m out,
+    while the 7-iron flew 130 m at 94%. The ring jumped short as the club got
+    longer.
 - **The swing's errors:**
   - the face sets where the ball starts;
   - the path sets how it curves;
@@ -261,6 +287,15 @@ punches are shaped.
   width), and a depth from the strike's pace.
 - **Spelas som:** the pin's distance with the rise and the wind along it
   (`playsLike` from the rangefinder). Lätt plans its power line on it.
+- **The club's distance** (beside its name, `clubReach`): how far it goes at full
+  power from this lie, as the shot is set up: a full swing's carry, another type's
+  whole run. It is reckoned like Spelas som (flat ground, still, standard air), so
+  the two compare like with like, and with the same shot model as the planned
+  power and the landing marker. From a clean fairway lie a stock full swing is
+  the bag's own carry. The rough, sand, a lie's quality and a low, high or spun
+  shot change it, and hovering the number says so. (Until 9 November it showed
+  the bag's carry from every lie: a 7-iron read 145 m from the rough, where it
+  carries about 126.)
 - **For putts:** "Uppför 24 cm · som 10 m". A rise of h on the green adds
   (5/7) h / 0.06 of flat green (`puttPlaysLike`).
 - **The green's read** (`green-read.mjs`): within 30 m of the cup, arrows lie on

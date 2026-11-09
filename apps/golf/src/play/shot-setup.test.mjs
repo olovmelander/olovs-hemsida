@@ -3,6 +3,7 @@ import { DEFAULT_BAG } from '../engine/caddie.js';
 import { launchState, simulateShot, BALL, seeded } from './ball-physics.mjs';
 import {
   playBag, launchFor, flatShot, shotTypesFor, swingFor, fitSetup, lieQuality, slopeLie, slopeWords, suggestShot, puttPlaysLike, STOCK_SETUP,
+  clubReach,
 } from './shot-model.mjs';
 import { tempoOf, dragSwing, stickSwing } from './swing-input.mjs';
 import { deadZone, readPad } from './gamepad-input.mjs';
@@ -112,6 +113,34 @@ describe('the shot\'s setup', () => {
     const approach = suggestShot(clubs, 140, 'fairway');
     expect(approach.type).toBe('full');
     expect(suggestShot(clubs, 6, 'green').club.cat).toBe('putter');
+  });
+});
+
+describe('a club\'s distance in the HUD (clubReach)', () => {
+  const playing = clubs.filter(c => c.cat !== 'putter');
+  it('is the bag\'s own carry for a stock full swing from the fairway or the tee', () => {
+    for (const club of playing) {
+      expect(Math.abs(clubReach(club, 'fairway') - club.carry), club.name).toBeLessThan(.6);
+      expect(Math.abs(clubReach(club, 'tee') - club.carry), club.name).toBeLessThan(.6);
+    }
+  });
+  it('is what the shot carries from the rough and the sand, not the bag\'s number', () => {
+    const iron = byCat('iron7');
+    const rough = clubReach(iron, 'rough'), sand = clubReach(iron, 'sand');
+    expect(rough).toBeCloseTo(flatShot(iron, 1, 'rough').carry, 6);
+    expect(rough).toBeLessThan(iron.carry * .9);
+    expect(sand).toBeLessThan(rough);
+    // a lie's quality counts too: a ball sitting up goes further than one down in the grass
+    const up = lieQuality('rough', () => .1), down = lieQuality('rough', () => .9);
+    expect(clubReach(iron, 'rough', STOCK_SETUP, up)).toBeGreaterThan(clubReach(iron, 'rough', STOCK_SETUP, down));
+  });
+  it('follows the shot\'s set-up: a low or high full swing carries less, and another type is its whole run', () => {
+    const iron = byCat('iron7');
+    expect(clubReach(iron, 'fairway', { ...STOCK_SETUP, height: -1 })).toBeLessThan(iron.carry - 1);
+    expect(clubReach(iron, 'fairway', { ...STOCK_SETUP, height: 1 })).toBeLessThan(iron.carry - 1);
+    const punch = flatShot(iron, 1, 'fairway', { ...STOCK_SETUP, type: 'punch' });
+    expect(clubReach(iron, 'fairway', { ...STOCK_SETUP, type: 'punch' })).toBeCloseTo(punch.total, 6);
+    expect(clubReach(clubs.find(c => c.cat === 'putter'))).toBeNull();
   });
 });
 
