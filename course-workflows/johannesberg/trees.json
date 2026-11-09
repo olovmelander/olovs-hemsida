@@ -78,11 +78,17 @@
       "methodName": "round4b-detector", "publishes": "r4",
       "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
       "note": "round 4b (main session, 2026-11-08 23:43, after round 4 missed the owner's 0.95 precision floor): the fused detector re-tuned for precision on calibration only; a second new unseen held-out sample (X1-X5) frozen before any round-4b code ran; W1-W5 and every earlier held-out window are used-holdout; round 3, round 4 (as locked) and round 4b are each scored once on X1-X5. Scored 2026-11-09: round 4 as locked has the highest F1 of those beating round 3 on F1 and recall with precision at least 0.95, so this round publishes the round-4 lock (publishes: r4)"
+    },
+    {
+      "id": "r5", "sampleSuffix": "-r5", "detector": "fused", "startFrom": "r3",
+      "methodName": "round5-detector",
+      "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
+      "note": "round 5 (owner request of 2026-11-09, \"Do whats recommended to improve the tree placements, pipeline and agent\"): every crown missed on W1-W5 and X1-X5 stood within 7 m of a drawn crown (two trees drawn as one), so the round-4 lock is extended by a photo split: a photo crown no laser top claims may seed a tree inside laser canopy too wide for one tree of its height. The W and X windows, spent as held-out samples, become calibration; a third new unseen held-out sample (Y1-Y8, with shore and garden windows) is frozen before any round-5 code runs; round 4 (live) and round 5 are each scored once on it"
     }
   ],
   "photoDetect": {
     "$comment": "Round 4 (owner request of 2026-11-08): the learned crown detector on the June 2025 photo, run by --stage photo-detect on the GPU. DeepForest (weecology, MIT licence) through photo/crowns.py; pretrained sources at four patch sizes and fine-tuned sources (calibration windows only, cross-fitted by the two folds for tuning). The benchmark's fused tuning chooses one source and the fusion settings on calibration only.",
-    "rounds": ["r4", "r4b"],
+    "rounds": ["r4", "r4b", "r5"],
     "python": "johannesbergbuild/cache/venv-photo/Scripts/python.exe",
     "requirements": "tools/tree-pipeline/photo/requirements-photo.txt",
     "model": { "id": "weecology/deepforest-tree", "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace", "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8", "licence": "MIT" },
@@ -102,6 +108,12 @@
       "r4b": {
         "$comment": "main session, 2026-11-08 23:43: round 4b aims at precision. Tuned on calibration only, on the whole-window detections the score reads (the same tiling), pretrained sources only; the best calibration F1 among settings whose calibration precision is at least the round-3 lock's (0.926).",
         "sources": ["pre-p50", "pre-p64", "pre-p50-x2", "pre-p64-x2"],
+        "crowns": "all",
+        "precisionAtLeastStart": true
+      },
+      "r5": {
+        "$comment": "main session, 2026-11-09: round 5 keeps the round-4 lock (its photo source and confirm settings) and searches only the photo split (photo-fusion.mjs SPLIT_TUNE_GRID) on calibration, on the whole-window detections the score reads; the best calibration F1 among settings whose calibration precision is at least the round-4 lock's on the same windows.",
+        "extends": "r4",
         "crowns": "all",
         "precisionAtLeastStart": true
       }
