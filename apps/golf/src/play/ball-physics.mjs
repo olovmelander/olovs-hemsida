@@ -260,6 +260,8 @@ export function simulateShot(world, shot, options = {}) {
           phase = 'roll';
           vel = sub(vel, mul(n, dot(vel, n)));
           if (kind === 'sand') vel = mul(vel, .15);
+          // a ball that flew comes down sliding; one sent along the ground is already rolling
+          if (apex - shot.start[1] > .05) vel = skidToRoll(vel, spin, n);
         }
         push();
         continue;
@@ -301,6 +303,25 @@ export function simulateShot(world, shot, options = {}) {
   }
   if (world.isOut?.(p[0], p[2])) return finish('out');
   return finish('rest', { surface: surfaceAt(p[0], p[2]), timedOut: true });
+}
+
+/**
+ * A ball coming off its last bounce slides before it rolls: friction slows it
+ * and spins it up until the two agree. A solid sphere (I = 2/5 m R^2) then rolls
+ * at (5v + 2R w) / 7, where w is its spin in the rolling sense: 5/7 of its speed
+ * with no spin, less with backspin left, and never backwards here (the bounce's
+ * bite already draws a wedge back). Without this the roll began at the full
+ * sliding speed, so a ball coming in low and fast (a soft long iron, a punched
+ * driver) ran on far further than a real one: a 50% 6-iron flew 50 m and rolled
+ * 48 more on the fairway.
+ */
+export function skidToRoll(vel, spin, n) {
+  const speed = len(vel);
+  if (speed < 1e-6) return vel;
+  const dir = mul(vel, 1 / speed);
+  const rolling = dot(spin, norm(cross(n, dir)));          // rad/s, positive = topspin
+  const after = Math.max(0, (5 * speed + 2 * BALL.radius * rolling) / 7);
+  return mul(dir, Math.min(speed, after));
 }
 
 /** The carry of a launch on flat open ground with no wind (for calibration). */
