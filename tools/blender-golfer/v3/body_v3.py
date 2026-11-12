@@ -16,6 +16,12 @@ SOURCE_NAMES = {'female': 'GEO-body_female_realistic', 'male': 'GEO-body_male_re
 HEIGHTS = {'female': 1.68, 'male': 1.80}
 
 # Face sets, identical in both realistic bodies. L is +X.
+# Three names are historical and say less than they hold (measured 12 November):
+#   mouth (7)  the mouth cavity's upper inside, from the upper lip's inner edge back over the palate;
+#   chin (8)   the cavity's lower inside, its floor;
+#   jaw (22)   the lower face's skin: the lower lip, the chin and the jaw up to 2 cm above the lips' line.
+# The upper lip's skin belongs to head (17).
+MOUTH_INSIDE = (7, 8)
 FS = dict(
     torso=1, eyelid_R=3, eyelid_L=2, ear_L=4, ear_R=5, mouth=7, chin=8,
     hand_L=9, hand_R=10, forearm_R=11, forearm_L=12, foot_R=13, foot_L=14,
@@ -284,6 +290,19 @@ def build_rig(variant, me, joints, collection, braid=False):
         bone('Eye_' + side, c, c + V((0, -.03, 0)), 'Head', z=UP)
         # The upper lid pivots about the eye's centre: it closes over the eyeball.
         bone('Lid_' + side, c, c + V((0, -.025, 0)), 'Head', z=UP)
+        if 'mouth_corner_' + side in J:
+            # The lower lid rises in a smile and in a squint.
+            bone('LidLow_' + side, c, c + V((0, -.025, -.004)), 'Head', z=UP)
+    if 'mouth_corner_L' in J:
+        # The face: each bone turns about the skull's centre, so the skin it carries slides
+        # over the skull as a face's does (a smile lifts the corner up and back, a brow rides up).
+        skull = V((0, J['ears'].y + .008, J['ears'].z + .012))
+        for side in 'LR':
+            bone('Mouth_' + side, skull, J['mouth_corner_' + side], 'Head', z=UP)
+            bone('Brow_' + side, skull, J['brow_' + side], 'Head', z=UP)
+        # The upper lip rises in a smile and shows the teeth.
+        bone('LipUp', skull, J['lip_line'] + V((0, 0, .005)), 'Head', z=UP)
+        bone('Jaw', J['jaw_hinge'], J['chin_front'], 'Head', z=UP)
     if braid:
         start = V((0, J['head_top'].y + .085, J['ears'].z - .005))
         pts = [start + V((0, .012 * i, -.062 * i)) for i in range(7)]
@@ -298,7 +317,7 @@ def build_rig(variant, me, joints, collection, braid=False):
     return rig
 
 
-NON_DEFORM_FOR_HEAT = ('Root', 'ClubGrip', 'Eye_', 'Lid_', 'Braid')
+NON_DEFORM_FOR_HEAT = ('Root', 'ClubGrip', 'Eye_', 'Lid_', 'LidLow_', 'Braid', 'Mouth_', 'Brow_', 'Jaw', 'LipUp')
 
 
 def heat_weights(cage, rig):
@@ -409,3 +428,130 @@ def lid_weights(body, joints, eyes):
             n += 1
         out[side] = dict(vertices=n, margin_deg=round(float(np.median(margin[upper & front])), 1))
     return out
+
+
+def face_joints(me, J, variant):
+    """Landmarks for the face rig, measured on the fitting cage: mouth corners, brows, the jaw's hinge."""
+    import numpy as np
+    k = J['head_top'].z / HEIGHTS[variant]
+    co = np.array([v.co[:] for v in me.vertices])
+    fsets = face_sets(me)
+    per = set_vertices(me, fsets)
+    eye = (J['eye_L'] + J['eye_R']) / 2
+    mouth = co[sorted(per[FS['mouth']])]
+    front = mouth[np.abs(mouth[:, 0]) < .006 * k]
+    y_front = float(front[:, 1].min()); z_line = float(front[:, 2].min())
+    head = co[sorted(set().union(*(per[FS[n]] for n in ('head', 'jaw', 'chin', 'mouth'))))]
+
+    def surface(x, z, reach=.006):
+        near = head[(np.abs(head[:, 0] - x) < reach * k) & (np.abs(head[:, 2] - z) < reach * k) & (head[:, 1] < J['ears'].y - .02)]
+        if not len(near):
+            return V((x, y_front + .01, z))
+        return V((x, float(near[:, 1].min()), z))
+
+    half = .0245 * k
+    out = {}
+    for side, s in (('L', 1), ('R', -1)):
+        out['mouth_corner_' + side] = surface(s * half, z_line - .0015 * k)
+        out['brow_' + side] = surface(s * .036 * k, eye.z + .0225 * k)
+    out['jaw_hinge'] = V((0, J['ears'].y - .012 * k, J['ears'].z - .006 * k))
+    chin = co[sorted(per[FS['chin']])]
+    out['chin_front'] = V((0, float(chin[:, 1].min()), float(chin[:, 2].min()) + .012 * k))
+    out['lip_line'] = V((0, y_front, z_line))
+    return out
+
+
+def face_weights(body, joints, eyes, variant):
+    """Weight the face to its bones: fields over the skin, measured from each landmark.
+
+    Each vertex's existing influences (the head, the neck, an upper lid) are scaled
+    down by what the face bones take, as the upper lids' weights are.
+    """
+    import numpy as np
+    J = joints
+    if 'mouth_corner_L' not in J or body.vertex_groups.get('Head') is None:
+        return {}
+    me = body.data
+    k = J['head_top'].z / HEIGHTS[variant]
+    fsets = face_sets(me)
+    per = set_vertices(me, fsets)
+    names = ('head', 'jaw', 'chin', 'mouth', 'eyelid_L', 'eyelid_R')
+    ids = np.array(sorted(set().union(*(per[FS[n]] for n in names))))
+    P = np.array([me.vertices[i].co[:] for i in ids])
+    index = {int(v): n for n, v in enumerate(ids)}
+
+    def ease(x):
+        x = np.clip(x, 0, 1); return x * x * (3 - 2 * x)
+
+    W = {}
+    z_line = J['lip_line'].z
+    # The jaw carries the lower lip, the chin and the mouth's floor (see MOUTH_INSIDE above for
+    # what the sets hold). The lower lip's edge follows it fully, so the lips part where they
+    # meet; up the sides of the face the pull fades out over two centimetres.
+    low = np.zeros(len(ids))
+    for n in ('chin', 'jaw'):
+        for v in per[FS[n]]:
+            low[index[v]] = 1.0
+    nb = [[] for _ in ids]
+    for e in me.edges:
+        a, b = e.vertices
+        if a in index and b in index:
+            nb[index[a]].append(index[b]); nb[index[b]].append(index[a])
+    side_fall = 1 - ease((P[:, 2] - (z_line + .001 * k)) / (.018 * k))
+    low = low * side_fall
+    for _ in range(2):                                   # soften the sets' edge over a couple of rings
+        soft = np.array([(low[i] * 2 + sum(low[j] for j in nb[i])) / (2 + len(nb[i])) for i in range(len(ids))])
+        # ...but never across the slit: the upper lip's edge stays with the head.
+        low = np.where(low > .98, low, soft)
+    upper_inside = np.zeros(len(ids), dtype=bool)
+    for v in per[FS['mouth']]:
+        upper_inside[index[v]] = True
+    low[upper_inside & (P[:, 2] > z_line - .0004 * k)] = 0.0
+    W['Jaw'] = low * .97
+    for side, s in (('L', 1), ('R', -1)):
+        c = np.array(J['mouth_corner_' + side][:])
+        d = np.linalg.norm(P - c, axis=1)
+        same = ease((P[:, 0] * s + .006 * k) / (.012 * k))
+        # The corner pulls its lips and, more gently, the cheek above it.
+        cheek = c + np.array([s * .012 * k, .004, .022 * k])
+        W['Mouth_' + side] = np.maximum(np.exp(-(d / (.019 * k)) ** 2) * .9,
+                                        np.exp(-(np.linalg.norm(P - cheek, axis=1) / (.026 * k)) ** 2) * .36) * same
+        b = np.array(J['brow_' + side][:])
+        q = (P - b) / np.array([.027 * k, .034 * k, .0115 * k])
+        W['Brow_' + side] = np.exp(-(q * q).sum(axis=1)) * .92 * ease((P[:, 0] * s + .004 * k) / (.01 * k))
+    # The upper lip: the skin above the slit, fading out up the philtrum and toward the corners.
+    lip = np.array([0.0, J['lip_line'].y, z_line + .005 * k])
+    q = (P - lip) / np.array([.021 * k, .022 * k, .0105 * k])
+    above = ease((P[:, 2] - (z_line - .0006 * k)) / (.0016 * k))
+    W['LipUp'] = np.exp(-(q * q).sum(axis=1)) * .8 * above
+    # Lower lids: the skin under each eye (most of it belongs to the head's set, not the lids').
+    for side, eye in (('L', eyes[0]), ('R', eyes[1])):
+        c = np.array((sum((v.co for v in eye.data.vertices), V()) / len(eye.data.vertices))[:])
+        low_c = c + np.array([0.0, -.011 * k, -.0085 * k])
+        q = (P - low_c) / np.array([.0165 * k, .014 * k, .0068 * k])
+        under = ease((c[2] - .0008 * k - P[:, 2]) / (.002 * k)) * (P[:, 1] < c[1] - .004 * k)
+        W['LidLow_' + side] = np.exp(-(q * q).sum(axis=1)) * .85 * under
+    # At a corner the mouth's own bone leads: the jaw's share gives way to it, late, so an
+    # open mouth is a U and not a V.
+    W['Jaw'] = W['Jaw'] * (1 - .8 * np.maximum(W['Mouth_L'], W['Mouth_R']) ** 1.7)
+    W['LipUp'] = W['LipUp'] * (1 - .7 * np.maximum(W['Mouth_L'], W['Mouth_R']))
+    total = np.zeros(len(ids))
+    for w in W.values():
+        total += w
+    scale = np.where(total > .96, .96 / np.maximum(total, 1e-9), 1.0)
+    groups = {n: (body.vertex_groups.get(n) or body.vertex_groups.new(name=n)) for n in W}
+    count = 0
+    for n_i, vi in enumerate(ids):
+        share = float(total[n_i] * scale[n_i])
+        if share < 2e-3:
+            continue
+        v = me.vertices[int(vi)]
+        for ge in v.groups:
+            ge.weight *= (1 - share)
+        for name, w in W.items():
+            wv = float(w[n_i] * scale[n_i])
+            if wv > 1e-3:
+                groups[name].add([int(vi)], wv, 'REPLACE')
+        count += 1
+    return dict(vertices=count, jaw=int((W['Jaw'] > .05).sum()), mouth=int((W['Mouth_L'] > .05).sum()),
+                brow=int((W['Brow_L'] > .05).sum()), lid_low=int((W['LidLow_L'] > .05).sum()))

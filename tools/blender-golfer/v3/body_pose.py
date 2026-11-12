@@ -46,6 +46,8 @@ class Body:
         self.j = joints
         self.finger_radius = finger_radius
         self.blink = 0.0            # set per frame by the bake
+        self.face = None            # the expression, set per frame by the bake (see bake_v3.expression)
+        self.dart = None            # a small gaze offset (yaw, pitch in radians), set per frame by the bake
         s = skel
         self.hip_offset = {side: s.head['Thigh_' + side] - s.head['Hips'] for side, _ in SIDES}
         self.lengths = {n: s.length[n] for n in s.order}
@@ -298,6 +300,10 @@ class Body:
             if 'eyes' in spec:
                 d = (W(spec['eyes']) - base.translation).normalized()
                 hf = pose['Head'].to_3x3() @ s.rest3['Head'].transposed()
+                dart = spec.get('dart', self.dart)
+                if dart:
+                    # Eyes never rest: a quick, small shift of the gaze about the head's own axes.
+                    d = (hf @ (Matrix.Rotation(dart[0], 3, 'Z') @ Matrix.Rotation(dart[1], 3, 'X')) @ hf.transposed()) @ d
                 fwd = hf @ FWD
                 ang = fwd.angle(d)
                 limit = math.radians(32)
@@ -321,6 +327,31 @@ class Body:
                 rot = hf @ Matrix.Rotation(a, 3, 'X') @ hf.transposed()
                 push = hf @ V((0, -.0009 * blink, 0))
                 pose[lid] = mat4(rot @ lbase.to_3x3(), lbase.translation + push)
+        # The face: jaw (degrees, + opens), smile 0..1, brow -1 (drawn down) .. 1 (raised), squint 0..1.
+        face = spec.get('face', self.face)
+        if face and 'Jaw' in s.rest:
+            H = pose['Head'] @ s.rest['Head'].inverted()
+            hf = H.to_3x3()
+
+            def turn(name, rx=0.0, rz=0.0):
+                base = H @ s.rest[name]
+                R = hf @ (Matrix.Rotation(rz, 3, 'Z') @ Matrix.Rotation(rx, 3, 'X')) @ hf.transposed()
+                pose[name] = mat4(R @ base.to_3x3(), base.translation)
+
+            smile = clamp(face.get('smile', 0.0), 0, 1); brow = clamp(face.get('brow', 0.0), -1, 1)
+            squint = clamp(face.get('squint', 0.0), 0, 1)
+            # About the head's lateral axis a positive turn carries the face's front down.
+            turn('Jaw', rx=math.radians(face.get('jaw', 0.0)))
+            for side, sgn in SIDES:
+                # A smile lifts each corner up and draws it back and out.
+                turn('Mouth_' + side, rx=-math.radians(4.2) * smile, rz=sgn * math.radians(2.6) * smile)
+                # A raised brow rides up; a drawn brow comes down and in.
+                turn('Brow_' + side, rx=-math.radians(2.6 * brow if brow > 0 else 1.9 * brow),
+                     rz=-sgn * math.radians(1.3) * max(0.0, -brow))
+                turn('LidLow_' + side, rx=-math.radians(11) * max(squint, .7 * smile))
+            # The upper lip lifts off the teeth in a smile, and a little as the jaw drops.
+            if 'LipUp' in s.rest:
+                turn('LipUp', rx=-math.radians(2.0 * smile + .09 * max(0.0, face.get('jaw', 0.0))))
         if 'club' in spec:
             pose['ClubGrip'] = root @ spec['club']
         for name, m in spec.get('extra', {}).items():

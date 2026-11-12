@@ -110,6 +110,9 @@ class Carry:
         trail shoulder with the head behind. Of the hand orientations that hold
         the grip along that line, the one closest to the forearm (the most
         neutral wrist) is chosen. Solved once: the carry is fixed to the chest.
+
+        The club then rests on the posed shirt by `carry_rise` (carry_v3.py), a
+        rise along the chest's up that rides it on the shoulder as it moves.
         """
         if getattr(self, '_carry', None) is not None:
             return self._carry
@@ -117,8 +120,10 @@ class Carry:
         k = self.k; s = self.s
         hand_pt = V((-.03, -.13, -.085)) * k          # the fist just in front of the shoulder
         over = V((.025, .045, .07)) * k                # the top of the shoulder
+        self.carry_over = over                         # where the shaft rests: the pivot of a lift
         self.carry_hint = V((-.25, .2, -1)).normalized()   # the elbow hangs below the fist
         shaft = (over - hand_pt).normalized()
+        self.carry_shaft = shaft
         along = self.grip.along('R')
         butt = hand_pt - shaft * along
         GRi = self.GRi; GR = self.GR
@@ -142,13 +147,26 @@ class Carry:
         self._carry = H
         return H
 
+    # Set by the bake (carry_v3.py): in contact, the authored bounces and lifts are left out;
+    # carry_rise(t) is the rise that rests the club on the shirt; carry_t is the frame's time.
+    carry_contact = False
+    carry_rise = None
+    carry_t = 0.0
+
     def club_on_shoulder(self, chest, shoulder_r, bob=0.0, lift=0.0, sway=0.0):
-        """Club frame for the trail-shoulder carry, following the chest and shoulder."""
+        """Club frame for the trail-shoulder carry, following the chest and shoulder.
+
+        A sway slides the club along its own shaft, over the shoulder (sliding it
+        level instead raised and lowered it on the slope by a few centimetres).
+        """
         T = chest
         H = self.carry_frame()
-        hand = mat4(T @ H.to_3x3(), shoulder_r + T @ (H.translation + V((0, -sway, 0))) + V((0, 0, bob)))
+        if self.carry_contact:
+            bob = 0.0; lift = 0.0
+        rise = V((0, 0, self.carry_rise(self.carry_t) if self.carry_rise else 0.0))
+        hand = mat4(T @ H.to_3x3(), shoulder_r + T @ (H.translation - self.carry_shaft * sway + rise) + V((0, 0, bob)))
         if lift:
-            pivot = shoulder_r + T @ (V((.025, .045, .07)) * self.k)
+            pivot = shoulder_r + T @ (self.carry_over + rise)
             R = rot_axis(T @ LEFT, D(lift))
             hand = mat4(R @ hand.to_3x3(), pivot + R @ (hand.translation - pivot))
         return hand @ self.GRi
@@ -407,7 +425,8 @@ class Gait(Carry):
         # The shoulders ride the arm swing: the lead clavicle lifts as its arm comes forward.
         clav_l = (D(2.5 * forward_share), D(-3 + 6 * forward_share)) if fwd_walk else (0.0, 0.0)
         look = V((0, -8, 1.55 * self.k)) if not strafe else V((0, -8, 1.52 * self.k))
-        club_bob = ((-.009 * math.cos(TAU * 2 * (p - .08))) if jog else (-.003 * math.cos(TAU * 2 * (p - .3)))) * self.k
+        # The club bounces up off the shoulder and comes back to rest on it, never down into it.
+        club_bob = ((.009 * (1 - math.cos(TAU * 2 * (p - .08)))) if jog else (.003 * (1 - math.cos(TAU * 2 * (p - .3))))) * self.k
         loose_fist = (lambda hand_m: b.fist(hand_m, 'L', .5)) if jog else None
         spec = self.base(pel, prot, trot, feet, look, lead_swing=arm + (2 if jog else 1), lead_elbow=elbow,
                          club_bob=club_bob, club_sway=sway_c, lead_fingers=loose_fist,
@@ -499,24 +518,29 @@ class Celebrate(Carry):
     ARM_KEYS = [(0, 'rest'), (.20, 'wind'), (.32, 'rise'), (.43, 'high'), (.66, 'high'), (.76, 'out'), (.88, 'down'), (1.02, 'up'),
                 (1.18, 'down'), (1.58, 'down'), (2.18, 'rest'), (2.6, 'rest')]
 
+    # Body channels: pelvis height (x k), hop height (x k), heel roll, chest pitch (+ leans
+    # forward), chest yaw, look pitch (+ looks down), look yaw, club lift.
+    CHANNELS = dict(
+        crouch=[(0, 0), (.22, -.075), (.36, 0), (.44, .018), (.66, .01), (.74, -.062), (.88, -.05),
+                (1.02, -.022), (1.18, -.056), (1.58, -.03), (2.18, -.012), (2.6, -.012)],
+        hop=[(0, 0), (.40, 0), (.50, .052), (.58, .05), (.68, 0), (2.6, 0)],
+        heel=[(0, 0), (.24, 0), (.38, 34), (.50, 24), (.62, 16), (.70, 4), (.76, 0), (2.6, 0)],
+        pitch=[(0, 0), (.22, 16), (.40, -9), (.62, -6), (.76, 11), (.88, 14), (1.02, 6), (1.18, 14),
+               (1.58, 7), (2.18, 1.5), (2.6, 1.5)],
+        yaw=[(0, 0), (.88, 7), (1.18, 7), (1.6, 3), (2.05, -9), (2.6, -4)],
+        look_p=[(0, -4), (.22, -14), (.42, 16), (.66, 10), (.88, -6), (1.18, -8), (1.6, 2), (2.6, 0)],
+        look_y=[(0, 0), (1.6, 0), (2.05, 34), (2.6, 18)],
+        lift=[(0, 0), (.22, 6), (.42, -16), (.66, -10), (.9, 0), (2.6, 0)],
+    )
+
     def __init__(self, G):
         super().__init__(G)
         A = self.ARM
         self.wrist = Spline([(t, A[n][0]) for t, n in self.ARM_KEYS])
         self.fore = Spline([(t, A[n][1]) for t, n in self.ARM_KEYS])
         self.fist_s = Spline([(t, A[n][2]) for t, n in self.ARM_KEYS])
-        # Body channels: pelvis height (x k), hop height (x k), heel roll, chest pitch,
-        # chest yaw, look pitch, look yaw, club lift.
-        self.crouch = Spline([(0, 0), (.22, -.075), (.36, 0), (.44, .018), (.66, .01), (.74, -.062), (.88, -.05),
-                              (1.02, -.022), (1.18, -.056), (1.58, -.03), (2.18, -.012), (2.6, -.012)])
-        self.hop = Spline([(0, 0), (.40, 0), (.50, .052), (.58, .05), (.68, 0), (2.6, 0)])
-        self.heel = Spline([(0, 0), (.24, 0), (.38, 34), (.50, 24), (.62, 16), (.70, 4), (.76, 0), (2.6, 0)])
-        self.pitch = Spline([(0, 0), (.22, 16), (.40, -9), (.62, -6), (.76, 11), (.88, 14), (1.02, 6), (1.18, 14),
-                             (1.58, 7), (2.18, 1.5), (2.6, 1.5)])
-        self.yaw = Spline([(0, 0), (.88, 7), (1.18, 7), (1.6, 3), (2.05, -9), (2.6, -4)])
-        self.look_p = Spline([(0, -4), (.22, -14), (.42, 16), (.66, 10), (.88, -6), (1.18, -8), (1.6, 2), (2.6, 0)])
-        self.look_y = Spline([(0, 0), (1.6, 0), (2.05, 34), (2.6, 18)])
-        self.lift = Spline([(0, 0), (.22, 6), (.42, -16), (.66, -10), (.9, 0), (2.6, 0)])
+        for name, keys in self.CHANNELS.items():
+            setattr(self, name, Spline(keys))
 
     def pose(self, t):
         b = self.b; k = self.k
@@ -562,9 +586,51 @@ class Celebrate(Carry):
         return b.solve(spec)
 
 
+class FistPump(Celebrate):
+    """A par saved: a short, firm pump of the fist at chest height, and a nod. No hop."""
+    duration = 1.9
+    # The fist comes up in front of the shoulder before it is pulled down: straight from the
+    # wind-up to the pump the hand turned 29 degrees in one sample (the audit's limit is 25).
+    ARM_KEYS = [(0, 'rest'), (.24, 'wind'), (.44, 'rise'), (.60, 'out'), (.76, 'down'), (.94, 'up'), (1.12, 'down'),
+                (1.36, 'down'), (1.9, 'rest')]
+    CHANNELS = dict(
+        crouch=[(0, 0), (.24, -.028), (.60, -.02), (.76, -.046), (.94, -.022), (1.12, -.044), (1.36, -.022), (1.9, -.012)],
+        hop=[(0, 0), (1.9, 0)],
+        heel=[(0, 0), (1.9, 0)],
+        pitch=[(0, 0), (.24, 5), (.60, 2), (.76, 12), (.94, 6), (1.12, 12), (1.36, 6), (1.9, 1.5)],
+        yaw=[(0, 0), (.76, 5), (1.3, 5), (1.9, 0)],
+        look_p=[(0, -4), (.60, -2), (.76, 9), (.94, 2), (1.12, 8), (1.5, -3), (1.9, 0)],
+        look_y=[(0, 0), (1.9, 0)],
+        lift=[(0, 0), (.24, 3), (.64, -4), (1.05, 0), (1.9, 0)],
+    )
+
+
+class Disappointed(Celebrate):
+    """A shot let go: the head drops and turns away, the free hand comes out, open
+    ("what was that?"), a look to the sky with a breath out, then the shoulders settle."""
+    duration = 2.9
+    # The open hand comes forward at waist height, palm up; then it drops.
+    ARM = dict(Celebrate.ARM,
+               open=((.19, -.27, -.27), (.22, -.80, -.42), .0),
+               loose=((.08, .05, -.50), (0, .12, -1), .08))
+    ARM_KEYS = [(0, 'rest'), (.40, 'rest'), (.86, 'open'), (1.36, 'open'), (1.84, 'loose'), (2.9, 'rest')]
+    CHANNELS = dict(
+        crouch=[(0, 0), (.5, -.016), (1.3, -.03), (2.0, -.016), (2.9, -.012)],
+        hop=[(0, 0), (2.9, 0)],
+        heel=[(0, 0), (2.9, 0)],
+        pitch=[(0, 0), (.45, 9), (1.2, 14), (1.75, -3), (2.2, 3), (2.9, 1.5)],
+        yaw=[(0, 0), (.8, -8), (1.4, -10), (2.1, -3), (2.9, 0)],
+        look_p=[(0, -4), (.5, 26), (1.25, 30), (1.75, -24), (2.05, -20), (2.5, -2), (2.9, 0)],
+        # A slow shake of the head while it hangs.
+        look_y=[(0, 0), (.55, -14), (.82, 8), (1.08, -13), (1.34, -3), (1.9, -5), (2.9, 0)],
+        lift=[(0, 0), (2.9, 0)],
+    )
+
+
 CLIP_ORDER = ['Idle', 'Walk', 'WalkBackward', 'StrafeLeft', 'StrafeRight', 'Jog', 'TurnLeft', 'TurnRight',
               'AddressDriver', 'AddressWood', 'AddressIron', 'AddressWedge', 'AddressPutter',
-              'SwingDriver', 'SwingWood', 'SwingIron', 'ChipWedge', 'Putt', 'ClubChange', 'Celebrate']
+              'SwingDriver', 'SwingWood', 'SwingIron', 'ChipWedge', 'Putt', 'ClubChange', 'Celebrate',
+              'FistPump', 'Disappointed']
 STROKE_CLUB = {'SwingDriver': 'Driver', 'SwingWood': 'Wood', 'SwingIron': 'Iron', 'ChipWedge': 'Wedge', 'Putt': 'Putter'}
 
 
@@ -584,4 +650,8 @@ def make_clip(G, name):
         return ClubChange(G), 'Iron', False
     if name == 'Celebrate':
         return Celebrate(G), 'Iron', False
+    if name == 'FistPump':
+        return FistPump(G), 'Iron', False
+    if name == 'Disappointed':
+        return Disappointed(G), 'Iron', False
     raise KeyError(name)

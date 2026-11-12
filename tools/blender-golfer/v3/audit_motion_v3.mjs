@@ -174,8 +174,8 @@ try {
       const manifest=JSON.parse(await readFile(path,'utf8'));
       const hash=createHash('sha256').update(await readFile(`experiments/golfer/assets/${manifest.file}`)).digest('hex');
       assert.equal(hash,report[character].sha256,`${character}: audit must match the current exported asset`);
-      manifest.status='Revision 3: all 20 clips verified at 120 Hz';
-      manifest.animation.validation={sampleHz:120,clips:20,verifiedAt:new Date().toISOString()};
+      manifest.status=`Revision 3: all ${manifest.clips.length} clips verified at 120 Hz`;
+      manifest.animation.validation={sampleHz:120,clips:manifest.clips.length,verifiedAt:new Date().toISOString()};
       await writeFile(path,JSON.stringify(manifest,null,2));
       await writeFile(`docs/graphics/golfer-2026-11-07/build-report-${character}.json`,JSON.stringify(manifest,null,2));
     }

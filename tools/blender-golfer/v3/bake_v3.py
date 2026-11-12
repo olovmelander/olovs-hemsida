@@ -171,9 +171,77 @@ def blink_times(name, duration):
         return [.28]
     if name == 'Celebrate':
         return [.06, duration - .75]
+    if name == 'FistPump':
+        return [.05, duration - .45]
+    if name == 'Disappointed':
+        return [.42, 1.5, duration - .5]
     if name in ('SwingDriver', 'SwingWood', 'SwingIron', 'ChipWedge', 'Putt'):
         return [.12, duration - .95]
     return []
+
+
+def expression(name, t, duration, impact=None):
+    """The face at a moment of a clip: jaw (degrees, + opens), smile, brow (-1 drawn .. 1 raised), squint.
+
+    The sculpt's lips rest a little parted; a slightly closed jaw is the neutral face.
+    """
+    def window(t0, t1, rise=.25, fall=.35):
+        return smooth((t - t0) / rise) * (1 - smooth((t - t1) / fall))
+    f = dict(jaw=-.9, smile=.08, brow=0.0, squint=.04)
+    if name == 'Idle':
+        look = window(2.9, 4.3)                           # shading the eyes, looking down the course
+        easy = window(4.7, 5.9)
+        f.update(squint=.04 + .42 * look, brow=-.28 * look + .2 * easy, smile=.1 + .16 * easy)
+    elif name.startswith('Address'):
+        glance = window(.7, 1.5)                          # the look at the target
+        f.update(brow=-.34 + .2 * glance, squint=.28 + .12 * glance, smile=.0, jaw=-1.1)
+    elif impact is not None:
+        effort = window(impact - .16, impact + .14, .1, .3)
+        watch = window(impact + .45, impact + 1.2, .3, .5)
+        pleased = smooth((t - (impact + 1.25)) / .5)
+        f.update(brow=-.36 - .3 * effort + .5 * watch + .46 * pleased, squint=.3 + .42 * effort - .1 * watch + .2 * pleased,
+                 smile=.3 * pleased, jaw=-1.1 - .4 * effort + .5 * watch + .4 * pleased)
+    elif name == 'Celebrate':
+        joy = smooth((t - .2) / .3)
+        shout = window(.42, 1.2, .14, .4)
+        f.update(smile=.25 + .75 * joy, jaw=-.9 + 7.0 * shout + 3.4 * joy * (1 - shout), brow=.55 * joy, squint=.5 * joy)
+    elif name == 'FistPump':
+        on = window(.45, 1.35, .2, .4)
+        effort = window(.6, 1.08, .1, .3)
+        f.update(smile=.12 + .5 * on, brow=-.3 * effort + .2 * smooth((t - 1.25) / .4),
+                 squint=.1 + .4 * on, jaw=-1.0 + 1.2 * effort)
+    elif name == 'Disappointed':
+        down = window(.35, 1.5, .25, .3)
+        sky = window(1.55, 2.2, .2, .4)
+        f.update(brow=-.75 * down + .7 * sky - .15 * smooth((t - 2.4) / .4), squint=.38 * down, smile=0.0,
+                 jaw=-1.2 + 3.4 * sky)
+    elif name == 'Jog':
+        f.update(jaw=1.2, smile=.05)
+    return f
+
+
+# Eye darts (saccades): (time, yaw, pitch in degrees); each is held until the next. A clip starts
+# and ends at rest, so loops close. Only off the ball: at address and through a stroke the eyes
+# stay on the ball and its flight.
+DARTS = {
+    'Idle': [(.42, 3.5, -1.0), (.95, 0, 0), (2.92, -4.0, 1.0), (3.36, 2.5, 0), (3.8, 0, 0), (5.32, 3.0, 1.5), (5.78, 0, 0)],
+    'Celebrate': [(1.72, -3.0, .5), (2.2, 0, 0)],
+    'FistPump': [(1.42, 3.0, 0), (1.72, 0, 0)],
+    'Disappointed': [(.9, -3.5, 1.0), (1.3, 2.0, 0), (2.36, -2.5, 0), (2.66, 0, 0)],
+    'ClubChange': [(.5, 3.0, 1.0), (.95, 0, 0)],
+}
+
+
+def eye_dart(name, t):
+    seq = DARTS.get(name)
+    if not seq:
+        return None
+    prev = (0.0, 0.0); cur = (0.0, 0.0); t0 = 0.0
+    for ts, yaw, pitch in seq:
+        if t >= ts:
+            prev = cur; cur = (yaw, pitch); t0 = ts
+    u = smooth((t - t0) / .05)                         # a saccade takes about three frames
+    return (math.radians(prev[0] + (cur[0] - prev[0]) * u), math.radians(prev[1] + (cur[1] - prev[1]) * u))
 
 
 def bake_all(G, scene, names=None):
@@ -183,31 +251,64 @@ def bake_all(G, scene, names=None):
         rig.animation_data.nla_tracks.remove(track)
     braid = Braid(skel, G.get('cage'))
     actions = []; clips = []; report = {}
+    G['baked'] = {}                       # clip -> (frames, loop): the armature-space poses, for the CPU audit
+    G['carry'] = {}                       # clip -> the shoulder carry's fit (carry_v3.py)
     scene.render.fps = FPS
+    import carry_v3
     for name in names or clips_v3.CLIP_ORDER:
         clip, club, loop = clips_v3.make_clip(G, name)
         duration = clip.duration
         frames = round(duration * FPS); duration = frames / FPS
-        G['bodypose'].max_reach_gap = 0; G['bodypose'].max_leg_gap = 0
-        poses = []
-        blinks = blink_times(name, duration)
-        for f in range(frames + 1):
-            t = min(f / FPS, duration)
-            if loop and f == frames:
-                t = 0.0
-            G['bodypose'].blink = blink_curve(t, blinks)
-            poses.append(clip.pose(t))
-        G['bodypose'].blink = 0.0
-        poses = braid.run(poses, loop)
-        basis = [skel.basis(p) for p in poses]
-        action = bpy.data.actions.new(f'{G["variant"].title()} v3 | {name}')
-        action.use_fake_user = True; action['banvy_golfer'] = 3; action['clip_name'] = name
-        action['banvy_character'] = G['variant']
-        if not action.slots:
-            action.slots.new('OBJECT', rig.name)
-        bake_action(rig, action, basis, skel)
-        actions.append(action)
+
+        def bake_clip(action=None):
+            G['bodypose'].max_reach_gap = 0; G['bodypose'].max_leg_gap = 0
+            poses = []
+            blinks = blink_times(name, duration)
+            for f in range(frames + 1):
+                t = min(f / FPS, duration)
+                if loop and f == frames:
+                    t = 0.0
+                G['bodypose'].blink = blink_curve(t, blinks)
+                G['bodypose'].face = expression(name, t, duration, clip.sw.impact if isinstance(clip, clips_v3.Stroke) else None)
+                G['bodypose'].dart = eye_dart(name, t)
+                clip.carry_t = t
+                poses.append(clip.pose(t))
+            G['bodypose'].blink = 0.0; G['bodypose'].face = None; G['bodypose'].dart = None
+            poses = braid.run(poses, loop)
+            basis = [skel.basis(p) for p in poses]
+            G['baked'][name] = (basis, loop)
+            if action is None:
+                action = bpy.data.actions.new(f'{G["variant"].title()} v3 | {name}')
+                action.use_fake_user = True; action['banvy_golfer'] = 3; action['clip_name'] = name
+                action['banvy_character'] = G['variant']
+                if not action.slots:
+                    action.slots.new('OBJECT', rig.name)
+            bake_action(rig, action, basis, skel)
+            return action
+
+        action = bake_clip()
         entry = dict(name=name, duration=duration, loop=loop, club=club)
+        if isinstance(clip, clips_v3.Carry):
+            # The club rests on the shirt (carry_v3.py): baked in contact, the rise that rests it
+            # read off the posed outfit, baked again with the rise and the authored bounces, measured.
+            along = clip.grip.along('R')
+            clip.carry_contact = True
+            action = bake_clip(action)
+            rise = carry_v3.fit(G, action, entry, along, frames, loop)
+            clip.carry_contact = False; clip.carry_rise = rise
+            action = bake_clip(action)
+            fit = carry_v3.measure(G, action, entry, along, frames)
+            if fit['depth_mm'] > 0:
+                # An authored lift turns the shaft into the shirt: add the extra rise it needs.
+                extra = carry_v3.fit(G, action, entry, along, frames, loop, floor=0.0)
+                clip.carry_rise = lambda t, a=rise, b=extra: a(t) + b(t)
+                action = bake_clip(action)
+                fit = carry_v3.measure(G, action, entry, along, frames)
+                fit['extra_mm'] = round(max(r for _t, r in extra.samples) * 1000, 1)
+            fit['rise_mm'] = [round(min(r for _t, r in rise.samples) * 1000, 1), round(max(r for _t, r in rise.samples) * 1000, 1)]
+            G['carry'][name] = fit
+            print('CARRY', name, fit)
+        actions.append(action)
         if isinstance(clip, clips_v3.Gait):
             entry.update(speed=clip.speed, stance=clip.stance,
                          travelDirection=[clip.direction[0], 0, -clip.direction[1]])
@@ -223,6 +324,8 @@ def bake_all(G, scene, names=None):
             if sw.has_release:
                 entry['trailRelease'] = sw.table['t'][-3]   # the trail hand lets go after the held finish
             report[name] = dict(impact_error=[round(v, 5) for v in sw.impact_error], goals=sw.goal_report)
+        if name in G['carry']:
+            report.setdefault(name, {})['carry'] = G['carry'][name]
         report.setdefault(name, {})['reach_gap_m'] = round(G['bodypose'].max_reach_gap, 4)
         report[name]['leg_gap_m'] = round(G['bodypose'].max_leg_gap, 4)
         clips.append(entry)
@@ -261,6 +364,9 @@ def export(G, scene, actions, clips, report, stem, manifest_name, extra):
                               export_image_format='WEBP', export_image_quality=92, export_texcoords=True, export_normals=True,
                               export_tangents=False, export_skins=True, export_all_influences=False,
                               export_morph=False)
+    # Smaller attributes and keys (compact_v3.py): the golfer ships with Spela to every player.
+    import compact_v3
+    compaction = compact_v3.compact(str(path))
     data = path.read_bytes(); size, kind = struct.unpack_from('<II', data, 12)
     gltf = json.loads(data[20:20 + size])
     names = {a['name'] for a in gltf.get('animations', [])}
@@ -280,6 +386,54 @@ def export(G, scene, actions, clips, report, stem, manifest_name, extra):
                     bytes=path.stat().st_size, sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
                     vertices=len(body.data.vertices), triangles=sum(len(p.vertices) - 2 for p in body.data.polygons),
                     grip={side: round(G['grips']['Iron'].along(side), 4) for side in 'LR'},
-                    animation=dict(fps=FPS, solver='v3 kinematic sequence', report=report), **extra)
+                    animation=dict(fps=FPS, solver='v3 kinematic sequence', report=report),
+                    compaction={k: v for k, v in compaction.items()}, **extra)
     (ASSET / manifest_name).write_text(json.dumps(manifest, indent=2), encoding='utf-8')
     return manifest
+
+
+def pose_sampler(G):
+    """pose_at(clip, t) for the CPU audit: the baked frames played as the runtime plays them.
+
+    Between two keys the runtime interpolates every joint in its own parent's
+    space (the shortest way round in rotation, linear in position) and composes
+    the chain. Interpolating the finished armature-space poses instead under-read
+    the hands' drift off the grip between keys by a third.
+    """
+    from mathutils import Matrix
+    baked = G['baked']; skel = G['skel']
+    local_rest = {n: (skel.rest[skel.parent[n]].inverted() @ skel.rest[n]) if skel.parent[n] else skel.rest[n]
+                  for n in skel.order}
+    quats = {}
+
+    def keys(name):
+        if name not in quats:
+            frames, _ = baked[name]
+            qs = []
+            prev = {}
+            for basis in frames:
+                row = {}
+                for bone in skel.order:
+                    q = basis[bone].to_quaternion()
+                    if bone in prev and prev[bone].dot(q) < 0:
+                        q.negate()                      # as the baked curves are written
+                    row[bone] = (q, basis[bone].translation.copy()); prev[bone] = q
+                qs.append(row)
+            quats[name] = qs
+        return quats[name]
+
+    def pose_at(name, t):
+        rows = keys(name)
+        f = max(0.0, min(len(rows) - 1.0, t * FPS))
+        i = int(math.floor(f)); u = f - i
+        a = rows[i]; b = rows[min(i + 1, len(rows) - 1)]
+        pose = {}
+        for bone in skel.order:
+            qa, la = a[bone]; qb, lb = b[bone]
+            q = qa.slerp(qb, u) if u > 1e-9 else qa
+            m = q.to_matrix().to_4x4()
+            m.translation = la.lerp(lb, u) if u > 1e-9 else la
+            parent = skel.parent[bone]
+            pose[bone] = (pose[parent] @ local_rest[bone] @ m) if parent else (local_rest[bone] @ m)
+        return pose
+    return pose_at
