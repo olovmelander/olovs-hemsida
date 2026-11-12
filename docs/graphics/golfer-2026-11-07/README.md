@@ -242,6 +242,7 @@ The owner asked for AAA character design across the whole character: how they lo
 ![The male golfer, fourth round (studio, WebGPU)](male-round4-portrait.png)
 ![From behind: the braid, the draped polo and the club resting on the shoulder](female-round4-back.png)
 ![Disappointed, the new reaction to a miss](male-round4-disappointed.png)
+![The free hand resting on the hip, on the shirt](female-round4-hip.png)
 
 ### Clothes
 
@@ -298,6 +299,14 @@ The owner asked for AAA character design across the whole character: how they lo
   The shaft keeps its angle across the shoulder. Tilting it about the hand instead, the first attempt, stood it up beside the head. Two motion changes go with this:
   - A walk's sway now slides the club along its own shaft. Sliding it level had raised and lowered the contact by about 2 cm each stride.
   - Its bounce only lifts it off the shoulder, never down into it.
+- **The free hand rests on the hip** (`carry_v3.py`, from the owner's report). In Idle the lead hand had been placed at a fixed point on the rest skeleton, with its fingers aimed down and forward. It ignored the clothes, the hip's flare and the weight shifting into that hip. The fingers ran 8 cm and more into the body, and on him they came out through the front of the trousers. Now:
+  - the palm's point and the hand's line are read off the outfit at rest: the outermost garment at the waist, at the belt and a little forward of the side seam;
+  - the line is a chord from the palm to the point under the fingers, so the hand follows the hip's flare;
+  - the hand is carried by the pelvis, so it moves with the weight shift;
+  - the thumb is laid within the palm's plane (`resting_thumb` in `body_pose.py`), because a relaxed thumb stood out into the body and forced the whole hand off the hip;
+  - the same kind of fit pushes the hand along the surface's normal until the glove clears everything by 1.5 mm, skipping the frames where the hand is up shading the eyes;
+  - the fingers blend from resting to open as the hand rises to the bill.
+- **Spela plays the reactions** at a holed hole (`holeReaction` in `apps/golf/src/play/play-rules.mjs`): `Celebrate` for a birdie or better, `FistPump` for a par and `Disappointed` for a double bogey or worse. Återupplev does the same.
 - **Every build audits its own motion on the CPU** (`audit_cpu_v3.py`), with the browser audit's thresholds, every joint interpolated in its parent's space as the runtime does, at 120 Hz. It also measures the carried club against the posed outfit. A failure stops the export (`--allow-failures` overrides it). `--audit-only` runs just the audit.
 
 ### Size
@@ -312,7 +321,7 @@ Positions, UVs and key times stay floats. A skinned mesh ignores its node's tran
 
 ### Review renders
 
-`review_v3.py` renders fixed shots with Cycles, in the build (`--review <dir> face+portrait+strip:SwingIron:front`) or from a saved file. The shots are the same before and after a change, including `carry`, `carry-back` and `carry-jog` for the club on the shoulder. It renders on the CPU by default. Only with the owner's leave, `GOLFER_REVIEW_GPU=1` renders on the GPU and `GOLFER_THREADS=0` uses every core.
+`review_v3.py` renders fixed shots with Cycles, in the build (`--review <dir> face+portrait+strip:SwingIron:front`) or from a saved file. The shots are the same before and after a change, including `carry`, `carry-back` and `carry-jog` for the club on the shoulder, and `hip`, `hip-side` and `hip-top` for the hand on the hip. `GOLFER_DEBUG_HIP=1` prints which bone of the hand binds while the hip is fitted. It renders on the CPU by default. Only with the owner's leave, `GOLFER_REVIEW_GPU=1` renders on the GPU and `GOLFER_THREADS=0` uses every core.
 
 ### Verification (12 November, fourth round)
 
@@ -321,6 +330,8 @@ Positions, UVs and key times stay floats. A skinned mesh ignores its node's tran
   - the carried club in every clip that carries it, which rests 0.9–1.5 mm off the shirt and nowhere enters it.
 
   The rise that rests the club is about 44 mm for her and 36 mm for him, within 5 mm through a stride. Celebrate and FistPump take a further 8–16 mm where their authored lifts would turn the shaft into the shirt.
+
+  The hand on the hip rests 1.5 mm off the shirt through Idle. It is pushed 33–36 mm (her) and 35–41 mm (him) out from its first placement, the thumb's base being the point of contact.
 - **Motion audit in the browser:** `audit_motion_v3.mjs --metrics-only` passes for both golfers and all 22 clips:
   - wrist bend at most 68.6° (female) and 69.5° (male);
   - hands within 5.2 mm (female) and 7.0 mm (male) of the grip;

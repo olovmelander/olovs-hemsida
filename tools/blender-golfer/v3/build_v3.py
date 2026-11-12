@@ -73,6 +73,12 @@ for name, r in audit['carry'].items():
     if r['depth_mm'] > carry_v3.LIMIT * 1000:
         audit['failures'].append(f"{name}: the carried club goes {r['depth_mm']} mm into the {r['part']} (frame {r['frame']})")
         audit['passed'] = False
+# The free hand rests on the hip, on the shirt, not in it.
+audit['hand'] = G.get('hand', {})
+for name, r in audit['hand'].items():
+    if r['depth_mm'] > carry_v3.LIMIT * 1000:
+        audit['failures'].append(f"{name}: the hand on the hip goes {r['depth_mm']} mm into the {r['part']} (frame {r['frame']})")
+        audit['passed'] = False
 audit_dir = ROOT / 'output/golfer-build/audit'
 audit_dir.mkdir(parents=True, exist_ok=True)
 (audit_dir / f'motion-{variant}.json').write_text(json.dumps(audit, indent=1), encoding='utf-8')

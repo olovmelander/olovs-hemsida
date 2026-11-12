@@ -36,7 +36,7 @@ import {
   playBag, launchFor, puttRangeFor, planPower, LIE_NAME, DIFFICULTY, SHOT_TYPES, SHAPES, HEIGHTS, SPINS, STOCK_SETUP,
   shotTypesFor, shapeable, swingFor, fitSetup, lieQuality, slopeLie, slopeWords, suggestShot, puttPlaysLike, clubReach, setupForClub,
 } from './shot-model.mjs';
-import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, savePlayedRound, dropPoint, PLAY_KEYS,
+import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, playHoleReaction, savePlayedRound, dropPoint, PLAY_KEYS,
   receivedOn, pointsOn, roundStats } from './play-rules.mjs';
 import { conditionsFor, groundWith, strokeWind } from './conditions.mjs';
 import { createHoleMap } from './hole-map.mjs';
@@ -855,7 +855,8 @@ async function startPlay(h, query) {
     if (holed) {
       const name = scoreName(card.strokes, par);
       hud.banner(name, `${card.strokes} slag på hål ${round.current}`, card.strokes <= par ? 'good' : '', 2600);
-      if (card.strokes <= par) { golfer.play('Celebrate', { fade: .25 }); audio.chime(card.strokes < par); }
+      playHoleReaction(golfer, card.strokes, par);
+      if (card.strokes <= par) audio.chime(card.strokes < par);
     }
     setTimeout(() => holeSheet(), holed ? 2700 : 400);
   }

@@ -134,6 +134,42 @@ class Body:
         pose.update(self.finger_chain(hand_m, side, 'Thumb', (amount * .2, amount * .35, amount * .3)))
         return pose
 
+    def resting_thumb(self, side, lie):
+        """The thumb of a hand resting flat on a surface: (base turn, first bend) in radians.
+
+        A relaxed thumb stands out from the palm, so on a hand laid on the hip it ran into
+        the body and forced the whole hand off it. Of the base turns and first-joint bends
+        tried, this is the smallest that keeps every thumb joint within `lie` of the palm's
+        plane on the palm side (the hand frame's -Z) and close to it on the back. Cached.
+        """
+        cache = self.__dict__.setdefault('_resting_thumbs', {})
+        key = (side, round(lie, 5))
+        if key in cache:
+            return cache[key]
+        I = Matrix.Identity(4)
+        best = None
+        for i in range(-16, 9):
+            az = i * .1
+            for j in range(-10, 5):
+                a1 = j * .1
+                chain = self.finger_chain(I, side, 'Thumb', (a1, .15, .1), Matrix.Rotation(az, 4, 'Z'))
+                pts = [chain[f'Thumb{n}_{side}'] @ V((0, self.s.length[f'Thumb{n}_{side}'], 0)) for n in (1, 2, 3)]
+                palmar = max(-p.z for p in pts)
+                proud = max(p.z for p in pts)
+                over = max(0.0, palmar - lie) + max(0.0, proud - 2.5 * lie)
+                cost = (over * 100, abs(az) + abs(a1))
+                if best is None or cost < best[0]:
+                    best = (cost, (az, a1))
+        cache[key] = best[1]
+        return best[1]
+
+    def resting_hand(self, hand_m, side, lie, amount=.18, spread=.15):
+        """Fingers for a hand resting on a surface: lightly curled, close together, the thumb laid along."""
+        pose = self.relaxed_fingers(hand_m, side, amount=amount, spread=spread)
+        az, a1 = self.resting_thumb(side, lie)
+        pose.update(self.finger_chain(hand_m, side, 'Thumb', (a1, .15, .1), Matrix.Rotation(az, 4, 'Z')))
+        return pose
+
     def fist(self, hand_m, side, amount=1.0):
         pose = {}
         for finger in FINGER_NAMES:

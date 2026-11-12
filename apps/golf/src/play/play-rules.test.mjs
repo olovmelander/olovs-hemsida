@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { boundaryCrossings, outTest, dropPoint, createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, readPlayedRounds, savePlayedRound, PLAY_KEYS } from './play-rules.mjs';
+import { boundaryCrossings, outTest, dropPoint, createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, holeReaction, playHoleReaction, readPlayedRounds, savePlayedRound, PLAY_KEYS } from './play-rules.mjs';
 import { playBag, clubCategory, suggestClub, launchFor, puttRangeFor, setupForClub } from './shot-model.mjs';
 import { DEFAULT_BAG } from '../engine/caddie.js';
 
@@ -49,6 +49,25 @@ describe('the card', () => {
     expect(scoreName(2, 3)).toBe('Birdie');
     expect(scoreName(1, 3)).toBe('Hole in one!');
     expect(scoreName(7, 4)).toBe('Trippelbogey');
+  });
+  it('takes each hole with the golfer\'s reaction: birdie or better, par, double bogey or worse', () => {
+    expect(holeReaction(1, 3)).toBe('Celebrate');
+    expect(holeReaction(3, 5)).toBe('Celebrate');
+    expect(holeReaction(3, 4)).toBe('Celebrate');
+    expect(holeReaction(4, 4)).toBe('FistPump');
+    expect(holeReaction(5, 4)).toBe(null);
+    expect(holeReaction(6, 4)).toBe('Disappointed');
+    expect(holeReaction(9, 4)).toBe('Disappointed');
+    expect(holeReaction(9, 4, true)).toBe(null);
+    expect(holeReaction(0, 4)).toBe(null);
+    const played = [];
+    const golfer = { clips: new Map([['Celebrate', {}], ['FistPump', {}], ['Disappointed', {}]]), play: (name, opts) => played.push([name, opts.fade]) };
+    expect(playHoleReaction(golfer, 4, 4)).toBe('FistPump');
+    expect(playHoleReaction(golfer, 5, 4)).toBe(null);
+    expect(played).toEqual([['FistPump', .25]]);
+    // The September golfers have only Celebrate: a par passes quietly rather than failing.
+    const september = { clips: new Map([['Celebrate', {}]]), play: () => { throw new Error('no clip'); } };
+    expect(playHoleReaction(september, 4, 4)).toBe(null);
   });
   it('keeps played rounds under their own key, apart from the map\'s rounds', () => {
     const store = memory();

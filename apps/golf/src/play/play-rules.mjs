@@ -107,6 +107,25 @@ export function scoreName(strokes, par) {
   return names[String(strokes - par)] || `${strokes - par > 0 ? '+' : ''}${strokes - par}`;
 }
 
+/** How the golfer takes a hole (owner request, 12 November): Celebrate for a birdie or
+    better, FistPump for a par, Disappointed for a double bogey or worse. A bogey, or a
+    ball picked up, passes without one. */
+export function holeReaction(strokes, par, picked = false) {
+  if (picked || !(strokes > 0) || !(par > 0)) return null;
+  const over = strokes - par;
+  if (over < 0) return 'Celebrate';
+  if (over === 0) return 'FistPump';
+  return over >= 2 ? 'Disappointed' : null;
+}
+
+/** Play a hole's reaction if the golfer's model has it (the September golfers have only Celebrate). */
+export function playHoleReaction(golfer, strokes, par, picked = false) {
+  const name = holeReaction(strokes, par, picked);
+  if (!name || !golfer?.clips?.has(name)) return null;
+  golfer.play(name, { fade: .25 });
+  return name;
+}
+
 /** The round's totals over the holes holed so far. */
 export function roundTotals(round) {
   let strokes = 0, par = 0, putts = 0, played = 0;

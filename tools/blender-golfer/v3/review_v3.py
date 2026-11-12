@@ -75,6 +75,10 @@ SHOTS = {
     'carry':       ('Idle', .5, 'UpperArm_R', .02, .95, -55, 12, 60, (800, 800)),
     'carry-back':  ('Idle', .5, 'UpperArm_R', .02, .95, -145, 18, 60, (800, 800)),
     'carry-jog':   ('Jog', .2, 'UpperArm_R', .02, 1.0, -70, 8, 60, (800, 800)),
+    # The free hand resting on the hip in Idle: from the front-left, from the left, from above.
+    'hip':         ('Idle', .5, 'Hand_L', 0, .75, 35, 8, 60, (800, 800)),
+    'hip-side':    ('Idle', .5, 'Hand_L', 0, .75, 90, 5, 60, (800, 800)),
+    'hip-top':     ('Idle', .5, 'Hand_L', 0, .75, 60, 60, 60, (800, 800)),
     'disappointed-face': ('Disappointed', 1.05, 'Head', .045, 1.0, 20, -24, 110, (720, 800)),
     'celebrate-face': ('Celebrate', .85, 'Head', .045, 1.0, 10, 0, 110, (720, 800)),
     'smile-face':  ('Celebrate', 2.2, 'Head', .045, 1.0, 14, 0, 110, (720, 800)),
