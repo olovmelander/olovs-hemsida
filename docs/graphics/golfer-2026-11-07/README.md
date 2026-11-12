@@ -1,6 +1,6 @@
 # Banvy golfers, revision 3 (7–8 November)
 
-Both golfers are rebuilt in Blender 5.2: new anatomy, rig, outfits, textures and all twenty animations. A third round, on the night of 7–8 November, made them vivid. It gave them blinking lids, lashes, a structured cap, combed hair, tailoring and livelier motion off the course. It also fixed two long-standing bugs: blank fabric normal maps, and a braid that lagged one-shot clips by a second. See [the third round](#third-round-8-november). Revision 3 replaces the September golfers in the lab. Those are kept in `experiments/golfer/assets/v1`, and `?golferset=v1` brings them back. The golfer is still a development lab: the production build contains none of it (checked below).
+Both golfers are rebuilt in Blender 5.2: new anatomy, rig, outfits, textures and all twenty animations. A third round, on the night of 7–8 November, made them vivid. It gave them blinking lids, lashes, a structured cap, combed hair, tailoring and livelier motion off the course. It also fixed two long-standing bugs: blank fabric normal maps, and a braid that lagged one-shot clips by a second. See [the third round](#third-round-8-november). A fourth round, on 12 November, drapes the clothes as cloth and paints the skin. It also gives the golfers modelled shoes, a face rig with expressions, two new reactions, a club that rests on the shoulder, and smaller files. See [the fourth round](#fourth-round-12-november). Revision 3 replaces the September golfers in the lab. Those are kept in `experiments/golfer/assets/v1`, and `?golferset=v1` brings them back. Since 8 November the models ship with Spela ([the play mode](../../play-mode.md)), downloaded only when a game starts. The character studio and the lab's course mount stay lab-only.
 
 ![The female golfer](female-portrait.png)
 ![The male golfer at the driver](male-driver-down-the-line.png)
@@ -120,7 +120,20 @@ blender --background --factory-startup --python tools/blender-golfer/v3/build_v3
 blender --background --factory-startup --python tools/blender-golfer/v3/build_v3.py -- male
 ```
 
-Each build writes `experiments/golfer/assets/banvy-golfer[-male].glb`, the manifest beside it and `banvy-golfer-v3-<variant>.blend` here. It takes about 40–60 s per golfer. Options: `--clips Idle,Walk` bakes a subset, `--no-outfit` builds the plain body and `--no-blend` skips the native file. Set `GOLFER_FAST=1` to skip the skin and eye bakes while iterating.
+Each build writes `experiments/golfer/assets/banvy-golfer[-male].glb`, the manifest beside it and `banvy-golfer-v3-<variant>.blend` here. Since the fourth round it takes 5–8 minutes per golfer on all cores. The cloth drape, the per-vertex shading and the skin bake take most of that.
+
+Options:
+- `--clips Idle,Walk` bakes a subset;
+- `--no-outfit` builds the plain body;
+- `--no-export` and `--no-blend` skip the files;
+- `--review <dir> <shot+shot>` renders review shots;
+- `--audit-only` runs the motion audit alone;
+- `--allow-failures` exports despite a failed audit.
+
+While iterating:
+- `GOLFER_FAST=1` skips the skin and eye bakes;
+- `GOLFER_NO_SHADE=1` skips the per-vertex shading;
+- `GOLFER_PARTS=polo,trousers` builds only those outfit steps.
 
 Audits, with `npm --prefix apps/golf run dev:golfer` running:
 
@@ -221,8 +234,104 @@ These are copies of the September audits with the same thresholds. They read the
 - **Runtime:** both golfers load with no console errors in the studio and on Puttom (`?golfer=1`), on WebGPU. Every capture in this folder was re-shot from the runtime.
 - **Builds:** about 40–60 s per golfer, run at high priority on the owner's PC.
 
+## Fourth round (12 November)
+
+The owner asked for AAA character design across the whole character: how they look, animate and move, their clothes and their faces. Every step below is built by the scripts in `tools/blender-golfer/v3`, headless, and is checked on the CPU in the same build.
+
+![The female golfer, fourth round (studio, WebGPU)](female-round4-portrait.png)
+![The male golfer, fourth round (studio, WebGPU)](male-round4-portrait.png)
+![From behind: the braid, the draped polo and the club resting on the shoulder](female-round4-back.png)
+![Disappointed, the new reaction to a miss](male-round4-disappointed.png)
+
+### Clothes
+
+- **Draped cloth** (`drape_v3.py`). The polo, shorts and trousers had been shells: the body's faces lifted a centimetre and smoothed, with sine-wave folds. Now each is cut like a garment, subdivided, given a few per cent more fabric than its shell and settled over the body by Blender's cloth solver.
+  - The polo hangs from the collar seam, the waistband, the sleeve hems and the armpits.
+  - The trousers hang from the seat and the waistband. Their hems, carried past the ankle, drape onto the shoes.
+  - After the drape, folds that fight their neighbours are calmed, the cloth is relaxed, and it is thinned where it is flat, keeping its seams (`calm`, `relax`, `thin`). The polo goes from 17,112 faces to 11,608.
+  - The runtime still skins the cloth: the folds are its rest shape, as a tailored garment's largely are.
+- **Skin weights on the denser cloth** keep four influences without a pop between neighbours (the fifth-largest weight is taken off every weight). That removed hatch marks on the chest with an arm akimbo.
+- **Sleeve bands** are cut from the sleeve's own cloth, so they follow its folds.
+- **Collar:** a stand, roll and leaf from five control points, its edge laid on the draped shirt, in rib knit. The neckline under it is trimmed to the fitted ring.
+- **Belt:** a framed metal buckle with a prong, no taller than the belt. The strap's tip runs through a keeper.
+- **Glove:** a rolled cuff, three stitched lines and a round tab.
+- **Socks** on both golfers.
+- **Shoes** (`shoes_v3.py`), modelled as golf shoes:
+  - a smooth lofted upper with a round heel and a domed toe box;
+  - a padded collar, and a tongue that wraps the front of the ankle;
+  - a saddle panel, toe cap and heel counter with stitch lines;
+  - crossed laces through eyelets, with a bow;
+  - a profiled midsole, and an outsole with soft cleats.
+
+  Every part is weighted to the foot and toe bones only.
+- **Baked shading:** every outfit part carries occlusion (folds, creases, contact) baked per vertex into an `AO` colour attribute, which its material multiplies into its colour. A part whose faces point inward is turned first.
+
+### Skin and hair
+
+- **The skin's texture set** (`skin_v3.py`). The body's atlas is first baked into data maps: position, normal, face-set masks, and the CC0 sculpt's own tangent normals, occlusion and curvature. The skin is then painted from them in numpy, in three dimensions, so nothing depends on the UV seams:
+  - tone zones and mottling;
+  - creases that darken toward red;
+  - brows drawn hair by hair, and shaped lips on an analytic lip line;
+  - a lash line, nails, knuckles, elbows and knees;
+  - freckles for her, and stubble and a faded crop for him.
+
+  It gains a normal map with fine grain, and an occlusion and roughness map: an oilier T-zone, wet lips, glossy nails.
+- **Hair:** her mesh strips read as grit from the game camera and are gone. Her hair is one smooth volume whose combed locks come from a flow texture, with strand UVs that converge on the braid and run along each plait. His crop takes a fine grain.
+
+### Face
+
+- **A face rig.** Jaw, mouth-corner, upper-lip, brow and lower-lid bones turn about the skull's centre. They are weighted by fields measured from landmarks on the body.
+- **Expressions:** every clip carries one: focus at address, effort at impact, pleasure in the finish, joy in the celebration, a set jaw at a jog.
+- **Eye darts** (saccades) off the ball. At address and through a stroke the eyes stay on the ball and its flight.
+- **Inside the mouth:** teeth, gums and a tongue stand behind the lips, checked not to show with the mouth at rest.
+- **Eyes and lashes:** finer lashes, and wetter eyes.
+
+### Motion
+
+- **Two new reactions:** `FistPump`, for a par saved, and `Disappointed`, for a miss: a palm turned up, a look to the sky and a shake of the head. With `Celebrate`, a golfer has 22 clips. The studio has a button for each.
+- **The club rests on the shoulder** (`carry_v3.py`). Until now the carry was placed by eye from the shoulder joint. With the draped polo, the shaft ran 22–52 mm through the shirt and the shoulder under it. Now each carrying clip is baked twice:
+  1. The first bake keeps the club in contact, without its authored bounces and lifts.
+  2. The posed body and outfit are read by Blender's own armature at every frame of a short clip, and at every second or fourth frame of a long one.
+  3. At each frame the carry, hand and club together, rises along the chest until the shaft clears the shirt by its own radius plus 1.5 mm.
+  4. The second bake rides the club on the shoulder by those rises, with the authored bounces and lifts on top.
+
+  The shaft keeps its angle across the shoulder. Tilting it about the hand instead, the first attempt, stood it up beside the head. Two motion changes go with this:
+  - A walk's sway now slides the club along its own shaft. Sliding it level had raised and lowered the contact by about 2 cm each stride.
+  - Its bounce only lifts it off the shoulder, never down into it.
+- **Every build audits its own motion on the CPU** (`audit_cpu_v3.py`), with the browser audit's thresholds, every joint interpolated in its parent's space as the runtime does, at 120 Hz. It also measures the carried club against the posed outfit. A failure stops the export (`--allow-failures` overrides it). `--audit-only` runs just the audit.
+
+### Size
+
+`compact_v3.py` rewrites each GLB after export:
+- weights become bytes;
+- the baked shading becomes bytes;
+- normals become shorts (`KHR_mesh_quantization`);
+- rotation keys become shorts.
+
+Positions, UVs and key times stay floats. A skinned mesh ignores its node's transform, so quantized positions could not be scaled back. The female's file went from 14.5 MB to 11.1 MB and the male's from 14.2 MB to 10.9 MB. On 8 November they weighed 12.2 and 10.8 MB, so the draped cloth, the shoes, the face and two more clips cost almost nothing. The largest errors are 0.006 in a weight and 2 × 10⁻⁵ in a rotation key. `node tools/blender-golfer/v3/inspect_glb.mjs <glb>` shows where a file's bytes go.
+
+### Review renders
+
+`review_v3.py` renders fixed shots with Cycles, in the build (`--review <dir> face+portrait+strip:SwingIron:front`) or from a saved file. The shots are the same before and after a change, including `carry`, `carry-back` and `carry-jog` for the club on the shoulder. It renders on the CPU by default. Only with the owner's leave, `GOLFER_REVIEW_GPU=1` renders on the GPU and `GOLFER_THREADS=0` uses every core.
+
+### Verification (12 November, fourth round)
+
+- **The build's own checks** pass for both golfers and all 22 clips:
+  - the CPU motion audit and the course directions;
+  - the carried club in every clip that carries it, which rests 0.9–1.5 mm off the shirt and nowhere enters it.
+
+  The rise that rests the club is about 44 mm for her and 36 mm for him, within 5 mm through a stride. Celebrate and FistPump take a further 8–16 mm where their authored lifts would turn the shaft into the shirt.
+- **Motion audit in the browser:** `audit_motion_v3.mjs --metrics-only` passes for both golfers and all 22 clips:
+  - wrist bend at most 68.6° (female) and 69.5° (male);
+  - hands within 5.2 mm (female) and 7.0 mm (male) of the grip;
+  - no joint step over 23.6°;
+  - soles never below −0.07 mm.
+- **Course directions:** `check_directions_v3.mjs` passes for both golfers.
+- **Runtime:** both compacted GLBs load in the studio on WebGPU with all 22 clips and no console errors. The captures above are from that run.
+- **Builds:** 6–7 minutes per golfer on all cores, with both built at once. The review renders ran on the GPU.
+
 ## Known limits
 
-- **Skinning only:** there's no cloth simulation, so a trouser fold can show a light speck in extreme poses. The female wears tailored shorts because a skinned skirt tears in golf poses.
-- **Assets:** each GLB is 11–12 MB. Since 8 November its textures are WebP at quality 92 (`EXT_texture_webp`, which three's loader reads); that took about 4 MB off each, with no visible change. Most of what remains is the twenty clips baked at 60 fps. There are no LODs, and phone performance is unmeasured.
+- **Skinning only:** the cloth is draped in Blender, but in the browser it is skinned, so its folds don't move with the body. The female wears tailored shorts because a skinned skirt tears in golf poses.
+- **Assets:** each GLB is about 11 MB. Its textures have been WebP at quality 92 (`EXT_texture_webp`) since 8 November, and its attributes and keys have been compacted since 12 November. There are no LODs, and phone performance is unmeasured.
 - **Ball flight:** in the lab it is illustrative, as before.

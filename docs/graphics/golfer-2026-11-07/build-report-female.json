@@ -6,7 +6,7 @@
   "file": "banvy-golfer.glb",
   "height": 1.68,
   "forward": "+Z",
-  "bones": 66,
+  "bones": 74,
   "clips": [
     {
       "name": "Idle",
@@ -247,6 +247,18 @@
       "duration": 2.6,
       "loop": false,
       "club": "Iron"
+    },
+    {
+      "name": "FistPump",
+      "duration": 1.9,
+      "loop": false,
+      "club": "Iron"
+    },
+    {
+      "name": "Disappointed",
+      "duration": 2.9,
+      "loop": false,
+      "club": "Iron"
     }
   ],
   "clubs": [
@@ -271,8 +283,8 @@
       "length": 0.876
     }
   ],
-  "bytes": 12161980,
-  "sha256": "936a2c1a1a6ef6dbde34658738b9e88f04fd582d5b9ab06a2305e35bd15440b2",
+  "bytes": 11119624,
+  "sha256": "2f914b67e131d4822dd85a3b057db8d826fec5d900f21024822ae51f4a607eac",
   "vertices": 26256,
   "triangles": 51828,
   "grip": {
@@ -284,34 +296,114 @@
     "solver": "v3 kinematic sequence",
     "report": {
       "Idle": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            44.1,
+            44.4
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "Walk": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            43.2,
+            44.8
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "WalkBackward": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            40.1,
+            44.7
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "StrafeLeft": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            44.3,
+            44.4
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "StrafeRight": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            44.3,
+            44.4
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "Jog": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.2,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            41.8,
+            44.9
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "TurnLeft": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            44.3,
+            44.4
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "TurnRight": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            44.3,
+            44.3
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
@@ -864,19 +956,78 @@
         "leg_gap_m": 0
       },
       "ClubChange": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            44.3,
+            44.3
+          ]
+        },
         "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "Celebrate": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.1,
+          "part": null,
+          "frame": null,
+          "extra_mm": 16.1,
+          "rise_mm": [
+            43.9,
+            44.4
+          ]
+        },
         "reach_gap_m": 0.0438,
+        "leg_gap_m": 0
+      },
+      "FistPump": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.5,
+          "part": null,
+          "frame": null,
+          "extra_mm": 8.3,
+          "rise_mm": [
+            44.1,
+            44.3
+          ]
+        },
+        "reach_gap_m": 0,
+        "leg_gap_m": 0
+      },
+      "Disappointed": {
+        "carry": {
+          "depth_mm": 0,
+          "closest_mm": 1.3,
+          "part": null,
+          "frame": null,
+          "rise_mm": [
+            44.3,
+            44.4
+          ]
+        },
+        "reach_gap_m": 0,
         "leg_gap_m": 0
       }
     },
     "validation": {
       "sampleHz": 120,
-      "clips": 20,
-      "verifiedAt": "2026-11-08T01:55:04.099Z"
+      "clips": 22,
+      "verifiedAt": "2026-11-12T11:29:31.652Z"
     }
+  },
+  "compaction": {
+    "weights": 95427,
+    "colours": 50345,
+    "normals": 180572,
+    "indices": 0,
+    "rotations": 148717,
+    "before": 14549024,
+    "after": 11119624
   },
   "design": "Original designs for Banvy's courses (no likeness of any existing game's\ncharacter):\n  female -- vivid coral pique polo with a white collar, sleeve bands and flag,\n            royal-blue tailored golf shorts with a teal belt, a white visor with\n            a teal underbill, chestnut hair combed back into a braid, a white\n            glove, and white golf shoes with navy laces and outsoles.\n  male   -- cobalt pique polo with sunny-yellow tipping and flag, stone tailored\n            trousers with belt loops and a cognac belt, a structured white\n            six-panel cap with a cobalt underbill, a close crop, a white glove,\n            and white shoes on gum soles.",
   "palette": "Coral & royal blue",
@@ -885,5 +1036,11 @@
     "license": "CC0",
     "url": "https://download.blender.org/demo/asset-bundles/human-base-meshes/"
   },
-  "status": "Revision 3: all 20 clips verified at 120 Hz"
+  "status": "Revision 3: all 22 clips verified at 120 Hz",
+  "cpuAudit": {
+    "sampleHz": 120,
+    "clips": 22,
+    "passed": true,
+    "checks": "audit_cpu_v3.py"
+  }
 }

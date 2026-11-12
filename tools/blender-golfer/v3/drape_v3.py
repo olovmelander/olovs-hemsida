@@ -154,3 +154,38 @@ def calm(ob, limit=.5, rounds=6):
         total = max(total, len(bad))
     print('CALM', ob.name, total)
     return total
+
+
+def thin(ob, ratio, protect=(), rings=1, label=''):
+    """Take a draped garment down to a share of its faces, where the cloth is flat.
+
+    The solver needs edges well under a centimetre; the runtime does not need
+    them where the cloth lies smooth. An error-driven collapse keeps the folds'
+    edges and merges the flat cloth between them. The garment's borders (hems,
+    the neckline) and any protected vertices (a seam another part is cut along)
+    stay exactly where they are, with a ring of cloth round them.
+    """
+    me = ob.data
+    before = len(me.polygons)
+    keep = set(C.boundary_vertices(me)) | set(protect)
+    nb = C.neighbours(me)
+    for _ in range(rings):
+        keep |= {j for i in keep for j in nb[i]}
+    g = ob.vertex_groups.new(name='DrapeThin')
+    free = [i for i in range(len(me.vertices)) if i not in keep]
+    g.add(free, 1.0, 'REPLACE')
+    mod = ob.modifiers.new('Drape thin', 'DECIMATE')
+    mod.decimate_type = 'COLLAPSE'; mod.ratio = ratio
+    # A vertex outside the group costs its edges' length fifty times over: it is not collapsed.
+    mod.vertex_group = 'DrapeThin'; mod.vertex_group_factor = 50.0
+    mod.use_collapse_triangulate = False; mod.use_symmetry = False
+    with bpy.context.temp_override(object=ob, active_object=ob, selected_objects=[ob]):
+        bpy.ops.object.modifier_apply(modifier=mod.name)
+    g = ob.vertex_groups.get('DrapeThin')
+    if g is not None:
+        ob.vertex_groups.remove(g)
+    for p in ob.data.polygons:
+        p.use_smooth = True
+    report = dict(faces_before=before, faces_after=len(ob.data.polygons), vertices=len(ob.data.vertices))
+    print('THIN', label, report)
+    return report

@@ -24,8 +24,8 @@ import cloth_v3 as C
 import textures_v3 as TX
 from body_v3 import FS, TOES, FOREFOOT
 
-STATIONS = 52
-RING = 44
+STATIONS = 38
+RING = 30
 
 
 def mix(a, b, t):

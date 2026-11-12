@@ -4,12 +4,14 @@
       --python tools/blender-golfer/v3/review_v3.py -- female output/golfer-build/review [shot ...] [--samples 32]
 
 Cycles on the CPU with a fixed thread count, so a review never wakes the GPU.
+Only when the owner allows it: GOLFER_REVIEW_GPU=1 renders on the GPU (OptiX, else
+CUDA), and GOLFER_THREADS=0 lets the CPU use every core.
 Each shot poses the rig from a baked clip at a time, shows that clip's club and
 frames a bone. The same shots are used before and after a change.
 
 build_v3.py can call render() in-process after a build (--review).
 """
-import bpy, sys, json, math
+import bpy, sys, os, json, math
 from pathlib import Path
 from mathutils import Vector as V, Matrix
 
@@ -52,6 +54,8 @@ SHOTS = {
     'collar-back': ('REST', 0, 'Neck', -.03, .8, 165, 16, 85, (860, 640)),
     'collar-side': ('REST', 0, 'Neck', -.03, .8, 80, 12, 85, (860, 640)),
     'belt':        ('REST', 0, 'Hips', .1, .75, 10, 8, 85, (860, 560)),
+    'belt-side':   ('REST', 0, 'Hips', .1, .6, 70, 4, 85, (860, 560)),
+    'belt-top':    ('REST', 0, 'Hips', .1, .6, 8, 45, 85, (860, 560)),
     'cap':         ('REST', 0, 'Head', .08, .85, 30, 12, 85, (800, 700)),
     'cap-back':    ('REST', 0, 'Head', .08, .85, 160, 14, 85, (800, 700)),
     'address':     ('AddressIron', 1.2, 'Hips', -.05, 3.6, 0, 6, 70, (760, 900)),
@@ -64,9 +68,13 @@ SHOTS = {
     'walk':        ('Walk', .28, 'Hips', -.02, 3.9, 78, 5, 70, (620, 980)),
     'putt':        ('Putt', 'impact', 'Hips', -.1, 3.2, 0, 8, 70, (760, 900)),
     'celebrate':   ('Celebrate', .52, 'Hips', .12, 4.4, 12, 4, 70, (700, 980)),
-    'fistpump':    ('FistPump', .52, 'Hips', .05, 3.9, 16, 5, 70, (680, 980)),
+    'fistpump':    ('FistPump', .78, 'Hips', .05, 3.9, 16, 5, 70, (680, 980)),
     'disappointed': ('Disappointed', 1.05, 'Hips', .05, 3.9, 16, 5, 70, (680, 980)),
     'sky':         ('Disappointed', 1.82, 'Hips', .05, 3.9, 16, 5, 70, (680, 980)),
+    # The club on the trail shoulder (carry_v3.py), from the golfer's right, behind, and at a jog.
+    'carry':       ('Idle', .5, 'UpperArm_R', .02, .95, -55, 12, 60, (800, 800)),
+    'carry-back':  ('Idle', .5, 'UpperArm_R', .02, .95, -145, 18, 60, (800, 800)),
+    'carry-jog':   ('Jog', .2, 'UpperArm_R', .02, 1.0, -70, 8, 60, (800, 800)),
     'disappointed-face': ('Disappointed', 1.05, 'Head', .045, 1.0, 20, -24, 110, (720, 800)),
     'celebrate-face': ('Celebrate', .85, 'Head', .045, 1.0, 10, 0, 110, (720, 800)),
     'smile-face':  ('Celebrate', 2.2, 'Head', .045, 1.0, 14, 0, 110, (720, 800)),
@@ -123,17 +131,48 @@ def studio(scene, collection):
     return made
 
 
+_GPU = None
+
+
+def gpu():
+    """True once Cycles has a GPU device enabled; only with GOLFER_REVIEW_GPU=1."""
+    global _GPU
+    if _GPU is None:
+        _GPU = False
+        if os.environ.get('GOLFER_REVIEW_GPU') == '1':
+            prefs = bpy.context.preferences.addons['cycles'].preferences
+            for kind in ('OPTIX', 'CUDA'):
+                try:
+                    prefs.compute_device_type = kind
+                    prefs.get_devices()
+                except Exception:
+                    continue
+                found = [d for d in prefs.devices if d.type == kind]
+                if found:
+                    for d in prefs.devices:
+                        d.use = d.type == kind
+                    print('REVIEW device', kind, [d.name for d in found])
+                    _GPU = True
+                    break
+    return _GPU
+
+
 def configure(scene, samples, threads):
     scene.render.engine = 'CYCLES'
     c = scene.cycles
-    c.device = 'CPU'; c.samples = samples; c.use_adaptive_sampling = True; c.adaptive_threshold = .03
+    c.device = 'GPU' if gpu() else 'CPU'
+    c.samples = samples; c.use_adaptive_sampling = True; c.adaptive_threshold = .03
     c.use_denoising = True
     try:
         c.denoiser = 'OPENIMAGEDENOISE'
     except Exception:
         pass
     c.max_bounces = 4; c.diffuse_bounces = 2; c.glossy_bounces = 2; c.transparent_max_bounces = 8
-    scene.render.threads_mode = 'FIXED'; scene.render.threads = threads
+    threads = int(os.environ.get('GOLFER_THREADS', threads))
+    if threads > 0:
+        scene.render.threads_mode = 'FIXED'; scene.render.threads = threads
+    else:
+        scene.render.threads_mode = 'AUTO'
     scene.render.image_settings.file_format = 'PNG'; scene.render.image_settings.color_mode = 'RGB'
     scene.render.film_transparent = False
     scene.view_settings.view_transform = 'Standard'; scene.view_settings.look = 'None'
@@ -163,6 +202,62 @@ def resolve_time(clip, t, manifest):
     if t == 'finish':
         return min(c.get('duration', impact + 1.4) - .05, impact + 1.15)
     raise KeyError(t)
+
+
+def strip(variant, outdir, clip, view='front', frames=8, samples=14, threads=4, rig=None, manifest=None, size=(300, 400)):
+    """A contact sheet of one clip: `frames` poses evenly through it, side by side, from one view."""
+    import numpy as np
+    scene = bpy.context.scene
+    rig = rig or next(o for o in scene.objects if o.type == 'ARMATURE')
+    col = bpy.data.collections.new('Golfer review strip'); scene.collection.children.link(col)
+    made = studio(scene, col)
+    configure(scene, samples, threads)
+    cam_data = bpy.data.cameras.new('Strip camera'); cam = bpy.data.objects.new('Strip camera', cam_data)
+    col.objects.link(cam); scene.camera = cam
+    cam_data.type = 'ORTHO'; cam_data.ortho_scale = 2.9; cam_data.clip_start = .1; cam_data.clip_end = 60
+    manifest = manifest or clip_times(variant)
+    action = next((a for a in bpy.data.actions if a.get('clip_name') == clip and a.get('banvy_character', variant) == variant), None)
+    if action is None:
+        print('STRIP skip', clip); return None
+    rig.animation_data_create()
+    for track in rig.animation_data.nla_tracks:
+        track.mute = True
+    rig.animation_data.action = action
+    if action.slots:
+        rig.animation_data.action_slot = action.slots[0]
+    want = manifest.get(clip, {}).get('club', 'Iron')
+    clubs = [o for o in scene.objects if o.get('club_id')]
+    for ob in clubs:
+        ob.hide_render = ob['club_id'] != want
+    duration = manifest.get(clip, {}).get('duration', 2.0)
+    eye = {'front': V((0, -9, 1.1)), 'side': V((9, 0, 1.1)), 'back': V((0, 9, 1.1)), 'dtl': V((-9, 0, 1.1))}[view]
+    look_at(cam, eye, V((0, 0, 1.02)))
+    scene.render.resolution_x, scene.render.resolution_y = size
+    scene.render.resolution_percentage = 100
+    outdir = Path(outdir).resolve(); outdir.mkdir(parents=True, exist_ok=True)
+    tiles = []
+    for i in range(frames):
+        t = duration * i / max(1, frames - 1) * (.999 if i == frames - 1 else 1)
+        scene.frame_set(int(round(t * 60)))
+        tmp = outdir / f'_strip_{i}.png'
+        scene.render.filepath = str(tmp)
+        bpy.ops.render.render(write_still=True)
+        img = bpy.data.images.load(str(tmp))
+        a = np.empty(size[0] * size[1] * 4, dtype=np.float32); img.pixels.foreach_get(a)
+        tiles.append(a.reshape(size[1], size[0], 4))
+        bpy.data.images.remove(img); tmp.unlink()
+    sheet = np.concatenate(tiles, axis=1)
+    out = bpy.data.images.new('strip', sheet.shape[1], sheet.shape[0], alpha=False)
+    out.pixels.foreach_set(sheet.ravel())
+    path = outdir / f'{variant}-strip-{clip}-{view}.png'
+    out.filepath_raw = str(path); out.file_format = 'PNG'; out.save()
+    bpy.data.images.remove(out)
+    for ob in made + [cam]:
+        bpy.data.objects.remove(ob, do_unlink=True)
+    for ob in clubs:
+        ob.hide_render = False
+    print('STRIP', path.name)
+    return path.name
 
 
 def render(variant, outdir, shots=None, samples=32, threads=4, rig=None, scale=1.0, manifest=None):

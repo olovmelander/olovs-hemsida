@@ -225,7 +225,7 @@ class Outfit:
         TX.cylinder_uv(ob, (0, 0, 0), (0, 0, 1), 55)
         # Clearing a mesh's materials resets every face's slot: read the band flags first.
         self.band_mask = [p.material_index == 1 for p in me.polygons]
-        self.finish(ob, polo_mat, None, smooth_weights=12 if DRAPE else 3)
+        self.finish(ob, polo_mat, None, smooth_weights=8 if DRAPE else 3)
         hidden = C.shrink_mask(self.me, m & np.array([c.z > hem + .015 for c in self.centre]), 2)
         for side in 'LR':
             sh, el = self.arm_frame(side); ax = el - sh; L = ax.length; ax.normalize()
@@ -335,6 +335,14 @@ class Outfit:
         D.calm(ob, limit=.5)
         D.relax(ob, 1, .2)
         self.keep_off_body(ob, .0032 * k)
+        # The sleeve bands are cut along the line where the two material slots meet: it stays as it is.
+        slots = {}
+        for p in me.polygons:
+            for i in p.vertices:
+                slots.setdefault(i, set()).add(p.material_index)
+        seam = [i for i, m in slots.items() if len(m) > 1]
+        D.thin(ob, .5, protect=seam, label=f'{self.v} polo')
+        self.keep_off_body(ob, .003 * k)
 
     def tuck(self, ob):
         """Tucked in: snug under the waistband, bloused a little just above it.
@@ -643,7 +651,7 @@ class Outfit:
                 i, j = divmod(me.loops[li].vertex_index, cols)
                 uv.data[li].uv = (i * .22, j * .25)
         ob = bpy.data.objects.new(me.name, me); self.col.objects.link(ob)
-        D.subdivide(ob, 2)
+        D.subdivide(ob, 1)
         C.transfer_weights(ob, polo)
         rib = self.textures.normal('rib')
         trim = self.mat('collar', P['trim'] if fem else P['polo'], .84, specular=.2, normal_image=rib, normal_strength=.45)
@@ -968,7 +976,7 @@ class Outfit:
         twill = self.textures.normal('twill')
         TX.cylinder_uv(ob, (0, 0, 0), (0, 0, 1), 34)
         self.finish(ob, self.mat('trousers', P['trousers'], .86, normal_image=twill, normal_strength=.22), None)
-        C.smooth_weights(ob, 12 if DRAPE else 5, .35)
+        C.smooth_weights(ob, 8 if DRAPE else 5, .35)
         self.trouser_ob = ob
         self.hide |= C.shrink_mask(self.me, m & np.array([hem_z + .02 < c.z < top - .01 for c in self.centre]), 2)
         self.belt(top)
@@ -1034,6 +1042,8 @@ class Outfit:
         # Twill is smooth: the solver's small buckles are taken off, its folds stay.
         D.relax(ob, 1 if shorts else 4, .2 if shorts else .4)
         self.keep_off_body(ob, .0032 * k)
+        D.thin(ob, .7 if shorts else .42, label=f'{self.v} trousers')
+        self.keep_off_body(ob, .003 * k)
 
     def tailoring(self, ob, top, hem_z, J):
         """Side seams down each leg and welt back pockets under the belt."""
@@ -1146,11 +1156,45 @@ class Outfit:
         if lj:
             C.transfer_weights(lj, self.trouser_ob)
             self.finish(lj, self.mat('trousers', P['trousers'], .86, normal_image=self.textures.normal('twill'), normal_strength=.22))
-        front = min(pts, key=lambda p: p.y)
-        buckle = C.tube(f'Golfer_v3_{self.v}_Buckle', [front + V((-.019 * k, -.0035 * k, 0)), front + V((.019 * k, -.0035 * k, 0))],
-                        [(.0175 * k, .0022 * k), (.0175 * k, .0022 * k)], self.col, 4)
-        C.transfer_weights(buckle, self.trouser_ob)
-        self.finish(buckle, self.mat('buckle', '#C9CCCF', .25, metal=1.0))
+        # The buckle: a rounded frame with a prong, the belt's tip running on through a keeper.
+        fi = min(range(n), key=lambda i: pts[i].y)
+        front = pts[fi]
+        tan = (pts[(fi + 1) % n] - pts[fi - 1]).normalized()
+        if tan.x < 0:
+            tan = -tan                                         # toward the wearer's left (+x)
+        up = V((0, 0, 1)); out = tan.cross(up).normalized()
+        if out.y > 0:
+            out = -out
+        frame_pts = []
+        for i in range(28):
+            a = 2 * math.pi * i / 28
+            cx = math.copysign(abs(math.cos(a)) ** .4, math.cos(a)); sz = math.copysign(abs(math.sin(a)) ** .4, math.sin(a))
+            # Within the belt's own height: a frame that stood taller poked through the bloused shirt above it.
+            frame_pts.append(front + out * .0040 * k + tan * (.0200 * k * cx) + up * (.0146 * k * sz))
+        metal = self.mat('buckle', '#C9CCCF', .22, metal=1.0, specular=.5)
+        hardware = [C.tube(f'Golfer_v3_{self.v}_BuckleFrame', frame_pts, [.0021 * k] * len(frame_pts), self.col, 8, closed=True, caps=False),
+                    C.tube(f'Golfer_v3_{self.v}_BuckleProng', [front + out * .0046 * k - tan * .0200 * k, front + out * .0060 * k,
+                                                             front + out * .0050 * k + tan * .0210 * k],
+                           [.0015 * k, .0016 * k, .0012 * k], self.col, 6)]
+        hj = C.join(hardware, f'Golfer_v3_{self.v}_Buckle')
+        C.transfer_weights(hj, self.trouser_ob)
+        self.finish(hj, metal)
+        # The tip: the belt's end lying over itself, round at its end.
+        step = 1 if pts[(fi + 1) % n].x > pts[fi].x else -1
+        tip = []
+        for j in range(3, 15):
+            q = pts[(fi + step * j) % n]
+            o_ = V((q.x - cen[0], q.y - cen[1], 0)).normalized()
+            tip.append(q + o_ * .0046 * k)
+        radii = [(.0158 * k, .0020 * k)] * (len(tip) - 2) + [(.0128 * k, .0019 * k), (.0055 * k, .0016 * k)]
+        strap = C.tube(f'Golfer_v3_{self.v}_BeltTip', tip, radii, self.col, 12)
+        keeper_at = pts[(fi + step * 7) % n]
+        k_out = V((keeper_at.x - cen[0], keeper_at.y - cen[1], 0)).normalized()
+        k_tan = (pts[(fi + step * 8) % n] - pts[(fi + step * 6) % n]).normalized()
+        keeper = self.box(f'Golfer_v3_{self.v}_BeltKeeper', keeper_at + k_out * .0046 * k, k_tan, up, k_out, .0052 * k, .0182 * k, .0036 * k)
+        lj2 = C.join([strap, keeper], f'Golfer_v3_{self.v}_BeltTip')
+        C.transfer_weights(lj2, self.trouser_ob)
+        self.finish(lj2, self.mat('belt', P['belt'], .45, normal_image=leather, normal_strength=.15))
 
     # -- shoes and socks -------------------------------------------------------------------
     def shoes(self):
@@ -1188,7 +1232,7 @@ class Outfit:
         cuff_loop = max(self._loops(ob), key=len, default=[])
         cuff_pts = [V(ob.data.vertices[i].co) for i in cuff_loop]
         TX.scale_uv_box(ob, 60)
-        self.finish(ob, self.mat('glove', '#F6F4EE', .5, normal_image=leather, normal_strength=.32, specular=.3), .0008 * k)
+        self.finish(ob, self.mat('glove', '#F6F4EE', .5, normal_image=leather, normal_strength=.32, specular=.3), None)
         self.hide |= C.shrink_mask(self.me, m & np.array([(V(c) - wrist).dot(ax) > -.012 * k for c in self.centre]), 1)
         self.glove_details(ob, cuff_pts)
         # The closure tab across the back of the hand, in the outfit's accent.
@@ -1597,7 +1641,25 @@ class Outfit:
         cloth = self.mat('headwear', P['headwear'], .78, normal_image=twill, normal_strength=.25)
         if self.v == 'female':
             hair_lift = .0105 * k
-            c, verts, faces = self.head_dome(edge, lambda a: edge(a) + .027 * k, lambda a, e: hair_lift, rows=4)
+            # The band at exact heights. Laid out on a sphere (head_dome) its lower edge rode up
+            # over the forehead and dipped at the temples, since a head is longer than it is wide:
+            # skin showed between the band and the bill.
+            def tall(a):
+                return (.036 - .012 * smooth_np(abs(a) / (math.pi * .55))) * k     # a taller front panel, a strap behind
+            rows_v = 5; cols_v = 72
+            c = V((0, J['ears'].y + .008, J['ears'].z + .02 * k))
+            verts = []
+            for r in range(rows_v + 1):
+                for j in range(cols_v):
+                    a = -math.pi + 2 * math.pi * j / cols_v
+                    d = V((math.sin(a), -math.cos(a), 0))
+                    z = edge(a) + tall(a) * r / rows_v
+                    hit = self.bvh.ray_cast(V((c.x, c.y, z)) + d * .3, -d, .3)
+                    base = hit[0] if hit[0] is not None else V((c.x, c.y, z)) + d * .09 * k
+                    # The front panel stands a little proud of the brow and leans back with the head.
+                    verts.append(V((base.x, base.y, z)) + d * (hair_lift + .0015 * k * max(0.0, math.cos(a)) * (1 - r / rows_v)))
+            faces = [(r * cols_v + j, r * cols_v + (j + 1) % cols_v, (r + 1) * cols_v + (j + 1) % cols_v, (r + 1) * cols_v + j)
+                     for r in range(rows_v) for j in range(cols_v)]
             me = bpy.data.meshes.new(f'Golfer_v3_{self.v}_Visor'); me.from_pydata([tuple(v) for v in verts], [], faces); me.update()
             ob = bpy.data.objects.new(me.name, me); self.col.objects.link(ob)
             for p in me.polygons:
@@ -1949,7 +2011,15 @@ def dress(G, collection):
         mouth_v3.build(O); lap('mouth')
     if O.v == 'female' and want('hair'):
         O.earrings()
-    O.shade(samples=8 if os.environ.get('GOLFER_FAST') else 24); lap('shade')
+    if not os.environ.get('GOLFER_NO_SHADE'):
+        O.shade(samples=8 if os.environ.get('GOLFER_FAST') else 24); lap('shade')
+    else:
+        # Unshaded (a quick trial): the materials multiply by the attribute, so give every part white.
+        for ob in O.parts:
+            if ob is not None and ob.type == 'MESH' and not ob.get('no_shade'):
+                me = ob.data
+                attr = me.color_attributes.get(C.AO_ATTRIBUTE) or me.color_attributes.new(C.AO_ATTRIBUTE, 'FLOAT_COLOR', 'POINT')
+                attr.data.foreach_set('color', np.ones(len(me.vertices) * 4, dtype=np.float32))
     if os.environ.get('GOLFER_FAST'):
         plain_materials(G)
     else:

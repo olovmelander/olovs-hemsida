@@ -47,6 +47,7 @@ class Body:
         self.finger_radius = finger_radius
         self.blink = 0.0            # set per frame by the bake
         self.face = None            # the expression, set per frame by the bake (see bake_v3.expression)
+        self.dart = None            # a small gaze offset (yaw, pitch in radians), set per frame by the bake
         s = skel
         self.hip_offset = {side: s.head['Thigh_' + side] - s.head['Hips'] for side, _ in SIDES}
         self.lengths = {n: s.length[n] for n in s.order}
@@ -299,6 +300,10 @@ class Body:
             if 'eyes' in spec:
                 d = (W(spec['eyes']) - base.translation).normalized()
                 hf = pose['Head'].to_3x3() @ s.rest3['Head'].transposed()
+                dart = spec.get('dart', self.dart)
+                if dart:
+                    # Eyes never rest: a quick, small shift of the gaze about the head's own axes.
+                    d = (hf @ (Matrix.Rotation(dart[0], 3, 'Z') @ Matrix.Rotation(dart[1], 3, 'X')) @ hf.transposed()) @ d
                 fwd = hf @ FWD
                 ang = fwd.angle(d)
                 limit = math.radians(32)
