@@ -240,6 +240,18 @@ def upright_feet(c, stance=.105, yaw=D(5)):
 class Idle(Carry):
     """Standing at ease: weight in one hip, breathing, a look around."""
     duration = 6.4
+    # The free hand rests on the hip (carry_v3.hip_surface); the bake fits hip_push(t), a push
+    # along the hip's normal that rests the glove on the shirt, while the hand is on the hip.
+    hand_on_hip = True
+    hip_push = None
+
+    @staticmethod
+    def shading(t):
+        """How far the free hand is off the hip, shading the eyes (about 1.3-2.7 s in)."""
+        return smooth((t - 1.30) / .38) * (1 - smooth((t - 2.30) / .40))
+
+    def hip_free(self, t):
+        return self.shading(t)
 
     def pose(self, t):
         b = self.b; d = self.duration; p = t / d
@@ -262,14 +274,14 @@ class Idle(Carry):
         trot = rot_axis(LEFT, D(-2.5 * stretch)) @ trot
         # A fidget: the club bounces twice on the shoulder (about 4.3 s in).
         tap = sum(math.sin(PI * clamp((t - t0) / .30)) ** 2 for t0 in (4.28, 4.62))
-        lead = self.lead_on_hip(trot, t)
+        lead = self.lead_on_hip(trot, t, pel, prot)
         clav = {'L': (D(1.5 * breath + 5 * stretch), D(-4 - 3 * stretch)),
                 'R': (D(4 + 1.5 * breath + 4 * stretch), D(6 - 2 * stretch))}
         spec = self.base(pel, prot, trot, feet, look, clav=clav,
                          lead_hand=lead[0:2], lead_fingers=lead[2], club_lift=-11 * tap, club_bob=.004 * self.k * tap)
         # Shading the eyes: during the long look down the course the free hand comes up
         # flat under the bill's edge (about 1.3-2.7 s in).
-        tug = smooth((t - 1.30) / .38) * (1 - smooth((t - 2.30) / .40))
+        tug = self.shading(t)
         if tug > 1e-4:
             pose = b.solve(dict(spec))
             Hm = pose['Head'] @ self.s.rest['Head'].inverted()
@@ -295,22 +307,41 @@ class Idle(Carry):
             M = mat4(qa.slerp(qb, smooth(tug)).to_matrix(), pos)
             hint = V(hint_a).lerp(trot @ V((1, .1, -.7)), tug)
             def fingers(hand_m, tug=tug):
-                pose_f = b.relaxed_fingers(hand_m, 'L', amount=.45 - .3 * tug, spread=.6 - .35 * tug)
+                # From the resting hand on the hip to the open hand at the bill, without a jump.
+                w = smooth(tug / .35)
+                a = mix(.18, .45 - .3 * tug, w); sp = mix(.15, .6 - .35 * tug, w)
+                pose_f = b.relaxed_fingers(hand_m, 'L', amount=a, spread=sp)
+                az, a1 = b.resting_thumb('L', .006 * k)
+                pose_f.update(b.finger_chain(hand_m, 'L', 'Thumb', (mix(a1, a * .2, w), mix(.15, a * .35, w), mix(.1, a * .3, w)),
+                                             Matrix.Rotation(az * (1 - w), 4, 'Z')))
                 return pose_f
             spec = self.base(pel, prot, trot, feet, look, clav={'L': (clav['L'][0] + D(9) * tug, clav['L'][1] + D(4) * tug), 'R': clav['R']},
                              lead_hand=(M, hint), lead_fingers=fingers, club_lift=-11 * tap, club_bob=.004 * self.k * tap)
         return b.solve(spec)
 
-    def lead_on_hip(self, T, t):
-        """The free hand rests on the hip, fingers forward."""
-        probe = self.b.solve(dict(pelvis_pos=self.hips0, pelvis_rot=Matrix.Identity(3), thorax_rot=T,
-                                  feet={s: self.b.foot_pose(s, V(), 0) for s in 'LR'}))
-        hip_pt = self.s.head['Thigh_L'] + V((.085, .015, .095)) * self.k
-        hand_dir = V((-.15, -.55, -.82)).normalized()
-        H = frame(hand_dir, V((1, .2, .2)))
-        wrist = hip_pt - hand_dir * .055 * self.k
+    def lead_on_hip(self, T, t, pel, prot):
+        """The free hand rests on the hip, fingers forward and down, the palm on the shirt.
+
+        The palm lies on the outermost garment at the waist (carry_v3.hip_surface, read off
+        the outfit at rest), carried by the pelvis, so the hand follows the weight shifting
+        into that hip. The fingers run along that surface, curled a little. The bake pushes
+        the hand along the surface's normal until the glove rests on the shirt (hip_push).
+        """
+        k = self.k
+        if getattr(self, '_hip', None) is None:
+            import carry_v3
+            at, normal, axis = carry_v3.hip_surface(self.G, k)   # fingers forward and down, along the hip
+            self._hip = (at - self.hips0, normal, axis)
+            self.hip_normal = normal.copy()
+        at, normal, axis = self._hip
+        n = (prot @ normal).normalized()
+        contact = pel + prot @ at + n * (self.hip_push(t) if self.hip_push else 0.0)
+        hand_dir = (prot @ axis).normalized()
+        H = frame(hand_dir, n)                                    # the back of the hand outward
+        wrist = contact + n * .016 * k - hand_dir * .05 * k       # the palm's centre on the contact
         def fingers(hand_m):
-            return self.b.relaxed_fingers(hand_m, 'L', amount=.45, spread=.6)
+            # The thumb lies within the palm's plane: a relaxed one stood out into the body.
+            return self.b.resting_hand(hand_m, 'L', .006 * k)
         return mat4(H, wrist), V((.6, .5, -.2)), fingers
 
 

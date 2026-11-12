@@ -283,8 +283,8 @@
       "length": 0.906
     }
   ],
-  "bytes": 10917068,
-  "sha256": "4e279aef0f443ad69148a04958ba4cf3467894b10241dac54258cbb9413ee513",
+  "bytes": 10917616,
+  "sha256": "88b5c3af62c8399cd46198d6fbe2606aadaf27643a8e18084758b9e322122324",
   "vertices": 22914,
   "triangles": 45142,
   "grip": {
@@ -304,6 +304,16 @@
           "rise_mm": [
             35.9,
             36.7
+          ]
+        },
+        "hand": {
+          "depth_mm": 0,
+          "closest_mm": 1.5,
+          "part": null,
+          "frame": null,
+          "push_mm": [
+            35.3,
+            40.9
           ]
         },
         "reach_gap_m": 0,
@@ -1017,17 +1027,17 @@
     "validation": {
       "sampleHz": 120,
       "clips": 22,
-      "verifiedAt": "2026-11-12T11:29:31.667Z"
+      "verifiedAt": "2026-11-12T12:09:43.093Z"
     }
   },
   "compaction": {
-    "weights": 93822,
-    "colours": 54265,
-    "normals": 179633,
+    "weights": 93821,
+    "colours": 54264,
+    "normals": 179632,
     "indices": 0,
     "rotations": 127906,
-    "before": 14190060,
-    "after": 10917068
+    "before": 14190592,
+    "after": 10917616
   },
   "design": "Original designs for Banvy's courses (no likeness of any existing game's\ncharacter):\n  female -- vivid coral pique polo with a white collar, sleeve bands and flag,\n            royal-blue tailored golf shorts with a teal belt, a white visor with\n            a teal underbill, chestnut hair combed back into a braid, a white\n            glove, and white golf shoes with navy laces and outsoles.\n  male   -- cobalt pique polo with sunny-yellow tipping and flag, stone tailored\n            trousers with belt loops and a cognac belt, a structured white\n            six-panel cap with a cobalt underbill, a close crop, a white glove,\n            and white shoes on gum soles.",
   "palette": "Cobalt & stone",

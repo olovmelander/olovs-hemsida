@@ -39,14 +39,14 @@
     {
       "view": "side",
       "key": "s",
-      "travelAlignment": 1,
-      "facingAlignment": 1
+      "travelAlignment": 0.9999999999999999,
+      "facingAlignment": 0.9999999999999999
     },
     {
       "view": "side",
       "key": "d",
-      "travelAlignment": 0.9999999999999999,
-      "facingAlignment": 0.9999999999999999
+      "travelAlignment": 1,
+      "facingAlignment": 1
     },
     {
       "view": "back",
@@ -185,85 +185,85 @@
     {
       "character": "female",
       "club": "Driver",
-      "contactError": 0.000040338304325249726,
-      "faceAlignment": 0.9995924956847986,
+      "contactError": 0.00004035539232115221,
+      "faceAlignment": 0.9995925414111568,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "female",
       "club": "Wood",
-      "contactError": 0.00028617695909045145,
-      "faceAlignment": 0.9991750869013079,
+      "contactError": 0.00028606191937180107,
+      "faceAlignment": 0.9991750742444233,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "female",
       "club": "Iron",
-      "contactError": 0.00021819794587839243,
-      "faceAlignment": 0.9966726356320198,
+      "contactError": 0.00021804467825142833,
+      "faceAlignment": 0.9966728600754692,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "female",
       "club": "Wedge",
-      "contactError": 0.0005516799660273422,
-      "faceAlignment": 0.9911987958177981,
+      "contactError": 0.000551597308920385,
+      "faceAlignment": 0.9911984916120785,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "female",
       "club": "Putter",
-      "contactError": 0.00003472957841820266,
-      "faceAlignment": 0.9995549487778054,
+      "contactError": 0.00003470422110422789,
+      "faceAlignment": 0.9995549430082481,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "male",
       "club": "Driver",
-      "contactError": 0.00008271174740132112,
-      "faceAlignment": 0.9994455096868404,
+      "contactError": 0.00008289513228018917,
+      "faceAlignment": 0.9994455860265486,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "male",
       "club": "Wood",
-      "contactError": 0.00019507254875332844,
-      "faceAlignment": 0.9977780029760505,
+      "contactError": 0.00019531984457994868,
+      "faceAlignment": 0.9977777874491397,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "male",
       "club": "Iron",
-      "contactError": 0.0002147716716502587,
-      "faceAlignment": 0.9966585978702627,
+      "contactError": 0.00021484332348718527,
+      "faceAlignment": 0.9966585978702973,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "male",
       "club": "Wedge",
-      "contactError": 0.00017107835074524724,
-      "faceAlignment": 0.9922002636651499,
+      "contactError": 0.00017109761231859033,
+      "faceAlignment": 0.992200249891596,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     },
     {
       "character": "male",
       "club": "Putter",
-      "contactError": 0.000018236004331617072,
-      "faceAlignment": 0.9996119861869311,
+      "contactError": 0.00001838498346989286,
+      "faceAlignment": 0.9996120651212368,
       "flightAlignment": 0.9999999999999999,
       "events": 1
     }
   ],
   "errors": [],
   "passed": true,
-  "verifiedAt": "2026-11-12T11:29:50.575Z"
+  "verifiedAt": "2026-11-12T12:10:01.029Z"
 }

@@ -341,6 +341,14 @@ punches are shaped.
 
   It starts on the first touch or key, pauses while the tab is hidden, and the
   menu turns it off (Ljud).
+- **The golfer's reaction** at a holed hole (`holeReaction` in `play-rules.mjs`,
+  owner request, 12 November), in Spela and in Återupplev:
+  - `Celebrate` for a birdie or better;
+  - `FistPump` for a par;
+  - `Disappointed` for a double bogey or worse.
+
+  A bogey, or a ball picked up, passes without one. A model without the clip
+  (the September golfers have only `Celebrate`) skips it.
 - **The tracer** (`ribbon-tracer.mjs`): a ribbon about five pixels wide at any
   distance, turned to the eye each frame, soft at its edges and fading toward the
   tee. Återupplev draws it too.

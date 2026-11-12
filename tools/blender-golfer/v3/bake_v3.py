@@ -253,6 +253,7 @@ def bake_all(G, scene, names=None):
     actions = []; clips = []; report = {}
     G['baked'] = {}                       # clip -> (frames, loop): the armature-space poses, for the CPU audit
     G['carry'] = {}                       # clip -> the shoulder carry's fit (carry_v3.py)
+    G['hand'] = {}                        # clip -> the free hand on the hip (carry_v3.py)
     scene.render.fps = FPS
     import carry_v3
     for name in names or clips_v3.CLIP_ORDER:
@@ -308,6 +309,28 @@ def bake_all(G, scene, names=None):
             fit['rise_mm'] = [round(min(r for _t, r in rise.samples) * 1000, 1), round(max(r for _t, r in rise.samples) * 1000, 1)]
             G['carry'][name] = fit
             print('CARRY', name, fit)
+        if getattr(clip, 'hand_on_hip', False):
+            # The free hand rests on the shirt (carry_v3.py): the push along the hip's normal read
+            # off the posed outfit, baked, measured, and corrected once if it still goes in.
+            push = carry_v3.fit_hip(G, action, entry, frames, loop, clip)
+            clip.hip_push = push
+            action = bake_clip(action)
+            hand = carry_v3.measure_hip(G, action, entry, frames, clip)
+            if hand['depth_mm'] > 0:
+                extra = carry_v3.fit_hip(G, action, entry, frames, loop, clip, floor=0.0)
+                clip.hip_push = lambda t, a=push, b=extra: a(t) + b(t)
+                action = bake_clip(action)
+                hand = carry_v3.measure_hip(G, action, entry, frames, clip)
+                hand['extra_mm'] = round(max(r for _t, r in extra.samples) * 1000, 1)
+            hand['push_mm'] = [round(min(r for _t, r in push.samples) * 1000, 1), round(max(r for _t, r in push.samples) * 1000, 1)]
+            G['hand'][name] = hand
+            print('HAND', name, hand)
+            if name in G['carry']:
+                # The arm moved: measure the club again on the final bake.
+                again = carry_v3.measure(G, action, entry, clip.grip.along('R'), frames)
+                G['carry'][name].update(depth_mm=again['depth_mm'], closest_mm=again['closest_mm'],
+                                        part=again['part'], frame=again['frame'])
+                print('CARRY', name, 'after the hand', again)
         actions.append(action)
         if isinstance(clip, clips_v3.Gait):
             entry.update(speed=clip.speed, stance=clip.stance,
@@ -326,6 +349,8 @@ def bake_all(G, scene, names=None):
             report[name] = dict(impact_error=[round(v, 5) for v in sw.impact_error], goals=sw.goal_report)
         if name in G['carry']:
             report.setdefault(name, {})['carry'] = G['carry'][name]
+        if name in G['hand']:
+            report.setdefault(name, {})['hand'] = G['hand'][name]
         report.setdefault(name, {})['reach_gap_m'] = round(G['bodypose'].max_reach_gap, 4)
         report[name]['leg_gap_m'] = round(G['bodypose'].max_leg_gap, 4)
         clips.append(entry)

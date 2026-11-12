@@ -1,18 +1,18 @@
 {
   "female": {
-    "sha256": "2f914b67e131d4822dd85a3b057db8d826fec5d900f21024822ae51f4a607eac",
+    "sha256": "07c8f37b5bc9ab3bbaa1c623905c6bde1fed2cad1b55c919088beeebd9fc1d6b",
     "motions": [
       {
         "name": "Idle",
         "loopSeamMetres": 0.0000024113363011998006,
-        "maxJointStepDegrees": 12.146145730290197,
+        "maxJointStepDegrees": 9.423550162512301,
         "worstJoint": "UpperArm_L",
-        "worstTime": 0.390625,
+        "worstTime": 0.39322916666666663,
         "gripTime": 0,
-        "minElbowBackMetres": -0.00929790282912002,
+        "minElbowBackMetres": -0.009238214017882336,
         "minKneeForwardMetres": 0.054713536859906035,
         "gripErrorMetres": 0,
-        "maxWristBendDegrees": 59.93144173852498,
+        "maxWristBendDegrees": 60.69362250313999,
         "minSoleHeight": -0.000013797380074875835,
         "toeSlideMetres": 0,
         "minContactHeight": null
@@ -148,11 +148,11 @@
         "gripTime": 0.3333333333333333,
         "minElbowBackMetres": 0.041424436317681085,
         "minKneeForwardMetres": 0.06495904543210108,
-        "gripErrorMetres": 0.00006972044711601829,
+        "gripErrorMetres": 0.00006967889594446938,
         "maxWristBendDegrees": 37.099248305710354,
         "minSoleHeight": -0.000008561577408003746,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.017338491684196322
+        "minContactHeight": 0.017338400576459967
       },
       {
         "name": "AddressWood",
@@ -163,11 +163,11 @@
         "gripTime": 0,
         "minElbowBackMetres": 0.045733673643585826,
         "minKneeForwardMetres": 0.06329323322199047,
-        "gripErrorMetres": 0.00009096303767175819,
+        "gripErrorMetres": 0.00009105409985503552,
         "maxWristBendDegrees": 36.71559713124019,
         "minSoleHeight": -0.00002200509671824422,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.022361746915899428
+        "minContactHeight": 0.02236182271329834
       },
       {
         "name": "AddressIron",
@@ -178,11 +178,11 @@
         "gripTime": 0.375,
         "minElbowBackMetres": 0.05677422640968157,
         "minKneeForwardMetres": 0.06382283005482163,
-        "gripErrorMetres": 0.00007702732995356282,
+        "gripErrorMetres": 0.00007695560579060862,
         "maxWristBendDegrees": 30.623589695266688,
         "minSoleHeight": -0.000012493660760930392,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.027359445096635238
+        "minContactHeight": 0.027359568615493823
       },
       {
         "name": "AddressWedge",
@@ -193,11 +193,11 @@
         "gripTime": 0.85,
         "minElbowBackMetres": 0.056992484718940514,
         "minKneeForwardMetres": 0.07157912413879455,
-        "gripErrorMetres": 0.00005904318898861735,
+        "gripErrorMetres": 0.00005897552743549521,
         "maxWristBendDegrees": 33.53603180176488,
         "minSoleHeight": -0.0000052762143088621535,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.02533458058204474
+        "minContactHeight": 0.025334790201439472
       },
       {
         "name": "AddressPutter",
@@ -208,11 +208,11 @@
         "gripTime": 0.35,
         "minElbowBackMetres": 0.05487160222156988,
         "minKneeForwardMetres": 0.052728890660007924,
-        "gripErrorMetres": 0.00005897384748471124,
+        "gripErrorMetres": 0.00005887351072415836,
         "maxWristBendDegrees": 45.925336698164514,
         "minSoleHeight": -0.000002932583112865724,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.018354757165152447
+        "minContactHeight": 0.018354821900607
       },
       {
         "name": "SwingDriver",
@@ -223,25 +223,25 @@
         "gripTime": 0.38584474885844755,
         "minElbowBackMetres": -0.15909552695486978,
         "minKneeForwardMetres": 0.0034028637833282416,
-        "gripErrorMetres": 0.004531201281056982,
+        "gripErrorMetres": 0.004531301794761425,
         "maxWristBendDegrees": 68.55161916172038,
         "minSoleHeight": -0.00006686466820736286,
         "toeSlideMetres": 0,
-        "minContactHeight": -0.013172774534116583,
+        "minContactHeight": -0.013172869523088382,
         "impact": {
           "position": [
-            0.10372834338526418,
-            0.0213527002617403,
-            1.128167136567319
+            0.10372835599504833,
+            0.021352611470420446,
+            1.1281672165008907
           ],
-          "metadataError": 0.00004033830071604822,
+          "metadataError": 0.00004035538884227932,
           "velocity": [
-            33.05934294684487,
-            3.1527871004645047,
-            -1.2603211737671627
+            33.05934583019306,
+            3.152787403071784,
+            -1.2603214685045705
           ],
-          "forwardAlignment": 0.9947671997327805,
-          "faceAlignment": 0.9995924956847902
+          "forwardAlignment": 0.994767199444526,
+          "faceAlignment": 0.9995925414111524
         }
       },
       {
@@ -253,25 +253,25 @@
         "gripTime": 0.31690140845070425,
         "minElbowBackMetres": -0.16308169337012182,
         "minKneeForwardMetres": 0.0013664845441506007,
-        "gripErrorMetres": 0.0038510738758992876,
+        "gripErrorMetres": 0.0038511570693930577,
         "maxWristBendDegrees": 68.42064721786426,
         "minSoleHeight": -0.00005347150433334274,
         "toeSlideMetres": 0,
-        "minContactHeight": -0.007536611223560308,
+        "minContactHeight": -0.007536531409483849,
         "impact": {
           "position": [
-            0.0590979237748863,
-            0.02130493675770928,
-            1.0392859398592718
+            0.05909797293910619,
+            0.02130500668323021,
+            1.03928584091196
           ],
-          "metadataError": 0.00028617696753876527,
+          "metadataError": 0.000286061927795335,
           "velocity": [
-            31.4818715813357,
-            -0.39835680571983945,
-            -1.0568158402962302
+            31.481868443131166,
+            -0.398356130122115,
+            -1.0568169230475455
           ],
-          "forwardAlignment": 0.9993571247214391,
-          "faceAlignment": 0.9991750869013077
+          "forwardAlignment": 0.9993571237121049,
+          "faceAlignment": 0.9991750742444264
         }
       },
       {
@@ -283,25 +283,25 @@
         "gripTime": 0.40821256038647347,
         "minElbowBackMetres": -0.11741211983823625,
         "minKneeForwardMetres": -0.0028073437884348837,
-        "gripErrorMetres": 0.005237236104670911,
+        "gripErrorMetres": 0.005237369291946608,
         "maxWristBendDegrees": 68.17602565694075,
         "minSoleHeight": -0.00005204446479458825,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.0011880121954921385,
+        "minContactHeight": 0.00118814381210397,
         "impact": {
           "position": [
-            0.004779752614620672,
-            0.02133710126762789,
-            0.7290296861809766
+            0.004779822113408466,
+            0.021337218493258092,
+            0.7290295445006905
           ],
-          "metadataError": 0.00021819794906424478,
+          "metadataError": 0.00021804468141437976,
           "velocity": [
-            26.394664674650297,
-            -1.5815973029787833,
-            0.30982712427635617
+            26.394659866217797,
+            -1.5815961288631053,
+            0.3098257281584349
           ],
-          "forwardAlignment": 0.9981410342483442,
-          "faceAlignment": 0.996672635632005
+          "forwardAlignment": 0.9981410368409814,
+          "faceAlignment": 0.9966728600754692
         }
       },
       {
@@ -313,25 +313,25 @@
         "gripTime": 0.42916666666666664,
         "minElbowBackMetres": 0.04245205875561689,
         "minKneeForwardMetres": 0.03999648323671886,
-        "gripErrorMetres": 0.00076491220593867,
+        "gripErrorMetres": 0.0007649860181150179,
         "maxWristBendDegrees": 65.91576827354281,
         "minSoleHeight": -0.00004075441861297259,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.007789247691617818,
+        "minContactHeight": 0.007789462071228215,
         "impact": {
           "position": [
-            -0.0351093959505895,
-            0.021396583634946564,
-            0.6816032739639275
+            -0.03510932860167862,
+            0.02139678540722545,
+            0.6816031600008564
           ],
-          "metadataError": 0.0005516799615150547,
+          "metadataError": 0.0005515973043913908,
           "velocity": [
-            10.054330719043602,
-            -1.1636936866434322,
-            0.0009523692730639688
+            10.054328486438278,
+            -1.1636931483983437,
+            0.0009520438648902285
           ],
-          "forwardAlignment": 0.9933686100918813,
-          "faceAlignment": 0.9911987958178181
+          "forwardAlignment": 0.9933686132526269,
+          "faceAlignment": 0.9911984916120781
         }
       },
       {
@@ -343,25 +343,25 @@
         "gripTime": 0.20689655172413793,
         "minElbowBackMetres": 0.05186189014318636,
         "minKneeForwardMetres": 0.053741148374308226,
-        "gripErrorMetres": 0.00007656729760985304,
+        "gripErrorMetres": 0.00007646697166632799,
         "maxWristBendDegrees": 46.74479718426422,
         "minSoleHeight": -0.00002000119211529124,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.005534434962536139,
+        "minContactHeight": 0.0055344958924034016,
         "impact": {
           "position": [
-            0.029641099026830705,
-            0.021335965289704162,
-            0.5963512369968289
+            0.029641140095442414,
+            0.021336030162019126,
+            0.5963512457071483
           ],
-          "metadataError": 0.0000347296000980506,
+          "metadataError": 0.000034704242688443816,
           "velocity": [
-            0.48245711772870936,
-            0.06641557875177728,
-            0.07273251692477611
+            0.4824571057851978,
+            0.06641558916971047,
+            0.07273249565342477
           ],
-          "forwardAlignment": 0.9797908219521522,
-          "faceAlignment": 0.9995549487778069
+          "forwardAlignment": 0.9797908244375355,
+          "faceAlignment": 0.9995549430082451
         }
       },
       {
@@ -427,19 +427,19 @@
     ]
   },
   "male": {
-    "sha256": "4e279aef0f443ad69148a04958ba4cf3467894b10241dac54258cbb9413ee513",
+    "sha256": "88b5c3af62c8399cd46198d6fbe2606aadaf27643a8e18084758b9e322122324",
     "motions": [
       {
         "name": "Idle",
-        "loopSeamMetres": 1.9231243582072988e-8,
-        "maxJointStepDegrees": 13.52744270113062,
+        "loopSeamMetres": 2.4202182011753594e-8,
+        "maxJointStepDegrees": 10.795849994083415,
         "worstJoint": "UpperArm_L",
         "worstTime": 0.3880208333333333,
         "gripTime": 0,
-        "minElbowBackMetres": -0.0343209801840791,
+        "minElbowBackMetres": -0.03191998881562666,
         "minKneeForwardMetres": 0.06945679143344684,
         "gripErrorMetres": 0,
-        "maxWristBendDegrees": 68.5551205418291,
+        "maxWristBendDegrees": 62.0851040156822,
         "minSoleHeight": -0.000011911076705587037,
         "toeSlideMetres": 0,
         "minContactHeight": null
@@ -575,11 +575,11 @@
         "gripTime": 0.625,
         "minElbowBackMetres": 0.05515738887259883,
         "minKneeForwardMetres": 0.08564283672828202,
-        "gripErrorMetres": 0.00005215265529068258,
+        "gripErrorMetres": 0.00005212517951846962,
         "maxWristBendDegrees": 32.04760167598157,
         "minSoleHeight": -0.000009653222346602143,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.017338459529747108
+        "minContactHeight": 0.017338256913838834
       },
       {
         "name": "AddressWood",
@@ -590,11 +590,11 @@
         "gripTime": 0.8416666666666667,
         "minElbowBackMetres": 0.05570506084337412,
         "minKneeForwardMetres": 0.08567306087080634,
-        "gripErrorMetres": 0.00010092593711787194,
+        "gripErrorMetres": 0.00010085766377408369,
         "maxWristBendDegrees": 28.604446412179836,
         "minSoleHeight": -0.000016528765875447803,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.022362463358198803
+        "minContactHeight": 0.022362275787116803
       },
       {
         "name": "AddressIron",
@@ -605,11 +605,11 @@
         "gripTime": 0.125,
         "minElbowBackMetres": 0.05724046657080723,
         "minKneeForwardMetres": 0.0867203409663418,
-        "gripErrorMetres": 0.00006407366458804908,
+        "gripErrorMetres": 0.00006404617549865543,
         "maxWristBendDegrees": 30.92223454676603,
         "minSoleHeight": -0.000015623877815393138,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.02736018625742187
+        "minContactHeight": 0.02735991559215767
       },
       {
         "name": "AddressWedge",
@@ -620,11 +620,11 @@
         "gripTime": 0.775,
         "minElbowBackMetres": 0.05754955956282616,
         "minKneeForwardMetres": 0.09129719603833926,
-        "gripErrorMetres": 0.00005186725403838747,
+        "gripErrorMetres": 0.00005185832401577331,
         "maxWristBendDegrees": 32.644567819316244,
         "minSoleHeight": -0.000013427530876676656,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.02533459305263952
+        "minContactHeight": 0.025334255709294373
       },
       {
         "name": "AddressPutter",
@@ -635,11 +635,11 @@
         "gripTime": 0.8333333333333334,
         "minElbowBackMetres": 0.05652392849647912,
         "minKneeForwardMetres": 0.07420728396149512,
-        "gripErrorMetres": 0.00006502367402554835,
+        "gripErrorMetres": 0.00006495704195046774,
         "maxWristBendDegrees": 29.009792530735073,
         "minSoleHeight": -0.000007418182190410823,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.018355293669383932
+        "minContactHeight": 0.018355144117705557
       },
       {
         "name": "SwingDriver",
@@ -650,25 +650,25 @@
         "gripTime": 0.38584474885844755,
         "minElbowBackMetres": -0.18230184832966684,
         "minKneeForwardMetres": 0.011080276496706308,
-        "gripErrorMetres": 0.004479935916047659,
+        "gripErrorMetres": 0.004479963387699015,
         "maxWristBendDegrees": 64.60324322254539,
         "minSoleHeight": -0.00005804326369024294,
         "toeSlideMetres": 0,
-        "minContactHeight": -0.02106104567018041,
+        "minContactHeight": -0.02106125404558623,
         "impact": {
           "position": [
-            0.11117746269503237,
-            0.0213254986521767,
-            1.0200601390771769
+            0.11117739164470047,
+            0.021325299875645354,
+            1.020060270156494
           ],
-          "metadataError": 0.00008271176329922251,
+          "metadataError": 0.0000828951482665002,
           "velocity": [
-            34.94844262436195,
-            4.189815945716577,
-            0.23732710994325945
+            34.9484482212216,
+            4.18981575311734,
+            0.23732929998134367
           ],
-          "forwardAlignment": 0.9928676976913547,
-          "faceAlignment": 0.9994455096868409
+          "forwardAlignment": 0.9928677001815381,
+          "faceAlignment": 0.9994455860265576
         }
       },
       {
@@ -680,25 +680,25 @@
         "gripTime": 0.363849765258216,
         "minElbowBackMetres": -0.1585500587123565,
         "minKneeForwardMetres": 0.011264429364749522,
-        "gripErrorMetres": 0.0069872095383984685,
+        "gripErrorMetres": 0.006987144206884771,
         "maxWristBendDegrees": 66.19324438354889,
         "minSoleHeight": -0.00005573359696884881,
         "toeSlideMetres": 0,
-        "minContactHeight": -0.014865554992355201,
+        "minContactHeight": -0.014865750001396338,
         "impact": {
           "position": [
-            0.06348864099465235,
-            0.021228851690448414,
-            0.9024930747421407
+            0.06348851414753906,
+            0.021228671423042966,
+            0.9024932187866593
           ],
-          "metadataError": 0.0001950725820737496,
+          "metadataError": 0.00019531987790385137,
           "velocity": [
-            30.72318904853823,
-            -0.41841246404037635,
-            -1.189897012464236
+            30.723194486881088,
+            -0.4184138495650047,
+            -1.1898940780488854
           ],
-          "forwardAlignment": 0.9991583369575143,
-          "faceAlignment": 0.9977780029760511
+          "forwardAlignment": 0.9991583403322687,
+          "faceAlignment": 0.9977777874491486
         }
       },
       {
@@ -710,25 +710,25 @@
         "gripTime": 0.36473429951690817,
         "minElbowBackMetres": -0.1122398143027467,
         "minKneeForwardMetres": 0.009005617888304313,
-        "gripErrorMetres": 0.006913259059030758,
+        "gripErrorMetres": 0.0069131933394709685,
         "maxWristBendDegrees": 69.50157834662431,
         "minSoleHeight": -0.000029385596699884616,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.003045783965230364,
+        "minContactHeight": 0.003045519329738955,
         "impact": {
           "position": [
-            0.0051911051273732245,
-            0.02125188901020547,
-            0.7617225940073191
+            0.0051910411681345275,
+            0.02125161615153126,
+            0.7617224820559907
           ],
-          "metadataError": 0.0002147716961623033,
+          "metadataError": 0.00021484334806144906,
           "velocity": [
-            28.003202891229844,
-            -1.2197495085747967,
-            -0.19291809065855592
+            28.003204460072507,
+            -1.2197500579688336,
+            -0.1929174898658803
           ],
-          "forwardAlignment": 0.9990290578738807,
-          "faceAlignment": 0.9966585978702759
+          "forwardAlignment": 0.9990290572778193,
+          "faceAlignment": 0.9966585978702838
         }
       },
       {
@@ -740,25 +740,25 @@
         "gripTime": 0.42916666666666664,
         "minElbowBackMetres": 0.03974749284021722,
         "minKneeForwardMetres": 0.04262634597359943,
-        "gripErrorMetres": 0.001176216368426436,
+        "gripErrorMetres": 0.0011762441959177194,
         "maxWristBendDegrees": 65.66568634913786,
         "minSoleHeight": -0.000021753042841121343,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.007492913756386499,
+        "minContactHeight": 0.0074925758352411,
         "impact": {
           "position": [
-            -0.03720800208979873,
-            0.021385418868151707,
-            0.7008583649332515
+            -0.0372081130114377,
+            0.021385080592092987,
+            0.7008583473551311
           ],
-          "metadataError": 0.00017107833962974882,
+          "metadataError": 0.0001710976013149391,
           "velocity": [
-            11.321336930655363,
-            -1.2057568087540194,
-            0.13515407410041647
+            11.321338578109826,
+            -1.2057573598766602,
+            0.13515462577445625
           ],
-          "forwardAlignment": 0.994306292542563,
-          "faceAlignment": 0.9922002636651273
+          "forwardAlignment": 0.9943062885171509,
+          "faceAlignment": 0.9922002498915979
         }
       },
       {
@@ -770,25 +770,25 @@
         "gripTime": 0.7298850574712644,
         "minElbowBackMetres": 0.0593761381879486,
         "minKneeForwardMetres": 0.07502087329546747,
-        "gripErrorMetres": 0.00008735384750503684,
+        "gripErrorMetres": 0.00008741980220958256,
         "maxWristBendDegrees": 30.06777459417539,
         "minSoleHeight": -0.000018047393957065428,
         "toeSlideMetres": 0,
-        "minContactHeight": 0.018310592647801438,
+        "minContactHeight": 0.018310442870788646,
         "impact": {
           "position": [
-            0.03176139696264057,
-            0.021332203891625157,
-            0.5128835542292094
+            0.03176133502810996,
+            0.021332053854079547,
+            0.5128834806853785
           ],
-          "metadataError": 0.000018236056688421938,
+          "metadataError": 0.000018385035833985818,
           "velocity": [
-            0.5327094139633762,
-            0.0015815668612484401,
-            -0.03597802464500699
+            0.5327094286390051,
+            0.0015815519159834146,
+            -0.03597800651434335
           ],
-          "forwardAlignment": 0.9977227179238334,
-          "faceAlignment": 0.9996119861869334
+          "forwardAlignment": 0.9977227204145717,
+          "faceAlignment": 0.9996120651212402
         }
       },
       {

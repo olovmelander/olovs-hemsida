@@ -20,7 +20,7 @@ import { createRibbonTracer } from './ribbon-tracer.mjs';
 import { createPlayAudio } from './play-audio.mjs';
 import { createPlayWorld } from './play-world.mjs';
 import { createHoleMap } from './hole-map.mjs';
-import { scoreName, PLAY_KEYS } from './play-rules.mjs';
+import { scoreName, playHoleReaction, PLAY_KEYS } from './play-rules.mjs';
 
 const MAP_LIE = { green: 'green', bunker: 'sand', tee: 'tee', fairway: 'fairway', water: 'water', rough: 'rough' };
 const CSS = `
@@ -238,7 +238,7 @@ export async function mountRelive(h, roundId) {
     const H = hole();
     const name = H.picked ? 'Plockad' : scoreName(H.strokes, H.par);
     hud.banner(`Hål ${H.n} · ${name}`, H.picked ? '' : `${H.strokes} slag · ${H.putts ?? 0} puttar`, !H.picked && H.strokes <= H.par ? 'good' : '', 2600);
-    if (!H.picked && H.strokes <= H.par) golfer.play('Celebrate', { fade: .25 });
+    playHoleReaction(golfer, H.strokes, H.par, H.picked);
     hud.third(null);
     holeMap.marks({ pin: cup(), strokes: H.plays.map(p => ({ from: p.from, to: p.to || cup() })) });
     state = 'holeEnd'; timer = 2.8;
