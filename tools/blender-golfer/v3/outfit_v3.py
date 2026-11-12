@@ -1294,19 +1294,18 @@ class Outfit:
         C.inflate(me, thick)
         C.smooth(me, 4, .4, pin=bnd)
         TX.hair_uv(ob, centre, (V((0, .55, -.83)) if self.v == 'female' else V((0, .25, -.97))))
-        strands = self.textures.normal('hair')
         hair_col = self.textures.hair_color(P['hair'], P['hair_hi'])
-        mat = self.mat('hair', P['hair'], .52, normal_image=strands, normal_strength=.8, color_image=hair_col, specular=.38)
         if self.v == 'female':
-            under = tuple(c * .8 for c in C.hexrgb(P['hair']))
-            shell = self.mat('hair under', '#%02X%02X%02X' % tuple(int(c * 255) for c in under), .6,
-                             normal_image=strands, normal_strength=.6, specular=.2)
+            strands = self.textures.normal('hair')
+            mat = self.mat('hair', P['hair'], .46, normal_image=strands, normal_strength=1.0, color_image=hair_col, specular=.42)
         else:
-            shell = mat
-        self.finish(ob, shell, None)
+            # A close crop is short hairs seen end on: a fine grain, no combed locks.
+            mat = self.mat('hair', P['hair'], .62, normal_image=self.textures.normal('crop'), normal_strength=.7, specular=.3)
+        self.finish(ob, mat, None)
         if self.v == 'female':
             self.braid(centre)
-            self.strands(ob, eye, centre, mat)
+            if os.environ.get('GOLFER_HAIR_STRIPS') == '1':
+                self.strands(ob, eye, centre, mat)      # the mesh locks of 8 November, for comparison
 
     def strands(self, hair_ob, eye, centre, mat):
         """Clumps of combed-back hair from the visor line and the nape into the braid's root."""
@@ -1322,9 +1321,11 @@ class Outfit:
         objs = []
         import random
         rng = random.Random(7)
-        n = 116
+        # Combed hair is not a row of equal ridges: many narrow locks of uneven width,
+        # lying at slightly different heights and wandering a little as they run back.
+        n = 210
         for i in range(n):
-            a = -math.pi * .92 + 2 * math.pi * .92 * i / (n - 1) + rng.uniform(-.03, .03)
+            a = -math.pi * .92 + 2 * math.pi * .92 * i / (n - 1) + rng.uniform(-.045, .045)
             u = abs(a) / math.pi
             if u < .62:
                 z0 = self.hairline_z(a, eye) + .03 * k        # above the visor band
@@ -1333,18 +1334,24 @@ class Outfit:
             d0 = V((math.sin(a), -math.cos(a), 0)) * .09 * k + V((0, 0, z0 - c.z))
             d0 = d0.normalized()
             pts = []
-            steps = 18
+            steps = 13
+            layer = rng.random()                       # which locks lie over which
+            wander = rng.uniform(-.05, .05); phase = rng.uniform(0, 6.28)
+            side_axis = V((0, 0, 1)).cross(d0)
+            side_axis = side_axis.normalized() if side_axis.length > 1e-6 else V((1, 0, 0))
             for j in range(steps + 1):
                 t = j / steps
                 d = d0.slerp(rd, t) if d0.angle(rd) > 1e-3 else d0
+                d = (d + side_axis * wander * math.sin(math.pi * t) * math.sin(3.1 * t + phase)).normalized()
                 # Over the crown the path bows up a little (the hair is full there).
-                p = surface(d.normalized())
-                lift = (.0008 + .0016 * math.sin(math.pi * t) + rng.uniform(0, .0005)) * k
+                p = surface(d)
+                lift = (.0004 + (.0010 + .0022 * layer) * math.sin(math.pi * t) ** .8 + rng.uniform(0, .0004)) * k
                 pts.append(p + (p - c).normalized() * lift)
             pts[-1] = pts[-1].lerp(root, .6)
-            w = (.0056 + rng.uniform(-.0011, .0011)) * k
-            radii = [(w * (.55 + .45 * math.sin(math.pi * min(1.0, .15 + .85 * j / steps))), .0008 * k) for j in range(steps + 1)]
-            objs.append(self.ribbon(f'Golfer_v3_{self.v}_Strand', pts, radii, c, u0=rng.random()))
+            w = .0034 * k * math.exp(rng.gauss(0, .38))
+            radii = [(w * (.5 + .5 * math.sin(math.pi * min(1.0, .15 + .85 * j / steps))), (.00045 + .0003 * layer) * k)
+                     for j in range(steps + 1)]
+            objs.append(self.ribbon(f'Golfer_v3_{self.v}_Strand', pts, radii, c, sides=4, u0=rng.random()))
         sj = C.join(objs, f'Golfer_v3_{self.v}_HairStrands')
         if sj:
             C.rigid(sj, 'Head')
@@ -1432,7 +1439,7 @@ class Outfit:
                 lobe_pts.append(a * (1 - t) ** 2 + m * 2 * t * (1 - t) + b * t * t)
                 f = math.sin(math.pi * (.06 + .88 * t)) ** .55
                 radii.append((max(.0025 * k, .0175 * k * taper * f), max(.002 * k, .0135 * k * taper * f)))
-            lobe = C.tube(f'Golfer_v3_{self.v}_BraidLobe', lobe_pts, radii, self.col, 16)
+            lobe = C.tube(f'Golfer_v3_{self.v}_BraidLobe', lobe_pts, radii, self.col, 16, uv=(5.0, .9, j * .137))
             C.rigid(lobe, bones[seg].name)
             objs.append(lobe)
         core_pts = [at(total * .93 * i / 24)[0] for i in range(25)]
@@ -1456,11 +1463,11 @@ class Outfit:
         tuft = C.tube(f'Golfer_v3_{self.v}_BraidTuft', [end, end + d * .03 * k, end + d * .055 * k],
                       [.007 * k, .009 * k, .002 * k], self.col, 10)
         C.rigid(tuft, bones[-1].name); objs.append(tuft)
+        for part in objs:
+            if not part.data.uv_layers:
+                TX.scale_uv_box(part, 18)
         braid = C.join(objs, f'Golfer_v3_{self.v}_Braid')
-        TX.scale_uv_box(braid, 18)
-        strands = self.textures.normal('hair')
-        hair_col = self.textures.hair_color(P['hair'], P['hair_hi'])
-        self.finish(braid, self.mat('hair', P['hair'], .52, normal_image=strands, normal_strength=.8, color_image=hair_col, specular=.38), None, weights=False)
+        self.finish(braid, self.mats[f'Golfer v3 {self.v} | hair'], None, weights=False)
         tie_p, d, seg = at(total * .86)
         tie = C.tube(f'Golfer_v3_{self.v}_BraidTie', [tie_p - d * .006, tie_p + d * .006], [.0085 * k, .0085 * k], self.col, 14)
         C.rigid(tie, bones[seg].name)
@@ -1796,9 +1803,22 @@ class Outfit:
         P = self.P
         if self.v == 'male':
             self.scalp_mask()
-        tex = TX.bake_skin(self.G, self.P, self.v)
-        self.body.data.materials.clear()
-        self.body.data.materials.append(tex['material'])
+        import skin_v3
+        eye, centre = self.head_frame()
+        k = self.k; J = self.J; fem = self.v == 'female'
+
+        def hairline(Pn):
+            """hairline_z for an array of points (their bearing round the head)."""
+            a = np.arctan2(Pn[:, 0] - centre.x, -(Pn[:, 1] - centre.y)); u = np.abs(a) / np.pi
+            front = eye.z + .062 * k
+            side = J['ears'].z + (.004 if fem else .022) * k
+            nape = J['ears'].z - (.075 if fem else .055) * k
+            def ease(x):
+                x = np.clip(x, 0, 1); return x * x * (3 - 2 * x)
+            span = .5 if fem else .3
+            return np.where(u < .5, front + (side - front) * ease(u / .5), side + (nape - side) * ease((u - .5) / span))
+
+        self.skin_report = skin_v3.build(self.G, self.P, self.v, hairline)
         TX.bake_eyes(self.G, P, self.v)
 
 

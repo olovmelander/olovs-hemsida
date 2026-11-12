@@ -23,6 +23,9 @@ SHOTS = {
     'face-34':     ('Idle', .30, 'Head', .045, 1.0, 38, 2, 110, (720, 800)),
     'face-side':   ('Idle', .30, 'Head', .045, 1.0, 88, 0, 110, (720, 800)),
     'eyes':        ('Idle', .30, 'Head', .075, .52, 6, 0, 110, (800, 520)),
+    'head-back':   ('Idle', .30, 'Head', -.02, 1.25, 168, 6, 110, (720, 900)),
+    'head-side':   ('Idle', .30, 'Head', .03, 1.1, 96, 4, 110, (720, 800)),
+    'head-back-34': ('Idle', .30, 'Head', -.02, 1.25, 140, 10, 110, (720, 900)),
     'portrait':    ('Idle', .30, 'UpperChest', .13, 1.25, 24, 4, 70, (720, 880)),
     'full-front':  ('Idle', .30, 'Hips', -.02, 3.9, 18, 6, 70, (620, 980)),
     'full-back':   ('Idle', .30, 'Hips', -.02, 3.9, 160, 8, 70, (620, 980)),
@@ -98,7 +101,7 @@ def studio(scene, collection):
     floor = bpy.data.objects.new('Review floor', me); collection.objects.link(floor)
     mat = bpy.data.materials.new('Review floor'); mat.use_nodes = True
     b = mat.node_tree.nodes['Principled BSDF']
-    b.inputs['Base Color'].default_value = (.20, .34, .12, 1); b.inputs['Roughness'].default_value = .95
+    b.inputs['Base Color'].default_value = (.22, .27, .16, 1); b.inputs['Roughness'].default_value = .95
     me.materials.append(mat); made.append(floor)
     return made
 

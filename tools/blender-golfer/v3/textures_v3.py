@@ -28,6 +28,27 @@ def tileable_noise(n, scale, seed, aniso=(1.0, 1.0)):
     return out
 
 
+def hair_height(n=512):
+    """Combed hair as a height field, strands along U (the image's rows run along the hair).
+
+    Three widths across the hair: single hairs (a pixel or two), the locks they
+    gather into (about twenty pixels) and broad clumps; all run the texture's
+    length and drift a little sideways as they go, as combed hair does. The filter
+    widths are in pixels: far along the strand, near across it.
+    """
+    fine = tileable_noise(n, 120, 6, aniso=(1.0, .8 / 120))
+    lock = tileable_noise(n, 170, 7, aniso=(1.0, 5.5 / 170))
+    clump = tileable_noise(n, 220, 8, aniso=(1.0, 17 / 220))
+    h = .16 * fine + .52 * lock + .32 * clump
+    # Drift: each column is shifted across the strands by a slow wave (periodic, so it still tiles).
+    cols = np.arange(n)
+    shift = (6.0 * np.sin(2 * np.pi * cols / n) + 3.5 * np.sin(2 * np.pi * 3 * cols / n + 1.3)).round().astype(int)
+    rows = (np.arange(n)[:, None] + shift[None, :]) % n
+    h = h[rows, cols[None, :]]
+    h -= h.min(); h /= max(h.max(), 1e-9)
+    return h
+
+
 def height_to_normal(h, strength):
     dx = (np.roll(h, -1, axis=1) - np.roll(h, 1, axis=1)) * .5
     dy = (np.roll(h, -1, axis=0) - np.roll(h, 1, axis=0)) * .5
@@ -61,7 +82,8 @@ def to_image(name, rgb, alpha=None, non_color=False):
     img.pixels.foreach_set(px.ravel())
     img.update()
     img.pack()
-    check = np.array(img.pixels[:]).reshape(-1, 4)[:, :3].mean(0)
+    back = np.empty(h * w * 4, dtype=np.float32); img.pixels.foreach_get(back)
+    check = back.reshape(-1, 4)[:, :3].mean(0)
     if not np.allclose(check, rgb.reshape(-1, 3).mean(0), atol=.02):
         raise RuntimeError(f'{name}: packed pixels {check} differ from the array')
     return img
@@ -94,12 +116,13 @@ class Library:
             h = .5 + .5 * np.sin(2 * np.pi * x * 20) + .1 * tileable_noise(n, 2, 5)
             s = 6
         elif kind == 'hair':
-            # Strands run along U (the noise is stretched along the image rows):
-            # fine stripes across V, long and slightly wavy.
-            base = tileable_noise(n, 1.2, 6, aniso=(1.0, .02))
-            wave = tileable_noise(n, 2.5, 7, aniso=(1.0, .08))
-            h = .7 * base + .3 * wave
-            s = 14
+            h = hair_height()
+            n = h.shape[0]
+            s = 7
+        elif kind == 'crop':
+            # A close crop: short hairs seen end on, a fine even grain.
+            h = tileable_noise(n, 1.1, 21) * .7 + tileable_noise(n, 3.0, 22) * .3
+            s = 12
         else:
             raise KeyError(kind)
         img = to_image(f'Golfer v3 | {kind} normal', height_to_normal(h, s).astype(np.float32), non_color=True)
@@ -110,12 +133,16 @@ class Library:
         key = ('hair_color', base_hex)
         if key in self.cache:
             return self.cache[key]
-        n = 256
         base = np.array(C.lin(C.hexrgb(base_hex))); hi = np.array(C.lin(C.hexrgb(hi_hex)))
-        streak = tileable_noise(n, 1.2, 6, aniso=(1.0, .02))
-        broad = tileable_noise(n, 10, 8, aniso=(1.0, .2))
-        t = np.clip(.55 * streak + .45 * broad, 0, 1) ** 1.6
+        h = hair_height()
+        n = h.shape[0]
+        # Sun-lightened locks (their own pattern, not the relief's), and each lock's crest lighter than its valley.
+        streak = tileable_noise(n, 190, 16, aniso=(1.0, 9 / 190))
+        tint = tileable_noise(n, 230, 17, aniso=(1.0, 30 / 230))
+        t = np.clip(.75 * streak + .45 * tint - .22, 0, 1) ** 1.4
         rgb = base[None, None, :] * (1 - t[..., None]) + hi[None, None, :] * t[..., None]
+        valley = np.clip((.52 - h) * 2.4, 0, 1)[..., None] ** 1.6
+        rgb = rgb * (1 - valley * .62)
         img = to_image(f'Golfer v3 | hair colour {base_hex}', rgb.astype(np.float32))
         self.cache[key] = img
         return img
@@ -171,19 +198,21 @@ def hair_uv(ob, centre, root_dir):
     me = ob.data
     uv = me.uv_layers[0] if me.uv_layers else me.uv_layers.new(name='UVMap')
     axis = root_dir.normalized(); ref = axis.orthogonal().normalized(); ref2 = axis.cross(ref)
-    rep_u, rep_v = 7.0, 2.2
+    # The hair texture's strands run along U: U follows each meridian from the hairline
+    # to where the hair is gathered, V goes round the head (so the locks converge there).
+    rep_along, rep_round = 1.6, 5.0
     for p in me.polygons:
         vals = []
         for li in p.loop_indices:
             d = me.vertices[me.loops[li].vertex_index].co - centre
             theta = math.acos(max(-1, min(1, d.normalized().dot(axis))))
             phi = math.atan2(d.dot(ref2), d.dot(ref))
-            vals.append([(phi / (2 * math.pi) + .5) * rep_u, theta / math.pi * rep_v])
-        us = [v[0] for v in vals]
-        if max(us) - min(us) > rep_u * .5:
+            vals.append([theta / math.pi * rep_along, (phi / (2 * math.pi) + .5) * rep_round])
+        vs = [v[1] for v in vals]
+        if max(vs) - min(vs) > rep_round * .5:
             for v in vals:
-                if v[0] < rep_u * .5:
-                    v[0] += rep_u
+                if v[1] < rep_round * .5:
+                    v[1] += rep_round
         for li, v in zip(p.loop_indices, vals):
             uv.data[li].uv = v
 

@@ -302,7 +302,7 @@ def assign_material(ob, mat, faces=None):
             p.material_index = idx
 
 
-def tube(name, points, radii, collection, sides=12, closed=False, caps=True):
+def tube(name, points, radii, collection, sides=12, closed=False, caps=True, uv=None):
     verts = []; faces = []
     pts = [V(p) for p in points]; n = len(pts)
     prev = None
@@ -328,6 +328,19 @@ def tube(name, points, radii, collection, sides=12, closed=False, caps=True):
     if caps and not closed:
         faces.append(tuple(reversed(range(sides)))); faces.append(tuple((n - 1) * sides + j for j in range(sides)))
     me = bpy.data.meshes.new(name); me.from_pydata([tuple(v) for v in verts], [], faces); me.update()
+    if uv is not None:
+        # Strand UVs: U runs along the tube (metres x uv[0]), V round it (uv[1] of the texture), offset by uv[2].
+        acc = [0.0]
+        for i in range(1, n):
+            acc.append(acc[-1] + (pts[i] - pts[i - 1]).length)
+        layer = me.uv_layers.new(name='UVMap')
+        for poly in me.polygons:
+            ring_j = [divmod(me.loops[li].vertex_index, sides) for li in poly.loop_indices]
+            js = [j for _, j in ring_j]
+            wrap = max(js) - min(js) > sides / 2
+            for li, (i, j) in zip(poly.loop_indices, ring_j):
+                jj = j + sides if wrap and j < sides / 2 else j
+                layer.data[li].uv = (acc[min(i, n - 1)] * uv[0], uv[2] + uv[1] * jj / sides)
     ob = bpy.data.objects.new(name, me); collection.objects.link(ob)
     for p in me.polygons:
         p.use_smooth = True
