@@ -19,8 +19,11 @@ def hexrgb(h):
     h = h.lstrip('#'); return tuple(int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
 
 
+AO_ATTRIBUTE = 'AO'
+
+
 def material(name, color, rough=.7, metal=0.0, sheen=0.0, normal_image=None, normal_strength=.6, uv_scale=None,
-             color_image=None, specular=.5, coat=0.0):
+             color_image=None, specular=.5, coat=0.0, ao=False):
     m = bpy.data.materials.get(name) or bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree; b = nt.nodes['Principled BSDF']
@@ -34,9 +37,23 @@ def material(name, color, rough=.7, metal=0.0, sheen=0.0, normal_image=None, nor
     if coat and 'Coat Weight' in b.inputs:
         b.inputs['Coat Weight'].default_value = coat
     m.diffuse_color = (*rgb, 1)
+    source = None
     if color_image is not None:
         tex = nt.nodes.new('ShaderNodeTexImage'); tex.image = color_image
         nt.links.new(tex.outputs['Color'], b.inputs['Base Color'])
+        source = tex.outputs['Color']
+    if ao:
+        # The colour times the mesh's baked occlusion (a colour attribute; glTF's COLOR_0,
+        # which three.js multiplies into the base colour). Every mesh that takes this
+        # material must carry the attribute: Outfit.shade() bakes it.
+        mixn = nt.nodes.new('ShaderNodeMix'); mixn.data_type = 'RGBA'; mixn.blend_type = 'MULTIPLY'
+        mixn.inputs[0].default_value = 1.0
+        mixn.inputs[6].default_value = (*rgb, 1)
+        if source is not None:
+            nt.links.new(source, mixn.inputs[6])
+        vc = nt.nodes.new('ShaderNodeVertexColor'); vc.layer_name = AO_ATTRIBUTE
+        nt.links.new(vc.outputs['Color'], mixn.inputs[7])
+        nt.links.new(mixn.outputs[2], b.inputs['Base Color'])
     if normal_image is not None:
         tex = nt.nodes.new('ShaderNodeTexImage'); tex.image = normal_image
         normal_image.colorspace_settings.name = 'Non-Color'
