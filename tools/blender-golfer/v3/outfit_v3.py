@@ -32,7 +32,7 @@ PALETTE = {
                    headwear='#FBFAF6', bill_under='#11A7A1', trousers='#1C3A86', belt='#11A7A1', tie='#11A7A1'),
     'male': dict(skin='#A86E4F', polo='#1F5FD6', trim='#F7C93C', navy='#16357F', hair='#1E1511', hair_hi='#3C2B21',
                  shoe='#FBFAF6', accent='#1F5FD6', sole='#F4F1EA', outsole='#B9844C', trousers='#E6DAC0', belt='#A65A24',
-                 lip='#AE5E4C', iris='#5B381F', headwear='#FBFAF6', bill_under='#1F5FD6', tie='#F7C93C'),
+                 lip='#8F4B42', iris='#5B381F', headwear='#FBFAF6', bill_under='#1F5FD6', tie='#F7C93C'),
 }
 
 
@@ -184,7 +184,7 @@ class Outfit:
                 radial = (V(p) - (sh + ax * t * L)).length
                 if t > .05 and radial < .1 * k:
                     # The sleeve eases toward its opening: cloth, not a band.
-                    add[i] = max(add[i], (.016 if DRAPE else .0085) * k * smooth_np((t - (sleeve - .34)) / .3))
+                    add[i] = max(add[i], (.011 if DRAPE else .0085) * k * smooth_np((t - (sleeve - .34)) / .3))
         for i, p in enumerate(co):
             if abs(p[0]) > .17 * k and i in bnd:
                 add[i] = max(add[i], .004 * k)
@@ -960,6 +960,8 @@ class Outfit:
         # The hem breaks a little lower at the back over the shoe.
         C.cut_plane(ob, (0, .0, hem_z), V((0, -.18, 1)).normalized(), keep_positive=True)
         if DRAPE:
+            if not shorts:
+                self.extend_hems(ob, hem_z)
             self.drape_trousers(ob, top, hem_z, shorts)
         self.fly(ob, top, J)
         self.tailoring(ob, top, hem_z, J)
@@ -971,8 +973,34 @@ class Outfit:
         self.hide |= C.shrink_mask(self.me, m & np.array([hem_z + .02 < c.z < top - .01 for c in self.centre]), 2)
         self.belt(top)
 
+    def extend_hems(self, ob, hem_z):
+        """Trousers reach the shoe: each hem is carried down past the ankle, a little wider, in three rings.
+
+        The legs are cut from the body's shin, which ends at the ankle; a hem there
+        left bare ankle between trouser and shoe. The new rings take their hem's weights.
+        """
+        k = self.k; me = ob.data
+        bm = bmesh.new(); bm.from_mesh(me)
+        hem = [e for e in bm.edges if e.is_boundary and all(v.co.z < hem_z + .03 * k for v in e.verts)]
+        for step in range(3):
+            if not hem:
+                break
+            ret = bmesh.ops.extrude_edge_only(bm, edges=hem)
+            new_v = [g for g in ret['geom'] if isinstance(g, bmesh.types.BMVert)]
+            hem = [g for g in ret['geom'] if isinstance(g, bmesh.types.BMEdge) and g.is_boundary]
+            by_leg = {1: [v for v in new_v if v.co.x > 0], -1: [v for v in new_v if v.co.x <= 0]}
+            for vs in by_leg.values():
+                if not vs:
+                    continue
+                c = sum((v.co for v in vs), V()) / len(vs)
+                for v in vs:
+                    out = V((v.co.x - c.x, v.co.y - c.y, 0))
+                    out = out.normalized() if out.length > 1e-6 else V((0, 0, 0))
+                    v.co += V((0, 0, -.0155 * k)) + out * .0016 * k
+        bm.to_mesh(me); bm.free(); me.update()
+
     def drape_trousers(self, ob, top, hem_z, shorts):
-        """Trousers as cloth: held by the waistband, hanging down each leg."""
+        """Trousers as cloth: held by the waistband and across the seat, hanging down each leg."""
         k = self.k; J = self.J; me = ob.data
         D.subdivide(ob, 1)
         self.keep_off_body(ob, .0045 * k)
@@ -980,20 +1008,31 @@ class Outfit:
         hipz = J['hip_L'].z
         # The waistband (under the belt) is held; the cloth is free from just below it.
         pin = np.clip((co[:, 2] - (top - .05 * k)) / (.014 * k), 0, 1)
+        # Tailored trousers sit on the seat and the hips: there the cloth mostly keeps its cut
+        # (free cloth sagged under the seat like a nappy).
+        seat = np.clip((co[:, 2] - (hipz - .10 * k)) / (.07 * k), 0, 1)
+        pin = np.maximum(pin, seat * (.42 if shorts else .55))
         # Between the legs the cloth is sewn into the rise and trapped by the thighs: it follows the cut.
         rise = np.clip(1 - np.abs(co[:, 0]) / (.05 * k), 0, 1) * np.clip((co[:, 2] - (hipz - .2 * k)) / (.04 * k), 0, 1) \
             * np.clip((hipz + .04 * k - co[:, 2]) / (.03 * k), 0, 1)
         pin = np.maximum(pin, rise * .75)
-        # A hem is doubled cloth: it keeps its ring, loosely.
+        # A hem is doubled cloth: it keeps its ring, loosely (a trouser's hem is nearly free: it rests on the shoe).
         for L in self._loops(ob):
             pts = co[L]
             if pts[:, 2].mean() < hem_z + .06 * k:
                 dh = np.array([np.linalg.norm(pts - p, axis=1).min() for p in co])
-                pin = np.maximum(pin, np.clip(1 - dh / (.014 * k), 0, 1) * (.3 if shorts else .45))
-        D.drape(ob, [self.body], pin, frames=46, grow=.018 if shorts else .022, bending=1.5, tension=26, shear=8,
-                gap=.0035 * k, label=f'{self.v} trousers')
+                pin = np.maximum(pin, np.clip(1 - dh / (.014 * k), 0, 1) * (.3 if shorts else .22))
+        if not shorts:
+            # A trouser leg keeps its tube by its weave and its crease. Free cloth has neither here:
+            # it fell in and clung to the calf like leggings. So the legs hold their cut, loosely,
+            # and the solver adds the folds: behind the knee, and the break on the shoe.
+            pin = np.maximum(pin, .34)
+        colliders = [self.body] + ([] if shorts else list(getattr(self, 'shoe_colliders', [])))
+        D.drape(ob, colliders, pin, frames=40, grow=.018 if shorts else .006, bending=1.5 if shorts else 2.2,
+                tension=26, shear=8, gap=.0035 * k, label=f'{self.v} trousers')
         D.calm(ob, limit=.45)
-        D.relax(ob, 1, .2)
+        # Twill is smooth: the solver's small buckles are taken off, its folds stay.
+        D.relax(ob, 1 if shorts else 4, .2 if shorts else .4)
         self.keep_off_body(ob, .0032 * k)
 
     def tailoring(self, ob, top, hem_z, J):
@@ -1120,8 +1159,8 @@ class Outfit:
         for side, sgn in (('L', 1), ('R', -1)):
             shoes_v3.build(self, side, sgn)
             self.hide |= self.mask({FS['foot_' + side], FOREFOOT[side]} | TOES[side])
-            if self.v == 'female':
-                self.sock(side, self.J['ankle_' + side].z - .012 * self.k)
+            self.sock(side, self.J['ankle_' + side].z - .012 * self.k)
+        self.shoe_colliders = [ob for ob in self.parts if any(tag in ob.name for tag in ('_Shoe_', '_ShoeTongue_', '_ShoeCollar_'))]
 
     def sock(self, side, shoe_top):
         P = self.P; k = self.k
@@ -1244,7 +1283,9 @@ class Outfit:
             d = V((math.sin(a), -math.cos(a), 0))
             o = V((centre.x, centre.y, z))
             hit = self.bvh.ray_cast(o + d * .3, -d, .3)
-            if hit[0] is not None and abs(z - p[2]) < .03 * self.k:
+            # By the ear the ray meets the ear first (it stands two centimetres off the head):
+            # a vertex snapped there became a flap of hair in front of the ear. Keep such a vertex.
+            if hit[0] is not None and abs(z - p[2]) < .03 * self.k and (hit[0] - V(p)).length < .014 * self.k:
                 co[i] = np.array(hit[0])
         C.set_coords(me, co)
         # Relax the first rows inside the edge so the snap leaves no crease.
@@ -1716,7 +1757,7 @@ class Outfit:
             if len(margin) < 6:
                 continue
             outer = 1 if side == 'L' else -1          # +x is the left eye's outer corner
-            n = 30 if fem else 22
+            n = 46 if fem else 30                       # many fine lashes, not a comb
             xs = [p.x for p in margin]; x0, x1 = min(xs), max(xs)
             up = V((0, 0, 1)); fwd = V((0, -1, 0))
             for i in range(n):
@@ -1724,8 +1765,9 @@ class Outfit:
                 x = mix(x0, x1, u)
                 p = min(margin, key=lambda q: abs(q.x - x))
                 o = u if outer > 0 else 1 - u                # 0 inner corner .. 1 outer corner
-                L = (.0046 if fem else .0032) * (.45 + .55 * math.sin(math.pi * min(1.0, .1 + o * .8)) ** .6) * (1 + (.25 if fem else .08) * o)
-                lat = V((outer, 0, 0)) * (o - .45) * .6
+                jitter = .78 + .44 * ((i * 7919) % 13) / 12
+                L = (.0046 if fem else .0032) * (.45 + .55 * math.sin(math.pi * min(1.0, .1 + o * .8)) ** .6) * (1 + (.25 if fem else .08) * o) * jitter
+                lat = V((outer, 0, 0)) * (o - .45 + .12 * (((i * 104729) % 7) / 6 - .5)) * .6
                 d0 = (fwd * .85 + up * .30 + lat).normalized()
                 d1 = (fwd * .30 + up * .95 + lat * 1.2).normalized()
                 root = p + fwd * .0002 + up * .0001
@@ -1733,7 +1775,7 @@ class Outfit:
                 for t in (0, .33, .66, 1.0):
                     d = d0.lerp(d1, t).normalized()
                     pts.append(root + d0 * L * t * .5 + d * L * t * .5)
-                w0 = .00075 if fem else .0006
+                w0 = .00046 if fem else .0004
                 blade = C.tube(f'Golfer_v3_{self.v}_Lash', pts, [(w0, .00016), (w0 * .8, .00014), (w0 * .5, .00011), (.00007, .00005)],
                                self.col, 4)
                 C.rigid(blade, 'Lid_' + side)
@@ -1763,7 +1805,7 @@ class Outfit:
         multiplies it into the colour.
         """
         scene = bpy.context.scene
-        parts = [ob for ob in self.parts if ob is not None and ob.type == 'MESH' and len(ob.data.vertices)]
+        parts = [ob for ob in self.parts if ob is not None and ob.type == 'MESH' and len(ob.data.vertices) and not ob.get('no_shade')]
         for ob in parts:
             me = ob.data
             attr = me.color_attributes.get(C.AO_ATTRIBUTE) or me.color_attributes.new(C.AO_ATTRIBUTE, 'FLOAT_COLOR', 'POINT')
@@ -1890,17 +1932,21 @@ def dress(G, collection):
         O.polo(); lap('polo')
     # Tailored shorts for her, trousers for him: both follow each leg cleanly
     # through every swing (a pleated skirt needs cloth simulation to do that).
-    if want('trousers'):
-        O.trousers(shorts=O.v == 'female'); lap('trousers')
+    # The shoes come first: the trousers' hems are draped onto them.
     if want('shoes'):
         O.shoes(); O.glove(); lap('shoes+glove')
         O.watch()
+    if want('trousers'):
+        O.trousers(shorts=O.v == 'female'); lap('trousers')
     if want('hair'):
         O.hair(); lap('hair')
     if want('headwear'):
         O.headwear(); lap('headwear')
     if want('lashes'):
         O.lashes(); lap('lashes')
+    if want('mouth') or want('lashes'):
+        import mouth_v3
+        mouth_v3.build(O); lap('mouth')
     if O.v == 'female' and want('hair'):
         O.earrings()
     O.shade(samples=8 if os.environ.get('GOLFER_FAST') else 24); lap('shade')

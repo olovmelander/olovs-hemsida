@@ -43,6 +43,7 @@ SHOTS = {
     'rest-legs':   ('REST', 0, 'Hips', -.45, 2.3, 18, 4, 70, (700, 940)),
     'rest-legs-back': ('REST', 0, 'Hips', -.45, 2.3, 164, 5, 70, (700, 940)),
     'legs':        ('Idle', .30, 'Hips', -.48, 2.1, 22, 4, 70, (640, 900)),
+    'legs-back':   ('Idle', .30, 'Hips', -.48, 2.1, 160, 5, 70, (640, 900)),
     'shoes':       ('REST', 0, 'Foot_L', -.03, 1.0, 40, 22, 70, (860, 560)),
     'shoes-back':  ('REST', 0, 'Foot_L', -.03, 1.0, 150, 20, 70, (860, 560)),
     'collar':      ('REST', 0, 'Neck', -.03, .8, 16, 14, 85, (860, 640)),
@@ -62,9 +63,16 @@ SHOTS = {
     'finish-back': ('SwingDriver', 'finish', 'Hips', .05, 3.9, -150, 8, 70, (760, 940)),
     'walk':        ('Walk', .28, 'Hips', -.02, 3.9, 78, 5, 70, (620, 980)),
     'putt':        ('Putt', 'impact', 'Hips', -.1, 3.2, 0, 8, 70, (760, 900)),
-    'celebrate':   ('Celebrate', 1.05, 'Hips', .12, 4.2, 12, 4, 70, (700, 980)),
-    'celebrate-face': ('Celebrate', 1.9, 'Head', .08, .8, 14, 2, 100, (720, 800)),
-    'address-face': ('AddressIron', 1.2, 'Head', .05, .8, 20, -24, 100, (720, 800)),
+    'celebrate':   ('Celebrate', .52, 'Hips', .12, 4.4, 12, 4, 70, (700, 980)),
+    'fistpump':    ('FistPump', .52, 'Hips', .05, 3.9, 16, 5, 70, (680, 980)),
+    'disappointed': ('Disappointed', 1.05, 'Hips', .05, 3.9, 16, 5, 70, (680, 980)),
+    'sky':         ('Disappointed', 1.82, 'Hips', .05, 3.9, 16, 5, 70, (680, 980)),
+    'disappointed-face': ('Disappointed', 1.05, 'Head', .045, 1.0, 20, -24, 110, (720, 800)),
+    'celebrate-face': ('Celebrate', .85, 'Head', .045, 1.0, 10, 0, 110, (720, 800)),
+    'smile-face':  ('Celebrate', 2.2, 'Head', .045, 1.0, 14, 0, 110, (720, 800)),
+    'impact-face': ('SwingIron', 'impact', 'Head', .045, 1.0, -40, -14, 110, (720, 800)),
+    'finish-face': ('SwingIron', 'finish', 'Head', .045, 1.0, 60, 0, 110, (720, 800)),
+    'address-face': ('AddressIron', 2.6, 'Head', .045, 1.0, 14, -30, 110, (720, 800)),
 }
 DEFAULT = ['face', 'face-34', 'portrait', 'full-front', 'full-back', 'address', 'top', 'finish']
 

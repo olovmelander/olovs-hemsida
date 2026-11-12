@@ -196,6 +196,8 @@ def vertex_masks(G):
     TX.vertex_mask(me, 'head_mask', {FS['head'], FS['jaw'], FS['chin'], FS['mouth'], FS['eyelid_L'], FS['eyelid_R'],
                                      FS['ear_L'], FS['ear_R']}, fsets)
     TX.vertex_mask(me, 'foot_mask', {FS['foot_L'], FS['foot_R']} | toes, fsets)
+    from body_v3 import MOUTH_INSIDE
+    TX.vertex_mask(me, 'inside_mask', set(MOUTH_INSIDE), fsets)
     if 'scalp_mask' not in me.attributes:
         me.attributes.new('scalp_mask', 'FLOAT', 'POINT')
 
@@ -250,6 +252,7 @@ def bake_maps(G, variant, size=SIZE, ao_samples=24):
     bake_emit('m1', lambda nt: _combine(nt, _attr(nt, 'lip_mask'), _attr(nt, 'lid_mask'), _attr(nt, 'ear_mask')), 0)
     bake_emit('m2', lambda nt: _combine(nt, _attr(nt, 'nail_mask'), _attr(nt, 'beard_mask'), _attr(nt, 'scalp_mask')), 0)
     bake_emit('m3', lambda nt: _combine(nt, _attr(nt, 'hand_mask'), _attr(nt, 'head_mask'), _attr(nt, 'foot_mask')), 0)
+    bake_emit('m4', lambda nt: _combine(nt, _attr(nt, 'inside_mask'), 0.0, 0.0), 0)
 
     # From the sculpt's finest level onto the runtime body.
     src_mod = next(m for m in G['source'].modifiers if m.type == 'MULTIRES')
@@ -511,9 +514,11 @@ def paint(G, P_, variant, maps, hairline=None):
                         blob(P, (-w, L['y_front'] + .012, float(np.polyval(L['lip_curve'], w))), (.006 * k, .02, .004 * k), .0))
     mix(deep, corner * head * .4)
     # Inside the mouth (behind the lips): dark.
-    # The mouth's inside has its own tiles (the atlas's lower left): dark, wherever it shows between the lips.
-    inner = ((cv.ix < cv.w * .25) & (cv.iy < cv.h * .125)).astype(np.float32)
-    mix(lin('#3E1C1C'), inner * .92)
+    # The mouth's inside: the lips' wet inner faces first, then dark further in.
+    inside = cv.take(maps['m4'])[:, 0]
+    depth = sstep(P[:, 1] - L['y_front'], .004 * k, .016 * k)
+    mix(lip_col * .78, inside * (1 - depth) * .9)
+    mix(lin('#34181A'), inside * depth * .95)
 
     # Nails: the back of each fingertip, glossy and pale with a lighter free edge.
     nail = tipcap * sstep(N[:, 0] * np.sign(P[:, 0]), .30, .62) * hand
@@ -569,7 +574,7 @@ def paint(G, P_, variant, maps, hairline=None):
     for s in (-1, 1):
         for _ in range(count):
             t = rng.beta(1.25, 1.35)
-            half = ((.0048 if fem else .0064) * (1 - .62 * t ** 1.25)) * k
+            half = ((.0043 if fem else .0052) * (1 - .62 * t ** 1.25)) * k
             v = rng.uniform(-1, 1)
             x0, zc = centre(t); z0 = zc + v * half
             # Direction: upright and fanning at the inner end, swept along the arch further out;
@@ -594,7 +599,7 @@ def paint(G, P_, variant, maps, hairline=None):
     brow = strokes(cv, hairs, width=1.25)
     brow_soft = blur(brow, 3.0)
     brow_col = lin('#4A3222' if fem else '#19120E')
-    a = np.clip(brow * .8 + brow_soft * 1.5, 0, .93)[..., None]
+    a = np.clip(brow * .8 + brow_soft * (1.05 if fem else 1.0), 0, .88)[..., None]
     colour = colour * (1 - a) + brow_col * a
 
     # Fine hairs at her hairline (temples and forehead), so the hair does not start as an edge.

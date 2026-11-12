@@ -171,9 +171,52 @@ def blink_times(name, duration):
         return [.28]
     if name == 'Celebrate':
         return [.06, duration - .75]
+    if name == 'FistPump':
+        return [.05, duration - .45]
+    if name == 'Disappointed':
+        return [.42, 1.5, duration - .5]
     if name in ('SwingDriver', 'SwingWood', 'SwingIron', 'ChipWedge', 'Putt'):
         return [.12, duration - .95]
     return []
+
+
+def expression(name, t, duration, impact=None):
+    """The face at a moment of a clip: jaw (degrees, + opens), smile, brow (-1 drawn .. 1 raised), squint.
+
+    The sculpt's lips rest a little parted; a slightly closed jaw is the neutral face.
+    """
+    def window(t0, t1, rise=.25, fall=.35):
+        return smooth((t - t0) / rise) * (1 - smooth((t - t1) / fall))
+    f = dict(jaw=-.9, smile=.08, brow=0.0, squint=.04)
+    if name == 'Idle':
+        look = window(2.9, 4.3)                           # shading the eyes, looking down the course
+        easy = window(4.7, 5.9)
+        f.update(squint=.04 + .42 * look, brow=-.28 * look + .2 * easy, smile=.1 + .16 * easy)
+    elif name.startswith('Address'):
+        glance = window(.7, 1.5)                          # the look at the target
+        f.update(brow=-.34 + .2 * glance, squint=.28 + .12 * glance, smile=.0, jaw=-1.1)
+    elif impact is not None:
+        effort = window(impact - .16, impact + .14, .1, .3)
+        watch = window(impact + .45, impact + 1.2, .3, .5)
+        pleased = smooth((t - (impact + 1.25)) / .5)
+        f.update(brow=-.36 - .3 * effort + .5 * watch + .46 * pleased, squint=.3 + .42 * effort - .1 * watch + .2 * pleased,
+                 smile=.3 * pleased, jaw=-1.1 - .4 * effort + .5 * watch + .4 * pleased)
+    elif name == 'Celebrate':
+        joy = smooth((t - .2) / .3)
+        shout = window(.42, 1.2, .14, .4)
+        f.update(smile=.25 + .75 * joy, jaw=-.9 + 7.0 * shout + 3.4 * joy * (1 - shout), brow=.55 * joy, squint=.5 * joy)
+    elif name == 'FistPump':
+        on = window(.3, 1.2, .2, .4)
+        f.update(smile=.12 + .5 * on, brow=-.3 * window(.36, .9, .1, .3) + .2 * smooth((t - 1.1) / .4),
+                 squint=.1 + .4 * on, jaw=-1.0 + 1.2 * window(.36, .9, .1, .3))
+    elif name == 'Disappointed':
+        down = window(.35, 1.5, .25, .3)
+        sky = window(1.55, 2.2, .2, .4)
+        f.update(brow=-.75 * down + .7 * sky - .15 * smooth((t - 2.4) / .4), squint=.38 * down, smile=0.0,
+                 jaw=-1.2 + 3.4 * sky)
+    elif name == 'Jog':
+        f.update(jaw=1.2, smile=.05)
+    return f
 
 
 def bake_all(G, scene, names=None):
@@ -196,8 +239,9 @@ def bake_all(G, scene, names=None):
             if loop and f == frames:
                 t = 0.0
             G['bodypose'].blink = blink_curve(t, blinks)
+            G['bodypose'].face = expression(name, t, duration, clip.sw.impact if isinstance(clip, clips_v3.Stroke) else None)
             poses.append(clip.pose(t))
-        G['bodypose'].blink = 0.0
+        G['bodypose'].blink = 0.0; G['bodypose'].face = None
         poses = braid.run(poses, loop)
         basis = [skel.basis(p) for p in poses]
         action = bpy.data.actions.new(f'{G["variant"].title()} v3 | {name}')

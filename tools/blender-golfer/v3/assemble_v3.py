@@ -28,6 +28,7 @@ def build(variant, collection, level=1, with_clubs=True):
     J = body_v3.fit_joints(cage.data)
     for side, eye in (('L', eye_l), ('R', eye_r)):
         J['eye_' + side] = sum((v.co for v in eye.data.vertices), V()) / len(eye.data.vertices)
+    J.update(body_v3.face_joints(cage.data, J, variant))
     rig = body_v3.build_rig(variant, cage.data, J, collection, braid=variant == 'female')
     body_v3.heat_weights(cage, rig)
     body_v3.copy_groups(cage, body_src)
@@ -38,6 +39,7 @@ def build(variant, collection, level=1, with_clubs=True):
     mod = body.modifiers.new('Golfer rig', 'ARMATURE'); mod.object = rig
     lids = body_v3.lid_weights(body, J, (eye_l, eye_r))
     print('LIDS', lids)
+    print('FACE', body_v3.face_weights(body, J, (eye_l, eye_r), variant))
     for side, eye in (('L', eye_l), ('R', eye_r)):
         eye.name = f'Golfer_v3_{variant}_Eye_{side}'
         rigid_weights(eye, rig, 'Eye_' + side)

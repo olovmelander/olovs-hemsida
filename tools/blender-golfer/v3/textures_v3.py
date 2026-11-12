@@ -511,15 +511,18 @@ def eye_material(variant, iris_hex):
     name = f'Golfer v3 {variant} | eye'
     if name in bpy.data.materials:
         return bpy.data.materials[name]
-    n = 256
+    n = 512
     img = bpy.data.images.new(f'Golfer v3 {variant} | iris', n, n, alpha=False)
     mat = bpy.data.materials.new(name); mat.use_nodes = True
     nt = mat.node_tree; b = nt.nodes['Principled BSDF']
     tex = nt.nodes.new('ShaderNodeTexImage'); tex.image = img
     nt.links.new(tex.outputs['Color'], b.inputs['Base Color'])
-    b.inputs['Roughness'].default_value = .12
+    # A wet eye: a smooth clear coat over the painted iris gives it its bright, small highlight.
+    b.inputs['Roughness'].default_value = .16
     if 'Coat Weight' in b.inputs:
-        b.inputs['Coat Weight'].default_value = .6
+        b.inputs['Coat Weight'].default_value = 1.0
+    if 'Coat Roughness' in b.inputs:
+        b.inputs['Coat Roughness'].default_value = .03
     mat['iris'] = iris_hex
     return mat
 
