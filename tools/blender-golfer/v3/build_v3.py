@@ -1,6 +1,12 @@
 """Build a Banvy golfer, revision 3, headless.
 
   blender --background --factory-startup --python tools/blender-golfer/v3/build_v3.py -- female [--clips Idle,Walk] [--no-outfit]
+      [--no-export] [--no-blend] [--review <dir> [shot,shot]] [--review-samples 32]
+
+--no-export builds and bakes without writing the GLB, manifest or native file (for
+iterating); --review renders review_v3's shots on the CPU from the built scene.
+GOLFER_FAST=1 skips the skin and eye bakes; GOLFER_PARTS=polo,trousers builds only
+those outfit steps.
 
 Writes experiments/golfer/assets/banvy-golfer-v3-<variant>.glb and
 golfer-v3-<variant>.json, and the editable native file
@@ -21,7 +27,15 @@ clip_names = None
 if '--clips' in argv:
     clip_names = argv[argv.index('--clips') + 1].split(',')
 outfit = '--no-outfit' not in argv
-save_blend = '--no-blend' not in argv
+do_export = '--no-export' not in argv
+save_blend = '--no-blend' not in argv and do_export
+review_dir = None; review_shots = None; review_samples = 32
+if '--review' in argv:
+    i = argv.index('--review'); review_dir = argv[i + 1]
+    if i + 2 < len(argv) and not argv[i + 2].startswith('--'):
+        review_shots = argv[i + 2].replace('+', ',').split(',')     # a+b too: PowerShell splits on commas
+if '--review-samples' in argv:
+    review_samples = int(argv[argv.index('--review-samples') + 1])
 
 t0 = time.time()
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -43,6 +57,14 @@ actions, clips, report = bake_v3.bake_all(G, scene, clip_names)
 # Revision 3 takes the lab's canonical names, so the runtime loads it unchanged;
 # the September golfers live on in experiments/golfer/assets/v1 (?golferset=v1).
 stem = 'banvy-golfer' if variant == 'female' else 'banvy-golfer-male'
+if review_dir:
+    import review_v3
+    for ob in (G['source'], G['cage']):
+        ob.hide_render = True
+    review_v3.render(variant, review_dir, review_shots, review_samples, rig=G['rig'], manifest={c['name']: c for c in clips})
+if not do_export:
+    print('BUILD ' + json.dumps(dict(variant=variant, seconds=round(time.time() - t0, 1), export=False, clips=len(clips))))
+    sys.exit(0)
 manifest = bake_v3.export(G, scene, actions, clips, report, stem, 'golfer.json' if variant == 'female' else 'golfer-male.json',
                           dict(design=G.get('design', ''), palette='Coral & royal blue' if variant == 'female' else 'Cobalt & stone',
                                source=dict(asset=f'Blender Studio Human Base Meshes v1.4.1 - realistic {variant}',

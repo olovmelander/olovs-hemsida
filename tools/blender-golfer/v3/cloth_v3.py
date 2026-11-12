@@ -252,6 +252,14 @@ def smooth_weights(ob, iterations=4, keep=.45):
     for _ in range(iterations):
         avg = np.array([W[n].mean(axis=0) if n else W[i] for i, n in enumerate(nb)])
         W = W * keep + avg * (1 - keep)
+    # The runtime skins with four influences. Keeping each vertex's four largest and
+    # dropping the rest pops where neighbours drop different bones (two vertices a few
+    # millimetres apart then move a centimetre apart under a turned arm: hatch marks
+    # on the chest, 12 November). Taking the fifth-largest weight off every weight
+    # fades the fourth out as it nears the fifth, so the cut is continuous.
+    if W.shape[1] > 4:
+        fifth = -np.sort(-W, axis=1)[:, 4]
+        W = np.maximum(W - fifth[:, None], 0)
     # Top four influences, normalised.
     for g in list(ob.vertex_groups):
         ob.vertex_groups.remove(g)
@@ -369,3 +377,89 @@ def shrink_mask(me, mask, rings=2):
         for i in edge:
             mask[i] = False
     return mask
+def hang(me, select, centre, z_lo, z_hi, drop=.35, amount=1.0, sectors=72, dz=.008, fade=.03):
+    """Let a garment's trunk hang: taut from each fullest point to where it is held below.
+
+    Round a vertical axis the trunk's radius is read on a (bearing, height) grid.
+    Cloth cannot follow a hollow under a fuller part: per bearing the profile is
+    lifted to its upper convex hull (the taut line from the bust or the shoulder
+    blades to the waistband), and by `drop` of the way further to the plumb line
+    from the fullest point above (how much the fabric hangs free of the body).
+    Only ever outward. `fade` eases the change in at both ends of the height range.
+    """
+    co = coords(me)
+    idx = np.asarray(select, dtype=np.int64)
+    cx, cy = centre
+    x = co[idx, 0] - cx; y = co[idx, 1] - cy; z = co[idx, 2]
+    use = (z >= z_lo - dz) & (z <= z_hi + dz)
+    idx = idx[use]; x = x[use]; y = y[use]; z = z[use]
+    if len(idx) < 50:
+        return 0
+    th = np.arctan2(x, -y); r = np.hypot(x, y)
+    nz = max(4, int(np.ceil((z_hi - z_lo) / dz)) + 1)
+    tf = (th + np.pi) / (2 * np.pi) * sectors
+    zf = np.clip((z - z_lo) / dz, 0, nz - 1)
+    tb = np.floor(tf).astype(int) % sectors; zb = np.rint(zf).astype(int)
+    R = np.full((sectors, nz), -1.0)
+    np.maximum.at(R, (tb, zb), r)
+    # Fill empty cells: along the height first, then round the bearing.
+    for t in range(sectors):
+        row = R[t]; ok = row > 0
+        if ok.sum() >= 2:
+            R[t] = np.interp(np.arange(nz), np.nonzero(ok)[0], row[ok])
+    for j in range(nz):
+        colv = R[:, j]; ok = colv > 0
+        if 2 <= ok.sum() < sectors:
+            known = np.nonzero(ok)[0]
+            ext = np.concatenate([known - sectors, known, known + sectors])
+            R[:, j] = np.interp(np.arange(sectors), ext, np.tile(colv[ok], 3))
+    if (R <= 0).any():
+        R[R <= 0] = R[R > 0].mean()
+    for _ in range(2):
+        R = (np.roll(R, 1, axis=0) + 2 * R + np.roll(R, -1, axis=0)) / 4
+    T = np.empty_like(R)
+    zs = np.arange(nz, dtype=np.float64)
+    for t in range(sectors):
+        row = R[t]
+        # Upper convex hull of (height, radius): the taut cloth.
+        hull = []
+        for j in range(nz):
+            while len(hull) >= 2:
+                (z1, r1), (z2, r2) = hull[-2], hull[-1]
+                if (r2 - r1) * (j - z1) <= (row[j] - r1) * (z2 - z1):
+                    hull.pop()
+                else:
+                    break
+            hull.append((float(j), float(row[j])))
+        hz = np.array([h[0] for h in hull]); hr = np.array([h[1] for h in hull])
+        taut = np.interp(zs, hz, hr)
+        plumb = np.maximum.accumulate(row[::-1])[::-1]         # the fullest point above each height
+        T[t] = taut + np.maximum(plumb - taut, 0) * drop
+    for _ in range(2):
+        T = (np.roll(T, 1, axis=0) + 2 * T + np.roll(T, -1, axis=0)) / 4
+    # Bilinear read-back.
+    t0 = np.floor(tf - .5).astype(int); ft = (tf - .5) - t0
+    z0 = np.clip(np.floor(zf).astype(int), 0, nz - 2); fz = np.clip(zf - z0, 0, 1)
+    a = T[t0 % sectors, z0] * (1 - fz) + T[t0 % sectors, z0 + 1] * fz
+    b = T[(t0 + 1) % sectors, z0] * (1 - fz) + T[(t0 + 1) % sectors, z0 + 1] * fz
+    want = a * (1 - ft) + b * ft
+    amt = np.asarray(amount, dtype=np.float64)
+    amt = amt[idx] if amt.ndim else np.full(len(idx), float(amt))
+    def ease(u):
+        u = np.clip(u, 0, 1); return u * u * (3 - 2 * u)
+    w = amt * ease((z - z_lo) / fade) * ease((z_hi - z) / fade)
+    grow = np.maximum(want - r, 0) * w
+    scale = (r + grow) / np.maximum(r, 1e-6)
+    co[idx, 0] = cx + x * scale; co[idx, 1] = cy + y * scale
+    set_coords(me, co)
+    return int((grow > .001).sum())
+
+
+def band_collider(body, z_lo, z_hi, lift, name, collection):
+    """A stand-in for a garment that is not built yet (the waistband and belt under a
+    bloused shirt): the body's faces in a height band, lifted off the skin."""
+    me = body.data
+    mask = [z_lo <= p.center.z <= z_hi for p in me.polygons]
+    ob, _ = extract(body, mask, name, collection, copy_weights=False)
+    inflate(ob.data, lift)
+    return ob
