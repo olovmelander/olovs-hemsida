@@ -250,6 +250,7 @@ export const MAP_KEYS = Object.freeze({
   display: 'banvy-map-display-v1',
   contours: 'banvy-map-contours-v1',
   hazards: 'banvy-map-hazards-v1',
+  rings: 'banvy-map-rings-v1',
   quality: 'banvy-map-quality-v1',
   handicap: 'banvy-map-handicap-v1',
   rounds: 'banvy-map-rounds-v1',
@@ -280,7 +281,7 @@ export const DEV_OVERLAY_KEY = 'banvy:dev-overlay';
    record and are never touched from here. */
 export const PREFERENCE_KEYS = Object.freeze([
   SETTINGS_KEY, FRAME_CAP_KEY, DEV_OVERLAY_KEY,
-  MAP_KEYS.light, MAP_KEYS.display, MAP_KEYS.contours, MAP_KEYS.hazards, MAP_KEYS.quality,
+  MAP_KEYS.light, MAP_KEYS.display, MAP_KEYS.contours, MAP_KEYS.hazards, MAP_KEYS.rings, MAP_KEYS.quality,
 ]);
 
 export function readText(storage, key, fallback = null) {
@@ -309,8 +310,8 @@ export function mapDetail(storage) {
   const step = Number(readText(storage, MAP_KEYS.quality, '0'));
   return MAP_DETAIL.some(choice => choice.value === step) ? step : 0;
 }
-/* map-session.js: on unless switched off */
-export const mapSwitch = (storage, key) => readText(storage, key, '1') !== '0';
+/* map-session.js: on unless switched off, or off unless switched on when fallback is '0' */
+export const mapSwitch = (storage, key, fallback = '1') => readText(storage, key, fallback) !== '0';
 
 export const lightLabel = (key, field = 'player') =>
   key === NOW_LIGHT[field] ? NOW_LIGHT.label : LIGHTS.find(light => light[field] === key)?.label ?? '';

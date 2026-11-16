@@ -30,12 +30,13 @@ them; swiping between holes is Caddee's on the watch, and the fairway and green 
 are Golf i Sverige's and GameBook's. What they do not have, as far as their listings
 say, is the green in 3D with its fall drawn on it.
 
-- **Always on screen:** the hole in the header, the three distances, the wind, the
-  club wheel, the height strip, the views, and the buttons GPS, Hålet, Score and Meny.
-  Score shows how the round stands (`Score +2`). Yellow is what is chosen, green what is
-  on or locked. On the green the strip goes and the numbers say "På green".
+- **Always on screen:** the hole in the header, the three distances, the wind, a compact
+  3-row club wheel, the slim smoothed elevation strip, the current view pill, and the
+  four bottom buttons GPS, Hålet, Score and Meny. Score shows how the round stands
+  (`Score +2`). Yellow is what is chosen, green what is on or locked. On the green or in
+  Min vy the elevation strip steps aside and the numbers say "På green".
 - **Header.** ‹ and › or a sideways swipe change hole. A tap opens Hålet.
-- **Hålet:** the hole's tip, the hazards ahead in words with their side, reach and
+- **Hålet:** the hole's tip, up to five hazards ahead in words with their side, reach and
   carry, and every hole a tap away.
 - **The distances are a button.** A tap opens the green close to, along the line it is
   played, under the simulator's own Greengrid (owner request, 4 November): the 1 m
@@ -58,19 +59,22 @@ say, is the green in 3D with its fall drawn on it.
   raised twice is a wall. The carry arcs and contours go, since they heap up on the horizon,
   and the air starts 700 m out. One finger turns the head, two zoom, as binoculars do, and
   a tap still measures. The round button faces the green again.
-- **Quick views** (owner request, 5 November): Hela hålet, Bakom, Ovanifrån and Green,
-  in a row with Banan, above the buttons where the thumb already is. The first three frame the same thing, from the ball or the tee to the
-  green with play up the screen, at three leans: the map, the golfer's eye and straight
-  down. They keep following the player, the choice is remembered, and a tap brings back
-  a view a finger has moved. One and two fingers work as before.
+- **Quick views** (owner request, 5 November): a compact view pill opposite the wheel opens
+  a quick popover with Banan, Hela hålet, Bakom, Ovanifrån, Min vy and Green. The three
+  hole views frame the same thing, from the ball or the tee to the green with play up the
+  screen, at three leans: the map, the golfer's eye and straight down. They keep following
+  the player, the choice is remembered, and a tap brings back a view a finger has moved.
+  One and two fingers work as before.
 - **Measuring.** A tap sets the point, a drag on it moves it, its × clears it.
 - **The club wheel** stands under the numbers, always: see [the club wheel](club-wheel.md).
 - **Score** is a row of keys around par, a row of putts and, on a par 4 or 5, the
   fairway. Green in regulation follows from the strokes and putts. When a player moves
   on to the next hole mid-round with none entered, the map asks for the one left behind
   above the strip, in one tap, and lets it go after 40 s.
-- **Meny** holds Ljus (and Nu in its picker), the tee, the height, the layers, saving
-  the course, the detailed 3D and all courses.
+- **Meny** groups settings and links under three tabs — Spel (Tee, Mina rundor, Mina
+  klubbor, Statistik), Karta (Visning, Ljus with Nu, Hinderavstånd, Avståndscirklar,
+  Höjdkurvor and Höjdskala) and Bana (saving offline, test-round log, Detaljerad 3D and
+  other courses). Open sheets dim the HUD behind them.
 - **A lost tab** comes back to the same hole, with the GPS on if it was and the
   permission stands, for six hours.
 - Sheets rest above the buttons, so the map stays in view, and go when pulled down.
@@ -249,10 +253,13 @@ which pull in three.js. The three species rules the map needs are copied into
   can look ahead or skip a hole. The tee played is never detected: it is the player's own
   choice in Meny. A hole is asked for its score when the tee is reached, not on a tap of ›
   with the GPS on, which only looks ahead.
-- **Hazard distances** (`hazardsAhead`): the five nearest ahead of the ball, on the map
-  where they are, as reach and carry. Bunkers side by side count as one, and only those
-  within 45 m of the hole's line. Water the line crosses has a carry; water beside it
-  only a reach, and none at all within 30 m of the player. Meny turns them off.
+- **Hazard distances** (`hazardsAhead`): Hålet lists the five nearest ahead of the ball.
+  The 2D map overlay filters those (`reachableHazards`) to at most three hazards within
+  reach of the selected shot so distant fairway hazards do not clutter the view; carry
+  rings (`100`–`250 m`) are off by default and toggleable under Meny → Karta →
+  Avståndscirklar. Bunkers side by side count as one, and only those within 45 m of the
+  hole's line. Water the line crosses has a carry; water beside it only a reach, and none
+  at all within 30 m of the player. Meny turns them off.
 - **Wind** is the player's own reading (`engine/weather.js`): an arrow that turns with
   the map, and the plays-like numbers take the head wind and the temperature, as the
   simulator's Kikaren does. A reading over three hours old is not used.
@@ -358,15 +365,14 @@ looks tall, and the first measurement found the flag under the header and the wh
 height strip on a 390 x 844 iPhone, the most common size there is. So nothing assumes a
 height any more (`fitLayout` in `map-session.js`, on every resize and display change):
 
-- The column is measured against what is left above the strip, and gives way a step at a
-  time: five wheel rows, three, a tighter column with the walking length beside the wheel,
-  and last the height strip, as on a phone on its side.
-- Where a note would still reach the column, the note and the distance reading stand beside
-  it, since the wheel is in use just then, and the way-back button moves to the free corner.
-  A question (score, putts, same spot) keeps the full width and lies over the wheel: it is
-  answered first, and its keys need the room. The way-back button waits until it has been.
-- The framing reads the header and foot off the screen, with room for the strip and one note
-  under the shot in hand, so a passing note never lies on the player's own dot.
+- The 3-row club wheel is measured against what is left above the bottom strip, and gives
+  way a step at a time: first a tighter column (`is-compact`) with any walking length
+  beside the wheel, and last hiding the elevation strip on extremely short screens.
+- Only one contextual bottom card (`prompt`, `same`, `locked` note, or distance reading)
+  appears above the bottom bar at a time; when a question or same-spot prompt opens, the
+  elevation strip steps aside so the wheel and prompt never collide.
+- The framing reads the header and foot off the screen, with room for the strip and active
+  cards under the shot in hand, so bottom UI never covers the player's own dot.
 
 `tools/check-map-hud.mjs` drives every state on ten screens, with and without a notch, in
 each display setting. Run it after any change to the HUD. Build at the root path first:

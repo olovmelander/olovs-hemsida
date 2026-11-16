@@ -26,7 +26,7 @@ import { createTeeWatch } from './map-follow.mjs';
 import { attachGestures } from './map-gestures.mjs';
 import { SHADE_BELOW_SUN } from './map-horizon.mjs';
 import { AUTUMN_RAMPS, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS } from './map-light.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, hazardsAhead, placeOnProfile, playedPath, principalBearing, sideOfPlay, stripX, windWords, shotReading } from './map-measure.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, hazardsAhead, placeOnProfile, playedPath, principalBearing, reachableHazards, sideOfPlay, smoothProfile, stripX, windWords, shotReading } from './map-measure.mjs';
 import { createOverlay } from './map-overlay.mjs';
 import { hitGreen, MAX_HANDICAP, MIN_HANDICAP, newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokeKeys, strokesReceived } from './map-score.mjs';
 import { createDetailTexture } from './map-detail.mjs';
@@ -45,6 +45,7 @@ const COURSE_TILT = 0.72;
    differ in how far the camera leans: the hole as a map, the golfer's own eye behind
    the ball, and straight down. */
 const QUICK_VIEWS = Object.freeze({ hole: { tilt: 0.9 }, behind: { tilt: 1.24 }, above: { tilt: 0.06 }, eye: { tilt: 1.5 } });
+const VIEW_NAMES = Object.freeze({ course: 'Banan', hole: 'Hela hålet', behind: 'Bakom', above: 'Ovanifrån', eye: 'Min vy', green: 'Green' });
 /* How far the trees stand: twelve times the camera's distance, at most 12 km, and
    9 km from Min vy, about where the air has taken the ground (owner request,
    8 November: the woods ended a kilometre or two out). Past the 1 m tiles they are
@@ -85,6 +86,7 @@ const LIGHT_KEY = 'banvy-map-light-v1';
 const CONTOUR_KEY = 'banvy-map-contours-v1';
 const NOW_REFRESH_MS = 60000;
 const HAZARD_KEY = 'banvy-map-hazards-v1';
+const RING_KEY = 'banvy-map-rings-v1';
 const ROUND_KEY = 'banvy-map-round-v1';
 const HANDICAP_KEY = 'banvy-map-handicap-v1';
 const SHOTS_KEY = 'banvy-map-shots-v1';
@@ -107,7 +109,6 @@ const STALE_SHOT_MS = 3 * 60 * 60 * 1000;
 const HOLE_KEY = 'banvy-map-hole-v1';
 const GPS_KEY = 'banvy-map-gps-v1';
 const HINT_KEY = 'banvy-map-hint-v1';
-const HINT_LOCK_KEY = 'banvy-map-hint-lock-v1';
 /* A tab killed in the pocket comes back to the same hole, with the GPS on. A round
    is over by the time this has passed. */
 const RESUME_MS = 6 * 60 * 60 * 1000;
@@ -177,6 +178,20 @@ root.innerHTML = `
   </div>
   <section class="map-bottom">
     <div class="map-float">
+      <div class="map-view-wrap" data-view-wrap>
+        <div class="map-view-menu" data-views data-view-menu hidden role="group" aria-label="Kameravy">
+          <button data-overview aria-pressed="false" aria-label="Hela banan">Banan</button>
+          <button data-view="hole" aria-pressed="true">Hela hålet</button>
+          <button data-view="behind" aria-pressed="false" aria-label="Bakom bollen, mot greenen">Bakom</button>
+          <button data-view="above" aria-pressed="false">Ovanifrån</button>
+          <button data-view="eye" aria-pressed="false" aria-label="Min vy, från ögonhöjd mot greenen">Min vy</button>
+          <button data-view="green" aria-pressed="false" aria-label="Greenen nära">Green</button>
+        </div>
+        <button class="map-view-toggle" data-view-toggle aria-expanded="false" aria-haspopup="true" aria-label="Kameravy">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.6-2h4.8L16 6h2.5A2.5 2.5 0 0 1 21 8.5v9A2.5 2.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          <span data-view-label>Hela hålet</span>
+        </button>
+      </div>
       <button class="map-recentre" data-recentre hidden aria-label="Tillbaka till hålet"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     </div>
     <div class="map-locked" data-locked hidden role="status">
@@ -211,14 +226,6 @@ root.innerHTML = `
     <div class="map-legend" data-legend hidden aria-label="Greenens lutning i procent">
       <span>Lutning %</span><div data-legend-steps></div>
     </div>
-    <div class="map-views" data-views role="group" aria-label="Kameravy">
-      <button data-overview aria-pressed="false" aria-label="Hela banan">Banan</button>
-      <button data-view="hole" aria-pressed="true">Hela hålet</button>
-      <button data-view="behind" aria-pressed="false" aria-label="Bakom bollen, mot greenen">Bakom</button>
-      <button data-view="above" aria-pressed="false">Ovanifrån</button>
-      <button data-view="eye" aria-pressed="false" aria-label="Min vy, från ögonhöjd mot greenen">Min vy</button>
-      <button data-view="green" aria-pressed="false" aria-label="Greenen nära">Green</button>
-    </div>
     <div class="map-tools">
       <button class="map-tool" data-gps aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 21s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2.4" fill="currentColor"/></svg><span data-gps-label>GPS</span></button>
       <button class="map-tool" data-hole aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 21V4l11 4.5L7 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg><span>Hålet</span></button>
@@ -226,7 +233,8 @@ root.innerHTML = `
       <button class="map-tool" data-menu aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Meny</span></button>
     </div>
   </section>
-  <section class="map-sheet" data-score-sheet hidden aria-label="Scorekort">
+  <div class="map-backdrop" data-backdrop hidden></div>
+  <section class="map-sheet map-sheet-tall" data-score-sheet hidden aria-label="Scorekort">
     <div class="map-sheet-head">
       <button class="map-sheet-close" data-score-prev aria-label="Hålet före">‹</button>
       <b data-score-title></b>
@@ -304,31 +312,43 @@ root.innerHTML = `
   </section>
   <section class="map-sheet map-menu" data-menu-sheet hidden aria-label="Meny">
     <div class="map-sheet-head"><b data-menu-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
-    <div data-tee-section>
-      <h3>Tee</h3>
-      <div class="map-chips" data-tees></div>
+    <div class="map-menu-tabs" role="tablist" aria-label="Menyflikar">
+      <button type="button" role="tab" data-menu-tab="spel" aria-selected="true">Spel</button>
+      <button type="button" role="tab" data-menu-tab="karta" aria-selected="false">Karta</button>
+      <button type="button" role="tab" data-menu-tab="bana" aria-selected="false">Bana</button>
     </div>
-    <h3>Spel</h3>
-    <button class="map-row map-row-next" data-rounds-open><span>Mina rundor</span><span class="map-row-value" data-rounds-count></span></button>
-    <button class="map-row map-row-next" data-clubs-open><span>Mina klubbor</span><span class="map-row-value" data-clubs-count></span></button>
-    <a class="map-row map-row-next" href="${hubUrl('statistik')}"><span>Statistik</span><span class="map-row-value">Hela ditt spel</span></a>
-    <a class="map-row map-row-next" data-course-stats style="display:none" href="${hubUrl('statistik')}"><span data-course-stats-name></span><span class="map-row-value" data-course-stats-count></span></a>
-    <h3>Visning</h3>
-    <label class="map-row"><span>Solläge<small>Ljusa paneler för starkt solljus</small></span><input type="checkbox" role="switch" data-sun></label>
-    <label class="map-row"><span>Större text</span><input type="checkbox" role="switch" data-large></label>
-    <label class="map-row"><span>Hjulet till vänster</span><input type="checkbox" role="switch" data-left></label>
-    <h3>Kartan</h3>
-    <button class="map-row map-row-next" data-light aria-expanded="false"><span>Ljus</span><span class="map-row-value" data-light-name></span></button>
-    <label class="map-row"><span>Hinderavstånd</span><input type="checkbox" role="switch" data-hazards></label>
-    <label class="map-row"><span>Höjdkurvor</span><input type="checkbox" role="switch" data-contours></label>
-    <div class="map-row"><span>Höjdskala</span><div class="map-chips" data-reliefs></div></div>
-    <h3>Banan</h3>
-    <div class="map-actions">
-      <button class="map-action" data-download>Spara banan</button>
-      <button class="map-action" data-diary>Spara provrundans logg</button>
-      <a class="map-action" data-play>Spela banan</a>
-      <a class="map-action" data-full>Detaljerad 3D</a>
-      <a class="map-action" href="${hubUrl(MODES.map.route)}">Alla banor</a>
+    <div class="map-menu-pane" data-menu-pane="spel" role="tabpanel">
+      <div data-tee-section>
+        <h3>Tee</h3>
+        <div class="map-chips" data-tees></div>
+      </div>
+      <h3>Runda & klubbor</h3>
+      <button class="map-row map-row-next" data-rounds-open><span>Mina rundor</span><span class="map-row-value" data-rounds-count></span></button>
+      <button class="map-row map-row-next" data-clubs-open><span>Mina klubbor</span><span class="map-row-value" data-clubs-count></span></button>
+      <a class="map-row map-row-next" href="${hubUrl('statistik')}"><span>Statistik</span><span class="map-row-value">Hela ditt spel</span></a>
+      <a class="map-row map-row-next" data-course-stats style="display:none" href="${hubUrl('statistik')}"><span data-course-stats-name></span><span class="map-row-value" data-course-stats-count></span></a>
+    </div>
+    <div class="map-menu-pane" data-menu-pane="karta" role="tabpanel" hidden>
+      <h3>Visning</h3>
+      <label class="map-row"><span>Solläge<small>Ljusa paneler för starkt solljus</small></span><input type="checkbox" role="switch" data-sun></label>
+      <label class="map-row"><span>Större text</span><input type="checkbox" role="switch" data-large></label>
+      <label class="map-row"><span>Hjulet till vänster</span><input type="checkbox" role="switch" data-left></label>
+      <h3>Kartan</h3>
+      <button class="map-row map-row-next" data-light aria-expanded="false"><span>Ljus</span><span class="map-row-value" data-light-name></span></button>
+      <label class="map-row"><span>Hinderavstånd</span><input type="checkbox" role="switch" data-hazards></label>
+      <label class="map-row"><span>Avståndscirklar<small>100, 150, 200 och 250 m på kartan</small></span><input type="checkbox" role="switch" data-rings></label>
+      <label class="map-row"><span>Höjdkurvor</span><input type="checkbox" role="switch" data-contours></label>
+      <div class="map-row"><span>Höjdskala</span><div class="map-chips" data-reliefs></div></div>
+    </div>
+    <div class="map-menu-pane" data-menu-pane="bana" role="tabpanel" hidden>
+      <h3>Banan</h3>
+      <div class="map-actions">
+        <button class="map-action" data-download>Spara banan</button>
+        <button class="map-action" data-diary>Spara provrundans logg</button>
+        <a class="map-action" data-play>Spela banan</a>
+        <a class="map-action" data-full>Detaljerad 3D</a>
+        <a class="map-action" href="${hubUrl(MODES.map.route)}">Alla banor</a>
+      </div>
     </div>
   </section>
   <div class="map-status" data-status hidden role="status"></div>`;
@@ -345,6 +365,8 @@ const ui = {
   recentre: $('[data-recentre]'),
   prompt: $('[data-prompt]'), promptTitle: $('[data-prompt-title]'), promptKeys: $('[data-prompt-keys]'),
   readingText: $('[data-reading-text]'), legend: $('[data-legend]'), views: $('[data-views]'),
+  viewWrap: $('[data-view-wrap]'), viewToggle: $('[data-view-toggle]'), viewLabel: $('[data-view-label]'), viewMenu: $('[data-view-menu]'),
+  tools: $('.map-tools'), backdrop: $('[data-backdrop]'),
   wheel: $('[data-wheel]'), wheelHint: $('[data-wheel-hint]'), hintNote: $('[data-hint-note]'), hintMetres: $('[data-hint-metres]'),
   promptMore: $('[data-prompt-more]'), holeNoteMore: $('[data-note-more]'), locked: $('[data-locked]'), lockedText: $('[data-locked-text]'), lockedPenalty: $('[data-locked-penalty]'), lockedEdit: $('[data-locked-edit]'), same: $('[data-same]'),
   clubsSheet: $('[data-clubs-sheet]'), clubs: $('[data-clubs]'), clubsNote: $('[data-clubs-note]'), clubsCount: $('[data-clubs-count]'),
@@ -361,7 +383,7 @@ const ui = {
   wind: $('[data-wind]'), windArrow: $('[data-wind-arrow]'), windSpeed: $('[data-wind-speed]'),
   lightSheet: $('[data-light-sheet]'), menuSheet: $('[data-menu-sheet]'), lights: $('[data-lights]'),
   menuTitle: $('[data-menu-title]'), note: $('[data-note]'), holes: $('[data-holes]'),
-  teeSection: $('[data-tee-section]'), tees: $('[data-tees]'), reliefs: $('[data-reliefs]'), contours: $('[data-contours]'),
+  teeSection: $('[data-tee-section]'), tees: $('[data-tees]'), reliefs: $('[data-reliefs]'), contours: $('[data-contours]'), rings: $('[data-rings]'),
   download: $('[data-download]'), full: $('[data-full]'),
   overview: $('[data-overview]'), green: $('[data-green]'),
   profile: $('[data-profile]'), profileLine: $('[data-profile-line]'), profileFill: $('[data-profile-fill]'), profileText: $('[data-profile-text]'), profilePlays: $('[data-profile-plays]'),
@@ -376,7 +398,7 @@ const display = createDisplay(root, { read: key => savedText(key, null), write: 
    fewer rows on the wheel, a tighter column with the walking hint beside it, then the
    height strip. Where a note and the way-back button would reach the column they stand beside it,
    since the wheel is what a player is using just then. */
-const STRIP_PIXELS = 68, HINT_PIXELS = 60, TWO_ROWS_PIXELS = 118;
+const STRIP_PIXELS = 54, PROMPT_ROOM_PIXELS = 152, TWO_ROWS_PIXELS = 112;
 const sideways = matchMedia('(orientation: landscape) and (max-height: 520px)');
 function fitLayout() {
   root.classList.remove('is-compact', 'is-stripless', 'is-tight');
@@ -389,19 +411,18 @@ function fitLayout() {
   for (const [element] of held) element.hidden = false;
   ui.green.classList.remove('is-on');
   const room = () => {
-    const compact = root.classList.contains('is-compact');
     const strip = root.classList.contains('is-stripless') ? 0 : STRIP_PIXELS;
-    return ui.views.getBoundingClientRect().top - 8 - strip - ui.wheel.getBoundingClientRect().bottom - (compact ? 6 : HINT_PIXELS);
+    return ui.tools.getBoundingClientRect().top - 8 - strip - ui.wheel.getBoundingClientRect().bottom;
   };
   const steps = [
-    () => ui.wheel.style.setProperty('--rows', '5'),
-    () => ui.wheel.style.setProperty('--rows', '3'),
+    () => {},
     () => root.classList.add('is-compact'),
     () => root.classList.add('is-stripless'),
   ];
   for (const step of steps) {
     step();
-    if (room() >= 0) break;
+    const need = root.classList.contains('is-compact') ? 56 : PROMPT_ROOM_PIXELS;
+    if (room() >= need) break;
   }
   root.classList.toggle('is-tight', room() < TWO_ROWS_PIXELS);
   for (const [element, hidden] of held) element.hidden = hidden;
@@ -570,6 +591,8 @@ async function start() {
     lightClock: null,
     contours: savedText(CONTOUR_KEY, '1') !== '0',
     showHazards: savedText(HAZARD_KEY, '1') !== '0',
+    showRings: savedText(RING_KEY, '0') === '1',
+    menuTab: 'spel',
     hazards: [],
     weather: null,
     windTurn: null,
@@ -600,12 +623,11 @@ async function start() {
     const { width, height } = camera.state;
     /* Read off the screen: a notch and a home bar move all of these. */
     const under = $('.map-top').getBoundingClientRect().bottom;
-    const foot = height - ui.views.getBoundingClientRect().top;
+    const foot = height - ui.tools.getBoundingClientRect().top;
     const room = width > height
-      ? { top: Math.max(74, under + 8), bottom: Math.max(150, foot + 76), left: 100, right: 138 }
-      /* Room for the strip and one note under the shot in hand, so a passing note never
-         lies on the player's own dot. */
-      : { top: Math.max(78, under + 12), bottom: Math.max(250, foot + 150), left: 34, right: display.get('sun') ? 106 : 96 };
+      ? { top: Math.max(74, under + 8), bottom: Math.max(175, foot + 105), left: 100, right: 138 }
+      /* Room for the strip and one active card under the shot in hand, so the player dot stays clear. */
+      : { top: Math.max(78, under + 12), bottom: Math.max(255, foot + 175), left: 34, right: display.get('sun') ? 106 : 96 };
     return display.get('left') ? { ...room, left: room.right, right: room.left } : room;
   }
 
@@ -761,7 +783,7 @@ async function start() {
       ? `${course.holes.length} hål · par ${course.par}`
       : [`Par ${h.par}`, length ? `${length} m` : null, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
     ui.green.hidden = state.mode === 'course';
-    ui.profile.hidden = state.mode === 'course' || state.greenView || onTheGreen;
+    ui.profile.hidden = state.mode === 'course' || state.greenView || onTheGreen || state.atEye;
     ui.legend.hidden = !state.greenView;
     ui.overview.setAttribute('aria-pressed', String(state.mode === 'course'));
 
@@ -796,6 +818,8 @@ async function start() {
     /* Kept in the layout, so the wheel keeps its place while the course is shown. */
     ui.wheel.classList.toggle('is-away', state.mode !== 'hole');
     const shownView = state.mode === 'course' ? null : state.greenView ? 'green' : state.view;
+    const viewName = VIEW_NAMES[state.mode === 'course' ? 'course' : shownView ?? 'hole'] ?? 'Hela hålet';
+    if (ui.viewLabel.textContent !== viewName) ui.viewLabel.textContent = viewName;
     for (const button of ui.views.querySelectorAll('[data-view]')) {
       const pressed = String(button.dataset.view === shownView);
       if (button.getAttribute('aria-pressed') !== pressed) button.setAttribute('aria-pressed', pressed);
@@ -812,27 +836,34 @@ async function start() {
        spread across most of the strip. */
     const line = elevationProfile(path, store.heightAt, 180);
     if (!line) return;
+    const points = smoothProfile(line.points, 3);
     const you = state.player?.onCourse ? placeOnProfile(state.player.point, path, line, ON_THE_STRIP_METRES) : null;
     const walked = you?.share ?? 0;
-    const shareOf = i => i / (line.points.length - 1);
+    const shareOf = i => i / (points.length - 1);
 
     /* The height scale belongs to the ground still to come, so a rise before the
        green reads as one however big the hole's hills were. Ground already walked
        may run past it, and rests against the strip's edges. */
-    const ahead = line.points.filter((_, i) => shareOf(i) >= walked);
+    const ahead = points.filter((_, i) => shareOf(i) >= walked);
     const low = Math.min(...ahead), high = Math.max(...ahead);
-    const range = Math.max(high - low, 3);
-    const y = value => clamp(35 - (value - low) / range * 29, 4, 38);
-    const curve = line.points.map((value, i) => `${i ? 'L' : 'M'}${(stripX(shareOf(i), walked) * 300).toFixed(1)} ${y(value).toFixed(1)}`).join(' ');
+    const range = Math.max(high - low, 10);
+    const y = value => clamp(34 - (value - low) / range * 26, 5, 37);
+    const curve = points.map((value, i) => `${i ? 'L' : 'M'}${(stripX(shareOf(i), walked) * 300).toFixed(1)} ${y(value).toFixed(1)}`).join(' ');
     ui.profileLine.setAttribute('d', curve);
     ui.profileFill.setAttribute('d', `${curve} L300 44 L0 44 Z`);
 
+    const atShare = share => {
+      const exact = clamp(share, 0, 1) * (points.length - 1);
+      const i = Math.floor(exact), t = exact - i;
+      const a = points[i], b = points[Math.min(points.length - 1, i + 1)];
+      return a + (b - a) * t;
+    };
     const mark = (element, place) => {
       element.hidden = !place;
       if (!place) return;
       element.dataset.share = place.share.toFixed(4);
       element.style.setProperty('--x', stripX(place.share, walked).toFixed(4));
-      element.style.setProperty('--y', (y(place.height) / 44).toFixed(4));
+      element.style.setProperty('--y', (y(atShare(place.share)) / 44).toFixed(4));
     };
     const aim = state.target ? placeOnProfile(state.target, path, line) : null;
     mark(ui.profileYou, you);
@@ -1039,10 +1070,24 @@ async function start() {
     return step;
   }));
 
+  function setViewMenu(open) {
+    const want = Boolean(open);
+    ui.viewMenu.hidden = !want;
+    ui.viewToggle.setAttribute('aria-expanded', String(want));
+  }
+  ui.viewToggle.onclick = event => {
+    event.stopPropagation();
+    setViewMenu(ui.viewMenu.hidden);
+  };
+  document.addEventListener('pointerdown', event => {
+    if (!ui.viewMenu.hidden && !ui.viewWrap.contains(event.target)) setViewMenu(false);
+  }, true);
+
   /* A tap also brings the view back after a finger has moved it, as the round button
      does, and it keeps following the player from then on. */
   for (const button of ui.views.querySelectorAll('[data-view]')) {
     button.onclick = () => {
+      setViewMenu(false);
       const { view } = button.dataset;
       state.mode = 'hole';
       if (view === 'green') {
@@ -1098,8 +1143,21 @@ async function start() {
     event.preventDefault();
   }, true);
   ui.overview.onclick = () => {
+    setViewMenu(false);
     if (state.mode === 'course') { state.follow = Boolean(state.player); goHole(state.hole); } else showCourse();
   };
+  function setMenuTab(tab) {
+    state.menuTab = tab;
+    for (const button of ui.menuSheet.querySelectorAll('[data-menu-tab]')) {
+      button.setAttribute('aria-selected', String(button.dataset.menuTab === tab));
+    }
+    for (const pane of ui.menuSheet.querySelectorAll('[data-menu-pane]')) {
+      pane.hidden = pane.dataset.menuPane !== tab;
+    }
+  }
+  for (const button of ui.menuSheet.querySelectorAll('[data-menu-tab]')) {
+    button.onclick = () => setMenuTab(button.dataset.menuTab);
+  }
   /* ---- the sheets ---- */
   const sheets = [[ui.lightSheet, ui.menu], [ui.menuSheet, ui.menu], [ui.clubsSheet, ui.menu], [ui.roundsSheet, ui.menu], [ui.scoreSheet, ui.score], [ui.roundSheet, ui.score], [ui.holeSheet, ui.holeTool], [ui.startSheet, null]];
   for (const [sheet] of sheets) {
@@ -1110,12 +1168,16 @@ async function start() {
      never has to find its way across the whole map. */
   let cameFrom = null;
   function showSheet(sheet) {
+    if (sheet) setViewMenu(false);
     /* A tip by the thumb is about the map, and would lie across the sheet. */
     if (sheet && ui.status.classList.contains('is-low')) ui.status.hidden = true;
     const wasStart = !ui.startSheet.hidden, wasOpen = sheets.some(([each]) => !each.hidden);
     for (const [each] of sheets) each.hidden = !(each === sheet && each.hidden);
     for (const [, button] of sheets) button?.setAttribute('aria-expanded', String(sheets.some(([each, owner]) => owner === button && !each.hidden)));
     const open = sheets.find(([each]) => !each.hidden)?.[0] ?? null;
+    ui.backdrop.hidden = !open;
+    root.classList.toggle('has-sheet', Boolean(open));
+    root.classList.toggle('has-light-sheet', open === ui.lightSheet);
     if (open) {
       if (!wasOpen) cameFrom = document.activeElement;
       /* A sheet keeps its scroll while hidden, and always opens at its top. */
@@ -1132,17 +1194,19 @@ async function start() {
     }
     if (sheet !== ui.scoreSheet) state.fromRound = false;
   }
+  ui.backdrop.onclick = () => showSheet(null);
   root.addEventListener('pointerdown', event => { state.pressingSheet = Boolean(event.target.closest('.map-sheet')); }, true);
   for (const type of ['pointerup', 'pointercancel']) window.addEventListener(type, () => { state.pressingSheet = false; }, true);
   ui.light.onclick = () => showSheet(ui.lightSheet);
-  $('[data-light-back]').onclick = () => { refreshMenu(); showSheet(ui.menuSheet); };
+  $('[data-light-back]').onclick = () => { setMenuTab('karta'); refreshMenu(); showSheet(ui.menuSheet); };
   ui.menu.onclick = () => {
-    refreshMenu();
     const inner = [ui.lightSheet, ui.clubsSheet, ui.roundsSheet].find(sheet => !sheet.hidden);
+    if (!inner && ui.menuSheet.hidden) state.menuTab = 'spel';
+    refreshMenu();
     showSheet(inner ?? ui.menuSheet);
   };
   $('[data-clubs-open]').onclick = () => { refreshClubs(); showSheet(ui.clubsSheet); };
-  $('[data-clubs-back]').onclick = () => { refreshMenu(); showSheet(ui.menuSheet); };
+  $('[data-clubs-back]').onclick = () => { setMenuTab('spel'); refreshMenu(); showSheet(ui.menuSheet); };
   /* It opens on the hole being played: a hole picked on the card last time is not. */
   ui.score.onclick = () => {
     state.scoreHole = null;
@@ -1156,7 +1220,7 @@ async function start() {
   const openRounds = () => { refreshRounds(); showSheet(ui.roundsSheet); };
   $('[data-rounds-open]').onclick = openRounds;
   ui.roundBack.onclick = openRounds;
-  $('[data-rounds-back]').onclick = () => { refreshMenu(); showSheet(ui.menuSheet); };
+  $('[data-rounds-back]').onclick = () => { setMenuTab('spel'); refreshMenu(); showSheet(ui.menuSheet); };
   const openHole = () => {
     state.correcting = null;
     refreshHole();
@@ -1165,7 +1229,7 @@ async function start() {
   ui.holeTool.onclick = openHole;
   ui.holeText.onclick = openHole;
   for (const button of root.querySelectorAll('[data-close]')) button.onclick = () => showSheet(null);
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') showSheet(null); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') { setViewMenu(false); showSheet(null); } });
 
   /* A sheet goes back down the way it came. Only by its head: its body scrolls. */
   const DISMISS_PIXELS = 56;
@@ -1341,6 +1405,8 @@ async function start() {
     })));
     ui.contours.checked = state.contours;
     ui.hazards.checked = state.showHazards;
+    ui.rings.checked = state.showRings;
+    setMenuTab(state.menuTab);
   }
   ui.contours.onchange = () => {
     state.contours = ui.contours.checked;
@@ -1351,6 +1417,12 @@ async function start() {
   ui.hazards.onchange = () => {
     state.showHazards = ui.hazards.checked;
     remember(HAZARD_KEY, state.showHazards ? '1' : '0');
+    invalidate();
+  };
+
+  ui.rings.onchange = () => {
+    state.showRings = ui.rings.checked;
+    remember(RING_KEY, state.showRings ? '1' : '0');
     invalidate();
   };
 
@@ -1402,6 +1474,9 @@ async function start() {
     const h = course.holes[number - 1];
     const own = round.scores[number];
     if (!h || Number.isFinite(own?.strokes) || own?.picked) return;
+    clearTimeout(noteTimer);
+    ui.locked.hidden = true;
+    closeSame();
     ui.prompt.dataset.asked = String(h.n);
     /* The strokes the wheel saw, as the likely answer: a putt or two may be missing. */
     const { strokes } = holeTally(roundShots(), h.n);
@@ -1424,6 +1499,9 @@ async function start() {
   /* The putter is held once, on the green: a putt is shorter than GPS can measure, so
      they are counted here, and with them the hole's score writes itself. */
   function askPutts(number, last = null) {
+    clearTimeout(noteTimer);
+    ui.locked.hidden = true;
+    closeSame();
     ui.prompt.dataset.asked = String(number);
     ui.prompt.dataset.kind = 'putts';
     ui.promptMore.textContent = 'Ångra';
@@ -1798,6 +1876,7 @@ async function start() {
     onChoose() {
       state.wheelAuto = false;
       refreshWheel();
+      invalidate();
     },
     onLock: lockClub,
     onSlip: how => diary.add('slip', how),
@@ -1836,8 +1915,7 @@ async function start() {
     }
     wheel.setLocked(byTheBall && wheel.current()?.id === open.club);
     const walking = open && player && !byTheBall;
-    const first = !open && !savedText(HINT_LOCK_KEY, '');
-    const words = walking ? clubName(open.club) : first ? 'Håll för slag' : '';
+    const words = walking ? clubName(open.club) : '';
     const length = walking ? `${metres(walked)} m` : '';
     if (ui.hintNote.textContent !== words) ui.hintNote.textContent = words;
     if (ui.hintMetres.textContent !== length) ui.hintMetres.textContent = length;
@@ -1846,6 +1924,8 @@ async function start() {
 
   let noteTimer = 0, sameTimer = 0, lockTimer = 0;
   function note(text, { penalty = false, edit = false, end = false } = {}) {
+    closeSame();
+    closePrompt();
     ui.lockedText.textContent = text;
     ui.lockedPenalty.hidden = !penalty;
     ui.lockedEdit.hidden = !edit;
@@ -1882,14 +1962,15 @@ async function start() {
     }
     clearTimeout(lockTimer);
     state.pendingLock = null;
-    remember(HINT_LOCK_KEY, '1');
     /* Locked on the next tee before the map has seen the player stand there. */
     const teeBegun = state.owed ?? teeWatch.candidate;
     if (teeBegun !== null) moveOn(teeBegun);
     const open = openShot(roundShots());
     if (open?.hole === holeInPlay().n && nearOpenShot(open) < SAME_SPOT_METRES && !isPutter(club)) {
       state.sameClub = club;
+      clearTimeout(noteTimer);
       ui.locked.hidden = true;
+      closePrompt();
       ui.same.hidden = false;
       clearTimeout(sameTimer);
       sameTimer = setTimeout(closeSame, SAME_SPOT_MS);
@@ -2094,6 +2175,7 @@ async function start() {
       if (ui.status.classList.contains('is-low')) ui.status.hidden = true;
       state.flight = null;
       state.gridAwake = performance.now() + GRID_AWAKE_MS;
+      setViewMenu(false);
       showSheet(null);
       if (state.greenGrid) invalidate();
     },
@@ -2191,6 +2273,8 @@ async function start() {
       }
       const hit = camera.pick(point.x, point.y, store.heightAt, state.exaggeration);
       if (!hit) return;
+      clearTimeout(noteTimer);
+      ui.locked.hidden = true;
       state.target = hit;
       refreshNumbers();
       invalidate();
@@ -2360,21 +2444,35 @@ async function start() {
 
     /* A view moved by hand reaches the buttons here: gestures only ask for a frame. */
     refreshFloat();
+    const currentHole = hole(), currentOrigin = origin();
+    const selectedClub = wheel.current();
+    const toGreen = Math.hypot(currentHole.green.c[0] - currentOrigin[0], currentHole.green.c[1] - currentOrigin[1]);
+    const aimDist = state.target ? Math.hypot(state.target[0] - currentOrigin[0], state.target[1] - currentOrigin[1]) : 0;
+    const clubCap = selectedClub && !isPutter(selectedClub) && selectedClub.carry > 0 ? selectedClub.carry + 40 : 120;
+    const overlayReach = toGreen <= 130 ? toGreen + 25 : Math.max(clubCap, aimDist ? aimDist + 25 : 0);
+    const overlayHazards = state.showHazards && !state.greenView && !state.atEye
+      ? reachableHazards(state.hazards, overlayReach)
+      : [];
+    const topSafe = ui.holeBar.getBoundingClientRect().bottom + 6;
+    const bottomEl = !ui.prompt.hidden ? ui.prompt : !ui.same.hidden ? ui.same : !ui.locked.hidden ? ui.locked : !ui.reading.hidden ? ui.reading : !ui.profile.hidden ? ui.profile : !ui.legend.hidden ? ui.legend : ui.tools;
+    const bottomSafe = Math.max(66, camera.state.height - bottomEl.getBoundingClientRect().top + 8);
     overlay.draw({
       camera,
       ground: shown,
       course,
       mode: state.mode,
-      hole: hole(),
-      origin: origin(),
+      hole: currentHole,
+      origin: currentOrigin,
       tee: state.player?.onCourse ? null : teePoint(),
       /* The player is the eye here, with nothing to mark. */
       player: state.atEye ? null : state.player,
-      carryArcs: !state.atEye,
+      carryArcs: !state.atEye && state.showRings,
+      atEye: state.atEye,
+      safe: { top: topSafe, bottom: bottomSafe },
       emphasis: display.get('sun') ? 1.3 : 1,
       mirrored: display.get('left'),
       target: state.mode === 'hole' ? state.target : null,
-      hazards: state.showHazards && !state.greenView ? state.hazards : [],
+      hazards: overlayHazards,
       shotFrom: state.mode === 'hole' ? trailFrom : null,
       trail,
       pinRings: Boolean(state.greenGrid),

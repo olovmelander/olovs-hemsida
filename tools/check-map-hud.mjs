@@ -34,7 +34,7 @@ const SETTINGS = [['plain', {}], ['sun', { sun: true }], ['left-large', { left: 
 
 /* What may lie on what by design: a sheet covers the game until it is closed. */
 const collect = () => {
-  const HUD = { hole: '.map-hole', green: '.map-green', wind: '.map-wind', wheel: '.map-wheel', hint: '.map-wheel-hint', recentre: '.map-recentre', note: '[data-locked]', same: '[data-same]', prompt: '[data-prompt]', reading: '[data-reading]', profile: '[data-profile]', legend: '[data-legend]', views: '[data-views]', tools: '.map-tools', status: '[data-status]' };
+  const HUD = { hole: '.map-hole', green: '.map-green', wind: '.map-wind', wheel: '.map-wheel', hint: '.map-wheel-hint', recentre: '.map-recentre', viewToggle: '[data-view-toggle]', viewMenu: '[data-view-menu]', note: '[data-locked]', same: '[data-same]', prompt: '[data-prompt]', reading: '[data-reading]', profile: '[data-profile]', legend: '[data-legend]', tools: '.map-tools', status: '[data-status]' };
   const shown = element => { if (!element || element.hidden) return false; const style = getComputedStyle(element); if (style.display === 'none' || style.visibility === 'hidden') return false; return element.getClientRects().length > 0; };
   const rects = {};
   for (const [name, selector] of Object.entries(HUD)) {
@@ -147,10 +147,17 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         await page.mouse.up();
         await page.waitForTimeout(220);
       };
+      const pickView = async selector => {
+        await page.click('[data-view-toggle]');
+        await page.click(selector);
+      };
       try {
         await page.goto(`${BASE}?bana=veckefjarden&karta=1&hal=5`, { waitUntil: 'domcontentloaded' });
         await settled();
         await record('idle');
+        await page.click('[data-view-toggle]');
+        await record('view-menu');
+        await page.click('[data-view-toggle]');
         await stand(0.12);
         await settled();
         await record('gps');
@@ -178,7 +185,7 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         await page.mouse.up();
         await page.waitForTimeout(300);
         await record('moved-view');
-        await page.click('[data-view="hole"]');
+        await pickView('[data-view="hole"]');
         await settled();
         const green = await page.evaluate(() => V3DMap.course.holes[V3DMap.state.hole - 1].green.c);
         await page.evaluate(([x, z]) => {
@@ -195,21 +202,21 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         await page.click('[data-putts-key="2"]').catch(() => {});
         await record('hole-note');
         await page.evaluate(() => { document.querySelector('[data-locked]').hidden = true; });
-        await page.click('[data-view="green"]').catch(() => {});
+        await pickView('[data-view="green"]').catch(() => {});
         await settled();
         await page.waitForTimeout(400);
         await record('green-view');
-        await page.click('[data-view="eye"]').catch(() => {});
+        await pickView('[data-view="eye"]').catch(() => {});
         await settled();
         await record('min-vy');
-        await page.click('[data-view="hole"]').catch(() => {});
+        await pickView('[data-view="hole"]').catch(() => {});
         await page.click('[data-next]');
         await settled();
         await page.click('[data-next]');
         await settled();
         await record('score-prompt');
         await page.locator('[data-prompt-close]').click().catch(() => {});
-        await page.click('[data-overview]');
+        await pickView('[data-overview]');
         await settled();
         await record('overview');
         await page.evaluate(() => V3DMap.fix(62.5, 18, 5));
@@ -230,7 +237,7 @@ try {
 const rows = write();
 for (const row of rows) console.log(String(row.count).padStart(4), row.example.slice(0, 80), '|', row.where.slice(0, 3).join(' '));
 /* The clashes that fail it. The rest is reported for reading. */
-const BY_DESIGN = /overlap (wheel|hint|recentre|wind|green)\/(prompt|same)|overlap (prompt|same)\//;
-const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|hidden (pin|greenCentre) behind (hole|views|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
+const BY_DESIGN = /overlap (prompt|same)\/(prompt|same)/;
+const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
 console.log(clashes.length ? `${clashes.length} kinds of clash` : 'the HUD fits every phone measured');
 process.exitCode = clashes.length ? 1 : 0;

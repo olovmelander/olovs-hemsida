@@ -119,6 +119,7 @@ export function buildSettings({ courses, onBack }) {
               ${switchRow('large', 'Större text', '', display.large)}
               ${switchRow('left', 'Klubbhjulet till vänster', 'För dig som håller telefonen i vänster hand.', display.left)}
               ${switchRow('hazards', 'Hinderavstånd', 'Avstånd till bunkrar och vatten framåt på hålet.', mapSwitch(storage(), MAP_KEYS.hazards))}
+              ${switchRow('rings', 'Avståndscirklar', 'Bågar vid 100, 150, 200 och 250 m på kartan.', mapSwitch(storage(), MAP_KEYS.rings, '0'))}
               ${switchRow('contours', 'Höjdkurvor', '', mapSwitch(storage(), MAP_KEYS.contours))}
               ${row('Detaljnivå', 'Sänks av sig själv om telefonen inte hinner med, och sparas till nästa runda. Välj Full för att börja om.', seg('mapdetail', MAP_DETAIL, mapDetail(storage()), 'lbl-mapdetail'), { id: 'lbl-mapdetail' })}
             </div>
@@ -199,6 +200,7 @@ export function buildSettings({ courses, onBack }) {
   const onSwitch = {
     dev: on => writeText(storage(), DEV_OVERLAY_KEY, on ? '1' : null),
     hazards: on => writeText(storage(), MAP_KEYS.hazards, on ? '1' : '0'),
+    rings: on => writeText(storage(), MAP_KEYS.rings, on ? '1' : '0'),
     contours: on => writeText(storage(), MAP_KEYS.contours, on ? '1' : '0'),
   };
   /* the map stores its three looks as one choice (map-display.mjs createDisplay) */
@@ -366,7 +368,7 @@ export function buildSettings({ courses, onBack }) {
       for (const input of el.querySelectorAll(`input[name="${name}"]`)) input.checked = input.value === String(value);
     }
     const switches = { dev: readText(storage(), DEV_OVERLAY_KEY) === '1', sun: display.sun, large: display.large, left: display.left,
-      hazards: mapSwitch(storage(), MAP_KEYS.hazards), contours: mapSwitch(storage(), MAP_KEYS.contours) };
+      hazards: mapSwitch(storage(), MAP_KEYS.hazards), rings: mapSwitch(storage(), MAP_KEYS.rings, '0'), contours: mapSwitch(storage(), MAP_KEYS.contours) };
     for (const [name, on] of Object.entries(switches)) { const input = el.querySelector(`[data-switch="${name}"]`); if (input) input.checked = on; }
     showHcp();
     showBag();

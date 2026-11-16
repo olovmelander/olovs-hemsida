@@ -54,11 +54,18 @@ export function createOverlay(canvas) {
     },
 
     draw(scene) {
-      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true } = scene;
+      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true, atEye = false, safe = null } = scene;
       /* In the sun's look the lines and numbers are drawn heavier. */
       emphasis = scene.emphasis ?? 1;
       /* The column's side: a label stays clear of it. */
       const labelAt = scene.mirrored ? 15 : 3;
+      const topSafe = safe?.top ?? 8;
+      const bottomSafe = safe?.bottom ?? 8;
+      const leftSafe = safe?.left ?? 8;
+      const rightSafe = safe?.right ?? 8;
+      const inside = p => Number.isFinite(p?.x)
+        && p.x >= leftSafe && p.x <= width - rightSafe
+        && p.y >= topSafe && p.y <= height - bottomSafe;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.clearRect(0, 0, width, height);
       hits.length = 0;
@@ -74,12 +81,12 @@ export function createOverlay(canvas) {
           open = true;
         }
       };
-      const cased = (points, colour, wide, dash = []) => {
+      const cased = (points, colour, wide, dash = [], casing = 0.42) => {
         trace(points);
         ctx.lineCap = ctx.lineJoin = 'round';
         ctx.setLineDash(dash);
-        ctx.strokeStyle = 'rgba(10,24,16,.55)';
-        ctx.lineWidth = wide * emphasis + 2.5;
+        ctx.strokeStyle = `rgba(10,24,16,${casing})`;
+        ctx.lineWidth = wide * emphasis + 1.8;
         ctx.stroke();
         ctx.strokeStyle = colour;
         ctx.lineWidth = wide * emphasis;
@@ -104,29 +111,27 @@ export function createOverlay(canvas) {
           hits.push({ x: s.x, y: s.y, hole: each.n });
         }
       } else if (hole) {
-        cased(along([tee ?? hole.line[0], ...hole.line.slice(1)], 10), 'rgba(255,255,255,.92)', 2);
+        if (!atEye) {
+          cased(
+            along([tee ?? hole.line[0], ...hole.line.slice(1)], 10),
+            target ? 'rgba(255,255,255,.42)' : 'rgba(255,255,255,.72)',
+            target ? 1.15 : 1.45,
+            [],
+            target ? 0.25 : 0.36,
+          );
+        }
 
         /* The green's edge is the line a golfer reads off the map, so it is drawn
            here, sharp at any zoom, and not in the tile's picture. */
         trace(along([...hole.green.ring, hole.green.ring[0]], 2));
         ctx.closePath();
         ctx.lineJoin = 'round';
-        ctx.strokeStyle = 'rgba(255,255,255,.95)';
-        ctx.lineWidth = 1.6 * emphasis;
+        ctx.strokeStyle = pinRings || emphasis > 1 ? 'rgba(255,255,255,.9)' : 'rgba(255,255,255,.68)';
+        ctx.lineWidth = (emphasis > 1 ? 1.6 : 1.25) * emphasis;
         ctx.stroke();
 
-        /* Two pills never sit on each other, and a hazard's comes first: its number is the
-           one that matters, and the nearer hazard of two. */
-        const clash = (a, b, wide) => Math.abs(a.x - b.x) < wide * emphasis && Math.abs(a.y - b.y) < 26 * emphasis;
-        const placed = [];
-        for (const hazard of hazards) {
-          const s = at(hazard.at[0], hazard.at[1]);
-          if (!Number.isFinite(s.x) || s.x < 8 || s.x > width - 8 || s.y < 8 || s.y > height - 8) continue;
-          if (placed.some(other => clash(other, s, 66))) continue;
-          placed.push({ x: s.x, y: s.y, hazard });
-        }
-
-        /* Carry arcs from where the ball is now. */
+        /* Carry arcs from where the ball is now (optional ring toggle). */
+        const arcLabels = [];
         const bearing = Math.atan2(hole.green.c[0] - origin[0], -(hole.green.c[1] - origin[1]));
         const toGreen = Math.hypot(hole.green.c[0] - origin[0], hole.green.c[1] - origin[1]);
         for (const metres of DISTANCE_RINGS) {
@@ -138,15 +143,13 @@ export function createOverlay(canvas) {
             arc.push([origin[0] + Math.sin(a) * metres, origin[1] - Math.cos(a) * metres]);
           }
           trace(arc);
-          ctx.strokeStyle = `rgba(255,255,255,${emphasis > 1 ? 0.95 : 0.72})`;
-          ctx.lineWidth = 1.2 * emphasis;
+          ctx.strokeStyle = `rgba(255,255,255,${emphasis > 1 ? 0.9 : 0.62})`;
+          ctx.lineWidth = 1.15 * emphasis;
           ctx.setLineDash([3, 4]);
           ctx.stroke();
           ctx.setLineDash([]);
           const end = at(arc[labelAt][0], arc[labelAt][1]);
-          if (!Number.isFinite(end.x) || placed.some(other => clash(other, end, 50))) continue;
-          placed.push({ x: end.x, y: end.y });
-          pill(end.x, end.y, String(metres), { size: 11, weight: 600 });
+          if (inside(end)) arcLabels.push({ x: end.x, y: end.y, metres });
         }
 
         /* The greengrid's rings round the cup, each a metre further. */
@@ -192,7 +195,7 @@ export function createOverlay(canvas) {
           ctx.fill();
         }
 
-        if (tee) {
+        if (tee && !atEye) {
           const s = at(tee[0], tee[1]);
           if (Number.isFinite(s.x)) {
             ctx.fillStyle = '#fff';
@@ -205,9 +208,9 @@ export function createOverlay(canvas) {
           }
         }
 
-        if (target) {
+        if (target && !atEye) {
           cased([origin, target], '#ffd23f', 2.2);
-          cased([target, hole.green.c], 'rgba(255,210,63,.75)', 1.6, [5, 5]);
+          cased([target, hole.green.c], 'rgba(255,210,63,.75)', 1.5, [5, 5]);
           const s = at(target[0], target[1]);
           if (Number.isFinite(s.x)) {
             ctx.strokeStyle = '#fff';
@@ -219,37 +222,65 @@ export function createOverlay(canvas) {
             ctx.lineWidth = 1.5;
             ctx.stroke();
           }
+        }
+
+        /* Draw shot trail lines beneath all pills. */
+        if (mode === 'hole' && !atEye) {
+          for (const shot of trail) {
+            cased([shot.from, shot.to], 'rgba(255,255,255,.85)', 1.7);
+            for (const [x, z] of [shot.from, shot.to]) {
+              const end = at(x, z);
+              if (!Number.isFinite(end.x)) continue;
+              ctx.fillStyle = '#fff';
+              ctx.beginPath();
+              ctx.arc(end.x, end.y, 3.5, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+
+        /* Reserve pills strictly by priority so no two pills ever collide:
+           1. active aim measurements, 2. shot trail lengths, 3. reachable hazards, 4. carry rings. */
+        const clash = (a, b, wide) => Math.abs(a.x - b.x) < wide * emphasis && Math.abs(a.y - b.y) < 28 * emphasis;
+        const placed = [];
+
+        if (target && !atEye) {
           const mid = (a, b) => at((a[0] + b[0]) / 2, (a[1] + b[1]) / 2);
           const label = (a, b) => `${Math.round(Math.hypot(b[0] - a[0], b[1] - a[1]))} m`;
           const first = mid(origin, target), second = mid(target, hole.green.c);
-          if (Number.isFinite(first.x)) pill(first.x, first.y, label(origin, target), { fill: '#ffd23f', ink: '#10201a' });
-          if (Number.isFinite(second.x)) pill(second.x, second.y, label(target, hole.green.c));
+          if (inside(first)) {
+            placed.push({ x: first.x, y: first.y });
+            pill(first.x, first.y, label(origin, target), { fill: '#ffd23f', ink: '#10201a' });
+          }
+          if (inside(second) && !placed.some(other => clash(other, second, 64))) {
+            placed.push({ x: second.x, y: second.y });
+            pill(second.x, second.y, label(target, hole.green.c));
+          }
         }
 
-        /* Reach and carry, where the hazard is. */
-        for (const { x, y, hazard } of placed) {
-          if (!hazard) continue;
+        if (mode === 'hole' && !atEye) {
+          for (const shot of trail) {
+            const s = at((shot.from[0] + shot.to[0]) / 2, (shot.from[1] + shot.to[1]) / 2);
+            if (!inside(s) || placed.some(other => clash(other, s, 60))) continue;
+            placed.push({ x: s.x, y: s.y });
+            pill(s.x, s.y, `${Math.round(Math.hypot(shot.to[0] - shot.from[0], shot.to[1] - shot.from[1]))} m`, { size: 11, weight: 600 });
+          }
+        }
+
+        for (const hazard of hazards) {
+          const s = at(hazard.at[0], hazard.at[1]);
+          if (!inside(s) || placed.some(other => clash(other, s, 68))) continue;
+          placed.push({ x: s.x, y: s.y });
           const words = hazard.carry === null ? String(Math.round(hazard.front)) : `${Math.round(hazard.front)}–${Math.round(hazard.carry)}`;
-          pill(x, y, words, hazard.kind === 'water'
+          pill(s.x, s.y, words, hazard.kind === 'water'
             ? { fill: 'rgba(20,92,140,.94)', size: 11.5 }
             : { fill: 'rgba(240,229,194,.96)', ink: '#2a2415', size: 11.5 });
         }
-      }
 
-      /* The hole so far: every shot locked, from where it was struck to where it lay. */
-      if (mode === 'hole') {
-        for (const shot of trail) {
-          cased([shot.from, shot.to], 'rgba(255,255,255,.9)', 2);
-          const s = at((shot.from[0] + shot.to[0]) / 2, (shot.from[1] + shot.to[1]) / 2);
-          if (Number.isFinite(s.x)) pill(s.x, s.y, `${Math.round(Math.hypot(shot.to[0] - shot.from[0], shot.to[1] - shot.from[1]))} m`, { size: 11, weight: 600 });
-          for (const [x, z] of [shot.from, shot.to]) {
-            const end = at(x, z);
-            if (!Number.isFinite(end.x)) continue;
-            ctx.fillStyle = '#fff';
-            ctx.beginPath();
-            ctx.arc(end.x, end.y, 3.5, 0, Math.PI * 2);
-            ctx.fill();
-          }
+        for (const label of arcLabels) {
+          if (placed.some(other => clash(other, label, 54))) continue;
+          placed.push({ x: label.x, y: label.y });
+          pill(label.x, label.y, String(label.metres), { size: 11, weight: 600 });
         }
       }
 

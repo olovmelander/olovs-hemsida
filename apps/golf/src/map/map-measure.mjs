@@ -41,6 +41,23 @@ export function elevationProfile(path, heightAt, samples = 72) {
   return { distance, points, low, high, rise: points.at(-1) - points[0] };
 }
 
+/* Smooths single-sample ground bumps along the strip while keeping both ends exact. */
+export function smoothProfile(points, radius = 3) {
+  if (!Array.isArray(points) || points.length < 3 || radius <= 0) return Array.isArray(points) ? [...points] : [];
+  const last = points.length - 1;
+  return points.map((value, index) => {
+    if (index === 0 || index === last) return value;
+    let total = 0, weightSum = 0;
+    const from = Math.max(0, index - radius), to = Math.min(last, index + radius);
+    for (let i = from; i <= to; i++) {
+      const w = radius + 1 - Math.abs(i - index);
+      total += points[i] * w;
+      weightSum += w;
+    }
+    return weightSum ? total / weightSum : value;
+  });
+}
+
 /* Where a share of the hole sits across the strip. The player walks along it at
    first; then they stay at `rest`, what is behind them closes up to the left and
    what is ahead spreads out to fill the rest. So the whole hole is always there, and
@@ -170,6 +187,16 @@ export function hazardsAhead({ origin, path, bunkers, waters, limit = 5 }) {
   }
 
   return found.sort((a, b) => a.front - b.front).slice(0, limit);
+}
+
+/* Keeps only the nearest hazards within shot reach so the map overlay stays calm. */
+export function reachableHazards(hazards, maxReach, { limit = 3 } = {}) {
+  if (!Array.isArray(hazards)) return [];
+  const cap = Number.isFinite(maxReach) && maxReach > 0 ? maxReach : Infinity;
+  return hazards
+    .filter(hazard => hazard.front <= cap)
+    .sort((a, b) => a.front - b.front)
+    .slice(0, limit);
 }
 
 /* The compass direction of play: up the screen on a hole view. */

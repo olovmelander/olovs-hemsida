@@ -24,7 +24,7 @@ import { buildGreenGrid, GRID_VERTEX_FLOATS, PULSE_FLOATS, slopeAt, slopeColor }
 import { landRecord, outlineOverLand } from './map-land.mjs';
 import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT } from './map-height.mjs';
 import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, shareTrees, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, sideOfPlay, principalBearing, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, sideOfPlay, principalBearing, reachableHazards, smoothProfile, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
 import { canopyAlpha, catalogueFor, createTreeRules, plantTile, SPECIES_RULES, speciesCount, TREE_FLOATS } from './map-trees.mjs';
 import { createFarBlocker, createFarSample, FAR_FOREST, farForestCells, farSpacing, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
 import { species as angsoSpecies } from '../engine/scenery/angso.js';
@@ -651,6 +651,15 @@ describe('what a golfer reads', () => {
     expect(elevationProfile([[0, 0], [1, 0]], () => NaN)).toBeNull();
   });
 
+  it('smooths micro-noise in an elevation profile while keeping both ends exact', () => {
+    const bumpy = [10, 10.2, 11.4, 9.8, 10.5, 10.1, 12];
+    const smoothed = smoothProfile(bumpy, 2);
+    expect(smoothed[0]).toBe(10);
+    expect(smoothed.at(-1)).toBe(12);
+    expect(Math.max(...smoothed.slice(1, -1))).toBeLessThan(11.4);
+    expect(Math.min(...smoothed.slice(1, -1))).toBeGreaterThan(9.8);
+  });
+
   it('plays a hole from the tee in use to the middle of the green', () => {
     const hole = { line: [[0, 0], [0, -200], [100, -300]], green: { c: [130, -330] } };
     expect(playedPath(hole, [0, 0])).toEqual([[0, 0], [0, -200], [100, -300], [130, -330]]);
@@ -797,6 +806,19 @@ describe('hazards ahead', () => {
 
   it('leaves water that is nowhere near the hole out of it', () => {
     expect(ahead({ waters: [waterShape(square(900, -200, 40))] })).toEqual([]);
+  });
+
+  it('filters overlay hazards to shot reach and caps at three', () => {
+    const list = [
+      { kind: 'bunker', front: 120 },
+      { kind: 'water', front: 185 },
+      { kind: 'bunker', front: 215 },
+      { kind: 'bunker', front: 245 },
+      { kind: 'bunker', front: 310 },
+    ];
+    expect(reachableHazards(list, 260).map(h => h.front)).toEqual([120, 185, 215]);
+    expect(reachableHazards(list, 190).map(h => h.front)).toEqual([120, 185]);
+    expect(reachableHazards(list, null, { limit: 4 }).map(h => h.front)).toEqual([120, 185, 215, 245]);
   });
 });
 

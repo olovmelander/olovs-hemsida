@@ -236,7 +236,7 @@ describe('the keys are the ones the programs read', () => {
 
   it('names the map\'s own keys', () => {
     const map = source('../map/map-session.js');
-    for (const name of ['light', 'contours', 'hazards', 'quality', 'handicap', 'rounds', 'shots']) {
+    for (const name of ['light', 'contours', 'hazards', 'rings', 'quality', 'handicap', 'rounds', 'shots']) {
       expect(map, name).toContain(`'${MAP_KEYS[name]}'`);
     }
     expect(map).toContain(`'${BAG_KEY}'`);

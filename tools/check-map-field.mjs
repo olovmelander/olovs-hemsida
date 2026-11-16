@@ -177,6 +177,10 @@ await settled(page);
 expect(await page.evaluate(() => V3DMap.state.follow && !V3DMap.state.viewMoved), 'and it follows the player again');
 
 /* ---- the quick views ---- */
+const pickView = async selector => {
+  await page.click('[data-view-toggle]');
+  await page.click(selector);
+};
 const framing = () => page.evaluate(() => {
   const { tilt, bearing } = V3DMap.camera.state;
   const { state, course } = V3DMap;
@@ -184,7 +188,7 @@ const framing = () => page.evaluate(() => {
   const wanted = Math.atan2(green[0] - from[0], -(green[1] - from[1]));
   return { tilt, off: Math.abs(Math.atan2(Math.sin(bearing - wanted), Math.cos(bearing - wanted))), pressed: document.querySelector('[data-views] [aria-pressed="true"]').dataset.view };
 });
-await page.click('[data-view="behind"]');
+await pickView('[data-view="behind"]');
 await settled(page);
 const behind = await framing();
 expect(behind.tilt > 1.1 && behind.off < 0.01 && behind.pressed === 'behind', `Bakom stands low behind the player, facing the green (tilt ${behind.tilt.toFixed(2)})`);
@@ -192,7 +196,7 @@ await shot(page, 'behind');
 await fixAt(0.5);
 const walked = await framing();
 expect(walked.tilt > 1.1 && walked.off < 0.01, 'and stays lined up as the player walks');
-await page.click('[data-view="above"]');
+await pickView('[data-view="above"]');
 await settled(page);
 const above = await framing();
 expect(above.tilt < 0.1 && above.off < 0.01 && above.pressed === 'above', 'Ovan looks straight down, with play up the screen');
@@ -202,13 +206,13 @@ await page.mouse.down();
 await page.mouse.move(120, 300, { steps: 8 });
 await page.mouse.up();
 await page.waitForTimeout(250);
-await page.click('[data-view="hole"]');
+await pickView('[data-view="hole"]');
 await settled(page);
 const framed = await framing();
 expect(framed.tilt > 0.8 && framed.tilt < 1 && framed.off < 0.01, 'Hål brings a moved view back, and fingers still move it');
 expect(await page.evaluate(() => localStorage.getItem('banvy-map-view-v1')) === 'hole', 'the view chosen is remembered');
 const reliefBefore = await page.evaluate(() => V3DMap.state.exaggeration);
-await page.click('[data-view="eye"]');
+await pickView('[data-view="eye"]');
 await settled(page);
 await page.waitForTimeout(600);
 const eyeView = () => page.evaluate(() => {
@@ -228,14 +232,14 @@ await page.locator('.map-marks').tap({ position: { x: 120, y: 420 } });
 await page.waitForTimeout(500);
 expect(await page.evaluate(() => Boolean(V3DMap.state.target)), 'a tap still measures, from eye level');
 await page.click('[data-reading-close]');
-await page.click('[data-view="hole"]');
+await pickView('[data-view="hole"]');
 await settled(page);
 const backOnMap = await page.evaluate(() => ({ relief: V3DMap.state.exaggeration, fov: V3DMap.camera.state.fov, tilt: V3DMap.camera.state.tilt }));
 expect(backOnMap.relief === reliefBefore && backOnMap.fov === 30 && backOnMap.tilt < 1, 'and Hela hålet goes back to the map as it was');
-await page.click('[data-view="green"]');
+await pickView('[data-view="green"]');
 await settled(page);
 expect(await page.evaluate(() => V3DMap.state.greenView), 'Green opens the green');
-await page.click('[data-view="hole"]');
+await pickView('[data-view="hole"]');
 await settled(page);
 await fixAt(0.75);
 
@@ -435,7 +439,7 @@ await page.click('[data-prev]');
 await settled(page);
 expect(await page.evaluate(() => Number.isFinite(V3DMap.camera.state.x) && V3DMap.stats().patches < 120), 'the camera frames it from close in on the last green');
 await note(page, 'next hole');
-await page.click('[data-overview]');
+await pickView('[data-overview]');
 await settled(page);
 expect(await page.evaluate(() => V3DMap.state.mode) === 'course', 'the overview opens');
 await note(page, 'overview');
@@ -445,6 +449,7 @@ await note(page, 'overview shot');
 /* ---- the light ---- */
 const lightState = () => page.evaluate(() => ({ key: V3DMap.state.lightKey, light: V3DMap.state.light.key, sun: V3DMap.state.light.sun, autumn: V3DMap.state.light.autumn, pressed: document.querySelector('[data-now]').getAttribute('aria-pressed') }));
 await page.click('[data-menu]');
+await page.click('[data-menu-tab="karta"]');
 await page.locator('[data-light]').scrollIntoViewIfNeeded();
 await page.click('[data-light]');
 expect(await page.isVisible('[data-light-sheet]'), 'Ljus lives in the menu and opens its picker');
@@ -461,6 +466,7 @@ await page.click('[data-now]');
 await page.waitForTimeout(250);
 expect((await lightState()).pressed === 'false', 'and lets it go again');
 await page.click('[data-light-back]');
+await page.click('[data-menu-tab="spel"]');
 await page.click('[data-clubs-open]');
 expect(await page.isVisible('[data-clubs-sheet]') && await page.locator('[data-clubs] li').count() > 5, 'Mina klubbor lists the bag');
 await page.click('[data-clubs-back]');
@@ -504,9 +510,10 @@ const view = restored.camera;
 expect(['x', 'y', 'z', 'distance', 'bearing', 'tilt'].every(key => Number.isFinite(view[key])), `the camera survives it ${JSON.stringify(view)}`);
 
 /* ---- no signal ---- */
-await page.click('[data-overview]');
+await pickView('[data-overview]');
 await settled(page);
 await page.click('[data-menu]');
+await page.click('[data-menu-tab="bana"]');
 const saved = page.waitForFunction(() => document.querySelector('[data-download]').textContent === 'Sparad', null, { timeout: 120000 });
 await page.click('[data-download]');
 await saved;
@@ -679,6 +686,7 @@ await golfer.click('[data-rounds-back]');
 
 /* The display, for the sun, the hand and the eyes. */
 const panel = () => golfer.evaluate(() => { const { backgroundColor, color } = getComputedStyle(document.querySelector('.map-green')); return { backgroundColor, color, left: document.querySelector('.map-side').getBoundingClientRect().left, classes: document.querySelector('#courseMap').className }; });
+await golfer.click('[data-menu-tab="karta"]');
 await golfer.locator('[data-sun]').click();
 await golfer.waitForTimeout(350);
 const sunny = await panel();
@@ -693,6 +701,7 @@ await settled(golfer);
 const remembered = await panel();
 expect(/is-sun/.test(remembered.classes) && /is-left/.test(remembered.classes) && /is-large/.test(remembered.classes), 'and all three are kept');
 await golfer.click('[data-menu]');
+await golfer.click('[data-menu-tab="karta"]');
 for (const name of ['sun', 'large', 'left']) await golfer.locator(`[data-${name}]`).click();
 const sheetOpened = await golfer.evaluate(() => document.activeElement?.getAttribute('aria-label'));
 await golfer.click('[data-menu-sheet] [data-close]');
