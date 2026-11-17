@@ -97,9 +97,23 @@ export function createOverlay(canvas) {
       if (mode === 'course') {
         for (const each of course.holes) {
           cased(along(each.line, 24), 'rgba(255,255,255,.82)', 1.6);
-          const s = at(each.green.c[0], each.green.c[1]);
+        }
+        const placedPins = [];
+        for (const each of course.holes) {
+          let s = at(each.green.c[0], each.green.c[1]);
           if (!Number.isFinite(s.x)) continue;
-          ctx.fillStyle = 'rgba(12,24,18,.88)';
+          const back = each.line.at(-2) ?? each.line[0];
+          const bs = at(back[0], back[1]);
+          if (Number.isFinite(bs.x)) {
+            const dx = bs.x - s.x, dy = bs.y - s.y, len = Math.hypot(dx, dy);
+            if (len > 1) {
+              for (let step = 0; step < 3 && placedPins.some(p => Math.hypot(p.x - s.x, p.y - s.y) < 26); step++) {
+                s = { x: s.x + dx / len * 26, y: s.y + dy / len * 26 };
+              }
+            }
+          }
+          placedPins.push({ x: s.x, y: s.y });
+          ctx.fillStyle = 'rgba(12,24,18,.92)';
           ctx.beginPath();
           ctx.arc(s.x, s.y, 12, 0, Math.PI * 2);
           ctx.fill();

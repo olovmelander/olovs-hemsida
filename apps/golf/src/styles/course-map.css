@@ -6,8 +6,8 @@ body.course-map > :not(#courseMap):not(#boot):not(script) { display: none !impor
 html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; overscroll-behavior: none; }
 
 #courseMap {
-  --panel: rgba(12, 24, 18, .9);
-  --panel-soft: rgba(12, 24, 18, .86);
+  --panel: rgba(12, 24, 18, .92);
+  --panel-soft: rgba(12, 24, 18, .9);
   --panel-solid: #0c1812;
   --ink: #fff;
   --ink-body: #e6eee9;
@@ -84,7 +84,8 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   touch-action: none;
 }
 .map-hole button { flex: 0 0 44px; height: 56px; background: none; font-size: 26px; line-height: 1; }
-.map-hole button.map-hole-text { flex: 1; min-width: 0; padding: 0; text-align: center; line-height: 1.15; font-size: inherit; }
+.map-hole button[hidden] { display: none; }
+.map-hole button.map-hole-text { flex: 1; min-width: 0; padding: 0 10px; text-align: center; line-height: 1.15; font-size: inherit; }
 .map-hole-text b { display: block; font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .map-hole-text span { display: block; font-size: 13px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -212,7 +213,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-wheel.is-locked .map-wheel-band { border-color: #35d07f; background: rgba(53, 208, 127, .2); }
 .map-wheel-hint {
   margin: 0;
-  padding: 5px 2px;
+  padding: 5px 4px;
   border-radius: 12px;
   background: var(--panel);
   box-shadow: inset 0 0 0 1px var(--panel-border), var(--panel-shadow);
@@ -220,11 +221,13 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
+.map-wheel-hint .map-hint-tag { display: block; font-size: 9.5px; font-style: normal; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); }
 .map-wheel-hint small { display: block; font-size: 12px; font-weight: 600; color: var(--ink-body); white-space: nowrap; }
-.map-wheel-hint b { display: block; font-size: 22px; font-weight: 700; color: var(--accent); }
+.map-wheel-hint b { display: block; font-size: 20px; font-weight: 700; color: var(--link); }
 .map-wheel-hint b:empty { display: none; }
 .map-wheel-hint[hidden] { display: none; }
 .map-green {
+  position: relative;
   display: block;
   width: 100%;
   padding: 6px 0 5px;
@@ -238,6 +241,17 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   cursor: pointer;
   pointer-events: auto;
 }
+.map-green-icon {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  color: var(--ink-soft);
+  opacity: .65;
+  pointer-events: none;
+}
+.map-green.is-on .map-green-icon { display: none; }
+.map-green.is-green { box-shadow: inset 0 0 0 2px var(--accent), var(--panel-shadow); }
+.map-green.is-green .map-green-icon { color: var(--accent); opacity: 1; }
 .map-green[hidden] { display: none; }
 .map-green.is-on .map-green-row:not(.map-green-mid), .map-green.is-on i, .map-green.is-on small { display: none; }
 .map-green.is-on:not([hidden]) { display: grid; place-items: center; min-height: 44px; padding: 0; }
@@ -449,7 +463,20 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-tool[hidden] { display: none; }
 /* Yellow is what is chosen, green what is on or locked. */
 .map-tool[aria-pressed="true"] { background: #1f8a4c; color: #fff; }
+.map-tool.is-armed[aria-pressed="true"] { background: #a33a00; color: #fff; }
+.map-tool.is-armed svg { display: none; }
 .map-tool[aria-expanded="true"] { background: var(--fill-on); color: var(--ink-on); }
+#courseMap:not(.is-sun) .map-hole,
+#courseMap:not(.is-sun) .map-green,
+#courseMap:not(.is-sun) .map-wind,
+#courseMap:not(.is-sun) .map-wheel-hint,
+#courseMap:not(.is-sun) .map-reading,
+#courseMap:not(.is-sun) .map-profile,
+#courseMap:not(.is-sun) .map-legend,
+#courseMap:not(.is-sun) .map-tool,
+#courseMap:not(.is-sun) .map-recentre,
+#courseMap:not(.is-sun) .map-view-toggle,
+#courseMap:not(.is-sun) .map-status { backdrop-filter: blur(8px); }
 .map-tool:disabled { opacity: .7; }
 .map-key:focus-visible, button.map-shot:focus-visible, .map-tool:focus-visible, .map-hole button:focus-visible, .map-chip:focus-visible, .map-action:focus-visible, .map-sheet-close:focus-visible, .map-wind:focus-visible, .map-stepper button:focus-visible, .map-card button:focus-visible, .map-green:focus-visible, .map-recentre:focus-visible, .map-locked button:focus-visible, .map-wheel-list:focus-visible, .map-row-next:focus-visible, .map-prompt-head button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
@@ -581,11 +608,19 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   cursor: pointer;
 }
 .map-sheet h3 { margin: 14px 0 6px; font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); }
-.map-note { margin: 0 0 2px; font-size: 14.5px; line-height: 1.42; color: var(--ink-body); }
+.map-note { margin: 12px 0 2px; font-size: 14.5px; line-height: 1.42; color: var(--ink-body); }
 .map-note[hidden] { display: none; }
 .map-note.is-clamped { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
 .map-note.is-clamped[hidden] { display: none; }
-.map-note { margin-top: 12px; }
+.map-tip {
+  margin-top: 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: var(--fill);
+  border-left: 3px solid var(--accent);
+}
+.map-tip[hidden] { display: none; }
+.map-tip .map-note { margin: 0; }
 .map-note-more { min-height: 44px; padding: 0; border: 0; background: none; color: var(--link); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
 .map-note-more[hidden] { display: none; }
 [data-hazard-section][hidden], .map-key-row[hidden] { display: none; }
@@ -770,7 +805,18 @@ a.map-row-next { text-decoration: none; }
 .map-handicap > span { grid-column: auto; }
 .map-handicap button { height: 44px; }
 .map-handicap output { font-size: 22px; text-align: center; }
-[data-score-sheet] .map-actions { grid-template-columns: 1fr 1fr; }
+[data-clubs-sheet] .map-actions { margin-top: 12px; }
+[data-score-sheet] .map-sheet-head { margin-bottom: 4px; }
+[data-score-sheet] .map-keys-strokes .map-chip { min-height: 46px; }
+[data-score-sheet] .map-key-row { margin-top: 4px; }
+[data-score-sheet] .map-action-next { margin-top: 6px; min-height: 44px; }
+[data-score-sheet] .map-score-word { margin-top: 3px; min-height: 0; }
+[data-score-sheet] .map-score-sum { margin-top: 4px; }
+[data-score-sheet] .map-score-stats { margin: 1px 0 4px; min-height: 0; }
+[data-score-sheet] .map-score-stats:empty { display: none; }
+[data-score-sheet] .map-handicap { margin: 2px 0; }
+[data-score-sheet] .map-actions { grid-template-columns: 1fr 1fr; margin-top: 4px; }
+[data-score-sheet] .map-action { min-height: 44px; }
 [data-score-sheet] .map-actions:has([data-end-round][hidden]) { grid-template-columns: 1fr; }
 
 /* ---- the sheets of a round ---- */

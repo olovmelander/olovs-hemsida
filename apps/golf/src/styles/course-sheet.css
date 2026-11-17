@@ -355,14 +355,14 @@
   .cs { width: 100vw; height: 100dvh; margin: 0; }
   .cs[open] { animation-name: cs-up; }
   @keyframes cs-up { from { transform: translateY(40px); opacity: 0; } }
-  .cs-shell { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(170px, 26dvh) minmax(0, 1fr); border-radius: 0; border: 0; }
+  .cs-shell { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(156px, 23dvh) minmax(0, 1fr); border-radius: 0; border: 0; }
   .cs-close { top: max(12px, env(safe-area-inset-top, 0px)); right: 12px; }
   .cs-slide-nav { top: max(12px, env(safe-area-inset-top, 0px)); left: 12px; }
-  .cs-media-text { left: 18px; right: 18px; bottom: 14px; }
-  .cs-title { font-size: 28px; }
-  .cs-facts { gap: 16px; margin-top: 8px; }
-  .cs-facts dd { font-size: 20px; }
-  .cs-scroll { padding: 12px 16px 8px; gap: 13px; }
+  .cs-media-text { left: 18px; right: 18px; bottom: 12px; }
+  .cs-title { font-size: 27px; }
+  .cs-facts { gap: 16px; margin-top: 6px; }
+  .cs-facts dd { font-size: 19px; }
+  .cs-scroll { padding: 10px 16px 8px; gap: 10px; }
   /* here the button sits on the posters, not on the choices */
   .cs-scroll.is-scrolled { -webkit-mask-image: none; mask-image: none; }
   /* the choices come first on a phone: the story keeps two lines */
@@ -378,8 +378,8 @@
   .cs-past { gap: 6px; }
   .cs-past div { padding: 9px 10px; gap: 3px; }
   .cs-past b { font-size: 18px; }
-  .cs-modes { gap: 8px; }
-  .cs-mode { gap: 10px; min-height: 56px; padding: 8px 10px; }
+  .cs-modes { gap: 6px; }
+  .cs-mode { gap: 10px; min-height: 50px; padding: 7px 10px; }
   .cs-mode-icon { width: 34px; height: 34px; border-radius: 10px; }
   .cs-mode-icon svg { width: 19px; height: 19px; }
   .cs-mode-text b { font-size: 14.5px; }
