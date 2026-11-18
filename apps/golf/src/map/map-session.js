@@ -2474,7 +2474,7 @@ async function start() {
       state.stats.patches = drawn.patches;
       state.stats.frames++;
       store.markUsed(selection);
-      if (boot && !boot.classList.contains('done')) boot.classList.add('done');
+      if (boot && !boot.classList.contains('done')) { boot.classList.add('done'); boot.setAttribute('aria-hidden', 'true'); }
     }
 
     /* A view moved by hand reaches the buttons here: gestures only ask for a frame. */

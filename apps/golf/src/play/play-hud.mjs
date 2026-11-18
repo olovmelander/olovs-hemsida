@@ -22,7 +22,7 @@ const HIDDEN = ['#courseNav', '#menuToggle', '#card', '#railBackdrop', '#rail', 
 const CSS = `
 body.pl-on ${HIDDEN.join(',body.pl-on ')},body.pl-on .hole-marker{display:none!important}
 body.pl-on canvas{touch-action:none}
-.pl-hud{--ink:#eef5ef;--dim:#a3b8ab;--faint:#71897c;--turf:#5fd07a;--turf-hi:#8ef0a4;--amber:#f0a23a;--water:#4bb4d8;--sand:#e2cf9a;
+.pl-hud{--ink:#eef5ef;--dim:#a3b8ab;--faint:#849c8f;--turf:#5fd07a;--turf-hi:#8ef0a4;--amber:#f0a23a;--water:#4bb4d8;--sand:#e2cf9a;
   --edge:rgba(160,230,185,.15);--ease:cubic-bezier(.16,1,.3,1);--gap:max(14px,env(safe-area-inset-left));
   position:fixed;inset:0;z-index:40;pointer-events:none;font-family:Outfit,ui-sans-serif,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
 .pl-hud>*{pointer-events:auto}
@@ -221,7 +221,8 @@ body.pl-cinema .pl-left,body.pl-cinema .pl-right,body.pl-cinema .pl-dock,body.pl
 .pl-live{position:absolute;left:50%;top:calc(9vh + 14px);transform:translateX(-50%);display:none;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(2,6,4,.72);font:700 11.5px/1 Outfit,sans-serif;letter-spacing:.16em;text-transform:uppercase}
 .pl-live i{width:8px;height:8px;border-radius:50%;background:#ff5a4a;box-shadow:0 0 10px #ff5a4a;animation:pl-pulse 1.4s ease-in-out infinite}
 .pl-live.show{display:inline-flex}
-.pl-skip{position:absolute;right:calc(max(14px,env(safe-area-inset-right)) + 2vw);bottom:calc(9vh + 26px);display:none;font-size:12px;color:var(--dim);letter-spacing:.04em}
+/* the skip sits in the lower bar, on black, as on a phone: over the course it was 12 px of grey on bright grass */
+.pl-skip{position:absolute;right:calc(max(14px,env(safe-area-inset-right)) + 2vw);bottom:calc(4.5vh - 8px);display:none;font-size:12.5px;color:#c3d3c8;letter-spacing:.04em}
 body.pl-cinema .pl-skip{display:block}
 @keyframes pl-pulse{50%{opacity:.35}}
 @keyframes pl-rise{from{opacity:0;transform:translateY(6px)}}
@@ -362,6 +363,14 @@ body.pl-clean .pl-clean-hint{display:block}
 @media (max-height:720px) and (min-width:641px){
   .pl-map{width:200px;height:238px}
   .pl-dist-big{font-size:32px}
+}
+/* -- a touch screen: the small corner buttons keep their look and take a thumb --
+   The hazard row's clear (26 px), the hole map's size (28 px) and the guide's
+   close (34 px) reach 44 px through an invisible margin round each. */
+@media (pointer:coarse){
+  .pl-row-item button{position:relative}
+  .pl-row-item button::after,.pl-map-size::after,.pl-guide-close::after{content:'';position:absolute;inset:-9px}
+  .pl-guide-close::after{inset:-5px}
 }
 @media (prefers-reduced-motion:reduce){
   .pl-banner,.pl-fade,.pl-dial .arrow,.pl-bars i,.pl-third,.pl-stats,.pl-power,.pl-liebar i{transition:none}

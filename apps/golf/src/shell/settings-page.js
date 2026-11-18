@@ -76,6 +76,8 @@ export function buildSettings({ courses, onBack }) {
   const el = document.createElement('div');
   el.id = 'settings';
   el.className = 'hub-screen';
+  /* the screen on show is the page's main landmark; the hidden ones are out of the tree */
+  el.setAttribute('role', 'main');
   el.setAttribute('aria-labelledby', 'settingsTitle');
 
   const s = readSettings(storage());
@@ -83,13 +85,13 @@ export function buildSettings({ courses, onBack }) {
   const webgpu = typeof navigator !== 'undefined' && 'gpu' in navigator;
 
   el.innerHTML = `
-    <header class="set-top">
+    <div class="set-top">
       <div class="hub-top set-top-in">
         <button class="hub-back" type="button" data-back aria-label="Tillbaka">${BACK}<span>Tillbaka</span></button>
         <h1 class="set-title" id="settingsTitle" tabindex="-1">Inställningar</h1>
         <span class="set-saved" data-saved role="status" aria-live="polite"></span>
       </div>
-    </header>
+    </div>
     <div class="set-inner">
       <div class="set-layout">
         <nav class="set-nav" aria-label="Avsnitt">

@@ -785,7 +785,9 @@ a.map-row-next { text-decoration: none; }
   font-variant-numeric: tabular-nums;
   cursor: pointer;
 }
-.map-card-row .is-now { background: var(--held); }
+/* The hole being scored: a ring in the accent over a light tint, not a block
+   of --held, which over the dark panel read as a muddy olive square. */
+.map-card-score button.is-now { border-radius: 8px; background: color-mix(in srgb, var(--accent) 14%, transparent); box-shadow: inset 0 0 0 1.5px var(--accent); }
 .map-card-score button, .map-card-score > span:not(:first-child):not(:last-child) { display: grid; place-items: center; height: 44px; font-size: 14.5px; font-weight: 700; }
 .map-card-score i { display: grid; place-items: center; width: 24px; height: 24px; font-style: normal; }
 .map-card-score .is-under { color: var(--under); }
@@ -971,3 +973,22 @@ a.map-row-next { text-decoration: none; }
 .is-large .map-hole-text span { font-size: 14.5px; }
 .is-large .map-tool { font-size: 15.5px; gap: 4px; }
 .is-large .map-profile span { font-size: 13.5px; }
+
+/* ---- a tablet or a computer: the phone's HUD, centred, not stretched ----
+   Every control here was sized for a thumb on a 390 px phone. Laid edge to edge
+   on a 1440 px window the four buttons grew 350 px wide, the hole bar's ‹ › sat
+   1,400 px apart from each other and 700 px from the hole they step, and the
+   score sheet spread its seven score keys and its card across the whole screen.
+   Wider than a phone (and not a phone on its side, which keeps its own layout
+   above), the hole bar, the dock and the sheets keep to one centred column. */
+@media (min-width: 760px) and (min-height: 521px) {
+  #courseMap { --dock: 640px; }
+  .map-top, .map-bottom, .map-sheet {
+    left: 0;
+    right: 0;
+    width: min(var(--dock), calc(100% - 2 * (var(--side-width) + 20px)));
+    margin-inline: auto;
+  }
+  .map-bottom { bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); }
+  .map-sheet { bottom: calc(env(safe-area-inset-bottom, 0px) + 72px); }
+}

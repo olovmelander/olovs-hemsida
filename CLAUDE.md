@@ -100,7 +100,8 @@ this guide or the current production workflow.
   (`course-sheet.js`): tee, start hole, handicap or light, then the round; the map
   begins it at `runda=1`. The detailed course's drawer (`menu.js`) is three tabs that
   click the panel's own buttons; keep its `open` class and API, which `main.js`
-  reads. See [the UI audit of 8 November](docs/ui-audit-2026-11-08.md).
+  reads. See the UI audits of [8 November](docs/ui-audit-2026-11-08.md) and
+  [18 November](docs/ui-audit-2026-11-18.md).
 - Spela (`?spela=1`, 8 November) plays the detailed course as a game, and Återupplev
   (`?aterupplev=<round>`) replays a round the map recorded. Both live in
   `apps/golf/src/play`, outside the hashed folders: `main.js` hands them one handle at
@@ -146,7 +147,8 @@ the 1 m tiles it plants a far wood from its forest picture, drawn from the measu
 (`map-far-forest.mjs`, off houses and roads); `?treereach=before` and `?farforest=0` are
 the befores. Never import `engine/scenery/*`
 there (it brings three.js), and keep its work out of the folders the source revision
-hashes. Run `tools/check-map-field.mjs` on more than one course. Nothing that is supposed to be
+hashes. Wider than a phone (760 px), its hole bar, dock and sheets keep to one centred
+640 px column. Run `tools/check-map-field.mjs` on more than one course. Nothing that is supposed to be
 on the ground may be left off the map (owner request, 4 November): a new feature in a pack
 needs painting too. The map's water and forest beyond the outlines are one picture each per
 ground, and its lakes reach their ground's shores from the same bake (`map-shores.mjs`);

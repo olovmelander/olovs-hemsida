@@ -549,6 +549,40 @@
   .mc-fig .mc-dials { width: min(100%, 210px); }
 }
 
+/* Every card says all of what it says (18 November). At 1440 x 900 each of the
+   five cut its sentence off mid-word ("och mät...", "puttar oc..."), and the
+   small cards' monospace reading wrapped word by word over the bars' drawing.
+   - A screen tall enough for the words gives the three ways to play a third line.
+   - The small cards give up the icon (the big cards carry the same ones), so
+     the words get its room, and their reading is set in the menu's own face,
+     a third narrower than the monospace, so it keeps to a line.
+   - Where a small card is narrow (below 1320 px) it keeps to its name and its
+     reading, as on a phone. */
+@media (min-width: 1001px) and (min-height: 521px) {
+  .is-small .mc-icon { display: none; }
+  .is-small .mc-top { margin-left: 0; }
+  .is-small .mc-body { padding: 16px 76px 16px 22px; }
+  .is-small .mc-text { font-size: 13.5px; line-height: 1.45; }
+  .mc-summary { font: 600 12.5px/1.35 Outfit, sans-serif; letter-spacing: 0.01em; }
+  .mc-badge { white-space: nowrap; }
+}
+@media (min-width: 1001px) and (min-height: 861px) {
+  .mode-card:not(.is-small) .mc-text { -webkit-line-clamp: 3; line-clamp: 3; }
+}
+@media (min-width: 1001px) and (max-width: 1319px) and (min-height: 521px) {
+  .is-small .mc-text { display: none; }
+}
+/* A small laptop or a tablet on its side (1024-1240 px): a card is 230-290 px
+   wide, and the arrow's 88 px gutter left its name 130 px, so "Detaljerad 3D",
+   its kicker and "Lätt 3D med GPS" broke over two lines. The arrow moves to the
+   card's top corner and the words take the whole width. */
+@media (min-width: 1001px) and (max-width: 1240px) and (min-height: 521px) {
+  .mode-card:not(.is-small) .mc-body { padding-right: 20px; }
+  .mode-card:not(.is-small) .mc-top { right: 64px; }
+  .mode-card:not(.is-small) .mc-key { display: none; }
+  .mode-card:not(.is-small) .mc-go { top: 16px; bottom: auto; right: 16px; width: 42px; height: 42px; margin-top: 0; }
+}
+
 /* A phone on its side: height is what is scarce. The hero shrinks to a line
    and the three cards stand side by side again. */
 @media (max-height: 520px) and (min-width: 601px) {

@@ -73,8 +73,6 @@ const LINES = {
 /* the course page (course-sheet.js) tells the same story under its posters */
 export const COURSE_LINES = LINES;
 
-const TEE_WORD = n => `${n} tees`;
-
 /* The resting poster. The first cards are what the visitor sees before anything
    can run, so theirs is in the markup; the rest carry it as data and are painted
    as they come near the screen (see "card posters" below). */
@@ -276,7 +274,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
                       <div class="facts">
                         <div class="fact-item"><span class="f-lbl">Par</span> <b class="f-val">${c.par}</b></div>
                         <div class="fact-item"><span class="f-lbl">Hål</span> <b class="f-val">${c.holes}</b></div>
-                        <div class="fact-item fact-tees"><span class="f-lbl">Utslag</span> <b class="f-val">${TEE_WORD(c.tees.names.length)}</b></div>
+                        <div class="fact-item fact-tees"><span class="f-lbl">Tees</span> <b class="f-val">${c.tees.names.length}</b></div>
                         <div class="fact-item fact-tag"><b>${c.status === 'mapping' ? 'Bankarta' : mode === 'map' ? 'GPS' : '3D'}</b></div>
                         <span class="fact-go" aria-hidden="true">${ICONS.chevronRight(14, 2.4)}</span>
                       </div>
