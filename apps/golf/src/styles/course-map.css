@@ -26,6 +26,8 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   --held: rgba(255, 210, 63, .36);
   --under: #7fe39a;
   --over: #ffb48a;
+  --rough: #ffc46b;
+  --rough-fill: #8a5a00;
   --side-width: 76px;
   position: fixed;
   inset: 0;
@@ -261,6 +263,9 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-green b { display: block; font-size: 23px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 1px; }
 .map-green-mid b { font-size: 36px; font-weight: 700; color: var(--accent); }
 .map-green small { display: block; margin-top: 3px; font-size: 10.5px; color: var(--ink-soft); }
+/* A rough fix: its accuracy where "från dig" stood, in amber. A compact column, which
+   has no room for the line, keeps the amber GPS button. */
+.map-green small.is-rough { color: var(--rough); font-weight: 700; }
 
 .map-bottom {
   position: absolute;
@@ -461,8 +466,9 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 }
 .map-tool svg { flex: none; }
 .map-tool[hidden] { display: none; }
-/* Yellow is what is chosen, green what is on or locked. */
+/* Yellow is what is chosen, green what is on or locked, amber a GPS on a rough fix. */
 .map-tool[aria-pressed="true"] { background: #1f8a4c; color: #fff; }
+.map-tool.is-rough[aria-pressed="true"]:not(.is-armed) { background: var(--rough-fill); color: #fff; }
 .map-tool.is-armed[aria-pressed="true"] { background: #a33a00; color: #fff; }
 .map-tool.is-armed svg { display: none; }
 .map-tool[aria-expanded="true"] { background: var(--fill-on); color: var(--ink-on); }
@@ -889,6 +895,7 @@ a.map-row-next { text-decoration: none; }
   --held: rgba(0, 0, 0, .2);
   --under: #0b6b34;
   --over: #a33a00;
+  --rough: #8a4b00;
   --side-width: 86px;
 }
 .is-sun .map-ground { filter: contrast(1.14) saturate(1.16) brightness(1.05); }

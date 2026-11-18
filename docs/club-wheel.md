@@ -27,6 +27,12 @@ It has to be obvious with a glove on, in sunlight, in the middle of a conversati
 - **It is already right.** The wheel rests on the suggested club for the shot in hand, or
   for the measured point, and turns by itself as the player walks. On the green it turns
   to the putter.
+  A turn the wheel makes by itself always finishes (18 November). Arriving on the next
+  tee, the hole just played is still on screen for its 20 s and the wheel turns toward a
+  wedge for the green behind. When the new hole came a moment later it asked for the
+  driver, found the wheel not yet moved, did nothing, and the turn landed on the wedge:
+  PW on a 490 m par 5. A frame slower than the wheel's settle time, as when the camera
+  flies to the new hole, cut a turn short the same way.
 - **A finger overrules it at once.** Spin it, or tap a club. The suggestion keeps a yellow
   dot, so it is never lost. A new hole, or the walk to the next ball, hands the wheel back
   to the suggestion.

@@ -278,7 +278,7 @@ root.innerHTML = `
       <h3>Tee</h3>
       <div class="map-chips" data-start-tees></div>
     </div>
-    <div class="map-stepper"><span>Spelhandicap</span><button data-start-less aria-label="Sänk spelhandicap">−</button><output data-start-handicap>–</output><button data-start-more aria-label="Höj spelhandicap">+</button></div>
+    <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-start-less aria-label="Sänk spelhandicap">−</button><output data-start-handicap>–</output><button data-start-more aria-label="Höj spelhandicap">+</button></div>
     <button class="map-action map-action-next map-start-go" data-start-go>Starta rundan</button>
     <button class="map-note-more map-start-look" data-close>Bara titta på banan</button>
   </section>
@@ -773,8 +773,14 @@ async function start() {
     ui.green.classList.toggle('is-green', state.greenView);
     ui.mid.textContent = onTheGreen ? 'På green' : metres(centre);
     ui.front.textContent = edge + metres(front ?? centre);
-    ui.from.textContent = state.player?.onCourse ? 'från dig' : 'från tee';
-    const spoken = onTheGreen ? 'Du är på greenen.' : `Till greenen ${ui.from.textContent}: fram ${ui.front.textContent}, mitt ${ui.mid.textContent}, bak ${ui.back.textContent} meter.`;
+    /* A rough fix (under trees, or a phone just woken) says so where the numbers are
+       read, at the length the shot log already stops trusting: they can be that far out. */
+    const rough = Boolean(state.player?.onCourse) && state.player.accuracy > MEASURABLE_ACCURACY_METRES;
+    ui.from.textContent = state.player?.onCourse ? (rough ? `±${Math.round(state.player.accuracy)} m` : 'från dig') : 'från tee';
+    ui.from.classList.toggle('is-rough', rough);
+    ui.gps.classList.toggle('is-rough', rough);
+    const fromWords = rough ? `från dig, ungefär: positionen är osäker på ${Math.round(state.player.accuracy)} meter` : ui.from.textContent;
+    const spoken = onTheGreen ? 'Du är på greenen.' : `Till greenen ${fromWords}: fram ${ui.front.textContent}, mitt ${ui.mid.textContent}, bak ${ui.back.textContent} meter.`;
     ui.green.setAttribute('aria-label', `${spoken} Tryck för att ${state.greenView ? 'gå tillbaka till hålet' : 'se greenen nära'}.`);
     ui.hole.textContent = state.mode === 'course' ? course.name : `Hål ${h.n}`;
     ui.prev.hidden = ui.next.hidden = state.mode === 'course';
@@ -960,6 +966,7 @@ async function start() {
     moveOn(state.owed);
   }
 
+  let farStatus = null;
   function receiveFix(coords) {
       const [x, z] = gpsToLocal(coords, course.geo);
       const point = course.frame.toWorld(x, z);
@@ -976,11 +983,16 @@ async function start() {
       state.player = { point, accuracy: clamp(accuracy, 3, 60), onCourse, at: performance.now() + state.clockAhead };
       if (onCourse) remember(`${GPS_KEY}:${course.slug}`, JSON.stringify({ value: true, at: Date.now() }));
       if (!onCourse) {
-        status(nearby ? `${distanceText(nearby.distance)} från närmaste hål` : 'Positionen ligger utanför banan');
+        farStatus = nearby ? `${distanceText(nearby.distance)} från närmaste hål` : 'Positionen ligger utanför banan';
+        status(farStatus);
         refreshNumbers();
         invalidate();
         return;
       }
+      /* A first rough fix far off, then the right one: the dot is on the tee, and the
+         words saying it is a mile away go with it. */
+      if (farStatus && ui.status.textContent === farStatus) ui.status.hidden = true;
+      farStatus = null;
       /* The first good fix finds the hole, so a map opened mid-round lands on it, and so
          does the first after the phone was put away. Between those only the next tee
          moves it (map-follow.mjs). */
@@ -1014,9 +1026,11 @@ async function start() {
   }
   const gps = createGps({
     onFix: receiveFix,
-    onFailure(message) {
+    onFailure(message, { denied = false } = {}) {
       diary.add('gps-failed', message);
-      status(message);
+      /* Refused, the GPS will not come back by itself: the way to allow it stays up long
+         enough to read and act on. A tap on GPS shows it again. */
+      status(message, denied ? 10000 : 3200);
       if (!gps.active) stopGps();
     },
   });

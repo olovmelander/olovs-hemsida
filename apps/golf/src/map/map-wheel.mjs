@@ -18,6 +18,12 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
   const list = element.querySelector('[data-wheel-list]');
   let clubs = [], rows = [], centre = -1, settleTimer = 0, painting = false, touched = false;
   let hold = null, lastScroll = 0;
+  /* The club the wheel was last sent to. A smooth turn takes a moment to start, and a
+     second rest in that moment must be measured against where the wheel is going, not
+     where it still stands: arriving on the next tee turned it toward a wedge for the
+     green just played, the new hole then asked for the driver, found the wheel still on
+     the driver, did nothing, and the turn landed on the wedge. */
+  let heading = -1;
 
   const count = () => clubs.length;
   const indexOf = id => clubs.findIndex(club => club.id === id);
@@ -65,8 +71,15 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
     settleTimer = setTimeout(() => {
       if (hold) return;
       recentre();
-      if (!touched) return;
+      if (!touched) {
+        /* A turn the wheel made by itself, cut short: a frame over SETTLE_MS (a slow
+           phone, or the camera's flight to a new hole) lands here mid-turn, and
+           recentre() has just stopped it where it stood. It finishes the trip. */
+        if (heading !== -1 && count() && centreRow() % count() !== heading) show(heading, false);
+        return;
+      }
       touched = false;
+      heading = -1;
       onChoose(clubAt(centreRow()));
     }, SETTLE_MS);
   }, { passive: true });
@@ -77,6 +90,7 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
     const from = centreRow();
     const target = [index, index + count(), index + count() * 2]
       .reduce((best, row) => (Math.abs(row - from) < Math.abs(best - from) ? row : best));
+    heading = index;
     list.scrollTo({ top: target * ROW_PIXELS, behavior: smooth && !reducedMotion ? 'smooth' : 'auto' });
     paintSoon();
   }
@@ -182,7 +196,7 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
     /* Where the wheel rests when no finger has said otherwise. */
     rest(id) {
       const index = indexOf(id);
-      if (!hold && !touched && index !== centreRow() % count()) show(index);
+      if (!hold && !touched && (index !== centreRow() % count() || (heading !== -1 && heading !== index))) show(index);
     },
     current: () => (count() ? clubAt(centreRow()) : null),
     /* The dot stays on the suggestion, wherever the wheel is turned to. */
