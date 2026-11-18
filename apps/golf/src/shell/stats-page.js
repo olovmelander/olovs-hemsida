@@ -25,7 +25,7 @@ import { parseRounds } from '../map/map-rounds.mjs';
 import { parseHistory } from '../map/map-shots.mjs';
 import { BAG_KEY, MAP_KEYS, readText } from './settings-store.mjs';
 import { reliveUrl } from './router.js';
-import { exampleData, kindOf, PERIODS, playerStats, SCORE_KINDS } from './stats-model.mjs';
+import { exampleData, inkOn, kindOf, PERIODS, playerStats, SCORE_KINDS } from './stats-model.mjs';
 
 const BASE = import.meta.env.BASE_URL;
 const storage = () => { try { return localStorage; } catch { return null; } };
@@ -150,8 +150,8 @@ function segmentedBar(parts, { label, tall = true, unit = 'hål' }) {
   return `<div class="st-seg${tall ? ' is-tall' : ''}" role="group" aria-label="${esc(label)}">
     ${parts.filter(p => p.count > 0).map(p => {
       const share = p.count / total;
-      return `<span class="st-part" tabindex="0" style="flex-grow:${p.count};background:${p.colour}" data-label="${esc(p.label)}" data-count="${p.count}" data-share="${Math.round(share * 100)}"
-        aria-label="${esc(`${p.label}: ${p.count} ${unit}, ${Math.round(share * 100)} procent`)}"><em>${Math.round(share * 100)} %</em></span>`;
+      return `<span class="st-part" role="img" tabindex="0" style="flex-grow:${p.count};background:${p.colour};color:${inkOn(p.colour)}" data-label="${esc(p.label)}" data-count="${p.count}" data-share="${Math.round(share * 100)}"
+        aria-label="${esc(`${p.label}: ${p.count} ${unit}, ${Math.round(share * 100)} procent`)}"><em>${Math.round(share * 100)}\u00a0%</em></span>`;
     }).join('')}
   </div>
   <ul class="st-legend">${parts.map(p => `<li><i style="background:${p.colour}"></i>${esc(p.label)} <b>${p.count}</b></li>`).join('')}</ul>`;
@@ -168,7 +168,7 @@ function bindSegments(root) {
     const card = seg.closest('.st-card'), tip = tipFor(card);
     const show = part => {
       const box = part.getBoundingClientRect(), cardBox = card.getBoundingClientRect();
-      tip.show([[`${part.dataset.count} ${seg.dataset.unit || 'hål'}`], [`${part.dataset.label} · ${part.dataset.share} %`]], box.left - cardBox.left + box.width / 2, box.top - cardBox.top);
+      tip.show([[`${part.dataset.count} ${seg.dataset.unit || 'hål'}`], [`${part.dataset.label} · ${part.dataset.share}\u00a0%`]], box.left - cardBox.left + box.width / 2, box.top - cardBox.top);
     };
     for (const part of seg.querySelectorAll('.st-part')) hoverOrTap(part, () => show(part), () => tip.hide());
   }
@@ -257,7 +257,7 @@ function holeChart(holes) {
       /* the costliest hole's label rides on its bar; the kindest's sits on the par line */
       const marked = h === worst || (h === best && best !== worst);
       const label = marked ? `<em style="bottom:${up ? `calc(${(share * 100).toFixed(1)}% + 4px)` : '4px'}">${signed(h.toPar, 1)}</em>` : '';
-      return `<button type="button" class="shb-col" data-tip="${esc(JSON.stringify([`Hål ${h.n} · ${signed(h.toPar, 2)}`, `Par ${h.par} · snitt ${dec(h.average, 2)} · bästa ${h.best}`, `${h.rounds} ${h.rounds === 1 ? 'runda' : 'rundor'}${h.putts !== null ? ` · ${dec(h.putts, 1)} puttar` : ''}${h.fairway !== null ? ` · fairway ${Math.round(h.fairway * 100)} %` : ''}`]))}"
+      return `<button type="button" class="shb-col" data-tip="${esc(JSON.stringify([`Hål ${h.n} · ${signed(h.toPar, 2)}`, `Par ${h.par} · snitt ${dec(h.average, 2)} · bästa ${h.best}`, `${h.rounds} ${h.rounds === 1 ? 'runda' : 'rundor'}${h.putts !== null ? ` · ${dec(h.putts, 1)} puttar` : ''}${h.fairway !== null ? ` · fairway ${Math.round(h.fairway * 100)}\u00a0%` : ''}`]))}"
         aria-label="${esc(`Hål ${h.n}, par ${h.par}: ${signed(h.toPar, 2)} i snitt`)}">
         <span class="shb-half is-up">${up ? `<i style="height:${(share * 100).toFixed(1)}%;background:${colour(h.toPar)}"></i>` : ''}${label}</span>
         <span class="shb-half is-down">${!up ? `<i style="height:${(share * 100).toFixed(1)}%;background:${colour(h.toPar)}"></i>` : ''}</span>
@@ -305,18 +305,20 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
   const el = document.createElement('div');
   el.id = 'stats';
   el.className = 'hub-screen';
+  /* the screen on show is the page's main landmark; the hidden ones are out of the tree */
+  el.setAttribute('role', 'main');
   el.setAttribute('aria-labelledby', 'statsTitle');
   const state = { period: 'all', course: 'all', example: false, view: {} };
   const poster = slug => (courses.some(c => c.slug === slug) ? `${BASE}courses/${slug}/hero-1.webp` : '');
 
   el.innerHTML = `
-    <header class="set-top">
+    <div class="set-top">
       <div class="hub-top set-top-in">
         <button class="hub-back" type="button" data-back aria-label="Tillbaka">${BACK}<span>Tillbaka</span></button>
         <h1 class="set-title" id="statsTitle" tabindex="-1">Statistik</h1>
         <span class="st-sub" data-sub></span>
       </div>
-    </header>
+    </div>
     <div class="set-inner st-inner" data-body></div>`;
   const body = el.querySelector('[data-body]');
   el.querySelector('[data-back]').addEventListener('click', () => onBack());
@@ -396,8 +398,8 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     const tiles = [
       ['Rundor', String(stat.rounds), `${stat.holes} hål`],
       ['Bästa runda', stat.best ? signed(stat.best.perEighteen) : '–', stat.best ? `${stat.best.strokes} slag · ${stat.best.courseName ?? ''}` : ''],
-      ['Fairwayträff', stat.fairways.tried ? `${pct(stat.fairways.hit, stat.fairways.tried)} %` : '–', `${stat.fairways.hit} av ${stat.fairways.tried}`],
-      ['Greener i regulation', stat.greens.tried ? `${pct(stat.greens.hit, stat.greens.tried)} %` : '–', `${stat.greens.hit} av ${stat.greens.tried}`],
+      ['Fairwayträff', stat.fairways.tried ? `${pct(stat.fairways.hit, stat.fairways.tried)}\u00a0%` : '–', `${stat.fairways.hit} av ${stat.fairways.tried}`],
+      ['Greener i regulation', stat.greens.tried ? `${pct(stat.greens.hit, stat.greens.tried)}\u00a0%` : '–', `${stat.greens.hit} av ${stat.greens.tried}`],
       ['Puttar per green', stat.putts.perGreen !== null ? dec(stat.putts.perGreen, 2) : '–', stat.putts.perGreen !== null ? `${dec(stat.putts.perGreen * 18, 1)} per runda` : ''],
       ['Stableford', stat.points !== null ? dec(stat.points, 1) : '–', stat.points !== null ? 'poäng per runda' : 'kräver handicap'],
     ];
@@ -415,7 +417,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
           ${sparkPath ? `<svg class="st-spark" viewBox="-4 0 128 40" aria-hidden="true"><path d="${sparkPath}" fill="none" stroke="rgba(160,230,185,.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="120" cy="${(4 + ((spark.at(-1) - Math.min(...spark)) / ((Math.max(...spark) - Math.min(...spark)) || 1)) * 32).toFixed(1)}" r="4" fill="#5fd07a" stroke="#0f1d16" stroke-width="2"/></svg>` : ''}
         </div>
-        <dl class="st-tiles">${tiles.map(([label, value, note]) => `<div class="st-card st-tile"><dt>${label}</dt><dd>${esc(value)}</dd><span>${esc(note)}</span></div>`).join('')}</dl>
+        <dl class="st-tiles">${tiles.map(([label, value, note]) => `<div class="st-card st-tile"><dt>${label}</dt><dd>${esc(value)}</dd><dd class="st-tile-note">${esc(note)}</dd></div>`).join('')}</dl>
       </section>
 
       ${stat.insights.length ? `<section class="st-insights" aria-labelledby="stHowH"><h2 class="st-h2" id="stHowH">Så spelar du</h2>
@@ -430,7 +432,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         </div>
         <div class="st-card st-chart" data-card="dist">
           <header class="st-card-head"><div><h2>Var slagen hamnar</h2><p>Alla ${kindsTotal} spelade hål, från eagle till dubbelbogey</p></div>${tableToggle('dist')}</header>
-          ${showTable('dist') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Resultat</th><th>Hål</th><th>Andel</th></tr></thead><tbody>${stat.distribution.map(d => `<tr><td>${esc(d.label)}</td><td>${d.count}</td><td>${pct(d.count, kindsTotal)} %</td></tr>`).join('')}</tbody></table></div>`
+          ${showTable('dist') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Resultat</th><th>Hål</th><th>Andel</th></tr></thead><tbody>${stat.distribution.map(d => `<tr><td>${esc(d.label)}</td><td>${d.count}</td><td>${pct(d.count, kindsTotal)}\u00a0%</td></tr>`).join('')}</tbody></table></div>`
             : segmentedBar(stat.distribution, { label: 'Fördelning av resultat per hål' })}
           <div class="st-pars">${stat.byPar.filter(p => p.holes).map(p => `<div><span>Par ${p.par}</span><b>${signed(p.toPar, 2)}</b><small>snitt ${dec(p.average, 2)} · ${p.holes} hål</small></div>`).join('')}</div>
         </div>
@@ -469,7 +471,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         <header class="st-card-head"><div><h2 id="stHolesH">Hål för hål</h2><p>${stat.byHoleNumber ? `Ditt snitt mot par på varje hål, ${esc(all.playedCourses.find(c => c.slug === state.course)?.name ?? '')}` : 'Välj en bana för att se vilka hål som kostar mest'}</p></div>${stat.byHoleNumber ? tableToggle('holes') : ''}</header>
         ${!stat.byHoleNumber ? `<div class="st-pick">${all.playedCourses.map(c => `<button type="button" class="st-ghost" data-pick-course="${esc(c.slug)}">${esc(c.name)}</button>`).join('')}</div>`
           : showTable('holes') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Hål</th><th>Par</th><th>Snitt</th><th>Mot par</th><th>Bästa</th><th>Puttar</th><th>Fairway</th><th>Rundor</th></tr></thead><tbody>
-            ${stat.byHoleNumber.map(h => `<tr><td>${h.n}</td><td>${h.par}</td><td>${dec(h.average, 2)}</td><td>${signed(h.toPar, 2)}</td><td>${h.best}</td><td>${h.putts !== null ? dec(h.putts, 1) : '–'}</td><td>${h.fairway !== null ? `${Math.round(h.fairway * 100)} %` : '–'}</td><td>${h.rounds}</td></tr>`).join('')}</tbody></table></div>`
+            ${stat.byHoleNumber.map(h => `<tr><td>${h.n}</td><td>${h.par}</td><td>${dec(h.average, 2)}</td><td>${signed(h.toPar, 2)}</td><td>${h.best}</td><td>${h.putts !== null ? dec(h.putts, 1) : '–'}</td><td>${h.fairway !== null ? `${Math.round(h.fairway * 100)}\u00a0%` : '–'}</td><td>${h.rounds}</td></tr>`).join('')}</tbody></table></div>`
           : holeChart(stat.byHoleNumber)}
         ${stat.byHoleNumber && onCourse && courses.some(c => c.slug === state.course) ? `<div class="st-holes-foot">
           <button type="button" class="st-ghost" data-play-course="${esc(state.course)}">Spela ${esc(courses.find(c => c.slug === state.course).name)} <span aria-hidden="true">→</span></button>

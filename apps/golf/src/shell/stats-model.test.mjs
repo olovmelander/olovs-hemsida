@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { DEFAULT_BAG } from '../engine/caddie.js';
 import { closeHole, lockShot } from '../map/map-shots.mjs';
 import { keepRound, roundRecord } from '../map/map-rounds.mjs';
-import { exampleData, insights, kindOf, perEighteen, playerStats, SCORE_KINDS, selectRounds } from './stats-model.mjs';
+import { exampleData, inkOn, insights, kindOf, perEighteen, playerStats, SCORE_KINDS, selectRounds } from './stats-model.mjs';
 
 const DAY = 86400000;
 const NOW = Date.parse('2026-11-07T12:00:00Z');
@@ -112,6 +112,15 @@ describe('insights', () => {
     const stat = { fairways: { hit: 4, left: 1, right: 7, tried: 12 }, byPar: [], putts: { holes: 0 }, greens: { tried: 0 }, delta: null, gaps: [], longest: null };
     expect(insights(stat)[0]).toMatchObject({ key: 'miss', title: 'Utslagen missar till höger' });
   });
+  it('says a change of form in words, with no sign beside "bättre" or "sämre"', () => {
+    const base = { fairways: { hit: 0, left: 0, right: 0, tried: 0 }, byPar: [], putts: { holes: 0 }, greens: { tried: 0 }, gaps: [], longest: null };
+    expect(insights({ ...base, delta: -3.6 })[0].text).toContain('är 3,6 slag bättre');
+    expect(insights({ ...base, delta: 2.25 })[0].text).toContain('är 2,3 slag sämre');
+  });
+  it('keeps a share and its per cent sign on one line', () => {
+    const stat = { fairways: { hit: 4, left: 1, right: 7, tried: 12 }, byPar: [], putts: { holes: 0 }, greens: { tried: 0 }, delta: null, gaps: [], longest: null };
+    expect(insights(stat)[0].text).toMatch(/^\d+\u00a0% av/);
+  });
   it('says nothing it has too little behind', () => {
     const stat = { fairways: { hit: 1, left: 1, right: 2, tried: 4 }, byPar: [{ par: 3, holes: 2, toPar: 2 }], putts: { holes: 4, perGreen: 2.5 }, greens: { tried: 4 }, delta: 0.4, gaps: [], longest: null };
     expect(insights(stat)).toEqual([]);
@@ -142,6 +151,22 @@ describe('the example', () => {
   });
   it('is kept the way the map keeps a round', () => {
     expect(keepRound([], example.rounds[0])).toHaveLength(1);
+  });
+});
+
+describe('the share inside a bar', () => {
+  /* WCAG contrast of two colours, for the test's own check */
+  const lum = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map(c => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
+    .reduce((s, c, i) => s + c * [0.2126, 0.7152, 0.0722][i], 0);
+  const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+  it('is printed in an ink that reads at 4.5:1 on every score colour', () => {
+    for (const kind of SCORE_KINDS) expect(contrast(inkOn(kind.colour), kind.colour)).toBeGreaterThanOrEqual(4.5);
+  });
+  it('is dark on the mid blue and orange, where white fell to 3:1', () => {
+    expect(inkOn('#5096ea')).toBe('#06140c');
+    expect(inkOn('#e26a32')).toBe('#06140c');
+    expect(inkOn('#285fbd')).toBe('#ffffff');
   });
 });
 

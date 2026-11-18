@@ -19,7 +19,7 @@
      to find out.
    - a round under way, or the course a phone stands on, leads instead;
    - each course opens its own page (course-sheet.js) before the round.
-   Keys 1 to 4 open the cards on a keyboard.
+   Keys 1 to 5 open the cards on a keyboard.
    =========================================================================== */
 import '../styles/hub.css';
 import { isPhone } from './map-default.mjs';
@@ -94,6 +94,8 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
   const el = document.createElement('div');
   el.id = 'home';
   el.className = 'hub-screen';
+  /* the screen on show is the page's main landmark; the hidden ones are out of the tree */
+  el.setAttribute('role', 'main');
   el.setAttribute('aria-labelledby', 'homeTitle');
 
   /* `fig` is drawn in the card's own flow, just above its words, so however
@@ -122,7 +124,7 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
   el.innerHTML = `
     <div class="home-backdrop" aria-hidden="true"><i class="home-bg"></i></div>
     <div class="home-inner">
-      <header class="hub-top">
+      <div class="hub-top">
         <a class="hub-brand" href="#" aria-label="Banvy, startmenyn">
           <span class="crest-dot"></span><span class="wordmark">Ban<i>v</i>y</span>
         </a>
@@ -130,7 +132,7 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
           <button class="hub-icon-btn hub-install" type="button" data-install hidden>${INSTALL}<span>Installera</span></button>
           <button class="hub-icon-btn" type="button" data-settings aria-label="Inställningar" title="Inställningar">${GEAR}</button>
         </span>
-      </header>
+      </div>
 
       <section class="home-hero">
         <p class="home-eyebrow">Svenska golfbanor i 3D</p>

@@ -14,7 +14,7 @@ export function createGps({ onFix, onFailure }) {
         if (error.code === 1) {
           navigator.geolocation.clearWatch(watch);
           watch = null;
-          onFailure('Platsåtkomst nekades · tillåt plats i webbläsaren');
+          onFailure('Platsåtkomst nekades · tillåt plats för sidan i webbläsarens inställningar', { denied: true });
         } else onFailure(error.code === 2 ? 'Ingen GPS-position ännu' : 'GPS svarar inte ännu');
       }, { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 });
     },

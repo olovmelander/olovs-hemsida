@@ -260,6 +260,13 @@ which pull in three.js. The three species rules the map needs are copied into
   Avståndscirklar. Bunkers side by side count as one, and only those within 45 m of the
   hole's line. Water the line crosses has a carry; water beside it only a reach, and none
   at all within 30 m of the player. Meny turns them off.
+- **A rough fix says so** (18 November). Over ±15 m, the length past which the shot log
+  stops trusting a fix, the GPS button turns amber and the accuracy stands where "från
+  dig" stood, in amber, since the numbers can be that far out. Under the trees that is
+  common. A compact column has no room for the line and keeps the amber button. A fix far
+  off the course says how far ("1,6 km från närmaste hål"), and that goes the moment a
+  fix lands on it. A refused permission stays on screen for ten seconds, with where to
+  allow it.
 - **Wind** is the player's own reading (`engine/weather.js`): an arrow that turns with
   the map, and the plays-like numbers take the head wind and the temperature, as the
   simulator's Kikaren does. A reading over three hours old is not used.

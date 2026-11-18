@@ -150,10 +150,12 @@ export async function mountRelive(h, roundId) {
   // The hole map, with the round's own shots drawn on it.
   const world = createPlayWorld(h);
   const holeMap = createHoleMap({ parent: hud.mapSlot, surfaceAt: world.surfaceAt, heightAt, trees: world.trees, small: matchMedia('(max-width: 640px)').matches });
+  hud.root.classList.add('is-loading');
   hud.banner('Laddar golfaren…', '', '', 0);
   const golfer = await loadGolfer(import.meta.env.BASE_URL, character);
   h.scene.add(golfer.root);
   hud.hideBanner();
+  hud.root.classList.remove('is-loading');
 
   const ballMesh = new THREE.Mesh(new THREE.SphereGeometry(BALL.radius, 20, 14), new THREE.MeshStandardNodeMaterial({ color: '#fbfaf3', roughness: .42, emissive: '#5a5a52' }));
   h.scene.add(ballMesh);

@@ -18,6 +18,9 @@
     #040907;
 }
 .st-inner { max-width: 1280px; padding-top: clamp(16px, 3vh, 28px); }
+/* the header's back button and title line up with the cards' left edge, the
+   Exempel badge with their right one (the settings' 1200 px left them 40 px in) */
+#stats .set-top-in { max-width: 1280px; }
 .st-inner.is-entering > * { animation: hub-rise 0.6s var(--ease) both; }
 .st-inner.is-entering > :nth-child(2) { animation-delay: 0.04s; }
 .st-inner.is-entering > :nth-child(3) { animation-delay: 0.08s; }
@@ -147,7 +150,7 @@
 .st-tile { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; }
 .st-tile dt { font: 600 12.5px/1.2 Outfit, sans-serif; color: var(--ink-3); }
 .st-tile dd { margin: 0; font: 700 clamp(26px, 2.4vw, 34px)/1 Outfit, sans-serif; letter-spacing: -0.03em; color: #fff; }
-.st-tile span { font: 400 12.5px/1.3 Outfit, sans-serif; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-tile dd.st-tile-note { font: 400 12.5px/1.3 Outfit, sans-serif; letter-spacing: 0; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* -------------------------------------------------------------- insights */
 .st-insights { margin-bottom: 26px; }
@@ -218,7 +221,7 @@
 .st-seg.is-tall .st-part { border-radius: 4px; }
 .st-part:hover, .st-part:focus-visible { filter: brightness(1.18); }
 .st-part:focus-visible { box-shadow: 0 0 0 2px #fff; }
-.st-part em { padding-left: 8px; font: 700 12px/1 Outfit, sans-serif; font-style: normal; color: #fff; white-space: nowrap; }
+.st-part em { padding-left: 8px; font: 700 12px/1 Outfit, sans-serif; font-style: normal; color: inherit; white-space: nowrap; }
 .st-seg:not(.is-tall) .st-part em { display: none; }
 .st-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; padding: 0; }
 .st-legend li { display: inline-flex; align-items: center; gap: 7px; font: 500 12.5px/1.2 Outfit, sans-serif; color: var(--ink-2); }

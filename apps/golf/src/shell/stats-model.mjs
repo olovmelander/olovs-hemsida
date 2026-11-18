@@ -40,6 +40,20 @@ export const SCORE_KINDS = Object.freeze([
 ].map(Object.freeze));
 export const kindOf = (strokes, par) => SCORE_KINDS.find(kind => kind.fits(strokes - par));
 
+/* The share printed inside a block takes whichever ink reads better on its
+   colour: white on the deep blues and reds and on the par grey, near-black on
+   the mid birdie blue and bogey orange, where white fell to 3:1 (WCAG wants 4.5). */
+const luminance = hex => {
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+    .map(c => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+export const inkOn = hex => {
+  if (!/^#[0-9a-f]{6}$/i.test(hex)) return '#ffffff';
+  const l = luminance(hex);
+  return (1.05 / (l + 0.05)) >= ((l + 0.05) / (luminance('#06140c') + 0.05)) ? '#ffffff' : '#06140c';
+};
+
 const sum = values => values.reduce((total, value) => total + value, 0);
 const mean = values => (values.length ? sum(values) / values.length : null);
 const share = (part, whole) => (whole ? part / whole : null);
@@ -202,7 +216,9 @@ export function perHole(rounds) {
 }
 
 const signed = (value, digits = 1) => `${value > 0 ? '+' : value < 0 ? '−' : '±'}${Math.abs(value).toFixed(digits).replace('.', ',')}`;
-const percent = value => `${Math.round(value * 100)} %`;
+/* a count of strokes said in words ("3,6 slag bättre"): the word carries the sign */
+const strokes = value => Math.abs(value).toFixed(1).replace('.', ',');
+const percent = value => `${Math.round(value * 100)}\u00a0%`;
 
 /* How the player plays, in words: the few things worth knowing, most telling
    first. Each needs enough holes behind it to mean something. */
@@ -224,7 +240,7 @@ export function insights(stat) {
     const bestPar = pars.reduce((a, b) => (b.toPar < a.toPar ? b : a));
     if (worst.toPar - bestPar.toPar >= 0.3) {
       out.push({ key: 'par', tone: 'note', title: `Par ${worst.par}:orna kostar mest`,
-        text: `${signed(worst.toPar)} slag över par i snitt, mot ${signed(bestPar.toPar)} på par ${bestPar.par}:orna.` });
+        text: `I snitt ${signed(worst.toPar)} mot par, och ${signed(bestPar.toPar)} på par ${bestPar.par}:orna.` });
     }
   }
   if (putts.holes >= 18 && putts.perGreen !== null) {
@@ -235,8 +251,8 @@ export function insights(stat) {
   }
   if (stat.delta !== null && Math.abs(stat.delta) >= 1) {
     out.push(stat.delta < 0
-      ? { key: 'trend', tone: 'good', title: 'Formen är på väg upp', text: `Dina ${RECENT_ROUNDS} senaste rundor är ${signed(-stat.delta)} slag bättre per 18 hål än rundorna före.` }
-      : { key: 'trend', tone: 'note', title: 'Formen har dalat', text: `Dina ${RECENT_ROUNDS} senaste rundor är ${signed(stat.delta)} slag sämre per 18 hål än rundorna före.` });
+      ? { key: 'trend', tone: 'good', title: 'Formen är på väg upp', text: `Dina ${RECENT_ROUNDS} senaste rundor är ${strokes(stat.delta)} slag bättre per 18 hål än rundorna före.` }
+      : { key: 'trend', tone: 'note', title: 'Formen har dalat', text: `Dina ${RECENT_ROUNDS} senaste rundor är ${strokes(stat.delta)} slag sämre per 18 hål än rundorna före.` });
   }
   const wide = stat.gaps.filter(gap => gap.wide).sort((a, b) => b.metres - a.metres)[0];
   if (wide) out.push({ key: 'gap', tone: 'note', title: 'En lucka i bagen', text: `${wide.metres} m mellan ${wide.longer} och ${wide.shorter}, så som du faktiskt slår dem.` });

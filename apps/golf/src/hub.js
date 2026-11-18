@@ -184,7 +184,8 @@ try {
   await show();
   if (bar) bar.style.width = '100%';
   if (message) message.textContent = 'klar';
-  requestAnimationFrame(() => boot?.classList.add('done'));
+  /* faded out, the loading screen is not read out either ("Banvy … klar") */
+  requestAnimationFrame(() => { boot?.classList.add('done'); boot?.setAttribute('aria-hidden', 'true'); });
 } catch (error) {
   if (message) message.textContent = `kunde inte ladda banorna: ${error.message}`;
 }

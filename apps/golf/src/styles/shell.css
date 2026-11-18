@@ -1814,7 +1814,8 @@ a.drawer-main-btn { text-decoration: none; }
   .cm-text b { font-size: 14px; }
   .cm-text small { display: none; }
   .chooser-subtitle { font-size: 12.5px; line-height: 1.4; }
-  @media (max-width: 400px) { .chooser-modes:has(.c-mode-btn:nth-child(3)) .cm-icon { display: none; } .cm-text b { font-size: 13.5px; } }
+  /* without their icons the names centre in their thirds, as a segmented control's do */
+  @media (max-width: 400px) { .chooser-modes:has(.c-mode-btn:nth-child(3)) .cm-icon { display: none; } .chooser-modes:has(.c-mode-btn:nth-child(3)) .c-mode-btn { justify-content: center; } .cm-text b { font-size: 13.5px; } }
   /* 16 px, not 13: below it iOS Safari zooms the whole page into the field on
      focus and leaves the visitor to pinch their way back out */
   .chooser-search-box input { font-size: 16px; padding-left: 40px; }
@@ -1864,6 +1865,7 @@ a.drawer-main-btn { text-decoration: none; }
   .c-filter-btn { padding: 0 6px; }
   .chooser-brand .brand-crest { display: none; }
   .cm-icon { display: none; }
+  .c-mode-btn { justify-content: center; }
 }
 
 @media (max-width: 600px) {
