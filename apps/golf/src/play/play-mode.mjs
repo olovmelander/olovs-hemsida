@@ -122,10 +122,12 @@ async function startPlay(h, query) {
     onReplay: () => startReplay(),
     onClearTarget: () => clearTarget(),
   });
+  hud.root.classList.add('is-loading');
   hud.banner('Laddar golfaren…', '', '', 0);
   const golfer = await loadGolfer(import.meta.env.BASE_URL, characterId);
   h.scene.add(golfer.root);
   hud.hideBanner();
+  hud.root.classList.remove('is-loading');
   const audio = createPlayAudio({ enabled: settings.sound });
   const pads = createGamepadInput({
     onConnect: on => {

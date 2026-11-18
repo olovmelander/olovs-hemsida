@@ -227,6 +227,10 @@ body.pl-cinema .pl-skip{display:block}
 @keyframes pl-pulse{50%{opacity:.35}}
 @keyframes pl-rise{from{opacity:0;transform:translateY(6px)}}
 
+/* -- while the golfer loads: the banner alone, not a HUD of dashes ("Hål 1 – Slag 1",
+   "Till hål –", "– m/s", "Klubba –"), which on a phone's network stood for seconds -- */
+.pl-hud.is-loading>*:not(.pl-banner){opacity:0;pointer-events:none}
+
 /* -- the clean view -- */
 body.pl-clean .pl-hud>*:not(.pl-banner):not(.pl-clean-hint){visibility:hidden}
 .pl-clean-hint{position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);padding:7px 14px;border-radius:999px;font-size:12px;color:var(--dim);display:none}
