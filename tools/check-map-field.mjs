@@ -826,6 +826,8 @@ await golfer.click('[data-round-new]');
 await golfer.waitForSelector('[data-start-sheet]:not([hidden])');
 expect(await golfer.evaluate(() => Object.keys(V3DMap.round().scores).length === 0 && V3DMap.state.hole === 1), 'Ny runda starts clean, on the start card');
 await golfer.click('.map-start-look');
+const previewLink = new URL(golfer.url()).searchParams;
+expect(previewLink.get('karta') === '1' && previewLink.get('vy') === 'forhandsvisning', 'previewing from a plain phone link keeps the Lätt 3D route');
 await golfer.reload({ waitUntil: 'domcontentloaded' });
 await golfer.waitForFunction(() => globalThis.V3DMap, null, { timeout: 60000 });
 await settled(golfer);

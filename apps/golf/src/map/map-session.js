@@ -3150,6 +3150,7 @@ async function start() {
     if (!keepPreview && !params.has('runda') && !params.has('hal') && params.get('vy') !== 'forhandsvisning') return;
     params.delete('runda');
     if (keepPreview) {
+      params.set('karta', '1');
       params.set('vy', 'forhandsvisning');
       params.set('hal', String(state.hole));
     } else {
