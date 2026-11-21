@@ -41,12 +41,6 @@ try {
     }, power);
     await ready();
   };
-  const hit = async selector => page.locator(selector).evaluate(el => {
-    const b = el.getBoundingClientRect();
-    return b.left >= 0 && b.top >= 0 && b.right <= innerWidth + 1 && b.bottom <= innerHeight + 1 &&
-      el.contains(document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2));
-  });
-
   await page.goto(url.href, { waitUntil: 'domcontentloaded' });
   await ready();
   console.log('Simulator loaded.');
@@ -56,21 +50,27 @@ try {
   for (const [width, height] of [[320,568], [390,844], [568,320], [667,375], [844,390], [1366,768], [1440,900]]) {
     await page.setViewportSize({ width, height });
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-    for (let size = 0; size < 2; size++) {
-      for (const control of ['[data-menu]', '.pl-map-size', '[data-club="1"]', '[data-setup]', '.pl-pad']) {
-        assert.ok(await hit(control), control + ' is reachable at ' + width + '×' + height);
-      }
-      const covered = await page.evaluate(() => {
+    const errors = await page.evaluate(() => {
+      const issues = [];
+      const map = document.querySelector('.pl-map-size');
+      for (let size = 0; size < 2; size++) {
+        for (const selector of ['[data-menu]', '.pl-map-size', '[data-club="1"]', '[data-setup]', '.pl-pad']) {
+          const el = document.querySelector(selector), r = el.getBoundingClientRect();
+          if (r.left < 0 || r.top < 0 || r.right > innerWidth + 1 || r.bottom > innerHeight + 1 ||
+              !el.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2))) issues.push(selector + ' unreachable');
+        }
         const swing = document.querySelector('.pl-swing').getBoundingClientRect();
-        return ['.pl-cond','.pl-map','.pl-dock'].filter(selector => {
+        for (const selector of ['.pl-cond', '.pl-map', '.pl-dock']) {
           const r = document.querySelector(selector).getBoundingClientRect();
-          return Math.min(r.right, swing.right) - Math.max(r.left, swing.left) > 1 &&
-            Math.min(r.bottom, swing.bottom) - Math.max(r.top, swing.top) > 1;
-        });
-      });
-      assert.deepEqual(covered, [], 'swing area overlaps a control at ' + width + '×' + height);
-      await page.locator('.pl-map-size').evaluate(b => b.click());
-    }
+          if (Math.min(r.right, swing.right) - Math.max(r.left, swing.left) > 1 &&
+              Math.min(r.bottom, swing.bottom) - Math.max(r.top, swing.top) > 1) issues.push(selector + ' overlaps swing');
+        }
+        map.click();
+      }
+      return issues;
+    });
+    assert.deepEqual(errors, [], 'Simulator HUD at ' + width + '×' + height);
+    console.log('Controls passed at', width, '×', height);
   }
   await page.setViewportSize({ width: 390, height: 844 });
   console.log('Viewport controls passed.');
