@@ -161,7 +161,7 @@ try {
   await startSheet.waitFor();
   assert.equal(await startSheet.locator('[data-start-tees] button[aria-pressed="true"]').innerText(), draftTee);
   assert.equal(await startSheet.locator('[data-start-handicap]').innerText(), draftHandicap);
-  await startSheet.locator('[data-close]').tap();
+  await startSheet.locator('.map-sheet-head [data-close]').tap();
   await startSheet.waitFor({ state: 'hidden' });
   assert.deepEqual(await choices(preview.page), originalChoices, 'closing the restored setup leaves the saved preferences alone');
   await railAction.tap();
