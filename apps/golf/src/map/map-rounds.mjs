@@ -5,7 +5,7 @@
    when it ends: every hole's par and score, so an old round can be read without loading
    its course. Its shots stay in the shot log, under the same round id. */
 import { clubStats, isMeasured, isPutt, shotLength } from './map-shots.mjs';
-import { roundTotals, scoreName } from './map-score.mjs';
+import { puttCoverage, puttCoverageText, roundTotals, scoredHolesText, scoreName } from './map-score.mjs';
 
 export const ROUNDS_VERSION = 1;
 const MAX_STORED_ROUNDS = 300;
@@ -104,7 +104,8 @@ function shotsByHole(record, own) {
   const strokes = own.filter(shot => !isPutt(shot));
   return [...new Set(strokes.map(shot => shot.hole))].sort((a, b) => a - b).map(n => ({
     n,
-    shots: strokes.filter(shot => shot.hole === n).map(shot => ({ club: shot.club, out: shot.outcome === 'out', metres: shotLength(shot), suspect: Boolean(shot.suspect) })),
+    shots: strokes.filter(shot => shot.hole === n).map(shot => ({ club: shot.club, out: shot.outcome === 'out', metres: shotLength(shot), suspect: Boolean(shot.suspect),
+      ...(shot.aim ? { recordedShot: shot } : {}) })),
     putts: record.holes.find(hole => hole.n === n)?.putts ?? null,
   }));
 }
@@ -175,9 +176,10 @@ export function holeHistory(rounds, shots, slug, number) {
 /* A round's score scaled to 18 holes, so a nine sits beside a full round. */
 const toParPerRound = record => {
   const { toPar, played } = record.totals;
-  return played ? (toPar / played) * FULL_ROUND_HOLES : null;
+  const scored = Array.isArray(record.holes) ? record.holes.filter(h => !h.picked && Number.isFinite(h.strokes)).length : played;
+  return scored ? (toPar / scored) * FULL_ROUND_HOLES : null;
 };
-const scoredRounds = rounds => rounds.filter(record => record.totals.strokes > 0 && toParPerRound(record) !== null);
+const scoredRounds = rounds => rounds.filter(record => record.totals?.strokes > 0 && toParPerRound(record) !== null);
 
 /* The newest rounds against the ones before them. */
 export function roundTrend(rounds, recent = 5) {
@@ -206,8 +208,14 @@ const toParWords = value => (value === 0 ? '±0' : `${value > 0 ? '+' : '−'}${
 /* The round in words, for a message to a friend. */
 export function roundText(record, summary, when = record.date) {
   const { totals } = summary;
+  const coverage = puttCoverage(record.holes);
+  const picked = record.holes.filter(hole => hole.picked).length;
   const lines = [`${record.courseName}, ${when}`];
-  lines.push([`${totals.strokes} slag (${toParWords(totals.toPar)})`, totals.points === null ? null : `${totals.points} poäng`, totals.putts ? `${totals.putts} puttar` : null].filter(Boolean).join(' · '));
+  lines.push([coverage.holes ? `${totals.strokes} slag (${toParWords(totals.toPar)})` : null,
+    scoredHolesText(coverage.holes, record.holeCount, picked),
+    (coverage.holes || picked) && Number.isFinite(totals.points) ? `${totals.points} poäng` : null,
+    puttCoverageText(coverage)].filter(Boolean).join(' · '));
+  if (!coverage.holes && summary.logged) lines.push(`${summary.logged} loggade slag`);
   const stats = [totals.fairwaysTried ? `Fairway ${totals.fairways}/${totals.fairwaysTried}` : null, totals.greensTried ? `Green ${totals.greens}/${totals.greensTried}` : null];
   if (stats.some(Boolean)) lines.push(stats.filter(Boolean).join(' · '));
   const nine = (from, to) => record.holes.filter(hole => hole.n >= from && hole.n <= to).map(hole => (hole.picked ? '–' : hole.strokes)).join(' ');

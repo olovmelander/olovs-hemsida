@@ -169,6 +169,14 @@ describe('the summary', () => {
     expect(text).toContain('13 slag (+1)');
     expect(text).toContain('3 5 5');
   });
+  it('shares the coverage of each putt subtotal, preserving a written zero', () => {
+    const shared = scores => { const r = roundRecord(round(scores), course); return roundText(r, roundSummary(r)); };
+    expect(shared({ 1: { strokes: 5, putts: 0 }, 2: { strokes: 4 } })).toContain('0 puttar på 1 av 2 hål');
+    expect(shared({ 1: { strokes: 4, putts: 1 }, 2: { picked: true } })).toContain('1 putt');
+    expect(shared({ 1: { strokes: 4 } })).toContain('Puttar ej förda');
+    expect(shared({})).toContain('Inga hål med score');
+    expect(shared({})).not.toMatch(/0 slag|±0|0 poäng/);
+  });
 });
 
 describe('a hole over time', () => {
@@ -222,5 +230,9 @@ describe('rounds over time', () => {
 
   it('scales a nine to eighteen, so they compare', () => {
     expect(roundTrend([kept(1, 6, 9)]).line[0].toPar).toBe(12);
+  });
+  it('normalises over scored holes even when a pickup counted toward holes finished', () => {
+    const partial = roundRecord(round({ 1: { strokes: 6, putts: 0 }, 2: { picked: true } }), course);
+    expect(roundTrend([partial]).recent).toMatchObject({ toPar: 36, putts: 0 });
   });
 });

@@ -58,6 +58,27 @@ export function strokeKeys(par, current = null) {
 /* A green in regulation: on it with two putts left for par. */
 export const hitGreen = (score, par) => Number.isFinite(score?.strokes) && Number.isFinite(score?.putts) && score.strokes - score.putts <= par - 2;
 
+/* Only holes with a stroke score can contribute to putts-per-scored-hole.
+   The denominator keeps a partly filled card distinct from a round total. */
+export function puttCoverage(scores = []) {
+  const scored = scores.filter(score => !score.picked && Number.isFinite(score.strokes));
+  const counts = scored.map(score => score.putts).filter(Number.isFinite);
+  return { holes: scored.length, recorded: counts.length, total: counts.length ? counts.reduce((a, b) => a + b, 0) : null };
+}
+
+function describePutts({ recorded, holes }, label) {
+  if (!recorded) return 'Puttar ej förda';
+  return recorded < holes ? `${label} på ${recorded} av ${holes} hål` : label;
+}
+export const puttCoverageLabel = coverage => describePutts(coverage, 'Puttar');
+export const puttCoverageText = coverage => describePutts(coverage, `${coverage.total} ${coverage.total === 1 ? 'putt' : 'puttar'}`);
+
+export function scoredHolesText(scored, of, picked = 0) {
+  const holes = scored === of ? `${scored} hål` : `${scored} av ${of} hål`;
+  const score = scored ? (picked ? `Score på ${holes}` : holes) : 'Inga hål med score';
+  return picked ? `${score} · ${picked} ${picked === 1 ? 'struket' : 'strukna'}` : score;
+}
+
 const SCORE_NAMES = Object.freeze({ '-3': 'Albatross', '-2': 'Eagle', '-1': 'Birdie', 0: 'Par', 1: 'Bogey', 2: 'Dubbelbogey', 3: 'Trippelbogey' });
 export const scoreName = (strokes, par) => (strokes === 1 ? 'Hole in one' : SCORE_NAMES[strokes - par] ?? `+${strokes - par}`);
 

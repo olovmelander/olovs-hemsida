@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { boundaryCrossings, outTest, dropPoint, createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, holeReaction, playHoleReaction, readPlayedRounds, savePlayedRound, PLAY_KEYS } from './play-rules.mjs';
+import { boundaryCrossings, outTest, dropPoint, createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, holeReaction, playHoleReaction, readPlayedRounds, savePlayedRound, readPlayCheckpoint, savePlayCheckpoint, clearPlayCheckpoint, PLAY_KEYS } from './play-rules.mjs';
 import { playBag, clubCategory, suggestClub, launchFor, puttRangeFor, setupForClub } from './shot-model.mjs';
 import { DEFAULT_BAG } from '../engine/caddie.js';
 
-const memory = () => { const m = new Map(); return { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)), m }; };
+const memory = () => { const m = new Map(); return { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)), removeItem: k => m.delete(k), m }; };
 
 describe('out of bounds', () => {
   const fence = [[[-50, 100], [50, 100]]];
@@ -201,5 +201,39 @@ describe('planned power', async () => {
     const pw = by('pw'), chip = { type: 'chip', shape: 0, height: 0, spin: 0 };
     expect(planPower(pw, 25, 'fairway', chip)).toBe(powerFor(pw, 25, 'fairway', chip));
     expect(planPower(by('putter'), 5)).toBeNull();
+  });
+});
+
+
+describe('simulator checkpoints', () => {
+  const course = { slug: 'testbanan', courseName: 'Testbanan', holes: [{ n: 1, par: 4 }, { n: 2, par: 3 }] };
+  it('restores settled relief and its score together, independently for each course', () => {
+    const store = memory(), round = createRound(course), position = { phase: 'address', ball: [24, 39], plugged: false };
+    addStroke(round, { from: [0, 0], to: [28, 40], club: '7i', lie: 'tee', result: 'water', distance: 47 });
+    addPenalty(round);
+    store.setItem('banvy:round', 'physical round');
+    expect(savePlayCheckpoint(store, round, position)).toEqual(expect.any(String));
+    const saved = readPlayCheckpoint(store, course.slug, 2);
+    expect(saved.position).toEqual(position);
+    expect(saved.round.holes[1]).toMatchObject({ strokes: 2, penalties: 1 });
+    expect(readPlayCheckpoint(store, course.slug, 9)).toBeNull();
+    expect(readPlayCheckpoint(store, 'other')).toBeNull();
+    expect(savePlayCheckpoint(store, round, { ...position, ball: [9, 9] }, 'stale-tab')).toBeNull();
+    clearPlayCheckpoint(store, { ...round, id: round.id + 1 });
+    expect(readPlayCheckpoint(store, course.slug)).toEqual(saved);
+    clearPlayCheckpoint(store, round);
+    expect(readPlayCheckpoint(store, course.slug)).toBeNull();
+    expect(store.getItem('banvy:round')).toBe('physical round');
+    expect(readPlayedRounds(store)).toEqual([]);
+  });
+  it('ignores broken checkpoints and preserves previously published history', () => {
+    const store = memory(), round = createRound(course);
+    holeCard(round, 1);
+    savePlayedRound(store, round);
+    savePlayCheckpoint(store, round, { phase: 'address', ball: [0, null] });
+    expect(readPlayCheckpoint(store, course.slug)).toBeNull();
+    store.setItem(PLAY_KEYS.checkpoint + course.slug, 'broken');
+    expect(readPlayCheckpoint(store, course.slug)).toBeNull();
+    expect(readPlayedRounds(store)).toEqual([round]);
   });
 });

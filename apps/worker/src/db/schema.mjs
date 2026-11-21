@@ -112,3 +112,15 @@ export const shots = sqliteTable('shots', {
 }, table => [
   primaryKey({ columns: [table.userId, table.courseSlug, table.roundId, table.seq] }),
 ]);
+
+export const liveRounds = sqliteTable('live_rounds', {
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  course: text('course').notNull(),
+  id: integer('round_id').notNull(),
+  writer: text('writer').notNull(),
+  revision: integer('revision').notNull(),
+  status: text('status').notNull(),
+  snapshot: text('snapshot'),
+  updatedAt: integer('updated_at').notNull(),
+  lastOperation: text('last_operation').notNull(),
+}, table => [primaryKey({ columns: [table.userId, table.course, table.id] })]);

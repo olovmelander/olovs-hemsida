@@ -17,11 +17,12 @@ import '../styles/stats.css';
 import { parseBag } from '../engine/caddie.js';
 import { clubAssetKey, clubIcon } from '../engine/club-design.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
-import { parseHistory } from '../map/map-shots.mjs';
-import { BAG_KEY, MAP_KEYS, readText, writeText } from './settings-store.mjs';
-import { getCloudState, notifyLocalChange, signInWithGoogle, subscribeCloud } from './cloud.mjs';
+import { parseHistory, shotReviewText } from '../map/map-shots.mjs';
+import { puttCoverage, puttCoverageText } from '../map/map-score.mjs';
+import { BAG_KEY, MAP_KEYS, readText } from './settings-store.mjs';
+import { getCloudState, signInWithGoogle, subscribeCloud } from './cloud.mjs';
 import { reliveUrl } from './router.js';
-import { applyMeasuredBag, exampleData, inkOn, kindOf, PERIODS, playerStats, SCORE_KINDS } from './stats-model.mjs';
+import { exampleData, inkOn, kindOf, PERIODS, playerStats, SCORE_KINDS } from './stats-model.mjs';
 
 const BASE = import.meta.env.BASE_URL;
 const storage = () => { try { return localStorage; } catch { return null; } };
@@ -124,7 +125,7 @@ function drawTrend(host, rows, { metric = 'score', onPickRound = null } = {}) {
   const fmtVal = v => (isPoints ? `${Math.round(v)} p` : signed(v));
 
   host.innerHTML = `<svg class="st-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" tabindex="0" role="img"
-      aria-label="${isPoints ? 'Stableford-poäng per runda' : 'Resultat per 18 hål mot par'}, ${list.length} rundor. Senaste ${fmtVal(values[last])}, bästa ${fmtVal(values[bestIndex])}. Piltangenterna går runda för runda, Enter öppnar scorekortet.">
+      aria-label="${isPoints ? 'Stableford-poäng per runda' : 'Resultat per 18 hål mot par'}, ${list.length} rundor. Senaste ${fmtVal(values[last])}, ${isPoints ? 'högsta' : 'lägsta'} ${fmtVal(values[bestIndex])}. Piltangenterna går runda för runda, Enter öppnar scorekortet.">
     <defs><linearGradient id="stWash" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5fd07a" stop-opacity=".15"/><stop offset="1" stop-color="#5fd07a" stop-opacity="0"/></linearGradient></defs>
     ${ticks.map(v => `<line class="${v === refValue ? 'st-zero' : 'st-grid'}" x1="${pad.l}" x2="${W - pad.r}" y1="${y(v)}" y2="${y(v)}"/>
       <text class="st-axis" x="${pad.l - 10}" y="${y(v) + 4}" text-anchor="end">${fmtTick(v)}</text>`).join('')}
@@ -134,7 +135,7 @@ function drawTrend(host, rows, { metric = 'score', onPickRound = null } = {}) {
     ${rollLine ? `<path class="st-avg-line" d="${rollLine}"/>` : ''}
     ${list.map((row, i) => `<circle class="st-dot${i === last ? ' is-last' : ''}${i === bestIndex ? ' is-best' : ''}" cx="${x(i)}" cy="${y(valOf(row))}" r="${i === last ? 5.5 : 4}"/>`).join('')}
     <text class="st-end" x="${x(last) + 10}" y="${y(values[last]) + 5}">${fmtVal(values[last])}</text>
-    ${bestIndex !== last && list.length > 2 ? `<text class="st-best" x="${x(bestIndex)}" y="${Math.min(H - 22, y(values[bestIndex]) + 22)}" text-anchor="middle">Bästa ${fmtVal(values[bestIndex])}</text>` : ''}
+    ${bestIndex !== last && list.length > 2 ? `<text class="st-best" x="${x(bestIndex)}" y="${Math.min(H - 22, y(values[bestIndex]) + 22)}" text-anchor="middle">${isPoints ? 'Högst' : 'Lägst'} ${fmtVal(values[bestIndex])}</text>` : ''}
     <line class="st-cross" x1="0" x2="0" y1="${pad.t}" y2="${pad.t + plotH}" visibility="hidden"/>
     <rect class="st-hit" x="${pad.l - 12}" y="0" width="${plotW + 24}" height="${H}"/>
   </svg>`;
@@ -260,11 +261,11 @@ function clubRows(clubs) {
       if (gap > 25 || gap < 5) items.push(`<li class="gap-note${gap > 25 ? ' is-wide' : ''}" aria-hidden="true"><span>${gap > 25 ? `${gap} m lucka` : `bara ${gap} m isär`}</span></li>`);
     }
     const tipLines = s
-      ? [`${Math.round(s.typical)} m typiskt`, club.name, `Spridning ${Math.round(s.shortest)}–${Math.round(s.reach)} m · längsta ${Math.round(s.longest)} m`,
+      ? [`${Math.round(s.typical)} m typisk GPS-total`, club.name, `Spridning ${Math.round(s.shortest)}–${Math.round(s.reach)} m · längsta ${Math.round(s.longest)} m`,
         `${s.shots} slag${s.known ? '' : ' (för få för en säker längd)'}${club.carry ? ` · bagens carry ${club.carry} m` : ''}`]
-      : [club.carry ? `${club.carry} m i bagen` : 'Inga slag', club.name, 'Inga uppmätta slag än'];
+      : [club.carry ? `${club.carry} m angiven carry` : 'Inga slag', club.name, 'Inga uppmätta slag än'];
     items.push(`<li class="gap-row${s?.known ? '' : ' is-thin'}" tabindex="0" data-club="${esc(club.id)}" data-tip="${esc(JSON.stringify(tipLines))}"
-      aria-label="${esc(`${club.name}: ${s ? `typiskt ${Math.round(s.typical)} meter, spridning ${Math.round(s.shortest)} till ${Math.round(s.reach)}, längsta ${Math.round(s.longest)}, ${s.shots} slag` : 'inga uppmätta slag'}${club.carry ? `, bagens carry ${club.carry} meter` : ''}`)}">
+      aria-label="${esc(`${club.name}: ${s ? `typisk GPS-total ${Math.round(s.typical)} meter, spridning ${Math.round(s.shortest)} till ${Math.round(s.reach)}, längsta ${Math.round(s.longest)}, ${s.shots} slag` : 'inga uppmätta slag'}${club.carry ? `, bagens carry ${club.carry} meter` : ''}`)}">
       <span class="gr-icon" aria-hidden="true">${clubIcon(clubAssetKey(club))}</span>
       <span class="gr-name">${esc(club.name)}<small>${s ? `${s.shots} slag` : 'inga slag än'}</small></span>
       <span class="gr-track" aria-hidden="true">
@@ -273,7 +274,7 @@ function clubRows(clubs) {
         ${club.carry ? `<i class="gr-carry" style="left:${at(club.carry)}"></i>` : ''}
         ${s ? `<i class="gr-typ" style="left:${at(s.typical)}"></i>` : ''}
       </span>
-      <span class="gr-val">${s ? `<b>${Math.round(s.typical)}</b><small> m</small>` : `<span class="gr-none">${club.carry ? `${club.carry} m` : '–'}</span>`}</span>
+      <span class="gr-val">${s ? `<b>${Math.round(s.typical)}</b><small> m</small>` : `<span class="gr-none">–</span>`}</span>
     </li>`);
   });
   return `<ol class="gap-rows">${items.join('')}</ol>
@@ -282,6 +283,7 @@ function clubRows(clubs) {
 
 /* ---------------------------------------------------------- hole by hole */
 function holeChart(holes) {
+  if (!holes.length) return '<p class="st-muted">Par saknas för de sparade hålen.</p>';
   const maxUp = Math.max(0, ...holes.map(h => h.toPar)), maxDown = Math.max(0, ...holes.map(h => -h.toPar));
   const span = Math.max(0.5, maxUp + maxDown);
   const upShare = Math.max(0.12, maxUp / span), downShare = Math.max(0.06, maxDown / span);
@@ -309,20 +311,26 @@ function holeChart(holes) {
 /* --------------------------------------------------------- a round's card */
 function scorecard(record) {
   const holes = record.holes;
-  const pars = record.pars || holes.map(hole => hole.par);
   const scoreOf = n => holes.find(hole => hole.n === n);
+  const count = record.holeCount ?? record.pars?.length ?? Math.max(0, ...holes.map(h => h.n));
+  const pars = Array.from({ length: count }, (_, i) => scoreOf(i + 1)?.par ?? record.pars?.[i]);
   const half = pars.length > 9 ? [[1, 9], [10, pars.length]] : [[1, pars.length]];
   const cell = n => {
     const hole = scoreOf(n);
     if (!hole) return '<td class="sc-none">·</td>';
     if (hole.picked || !Number.isFinite(hole.strokes)) return '<td class="sc-none" title="Struket">–</td>';
-    const kind = kindOf(hole.strokes, hole.par);
+    const par = pars[n - 1];
+    if (!Number.isFinite(par)) return `<td>${hole.strokes}</td>`;
+    const kind = kindOf(hole.strokes, par);
     return `<td><span class="sc-score sc-${kind.key}" style="--k:${kind.colour}" title="${esc(kind.label)}">${hole.strokes}</span></td>`;
   };
   const sumOf = (from, to, key) => {
     let total = 0, any = false;
     for (let n = from; n <= to; n++) {
-      if (key === 'par') { total += pars[n - 1]; any = true; continue; }
+      if (key === 'par') {
+        if (!Number.isFinite(pars[n - 1])) return '–';
+        total += pars[n - 1]; any = true; continue;
+      }
       const hole = scoreOf(n);
       if (hole && !hole.picked && Number.isFinite(hole[key])) { total += hole[key]; any = true; }
     }
@@ -330,11 +338,13 @@ function scorecard(record) {
   };
   return half.map(([from, to]) => {
     const ns = Array.from({ length: to - from + 1 }, (_, k) => from + k);
+    const putts = puttCoverage(holes.filter(h => h.n >= from && h.n <= to));
+    const puttSum = putts.total === null ? '–' : putts.recorded < putts.holes ? `${putts.total}*` : putts.total;
     const sumLabel = half.length > 1 ? (from === 1 ? 'Ut' : 'In') : 'Tot';
     return `<table class="sc-table"><thead><tr><th scope="row">Hål</th>${ns.map(n => `<th scope="col">${n}</th>`).join('')}<th>${sumLabel}</th></tr></thead>
-      <tbody><tr class="sc-par-row"><th scope="row">Par</th>${ns.map(n => `<td>${pars[n - 1]}</td>`).join('')}<td>${sumOf(from, to, 'par')}</td></tr>
+      <tbody><tr class="sc-par-row"><th scope="row">Par</th>${ns.map(n => `<td>${pars[n - 1] ?? '–'}</td>`).join('')}<td>${sumOf(from, to, 'par')}</td></tr>
       <tr><th scope="row">Slag</th>${ns.map(cell).join('')}<td class="sc-sum">${sumOf(from, to, 'strokes')}</td></tr>
-      <tr class="sc-putts"><th scope="row">Puttar</th>${ns.map(n => { const h = scoreOf(n); return `<td>${h && Number.isFinite(h.putts) ? h.putts : ''}</td>`; }).join('')}<td>${sumOf(from, to, 'putts')}</td></tr></tbody></table>`;
+      <tr class="sc-putts"><th scope="row">Puttar</th>${ns.map(n => { const h = scoreOf(n); return `<td>${h && !h.picked && Number.isFinite(h.putts) ? h.putts : '–'}</td>`; }).join('')}<td title="${esc(puttCoverageText(putts))}">${puttSum}</td></tr></tbody></table>${putts.recorded && putts.recorded < putts.holes ? `<p class="st-muted">* ${esc(puttCoverageText(putts))}</p>` : ''}`;
   }).join('');
 }
 
@@ -354,7 +364,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
   el.className = 'hub-screen';
   el.setAttribute('role', 'main');
   el.setAttribute('aria-labelledby', 'statsTitle');
-  const state = { period: 'all', course: 'all', example: false, trendMetric: 'score', bagPreview: false, bagSaved: false, view: {} };
+  const state = { period: 'all', course: 'all', example: false, trendMetric: 'score', roundId: null, view: {} };
   const poster = slug => (courses.some(c => c.slug === slug) ? `${BASE}courses/${slug}/hero-1.webp` : '');
   const backdropUrl = slug => (courses.some(c => c.slug === slug) ? `${BASE}courses/${slug}/backdrop.webp` : '');
 
@@ -414,13 +424,13 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
           </ol>
           <div class="st-empty-actions">
             <button class="set-primary" type="button" data-play>Spela i Lätt 3D</button>
-            <button class="st-ghost" type="button" data-example>Visa ett exempel</button>
+            ${courses.some(c => c.holes === 18 && c.status !== 'mapping') ? '<button class="st-ghost" type="button" data-example>Visa ett exempel</button>' : ''}
             ${cloudCta}
           </div>
         </div>
       </section>`;
     body.querySelector('[data-play]').addEventListener('click', () => onPlay());
-    body.querySelector('[data-example]').addEventListener('click', () => { state.example = true; render(); });
+    body.querySelector('[data-example]')?.addEventListener('click', () => { state.example = true; render(); });
     body.querySelector('[data-cloud-signin]')?.addEventListener('click', () => signInWithGoogle(`${location.pathname}${location.search}#statistik`));
   }
 
@@ -452,27 +462,31 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
   function openRoundCard(course, id) {
     const key = `${course}|${id}`;
     const details = body.querySelector(`details.st-round[data-round-key="${CSS.escape(key)}"]`);
-    if (!details) return;
+    if (!details) return false;
     details.open = true;
-    details.scrollIntoView({ block: 'center', behavior: REDUCED ? 'auto' : 'smooth' });
+    const summary = details.querySelector('summary');
+    summary.focus({ preventScroll: true });
+    summary.scrollIntoView({ block: 'center', behavior: REDUCED ? 'auto' : 'smooth' });
     details.classList.remove('is-flash');
     void details.offsetWidth;
     details.classList.add('is-flash');
+    return true;
   }
 
   /* ------------------------------------------------------------ full */
   function renderStats(data) {
-    const stat = playerStats({ ...data, filter: { period: state.period, course: state.course } });
-    const all = playerStats({ ...data });
+    const all = playerStats({ ...data, courses });
+    const stat = state.period === 'all' && state.course === 'all' ? all :
+      playerStats({ ...data, courses, filter: { period: state.period, course: state.course } });
     const sub = el.querySelector('[data-sub]');
-    sub.textContent = state.example ? 'Exempel' : `${all.rounds} ${all.rounds === 1 ? 'runda' : 'rundor'} · ${all.playedCourses.length} ${all.playedCourses.length === 1 ? 'bana' : 'banor'}`;
+    sub.textContent = state.example ? 'Exempel' : `${all.history.length} ${all.history.length === 1 ? 'sparad runda' : 'sparade rundor'} · ${all.playedCourses.length} ${all.playedCourses.length === 1 ? 'bana' : 'banor'}`;
     sub.classList.toggle('is-example', state.example);
     const courseOptions = all.playedCourses.map(c => `<option value="${esc(c.slug)}"${c.slug === state.course ? ' selected' : ''}>${esc(c.name)}</option>`).join('');
     const tableToggle = key => `<button class="st-view" type="button" data-view="${key}" aria-pressed="${state.view[key] === 'table'}">${state.view[key] === 'table' ? `${CHART}<span>Diagram</span>` : `${TABLE}<span>Tabell</span>`}</button>`;
     const showTable = key => state.view[key] === 'table';
 
-    if (!stat.rounds) {
-      body.innerHTML = `${toolbar(courseOptions, false)}<div class="st-card st-none"><h2>Inga rundor i det här urvalet</h2><p>Välj en längre period eller alla banor.</p><button class="st-ghost" type="button" data-reset>Visa allt</button></div>`;
+    if (!stat.history.length && !stat.shotCount) {
+      body.innerHTML = `${toolbar(courseOptions, [])}<div class="st-card st-none"><h2>Ingen spelhistorik i det här urvalet</h2><p>Välj en längre period eller alla banor.</p><button class="st-ghost" type="button" data-reset>Visa allt</button></div>`;
       bindFilters();
       body.querySelector('[data-reset]').addEventListener('click', () => { state.period = 'all'; state.course = 'all'; render(); });
       return;
@@ -495,13 +509,13 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     const delta = stat.delta;
     const td = stat.tileDeltas;
     const tiles = [
-      ['Rundor', String(stat.rounds), `${stat.holes} hål`, ''],
-      ['Bästa runda', stat.best ? signed(stat.best.perEighteen) : '–', stat.best ? `${stat.best.strokes} slag · ${stat.best.courseName ?? ''}` : '', ''],
-      ['Fairwayträff', stat.fairways.tried ? `${pct(stat.fairways.hit, stat.fairways.tried)}\u00a0%` : '–', `${stat.fairways.hit} av ${stat.fairways.tried}`,
+      ['Rundor med score', String(stat.rounds), `${stat.holes} hål med score`, ''],
+      ['Bästa per 18 hål', stat.best ? signed(stat.best.perEighteen) : '–', stat.best ? `${stat.best.strokes} slag på ${stat.best.holes} hål · ${stat.best.courseName ?? stat.best.course}` : 'Minst 9 hål med score', ''],
+      ['Fairwayträff', stat.fairways.tried ? `${pct(stat.fairways.hit, stat.fairways.tried)}\u00a0%` : '–', stat.fairways.tried ? `${stat.fairways.hit} av ${stat.fairways.tried} förda` : 'Utslag ej förda',
         deltaBadge(td.fairways !== null ? td.fairways * 100 : null, { unit: '\u00a0%', digits: 0, higherIsBetter: true, threshold: 1 })],
-      ['Greener i regulation', stat.greens.tried ? `${pct(stat.greens.hit, stat.greens.tried)}\u00a0%` : '–', `${stat.greens.hit} av ${stat.greens.tried}`,
+      ['Greener i regulation', stat.greens.tried ? `${pct(stat.greens.hit, stat.greens.tried)}\u00a0%` : '–', stat.greens.tried ? `${stat.greens.hit} av ${stat.greens.tried} förda` : 'Par eller puttar saknas',
         deltaBadge(td.greens !== null ? td.greens * 100 : null, { unit: '\u00a0%', digits: 0, higherIsBetter: true, threshold: 1 })],
-      ['Puttar per green', stat.putts.perGreen !== null ? dec(stat.putts.perGreen, 2) : '–', stat.putts.perGreen !== null ? `${dec(stat.putts.perGreen * 18, 1)} per runda` : '',
+      ['Puttar per green', stat.putts.perGreen !== null ? dec(stat.putts.perGreen, 2) : '–', stat.putts.perGreen !== null ? `${stat.putts.holes} av ${stat.holes} hål med puttar` : '',
         deltaBadge(td.putts, { digits: 2, higherIsBetter: false, threshold: 0.03 })],
       ['Stableford', stat.points !== null ? dec(stat.points, 1) : '–', stat.points !== null ? 'poäng per runda' : 'kräver handicap',
         deltaBadge(td.points, { unit: ' p', digits: 1, higherIsBetter: true, threshold: 0.5 })],
@@ -515,26 +529,51 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     const costItems = [
       { key: 'doubles', label: 'Dubbelbogey+', value: sc.doubles.perEighteen, note: `${sc.doubles.holes} hål` },
       { key: 'threePutts', label: 'Treputtar', value: sc.threePutts.perEighteen, note: `${sc.threePutts.holes} hål` },
-      { key: 'penalties', label: 'Pliktslag', value: sc.penalties.perEighteen, note: `${sc.penalties.total} loggade` },
+      { key: 'penalties', label: 'Pliktslag', value: sc.penalties.perEighteen, note: `${sc.penalties.total} på ${sc.penalties.holes} loggade hål` },
     ].filter(c => c.value !== null);
     const topCost = costItems.reduce((top, c) => (!top || c.value > top.value ? c : top), null);
 
-    /* Latest round spotlight (when >= 2 rounds so comparison vs. average means something). */
-    const lat = stat.rounds >= 2 ? stat.latest : null;
-    const latHasShots = lat && courses.some(c => c.slug === lat.record.course) &&
-      (state.example || data.shots.some(s => s.course === lat.record.course && s.round === lat.record.id && Array.isArray(s.from)));
+    const latest = stat.history.at(-1);
+    const rows = new Map(stat.trend.map(row => [`${row.course}|${row.id}`, row]));
+    const bagNames = new Map(data.bag.map(club => [club.id, club.name]));
+    const clubName = id => bagNames.get(id) || id;
+    const roundRow = record => rows.get(`${record.course}|${record.id}`);
+    const shotCountText = shots => `${shots.length} loggade slag`;
+    const scoreMeta = row => `${row.holes} hål med score · ${puttCoverageText(row.putts)}`;
+    const canReplay = ({record, shots}) => courses.some(c => c.slug === record.course) && shots.some(s => Array.isArray(s.from));
+    const replayLink = session => canReplay(session)
+      ? `<a class="st-view" href="${import.meta.env.BASE_URL}${reliveUrl(session.record.course, state.example ? `exempel-${session.record.id}` : session.record.id)}">Återupplev i 3D →</a>` : '';
+    const latestRow = latest && roundRow(latest.record);
+    const versusPrevious = latestRow ? stat.latest?.vsAverage : null;
+    const courseNameOf = record => record.courseName || all.playedCourses.find(c => c.slug === record.course)?.name || record.course;
+    const insightCard = item => `<article class="st-insight is-${item.tone}"><div class="si-head"><span class="si-icon" aria-hidden="true">${TONE_ICON[item.tone]}</span><h3>${esc(item.title)}</h3></div><p>${esc(item.text)}</p></article>`;
+    const jumps = JUMP_SECTIONS.filter(s => stat.rounds || s.id === 'st-overview' || s.id === 'st-clubs' || (s.id === 'st-rounds' && stat.sessions.length));
 
     const scramble = stat.greens.scrambling;
     const scramblePct = scramble.opportunities ? pct(scramble.saved, scramble.opportunities) : '–';
 
     body.innerHTML = `
       ${state.example ? `<div class="st-banner" role="note"><span><b>Exempel.</b> Så här ser statistiken ut efter 16 rundor. Det är inte dina siffror.</span><button class="st-ghost" type="button" data-hide-example>Dölj exemplet</button></div>` : ''}
-      ${toolbar(courseOptions, true)}
+      ${toolbar(courseOptions, jumps)}
+      <section class="st-leading" id="st-overview" aria-label="Översikt">
+        ${latest ? `<article class="st-card st-latest" aria-label="Senaste rundan">
+          <div class="sl-main"><span class="sl-thumb" style="${poster(latest.record.course) ? `background-image:url('${poster(latest.record.course)}')` : ''}" aria-hidden="true"></span>
+            <div class="sl-info"><span class="sl-kicker">Senaste rundan · ${esc(dateText(latest.record.date, true))}</span>
+              <h2 class="sl-course">${esc(latest.record.courseName || latest.record.course)}</h2>
+              <p class="sl-meta">${latestRow ? esc(scoreMeta(latestRow)) : `Ingen hålscore · ${shotCountText(latest.shots)}`}</p></div></div>
+          ${latestRow ? `<div class="sl-score"><b>${latestRow.strokes}</b><div class="sl-score-sub"><span>${latestRow.toPar == null ? 'slag · par saknas' : `slag · ${signedInt(latestRow.toPar)} mot par`}</span>
+              ${versusPrevious != null ? `<em class="sl-cmp">${Math.abs(versusPrevious) < 0.3 ? 'I nivå med tidigare snitt' : `${dec(Math.abs(versusPrevious))} slag ${versusPrevious < 0 ? 'bättre' : 'över snittet'} per 18 hål`}</em>` : ''}</div></div>` : ''}
+          <div class="sl-actions"><button type="button" class="st-view" data-jump-round="${esc(`${latest.record.course}|${latest.record.id}`)}">${latestRow ? 'Scorekort' : 'Visa rundan'}</button>
+            <button type="button" class="st-view" data-share-round="${esc(`${latest.record.course}|${latest.record.id}`)}">Dela bild</button>${replayLink(latest)}</div>
+        </article>` : `<article class="st-card st-latest"><div class="sl-info"><h2 class="sl-course">Dina loggade slag</h2><p class="sl-meta">${stat.shotCount} loggade · ${stat.shotsMeasured} GPS-uppmätta</p></div></article>`}
+        ${stat.insights.length ? `<section class="st-insights" aria-labelledby="stHowH"><h2 class="st-h2" id="stHowH">Så spelar du</h2>${insightCard(stat.insights[0])}</section>` : ''}
+      </section>
+      ${stat.rounds ? `
 
-      <section class="st-hero-row" id="st-overview" aria-label="Översikt">
+      <section class="st-hero-row" aria-label="Resultat">
         <div class="st-card st-hero${filteredBg ? ' is-course-bg' : ''}"${filteredBg ? ` style="--hero-bg:url('${filteredBg}')"` : ''}>
           <p class="st-label">Snitt mot par, per 18 hål</p>
-          <p class="st-hero-figure">${signed(stat.average)}</p>
+          <p class="st-hero-figure">${stat.average != null ? signed(stat.average) : '–'}</p>
           ${delta !== null ? `<p class="st-delta ${delta < 0 ? 'is-good' : 'is-bad'}">${delta < 0 ? TONE_ICON.good : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 8 6 6 4-4 6 7"/><path d="M15 17h5v-5"/></svg>'}<span><b>${signed(delta)}</b> de ${Math.min(5, stat.rounds)} senaste mot rundorna före</span></p>` : '<p class="st-delta">Fler rundor ger en riktning.</p>'}
           ${sparkPath ? `<svg class="st-spark" viewBox="-4 0 128 40" aria-hidden="true"><path d="${sparkPath}" fill="none" stroke="rgba(160,230,185,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="120" cy="${sparkY(spark.at(-1)).toFixed(1)}" r="4" fill="#5fd07a" stroke="#0f1d16" stroke-width="2"/></svg>` : ''}
@@ -542,37 +581,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         <dl class="st-tiles">${tiles.map(([label, value, note, badge]) => `<div class="st-card st-tile"><dt>${label}</dt><dd>${esc(value)}</dd><dd class="st-tile-foot"><span class="st-tile-note">${esc(note)}</span>${badge}</dd></div>`).join('')}</dl>
       </section>
 
-      ${stat.insights.length ? `<section class="st-insights" aria-labelledby="stHowH"><h2 class="st-h2" id="stHowH">Så spelar du</h2>
-        <div class="st-insight-grid">${stat.insights.map(item => `<article class="st-insight is-${item.tone}"><div class="si-head"><span class="si-icon" aria-hidden="true">${TONE_ICON[item.tone]}</span><h3>${esc(item.title)}</h3></div><p>${esc(item.text)}</p></article>`).join('')}</div></section>` : ''}
-
-      ${lat ? `<section class="st-card st-latest" aria-label="Senaste rundan">
-        <div class="sl-main">
-          <span class="sl-thumb" style="${poster(lat.record.course) ? `background-image:url('${poster(lat.record.course)}')` : ''}" aria-hidden="true"></span>
-          <div class="sl-info">
-            <span class="sl-kicker">Senaste rundan · ${esc(dateText(lat.row.date, true))}</span>
-            <h2 class="sl-course">${esc(lat.row.courseName ?? lat.row.course)}</h2>
-            <p class="sl-meta">${[
-              `${lat.row.holes} hål`,
-              lat.fairwayRate !== null ? `Fairway ${Math.round(lat.fairwayRate * 100)}\u00a0%` : null,
-              lat.girRate !== null ? `GIR ${Math.round(lat.girRate * 100)}\u00a0%` : null,
-              lat.row.putts ? `${lat.row.putts} puttar` : null,
-              lat.birdies ? `${lat.birdies} ${lat.birdies === 1 ? 'birdie' : 'birdies'}` : null,
-            ].filter(Boolean).join(' · ')}</p>
-          </div>
-        </div>
-        <div class="sl-score">
-          <b>${lat.row.strokes}</b>
-          <div class="sl-score-sub">
-            <span class="${lat.row.toPar < 0 ? 'is-under' : lat.row.toPar > 0 ? 'is-over' : ''}">${signedInt(lat.row.toPar)}</span>
-            ${lat.vsAverage !== null ? `<em class="sl-cmp ${lat.vsAverage <= -0.3 ? 'is-good' : lat.vsAverage >= 0.3 ? 'is-bad' : ''}">${Math.abs(lat.vsAverage) < 0.3 ? 'I linje med snittet' : `${dec(Math.abs(lat.vsAverage), 1)} ${lat.vsAverage < 0 ? 'bättre än' : 'över'} snittet`}</em>` : ''}
-          </div>
-        </div>
-        <div class="sl-actions">
-          <button type="button" class="st-view" data-jump-round="${esc(`${lat.record.course}|${lat.record.id}`)}">Scorekort</button>
-          <button type="button" class="st-view" data-share-round="${esc(`${lat.record.course}|${lat.record.id}`)}">Dela bild</button>
-          ${latHasShots ? `<a class="st-view" href="${import.meta.env.BASE_URL}${reliveUrl(lat.record.course, state.example ? `exempel-${lat.record.id}` : lat.record.id)}">Återupplev 3D →</a>` : ''}
-        </div>
-      </section>` : ''}
+      ${stat.insights.length > 1 ? `<details class="st-more-insights"><summary>Fler insikter (${stat.insights.length - 1})</summary><div class="st-insight-grid">${stat.insights.slice(1).map(insightCard).join('')}</div></details>` : ''}
 
       <section class="st-grid-2">
         <div class="st-card st-chart" data-card="trend">
@@ -612,7 +621,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         </div>
         <div class="st-card">
           <header class="st-card-head"><div><h2>Greener &amp; närspel</h2><p>Träffade greener och räddade par vid miss</p></div></header>
-          <div class="st-meter-figure"><b>${pct(stat.greens.hit, stat.greens.tried)}<small>%</small></b><span>GIR · ${stat.greens.hit} av ${stat.greens.tried} hål</span></div>
+          <div class="st-meter-figure"><b>${pct(stat.greens.hit, stat.greens.tried)}<small>${stat.greens.tried ? '%' : ''}</small></b><span>GIR · ${stat.greens.tried ? `${stat.greens.hit} av ${stat.greens.tried} förda hål` : 'par eller puttar saknas'}</span></div>
           <div class="st-meter" role="img" aria-label="${pct(stat.greens.hit, stat.greens.tried)} procent greener i regulation"><i style="width:${pct(stat.greens.hit, stat.greens.tried) === '–' ? 0 : pct(stat.greens.hit, stat.greens.tried)}%"></i></div>
           <div class="st-scramble">
             <div class="st-meter-figure is-sub"><b>${scramblePct}<small>${scramblePct === '–' ? '' : '%'}</small></b><span>Räddningar · ${scramble.saved} av ${scramble.opportunities} missade</span></div>
@@ -621,7 +630,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
           <p class="st-muted st-gap-top">${stat.penalties ? `${stat.penalties} pliktslag i de loggade slagen` : 'Inga pliktslag i de loggade slagen'}</p>
         </div>
         <div class="st-card" data-card="putts">
-          <header class="st-card-head"><div><h2>Puttning</h2><p>${stat.putts.holes} greener med puttar förda</p></div></header>
+          <header class="st-card-head"><div><h2>Puttning</h2><p>${stat.putts.holes} av ${stat.holes} hål med puttar förda</p></div></header>
           <div class="st-meter-figure"><b>${stat.putts.perGreen !== null ? dec(stat.putts.perGreen, 2) : '–'}</b><span>puttar per green</span></div>
           ${stat.putts.holes ? segmentedBar([
             { label: 'En putt eller färre', count: stat.putts.one, colour: SCORE_KINDS[1].colour },
@@ -635,28 +644,21 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         </div>
       </section>
 
+      ` : '<p class="st-card st-none">Inga hål med score i urvalet. Spara en hålscore i Lätt 3D för att se resultat och utveckling.</p>'}
+
       <section class="st-card st-clubs" id="st-clubs" data-card="clubs" aria-labelledby="stClubsH">
         <header class="st-card-head">
-          <div><h2 id="stClubsH">Klubbor</h2><p>Hur långt varje klubba går, så som du faktiskt slår den. ${stat.shotsMeasured} uppmätta slag.</p></div>
+          <div><h2 id="stClubsH">Klubbor</h2><p>${stat.shotsMeasured} GPS-uppmätta slag. Totallängden inkluderar rull. Bagens carry är din angivna längd i luften.</p></div>
           <div class="st-head-actions">
-            ${!state.example && stat.bagUpdates.length ? `<button class="st-view is-accent" type="button" data-bag-sync>${state.bagSaved ? 'Bagen uppdaterad ✓' : `Uppdatera bagen (${stat.bagUpdates.length})`}</button>` : ''}
             ${tableToggle('clubs')}
           </div>
         </header>
-        ${!state.example && state.bagPreview && stat.bagUpdates.length ? `<div class="st-bag-preview" role="region" aria-label="Föreslagna ändringar i bagen">
-          <p>Uppdatera bagens carry-längder med dina uppmätta slag (synkas till ditt konto):</p>
-          <ul class="st-bag-diffs">${stat.bagUpdates.map(u => `<li><b>${esc(u.name)}</b><span>${u.currentCarry} → <strong>${u.measuredCarry} m</strong> (${signedInt(u.diff)} m)</span></li>`).join('')}</ul>
-          <div class="sr-actions">
-            <button type="button" class="set-primary" data-bag-apply>Spara i Min bag</button>
-            <button type="button" class="st-ghost" data-bag-cancel>Avbryt</button>
-          </div>
-        </div>` : ''}
-        ${showTable('clubs') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Klubba</th><th>Slag</th><th>Typisk</th><th>Spridning</th><th>Längsta</th><th>Bagens carry</th></tr></thead><tbody>
+        ${showTable('clubs') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Klubba</th><th>Slag</th><th>Typisk GPS-total</th><th>Spridning</th><th>Längsta</th><th>Bagens carry</th></tr></thead><tbody>
           ${stat.clubs.filter(c => !c.putter).map(c => `<tr><td>${esc(c.name)}</td><td>${c.stat?.shots ?? 0}</td><td>${c.stat ? `${Math.round(c.stat.typical)} m` : '–'}</td><td>${c.stat ? `${Math.round(c.stat.shortest)}–${Math.round(c.stat.reach)} m` : '–'}</td><td>${c.stat ? `${Math.round(c.stat.longest)} m` : '–'}</td><td>${c.carry ? `${c.carry} m` : '–'}</td></tr>`).join('')}</tbody></table></div>`
-          : `<ul class="st-legend gap-legend"><li><i class="lg-range"></i>Spridning</li><li><i class="lg-typ"></i>Typisk längd</li><li><i class="lg-carry"></i>Bagens carry</li></ul>${clubRows(stat.clubs)}`}
+          : `<ul class="st-legend gap-legend"><li><i class="lg-range"></i>Spridning</li><li><i class="lg-typ"></i>Typisk GPS-total</li><li><i class="lg-carry"></i>Bagens carry</li></ul>${clubRows(stat.clubs)}`}
       </section>
 
-      <section class="st-card st-holes" id="st-holes" data-card="holes" aria-labelledby="stHolesH">
+      ${stat.rounds ? `<section class="st-card st-holes" id="st-holes" data-card="holes" aria-labelledby="stHolesH">
         <header class="st-card-head"><div><h2 id="stHolesH">Hål för hål</h2><p>${stat.byHoleNumber ? `Ditt snitt mot par på varje hål, ${esc(all.playedCourses.find(c => c.slug === state.course)?.name ?? '')}` : 'Välj en bana för att se vilka hål som kostar mest'}</p></div>${stat.byHoleNumber ? tableToggle('holes') : ''}</header>
         ${!stat.byHoleNumber ? `<div class="st-pick">${all.playedCourses.map(c => `<button type="button" class="st-ghost" data-pick-course="${esc(c.slug)}">${esc(c.name)}</button>`).join('')}</div>`
           : showTable('holes') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Hål</th><th>Par</th><th>Snitt</th><th>Mot par</th><th>Bästa</th><th>Puttar</th><th>Fairway</th><th>Rundor</th></tr></thead><tbody>
@@ -667,37 +669,42 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         </div>` : ''}
       </section>
 
-      <section class="st-split" id="st-rounds">
+      ` : ''}
+      ${stat.sessions.length ? `<section class="st-split" id="st-rounds">
         <div class="st-card">
           <header class="st-card-head"><div><h2>Banor</h2><p>Där du har spelat</p></div></header>
           <ul class="st-courses">${stat.courses.map(c => `<li>
-            ${state.course === 'all' ? `<button type="button" class="sc-pick" data-pick-course="${esc(c.slug)}" aria-label="${esc(c.name)}: hål för hål"></button>` : ''}
+            ${state.course === 'all' ? `<button type="button" class="sc-pick" data-pick-course="${esc(c.slug)}" aria-label="Visa statistik för ${esc(c.name)}"></button>` : ''}
             <span class="sc-thumb" style="${poster(c.slug) ? `background-image:url('${poster(c.slug)}')` : ''}" aria-hidden="true"></span>
-            <span class="sc-name"><b>${esc(c.name)}</b><small>${c.rounds} ${c.rounds === 1 ? 'runda' : 'rundor'} · senast ${esc(dateText(c.last))}</small></span>
-            <span class="sc-num"><small>Snitt</small><b>${c.average !== null ? signed(c.average) : '–'}</b></span>
-            <span class="sc-num"><small>Bästa</small><b>${c.best ? `${c.best.strokes}` : '–'}</b></span>
+            <span class="sc-name"><b>${esc(c.name)}</b><small>${c.rounds ? `${c.rounds} ${c.rounds === 1 ? 'sparad runda' : 'sparade rundor'}` : 'Endast slaglogg'} · senast ${esc(dateText(c.last))}</small>${c.best ? `<small>Bästa · ${c.best.strokes} slag på ${c.best.holes} hål · ${signed(c.best.perEighteen)} per 18</small>` : ''}</span>
+            <span class="sc-num"><small>Snitt / 18</small><b>${c.average !== null ? signed(c.average) : '–'}</b></span>
           </li>`).join('')}</ul>
         </div>
         <div class="st-card st-rounds">
-          <header class="st-card-head"><div><h2>Rundor</h2><p>Tryck på en runda för dess scorekort</p></div></header>
-          <div class="st-round-list">${[...stat.trend].reverse().map(row => {
-            const record = data.rounds.find(r => r.id === row.id && r.course === row.course);
-            return `<details class="st-round" data-round-key="${esc(`${row.course}|${row.id}`)}">
+          <header class="st-card-head"><div><h2>Rundor</h2><p>Öppna en runda för scorekort och loggade slag</p></div></header>
+          <div class="st-round-list">${[...stat.sessions].reverse().map(session => {
+            const {record, shots} = session;
+            const date = record.date || record.endedAt;
+            const row = roundRow(record);
+            const reviews = shots.map(shot => ({ shot, text: shotReviewText(shot, clubName) })).filter(r => r.text);
+            return `<details class="st-round" data-round-key="${esc(`${record.course}|${record.id}`)}">
               <summary>
-                <span class="sr-date"><b>${esc(String(new Date(row.date).getDate()))}</b><small>${esc(new Date(row.date).toLocaleDateString('sv-SE', { month: 'short' }).replace('.', ''))}</small></span>
-                <span class="sr-name"><b>${esc(row.courseName ?? row.course)}</b><small>${row.holes} hål${row.points !== null ? ` · ${row.points} p` : ''} · ${row.putts} puttar</small></span>
-                <span class="sr-score"><b>${row.strokes}</b><small class="${row.toPar < 0 ? 'is-under' : row.toPar > 0 ? 'is-over' : ''}">${signedInt(row.toPar)}</small></span>
+                <span class="sr-date"><b>${esc(String(new Date(date).getDate()))}</b><small>${esc(new Date(date).toLocaleDateString('sv-SE', { month: 'short' }).replace('.', ''))}</small></span>
+                <span class="sr-name"><b>${esc(courseNameOf(record))}</b><small>${row ? esc(scoreMeta(row)) : `${session.saved ? 'Ingen hålscore' : 'Endast slaglogg'} · ${shotCountText(shots)}`}${row?.points != null ? ` · ${row.points} p` : ''}</small></span>
+                ${row ? `<span class="sr-score"><b>${row.strokes}</b><small>${row.toPar == null ? 'Par saknas' : signedInt(row.toPar)}</small></span>` : '<span></span>'}
               </summary>
-              <div class="sr-card">${record ? `${scorecard(record)}<div class="sr-actions">
-                <button type="button" class="st-ghost sr-share" data-share-round="${esc(`${record.course}|${record.id}`)}">Dela rundan som bild</button>
-                ${onCourse && courses.some(c => c.slug === record.course) ? `<button type="button" class="st-ghost" data-play-course="${esc(record.course)}">Spela banan igen <span aria-hidden="true">→</span></button>` : ''}
-                ${courses.some(c => c.slug === record.course) && (state.example || data.shots.some(s => s.course === record.course && s.round === record.id && Array.isArray(s.from)))
-                  ? `<a class="st-ghost" href="${import.meta.env.BASE_URL}${reliveUrl(record.course, state.example ? `exempel-${record.id}` : record.id)}">Återupplev i 3D <span aria-hidden="true">→</span></a>` : ''}
-              </div>` : ''}</div>
+              <div class="sr-card">${row || record.holes?.length ? scorecard(record) : '<p class="st-muted">Ingen hålscore sparad.</p>'}
+                ${reviews.length ? `<h3>Planerat och spelat</h3><ol class="sr-reviews">${reviews.map(({shot, text}) => `<li><b>Hål ${esc(shot.hole)} · ${esc(clubName(shot.club))}</b> ${esc(text)}</li>`).join('')}</ol>` : ''}
+                <div class="sr-actions">
+                  ${session.saved ? `<button type="button" class="st-ghost sr-share" data-share-round="${esc(`${record.course}|${record.id}`)}">Dela rundan som bild</button>` : ''}
+                  ${onCourse && courses.some(c => c.slug === record.course) ? `<button type="button" class="st-ghost" data-play-course="${esc(record.course)}">Spela banan igen →</button>` : ''}
+                  ${replayLink(session)}
+                </div>
+              </div>
             </details>`;
           }).join('')}</div>
         </div>
-      </section>`;
+      </section>` : ''}`;
 
     bindFilters();
     bindJumpNav();
@@ -720,29 +727,6 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         body.querySelector(`[data-view="${btn.dataset.view}"]`)?.focus();
       });
     }
-    body.querySelector('[data-bag-sync]')?.addEventListener('click', () => {
-      state.bagPreview = !state.bagPreview;
-      state.bagSaved = false;
-      const y = el.scrollTop;
-      render();
-      el.scrollTop = y;
-    });
-    body.querySelector('[data-bag-cancel]')?.addEventListener('click', () => {
-      state.bagPreview = false;
-      const y = el.scrollTop;
-      render();
-      el.scrollTop = y;
-    });
-    body.querySelector('[data-bag-apply]')?.addEventListener('click', () => {
-      const updated = applyMeasuredBag(data.bag, stat.bagUpdates);
-      writeText(storage(), BAG_KEY, JSON.stringify({ version: 3, clubs: updated }));
-      notifyLocalChange('bag');
-      state.bagPreview = false;
-      state.bagSaved = true;
-      const y = el.scrollTop;
-      render();
-      el.scrollTop = y;
-    });
     for (const btn of body.querySelectorAll('[data-jump-round]')) {
       btn.addEventListener('click', () => {
         const [course, id] = btn.dataset.jumpRound.split('|');
@@ -770,7 +754,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
       const orig = btn.textContent;
       btn.disabled = true;
       const { shareRoundCard } = await import('./round-card.mjs');
-      const done = await shareRoundCard(record, { poster: poster(record.course), text: `${record.courseName ?? record.course}, ${dateText(record.date, true)}` });
+      const done = await shareRoundCard(record, { shots: data.shots, poster: poster(record.course), text: `${record.courseName ?? record.course}, ${dateText(record.date, true)}` });
       btn.disabled = false;
       btn.textContent = done === 'saved' ? 'Bilden är sparad' : done === 'failed' ? 'Kunde inte skapa bild' : orig;
     });
@@ -788,23 +772,23 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     for (const btn of body.querySelectorAll('[data-pick-course]')) btn.addEventListener('click', () => {
       state.course = btn.dataset.pickCourse;
       render();
-      body.querySelector('[data-card="holes"]')?.scrollIntoView({ block: 'start', behavior: REDUCED ? 'auto' : 'smooth' });
+      (body.querySelector('[data-card="holes"]') || body.querySelector('#st-clubs'))?.scrollIntoView({ block: 'start', behavior: REDUCED ? 'auto' : 'smooth' });
     });
     observe(draw);
   }
 
-  function toolbar(courseOptions, withJump) {
+  function toolbar(courseOptions, jumps) {
     return `<div class="st-toolbar">
       <div class="st-filters" role="group" aria-label="Urval">
         <div class="seg" role="radiogroup" aria-label="Period">${PERIODS.map(p => `<label class="seg-opt"><input type="radio" name="st-period" value="${p.key}"${p.key === state.period ? ' checked' : ''}><span>${p.label}</span></label>`).join('')}</div>
         <label class="st-select"><span class="st-sr">Bana</span><select data-course><option value="all">Alla banor</option>${courseOptions}</select></label>
       </div>
-      ${withJump ? `<nav class="st-jump" aria-label="Avsnitt">${JUMP_SECTIONS.map((s, i) => `<button type="button" data-jump="${s.id}" aria-current="${i === 0}">${s.label}</button>`).join('')}</nav>` : ''}
+      ${jumps.length ? `<nav class="st-jump" aria-label="Avsnitt">${jumps.map((s, i) => `<button type="button" data-jump="${s.id}" aria-current="${i === 0}">${s.label}</button>`).join('')}</nav>` : ''}
     </div>`;
   }
   function bindFilters() {
-    for (const input of body.querySelectorAll('input[name="st-period"]')) input.addEventListener('change', () => { state.period = input.value; state.bagPreview = false; render(true); });
-    body.querySelector('[data-course]')?.addEventListener('change', e => { state.course = e.target.value; state.bagPreview = false; render(true); });
+    for (const input of body.querySelectorAll('input[name="st-period"]')) input.addEventListener('change', () => { state.period = input.value; state.roundId = null; render(true); });
+    body.querySelector('[data-course]')?.addEventListener('change', e => { state.course = e.target.value; state.roundId = null; render(true); });
   }
   function bindClubs(root) {
     const card = root.querySelector('[data-card="clubs"]');
@@ -835,9 +819,25 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
 
   function render(keepFocus = false) {
     const focusName = keepFocus ? document.activeElement?.name || (document.activeElement?.matches?.('[data-course]') ? 'course' : null) : null;
+    const opened = [...body.querySelectorAll('.st-round[open]')].map(item => item.dataset.roundKey);
     const data = read();
-    if (!data.rounds.length && !state.example) renderEmpty();
+    if (!data.rounds.length && !data.shots.length && !state.example) renderEmpty();
     else renderStats(data);
+    if (state.roundId != null) {
+      const key = `${state.course}|${state.roundId}`;
+      if (body.querySelector(`.st-round[data-round-key="${CSS.escape(key)}"]`)) opened.push(key);
+      else {
+        const note = document.createElement('p');
+        note.className = 'st-card st-muted';
+        note.setAttribute('role', 'status');
+        note.textContent = 'Rundan finns inte i din sparade historik.';
+        body.prepend(note);
+      }
+    }
+    for (const key of opened) {
+      const item = body.querySelector(`.st-round[data-round-key="${CSS.escape(key)}"]`);
+      if (item) item.open = true;
+    }
     if (!REDUCED) {
       body.classList.remove('is-entering');
       void body.offsetWidth;
@@ -847,20 +847,33 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     if (focusName === 'course') body.querySelector('[data-course]')?.focus();
   }
 
-  el.refresh = () => render();
+  el.refresh = () => {
+    if (state.roundId != null) {
+      state.roundId = null;
+      state.course = 'all';
+    }
+    render();
+  };
   addEventListener('banvy-sync-changed', () => render());
   subscribeCloud(() => {
     const data = read();
-    if (!data.rounds.length && !state.example) renderEmpty();
+    if (!data.rounds.length && !data.shots.length && !state.example) render();
   });
-  el.showCourse = slug => {
+  el.showCourse = (slug, roundId = null) => {
     state.example = false;
-    if (courses.some(c => c.slug === slug)) state.course = slug;
+    state.course = slug;
+    state.roundId = roundId;
+    state.period = 'all';
     render();
   };
   el.revealCourse = () => {
-    const holes = body.querySelector('[data-card="holes"]');
-    if (holes) requestAnimationFrame(() => holes.scrollIntoView({ block: 'start', behavior: 'auto' }));
+    requestAnimationFrame(() => {
+      if (state.roundId != null) {
+        if (!openRoundCard(state.course, state.roundId)) el.scrollTop = 0;
+        return;
+      }
+      body.querySelector('[data-card="holes"]')?.scrollIntoView({ block: 'start', behavior: 'auto' });
+    });
   };
   render();
   return el;

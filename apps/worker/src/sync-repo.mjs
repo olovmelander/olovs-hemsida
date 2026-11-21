@@ -72,19 +72,23 @@ export async function loadUserState(db, userId) {
 const BATCH_CHUNK = 80;
 
 export async function persistDirtyState(db, userId, dirty, now = Date.now()) {
-  const statements = [];
+  const groups = new Map();
+  function group(key) {
+    if (!groups.has(key)) groups.set(key, []);
+    return groups.get(key);
+  }
 
   if (dirty.profile) {
-    statements.push(
+    group('profile').push(
       db.prepare(`
         INSERT INTO player_profile (user_id, handicap, handicap_updated_at, bag_json, bag_updated_at, updated_at)
         VALUES (?, ?, ?, ?, ?, ?)
         ON CONFLICT(user_id) DO UPDATE SET
-          handicap = excluded.handicap,
-          handicap_updated_at = excluded.handicap_updated_at,
-          bag_json = excluded.bag_json,
-          bag_updated_at = excluded.bag_updated_at,
-          updated_at = excluded.updated_at
+          handicap = CASE WHEN excluded.handicap_updated_at > handicap_updated_at THEN excluded.handicap ELSE handicap END,
+          handicap_updated_at = MAX(handicap_updated_at, excluded.handicap_updated_at),
+          bag_json = CASE WHEN excluded.bag_updated_at > bag_updated_at THEN excluded.bag_json ELSE bag_json END,
+          bag_updated_at = MAX(bag_updated_at, excluded.bag_updated_at),
+          updated_at = MAX(updated_at, excluded.updated_at)
       `).bind(
         userId,
         dirty.profile.handicap,
@@ -97,6 +101,7 @@ export async function persistDirtyState(db, userId, dirty, now = Date.now()) {
   }
 
   for (const r of dirty.rounds || []) {
+    const statements = group(roundKey(r.course, r.id));
     if (r.deletedAt) {
       statements.push(
         db.prepare(`
@@ -110,6 +115,7 @@ export async function persistDirtyState(db, userId, dirty, now = Date.now()) {
             record_json = '{}',
             updated_at = excluded.updated_at,
             deleted_at = excluded.deleted_at
+          WHERE excluded.updated_at > rounds.updated_at
         `).bind(userId, r.course, r.id, r.updatedAt, r.deletedAt),
       );
     } else {
@@ -141,6 +147,7 @@ export async function persistDirtyState(db, userId, dirty, now = Date.now()) {
             record_json = excluded.record_json,
             updated_at = excluded.updated_at,
             deleted_at = NULL
+          WHERE excluded.updated_at > rounds.updated_at
         `).bind(
           userId,
           r.course,
@@ -168,52 +175,46 @@ export async function persistDirtyState(db, userId, dirty, now = Date.now()) {
   }
 
   for (const s of dirty.shotSets || []) {
-    statements.push(
-      db.prepare(`
-        INSERT INTO round_shot_sets (user_id, course_slug, round_id, updated_at, deleted_at)
-        VALUES (?, ?, ?, ?, ?)
-        ON CONFLICT(user_id, course_slug, round_id) DO UPDATE SET
-          updated_at = excluded.updated_at,
-          deleted_at = excluded.deleted_at
-      `).bind(userId, s.course, s.roundId, s.updatedAt, s.deletedAt),
-    );
-    statements.push(
-      db.prepare('DELETE FROM shots WHERE user_id = ? AND course_slug = ? AND round_id = ?')
-        .bind(userId, s.course, s.roundId),
-    );
-    if (!s.deletedAt) {
-      for (let seq = 0; seq < s.shots.length; seq++) {
-        const shot = s.shots[seq];
-        const isPutt = shot.putt === true || shot.club === 'putter' ? 1 : 0;
-        statements.push(
-          db.prepare(`
-            INSERT INTO shots (
-              user_id, course_slug, round_id, seq, hole, club, at, length_m,
-              outcome, penalty, is_putt, suspect, from_lie, to_lie, shot_json
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          `).bind(
-            userId,
-            s.course,
-            s.roundId,
-            seq,
-            shot.hole,
-            shot.club,
-            shot.at,
-            shotDistanceMetres(shot),
-            shot.outcome,
-            shot.penalty || 0,
-            isPutt,
-            shot.suspect ? 1 : 0,
-            typeof shot.fromLie === 'string' ? shot.fromLie : null,
-            typeof shot.toLie === 'string' ? shot.toLie : null,
-            JSON.stringify(shot),
-          ),
-        );
-      }
+    const statements = group(roundKey(s.course, s.roundId));
+    const id = [userId, s.course, s.roundId];
+    // Compare against the pre-transaction revision for both child operations.
+    // A round deletion also retires a live set at exactly the same revision.
+    const currentWins = `SELECT 1 FROM round_shot_sets
+      WHERE user_id = ? AND course_slug = ? AND round_id = ?
+      AND (updated_at > ? OR (updated_at = ? AND (deleted_at IS NOT NULL OR ? IS NULL)))`;
+    const guard = [...id, s.updatedAt, s.updatedAt, s.deletedAt];
+    statements.push(db.prepare(`DELETE FROM shots WHERE user_id = ? AND course_slug = ? AND round_id = ?
+      AND NOT EXISTS (${currentWins})`).bind(...id, ...guard));
+
+    if (!s.deletedAt && s.shots.length) {
+      const rows = s.shots.map(shot => [shot, shotDistanceMetres(shot)]);
+      statements.push(db.prepare(`
+        INSERT INTO shots (user_id, course_slug, round_id, seq, hole, club, at, length_m,
+          outcome, penalty, is_putt, suspect, from_lie, to_lie, shot_json)
+        SELECT ?, ?, ?, key, value ->> '$[0].hole', value ->> '$[0].club', value ->> '$[0].at',
+          value ->> '$[1]', value ->> '$[0].outcome', COALESCE(value ->> '$[0].penalty', 0),
+          CASE WHEN value ->> '$[0].putt' = 1 OR value ->> '$[0].club' = 'putter' THEN 1 ELSE 0 END,
+          COALESCE(value ->> '$[0].suspect', 0), value ->> '$[0].fromLie', value ->> '$[0].toLie', value -> '$[0]'
+        FROM json_each(?) WHERE NOT EXISTS (${currentWins})
+      `).bind(...id, JSON.stringify(rows), ...guard));
     }
+    statements.push(db.prepare(`
+      INSERT INTO round_shot_sets (user_id, course_slug, round_id, updated_at, deleted_at)
+      VALUES (?, ?, ?, ?, ?)
+      ON CONFLICT(user_id, course_slug, round_id) DO UPDATE SET
+        updated_at = excluded.updated_at, deleted_at = excluded.deleted_at
+      WHERE excluded.updated_at > round_shot_sets.updated_at OR
+        (excluded.updated_at = round_shot_sets.updated_at AND excluded.deleted_at IS NOT NULL AND round_shot_sets.deleted_at IS NULL)
+    `).bind(...id, s.updatedAt, s.deletedAt));
   }
 
-  for (let i = 0; i < statements.length; i += BATCH_CHUNK) {
-    await db.batch(statements.slice(i, i + BATCH_CHUNK));
+  let batch = [];
+  for (const statements of groups.values()) {
+    if (batch.length + statements.length > BATCH_CHUNK) {
+      await db.batch(batch);
+      batch = [];
+    }
+    batch.push(...statements);
   }
+  if (batch.length) await db.batch(batch);
 }

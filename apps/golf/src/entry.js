@@ -33,5 +33,5 @@ if (legacy) {
      three.js before the chooser ran. */
   await import('./hub.js');
 } else {
-  await import('./main.js');
+  await Promise.all([import('./main.js'), import('./ui/detailed-hud.mjs').then(({ installDetailedHud }) => installDetailedHud())]);
 }

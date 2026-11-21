@@ -12,6 +12,8 @@
    Pure drawing on a canvas the caller's document gives; no network beyond the
    poster, which the start menu and the map have usually cached already. */
 import { kindOf } from './stats-model.mjs';
+import { puttCoverage, puttCoverageLabel, scoredHolesText } from '../map/map-score.mjs';
+import { isMeasured, isPutt, shotLength } from '../map/map-shots.mjs';
 
 const W = 1080, H = 1350;
 const INK = '#ffffff', DIM = '#b7c8bc', FAINT = '#7f9587', TURF = '#5fd07a', PANEL = 'rgba(8,18,13,0.86)';
@@ -40,29 +42,42 @@ function roundedRect(ctx, x, y, w, h, r) {
 }
 
 /* What the picture says, worked out from the kept record (map-rounds.mjs). */
-export function roundCardFacts(record) {
-  const holes = (record.holes || []).filter(h => !h.picked && Number.isFinite(h.strokes));
-  const strokes = holes.reduce((s, h) => s + h.strokes, 0);
-  const par = holes.reduce((s, h) => s + h.par, 0);
+export function roundCardFacts(record, shots = []) {
+  const holes = (record.holes || []).filter(h => !h.picked && Number.isFinite(h.strokes))
+    .map(h => ({ ...h, par: h.par ?? record.pars?.[h.n - 1] }));
+  const strokes = holes.length ? holes.reduce((s, h) => s + h.strokes, 0) : null;
+  const par = holes.every(h => Number.isFinite(h.par)) ? holes.reduce((s, h) => s + h.par, 0) : null;
   const withPutts = holes.filter(h => Number.isFinite(h.putts));
   const fairways = holes.filter(h => h.par >= 4 && h.fairway);
-  const greens = withPutts.filter(h => h.strokes - h.putts <= h.par - 2);
+  const girHoles = withPutts.filter(h => Number.isFinite(h.par));
+  const greens = girHoles.filter(h => h.strokes - h.putts <= h.par - 2);
+  const coverage = puttCoverage(holes);
+  const picked = (record.holes || []).filter(h => h.picked).length;
+  const own = shots.filter(s => s.course === record.course && String(s.round) === String(record.id) && !isPutt(s));
+  const byHole = new Map();
+  for (const shot of own) byHole.set(shot.hole, (byHole.get(shot.hole) || 0) + 1);
+  const measured = own.filter(isMeasured);
+  const of = record.holeCount ?? record.pars?.length ?? Math.max(0, ...(record.holes || []).map(h => h.n), ...byHole.keys());
   return {
-    strokes, toPar: strokes - par, played: holes.length, of: record.holeCount ?? holes.length,
-    putts: withPutts.length ? withPutts.reduce((s, h) => s + h.putts, 0) : null,
+    strokes, toPar: strokes === null || par === null ? null : strokes - par, played: holes.length, of,
+    scoreLabel: scoredHolesText(holes.length, of, picked), putts: coverage.total,
+    puttsLabel: puttCoverageLabel(coverage),
     fairways: fairways.length ? `${fairways.filter(h => h.fairway === 'hit').length}/${fairways.length}` : null,
-    greens: withPutts.length ? `${greens.length}/${withPutts.length}` : null,
-    points: record.totals?.points ?? null,
+    greens: girHoles.length ? `${greens.length}/${girHoles.length}` : null,
+    points: holes.length || picked ? record.totals?.points ?? null : null,
+    logged: own.length, byHole, clubs: new Set(own.map(s => s.club)).size,
+    measured: measured.length, longest: measured.length ? Math.round(Math.max(...measured.map(shotLength))) : null,
   };
 }
 
-export async function drawRoundCard(record, { poster = null, document: doc = globalThis.document } = {}) {
+export async function drawRoundCard(record, { poster = null, shots = [], document: doc = globalThis.document } = {}) {
   const canvas = doc.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext('2d');
   try { await Promise.all([doc.fonts?.load('800 64px Outfit'), doc.fonts?.load('600 32px Outfit'), doc.fonts?.load('600 32px "JetBrains Mono"')]); } catch { /* the system's sans */ }
-  const facts = roundCardFacts(record);
+  const facts = roundCardFacts(record, shots);
+  const shotsOnly = facts.strokes === null && facts.logged > 0;
 
   /* the course in its poster, darkened toward the card */
   ctx.fillStyle = '#05100b';
@@ -103,17 +118,20 @@ export async function drawRoundCard(record, { poster = null, document: doc = glo
 
   /* the headline: strokes and the score against par */
   ctx.font = '800 220px Outfit, system-ui, sans-serif';
-  ctx.fillText(String(facts.strokes), 64, 870);
-  const strokesWidth = ctx.measureText(String(facts.strokes)).width;
+  const strokesText = String(shotsOnly ? facts.logged : facts.strokes ?? '–');
+  ctx.fillText(strokesText, 64, 870);
+  const strokesWidth = ctx.measureText(strokesText).width;
   ctx.font = '700 84px Outfit, system-ui, sans-serif';
   ctx.fillStyle = facts.toPar < 0 ? '#8fbcf2' : facts.toPar > 0 ? '#ffb48a' : DIM;
-  ctx.fillText(toParText(facts.toPar), 64 + strokesWidth + 30, 870);
+  if (facts.toPar !== null) ctx.fillText(toParText(facts.toPar), 64 + strokesWidth + 30, 870);
   ctx.fillStyle = DIM;
   ctx.font = '500 32px Outfit, system-ui, sans-serif';
-  ctx.fillText(`${facts.played === facts.of ? `${facts.of} hål` : `${facts.played} av ${facts.of} hål`}${facts.points !== null ? ` · ${facts.points} poäng` : ''}`, 72, 930);
+  const headline = shotsOnly ? `${facts.logged === 1 ? 'Loggat slag' : 'Loggade slag'} · ${facts.scoreLabel}` : facts.scoreLabel;
+  ctx.fillText(`${headline}${facts.points !== null ? ` · ${facts.points} poäng` : ''}`, 72, 930, W - 144);
 
   /* three readings */
-  const readings = [['Puttar', facts.putts ?? '–'], ['Fairway', facts.fairways ?? '–'], ['Greener', facts.greens ?? '–']];
+  const readings = shotsOnly ? [['Uppmätta slag', facts.measured], ['Längsta GPS-slag', facts.longest === null ? '–' : `${facts.longest} m`], ['Klubbor', facts.clubs]]
+    : [[facts.puttsLabel, facts.putts ?? '–'], ['Fairway', facts.fairways ?? '–'], ['Greener', facts.greens ?? '–']];
   readings.forEach(([label, value], i) => {
     const x = 72 + i * 320;
     ctx.fillStyle = 'rgba(95,208,122,0.55)';
@@ -123,13 +141,13 @@ export async function drawRoundCard(record, { poster = null, document: doc = glo
     ctx.fillText(String(value), x + 24, 1040);
     ctx.fillStyle = FAINT;
     ctx.font = '700 22px Outfit, system-ui, sans-serif';
-    ctx.fillText(label.toUpperCase(), x + 24, 1074);
+    ctx.fillText(label.toUpperCase(), x + 24, 1074, 285);
   });
 
   /* the card, nine by nine */
   const byNumber = new Map((record.holes || []).map(h => [h.n, h]));
-  const pars = record.pars || (record.holes || []).map(h => h.par);
-  const nines = pars.length > 9 ? [[1, 9], [10, Math.min(18, pars.length)]] : [[1, pars.length]];
+  const nines = facts.of > 9 ? [[1, 9], [10, Math.min(18, facts.of)]] : [[1, facts.of]];
+  if (shotsOnly) ctx.fillText('LOGGADE SLAG PER HÅL', 72, 1103);
   const top = 1110, rowH = nines.length > 1 ? 104 : 140;
   roundedRect(ctx, 48, top, W - 96, rowH * nines.length + 24, 28);
   ctx.fillStyle = PANEL;
@@ -145,15 +163,22 @@ export async function drawRoundCard(record, { poster = null, document: doc = glo
       ctx.font = '600 22px Outfit, system-ui, sans-serif';
       ctx.fillText(String(n), cx, y + 22);
       const hole = byNumber.get(n);
+      if (shotsOnly) {
+        ctx.font = '700 34px Outfit, system-ui, sans-serif';
+        ctx.fillStyle = INK;
+        ctx.fillText(String(facts.byHole.get(n) ?? '–'), cx, y + 70);
+        continue;
+      }
       if (!hole || hole.picked || !Number.isFinite(hole.strokes)) {
         ctx.fillStyle = FAINT;
         ctx.font = '700 34px Outfit, system-ui, sans-serif';
         ctx.fillText('–', cx, y + 70);
         continue;
       }
-      const kind = kindOf(hole.strokes, hole.par);
+      const par = hole.par ?? record.pars?.[n - 1];
+      const kind = Number.isFinite(par) ? kindOf(hole.strokes, par) : null;
       const r = 25;
-      if (kind.key !== 'par') {
+      if (kind && kind.key !== 'par') {
         ctx.fillStyle = kind.colour;
         if (kind.key === 'better' || kind.key === 'birdie') { ctx.beginPath(); ctx.arc(cx, y + 58, r, 0, Math.PI * 2); ctx.fill(); }
         else { roundedRect(ctx, cx - r, y + 58 - r, r * 2, r * 2, 6); ctx.fill(); }
@@ -175,8 +200,8 @@ export async function drawRoundCard(record, { poster = null, document: doc = glo
 }
 
 /* Share the picture where the device can, else save it; the words go with it. */
-export async function shareRoundCard(record, { poster = null, text = '' } = {}) {
-  const blob = await drawRoundCard(record, { poster });
+export async function shareRoundCard(record, { poster = null, text = '', shots = [] } = {}) {
+  const blob = await drawRoundCard(record, { poster, shots });
   if (!blob) return 'failed';
   const name = `banvy-${(record.courseName || record.course || 'runda').toLowerCase().replace(/[^a-z0-9åäö]+/g, '-')}-${record.date || ''}.png`;
   const file = new globalThis.File([blob], name, { type: 'image/png' });

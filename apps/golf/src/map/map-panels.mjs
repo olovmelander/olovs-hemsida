@@ -3,7 +3,8 @@
 
    Numbers are told in words wherever a bar or a line draws them, so nothing depends on
    seeing the drawing, and every drawing has one colour and no legend to learn. */
-import { LEAST_SHOTS } from './map-shots.mjs';
+import { LEAST_SHOTS, shotReviewText } from './map-shots.mjs';
+import { puttCoverage, puttCoverageLabel, scoredHolesText } from './map-score.mjs';
 
 const node = (tag, className, text) => {
   const made = document.createElement(tag);
@@ -70,17 +71,20 @@ function fullCard(record) {
 }
 
 export function renderRound(element, { record, summary, clubName, onHole = null }) {
-  const { totals, kinds, clubs, longest, bestHole, missing, penalties, logged } = summary;
+  const { totals, kinds, clubs, longest, bestHole, penalties, logged } = summary;
+  const coverage = puttCoverage(record.holes);
+  const picked = record.holes.filter(hole => hole.picked).length;
   const parts = [];
   const hero = node('div', 'map-hero');
   hero.append(node('b', '', totals.strokes ? String(totals.strokes) : '–'));
   const heroWords = node('span');
-  heroWords.append(node('strong', '', totals.strokes ? toParText(totals.toPar) : ''), node('small', '', [totals.points === null ? null : `${totals.points} poäng`, missing ? `${summary.played} av ${summary.of} hål` : `${summary.of} hål`].filter(Boolean).join(' · ')));
+  const points = Number.isFinite(totals.points) && (coverage.holes || picked) ? `${totals.points} poäng` : null;
+  heroWords.append(node('strong', '', totals.strokes ? toParText(totals.toPar) : ''), node('small', '', [scoredHolesText(coverage.holes, summary.of, picked), points].filter(Boolean).join(' · ')));
   hero.append(heroWords);
   parts.push(hero, node('p', 'map-round-when', [dateText(record.date), record.tee ? `tee ${record.tee}` : null].filter(Boolean).join(' · ')));
   const tiles = node('div', 'map-tiles');
   tiles.append(
-    tile(totals.greensTried ? String(totals.putts) : '–', 'Puttar'),
+    tile(String(coverage.total ?? '–'), puttCoverageLabel(coverage)),
     tile(totals.fairwaysTried ? `${totals.fairways}/${totals.fairwaysTried}` : '–', 'Fairway'),
     tile(totals.greensTried ? `${totals.greens}/${totals.greensTried}` : '–', 'GIR'),
   );
@@ -110,7 +114,13 @@ export function renderRound(element, { record, summary, clubName, onHole = null 
     parts.push(heading('Slag för slag'));
     const list = node('ul', 'map-facts map-facts-long');
     const said = shot => (shot.out ? `${clubName(shot.club)} omslag` : shot.metres === null ? clubName(shot.club) : `${clubName(shot.club)} ${Math.round(shot.metres)}${shot.suspect ? '?' : ''}`);
-    list.append(...summary.byHole.map(({ n, shots, putts }) => factRow(`Hål ${n}`, [...shots.map(said), putts ? `${putts} putt` : null].filter(Boolean).join(' · '))));
+    for (const { n, shots, putts } of summary.byHole) {
+      list.append(factRow(`Hål ${n}`, [...shots.map(said), Number.isFinite(putts) ? `${putts} ${putts === 1 ? 'putt' : 'puttar'}` : null].filter(Boolean).join(' · ')));
+      shots.forEach((shot, index) => {
+        const review = shot.recordedShot && shotReviewText(shot.recordedShot, clubName);
+        if (review) list.append(factRow(`Slag ${index + 1}`, review));
+      });
+    }
     parts.push(list);
   }
   element.replaceChildren(...parts);
@@ -196,9 +206,9 @@ export function renderRounds(element, { rounds, trend, onOpen }) {
     const tiles = node('div', 'map-tiles');
     const compared = (earlier, words) => (earlier ? `${words}, före ${earlier}` : words);
     tiles.append(
-      tile(toParText(recent.toPar), compared(before && toParText(before.toPar), 'Mot par')),
-      tile(recent.putts === null ? '–' : number(recent.putts * 18, 0), compared(before?.putts && number(before.putts * 18, 0), 'Puttar')),
-      tile(recent.greens === null ? '–' : percent(recent.greens), compared(before?.greens && percent(before.greens), 'GIR')),
+      tile(toParText(recent.toPar), compared(before && toParText(before.toPar), 'Mot par per 18 hål')),
+      tile(recent.putts === null ? '–' : number(recent.putts), compared(Number.isFinite(before?.putts) && number(before.putts), 'Puttar per fört hål')),
+      tile(recent.greens === null ? '–' : percent(recent.greens), compared(Number.isFinite(before?.greens) && percent(before.greens), 'GIR')),
     );
     parts.push(heading(`Senaste ${recent.rounds === 1 ? 'rundan' : `${recent.rounds} rundorna`}`), tiles);
     if (line.length >= LEAST_LINE_ROUNDS) {
@@ -215,7 +225,7 @@ export function renderRounds(element, { rounds, trend, onOpen }) {
     const score = node('span', 'map-round-score');
     score.append(node('b', '', record.totals.strokes ? String(record.totals.strokes) : '–'), node('small', '', record.totals.strokes ? toParText(record.totals.toPar) : ''));
     button.append(title, score);
-    button.setAttribute('aria-label', `${record.courseName}, ${dateText(record.date)}, ${record.totals.strokes} slag`);
+    button.setAttribute('aria-label', `${record.courseName}, ${dateText(record.date)}, ${record.totals.strokes ? `${record.totals.strokes} slag` : 'inga hål med score'}`);
     button.onclick = () => onOpen(record);
     item.append(button);
     return item;

@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { DEFAULT_BAG } from '../engine/caddie.js';
 import { closeHole, lockShot } from '../map/map-shots.mjs';
 import { keepRound, roundRecord } from '../map/map-rounds.mjs';
-import { applyMeasuredBag, exampleData, inkOn, insights, kindOf, perEighteen, playerStats, SCORE_KINDS, selectRounds } from './stats-model.mjs';
+import { bestScorecard, exampleData, inkOn, insights, kindOf, perEighteen, playerStats, SCORE_KINDS, selectRounds } from './stats-model.mjs';
 
 const DAY = 86400000;
 const NOW = Date.parse('2026-11-07T12:00:00Z');
@@ -118,9 +118,68 @@ describe('the clubs', () => {
     expect(Math.round(driver.stat.typical)).toBeGreaterThanOrEqual(221);
     expect(stat.clubs.find(c => c.id === 'putter').putter).toBe(true);
     expect(stat.longest.club).toBe('Driver');
-    const updated = applyMeasuredBag(DEFAULT_BAG, [{ id: 'driver', measuredCarry: 228 }]);
-    expect(updated.find(c => c.id === 'driver').carry).toBe(228);
-    expect(updated.find(c => c.id === 'putter').carry).toBe(0);
+    expect(driver.carry).toBe(DEFAULT_BAG.find(club => club.id === 'driver').carry);
+    expect(driver.carry).not.toBe(driver.stat.typical);
+    expect(stat).not.toHaveProperty('bagUpdates');
+  });
+});
+
+describe('scored holes and GPS sessions in the same history', () => {
+  const fullCourse = course('test', Array(18).fill(4));
+  const recorded = (id, count, bogeys, putts) => played(fullCourse, id, `2026-11-0${id}`,
+    Array.from({ length: count }, (_, i) => [i < bogeys ? 5 : 4, putts[i] ?? null]));
+  const shot = (id, metres, date, slug = 'test') => ({ round: id, course: slug, hole: 1, club: 'iron-7',
+    from: [0, 0], to: [metres, 0], at: Date.parse(date), fromAccuracy: 3, toAccuracy: 4, outcome: 'played' });
+  it('uses the same normalized best and keeps partial and zero putts distinct', () => {
+    const rounds = [recorded(1, 18, 7, []), recorded(2, 9, 4, [2]), recorded(3, 1, 0, [0])];
+    const stat = playerStats({ rounds });
+    expect(stat.courses[0].best).toBe(stat.best);
+    expect(bestScorecard(rounds).id).toBe(stat.best.id);
+    expect(stat.best).toMatchObject({ id: 1, holes: 18, strokes: 79, perEighteen: 7 });
+    expect(stat.trend.map(row => row.putts)).toEqual([
+      { total: null, recorded: 0, holes: 18 }, { total: 2, recorded: 1, holes: 9 }, { total: 0, recorded: 1, holes: 1 },
+    ]);
+  });
+  it('uses the archived par list and withholds par comparisons when a legacy score has no par', () => {
+    const recovered = recorded(1, 9, 1, [2]);
+    for (const h of recovered.holes) delete h.par;
+    const sparse = { ...recovered, id: 2, pars: null };
+    const stat = playerStats({ rounds: [recovered, sparse], filter: { course: 'test' } });
+    expect(stat.trend.map(row => [row.strokes, row.toPar])).toEqual([[37, 1], [37, null]]);
+    expect(stat.greens.tried).toBe(1);
+    expect(stat.putts.holes).toBe(2);
+    expect(stat.average).toBe(2);
+    expect(stat.courses[0].average).toBe(2);
+    expect(stat.courses[0].best.id).toBe(1);
+  });
+  it('keeps archived scoreless sessions and unarchived shots in their course and date filters', () => {
+    const rounds = [recorded(1, 9, 1, []), recorded(2, 0, 0, [])];
+    const shots = [shot(1, 125, '2024-05-01'), shot(2, 130, '2026-11-02'), shot(3, 143, '2026-11-03'),
+      shot(4, 150, '2026-01-01'), shot(5, 180, '2026-11-05', 'guest')];
+    const data = { rounds, shots, courses: [{slug: 'guest', name: 'Gästbanan'}], now: NOW };
+    const stat = playerStats({ ...data, filter: { course: 'test', period: '90' } });
+    expect(stat.rounds).toBe(1);
+    expect(stat.history.map(s => s.record.id)).toEqual([1, 2]);
+    expect(stat.shotsMeasured).toBe(3);
+    expect(stat.history[1].shots).toHaveLength(1);
+    const guest = playerStats({ ...data, filter: { course: 'guest' } });
+    expect(guest.shotsMeasured).toBe(1);
+    expect(guest.rounds).toBe(0);
+    expect(guest.playedCourses).toContainEqual({ slug: 'guest', name: 'Gästbanan' });
+    expect(guest.longest.course).toBe('Gästbanan');
+    expect(guest.courses[0]).toMatchObject({name: 'Gästbanan', rounds: 0, shots: 1, best: null});
+    expect(guest.average).toBeNull();
+  });
+  it('takes the last five sessions once and keeps unscored penalties out of score-based rates', () => {
+    const rounds = [recorded(1, 9, 1, []), recorded(2, 9, 1, [])];
+    const shots = Array.from({length: 7}, (_, i) => ({...shot(i + 1, 140, `2026-11-0${i + 1}`), penalty: 1}));
+    const all = playerStats({ rounds, shots });
+    expect(all.penalties).toBe(7);
+    expect(all.strokeCosts.penalties).toEqual({ total: 2, holes: 2, perEighteen: 18 });
+    const latest = playerStats({ rounds, shots, filter: { period: 'last5' } });
+    expect(latest.shotsMeasured).toBe(5);
+    expect(latest.rounds).toBe(0);
+    expect(latest.strokeCosts.penalties.perEighteen).toBeNull();
   });
 });
 
