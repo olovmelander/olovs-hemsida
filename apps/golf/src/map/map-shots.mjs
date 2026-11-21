@@ -91,14 +91,23 @@ export function setPutts(shots, hole, count, matches = () => true) {
   return [...shots.filter(shot => !putt(shot)), ...Array.from({ length: count }, () => ({ ...first, outcome: 'ended', to: null }))];
 }
 
-/* A penalty taken where the ball is, as from water: on the shot that went there. */
-export function addPenalty(shots) {
+/* A penalty taken where the ball is, as from water: on the shot that went there,
+   or a specific stroke when adjusted later. */
+export function addPenalty(shots, target = null, delta = 1) {
+  const apply = index => {
+    const next = Math.max(0, shots[index].penalty + delta);
+    if (next === shots[index].penalty) return shots;
+    const list = shots.slice();
+    list[index] = { ...shots[index], penalty: next, inHazard: next > 0 };
+    return list;
+  };
+  if (target) {
+    const index = shots.indexOf(target);
+    if (index < 0 || isPutt(target) || target.outcome === 'out') return shots;
+    return apply(index);
+  }
   for (let k = shots.length - 2; k >= 0; k--) {
-    if (shots[k].outcome === 'played') {
-      const list = shots.slice();
-      list[k] = { ...shots[k], penalty: shots[k].penalty + 1, inHazard: true };
-      return list;
-    }
+    if (shots[k].outcome === 'played') return apply(k);
   }
   return shots;
 }

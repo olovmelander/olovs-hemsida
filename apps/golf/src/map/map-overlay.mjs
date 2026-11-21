@@ -16,6 +16,20 @@ function along(line, step) {
   return out;
 }
 
+/* Aim along the chosen target when set; otherwise toward a dogleg bend still ahead
+   of the ball, or straight at the green centre. */
+export function clubAimPoint(origin, hole, target = null) {
+  if (target) return target;
+  const green = hole.green.c;
+  const toGreen = Math.hypot(green[0] - origin[0], green[1] - origin[1]);
+  for (const bend of (hole.line ?? []).slice(1, -1)) {
+    const bendToGreen = Math.hypot(green[0] - bend[0], green[1] - bend[1]);
+    const originToBend = Math.hypot(bend[0] - origin[0], bend[1] - origin[1]);
+    if (toGreen > bendToGreen + 25 && originToBend > 35) return bend;
+  }
+  return green;
+}
+
 export function createOverlay(canvas) {
   const ctx = canvas.getContext('2d');
   let width = 1, height = 1, ratio = 1, emphasis = 1;
@@ -54,7 +68,7 @@ export function createOverlay(canvas) {
     },
 
     draw(scene) {
-      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true, atEye = false, safe = null } = scene;
+      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true, clubArc = null, atEye = false, safe = null } = scene;
       /* In the sun's look the lines and numbers are drawn heavier. */
       emphasis = scene.emphasis ?? 1;
       /* The column's side: a label stays clear of it. */
@@ -164,6 +178,36 @@ export function createOverlay(canvas) {
           ctx.setLineDash([]);
           const end = at(arc[labelAt][0], arc[labelAt][1]);
           if (inside(end)) arcLabels.push({ x: end.x, y: end.y, metres });
+        }
+
+        /* Selected club's landing arc and learned dispersion band along the aim line. */
+        if (clubArc && !atEye && clubArc.carry > 0) {
+          const aim = clubAimPoint(origin, hole, target);
+          const aimBearing = Math.atan2(aim[0] - origin[0], -(aim[1] - origin[1]));
+          const half = Math.min(0.24, Math.max(0.08, 16 / clubArc.carry));
+          const span = radius => {
+            const arc = [];
+            for (let k = -6; k <= 6; k++) {
+              const a = aimBearing + (k / 6) * half;
+              arc.push([origin[0] + Math.sin(a) * radius, origin[1] - Math.cos(a) * radius]);
+            }
+            return arc;
+          };
+          if (clubArc.shortest > 0 && clubArc.reach > clubArc.shortest + 2) {
+            const outer = span(clubArc.reach), inner = span(clubArc.shortest).reverse();
+            const poly = [...outer, ...inner].map(([x, z]) => at(x, z));
+            if (poly.every(p => Number.isFinite(p.x))) {
+              ctx.beginPath();
+              poly.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
+              ctx.closePath();
+              ctx.fillStyle = `rgba(255,210,63,${emphasis > 1 ? 0.2 : 0.13})`;
+              ctx.fill();
+              ctx.strokeStyle = `rgba(255,210,63,${emphasis > 1 ? 0.5 : 0.34})`;
+              ctx.lineWidth = 1 * emphasis;
+              ctx.stroke();
+            }
+          }
+          cased(span(clubArc.carry), '#ffd23f', 2, [], 0.38);
         }
 
         /* The greengrid's rings round the cup, each a metre further. */

@@ -90,6 +90,21 @@ describe('the awkward shots', () => {
     expect(holeTally(list, 1).penalties).toBe(1);
     expect(holeTally(list, 1).strokes).toBe(3);
     expect(clubStats(list).get('iron-7')).toBeUndefined();
+    const first = lock([], driver, [0, 0]);
+    const penalized = addPenalty(first, first[0]);
+    expect(penalized[0].penalty).toBe(1);
+    expect(penalized[0].inHazard).toBe(true);
+    const cleared = addPenalty(penalized, penalized[0], -1);
+    expect(cleared[0].penalty).toBe(0);
+    expect(cleared[0].inHazard).toBe(false);
+  });
+
+  it('records zero putts cleanly when a hole is chipped in', () => {
+    let list = lock([], seven, [0, 0]);
+    list = lock(list, putter, [0, 145]);
+    list = setPutts(list, 1, 0);
+    expect(holeTally(list, 1)).toMatchObject({ strokes: 1, putts: 0 });
+    expect(openShot(list)).toBeNull();
   });
 
   it('counts putts as strokes and never as lengths', () => {

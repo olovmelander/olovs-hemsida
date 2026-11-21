@@ -266,6 +266,20 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 /* A rough fix: its accuracy where "från dig" stood, in amber. A compact column, which
    has no room for the line, keeps the amber GPS button. */
 .map-green small.is-rough { color: var(--rough); font-weight: 700; }
+.map-green-plays {
+  display: block;
+  margin: 3px 5px 0;
+  padding: 2px 4px;
+  border-radius: 999px;
+  background: var(--fill);
+  color: var(--ink);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.map-green-plays[hidden], .map-green.is-on .map-green-plays { display: none; }
 
 .map-bottom {
   position: absolute;
@@ -642,9 +656,14 @@ button.map-shot::after { content: ''; justify-self: center; width: 7px; height: 
 button.map-shot[aria-expanded="true"]::after { margin-top: 3px; transform: rotate(-135deg); }
 .map-shot i { color: var(--ink-soft); font-size: 13px; font-style: normal; font-variant-numeric: tabular-nums; }
 .map-shot b { font-size: 17px; font-variant-numeric: tabular-nums; }
-.map-shot-clubs { padding: 2px 0 12px; }
+.map-shot-name { font-style: normal; }
+.map-shot-penalty { color: var(--over); font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+.map-shot-penalty[hidden] { display: none; }
+.map-shot-clubs { padding: 2px 0 8px; }
+.map-shot-penalties { padding: 0 0 12px; }
 .map-shots-hint { margin: 4px 0 0; color: var(--ink-soft); font-size: 13px; }
 .map-shots-hint[hidden] { display: none; }
+.map-shots-penalty { width: 100%; margin-top: 8px; }
 .map-clubs { display: grid; gap: 8px; margin: 8px 0 0; padding: 0; list-style: none; }
 .map-clubs li { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 2px 8px; font-size: 15px; }
 .map-clubs b { font-size: 18px; font-variant-numeric: tabular-nums; text-align: right; }
@@ -902,6 +921,7 @@ a.map-row-next { text-decoration: none; }
 .is-sun .map-green b { font-size: 27px; font-weight: 700; }
 .is-sun .map-green-mid b { font-size: 42px; font-weight: 800; }
 .is-sun .map-green i, .is-sun .map-green small { font-size: 12px; font-weight: 600; }
+.is-sun .map-green-plays { margin: 3px 4px 0; font-size: 11px; font-weight: 800; }
 .is-sun .map-wheel-row b { font-size: 16.5px; font-weight: 700; }
 .is-sun .map-wheel-row[aria-selected="true"] b { font-size: 18px; font-weight: 800; }
 .is-sun .map-wheel-row small { font-size: 13px; font-weight: 600; }
@@ -945,6 +965,7 @@ a.map-row-next { text-decoration: none; }
 .is-compact .map-green { padding: 3px 0; }
 .is-compact .map-green-row { padding: 1px 0; }
 .is-compact .map-green small { display: none; }
+.is-compact .map-green-plays { margin: 2px 4px 0; padding: 1px 4px; font-size: 10px; }
 .is-compact .map-green b { font-size: 21px; }
 .is-compact .map-green-mid b { font-size: 32px; }
 .is-sun.is-compact .map-green b { font-size: 24px; }

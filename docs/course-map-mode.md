@@ -30,14 +30,13 @@ them; swiping between holes is Caddee's on the watch, and the fairway and green 
 are Golf i Sverige's and GameBook's. What they do not have, as far as their listings
 say, is the green in 3D with its fall drawn on it.
 
-- **Always on screen:** the hole in the header, the three distances, the wind, a compact
-  3-row club wheel, the slim smoothed elevation strip, the current view pill, and the
+- **Always on screen:** the hole in the header, the three distances (plus a compact plays-like pill when slope or wind moves the middle yardage by at least two metres), the wind, a compact
+  3-row club wheel whose chosen club draws its landing arc (and learned spread corridor once five shots are recorded) along the hole, the slim smoothed elevation strip, the current view pill, and the
   four bottom buttons GPS, Hålet, Score and Meny. Score shows how the round stands
-  (`Score +2`). Yellow is what is chosen, green what is on or locked. On the green or in
-  Min vy the elevation strip steps aside and the numbers say "På green".
+  (`Score +2`). Yellow is what is chosen, green what is on or locked. On the green the elevation strip steps aside and the numbers say "På green"; in Min vy the strip steps aside while the plays-like number stays with the yardages.
 - **Header.** ‹ and › or a sideways swipe change hole. A tap opens Hålet.
 - **Hålet:** the hole's tip, up to five hazards ahead in words with their side, reach and
-  carry, and every hole a tap away.
+  carry, the hole's recorded shots (each expandable to fix the club or add/remove penalties, plus a persistent Plikt +1 button), and every hole a tap away.
 - **The distances are a button.** A tap opens the green close to, along the line it is
   played, under the simulator's own Greengrid (owner request, 4 November): the 1 m
   wireframe in its heat colours, pulses gliding down the fall line in contour-tier
@@ -70,7 +69,7 @@ say, is the green in 3D with its fall drawn on it.
 - **Score** is a row of keys around par, a row of putts and, on a par 4 or 5, the
   fairway. Green in regulation follows from the strokes and putts. When a player moves
   on to the next hole mid-round with none entered, the map asks for the one left behind
-  above the strip, in one tap, and lets it go after 40 s.
+  above the strip, in one tap (and putts `0–4`, including chip-ins), and lets it go after 40 s.
 - **Meny** groups settings and links under three tabs — Spel (Tee, Mina rundor, Mina
   klubbor, Statistik), Karta (Visning, Ljus with Nu, Hinderavstånd, Avståndscirklar,
   Höjdkurvor and Höjdskala) and Bana (saving offline, test-round log, Detaljerad 3D and
