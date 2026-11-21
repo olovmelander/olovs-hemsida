@@ -77,7 +77,7 @@ export const farSpacing = away => (away < FAR_RING_BANDS.middleMetres ? FAR_RING
    cover under the tiles gives the stems a closed wood carries. */
 export function createFarSample({ templates, spacing = 8 }) {
   const samples = new Float32Array(FAR_FOREST.samples * 3);
-  const tiles = [];
+  const tiles = [], sampled = new WeakSet();
   let count = 0, tallest = 0, stemArea = null, read = 0, stems = 0, cover = 0;
   return {
     get count() { return count; },
@@ -102,7 +102,8 @@ export function createFarSample({ templates, spacing = 8 }) {
     },
     add(node, trees) {
       const n = trees ? trees.length / TREE_FLOATS : 0;
-      if (!n) return;
+      if (!n || sampled.has(node)) return;
+      sampled.add(node);
       tiles.push({ node, n });
       /* Each tile's list is shuffled, so its first trees are a fair sample of it. */
       for (let k = 0; k < Math.min(n, FAR_FOREST.perTile) && count < FAR_FOREST.samples; k++) {

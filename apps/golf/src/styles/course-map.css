@@ -31,6 +31,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   --side-width: 76px;
   position: fixed;
   inset: 0;
+  height: 100dvh;
   overflow: hidden;
   background: #cfe0ea;
   color: var(--ink);
@@ -989,13 +990,52 @@ a.map-row-next { text-decoration: none; }
 .is-sun.is-compact .map-green:not(.is-on) .map-green-mid b { font-size: 36px; }
 .is-compact .map-wind { min-height: 40px; padding: 3px 4px; }
 .is-stripless .map-profile { display: none; }
-/* What a player reads while turning the wheel stands beside it on cramped heights. */
-.is-tight .map-reading, .is-tight .map-locked:not(.map-same) { margin-right: calc(var(--side-width) + 8px); }
-.is-tight .map-wheel { --rows: 1; }
-.is-tight .map-shot-main em { font-size: 16px; }
-@media (max-width: 340px) {
-  .is-tight.is-large .map-shot-actions { grid-auto-flow: row; }
+/* Keep the distance, club and an action together. The explanation can use the
+   whole dock even when a long club name or large text adds another line. */
+.is-tight .map-reading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2px 7px;
 }
+.is-tight .map-reading[hidden] { display: none; }
+.is-tight .map-reading-text { display: contents; }
+.is-tight .map-shot-context { grid-column: 1; grid-row: 1; }
+.is-tight .map-shot-main { grid-column: 1; grid-row: 2; }
+.is-tight .map-reading [data-shot-detail], .is-tight .map-walked-shot { grid-column: 1 / -1; line-height: 1.2; }
+.is-tight .map-walked-shot { margin: 0; }
+.is-tight .map-shot-actions { grid-column: 2; grid-row: 1 / 3; width: 91px; }
+.is-tight .map-shot-actions:has(button:not([hidden]) ~ button:not([hidden])) {
+  grid-column: 1 / -1;
+  grid-row: auto;
+  grid-auto-flow: column;
+  width: auto;
+}
+.is-tight .map-reading:has(.map-shot-actions button:not([hidden]) ~ button:not([hidden])) :is(.map-shot-context, .map-shot-main) {
+  grid-column: 1 / -1;
+}
+.is-tight .map-locked:not(.map-same) { margin-right: calc(var(--side-width) + 8px); }
+.is-tight .map-wheel { --rows: 1; }
+.is-inline-green .map-green:not(.is-on) .map-green-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 2px; padding: 1px 4px;
+}
+.is-inline-green .map-green:not(.is-on) i { letter-spacing: 0; }
+/* If the measured card still reaches the rail, the green readings and the club
+   controls share its upper corner; the centre and bottom remain available. */
+.is-split-rail .map-side {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas: "green wind" "green wheel" "green log";
+  align-items: start;
+  width: calc(2 * var(--side-width) + 4px);
+}
+.is-split-rail.is-left .map-side { grid-template-areas: "wind green" "wheel green" "log green"; }
+.is-split-rail .map-green { grid-area: green; }
+.is-split-rail .map-wind { grid-area: wind; }
+.is-split-rail .map-wheel { grid-area: wheel; }
+.is-split-rail .map-log-shot { grid-area: log; }
+.is-tight .map-shot-main em { min-width: 0; font-size: 16px; overflow-wrap: anywhere; }
+.is-tight [data-shot-detail] { overflow-wrap: anywhere; }
 .is-tight .map-locked:not(.map-same) { flex-wrap: wrap; padding: 6px; }
 .is-tight .map-locked:not(.map-same) b { flex: 1 0 100%; padding: 2px 6px; white-space: normal; }
 .is-tight .map-locked:not(.map-same) button { flex: 1; }
@@ -1003,7 +1043,7 @@ a.map-row-next { text-decoration: none; }
 .is-left .map-side { right: auto; left: calc(env(safe-area-inset-left, 0px) + 10px); }
 .is-left .map-float { left: auto; right: 0; flex-direction: row-reverse; }
 .is-left .map-view-menu { left: auto; right: 0; }
-.is-left.is-tight .map-reading, .is-left.is-tight .map-locked:not(.map-same) { margin-right: 0; margin-left: calc(var(--side-width) + 8px); }
+.is-left.is-tight .map-locked:not(.map-same) { margin-right: 0; margin-left: calc(var(--side-width) + 8px); }
 .is-left .map-status { left: calc(env(safe-area-inset-left, 0px) + var(--side-width) + 18px); right: calc(env(safe-area-inset-right, 0px) + 10px); }
 @media (orientation: landscape) and (max-height: 520px) {
   .is-left .map-wheel, .is-left .map-log-shot { left: auto; right: calc(env(safe-area-inset-right, 0px) + 10px); }

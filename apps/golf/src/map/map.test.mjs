@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { parseChunkEnvelope } from '../../../../packages/course-v2/chunk.mjs';
 import { decodeStandField } from '../../../../packages/course-v2/stand-field.mjs';
 import { nearestHole } from '../engine/caddie.js';
@@ -23,7 +23,8 @@ import { createTeeWatch, nextHole, TEE_DWELL_MS } from './map-follow.mjs';
 import { buildGreenGrid, GRID_VERTEX_FLOATS, PULSE_FLOATS, slopeAt, slopeColor } from './map-greengrid.mjs';
 import { landRecord, outlineOverLand } from './map-land.mjs';
 import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT } from './map-height.mjs';
-import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, shareTrees, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
+import { createTileStore } from './map-tiles.mjs';
+import { boxInFrustum, buildTileTree, forestInView, frustumPlanes, PATCH_GRIDS, selectPatches, shareTrees, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
 import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, sideOfPlay, principalBearing, reachableHazards, smoothProfile, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
 import { canopyAlpha, catalogueFor, createTreeRules, plantTile, SPECIES_RULES, speciesCount, TREE_FLOATS } from './map-trees.mjs';
 import { createFarBlocker, createFarSample, FAR_FOREST, farForestCells, farSpacing, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
@@ -173,6 +174,63 @@ describe('sharing out the trees', () => {
     expect(shared.reduce((sum, tile) => sum + tile.count, 0)).toBeLessThanOrEqual(5000);
   });
 
+  it('protects all active-hole crowns when nearer scenery has spent the detail budget', () => {
+    const sources = [{ count: 2500, reach: 0 }, { count: 1400, reach: 1700, foreground: true }];
+    const result = shareTrees(sources, 1000, 1800);
+    expect(result.map(tile => tile.count)).toEqual([1000, 1400]);
+    expect(result.map(tile => tile.detailed)).toEqual([1000, 0]);
+    expect(shareTrees([sources[1]], 2000, 1800)[0]).toMatchObject({ count: 1400, detailed: 1400 });
+  });
+
+  it('keeps a crown that enters the frame above or beside a hidden ground tile', () => {
+    const node = { x0: 0, z0: 0, size: 100, minY: 0, maxY: 4, crownHeight: 16, crownRadius: 5 };
+    const planes = [[1, 0, 0, -103], [0, 1, 0, -21]];
+    expect(boxInFrustum(planes, 0, 0, 0, 100, 8, 100)).toBe(false);
+    expect(forestInView(node, planes, 2)).toBe(true);
+    expect(forestInView({ ...node, crownHeight: 10 }, planes, 2)).toBe(false);
+  });
+
+  it('streams an objects-only wood over coarse terrain, upgrades it once and recovers a queued context loss', async () => {
+    const course = courseFor('norrfallsviken');
+    const tiles = course.ground.tiles.filter(tile => course.holes[17].tileIds.includes(tile.id) && tile.layers.objects);
+    const leaf = tiles.sort((a, b) => b.layers.objects.bytes - a.layers.objects.bytes)[0];
+    const coarse = course.ground.tiles.find(tile => tile.id === leaf.parentId);
+    const ground = { ...course.ground, tiles: [{ ...coarse, parentId: null }, { ...leaf, layers: { ...leaf.layers, stands: null } }] };
+    const renderer = {
+      uploadTile(node) { node.gpu = {}; },
+      uploadForest: vi.fn(trees => ({ count: trees.length / TREE_FLOATS })),
+      releaseForest: vi.fn(),
+    };
+    const store = createTileStore({ ground, baseHref: 'https://banvy.invalid/', rules: createTreeRules(course),
+      painter: { paint() {} }, renderer, onChange() {} });
+    const node = store.nodes.get(leaf.id);
+    const view = { planes: [], eye: [node.x0, 100, node.z0], reach: 1000, exaggeration: 1, holeTiles: [node.id] };
+    vi.stubGlobal('fetch', async url => new Response(await fs.promises.readFile(path.join(PUBLIC, new URL(url).pathname))));
+    async function ready(tile) {
+      store.prefetch([tile]);
+      await vi.waitFor(() => { store.drainUploads(); expect(store.isReady(tile)).toBe(true); });
+    }
+    try {
+      await ready(store.root);
+      store.forest(view);
+      await vi.waitFor(() => expect(node.forest).toBe('queued'));
+      store.forgetGpu();
+      await ready(store.root);
+      store.forest(view);
+      await vi.waitFor(() => { store.drainUploads(); expect(store.forest(view)).toHaveLength(1); });
+      const original = node.forestGpu;
+      expect(original.count).toBeGreaterThan(0);
+      expect(node.gpu).toBeNull();
+      await ready(node);
+      expect(renderer.releaseForest).toHaveBeenCalledExactlyOnceWith(original);
+      expect(node.forestGpu.count).toBe(original.count);
+      // The store supplies the upgraded trees even if only the coarse parent
+      // is drawn, and supplies exactly one source when the leaf is drawn.
+      expect(store.forest(view)).toEqual([{ node, reach: expect.any(Number), foreground: true }]);
+      expect(renderer.uploadForest).toHaveBeenCalledTimes(2);
+    } finally { store.dispose(); vi.unstubAllGlobals(); }
+  });
+
   it('stays within the budget, however near everything is', () => {
     const shared = shareTrees(tiles(50, 100), 3000, 3000);
     expect(shared.reduce((sum, tile) => sum + tile.count, 0)).toBeLessThanOrEqual(3000);
@@ -261,6 +319,16 @@ describe('the wood past the 1 m tiles', () => {
       expect(height * 20).toBeGreaterThanOrEqual(10 - 1e-3);
     });
     expect(Array.from(plant())).toEqual(Array.from(trees));
+  });
+
+  it('samples a measured tile once even after a terrain upgrade or context restoration', () => {
+    const sample = createFarSample({ templates });
+    const node = { x0: 0, z0: 0, size: 256 };
+    sample.add(node, measured(100));
+    const before = sample.count;
+    sample.add(node, measured(100));
+    expect(before).toBeGreaterThan(0);
+    expect(sample.count).toBe(before);
   });
 
   it("thins with distance from the measured trees, as the simulator's far ring does", () => {

@@ -36,3 +36,6 @@ for journey in hub-journeys stats-history play-session map-round map-offline-fir
   node "tools/check-$journey.mjs" "$origin/"
   echo '::endgroup::'
 done
+echo '::group::Pinned shot card on a short phone screen'
+node tools/check-map-hud.mjs --manual-card --url "$origin/" --quality 3
+echo '::endgroup::'

@@ -120,25 +120,36 @@ function selectOnce(view, texelPixels) {
   return { patches, wanted, visited };
 }
 
-/* Coarse before fine: a missing parent costs more of the picture than a
-   missing child, and a tile's children are only reachable through it. */
-/* How many of each tile's trees to draw. The nearest are all there; past them a wood
-   thins evenly as the budget runs out, and thins a little with distance anyway, so a
-   wide view keeps every wood instead of drawing the near ones and none of the rest.
-   Each tile's list is shuffled, so a thinner wood is the same wood with fewer trees. */
+/* A foreground tile is part of the active hole's published metre footprint.
+   Its entire wood stands at the same positions at every zoom. The budget
+   limits expensive blended impostors and shadows. Distant scenery can thin
+   its deterministic, spatially shuffled prefix. */
 const ALL_TREES_WITHIN_METRES = 400;
 export function shareTrees(sources, budget, reach) {
-  const wants = sources.map(source => source.count * (1 - Math.min(1, Math.max(0, source.reach / reach)) * 0.55));
+  const wants = sources.map(source => source.foreground ? source.count :
+    source.count * (1 - Math.min(1, Math.max(0, source.reach / reach)) * 0.55));
   let left = budget, wanting = wants.reduce((sum, want) => sum + want, 0);
   return sources.map((source, k) => {
     const ratio = source.reach < ALL_TREES_WITHIN_METRES ? 1 : Math.min(1, left / Math.max(wanting, 1));
-    const count = Math.min(Math.round(wants[k] * ratio), left);
+    const detailed = Math.min(Math.round(wants[k] * ratio), left);
     wanting -= wants[k];
-    left -= count;
-    return { ...source, count };
+    left -= detailed;
+    return { ...source, detailed, count: source.foreground ? source.count : detailed };
   }).filter(source => source.count > 0);
 }
 
+/* Before a tree buffer arrives, allow for crowns above and just outside a
+   tile's terrain. Afterwards the bounds are the actual planted dimensions.
+   Terrain exaggeration moves the root, while the crown keeps its true size. */
+export function forestInView(node, planes, exaggeration) {
+  const radius = node.crownRadius ?? 24;
+  const top = node.crownHeight ?? 64;
+  return boxInFrustum(planes, node.x0 - radius, node.minY * exaggeration, node.z0 - radius,
+    node.x0 + node.size + radius, node.maxY * exaggeration + top, node.z0 + node.size + radius);
+}
+
+/* Coarse before fine: a missing parent costs more of the picture than a
+   missing child, and the children are only reachable through it. */
 const loadOrder = (a, b) => b.node.lod - a.node.lod || a.distance - b.distance;
 
 export function selectPatches({

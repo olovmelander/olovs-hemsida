@@ -7,6 +7,7 @@
  *
  * pnpm --filter @banvy/golf build && node tools/serve.mjs apps/golf/dist 8620
  * node tools/check-map-hud.mjs [--url http://localhost:8620/] [--phone se3] [--setting left-large] [--concurrency 1] [--quality 3] [--label hud]
+ * Pass --manual-card to run only the portrait browser-height and pinned-target regression.
  *
  * Build at the root path: check-basepath leaves a build the map cannot boot from here.
  * Fails on a real clash. A question over the wheel, or a passing note over a mark on the
@@ -14,6 +15,7 @@
  * tools/goldens/map/<label>/ (ignored). */
 import fs from 'node:fs';
 import path from 'node:path';
+import assert from 'node:assert/strict';
 import { chromium } from 'playwright-core';
 import { browserArgs, browserExecutable } from './browser-args.mjs';
 
@@ -133,6 +135,99 @@ const write = () => {
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(rows, null, 1));
   return rows;
 };
+
+// Expanding a phone's browser bars shrinks the map even without a rotation.
+// Puttom's first yellow tee is 309 m from the middle of the green; a tap just
+// beside it gives a real out-of-range shot, remaining distance and a reset action.
+async function checkManualCard() {
+  const context = await browser.newContext({ viewport: { width: 360, height: 608 },
+    hasTouch: true, isMobile: true, reducedMotion: 'reduce' });
+  try {
+    await context.addInitScript(() => localStorage.setItem('banvy-map-hint-v1', '1'));
+    const page = await context.newPage();
+    const url = new URL(pageUrl);
+    url.searchParams.set('bana', 'puttom');
+    url.searchParams.set('hal', '1');
+    url.searchParams.set('runda', 'visa');
+    await page.goto(url.href, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => globalThis.V3DMap?.state.guidance?.target &&
+      !V3DMap.state.flight && !V3DMap.state.opening, null, { timeout: 180000 });
+    const tap = await page.evaluate(() => {
+      const { course, camera, state, heightAt } = V3DMap;
+      const [x, z] = course.holes[0].green.c;
+      const green = camera.project(x, heightAt(x, z) * state.exaggeration, z);
+      return { x: Math.round(green.x) - 30, y: Math.round(green.y) + 5 };
+    });
+    assert.ok(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.matches('.map-marks'), tap),
+      'there is exposed terrain beside the green');
+    await page.touchscreen.tap(tap.x, tap.y);
+    await page.waitForFunction(() => V3DMap.state.guidance?.mode === 'manual' && !V3DMap.state.guidance.reachable);
+    const pinned = await page.evaluate(() => V3DMap.state.guidance.target);
+    const card = page.locator('[data-reading]');
+    const auto = card.getByRole('button', { name: 'Automatiskt mål' });
+    for (const [width, height, changeClub] of [[360, 608], [320, 568], [320, 568, true], [390, 844], [360, 608]]) {
+      await page.setViewportSize({ width, height });
+      await page.waitForFunction(([w, h]) => V3DMap.camera.state.width === w && V3DMap.camera.state.height === h, [width, height]);
+      if (changeClub) {
+        await page.locator('[data-wheel-list]').press('ArrowDown');
+        await card.getByRole('button', { name: 'Föreslagen klubba' }).waitFor();
+      }
+      const layout = await card.evaluate(el => {
+        const rect = el.getBoundingClientRect();
+        const dock = document.querySelector('.map-tools').getBoundingClientRect();
+        const profile = document.querySelector('[data-profile]').getBoundingClientRect();
+        const primary = el.querySelector('.map-shot-main').getBoundingClientRect();
+        const actions = [...el.querySelectorAll('button:not([hidden])')].map(button => button.getBoundingClientRect());
+        const fields = ['[data-shot-title]', '[data-shot-source]', '[data-shot-distance]', '[data-shot-club]', '[data-shot-detail]'];
+        const unreadable = fields.filter(selector => {
+          const node = el.querySelector(selector), range = document.createRange();
+          range.selectNodeContents(node);
+          const boxes = [...range.getClientRects()];
+          return !node.innerText.trim() || getComputedStyle(node).visibility !== 'visible' || !boxes.length ||
+            boxes.some(box => box.left < rect.left - 1 || box.right > rect.right + 1 || box.top < rect.top - 1 || box.bottom > rect.bottom + 1 ||
+              actions.some(action => box.left < action.right && box.right > action.left && box.top < action.bottom && box.bottom > action.top));
+        });
+        const controls = document.querySelectorAll('.map-shot-actions button:not([hidden]), [data-wheel-list], [data-wheel-lock], [data-view-toggle], .map-tools button');
+        const covered = [...controls].filter(button => {
+          const box = button.getBoundingClientRect();
+          return Math.min(box.width, box.height) < 40 || !button.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
+        }).map(button => button.getAttribute('aria-label') || button.innerText);
+        const overlaps = ['.map-green', '.map-wind', '.map-wheel', '[data-wheel-lock]', '[data-view-toggle]', '[data-profile]', '.map-tools']
+          .filter(selector => {
+            const box = document.querySelector(selector).getBoundingClientRect();
+            return Math.min(rect.right, box.right) - Math.max(rect.left, box.left) > 1 &&
+              Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top) > 1;
+          });
+        return { width: rect.width, height: rect.height, dockWidth: dock.width, profileHeight: profile.height,
+          inlineAction: actions.length === 1 && actions[0].top < primary.bottom,
+          inset: Math.max(Math.abs(rect.left - dock.left), Math.abs(rect.right - dock.right)), unreadable, covered, overlaps };
+      });
+      const label = `${width}×${height}`;
+      assert.ok(layout.inset <= 1, `${label}: pinned card spans ${layout.width}px of the ${layout.dockWidth}px dock`);
+      assert.deepEqual(layout.unreadable, [], label + ': manual reading fields fit inside their card');
+      assert.deepEqual(layout.overlaps, [], label + ': card clears the rail, controls and elevation profile');
+      assert.deepEqual(layout.covered, [], label + ': all controls are touch-sized and their centres accept touch');
+      if (width === 360) assert.ok(layout.inlineAction, 'Automatiskt mål fits beside the main shot reading at the browser-bar height');
+      assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pinned, label + ': resize keeps the chosen point');
+      const detail = await card.locator('[data-shot-detail]').innerText();
+      assert.match(detail, /\d+ m kvar/);
+      assert.match(detail, /Utanför räckvidd/);
+      if (changeClub) {
+        assert.match(detail, /Förslag:/);
+        await card.getByRole('button', { name: 'Föreslagen klubba' }).tap();
+      }
+      if (height === 844) assert.ok(layout.profileHeight > 0, 'the full-height phone retains its elevation profile');
+      console.log(`${label}: out-of-range manual card ${Math.round(layout.width)}×${Math.round(layout.height)}px`);
+    }
+    await page.locator('[data-view-toggle]').tap();
+    await page.locator('[data-view="above"]').tap();
+    await page.waitForFunction(() => V3DMap.state.view === 'above' && !V3DMap.state.flight);
+    assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pinned, 'changing the camera keeps the manual point');
+    await auto.tap();
+    await page.waitForFunction(() => V3DMap.state.guidance?.mode === 'auto' && V3DMap.state.guidance.target);
+    assert.ok(!await auto.isVisible(), 'Automatiskt mål returns to automatic guidance');
+  } finally { await context.close(); }
+}
 let finished = 0;
 pending = jobs.slice();
 const runOne = async ([[phone, width, height, top, bottom], [setting, display]]) => {
@@ -349,7 +444,9 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
       console.log('done', ++finished, 'of', jobs.length, phone, setting, 'new issues', Object.values(report).reduce((sum, value) => sum + value.count, 0) - before);
 };
 try {
-  await Promise.all(Array.from({ length: CONCURRENT }, async () => { while (jobs.length > finished + 0 && pending.length) await runOne(pending.shift()); }));
+  const manualOnly = args.includes('--manual-card');
+  if (manualOnly || (!only && !onlySetting)) await checkManualCard();
+  if (!manualOnly) await Promise.all(Array.from({ length: CONCURRENT }, async () => { while (jobs.length > finished + 0 && pending.length) await runOne(pending.shift()); }));
 } finally { await browser.close(); }
 const rows = write();
 for (const row of rows) console.log(String(row.count).padStart(4), row.example.slice(0, 80), '|', row.where.slice(0, 3).join(' '));

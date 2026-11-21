@@ -213,10 +213,11 @@ which pull in three.js. The three species rules the map needs are copied into
   has not reached, plants them on the coarser ground in memory, and keeps them for the
   visit (`store.forest`). Tiles outside a saved course's holes are not saved, so offline a
   wood there stays painted.
-- **Trees stand about as far as the air lets the ground be seen** (owner request,
-  8 November: the woods ended a kilometre or two out). That is twelve times the camera's
-  distance, at most 12 km, and 9 km from Min vy; they thin evenly when the budget of
-  40,000 runs short (`shareTrees`). Past the reach the painted canopy takes over.
+- **The active hole keeps its trees.** The map uses the hole's published ground tiles
+  to keep its measured trees visible when zooming out. Tree buffers survive changes
+  in terrain detail. Beyond the hole, the forest thins with distance and the painted
+  canopy takes over. At full quality its reach is twelve times the camera distance,
+  up to 12 km, or 9 km from Min vy.
   `?treereach=before` is the old 2.4 times, 6 km and 3 km with the old budgets, and no
   far wood.
 - **The far wood** (`map-far-forest.mjs`). The 1 m tiles' stands stop at a 4 km square
@@ -233,9 +234,10 @@ which pull in three.js. The three species rules the map needs are copied into
   the main thread; a picture written otherwise leaves the canopy painted.
   `?farforest=0` is the before.
 - **A tree is two triangles.** The 3 or 5 species' atlases are about 175 KB each.
-- **A slow device steps itself down** (`QUALITY_STEPS`): far trees first, then
-  sharpness. Each step draws fewer trees and stands them less far (40,000 at full reach,
-  then 20,000 at 60%, 6,000 at 40% and 3,000 at 25%). The step is remembered.
+- **A slow device steps itself down** (`QUALITY_STEPS`). The budget for detailed
+  trees and shadows falls from 40,000 at full reach to 20,000 at 60%, 6,000 at 40%
+  and 3,000 at 25%. Additional trees on the active hole use a single atlas view
+  and keep their measured positions. The step is remembered.
   `?mapquality=0..3` pins one. Proven on slowed frames on this GPU, where it fell
   through all three steps.
 
@@ -392,7 +394,9 @@ height strip on a 390 x 844 iPhone, the most common size there is. So nothing as
 height any more (`fitLayout` in `map-session.js`, on every resize and display change):
 
 - The 3-row club wheel uses a tighter column (`is-compact`) when space is limited.
-  The elevation strip gives way on extremely short screens. The shot card shows the
+  The shot card spans the bottom toolbar on short portrait screens. Its action sits
+  beside the distance and club, with room for the full reading below. The elevation
+  strip gives way when the rail and card need the space. The shot card shows the
   previous club and the distance walked from the stroke in both orientations.
 - Only one contextual bottom card (`prompt`, `same`, `locked` note, or distance reading)
   appears above the bottom bar at a time; when a question or same-spot prompt opens, the
