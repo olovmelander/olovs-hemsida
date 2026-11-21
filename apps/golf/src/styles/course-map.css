@@ -1021,6 +1021,7 @@ a.map-row-next { text-decoration: none; }
    card can wrap, so the walking distance sits one line group higher. */
 .is-compact:has([data-reading]:not([hidden]) [data-reading-close]:not([hidden])) .map-wheel-hint { display: none; }
 .is-compact.is-stripless .map-wheel-hint { transform: translateY(-100%); }
+.is-compact.is-stripless:has(.map-green.is-on) .map-wheel-hint { transform: none; }
 
 /* ---- the wheel by the other hand ---- */
 .is-left .map-side { right: auto; left: calc(env(safe-area-inset-left, 0px) + 10px); }
