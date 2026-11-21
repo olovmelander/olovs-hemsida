@@ -11,6 +11,7 @@ import { isPhone } from '../shell/map-default.mjs';
 import { distanceText } from '../shell/nearest-course.mjs';
 import { detailedUrl, hubUrl, playUrl, reliveUrl } from '../shell/router.js';
 import { MODES, rememberLaunch } from '../shell/settings-store.mjs';
+import { initCloud, notifyLocalChange } from '../shell/cloud.mjs';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
 import { createCamera, createFlight, EYE_FOV_DEGREES, MAX_DISTANCE, MAX_EYE_FOV_DEGREES, MAX_TILT, MIN_DISTANCE, MIN_EYE_FOV_DEGREES, MIN_TILT } from './map-camera.mjs';
 import { loadMapCourse } from './map-course.mjs';
@@ -1572,6 +1573,7 @@ async function start() {
   const keepRecord = record => {
     rounds = keepRound(rounds, record);
     remember(ROUNDS_KEY, storeRounds(rounds));
+    notifyLocalChange('round', { course: record.course, id: record.id });
     return record;
   };
   let round = parseRound(savedText(roundKey, null)) ?? newRound();
@@ -1783,6 +1785,7 @@ async function start() {
   const setHandicap = value => {
     round.handicap = clamp(value, MIN_HANDICAP, MAX_HANDICAP);
     remember(HANDICAP_KEY, String(round.handicap));
+    notifyLocalChange('handicap');
     saveRound();
     refreshScore();
   };
@@ -1868,6 +1871,7 @@ async function start() {
     remember(ROUNDS_KEY, storeRounds(rounds));
     shots = dropRoundShots(shots, record);
     remember(SHOTS_KEY, storeHistory(shots));
+    notifyLocalChange('round-deleted', { course: record.course, id: record.id });
     undoPoint = null;
     relearnBag();
     diary.add('round-dropped');
@@ -1979,9 +1983,11 @@ async function start() {
   const saveShots = () => {
     clubHistoryStats = clubStats(shots);
     remember(SHOTS_KEY, storeHistory(shots));
+    notifyLocalChange('shots', { course: course.slug, id: round.id });
     saveRound();
     refreshTrail();
   };
+  initCloud();
   /* One step back, whatever the last step was. */
   let undoPoint = null;
   const markUndo = () => { undoPoint = { shots, scores: JSON.stringify(round.scores) }; };

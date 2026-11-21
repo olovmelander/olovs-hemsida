@@ -36,7 +36,19 @@ export default defineConfig(({ mode }) => {
   return {
   cacheDir: golferLab ? 'node_modules/.vite-golfer' : 'node_modules/.vite',
   define: { __COURSE_SOURCE_REVISION__: JSON.stringify(SOURCE_REVISION), __GOLFER_LAB__: JSON.stringify(golferLab) },
-  server: { host: '0.0.0.0', port: golferLab ? 5180 : 5173, strictPort: true, allowedHosts: ['terminal.local'] },
+  server: {
+    host: '0.0.0.0',
+    port: golferLab ? 5180 : 5173,
+    strictPort: true,
+    allowedHosts: ['terminal.local'],
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8787',
+        changeOrigin: false,
+        xfwd: true,
+      },
+    },
+  },
   /* The v2 decode Worker is a module worker, so its bundle must be ESM: an
      IIFE build cannot carry the entry's own imports. */
   worker: { format: 'es' },
@@ -138,6 +150,8 @@ export default defineConfig(({ mode }) => {
            /olovs-hemsida/courses/... and an anchored pattern silently
            never matches, which would quietly disable offline packs */
         navigateFallbackDenylist: [
+          /\/api\//,
+          /\/(?:integritet|villkor)\.html$/,
           /\/courses\//,
           /\/v2\//,
           /* The published v2 graph puts ground assets outside /courses/, and a

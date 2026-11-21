@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "banvy",
+  "account_id": "e86f8ff8b61fa4ffcdc59d992e0710a2",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "../golf/dist",
+    "binding": "ASSETS",
+    // Only /api/* hits the Worker script. All 3D course packs, chunks, models
+    // and _headers rules are served directly from Cloudflare's static asset CDN.
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "banvy-db",
+      "database_id": "ea785d9f-7456-4599-9fbd-7e65363c610d",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

@@ -26,6 +26,8 @@ tools/.lint-app-config.mjs
 tools/reference/
 apps/golf/.pwa-profile/
 .env
+**/.dev.vars
+**/.wrangler/
 
 # git worktrees the agent harness creates here (a whole second checkout, 578 MB)
 .claude/worktrees/

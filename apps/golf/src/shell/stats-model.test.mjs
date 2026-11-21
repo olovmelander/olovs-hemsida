@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { DEFAULT_BAG } from '../engine/caddie.js';
 import { closeHole, lockShot } from '../map/map-shots.mjs';
 import { keepRound, roundRecord } from '../map/map-rounds.mjs';
-import { exampleData, inkOn, insights, kindOf, perEighteen, playerStats, SCORE_KINDS, selectRounds } from './stats-model.mjs';
+import { applyMeasuredBag, exampleData, inkOn, insights, kindOf, perEighteen, playerStats, SCORE_KINDS, selectRounds } from './stats-model.mjs';
 
 const DAY = 86400000;
 const NOW = Date.parse('2026-11-07T12:00:00Z');
@@ -24,6 +24,8 @@ describe('the rounds in view', () => {
   it('narrows by period and course, oldest first', () => {
     expect(selectRounds([b, a, other], { now: NOW }).map(r => r.id)).toEqual([1, 3, 2]);
     expect(selectRounds([b, a, other], { period: '90', now: NOW }).map(r => r.id)).toEqual([3, 2]);
+    expect(selectRounds([b, a, other], { period: 'season', now: NOW }).map(r => r.id)).toEqual([1, 3, 2]);
+    expect(selectRounds([b, a, other], { period: 'last5', now: NOW }).map(r => r.id)).toEqual([1, 3, 2]);
     expect(selectRounds([b, a, other], { course: 'nian', now: NOW }).map(r => r.id)).toEqual([1, 2]);
   });
   it('scales a nine to 18 holes, and leaves a struck hole out', () => {
@@ -51,13 +53,25 @@ describe('what the rounds add up to', () => {
 
   it('reads fairways, greens and putts as the map\'s card does', () => {
     /* the par 4s and 5s: round 1 hit left right hit right hit hit, round 2 hit right right hit right hit hit */
-    expect(stat.fairways).toEqual({ hit: 8, left: 1, right: 5, tried: 14 });
+    expect(stat.fairways).toMatchObject({ hit: 8, left: 1, right: 5, tried: 14 });
+    expect(stat.fairways.scoring.hit).toBeCloseTo(1 / 8);
+    expect(stat.fairways.scoring.right).toBeCloseTo(7 / 5);
+    expect(stat.fairways.scoring.gain).toBeGreaterThan(0);
     expect(stat.putts.total).toBe(35);
     expect(stat.putts.one).toBe(3);
     expect(stat.putts.three).toBe(2);
+    expect(stat.putts.onGir).not.toBeNull();
+    expect(stat.putts.missedGir).not.toBeNull();
     /* green in regulation: strokes - putts <= par - 2 */
     expect(stat.greens.tried).toBe(18);
     expect(stat.greens.hit).toBe(rounds.flatMap(r => r.holes).filter(h => h.strokes - h.putts <= h.par - 2).length);
+    expect(stat.greens.scrambling.opportunities).toBe(18 - stat.greens.hit);
+    expect(stat.greens.scrambling.saved).toBeGreaterThanOrEqual(1);
+    expect(stat.strokeCosts.doubles.holes).toBe(2);
+    expect(stat.strokeCosts.doubles.extra).toBe(2);
+    expect(stat.strokeCosts.threePutts.extra).toBe(2);
+    expect(stat.latest.row.id).toBe(2);
+    expect(stat.trend[1].rolling).toBeCloseTo((stat.trend[0].perEighteen + stat.trend[1].perEighteen) / 2);
   });
 
   it('averages each par type against its par', () => {
@@ -104,6 +118,9 @@ describe('the clubs', () => {
     expect(Math.round(driver.stat.typical)).toBeGreaterThanOrEqual(221);
     expect(stat.clubs.find(c => c.id === 'putter').putter).toBe(true);
     expect(stat.longest.club).toBe('Driver');
+    const updated = applyMeasuredBag(DEFAULT_BAG, [{ id: 'driver', measuredCarry: 228 }]);
+    expect(updated.find(c => c.id === 'driver').carry).toBe(228);
+    expect(updated.find(c => c.id === 'putter').carry).toBe(0);
   });
 });
 

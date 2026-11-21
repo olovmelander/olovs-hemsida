@@ -1,0 +1,23 @@
+# Copy to apps/worker/.dev.vars (gitignored) for local `wrangler dev`.
+# In production, NEVER put secrets in wrangler.jsonc — use `wrangler secret put`.
+
+# Random 32+ character secret used by Better Auth to sign session cookies.
+# Generate one with: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+BETTER_AUTH_SECRET="replace-with-a-random-32-byte-hex-secret"
+
+# Origin where the user accesses the app locally (Vite dev server proxies /api to :8787).
+# If accessing wrangler directly without Vite, use http://127.0.0.1:8787.
+BETTER_AUTH_URL="http://localhost:5173"
+
+# Google OAuth 2.0 credentials from https://console.cloud.google.com/apis/credentials
+# Authorized redirect URIs to add in Google Cloud Console:
+#   http://localhost:5173/api/auth/callback/google
+#   http://127.0.0.1:8787/api/auth/callback/google
+#   https://<your-cloudflare-domain>/api/auth/callback/google
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+
+# Optional: enables a localhost-only test golfer sign-in button so you can test
+# D1 round/shot/bag/handicap sync before setting up Google OAuth credentials.
+# NEVER set this in Cloudflare production secrets.
+ALLOW_DEV_AUTH="true"

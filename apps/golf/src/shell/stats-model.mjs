@@ -18,10 +18,13 @@ const FULL = 18;
 export const RECENT_ROUNDS = 5;
 /* A gap in the bag worth a word: as the bag editor's own notes (ui/bag-editor.mjs). */
 const WIDE_GAP_METRES = 25, NARROW_GAP_METRES = 5;
+/* Smallest carry drift worth offering to update in Min bag. */
+const BAG_DRIFT_METRES = 3;
 
 export const PERIODS = Object.freeze([
   { key: 'all', label: 'Allt', days: null },
-  { key: 'year', label: '12 mån', days: 365 },
+  { key: 'season', label: 'I år', season: true },
+  { key: 'last5', label: 'Senaste 5', count: 5 },
   { key: '90', label: '90 dagar', days: 90 },
 ]);
 
@@ -72,15 +75,35 @@ export function perEighteen(record) {
 
 /* The rounds a view is about, oldest first. */
 export function selectRounds(rounds, { period = 'all', course = 'all', now = Date.now() } = {}) {
-  const days = PERIODS.find(p => p.key === period)?.days ?? null;
-  return rounds
+  const spec = PERIODS.find(p => p.key === period) || PERIODS[0];
+  const currentYear = new Date(now).getUTCFullYear();
+  let list = rounds
     .filter(record => playedHoles(record).length > 0)
     .filter(record => course === 'all' || record.course === course)
-    .filter(record => days === null || now - roundTime(record) <= days * DAY_MS)
+    .filter(record => {
+      if (spec.season) return new Date(roundTime(record)).getUTCFullYear() === currentYear;
+      if (spec.days !== null && spec.days !== undefined) return now - roundTime(record) <= spec.days * DAY_MS;
+      return true;
+    })
     .sort((a, b) => roundTime(a) - roundTime(b) || (a.endedAt ?? 0) - (b.endedAt ?? 0));
+  if (spec.count) list = list.slice(-spec.count);
+  return list;
 }
 
 const roundKey = (course, id) => `${course}|${id}`;
+
+function sliceMetrics(records) {
+  const holes = records.flatMap(playedHoles);
+  const fw = holes.filter(h => h.par >= 4 && h.fairway);
+  const pt = holes.filter(h => Number.isFinite(h.putts));
+  const pts = records.map(r => r.totals?.points).filter(Number.isFinite);
+  return {
+    fairways: fw.length >= 6 ? fw.filter(h => h.fairway === 'hit').length / fw.length : null,
+    greens: pt.length >= 9 ? pt.filter(h => hitGreen(h, h.par)).length / pt.length : null,
+    putts: pt.length >= 9 ? mean(pt.map(h => h.putts)) : null,
+    points: pts.length ? mean(pts) : null,
+  };
+}
 
 /* Everything the page shows, for one filter. */
 export function playerStats({ rounds = [], shots = [], bag = [], filter = {}, now = Date.now() } = {}) {
@@ -92,38 +115,116 @@ export function playerStats({ rounds = [], shots = [], bag = [], filter = {}, no
   const own = narrowed ? shots.filter(shot => keys.has(roundKey(shot.course, shot.round))) : shots;
   const holes = list.flatMap(record => playedHoles(record).map(hole => ({ ...hole, record })));
 
-  const trend = list.map(record => {
+  const trend = list.map((record, index) => {
     const played = playedHoles(record);
     return {
       id: record.id, course: record.course, courseName: record.courseName, date: record.date, at: roundTime(record),
       strokes: sum(played.map(hole => hole.strokes)), toPar: sum(played.map(hole => hole.strokes - hole.par)),
       perEighteen: perEighteen(record), holes: played.length, of: record.holeCount ?? played.length,
       points: record.totals?.points ?? null, putts: sum(played.map(hole => hole.putts ?? 0)),
+      rolling: null, rollingPoints: null, index,
     };
   });
+  /* Trailing 5-round moving average so noisy rounds show a clear direction. */
+  for (let i = 0; i < trend.length; i++) {
+    const window = trend.slice(Math.max(0, i - RECENT_ROUNDS + 1), i + 1);
+    const vals = window.map(row => row.perEighteen).filter(Number.isFinite);
+    const pts = window.map(row => row.points).filter(Number.isFinite);
+    trend[i].rolling = mean(vals);
+    trend[i].rollingPoints = mean(pts);
+  }
+
   const averages = trend.map(row => row.perEighteen).filter(Number.isFinite);
   const recent = averages.slice(-RECENT_ROUNDS), before = averages.slice(0, -RECENT_ROUNDS);
+
+  /* Recent-5 vs earlier deltas for each KPI tile. */
+  let tileDeltas = { fairways: null, greens: null, putts: null, points: null };
+  if (list.length > RECENT_ROUNDS) {
+    const recM = sliceMetrics(list.slice(-RECENT_ROUNDS));
+    const befM = sliceMetrics(list.slice(0, -RECENT_ROUNDS));
+    const diff = (a, b) => (a !== null && b !== null ? a - b : null);
+    tileDeltas = {
+      fairways: diff(recM.fairways, befM.fairways),
+      greens: diff(recM.greens, befM.greens),
+      putts: diff(recM.putts, befM.putts),
+      points: diff(recM.points, befM.points),
+    };
+  }
 
   /* the best round is a real one: at least nine holes played */
   const full = trend.filter(row => row.holes >= 9);
   const best = full.reduce((top, row) => (!top || row.perEighteen < top.perEighteen ? row : top), null);
 
+  /* --------------------------------------------------- tee / greens / putts */
   const fairwayHoles = holes.filter(hole => hole.par >= 4 && hole.fairway);
+  const fwHit = fairwayHoles.filter(hole => hole.fairway === 'hit');
+  const fwLeft = fairwayHoles.filter(hole => hole.fairway === 'left');
+  const fwRight = fairwayHoles.filter(hole => hole.fairway === 'right');
+  const fwMiss = fairwayHoles.filter(hole => hole.fairway !== 'hit');
+  const fwHitToPar = mean(fwHit.map(h => h.strokes - h.par));
+  const fwMissToPar = mean(fwMiss.map(h => h.strokes - h.par));
   const fairways = {
-    hit: fairwayHoles.filter(hole => hole.fairway === 'hit').length,
-    left: fairwayHoles.filter(hole => hole.fairway === 'left').length,
-    right: fairwayHoles.filter(hole => hole.fairway === 'right').length,
+    hit: fwHit.length,
+    left: fwLeft.length,
+    right: fwRight.length,
     tried: fairwayHoles.length,
+    scoring: {
+      hit: fwHitToPar,
+      left: mean(fwLeft.map(h => h.strokes - h.par)),
+      right: mean(fwRight.map(h => h.strokes - h.par)),
+      miss: fwMissToPar,
+      gain: fwHitToPar !== null && fwMissToPar !== null ? fwMissToPar - fwHitToPar : null,
+    },
   };
+
   const puttHoles = holes.filter(hole => Number.isFinite(hole.putts));
-  const greens = { hit: puttHoles.filter(hole => hitGreen(hole, hole.par)).length, tried: puttHoles.length };
+  const girHoles = puttHoles.filter(hole => hitGreen(hole, hole.par));
+  const missedGirHoles = puttHoles.filter(hole => !hitGreen(hole, hole.par));
+  const scrambleSaves = missedGirHoles.filter(hole => hole.strokes <= hole.par).length;
+  const greens = {
+    hit: girHoles.length,
+    tried: puttHoles.length,
+    scrambling: {
+      saved: scrambleSaves,
+      opportunities: missedGirHoles.length,
+      rate: share(scrambleSaves, missedGirHoles.length),
+    },
+  };
   const putts = {
     total: sum(puttHoles.map(hole => hole.putts)),
     holes: puttHoles.length,
     perGreen: mean(puttHoles.map(hole => hole.putts)),
+    onGir: mean(girHoles.map(hole => hole.putts)),
+    onGirHoles: girHoles.length,
+    missedGir: mean(missedGirHoles.map(hole => hole.putts)),
+    missedGirHoles: missedGirHoles.length,
     one: puttHoles.filter(hole => hole.putts <= 1).length,
     two: puttHoles.filter(hole => hole.putts === 2).length,
     three: puttHoles.filter(hole => hole.putts >= 3).length,
+  };
+
+  /* --------------------------------------------------- stroke-cost levers */
+  const roundFactor = holes.length ? FULL / holes.length : 0;
+  const puttFactor = puttHoles.length ? FULL / puttHoles.length : 0;
+  const penalties = sum(own.map(shot => shot.penalty || 0));
+  const doubleHoles = holes.filter(h => h.strokes - h.par >= 2);
+  const doubleExtra = sum(doubleHoles.map(h => (h.strokes - h.par) - 1));
+  const threePuttExtra = sum(puttHoles.map(h => Math.max(0, h.putts - 2)));
+  const strokeCosts = {
+    doubles: {
+      holes: doubleHoles.length,
+      extra: doubleExtra,
+      perEighteen: holes.length ? doubleExtra * roundFactor : null,
+    },
+    threePutts: {
+      holes: putts.three,
+      extra: threePuttExtra,
+      perEighteen: puttHoles.length ? threePuttExtra * puttFactor : null,
+    },
+    penalties: {
+      total: penalties,
+      perEighteen: holes.length ? penalties * roundFactor : null,
+    },
   };
 
   const distribution = SCORE_KINDS.map(kind => ({ key: kind.key, label: kind.label, short: kind.short, colour: kind.colour,
@@ -134,6 +235,30 @@ export function playerStats({ rounds = [], shots = [], bag = [], filter = {}, no
   });
   const points = trend.map(row => row.points).filter(Number.isFinite);
 
+  /* ------------------------------------------------------------- latest */
+  let latest = null;
+  if (list.length) {
+    const record = list.at(-1);
+    const row = trend.at(-1);
+    const lh = playedHoles(record);
+    const lfw = lh.filter(h => h.par >= 4 && h.fairway);
+    const lpt = lh.filter(h => Number.isFinite(h.putts));
+    const lgir = lpt.filter(h => hitGreen(h, h.par));
+    const lPuttsPerGreen = mean(lpt.map(h => h.putts));
+    latest = {
+      record,
+      row,
+      vsAverage: row.perEighteen !== null && mean(averages) !== null ? row.perEighteen - mean(averages) : null,
+      fairwayRate: share(lfw.filter(h => h.fairway === 'hit').length, lfw.length),
+      girRate: share(lgir.length, lpt.length),
+      puttsPerGreen: lPuttsPerGreen,
+      puttsDiff: lPuttsPerGreen !== null && putts.perGreen !== null ? (lPuttsPerGreen - putts.perGreen) * FULL : null,
+      birdies: lh.filter(h => h.strokes - h.par <= -1).length,
+      pars: lh.filter(h => h.strokes === h.par).length,
+      doubles: lh.filter(h => h.strokes - h.par >= 2).length,
+    };
+  }
+
   /* ------------------------------------------------------------- clubs */
   const stats = clubStats(own);
   const inBag = new Set(bag.map(club => club.id));
@@ -142,6 +267,18 @@ export function playerStats({ rounds = [], shots = [], bag = [], filter = {}, no
     /* a club taken out of the bag keeps the lengths it was struck to */
     ...[...stats.keys()].filter(id => !inBag.has(id)).map(id => ({ id, name: id, carry: null, putter: false, stat: stats.get(id) })),
   ];
+  const bagUpdates = clubs
+    .filter(c => !c.putter && c.stat?.known && c.carry > 0 && inBag.has(c.id))
+    .map(c => ({
+      id: c.id,
+      name: c.name,
+      currentCarry: c.carry,
+      measuredCarry: Math.round(c.stat.typical),
+      diff: Math.round(c.stat.typical) - c.carry,
+      shots: c.stat.shots,
+    }))
+    .filter(u => Math.abs(u.diff) >= BAG_DRIFT_METRES);
+
   const measured = own.filter(isMeasured);
   const longestShot = measured.reduce((top, shot) => (!top || shotLength(shot) > shotLength(top) ? shot : top), null);
   const nameOf = id => clubs.find(club => club.id === id)?.name ?? id;
@@ -178,16 +315,23 @@ export function playerStats({ rounds = [], shots = [], bag = [], filter = {}, no
     rounds: list.length, holes: holes.length, strokes: sum(holes.map(hole => hole.strokes)),
     average: mean(averages), recent: mean(recent), before: before.length ? mean(before) : null,
     delta: before.length && recent.length ? mean(recent) - mean(before) : null,
+    tileDeltas, latest, strokeCosts,
     best, trend, fairways, greens, putts, distribution, byPar,
     points: points.length ? mean(points) : null,
-    penalties: sum(own.map(shot => shot.penalty || 0)),
+    penalties,
     shotsLogged: own.filter(shot => !isPutt(shot)).length, shotsMeasured: measured.length,
-    clubs, gaps, longest: longestShot ? { club: nameOf(longestShot.club), metres: shotLength(longestShot),
+    clubs, bagUpdates, gaps, longest: longestShot ? { club: nameOf(longestShot.club), metres: shotLength(longestShot),
       course: list.find(record => record.course === longestShot.course && record.id === longestShot.round)?.courseName ?? null } : null,
     courses, playedCourses: [...new Map(rounds.map(record => [record.course, record.courseName ?? record.course]))].map(([slug, name]) => ({ slug, name })),
   };
   stat.insights = insights(stat);
   return stat;
+}
+
+/* Apply measured club lengths back onto a saved bag without altering unlisted clubs. */
+export function applyMeasuredBag(bag, updates) {
+  const byId = new Map((updates || []).map(u => [u.id, u.measuredCarry]));
+  return bag.map(club => (byId.has(club.id) ? { ...club, carry: byId.get(club.id) } : club));
 }
 
 /* Each hole of one course across the rounds kept: how it is usually played.
@@ -253,6 +397,17 @@ export function insights(stat) {
     out.push(stat.delta < 0
       ? { key: 'trend', tone: 'good', title: 'Formen är på väg upp', text: `Dina ${RECENT_ROUNDS} senaste rundor är ${strokes(stat.delta)} slag bättre per 18 hål än rundorna före.` }
       : { key: 'trend', tone: 'note', title: 'Formen har dalat', text: `Dina ${RECENT_ROUNDS} senaste rundor är ${strokes(stat.delta)} slag sämre per 18 hål än rundorna före.` });
+  }
+  const scramble = greens.scrambling;
+  if (scramble && scramble.opportunities >= 15 && scramble.rate !== null) {
+    if (scramble.rate >= 0.35) {
+      out.push({ key: 'scramble', tone: 'good', title: 'Starkt närspel', text: `Du räddar par på ${percent(scramble.rate)} av hålen där du missar green.` });
+    } else if (scramble.rate <= 0.18) {
+      out.push({ key: 'scramble', tone: 'note', title: 'Närspelet kan spara slag', text: `Du räddar par på ${percent(scramble.rate)} vid missad green — inspel och chippar ger snabbast utdelning.` });
+    }
+  }
+  if (fairways.scoring?.gain !== null && fairways.scoring?.gain >= 0.35 && fairways.tried >= 18) {
+    out.push({ key: 'fwgain', tone: 'note', title: 'Fairwayträff lönar sig', text: `Du är ${strokes(fairways.scoring.gain)} slag bättre per hål när utslaget stannar på fairway.` });
   }
   const wide = stat.gaps.filter(gap => gap.wide).sort((a, b) => b.metres - a.metres)[0];
   if (wide) out.push({ key: 'gap', tone: 'note', title: 'En lucka i bagen', text: `${wide.metres} m mellan ${wide.longer} och ${wide.shorter}, så som du faktiskt slår dem.` });
