@@ -1,0 +1,21 @@
+{
+  "name": "@banvy/worker",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker hosting Banvy static assets, Better Auth (Google OAuth), and D1 player sync.",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply banvy-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply banvy-db --remote",
+    "db:tables:local": "wrangler d1 execute banvy-db --local --command \"SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;\""
+  },
+  "dependencies": {
+    "better-auth": "^1.7.0",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.7.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.22.0"
+  }
+}

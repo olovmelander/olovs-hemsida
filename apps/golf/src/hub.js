@@ -17,6 +17,7 @@ import { createCourseSheet } from './shell/course-sheet.js';
 import { isPhone } from './shell/map-default.mjs';
 import { packRequestUrl } from './loader/pack.js';
 import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch, savedTee } from './shell/settings-store.mjs';
+import { initCloud } from './shell/cloud.mjs';
 
 const boot = document.getElementById('boot');
 /* The bare route never loads the player, so its HUD is placeholder markup ("1",
@@ -69,6 +70,7 @@ try {
     courses,
     onMode: mode => go(MODES[mode].route),
     onSettings: () => go('installningar'),
+    onAccount: () => go('installningar/konto'),
     onStats: () => go('statistik'),
     /* at a course: its own page, in the map */
     onPlan: (slug, mode) => sheet.open(slug, mode),
@@ -169,9 +171,11 @@ try {
     /* where a keyboard and a screen reader land: the screen's own heading */
     if (!first) (screen.querySelector('h1[tabindex]') || screen.querySelector('h1'))?.focus({ preventScroll: true });
     if (course) screen.revealCourse();
+    if (key === 'settings' && detail === 'konto') requestAnimationFrame(() => screen.focusSection?.('set-account'));
   }
   /* a link inside the hub (the course page's statistics) is a step walked here too */
   addEventListener('hashchange', () => { walked = true; show(); });
+  initCloud();
 
   /* Escape is the way back from a list or the settings. The search field and
      the bag editor take it first when they have something to close. */

@@ -24,13 +24,16 @@ import { MAX_HANDICAP, MIN_HANDICAP } from '../map/map-score.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import { parseBag } from '../engine/caddie.js';
 import { clubAssetKey, clubIcon, clubKind } from '../engine/club-design.mjs';
+import { notifyLocalChange, signInDevLocal, signInWithGoogle, signOutCloud, subscribeCloud, syncNow } from './cloud.mjs';
 
 const storage = () => { try { return localStorage; } catch { return null; } };
 const esc = s => String(s ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 const BACK = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>';
 const CHECK = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+const GOOGLE_MARK = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M21.8 12.23c0-.72-.06-1.41-.18-2.07H12v3.92h5.5a4.7 4.7 0 0 1-2.04 3.09v2.57h3.3c1.93-1.78 3.04-4.4 3.04-7.51z"/><path fill="currentColor" opacity=".82" d="M12 22c2.76 0 5.07-.91 6.76-2.46l-3.3-2.57c-.91.61-2.08.98-3.46.98-2.66 0-4.91-1.8-5.72-4.21H2.87v2.65A10.2 10.2 0 0 0 12 22z"/><path fill="currentColor" opacity=".68" d="M6.28 13.74a6.12 6.12 0 0 1 0-3.48V7.61H2.87a10.2 10.2 0 0 0 0 8.78l3.41-2.65z"/><path fill="currentColor" opacity=".92" d="M12 6.05c1.5 0 2.85.52 3.91 1.53l2.93-2.93C17.06 2.99 14.76 2 12 2A10.2 10.2 0 0 0 2.87 7.61l3.41 2.65C7.09 7.85 9.34 6.05 12 6.05z"/></svg>';
 
 const SECTIONS = [
+  { id: 'set-account', label: 'Konto', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>' },
   { id: 'set-3d', label: 'Detaljerad 3D', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>' },
   { id: 'set-map', label: 'Lätt 3D', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>' },
   { id: 'set-player', label: 'Spelare', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="7.5" r="3.6"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>' },
@@ -99,8 +102,14 @@ export function buildSettings({ courses, onBack }) {
         </nav>
         <div class="set-main">
 
-          <section class="set-section" id="set-3d" aria-labelledby="set-3d-h">
+          <section class="set-section" id="set-account" aria-labelledby="set-account-h" hidden>
             <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[0].icon}</span>
+              <div><h2 id="set-account-h" tabindex="-1">Konto</h2><p>Synka dina rundor, slag, din bag och ditt handicap mellan telefonen och datorn. Grafik- och skärminställningar stannar lokalt på varje enhet.</p></div></header>
+            <div class="set-panel" data-account-panel></div>
+          </section>
+
+          <section class="set-section" id="set-3d" aria-labelledby="set-3d-h">
+            <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[1].icon}</span>
               <div><h2 id="set-3d-h">Detaljerad 3D</h2><p>Gäller varje bana du startar i detaljerad 3D, härifrån eller från en annan bana.</p></div></header>
             <div class="set-panel">
               ${row('Grafikkvalitet', 'Auto väljer låg kvalitet på mobiler och enklare datorer, och höjer igen när bildfrekvensen räcker.', seg('quality', QUALITY, s.quality, 'lbl-quality'), { id: 'lbl-quality' })}
@@ -113,7 +122,7 @@ export function buildSettings({ courses, onBack }) {
           </section>
 
           <section class="set-section" id="set-map" aria-labelledby="set-map-h">
-            <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[1].icon}</span>
+            <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[2].icon}</span>
               <div><h2 id="set-map-h">Lätt 3D</h2><p>Kartan för rundan. Samma val finns under Meny i kartan.</p></div></header>
             <div class="set-panel">
               ${row('Kartans ljus', '', swatches('maplight', 'map', mapLight(storage()), MAP_DEFAULT_LIGHT, 'lbl-maplight'), { stack: true, id: 'lbl-maplight' })}
@@ -128,7 +137,7 @@ export function buildSettings({ courses, onBack }) {
           </section>
 
           <section class="set-section" id="set-player" aria-labelledby="set-player-h">
-            <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[2].icon}</span>
+            <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[3].icon}</span>
               <div><h2 id="set-player-h">Spelare</h2><p>Din bag ger klubbråden i båda lägena; handicapet fylls i när du startar en runda.</p></div></header>
             <div class="set-panel">
               ${row('Spelhandicap', 'Ger slag per hål på scorekortet i kartan.', `
@@ -146,8 +155,8 @@ export function buildSettings({ courses, onBack }) {
           </section>
 
           <section class="set-section" id="set-data" aria-labelledby="set-data-h">
-            <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[3].icon}</span>
-              <div><h2 id="set-data-h">Data</h2><p>Allt sparas bara på den här enheten.</p></div></header>
+            <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[4].icon}</span>
+              <div><h2 id="set-data-h">Data</h2><p data-data-sub>Allt sparas bara på den här enheten.</p></div></header>
             <div class="set-panel">
               <div class="set-row"><div class="set-label"><b>Sparade rundor</b><small>Allt de räknas till finns under Statistik, och varje runda under Meny, Mina rundor, i kartan.</small></div><div class="set-control set-inline"><span class="set-metric" data-rounds>0</span><a class="set-link" href="#statistik">Statistik</a></div></div>
               <div class="set-row"><div class="set-label"><b>Banor sparade för spel utan nät</b><small data-offline-names>Spara en bana under Meny i kartan.</small></div><div class="set-control"><span class="set-metric" data-offline>0</span></div></div>
@@ -224,6 +233,7 @@ export function buildSettings({ courses, onBack }) {
   const setHcp = (n, quiet = false) => {
     if (n === null) writeText(storage(), MAP_KEYS.handicap, null);
     else writeText(storage(), MAP_KEYS.handicap, String(Math.max(MIN_HANDICAP, Math.min(MAX_HANDICAP, Math.round(n)))));
+    notifyLocalChange('handicap');
     showHcp();
     if (!quiet) saved();
   };
@@ -271,6 +281,7 @@ export function buildSettings({ courses, onBack }) {
           onSave(clubs) {
             /* the format the detailed course writes (main.js BAG_KEY) */
             writeText(storage(), BAG_KEY, JSON.stringify({ version: 3, clubs }));
+            notifyLocalChange('bag');
             showBag();
             saved('Bagen sparad');
           },
@@ -331,6 +342,7 @@ export function buildSettings({ courses, onBack }) {
   $('[data-backup-apply]').addEventListener('click', () => {
     if (!pending) return;
     const written = restoreBackup(storage(), pending);
+    notifyLocalChange('backup-restored');
     pending = null;
     confirmBox.hidden = true;
     sync();
@@ -377,15 +389,112 @@ export function buildSettings({ courses, onBack }) {
     showData();
   }
 
+  /* ---------------------------------------------------------------- account */
+  const accountSec = $('#set-account');
+  const accountNavBtn = el.querySelector('[data-jump="set-account"]');
+  const accountPanel = $('[data-account-panel]');
+  const dataSub = $('[data-data-sub]');
+
+  function syncStatusText(cloud) {
+    if (cloud.syncing) return { text: 'Synkar…', cls: ' is-syncing' };
+    if (cloud.offline) return { text: cloud.dirty ? 'Offline · väntar på nät för att synka' : 'Offline · sparas lokalt', cls: ' is-pending' };
+    if (cloud.dirty) return { text: 'Ändringar väntar på synk', cls: ' is-pending' };
+    if (cloud.lastSyncedAt) {
+      const time = new Date(cloud.lastSyncedAt).toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+      return { text: `Synkad kl. ${time}`, cls: '' };
+    }
+    return { text: 'Ansluten', cls: '' };
+  }
+
+  function renderAccount(cloud) {
+    accountSec.hidden = !cloud.available;
+    if (accountNavBtn) accountNavBtn.hidden = !cloud.available;
+    if (dataSub) {
+      dataSub.textContent = cloud.user
+        ? 'Rundor, slag, bag och handicap synkas med ditt konto. Säkerhetskopian nedan sparar allt lokalt.'
+        : 'Allt sparas bara på den här enheten.';
+    }
+    if (!cloud.available) return;
+
+    if (cloud.user) {
+      const initial = (cloud.user.name || cloud.user.email || 'G').trim().charAt(0).toUpperCase();
+      const avatar = cloud.user.image
+        ? `<img class="set-avatar" src="${esc(cloud.user.image)}" alt="" referrerpolicy="no-referrer">`
+        : `<span class="set-avatar" aria-hidden="true">${esc(initial)}</span>`;
+      const status = syncStatusText(cloud);
+      accountPanel.innerHTML = `
+        <div class="set-row is-stacked">
+          <div class="set-account-user">
+            ${avatar}
+            <div class="set-account-meta">
+              <b>${esc(cloud.user.name || 'Golfare')}</b>
+              <small>${esc(cloud.user.email)}</small>
+            </div>
+          </div>
+          <span class="set-sync-pill${status.cls}">${esc(status.text)}</span>
+          ${cloud.error ? `<p class="set-account-err" role="alert">${esc(cloud.error)}</p>` : ''}
+          <div class="set-inline">
+            <button class="set-primary" type="button" data-sync-now${cloud.syncing ? ' disabled' : ''}>${cloud.syncing ? 'Synkar…' : 'Synka nu'}</button>
+            <button class="set-danger" type="button" data-sign-out>Logga ut</button>
+          </div>
+        </div>`;
+      accountPanel.querySelector('[data-sync-now]')?.addEventListener('click', async () => {
+        const res = await syncNow();
+        if (res.ok) saved('Synkat');
+      });
+      accountPanel.querySelector('[data-sign-out]')?.addEventListener('click', async () => {
+        await signOutCloud();
+        saved('Utloggad');
+      });
+      return;
+    }
+
+    const actions = [];
+    if (cloud.google) {
+      actions.push(`<button class="set-primary set-google-btn" type="button" data-google-login>${GOOGLE_MARK}<span>Logga in med Google</span></button>`);
+    }
+    if (cloud.devAuth) {
+      actions.push(`<button class="${cloud.google ? 'set-link' : 'set-primary'}" type="button" data-dev-login>Testa lokalt konto (endast dev)</button>`);
+    }
+    const note = !cloud.google
+      ? (cloud.devAuth
+        ? '<p class="set-account-note">Google-inloggning aktiveras när GOOGLE_CLIENT_ID och GOOGLE_CLIENT_SECRET läggs till i .dev.vars eller Cloudflare. Du kan testa D1-synkning direkt med det lokala testkontot.</p>'
+        : '<p class="set-account-note">Google-inloggning är inte konfigurerad på servern ännu.</p>')
+      : '<p class="set-account-note">Rundor du redan spelat i den här webbläsaren slås ihop med ditt konto vid första inloggningen.</p>';
+
+    accountPanel.innerHTML = `
+      <div class="set-row is-stacked">
+        <div class="set-label">
+          <b>Skapa konto eller logga in</b>
+          <small>Du kan alltid spela utan konto. Med konto följer rundor, statistik, klubblängder, bag och handicap med mellan mobil och dator.</small>
+        </div>
+        ${actions.length ? `<div class="set-inline">${actions.join('')}</div>` : ''}
+        ${note}
+        ${cloud.error ? `<p class="set-account-err" role="alert">${esc(cloud.error)}</p>` : ''}
+      </div>`;
+
+    accountPanel.querySelector('[data-google-login]')?.addEventListener('click', () => signInWithGoogle());
+    accountPanel.querySelector('[data-dev-login]')?.addEventListener('click', async () => {
+      const res = await signInDevLocal();
+      if (res.ok) saved('Inloggad');
+    });
+  }
+
+  subscribeCloud(renderAccount);
+  addEventListener('banvy-sync-changed', () => sync());
+
   /* ----------------------------------------------------- nav and the way back */
   const scroller = el;
   const navBtns = [...el.querySelectorAll('[data-jump]')];
-  navBtns.forEach(btn => btn.addEventListener('click', () => {
-    const target = el.querySelector(`#${btn.dataset.jump}`);
+  const jumpTo = id => {
+    const target = el.querySelector(`#${id}`);
+    if (!target || target.hidden) return;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    scroller.scrollTo({ top: target.offsetTop - 84, behavior: reduced ? 'auto' : 'smooth' });
+    scroller.scrollTo({ top: Math.max(0, target.offsetTop - 84), behavior: reduced ? 'auto' : 'smooth' });
     target.querySelector('h2')?.focus?.({ preventScroll: true });
-  }));
+  };
+  navBtns.forEach(btn => btn.addEventListener('click', () => jumpTo(btn.dataset.jump)));
+  el.focusSection = jumpTo;
   /* the section in view is the one the nav marks */
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {

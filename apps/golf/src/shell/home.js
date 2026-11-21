@@ -28,6 +28,7 @@ import { MAP_KEYS, MODES, lastLaunch, liveRound, readSettings, readText, setting
 import { perEighteen } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
+import { subscribeCloud } from './cloud.mjs';
 
 /* Within this, a phone is at the course or on its way there. */
 const NEAR_METRES = 5000;
@@ -53,6 +54,7 @@ const INSTALL = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" str
 const STATS = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 16v-4M12 16V7M17 16v-7"/></svg>';
 const GOLFER = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20.5c3.2-1.6 10.8-1.6 14 0"/><path d="M15.5 3.5v13"/><path d="M15.5 3.8l4.6 1.9-4.6 1.9"/><circle cx="8.5" cy="16.6" r="1.6"/></svg>';
 const PIN = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>';
+const USER_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1-3.8 3.6-5.6 7-5.6s6 1.8 7 5.6"/></svg>';
 
 /* The light map's card carries what the map is for, drawn over the course: a
    shot line from the ball to the flag and the reading the map would give. */
@@ -84,7 +86,7 @@ const SETTINGS_ART = `<svg class="mc-dials" viewBox="0 0 400 150" preserveAspect
   }).join('')}
 </svg>`;
 
-export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPlan = null }) {
+export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null }) {
   const phone = isPhone();
   const playable = courses.filter(c => c.status !== 'mapping');
   const holes = playable.reduce((sum, c) => sum + (Number(c.holes) || 0), 0);
@@ -130,6 +132,7 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
         </a>
         <span class="hub-top-actions">
           <button class="hub-icon-btn hub-install" type="button" data-install hidden>${INSTALL}<span>Installera</span></button>
+          <button class="hub-icon-btn hub-account" type="button" data-account hidden></button>
           <button class="hub-icon-btn" type="button" data-settings aria-label="Inställningar" title="Inställningar">${GEAR}</button>
         </span>
       </div>
@@ -195,6 +198,11 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
           })}
         </div>
       </nav>
+      <footer class="home-legal">
+        <a href="${BASE}integritet.html">Integritetspolicy</a>
+        <span aria-hidden="true">·</span>
+        <a href="${BASE}villkor.html">Villkor</a>
+      </footer>
     </div>`;
 
   const bg = el.querySelector('.home-bg');
@@ -301,6 +309,29 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
   }
 
   el.querySelector('[data-settings]').addEventListener('click', () => onSettings());
+
+  const accountBtn = el.querySelector('[data-account]');
+  accountBtn.addEventListener('click', () => (onAccount ? onAccount() : onSettings()));
+  subscribeCloud(cloud => {
+    accountBtn.hidden = !cloud.available;
+    if (!cloud.available) return;
+    if (cloud.user) {
+      const firstName = (cloud.user.name || cloud.user.email || 'Konto').trim().split(/\s+/)[0];
+      const initial = firstName.charAt(0).toUpperCase() || 'G';
+      const avatar = cloud.user.image
+        ? `<img class="hub-account-avatar" src="${esc(cloud.user.image)}" alt="" referrerpolicy="no-referrer">`
+        : `<span class="hub-account-avatar" aria-hidden="true">${esc(initial)}</span>`;
+      const dotClass = cloud.syncing ? ' is-syncing' : (cloud.offline || cloud.dirty) ? ' is-pending' : '';
+      accountBtn.innerHTML = `${avatar}<span class="hub-account-name">${esc(firstName)}</span><span class="hub-sync-dot${dotClass}" aria-hidden="true"></span>`;
+      accountBtn.setAttribute('aria-label', `Konto: ${cloud.user.name || cloud.user.email}`);
+      accountBtn.title = cloud.syncing ? 'Synkar…' : cloud.offline ? 'Offline — väntar på nät' : 'Synkat konto';
+    } else {
+      accountBtn.innerHTML = `${USER_ICON}<span>Logga in</span>`;
+      accountBtn.setAttribute('aria-label', 'Logga in för att synka dina rundor');
+      accountBtn.title = 'Logga in';
+    }
+  });
+  addEventListener('banvy-sync-changed', () => refresh());
 
   /* Installed, Banvy opens from the home screen with no browser round it and works
      without signal on a course it has seen: the menu offers it where the browser can,

@@ -1,21 +1,16 @@
 /* ===========================================================================
    Statistik: everything the rounds and the club wheel have measured.
 
-   The owner asked for it on 7 November: statistics, history, how you play and
-   the clubs, "amazing visually and from a UI and UX perspective". Read like a
-   launch monitor's session report: one headline number, the readings beside
-   it, then the story -- the trend, where the strokes go, how the tee shots,
-   greens and putts went, what each club really carries, the courses and every
-   round with its card.
+   Read like a launch monitor's session report: one headline number with recent
+   form deltas across the KPIs, a light coach briefing, latest-round spotlight,
+   then the full story -- rolling trend (score or Stableford), where strokes go
+   and where they're lost, tee impact, greens & scrambling, GIR putting split,
+   real club distances (with one-tap bag sync), hole-by-hole averages, and
+   every round with its scorecard.
 
-   All of it is counted by stats-model.mjs from the light map's own records, so
-   a round finished on the course is here the moment the page opens. With no
-   rounds yet the page says how they are made, and can show an example that is
-   labelled as one and never stored.
-
-   The charts follow the dataviz rules: thin marks, one headline figure, labels
-   only where they say something (the newest and the best), a crosshair and a
-   readout on hover and on the keyboard, and a table behind every chart.
+   All counting lives in stats-model.mjs from the light map's own records, so
+   a round finished on the course is here the moment the page opens (and syncs
+   across devices through Cloudflare D1 when signed in).
    =========================================================================== */
 import '../styles/hub.css';
 import '../styles/stats.css';
@@ -23,9 +18,10 @@ import { parseBag } from '../engine/caddie.js';
 import { clubAssetKey, clubIcon } from '../engine/club-design.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import { parseHistory } from '../map/map-shots.mjs';
-import { BAG_KEY, MAP_KEYS, readText } from './settings-store.mjs';
+import { BAG_KEY, MAP_KEYS, readText, writeText } from './settings-store.mjs';
+import { getCloudState, notifyLocalChange, signInWithGoogle, subscribeCloud } from './cloud.mjs';
 import { reliveUrl } from './router.js';
-import { exampleData, inkOn, kindOf, PERIODS, playerStats, SCORE_KINDS } from './stats-model.mjs';
+import { applyMeasuredBag, exampleData, inkOn, kindOf, PERIODS, playerStats, SCORE_KINDS } from './stats-model.mjs';
 
 const BASE = import.meta.env.BASE_URL;
 const storage = () => { try { return localStorage; } catch { return null; } };
@@ -48,10 +44,19 @@ function dateText(date, long = false) {
 const BACK = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>';
 const TABLE = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 9.5v10"/></svg>';
 const CHART = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19h16"/><path d="m5 15 4-5 4 3 6-7"/></svg>';
+const GOOGLE_MARK = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M21.8 12.23c0-.72-.06-1.41-.18-2.07H12v3.92h5.5a4.7 4.7 0 0 1-2.04 3.09v2.57h3.3c1.93-1.78 3.04-4.4 3.04-7.51z"/><path fill="currentColor" opacity=".82" d="M12 22c2.76 0 5.07-.91 6.76-2.46l-3.3-2.57c-.91.61-2.08.98-3.46.98-2.66 0-4.91-1.8-5.72-4.21H2.87v2.65A10.2 10.2 0 0 0 12 22z"/><path fill="currentColor" opacity=".68" d="M6.28 13.74a6.12 6.12 0 0 1 0-3.48V7.61H2.87a10.2 10.2 0 0 0 0 8.78l3.41-2.65z"/><path fill="currentColor" opacity=".92" d="M12 6.05c1.5 0 2.85.52 3.91 1.53l2.93-2.93C17.06 2.99 14.76 2 12 2A10.2 10.2 0 0 0 2.87 7.61l3.41 2.65C7.09 7.85 9.34 6.05 12 6.05z"/></svg>';
 const TONE_ICON = {
-  good: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 16 6-6 4 4 6-7"/><path d="M15 7h5v5"/></svg>',
-  note: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.6v.4"/></svg>',
+  good: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 16 6-6 4 4 6-7"/><path d="M15 7h5v5"/></svg>',
+  note: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.6v.4"/></svg>',
 };
+
+const JUMP_SECTIONS = [
+  { id: 'st-overview', label: 'Översikt' },
+  { id: 'st-game', label: 'Spel' },
+  { id: 'st-clubs', label: 'Klubbor' },
+  { id: 'st-holes', label: 'Hål' },
+  { id: 'st-rounds', label: 'Rundor' },
+];
 
 /* ------------------------------------------------------------ the readout
    One tooltip per chart card: the value leads, the label follows. */
@@ -80,37 +85,56 @@ function niceStep(range) {
   for (const step of [1, 2, 5, 10, 20, 50]) if (range / step <= 5) return step;
   return 100;
 }
-function drawTrend(host, rows) {
+function drawTrend(host, rows, { metric = 'score', onPickRound = null } = {}) {
+  const isPoints = metric === 'points';
+  const list = isPoints ? rows.filter(r => Number.isFinite(r.points)) : rows;
+  if (!list.length) {
+    host.innerHTML = '<p class="st-muted">Inga rundor med Stableford-poäng i det här urvalet.</p>';
+    return;
+  }
   const card = host.closest('.st-card');
   const tip = tipFor(card);
   const W = Math.max(280, host.clientWidth), H = W < 520 ? 210 : 250;
-  const pad = { l: 44, r: 58, t: 22, b: 30 };
-  const values = rows.map(row => row.perEighteen);
-  let lo = Math.min(0, ...values), hi = Math.max(0, ...values);
+  const pad = { l: 44, r: 62, t: 22, b: 30 };
+  const valOf = row => (isPoints ? row.points : row.perEighteen);
+  const rollOf = row => (isPoints ? row.rollingPoints : row.rolling);
+  const values = list.map(valOf);
+  const rolls = list.map(rollOf).filter(Number.isFinite);
+  let lo = isPoints ? Math.min(36, ...values, ...rolls) : Math.min(0, ...values, ...rolls);
+  let hi = isPoints ? Math.max(36, ...values, ...rolls) : Math.max(0, ...values, ...rolls);
   if (hi - lo < 4) { hi += 2; lo -= 2; }
   const step = niceStep(hi - lo);
   lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
   const plotW = W - pad.l - pad.r, plotH = H - pad.t - pad.b;
-  const x = i => pad.l + (rows.length === 1 ? plotW / 2 : (i * plotW) / (rows.length - 1));
+  const x = i => pad.l + (list.length === 1 ? plotW / 2 : (i * plotW) / (list.length - 1));
   const y = v => pad.t + ((hi - v) / (hi - lo)) * plotH;
   const ticks = [];
   for (let v = lo; v <= hi + 1e-9; v += step) ticks.push(v);
-  const bestIndex = values.indexOf(Math.min(...values));
-  const last = rows.length - 1;
-  const line = rows.map((row, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(row.perEighteen).toFixed(1)}`).join('');
+  const bestVal = isPoints ? Math.max(...values) : Math.min(...values);
+  const bestIndex = values.indexOf(bestVal);
+  const last = list.length - 1;
+  const line = list.map((row, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(valOf(row)).toFixed(1)}`).join('');
+  const rollLine = list.length >= 3 && list.every(row => Number.isFinite(rollOf(row)))
+    ? list.map((row, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(rollOf(row)).toFixed(1)}`).join('')
+    : '';
   const area = `${line}L${x(last).toFixed(1)} ${pad.t + plotH}L${x(0).toFixed(1)} ${pad.t + plotH}Z`;
-  const labelDates = rows.length > 1 ? [0, last, ...(rows.length > 6 ? [Math.round(last / 2)] : [])] : [0];
+  const labelDates = list.length > 1 ? [0, last, ...(list.length > 6 ? [Math.round(last / 2)] : [])] : [0];
+  const refValue = isPoints ? 36 : 0;
+  const fmtTick = v => (isPoints ? `${v} p` : (v === 0 ? 'Par' : signedInt(v)));
+  const fmtVal = v => (isPoints ? `${Math.round(v)} p` : signed(v));
+
   host.innerHTML = `<svg class="st-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" tabindex="0" role="img"
-      aria-label="Resultat per 18 hål mot par, ${rows.length} rundor. Senaste ${signed(values[last])}, bästa ${signed(values[bestIndex])}. Piltangenterna går runda för runda.">
-    <defs><linearGradient id="stWash" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5fd07a" stop-opacity=".16"/><stop offset="1" stop-color="#5fd07a" stop-opacity="0"/></linearGradient></defs>
-    ${ticks.map(v => `<line class="${v === 0 ? 'st-zero' : 'st-grid'}" x1="${pad.l}" x2="${W - pad.r}" y1="${y(v)}" y2="${y(v)}"/>
-      <text class="st-axis" x="${pad.l - 10}" y="${y(v) + 4}" text-anchor="end">${v === 0 ? 'Par' : signedInt(v)}</text>`).join('')}
-    ${labelDates.map(i => `<text class="st-axis" x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 && rows.length > 1 ? 'start' : i === last && rows.length > 1 ? 'end' : 'middle'}">${esc(dateText(rows[i].date))}</text>`).join('')}
+      aria-label="${isPoints ? 'Stableford-poäng per runda' : 'Resultat per 18 hål mot par'}, ${list.length} rundor. Senaste ${fmtVal(values[last])}, bästa ${fmtVal(values[bestIndex])}. Piltangenterna går runda för runda, Enter öppnar scorekortet.">
+    <defs><linearGradient id="stWash" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5fd07a" stop-opacity=".15"/><stop offset="1" stop-color="#5fd07a" stop-opacity="0"/></linearGradient></defs>
+    ${ticks.map(v => `<line class="${v === refValue ? 'st-zero' : 'st-grid'}" x1="${pad.l}" x2="${W - pad.r}" y1="${y(v)}" y2="${y(v)}"/>
+      <text class="st-axis" x="${pad.l - 10}" y="${y(v) + 4}" text-anchor="end">${fmtTick(v)}</text>`).join('')}
+    ${labelDates.map(i => `<text class="st-axis" x="${x(i)}" y="${H - 8}" text-anchor="${i === 0 && list.length > 1 ? 'start' : i === last && list.length > 1 ? 'end' : 'middle'}">${esc(dateText(list[i].date))}</text>`).join('')}
     <path d="${area}" fill="url(#stWash)"/>
     <path class="st-line" d="${line}"/>
-    ${rows.map((row, i) => `<circle class="st-dot${i === last ? ' is-last' : ''}${i === bestIndex ? ' is-best' : ''}" cx="${x(i)}" cy="${y(row.perEighteen)}" r="${i === last ? 5.5 : 4}"/>`).join('')}
-    <text class="st-end" x="${x(last) + 10}" y="${y(values[last]) + 5}">${signed(values[last])}</text>
-    ${bestIndex !== last && rows.length > 2 ? `<text class="st-best" x="${x(bestIndex)}" y="${y(values[bestIndex]) + 22}" text-anchor="middle">Bästa ${signed(values[bestIndex])}</text>` : ''}
+    ${rollLine ? `<path class="st-avg-line" d="${rollLine}"/>` : ''}
+    ${list.map((row, i) => `<circle class="st-dot${i === last ? ' is-last' : ''}${i === bestIndex ? ' is-best' : ''}" cx="${x(i)}" cy="${y(valOf(row))}" r="${i === last ? 5.5 : 4}"/>`).join('')}
+    <text class="st-end" x="${x(last) + 10}" y="${y(values[last]) + 5}">${fmtVal(values[last])}</text>
+    ${bestIndex !== last && list.length > 2 ? `<text class="st-best" x="${x(bestIndex)}" y="${Math.min(H - 22, y(values[bestIndex]) + 22)}" text-anchor="middle">Bästa ${fmtVal(values[bestIndex])}</text>` : ''}
     <line class="st-cross" x1="0" x2="0" y1="${pad.t}" y2="${pad.t + plotH}" visibility="hidden"/>
     <rect class="st-hit" x="${pad.l - 12}" y="0" width="${plotW + 24}" height="${H}"/>
   </svg>`;
@@ -118,29 +142,44 @@ function drawTrend(host, rows) {
   let at = last;
   const point = i => {
     at = Math.max(0, Math.min(last, i));
-    const row = rows[at];
+    const row = list[at];
+    const roll = rollOf(row);
     cross.setAttribute('x1', x(at)); cross.setAttribute('x2', x(at)); cross.setAttribute('visibility', 'visible');
     svg.querySelectorAll('.st-dot').forEach((dot, k) => dot.classList.toggle('is-on', k === at));
     const hostBox = host.getBoundingClientRect(), cardBox = card.getBoundingClientRect();
-    tip.show([[`${signed(row.perEighteen)} per 18 hål`], [`${row.courseName ?? row.course} · ${dateText(row.date)}`],
-      [`${row.strokes} slag på ${row.holes} hål (${signedInt(row.toPar)})${row.points !== null ? ` · ${row.points} poäng` : ''}`]],
-      hostBox.left - cardBox.left + x(at), hostBox.top - cardBox.top + y(row.perEighteen));
+    const headline = isPoints ? `${row.points} poäng` : `${signed(row.perEighteen)} per 18 hål`;
+    const rollNote = list.length >= 3 && Number.isFinite(roll)
+      ? `5-rundors snitt ${isPoints ? `${dec(roll, 1)} p` : signed(roll)}`
+      : null;
+    tip.show([
+      [headline],
+      [`${row.courseName ?? row.course} · ${dateText(row.date)}`],
+      [`${row.strokes} slag på ${row.holes} hål (${signedInt(row.toPar)})${!isPoints && row.points !== null ? ` · ${row.points} p` : ''}`],
+      ...(rollNote ? [[rollNote]] : []),
+      ...(onPickRound ? [['Klicka för scorekort']] : []),
+    ], hostBox.left - cardBox.left + x(at), hostBox.top - cardBox.top + y(valOf(row)));
   };
   const clear = () => { cross.setAttribute('visibility', 'hidden'); svg.querySelectorAll('.st-dot').forEach(dot => dot.classList.remove('is-on')); tip.hide(); };
   const nearestTo = e => {
     const px = e.clientX - svg.getBoundingClientRect().left;
     let nearest = 0;
-    rows.forEach((_, i) => { if (Math.abs(x(i) - px) < Math.abs(x(nearest) - px)) nearest = i; });
+    list.forEach((_, i) => { if (Math.abs(x(i) - px) < Math.abs(x(nearest) - px)) nearest = i; });
     return nearest;
   };
-  /* the crosshair follows a mouse; a finger taps a round, so a swipe past the chart scrolls */
   svg.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') point(nearestTo(e)); });
   svg.addEventListener('pointerdown', e => { if (e.pointerType === 'touch') point(nearestTo(e)); });
+  svg.addEventListener('click', e => {
+    if (e.pointerType === 'touch') return;
+    const idx = nearestTo(e);
+    point(idx);
+    onPickRound?.(list[idx]);
+  });
   svg.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') clear(); });
   svg.addEventListener('focus', () => point(at));
   svg.addEventListener('blur', clear);
   svg.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); point(at + (e.key === 'ArrowLeft' ? -1 : 1)); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPickRound?.(list[at]); }
   });
 }
 
@@ -156,7 +195,6 @@ function segmentedBar(parts, { label, tall = true, unit = 'hål' }) {
   </div>
   <ul class="st-legend">${parts.map(p => `<li><i style="background:${p.colour}"></i>${esc(p.label)} <b>${p.count}</b></li>`).join('')}</ul>`;
 }
-/* a label prints inside its block only where it fits */
 function fitSegments(root) {
   for (const part of root.querySelectorAll('.st-part')) {
     const em = part.querySelector('em');
@@ -173,8 +211,6 @@ function bindSegments(root) {
     for (const part of seg.querySelectorAll('.st-part')) hoverOrTap(part, () => show(part), () => tip.hide());
   }
 }
-/* A mouse resting on a mark is a question; a finger landing on one is usually
-   a scroll, so on touch the readout comes with a tap and goes with the next. */
 function hoverOrTap(mark, show, hide) {
   mark.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') show(); });
   mark.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hide(); });
@@ -186,6 +222,8 @@ function hoverOrTap(mark, show, hide) {
 /* --------------------------------------------- the fairway, from the tee */
 function fairwayFigure(f) {
   const left = pct(f.left, f.tried), hit = pct(f.hit, f.tried), right = pct(f.right, f.tried);
+  const sc = f.scoring || {};
+  const hasScoring = sc.hit !== null || sc.left !== null || sc.right !== null;
   return `<div class="st-fairway" role="img" aria-label="Fairway från tee: ${hit} procent träff, ${left} procent vänster, ${right} procent höger, av ${f.tried} hål.">
     <div class="sf-side"><b>${left}<small>%</small></b><span>Vänster</span><em>${f.left} hål</em></div>
     <div class="sf-strip"><svg viewBox="0 0 120 180" preserveAspectRatio="none" aria-hidden="true">
@@ -196,7 +234,12 @@ function fairwayFigure(f) {
       <circle cx="60" cy="168" r="4" fill="#fff"/>
     </svg><div class="sf-hit"><b>${hit}<small>%</small></b><span>Träff</span></div></div>
     <div class="sf-side"><b>${right}<small>%</small></b><span>Höger</span><em>${f.right} hål</em></div>
-  </div>`;
+  </div>
+  ${hasScoring ? `<div class="st-subgrid-3" aria-label="Snitt mot par efter utslag">
+    <div><span>Vänster</span><b>${sc.left !== null ? signed(sc.left, 2) : '–'}</b></div>
+    <div class="is-accent"><span>Fairway</span><b>${sc.hit !== null ? signed(sc.hit, 2) : '–'}</b></div>
+    <div><span>Höger</span><b>${sc.right !== null ? signed(sc.right, 2) : '–'}</b></div>
+  </div>` : ''}`;
 }
 
 /* ------------------------------------------------------------ the clubs */
@@ -237,12 +280,8 @@ function clubRows(clubs) {
     <div class="gap-axis" aria-hidden="true"><span class="gr-icon"></span><span class="gr-name"></span><span class="gr-track">${ticks.map(v => `<i style="left:${at(v)}">${v}</i>`).join('')}</span><span class="gr-val">m</span></div>`;
 }
 
-/* ---------------------------------------------------------- hole by hole
-   Each hole's average against its par, from a par line: up is over par,
-   down under. Only the costliest and the kindest hole carry a label. */
+/* ---------------------------------------------------------- hole by hole */
 function holeChart(holes) {
-  /* one scale for both sides: the plot's height is shared out by the longest bar
-     each way, so a course played mostly over par does not keep an empty half */
   const maxUp = Math.max(0, ...holes.map(h => h.toPar)), maxDown = Math.max(0, ...holes.map(h => -h.toPar));
   const span = Math.max(0.5, maxUp + maxDown);
   const upShare = Math.max(0.12, maxUp / span), downShare = Math.max(0.06, maxDown / span);
@@ -254,7 +293,6 @@ function holeChart(holes) {
     <div class="shb-plot">${holes.map(h => {
       const share = Math.min(1, Math.abs(h.toPar) / reachOf(h.toPar));
       const up = h.toPar >= 0;
-      /* the costliest hole's label rides on its bar; the kindest's sits on the par line */
       const marked = h === worst || (h === best && best !== worst);
       const label = marked ? `<em style="bottom:${up ? `calc(${(share * 100).toFixed(1)}% + 4px)` : '4px'}">${signed(h.toPar, 1)}</em>` : '';
       return `<button type="button" class="shb-col" data-tip="${esc(JSON.stringify([`Hål ${h.n} · ${signed(h.toPar, 2)}`, `Par ${h.par} · snitt ${dec(h.average, 2)} · bästa ${h.best}`, `${h.rounds} ${h.rounds === 1 ? 'runda' : 'rundor'}${h.putts !== null ? ` · ${dec(h.putts, 1)} puttar` : ''}${h.fairway !== null ? ` · fairway ${Math.round(h.fairway * 100)}\u00a0%` : ''}`]))}"
@@ -300,16 +338,25 @@ function scorecard(record) {
   }).join('');
 }
 
+function deltaBadge(value, { unit = '', digits = 1, higherIsBetter = true, threshold = 0.01 } = {}) {
+  if (value === null || !Number.isFinite(value) || Math.abs(value) < threshold) return '';
+  const good = higherIsBetter ? value > 0 : value < 0;
+  const formatted = digits === 0
+    ? `${value > 0 ? '+' : '−'}${Math.round(Math.abs(value))}${unit}`
+    : `${signed(value, digits)}${unit}`;
+  return `<span class="st-tile-delta ${good ? 'is-good' : 'is-bad'}" title="Senaste 5 mot rundorna före">${formatted}</span>`;
+}
+
 /* =============================================================== the page */
 export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
   const el = document.createElement('div');
   el.id = 'stats';
   el.className = 'hub-screen';
-  /* the screen on show is the page's main landmark; the hidden ones are out of the tree */
   el.setAttribute('role', 'main');
   el.setAttribute('aria-labelledby', 'statsTitle');
-  const state = { period: 'all', course: 'all', example: false, view: {} };
+  const state = { period: 'all', course: 'all', example: false, trendMetric: 'score', bagPreview: false, bagSaved: false, view: {} };
   const poster = slug => (courses.some(c => c.slug === slug) ? `${BASE}courses/${slug}/hero-1.webp` : '');
+  const backdropUrl = slug => (courses.some(c => c.slug === slug) ? `${BASE}courses/${slug}/backdrop.webp` : '');
 
   el.innerHTML = `
     <div class="set-top">
@@ -337,7 +384,13 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
 
   /* ---------------------------------------------------------- empty */
   function renderEmpty() {
+    const cloud = getCloudState();
     el.querySelector('[data-sub]').textContent = '';
+    const cloudCta = cloud.available && !cloud.user
+      ? (cloud.google
+        ? `<button class="st-ghost st-google-cta" type="button" data-cloud-signin>${GOOGLE_MARK}<span>Hämta rundor med Google</span></button>`
+        : `<a class="st-ghost" href="#installningar/konto">Logga in för att hämta rundor</a>`)
+      : '';
     body.innerHTML = `
       <section class="st-empty">
         <div class="st-empty-art" aria-hidden="true">
@@ -353,7 +406,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         <div class="st-empty-text">
           <p class="home-eyebrow">Statistik</p>
           <h2>Din statistik börjar på banan</h2>
-          <p>Allt här räknas fram ur dina rundor i Lätt 3D: resultat och utveckling, fairways, greener och puttar, och hur långt varje klubba verkligen går.</p>
+          <p>Allt här räknas fram ur dina rundor i Lätt 3D: resultat och utveckling, fairways, greener, räddningar och puttar, och hur långt varje klubba verkligen går.</p>
           <ol class="st-steps">
             <li><b>1</b><span><strong>Öppna en bana i Lätt 3D</strong> när du står på första tee.</span></li>
             <li><b>2</b><span><strong>Starta rundan</strong> och för score hål för hål.</span></li>
@@ -362,11 +415,49 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
           <div class="st-empty-actions">
             <button class="set-primary" type="button" data-play>Spela i Lätt 3D</button>
             <button class="st-ghost" type="button" data-example>Visa ett exempel</button>
+            ${cloudCta}
           </div>
         </div>
       </section>`;
     body.querySelector('[data-play]').addEventListener('click', () => onPlay());
     body.querySelector('[data-example]').addEventListener('click', () => { state.example = true; render(); });
+    body.querySelector('[data-cloud-signin]')?.addEventListener('click', () => signInWithGoogle(`${location.pathname}${location.search}#statistik`));
+  }
+
+  let sectionObserver = null;
+  function bindJumpNav() {
+    if (sectionObserver) { sectionObserver.disconnect(); sectionObserver = null; }
+    const chips = [...body.querySelectorAll('[data-jump]')];
+    if (!chips.length) return;
+    chips.forEach(btn => btn.addEventListener('click', () => {
+      const target = body.querySelector(`#${btn.dataset.jump}`);
+      if (!target) return;
+      el.scrollTo({ top: Math.max(0, target.offsetTop - 144), behavior: REDUCED ? 'auto' : 'smooth' });
+    }));
+    if ('IntersectionObserver' in window) {
+      sectionObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            chips.forEach(c => c.setAttribute('aria-current', String(c.dataset.jump === entry.target.id)));
+          }
+        }
+      }, { root: el, rootMargin: '-25% 0px -65% 0px' });
+      for (const sec of JUMP_SECTIONS) {
+        const node = body.querySelector(`#${sec.id}`);
+        if (node) sectionObserver.observe(node);
+      }
+    }
+  }
+
+  function openRoundCard(course, id) {
+    const key = `${course}|${id}`;
+    const details = body.querySelector(`details.st-round[data-round-key="${CSS.escape(key)}"]`);
+    if (!details) return;
+    details.open = true;
+    details.scrollIntoView({ block: 'center', behavior: REDUCED ? 'auto' : 'smooth' });
+    details.classList.remove('is-flash');
+    void details.offsetWidth;
+    details.classList.add('is-flash');
   }
 
   /* ------------------------------------------------------------ full */
@@ -381,72 +472,152 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     const showTable = key => state.view[key] === 'table';
 
     if (!stat.rounds) {
-      body.innerHTML = `${filters(courseOptions)}<div class="st-card st-none"><h2>Inga rundor i det här urvalet</h2><p>Välj en längre period eller alla banor.</p><button class="st-ghost" type="button" data-reset>Visa allt</button></div>`;
+      body.innerHTML = `${toolbar(courseOptions, false)}<div class="st-card st-none"><h2>Inga rundor i det här urvalet</h2><p>Välj en längre period eller alla banor.</p><button class="st-ghost" type="button" data-reset>Visa allt</button></div>`;
       bindFilters();
       body.querySelector('[data-reset]').addEventListener('click', () => { state.period = 'all'; state.course = 'all'; render(); });
       return;
     }
 
     const trendRows = stat.trend.filter(row => Number.isFinite(row.perEighteen));
+    const hasPoints = trendRows.some(row => Number.isFinite(row.points));
+    if (state.trendMetric === 'points' && !hasPoints) state.trendMetric = 'score';
+
+    /* Sparkline oriented identically to Utveckling: higher over-par is up, lower/better is down. */
     const spark = trendRows.slice(-12).map(row => row.perEighteen);
-    const sparkPath = (() => {
-      if (spark.length < 2) return '';
-      const lo = Math.min(...spark), hi = Math.max(...spark), span = hi - lo || 1;
-      return spark.map((v, i) => `${i ? 'L' : 'M'}${((i / (spark.length - 1)) * 120).toFixed(1)} ${(4 + ((v - lo) / span) * 32).toFixed(1)}`).join('');
-    })();
+    const sparkLo = spark.length ? Math.min(...spark) : 0;
+    const sparkHi = spark.length ? Math.max(...spark) : 1;
+    const sparkSpan = sparkHi - sparkLo || 1;
+    const sparkY = v => 4 + ((sparkHi - v) / sparkSpan) * 32;
+    const sparkPath = spark.length >= 2
+      ? spark.map((v, i) => `${i ? 'L' : 'M'}${((i / (spark.length - 1)) * 120).toFixed(1)} ${sparkY(v).toFixed(1)}`).join('')
+      : '';
+
     const delta = stat.delta;
+    const td = stat.tileDeltas;
     const tiles = [
-      ['Rundor', String(stat.rounds), `${stat.holes} hål`],
-      ['Bästa runda', stat.best ? signed(stat.best.perEighteen) : '–', stat.best ? `${stat.best.strokes} slag · ${stat.best.courseName ?? ''}` : ''],
-      ['Fairwayträff', stat.fairways.tried ? `${pct(stat.fairways.hit, stat.fairways.tried)}\u00a0%` : '–', `${stat.fairways.hit} av ${stat.fairways.tried}`],
-      ['Greener i regulation', stat.greens.tried ? `${pct(stat.greens.hit, stat.greens.tried)}\u00a0%` : '–', `${stat.greens.hit} av ${stat.greens.tried}`],
-      ['Puttar per green', stat.putts.perGreen !== null ? dec(stat.putts.perGreen, 2) : '–', stat.putts.perGreen !== null ? `${dec(stat.putts.perGreen * 18, 1)} per runda` : ''],
-      ['Stableford', stat.points !== null ? dec(stat.points, 1) : '–', stat.points !== null ? 'poäng per runda' : 'kräver handicap'],
+      ['Rundor', String(stat.rounds), `${stat.holes} hål`, ''],
+      ['Bästa runda', stat.best ? signed(stat.best.perEighteen) : '–', stat.best ? `${stat.best.strokes} slag · ${stat.best.courseName ?? ''}` : '', ''],
+      ['Fairwayträff', stat.fairways.tried ? `${pct(stat.fairways.hit, stat.fairways.tried)}\u00a0%` : '–', `${stat.fairways.hit} av ${stat.fairways.tried}`,
+        deltaBadge(td.fairways !== null ? td.fairways * 100 : null, { unit: '\u00a0%', digits: 0, higherIsBetter: true, threshold: 1 })],
+      ['Greener i regulation', stat.greens.tried ? `${pct(stat.greens.hit, stat.greens.tried)}\u00a0%` : '–', `${stat.greens.hit} av ${stat.greens.tried}`,
+        deltaBadge(td.greens !== null ? td.greens * 100 : null, { unit: '\u00a0%', digits: 0, higherIsBetter: true, threshold: 1 })],
+      ['Puttar per green', stat.putts.perGreen !== null ? dec(stat.putts.perGreen, 2) : '–', stat.putts.perGreen !== null ? `${dec(stat.putts.perGreen * 18, 1)} per runda` : '',
+        deltaBadge(td.putts, { digits: 2, higherIsBetter: false, threshold: 0.03 })],
+      ['Stableford', stat.points !== null ? dec(stat.points, 1) : '–', stat.points !== null ? 'poäng per runda' : 'kräver handicap',
+        deltaBadge(td.points, { unit: ' p', digits: 1, higherIsBetter: true, threshold: 0.5 })],
     ];
+
     const kindsTotal = stat.distribution.reduce((s, d) => s + d.count, 0);
+    const filteredBg = state.course !== 'all' ? backdropUrl(state.course) : '';
+
+    /* Stroke cost breakdown (per 18 holes). */
+    const sc = stat.strokeCosts;
+    const costItems = [
+      { key: 'doubles', label: 'Dubbelbogey+', value: sc.doubles.perEighteen, note: `${sc.doubles.holes} hål` },
+      { key: 'threePutts', label: 'Treputtar', value: sc.threePutts.perEighteen, note: `${sc.threePutts.holes} hål` },
+      { key: 'penalties', label: 'Pliktslag', value: sc.penalties.perEighteen, note: `${sc.penalties.total} loggade` },
+    ].filter(c => c.value !== null);
+    const topCost = costItems.reduce((top, c) => (!top || c.value > top.value ? c : top), null);
+
+    /* Latest round spotlight (when >= 2 rounds so comparison vs. average means something). */
+    const lat = stat.rounds >= 2 ? stat.latest : null;
+    const latHasShots = lat && courses.some(c => c.slug === lat.record.course) &&
+      (state.example || data.shots.some(s => s.course === lat.record.course && s.round === lat.record.id && Array.isArray(s.from)));
+
+    const scramble = stat.greens.scrambling;
+    const scramblePct = scramble.opportunities ? pct(scramble.saved, scramble.opportunities) : '–';
 
     body.innerHTML = `
       ${state.example ? `<div class="st-banner" role="note"><span><b>Exempel.</b> Så här ser statistiken ut efter 16 rundor. Det är inte dina siffror.</span><button class="st-ghost" type="button" data-hide-example>Dölj exemplet</button></div>` : ''}
-      ${filters(courseOptions)}
+      ${toolbar(courseOptions, true)}
 
-      <section class="st-hero-row" aria-label="Översikt">
-        <div class="st-card st-hero">
+      <section class="st-hero-row" id="st-overview" aria-label="Översikt">
+        <div class="st-card st-hero${filteredBg ? ' is-course-bg' : ''}"${filteredBg ? ` style="--hero-bg:url('${filteredBg}')"` : ''}>
           <p class="st-label">Snitt mot par, per 18 hål</p>
           <p class="st-hero-figure">${signed(stat.average)}</p>
           ${delta !== null ? `<p class="st-delta ${delta < 0 ? 'is-good' : 'is-bad'}">${delta < 0 ? TONE_ICON.good : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 8 6 6 4-4 6 7"/><path d="M15 17h5v-5"/></svg>'}<span><b>${signed(delta)}</b> de ${Math.min(5, stat.rounds)} senaste mot rundorna före</span></p>` : '<p class="st-delta">Fler rundor ger en riktning.</p>'}
-          ${sparkPath ? `<svg class="st-spark" viewBox="-4 0 128 40" aria-hidden="true"><path d="${sparkPath}" fill="none" stroke="rgba(160,230,185,.45)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="120" cy="${(4 + ((spark.at(-1) - Math.min(...spark)) / ((Math.max(...spark) - Math.min(...spark)) || 1)) * 32).toFixed(1)}" r="4" fill="#5fd07a" stroke="#0f1d16" stroke-width="2"/></svg>` : ''}
+          ${sparkPath ? `<svg class="st-spark" viewBox="-4 0 128 40" aria-hidden="true"><path d="${sparkPath}" fill="none" stroke="rgba(160,230,185,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="120" cy="${sparkY(spark.at(-1)).toFixed(1)}" r="4" fill="#5fd07a" stroke="#0f1d16" stroke-width="2"/></svg>` : ''}
         </div>
-        <dl class="st-tiles">${tiles.map(([label, value, note]) => `<div class="st-card st-tile"><dt>${label}</dt><dd>${esc(value)}</dd><dd class="st-tile-note">${esc(note)}</dd></div>`).join('')}</dl>
+        <dl class="st-tiles">${tiles.map(([label, value, note, badge]) => `<div class="st-card st-tile"><dt>${label}</dt><dd>${esc(value)}</dd><dd class="st-tile-foot"><span class="st-tile-note">${esc(note)}</span>${badge}</dd></div>`).join('')}</dl>
       </section>
 
       ${stat.insights.length ? `<section class="st-insights" aria-labelledby="stHowH"><h2 class="st-h2" id="stHowH">Så spelar du</h2>
-        <div class="st-insight-grid">${stat.insights.map(item => `<article class="st-card st-insight is-${item.tone}"><span class="si-icon" aria-hidden="true">${TONE_ICON[item.tone]}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></article>`).join('')}</div></section>` : ''}
+        <div class="st-insight-grid">${stat.insights.map(item => `<article class="st-insight is-${item.tone}"><div class="si-head"><span class="si-icon" aria-hidden="true">${TONE_ICON[item.tone]}</span><h3>${esc(item.title)}</h3></div><p>${esc(item.text)}</p></article>`).join('')}</div></section>` : ''}
+
+      ${lat ? `<section class="st-card st-latest" aria-label="Senaste rundan">
+        <div class="sl-main">
+          <span class="sl-thumb" style="${poster(lat.record.course) ? `background-image:url('${poster(lat.record.course)}')` : ''}" aria-hidden="true"></span>
+          <div class="sl-info">
+            <span class="sl-kicker">Senaste rundan · ${esc(dateText(lat.row.date, true))}</span>
+            <h2 class="sl-course">${esc(lat.row.courseName ?? lat.row.course)}</h2>
+            <p class="sl-meta">${[
+              `${lat.row.holes} hål`,
+              lat.fairwayRate !== null ? `Fairway ${Math.round(lat.fairwayRate * 100)}\u00a0%` : null,
+              lat.girRate !== null ? `GIR ${Math.round(lat.girRate * 100)}\u00a0%` : null,
+              lat.row.putts ? `${lat.row.putts} puttar` : null,
+              lat.birdies ? `${lat.birdies} ${lat.birdies === 1 ? 'birdie' : 'birdies'}` : null,
+            ].filter(Boolean).join(' · ')}</p>
+          </div>
+        </div>
+        <div class="sl-score">
+          <b>${lat.row.strokes}</b>
+          <div class="sl-score-sub">
+            <span class="${lat.row.toPar < 0 ? 'is-under' : lat.row.toPar > 0 ? 'is-over' : ''}">${signedInt(lat.row.toPar)}</span>
+            ${lat.vsAverage !== null ? `<em class="sl-cmp ${lat.vsAverage <= -0.3 ? 'is-good' : lat.vsAverage >= 0.3 ? 'is-bad' : ''}">${Math.abs(lat.vsAverage) < 0.3 ? 'I linje med snittet' : `${dec(Math.abs(lat.vsAverage), 1)} ${lat.vsAverage < 0 ? 'bättre än' : 'över'} snittet`}</em>` : ''}
+          </div>
+        </div>
+        <div class="sl-actions">
+          <button type="button" class="st-view" data-jump-round="${esc(`${lat.record.course}|${lat.record.id}`)}">Scorekort</button>
+          <button type="button" class="st-view" data-share-round="${esc(`${lat.record.course}|${lat.record.id}`)}">Dela bild</button>
+          ${latHasShots ? `<a class="st-view" href="${import.meta.env.BASE_URL}${reliveUrl(lat.record.course, state.example ? `exempel-${lat.record.id}` : lat.record.id)}">Återupplev 3D →</a>` : ''}
+        </div>
+      </section>` : ''}
 
       <section class="st-grid-2">
         <div class="st-card st-chart" data-card="trend">
-          <header class="st-card-head"><div><h2>Utveckling</h2><p>Resultat mot par per 18 hål, runda för runda</p></div>${tableToggle('trend')}</header>
-          ${showTable('trend') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Datum</th><th>Bana</th><th>Slag</th><th>Hål</th><th>Mot par</th><th>Per 18</th></tr></thead><tbody>
-            ${[...trendRows].reverse().map(row => `<tr><td>${esc(dateText(row.date))}</td><td>${esc(row.courseName ?? row.course)}</td><td>${row.strokes}</td><td>${row.holes}</td><td>${signedInt(row.toPar)}</td><td>${signed(row.perEighteen)}</td></tr>`).join('')}</tbody></table></div>`
-            : '<div class="st-plot" data-plot="trend"></div>'}
+          <header class="st-card-head">
+            <div>
+              <h2>Utveckling</h2>
+              <p>${state.trendMetric === 'points' ? 'Stableford-poäng, runda för runda' : 'Resultat mot par per 18 hål, runda för runda'}</p>
+            </div>
+            <div class="st-head-actions">
+              ${hasPoints && !showTable('trend') ? `<div class="st-mini-seg" role="group" aria-label="Mått">
+                <button type="button" data-trend-metric="score" aria-pressed="${state.trendMetric === 'score'}">Mot par</button>
+                <button type="button" data-trend-metric="points" aria-pressed="${state.trendMetric === 'points'}">Poäng</button>
+              </div>` : ''}
+              ${tableToggle('trend')}
+            </div>
+          </header>
+          ${showTable('trend') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Datum</th><th>Bana</th><th>Slag</th><th>Hål</th><th>Mot par</th><th>Per 18</th>${hasPoints ? '<th>Poäng</th>' : ''}</tr></thead><tbody>
+            ${[...trendRows].reverse().map(row => `<tr><td>${esc(dateText(row.date))}</td><td>${esc(row.courseName ?? row.course)}</td><td>${row.strokes}</td><td>${row.holes}</td><td>${signedInt(row.toPar)}</td><td>${signed(row.perEighteen)}</td>${hasPoints ? `<td>${row.points ?? '–'}</td>` : ''}</tr>`).join('')}</tbody></table></div>`
+            : `${trendRows.length >= 3 ? '<ul class="st-legend st-trend-legend"><li><i class="lg-solid"></i>Runda</li><li><i class="lg-dash"></i>5-rundors snitt</li></ul>' : ''}<div class="st-plot" data-plot="trend"></div>`}
         </div>
         <div class="st-card st-chart" data-card="dist">
           <header class="st-card-head"><div><h2>Var slagen hamnar</h2><p>Alla ${kindsTotal} spelade hål, från eagle till dubbelbogey</p></div>${tableToggle('dist')}</header>
           ${showTable('dist') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Resultat</th><th>Hål</th><th>Andel</th></tr></thead><tbody>${stat.distribution.map(d => `<tr><td>${esc(d.label)}</td><td>${d.count}</td><td>${pct(d.count, kindsTotal)}\u00a0%</td></tr>`).join('')}</tbody></table></div>`
             : segmentedBar(stat.distribution, { label: 'Fördelning av resultat per hål' })}
           <div class="st-pars">${stat.byPar.filter(p => p.holes).map(p => `<div><span>Par ${p.par}</span><b>${signed(p.toPar, 2)}</b><small>snitt ${dec(p.average, 2)} · ${p.holes} hål</small></div>`).join('')}</div>
+          ${costItems.length ? `<div class="st-costs" aria-label="Var slagen kostar per 18 hål">
+            <p class="st-costs-title">Tappade slag per 18 hål</p>
+            <div class="st-costs-grid">${costItems.map(c => `<div class="${topCost && c.key === topCost.key && c.value >= 1 ? 'is-top' : ''}"><span>${c.label}</span><b>${c.value > 0.05 ? `+${dec(c.value, 1)}` : '0,0'}</b><small>${c.note}</small></div>`).join('')}</div>
+          </div>` : ''}
         </div>
       </section>
 
-      <section class="st-grid-3">
+      <section class="st-grid-3" id="st-game">
         <div class="st-card">
           <header class="st-card-head"><div><h2>Från tee</h2><p>Par 4 och 5, ${stat.fairways.tried} utslag</p></div></header>
           ${stat.fairways.tried ? fairwayFigure(stat.fairways) : '<p class="st-muted">Inga fairways förda än.</p>'}
         </div>
         <div class="st-card">
-          <header class="st-card-head"><div><h2>Greener</h2><p>På green med två puttar kvar till par</p></div></header>
-          <div class="st-meter-figure"><b>${pct(stat.greens.hit, stat.greens.tried)}<small>%</small></b><span>${stat.greens.hit} av ${stat.greens.tried} hål</span></div>
+          <header class="st-card-head"><div><h2>Greener &amp; närspel</h2><p>Träffade greener och räddade par vid miss</p></div></header>
+          <div class="st-meter-figure"><b>${pct(stat.greens.hit, stat.greens.tried)}<small>%</small></b><span>GIR · ${stat.greens.hit} av ${stat.greens.tried} hål</span></div>
           <div class="st-meter" role="img" aria-label="${pct(stat.greens.hit, stat.greens.tried)} procent greener i regulation"><i style="width:${pct(stat.greens.hit, stat.greens.tried) === '–' ? 0 : pct(stat.greens.hit, stat.greens.tried)}%"></i></div>
+          <div class="st-scramble">
+            <div class="st-meter-figure is-sub"><b>${scramblePct}<small>${scramblePct === '–' ? '' : '%'}</small></b><span>Räddningar · ${scramble.saved} av ${scramble.opportunities} missade</span></div>
+            <div class="st-meter is-blue" role="img" aria-label="${scramblePct} procent räddade par vid missad green"><i style="width:${scramblePct === '–' ? 0 : scramblePct}%"></i></div>
+          </div>
           <p class="st-muted st-gap-top">${stat.penalties ? `${stat.penalties} pliktslag i de loggade slagen` : 'Inga pliktslag i de loggade slagen'}</p>
         </div>
         <div class="st-card" data-card="putts">
@@ -457,17 +628,35 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
             { label: 'Två puttar', count: stat.putts.two, colour: SCORE_KINDS[2].colour },
             { label: 'Tre eller fler', count: stat.putts.three, colour: SCORE_KINDS[3].colour },
           ], { label: 'Puttar per green', tall: false }) : ''}
+          ${stat.putts.onGir !== null || stat.putts.missedGir !== null ? `<div class="st-subgrid-2" aria-label="Puttar på GIR mot missad green">
+            <div><span>På GIR</span><b>${stat.putts.onGir !== null ? dec(stat.putts.onGir, 2) : '–'}</b><small>${stat.putts.onGirHoles} hål</small></div>
+            <div><span>Missad green</span><b>${stat.putts.missedGir !== null ? dec(stat.putts.missedGir, 2) : '–'}</b><small>${stat.putts.missedGirHoles} hål</small></div>
+          </div>` : ''}
         </div>
       </section>
 
-      <section class="st-card st-clubs" data-card="clubs" aria-labelledby="stClubsH">
-        <header class="st-card-head"><div><h2 id="stClubsH">Klubbor</h2><p>Hur långt varje klubba går, så som du faktiskt slår den. ${stat.shotsMeasured} uppmätta slag.</p></div>${tableToggle('clubs')}</header>
+      <section class="st-card st-clubs" id="st-clubs" data-card="clubs" aria-labelledby="stClubsH">
+        <header class="st-card-head">
+          <div><h2 id="stClubsH">Klubbor</h2><p>Hur långt varje klubba går, så som du faktiskt slår den. ${stat.shotsMeasured} uppmätta slag.</p></div>
+          <div class="st-head-actions">
+            ${!state.example && stat.bagUpdates.length ? `<button class="st-view is-accent" type="button" data-bag-sync>${state.bagSaved ? 'Bagen uppdaterad ✓' : `Uppdatera bagen (${stat.bagUpdates.length})`}</button>` : ''}
+            ${tableToggle('clubs')}
+          </div>
+        </header>
+        ${!state.example && state.bagPreview && stat.bagUpdates.length ? `<div class="st-bag-preview" role="region" aria-label="Föreslagna ändringar i bagen">
+          <p>Uppdatera bagens carry-längder med dina uppmätta slag (synkas till ditt konto):</p>
+          <ul class="st-bag-diffs">${stat.bagUpdates.map(u => `<li><b>${esc(u.name)}</b><span>${u.currentCarry} → <strong>${u.measuredCarry} m</strong> (${signedInt(u.diff)} m)</span></li>`).join('')}</ul>
+          <div class="sr-actions">
+            <button type="button" class="set-primary" data-bag-apply>Spara i Min bag</button>
+            <button type="button" class="st-ghost" data-bag-cancel>Avbryt</button>
+          </div>
+        </div>` : ''}
         ${showTable('clubs') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Klubba</th><th>Slag</th><th>Typisk</th><th>Spridning</th><th>Längsta</th><th>Bagens carry</th></tr></thead><tbody>
           ${stat.clubs.filter(c => !c.putter).map(c => `<tr><td>${esc(c.name)}</td><td>${c.stat?.shots ?? 0}</td><td>${c.stat ? `${Math.round(c.stat.typical)} m` : '–'}</td><td>${c.stat ? `${Math.round(c.stat.shortest)}–${Math.round(c.stat.reach)} m` : '–'}</td><td>${c.stat ? `${Math.round(c.stat.longest)} m` : '–'}</td><td>${c.carry ? `${c.carry} m` : '–'}</td></tr>`).join('')}</tbody></table></div>`
           : `<ul class="st-legend gap-legend"><li><i class="lg-range"></i>Spridning</li><li><i class="lg-typ"></i>Typisk längd</li><li><i class="lg-carry"></i>Bagens carry</li></ul>${clubRows(stat.clubs)}`}
       </section>
 
-      <section class="st-card st-holes" data-card="holes" aria-labelledby="stHolesH">
+      <section class="st-card st-holes" id="st-holes" data-card="holes" aria-labelledby="stHolesH">
         <header class="st-card-head"><div><h2 id="stHolesH">Hål för hål</h2><p>${stat.byHoleNumber ? `Ditt snitt mot par på varje hål, ${esc(all.playedCourses.find(c => c.slug === state.course)?.name ?? '')}` : 'Välj en bana för att se vilka hål som kostar mest'}</p></div>${stat.byHoleNumber ? tableToggle('holes') : ''}</header>
         ${!stat.byHoleNumber ? `<div class="st-pick">${all.playedCourses.map(c => `<button type="button" class="st-ghost" data-pick-course="${esc(c.slug)}">${esc(c.name)}</button>`).join('')}</div>`
           : showTable('holes') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Hål</th><th>Par</th><th>Snitt</th><th>Mot par</th><th>Bästa</th><th>Puttar</th><th>Fairway</th><th>Rundor</th></tr></thead><tbody>
@@ -478,7 +667,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         </div>` : ''}
       </section>
 
-      <section class="st-split">
+      <section class="st-split" id="st-rounds">
         <div class="st-card">
           <header class="st-card-head"><div><h2>Banor</h2><p>Där du har spelat</p></div></header>
           <ul class="st-courses">${stat.courses.map(c => `<li>
@@ -493,7 +682,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
           <header class="st-card-head"><div><h2>Rundor</h2><p>Tryck på en runda för dess scorekort</p></div></header>
           <div class="st-round-list">${[...stat.trend].reverse().map(row => {
             const record = data.rounds.find(r => r.id === row.id && r.course === row.course);
-            return `<details class="st-round">
+            return `<details class="st-round" data-round-key="${esc(`${row.course}|${row.id}`)}">
               <summary>
                 <span class="sr-date"><b>${esc(String(new Date(row.date).getDate()))}</b><small>${esc(new Date(row.date).toLocaleDateString('sv-SE', { month: 'short' }).replace('.', ''))}</small></span>
                 <span class="sr-name"><b>${esc(row.courseName ?? row.course)}</b><small>${row.holes} hål${row.points !== null ? ` · ${row.points} p` : ''} · ${row.putts} puttar</small></span>
@@ -511,7 +700,17 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
       </section>`;
 
     bindFilters();
+    bindJumpNav();
     body.querySelector('[data-hide-example]')?.addEventListener('click', () => { state.example = false; render(); });
+    for (const btn of body.querySelectorAll('[data-trend-metric]')) {
+      btn.addEventListener('click', () => {
+        if (state.trendMetric === btn.dataset.trendMetric) return;
+        state.trendMetric = btn.dataset.trendMetric;
+        const y = el.scrollTop;
+        render();
+        el.scrollTop = y;
+      });
+    }
     for (const btn of body.querySelectorAll('[data-view]')) {
       btn.addEventListener('click', () => {
         state.view[btn.dataset.view] = state.view[btn.dataset.view] === 'table' ? 'chart' : 'table';
@@ -521,26 +720,60 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         body.querySelector(`[data-view="${btn.dataset.view}"]`)?.focus();
       });
     }
+    body.querySelector('[data-bag-sync]')?.addEventListener('click', () => {
+      state.bagPreview = !state.bagPreview;
+      state.bagSaved = false;
+      const y = el.scrollTop;
+      render();
+      el.scrollTop = y;
+    });
+    body.querySelector('[data-bag-cancel]')?.addEventListener('click', () => {
+      state.bagPreview = false;
+      const y = el.scrollTop;
+      render();
+      el.scrollTop = y;
+    });
+    body.querySelector('[data-bag-apply]')?.addEventListener('click', () => {
+      const updated = applyMeasuredBag(data.bag, stat.bagUpdates);
+      writeText(storage(), BAG_KEY, JSON.stringify({ version: 3, clubs: updated }));
+      notifyLocalChange('bag');
+      state.bagPreview = false;
+      state.bagSaved = true;
+      const y = el.scrollTop;
+      render();
+      el.scrollTop = y;
+    });
+    for (const btn of body.querySelectorAll('[data-jump-round]')) {
+      btn.addEventListener('click', () => {
+        const [course, id] = btn.dataset.jumpRound.split('|');
+        openRoundCard(course, id);
+      });
+    }
+
     const plot = body.querySelector('[data-plot="trend"]');
     const draw = () => {
-      if (plot && plot.isConnected && trendRows.length) drawTrend(plot, trendRows);
+      if (plot && plot.isConnected && trendRows.length) {
+        drawTrend(plot, trendRows, {
+          metric: state.trendMetric,
+          onPickRound: row => openRoundCard(row.course, row.id),
+        });
+      }
       fitSegments(body);
     };
     draw();
     bindSegments(body);
     bindClubs(body);
-    /* a round, shared as its picture (round-card.mjs) */
     for (const btn of body.querySelectorAll('[data-share-round]')) btn.addEventListener('click', async () => {
       const [course, id] = btn.dataset.shareRound.split('|');
       const record = data.rounds.find(r => r.course === course && String(r.id) === id);
       if (!record) return;
+      const orig = btn.textContent;
       btn.disabled = true;
       const { shareRoundCard } = await import('./round-card.mjs');
       const done = await shareRoundCard(record, { poster: poster(record.course), text: `${record.courseName ?? record.course}, ${dateText(record.date, true)}` });
       btn.disabled = false;
-      btn.textContent = done === 'saved' ? 'Bilden är sparad' : done === 'failed' ? 'Bilden gick inte att göra' : 'Dela rundan som bild';
+      btn.textContent = done === 'saved' ? 'Bilden är sparad' : done === 'failed' ? 'Kunde inte skapa bild' : orig;
     });
-    /* the hole chart's readouts, and a course picked from its own card */
     const holesCard = body.querySelector('[data-card="holes"]');
     if (holesCard) {
       const tip = tipFor(holesCard);
@@ -551,9 +784,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         }, () => tip.hide());
       }
     }
-    /* the course in view, played next: its own page, where the round is set up */
     for (const btn of body.querySelectorAll('[data-play-course]')) btn.addEventListener('click', () => onCourse?.(btn.dataset.playCourse));
-    /* a course picked from the holes card or from Banor: that course, hole by hole */
     for (const btn of body.querySelectorAll('[data-pick-course]')) btn.addEventListener('click', () => {
       state.course = btn.dataset.pickCourse;
       render();
@@ -562,15 +793,18 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     observe(draw);
   }
 
-  function filters(courseOptions) {
-    return `<div class="st-filters" role="group" aria-label="Urval">
-      <div class="seg" role="radiogroup" aria-label="Period">${PERIODS.map(p => `<label class="seg-opt"><input type="radio" name="st-period" value="${p.key}"${p.key === state.period ? ' checked' : ''}><span>${p.label}</span></label>`).join('')}</div>
-      <label class="st-select"><span class="st-sr">Bana</span><select data-course><option value="all">Alla banor</option>${courseOptions}</select></label>
+  function toolbar(courseOptions, withJump) {
+    return `<div class="st-toolbar">
+      <div class="st-filters" role="group" aria-label="Urval">
+        <div class="seg" role="radiogroup" aria-label="Period">${PERIODS.map(p => `<label class="seg-opt"><input type="radio" name="st-period" value="${p.key}"${p.key === state.period ? ' checked' : ''}><span>${p.label}</span></label>`).join('')}</div>
+        <label class="st-select"><span class="st-sr">Bana</span><select data-course><option value="all">Alla banor</option>${courseOptions}</select></label>
+      </div>
+      ${withJump ? `<nav class="st-jump" aria-label="Avsnitt">${JUMP_SECTIONS.map((s, i) => `<button type="button" data-jump="${s.id}" aria-current="${i === 0}">${s.label}</button>`).join('')}</nav>` : ''}
     </div>`;
   }
   function bindFilters() {
-    for (const input of body.querySelectorAll('input[name="st-period"]')) input.addEventListener('change', () => { state.period = input.value; render(true); });
-    body.querySelector('[data-course]')?.addEventListener('change', e => { state.course = e.target.value; render(true); });
+    for (const input of body.querySelectorAll('input[name="st-period"]')) input.addEventListener('change', () => { state.period = input.value; state.bagPreview = false; render(true); });
+    body.querySelector('[data-course]')?.addEventListener('change', e => { state.course = e.target.value; state.bagPreview = false; render(true); });
   }
   function bindClubs(root) {
     const card = root.querySelector('[data-card="clubs"]');
@@ -585,7 +819,6 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     }
   }
 
-  /* redraw the plot when the page changes width; one observer for the page */
   let observer = null, redraw = null, frame = 0;
   function observe(fn) {
     redraw = fn;
@@ -607,7 +840,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     else renderStats(data);
     if (!REDUCED) {
       body.classList.remove('is-entering');
-      void body.offsetWidth; /* restart the entrance */
+      void body.offsetWidth;
       body.classList.add('is-entering');
     }
     if (focusName === 'st-period') body.querySelector(`input[name="st-period"][value="${state.period}"]`)?.focus();
@@ -615,7 +848,11 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
   }
 
   el.refresh = () => render();
-  /* #statistik/<course>, from the course's page: that course, hole by hole */
+  addEventListener('banvy-sync-changed', () => render());
+  subscribeCloud(() => {
+    const data = read();
+    if (!data.rounds.length && !state.example) renderEmpty();
+  });
   el.showCourse = slug => {
     state.example = false;
     if (courses.some(c => c.slug === slug)) state.course = slug;
