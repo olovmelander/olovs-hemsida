@@ -264,9 +264,12 @@ uniform mat4 uClip;
 uniform float uExaggeration;
 uniform vec3 uEye;
 uniform vec2 uFade;
+uniform bool uFullSize;
 uniform vec2 uFog;
 uniform vec3 uShapes[6];               /* radius, centre, height of each layer */
 ${IMPOSTOR_COMMON}
+uniform int uDetailedCount;
+flat out int vSingleFrame;
 out vec4 vFramesAB;
 out vec4 vFrameCDominant;
 out vec4 vUvAB;
@@ -277,8 +280,8 @@ out vec2 vLevel;                       /* how far up the tree, how far away */
 void main() {
   vec3 shape = uShapes[int(aSize.z)];
   float reach = distance(vec2(aTree.x, aTree.z), uEye.xz);
-  /* Trees sink into the painted canopy before the 1 m tiles end. */
-  float grown = 1.0 - smoothstep(uFade.x, uFade.y, reach);
+  /* Distant landscape fades into its canopy. Foreground crowns keep their size. */
+  float grown = uFullSize ? 1.0 : 1.0 - smoothstep(uFade.x, uFade.y, reach);
   vec3 scale = vec3(aSize.x, aSize.y, aSize.x) * max(grown, 0.0001);
   vec3 base = vec3(aTree.x, aTree.y * uExaggeration, aTree.z);
   vec3 centre = base + vec3(0.0, shape.y * scale.y, 0.0);
@@ -302,6 +305,7 @@ void main() {
   vUvAB = vec4(inFrame(frameA, localOffset, shape.x), inFrame(frameB, localOffset, shape.x));
   vUvC = inFrame(frameC, localOffset, shape.x);
   vWeights = weights;
+  vSingleFrame = gl_InstanceID >= uDetailedCount ? 1 : 0;
   vTree = vec4(aSize.z, aSize.w, c, s);
   vLevel = vec2(clamp((world.y - base.y) / max(shape.z * scale.y, 0.01), 0.0, 1.0), smoothstep(uFog.x, uFog.y, reach));
   gl_Position = uClip * vec4(world, 1.0);
@@ -310,6 +314,7 @@ void main() {
 const TREE_FRAGMENT = `#version 300 es
 precision highp float;
 precision highp sampler2DArray;
+flat in int vSingleFrame;
 in vec4 vFramesAB;
 in vec4 vFrameCDominant;
 in vec4 vUvAB;
@@ -336,7 +341,11 @@ vec4 picture(sampler2DArray atlas, vec2 frame, vec2 p) {
   return texture(atlas, vec3((frame + clamp(p, 0.004, 0.996)) / FRAMES, vTree.x));
 }
 void main() {
-  vec4 albedo = picture(uColours, vFramesAB.xy, vUvAB.xy) * vWeights.x
+  vec2 dominant = vFrameCDominant.zw == vFramesAB.xy ? vUvAB.xy : vFrameCDominant.zw == vFramesAB.zw ? vUvAB.zw : vUvC;
+  // Extra foreground crowns keep species, lighting, size and position. The
+  // dominant view alone costs two fewer colour samples and no shadow pass.
+  vec4 albedo = vSingleFrame == 1 ? picture(uColours, vFrameCDominant.zw, dominant)
+              : picture(uColours, vFramesAB.xy, vUvAB.xy) * vWeights.x
               + picture(uColours, vFramesAB.zw, vUvAB.zw) * vWeights.y
               + picture(uColours, vFrameCDominant.xy, vUvC) * vWeights.z;
   float coverage = albedo.a;
@@ -346,7 +355,6 @@ void main() {
   if (cut <= 0.0) discard;
   vec3 skin = albedo.rgb / max(coverage, 0.001);
 
-  vec2 dominant = vFrameCDominant.zw == vFramesAB.xy ? vUvAB.xy : vFrameCDominant.zw == vFramesAB.zw ? vUvAB.zw : vUvC;
   vec3 local = picture(uNormals, vFrameCDominant.zw, dominant).rgb * 2.0 - 1.0;
   float c = vTree.z, s = vTree.w;
   vec3 normal = normalize(vec3(local.x * c + local.z * s, local.y, -local.x * s + local.z * c));
@@ -396,6 +404,7 @@ uniform mat4 uClip;
 uniform float uExaggeration;
 uniform vec3 uEye;
 uniform vec2 uFade;
+uniform bool uFullSize;
 uniform vec3 uSun;
 uniform vec3 uShapes[6];
 ${IMPOSTOR_COMMON}
@@ -404,7 +413,7 @@ flat out float vLayer;
 void main() {
   vec3 shape = uShapes[int(aSize.z)];
   float reach = distance(vec2(aTree.x, aTree.z), uEye.xz);
-  float grown = 1.0 - smoothstep(uFade.x, uFade.y, reach);
+  float grown = uFullSize ? 1.0 : 1.0 - smoothstep(uFade.x, uFade.y, reach);
   vec3 scale = vec3(aSize.x, aSize.y, aSize.x) * max(grown, 0.0001);
   vec3 base = vec3(aTree.x, aTree.y * uExaggeration, aTree.z);
   vec3 centre = base + vec3(0.0, shape.y * scale.y, 0.0);
@@ -455,11 +464,12 @@ uniform mat4 uClip;
 uniform float uExaggeration;
 uniform vec3 uEye;
 uniform vec2 uFade;
+uniform bool uFullSize;
 uniform vec3 uShapes[6];
 out vec2 vSpot;
 void main() {
   float reach = distance(vec2(aTree.x, aTree.z), uEye.xz);
-  float grown = 1.0 - smoothstep(uFade.x, uFade.y, reach);
+  float grown = uFullSize ? 1.0 : 1.0 - smoothstep(uFade.x, uFade.y, reach);
   float size = uShapes[int(aSize.z)].x * aSize.x * 1.15 * max(grown, 0.0001);
   vec3 place = vec3(aTree.x + aCorner.x * size, aTree.y * uExaggeration, aTree.z + aCorner.y * size);
   vSpot = aCorner * 2.0;
@@ -954,14 +964,8 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
       const maskTexture = texture(3, gl.RGBA8, paint.mask.width, paint.mask.height, gl.LINEAR_MIPMAP_LINEAR, mips(paint.mask));
 
-      node.gpu = { heightTexture, reliefTexture, paintTexture, maskTexture, trees: null, houses: null };
+      node.gpu = { heightTexture, reliefTexture, paintTexture, maskTexture, houses: null };
       repaintTile(node, paint);
-      if (node.trees?.length) {
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, node.trees, gl.STATIC_DRAW);
-        node.gpu.trees = { vao: instanceVao(buffer), buffer, count: node.trees.length / 8 };
-      }
       if (node.houses?.length) {
         const buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -996,10 +1000,9 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     releaseTile(node) {
       if (!node.gpu) return;
       for (const handle of [node.gpu.heightTexture, node.gpu.reliefTexture, node.gpu.paintTexture, node.gpu.maskTexture, node.gpu.shadeTexture]) if (handle) gl.deleteTexture(handle);
-      for (const set of [node.gpu.trees, node.gpu.houses]) {
-        if (!set) continue;
-        gl.deleteVertexArray(set.vao);
-        gl.deleteBuffer(set.buffer);
+      if (node.gpu.houses) {
+        gl.deleteVertexArray(node.gpu.houses.vao);
+        gl.deleteBuffer(node.gpu.houses.buffer);
       }
       node.gpu = null;
     },
@@ -1064,21 +1067,32 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
         triangles += mesh.count / 3;
       }
 
-      /* The trees of the 1 m tiles in view, and of the forest beyond them. */
-      const planted = new Map();
-      for (const { node, reach } of patches) {
-        if (!node.gpu.trees && !node.gpu.houses) continue;
-        if (reach < view.treeFade[1] && !planted.has(node)) planted.set(node, reach);
+      const houses = new Set(patches.filter(({ node, reach }) => node.gpu.houses && reach < view.treeFade[1]).map(({ node }) => node));
+      const sources = atlases ? (view.forest ?? []).map(({ node, reach, foreground }) =>
+        ({ vao: node.forestGpu.vao, count: node.forestGpu.count, reach, foreground })) : [];
+      const lists = shareTrees(sources.sort((a, b) => a.reach - b.reach), view.treeBudget, view.treeFade[1]);
+      let trees = 0, detailedTrees = 0, holeTrees = 0;
+      for (const source of lists) {
+        trees += source.count;
+        detailedTrees += source.detailed;
+        if (source.foreground) holeTrees += source.count;
       }
-      let trees = 0, lists = [];
-      if (atlases) {
-        const sources = [...planted].filter(([node]) => node.gpu.trees)
-          .map(([node, reach]) => ({ vao: node.gpu.trees.vao, count: node.gpu.trees.count, reach }));
-        for (const { node, reach } of view.forest ?? []) {
-          if (!planted.has(node) && reach < view.treeFade[1]) sources.push({ vao: node.forestGpu.vao, count: node.forestGpu.count, reach });
+
+      function drawForest(program, crowns = false) {
+        let foreground;
+        for (const source of lists) {
+          const count = crowns ? source.count : source.detailed;
+          if (!count) continue;
+          if (foreground !== Boolean(source.foreground)) {
+            foreground = Boolean(source.foreground);
+            // A long fit or a low quality setting must not shrink the trees on
+            // the hole. Distant landscape keeps its normal fade into the canopy.
+            gl.uniform1i(program.u.uFullSize, foreground ? 1 : 0);
+          }
+          if (crowns) gl.uniform1i(program.u.uDetailedCount, source.detailed);
+          gl.bindVertexArray(source.vao);
+          gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
         }
-        lists = shareTrees(sources.sort((a, b) => a.reach - b.reach), view.treeBudget, view.treeFade[1]);
-        trees = lists.reduce((sum, list) => sum + list.count, 0);
       }
 
       /* Shadows sit on the ground, so depth stays out of it: the ground is already
@@ -1093,24 +1107,17 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       if (lists.length) {
         setShared(contact, view);
         gl.disable(gl.STENCIL_TEST);
-        for (const { vao, count } of lists) {
-          gl.bindVertexArray(vao);
-          gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
-        }
+        drawForest(contact);
         gl.enable(gl.STENCIL_TEST);
         setShared(shadow, view);
         gl.uniform3fv(shadow.u.uSun, view.shadowSun);
         gl.enable(gl.SAMPLE_ALPHA_TO_COVERAGE);
-        for (const { vao, count } of lists) {
-          gl.bindVertexArray(vao);
-          gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
-        }
+        drawForest(shadow);
         gl.disable(gl.SAMPLE_ALPHA_TO_COVERAGE);
       }
       setShared(houseShadow, view);
       gl.uniform3fv(houseShadow.u.uSun, view.shadowSun);
-      for (const node of planted.keys()) {
-        if (!node.gpu.houses) continue;
+      for (const node of houses) {
         gl.bindVertexArray(node.gpu.houses.vao);
         gl.drawArrays(gl.TRIANGLES, 0, node.gpu.houses.count);
       }
@@ -1129,8 +1136,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
       if (capture) greenCache.markForeground();
       setShared(house, view);
-      for (const node of planted.keys()) {
-        if (!node.gpu.houses) continue;
+      for (const node of houses) {
         gl.bindVertexArray(node.gpu.houses.vao);
         gl.drawArrays(gl.TRIANGLES, 0, node.gpu.houses.count);
         triangles += node.gpu.houses.count / 3;
@@ -1139,10 +1145,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       if (lists.length) {
         setShared(tree, view);
         gl.enable(gl.SAMPLE_ALPHA_TO_COVERAGE);
-        for (const { vao, count } of lists) {
-          gl.bindVertexArray(vao);
-          gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
-        }
+        drawForest(tree, true);
         gl.disable(gl.SAMPLE_ALPHA_TO_COVERAGE);
       }
 
@@ -1163,7 +1166,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
         cachedView = { clip: view.clip, exaggeration: view.exaggeration, greenGrid: view.greenGrid };
         drawGreenPulseFrame(view.greenGrid.time);
       }
-      return { triangles: triangles + trees * 2, trees, patches: patches.length };
+      return { triangles: triangles + trees * 2, trees, detailedTrees, holeTrees, patches: patches.length };
     },
   };
 }

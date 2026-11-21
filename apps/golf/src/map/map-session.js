@@ -434,7 +434,7 @@ const display = createDisplay(root, { read: key => savedText(key, null), write: 
 const STRIP_PIXELS = 54, PROMPT_ROOM_PIXELS = 152, TWO_ROWS_PIXELS = 112;
 const sideways = matchMedia('(orientation: landscape) and (max-height: 520px)');
 function fitLayout() {
-  root.classList.remove('is-compact', 'is-stripless', 'is-tight');
+  root.classList.remove('is-compact', 'is-stripless', 'is-tight', 'is-inline-green', 'is-split-rail');
   ui.wheel.style.removeProperty('--rows');
   if (sideways.matches) return;
   /* Fitted for the column at its fullest, not as it is this moment: the wind arrives after
@@ -446,9 +446,10 @@ function fitLayout() {
   ui.greenPlays.hidden = false;
   if (!ui.greenPlays.textContent) ui.greenPlays.textContent = 'Spelas 000';
   ui.green.classList.remove('is-on');
+  const railBottom = () => Math.max(...[ui.green, ui.wind, ui.wheel, ui.logShot].map(el => el.getBoundingClientRect().bottom));
   const room = () => {
     const strip = root.classList.contains('is-stripless') ? 0 : STRIP_PIXELS;
-    return ui.tools.getBoundingClientRect().top - 8 - strip - Math.max(ui.wheel.getBoundingClientRect().bottom, ui.logShot.getBoundingClientRect().bottom);
+    return ui.tools.getBoundingClientRect().top - 8 - strip - railBottom();
   };
   const steps = [
     () => {},
@@ -460,7 +461,16 @@ function fitLayout() {
     const need = root.classList.contains('is-compact') ? 56 : PROMPT_ROOM_PIXELS;
     if (room() >= need) break;
   }
-  root.classList.toggle('is-tight', room() < TWO_ROWS_PIXELS);
+  const cardMeetsRail = () => {
+    const card = ui.reading.getBoundingClientRect();
+    return card.height > 0 && railBottom() + 6 > card.top;
+  };
+  root.classList.toggle('is-tight', room() < TWO_ROWS_PIXELS || cardMeetsRail());
+  if (cardMeetsRail()) {
+    root.classList.add('is-stripless');
+    if (cardMeetsRail()) root.classList.add('is-inline-green');
+    if (cardMeetsRail()) root.classList.add('is-split-rail');
+  }
   for (const [element, hidden] of held) element.hidden = hidden;
   heldPlays[0].hidden = heldPlays[1];
   heldPlays[0].textContent = heldPlays[2];
@@ -710,8 +720,9 @@ async function start() {
     for (const element of [ui.green, ui.wind, ui.wheel, ui.logShot]) {
       const box = element.getBoundingClientRect();
       if (!box.width) continue;
-      if (box.right <= width / 2) room.left = Math.max(room.left, Math.ceil(box.right) + gap);
-      else if (box.left >= width / 2) room.right = Math.max(room.right, width - Math.floor(box.left) + gap);
+      // In the tightest portrait layout the inner column can cross the centre.
+      if (box.left + box.width / 2 < width / 2) room.left = Math.max(room.left, Math.ceil(box.right) + gap);
+      else room.right = Math.max(room.right, width - Math.floor(box.left) + gap);
     }
     return room;
   }
@@ -2554,10 +2565,22 @@ async function start() {
     ui.reading.hidden = false;
     root.classList.toggle('has-shot-distance', Boolean(hud.distance));
     hudFields.conditions.hidden = !hud.conditions;
-    $('[data-reading-close]').hidden = !manual;
-    $('[data-club-auto]').hidden = !(state.manualClub && shot.recommendedClub);
-    $('[data-aim-retry]').hidden = shot.reason !== 'load-failed';
+    const actions = [
+      [$('[data-reading-close]'), manual],
+      [$('[data-club-auto]'), Boolean(state.manualClub && shot.recommendedClub)],
+      [$('[data-aim-retry]'), shot.reason === 'load-failed'],
+    ];
+    let actionsChanged = false;
+    for (const [button, visible] of actions) {
+      if (button.hidden === visible) {
+        button.hidden = !visible;
+        actionsChanged = true;
+      }
+    }
     refreshLogAction();
+    // A second reset opens a whole row. Fit it in this input event so the
+    // wheel and Logga slag are already clear before the next paint.
+    if (actionsChanged && !sideways.matches) fitLayout();
     // Keep walking distances live on the card. Speak once when the advice itself changes.
     const key = [h.n, shot.mode, shot.status, manual ? shot.target : '', hud.title, shot.source,
       state.manualClub, shot.selectedClub?.id, shot.recommendedClub?.id].join('|');
@@ -3053,7 +3076,7 @@ async function start() {
   const hudSize = new ResizeObserver(() => {
     const box = root.getBoundingClientRect();
     if (box.width !== camera.state.width || box.height !== camera.state.height) resize();
-    else reframeForLayout();
+    else { fitLayout(); reframeForLayout(); }
   });
   for (const element of [root, mapHeader, mapFoot, cameraButtons, ui.green, ui.wind, ui.wheel, ui.logShot]) hudSize.observe(element);
   document.addEventListener('visibilitychange', () => {
@@ -3164,7 +3187,8 @@ async function start() {
       const treeReach = step.reach * (state.atEye ? TREE_REACH.eye
         : clamp(distance * TREE_REACH.perDistance, pixelsPerRadian * pixelRatio() / 2.6, TREE_REACH.most));
       state.stats.treeReach = treeReach;
-      const forest = store.forest({ planes, eye, reach: treeReach, exaggeration: state.exaggeration });
+      const forest = store.forest({ planes, eye, reach: treeReach, exaggeration: state.exaggeration,
+        holeTiles: state.mode === 'hole' ? hole().tileIds : [] });
       /* A low sun throws the land's own shadow, tile by tile, nearest first. */
       const lowSun = state.light.sun[1] < SHADE_BELOW_SUN && params.get('hillshade') !== '0';
       if (lowSun) shadesWaiting = store.bakeHillShades(selection.patches, state.light.sun, state.exaggeration, store.root.maxY * state.exaggeration);
@@ -3202,6 +3226,8 @@ async function start() {
       }, pulseOnly);
       state.stats.triangles = drawn.triangles;
       state.stats.trees = drawn.trees;
+      state.stats.holeTrees = drawn.holeTrees;
+      state.stats.detailedTrees = drawn.detailedTrees;
       state.stats.patches = drawn.patches;
       state.stats.frames++;
       store.markUsed(selection);

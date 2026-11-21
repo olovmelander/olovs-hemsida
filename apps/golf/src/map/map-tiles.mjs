@@ -8,7 +8,7 @@
 import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/decode-web.mjs';
 import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.mjs';
 import { bakeTileRelief, decodeTileHeights, sampleTile } from './map-height.mjs';
-import { boxInFrustum, buildTileTree, TILE_SAMPLES } from './map-lod.mjs';
+import { boxInFrustum, buildTileTree, forestInView, TILE_SAMPLES } from './map-lod.mjs';
 import { bakeHillShade, shadeKey } from './map-horizon.mjs';
 import { raiseHouses } from './map-houses.mjs';
 import { createFarBlocker, createFarSample, farForestCells, FAR_FOREST, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
@@ -72,7 +72,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
   const uploads = [];             /* decoded and waiting for their turn */
   const forestWanted = new Map(); /* tiles whose trees this view could use */
   const forestPlanting = [];      /* their records in, waiting to be planted */
-  const metreTiles = [...nodes.values()].filter(node => node.lod === 0 && node.layers.stands);
+  const metreTiles = [...nodes.values()].filter(node => node.lod === 0 && (node.layers.stands || node.layers.objects));
   let forestActive = 0;
   let active = 0, clock = 0, disposed = false, bytesFetched = 0, failures = 0;
   /* Past the 1 m tiles, the forest picture's wood (map-far-forest.mjs), once its
@@ -85,7 +85,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
   let forestAt = null, blockerFor = null;
   function addFarForest(farForest) {
     if (!farForest?.land?.forestBytes || far.cells.length) return;
-    far = farForestCells(root, metreTiles);
+    far = farForestCells(root, metreTiles.filter(node => node.layers.stands));
     if (!far.cells.length) return;
     const { land } = farForest;
     readForestPicture(land.forestBytes).then(picture => {
@@ -140,12 +140,29 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       const { stand, trees } = await readVegetation(node, heights);
       node.stand = stand;
       node.trees = trees;
-      farSample.add(node, node.trees);
     } catch (error) {
       node.stand = null;
       node.trees = null;
       console.warn(`map vegetation ${node.id}: ${error.message}`);
     }
+  }
+
+  /* Vegetation owns one buffer independent of the displayed terrain LOD.
+     A fine height tile upgrades the planting previously rooted on coarse
+     ground. Evicting the height tile leaves its trees available. */
+  function installForest(node, trees, metreGround = false) {
+    const next = trees.length ? renderer.uploadForest(trees) : null;
+    if (node.forestGpu) renderer.releaseForest(node.forestGpu);
+    node.forestGpu = next;
+    node.forest = 'ready';
+    node.forestOnMetreGround = metreGround;
+    node.crownHeight = node.crownRadius = 0;
+    for (let i = 0; i < trees.length; i += TREE_FLOATS) {
+      const shape = templates[trees[i + 6]];
+      node.crownHeight = Math.max(node.crownHeight, trees[i + 5] * shape.templateHeight);
+      node.crownRadius = Math.max(node.crownRadius, trees[i + 4] * shape.templateRadius);
+    }
+    farSample.add(node, trees);
   }
 
   async function loadTile(node) {
@@ -188,9 +205,12 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
     node.forest = 'loading';
     try {
       const [stands, objects] = await Promise.all([readLayer(node.layers.stands), readLayer(node.layers.objects)]);
+      if (disposed || node.forest === 'ready') return;
+      node.forest = 'queued';
       node.forestRecords = { stand: stands && { payload: stands.payload, section: stands.header.standField }, objects: objects?.content?.records };
       forestPlanting.push(node);
     } catch (error) {
+      if (disposed || node.forest === 'ready') return;
       node.forest = 'failed';
       node.failedAt = performance.now();
       setTimeout(onChange, RETRY_MS);
@@ -206,6 +226,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
     while (forestActive < FOREST_FETCHES && forestWanted.size) {
       const [id, node] = forestWanted.entries().next().value;
       forestWanted.delete(id);
+      if (node.forest && node.forest !== 'failed') continue;
       forestActive++;
       loadForest(node);
     }
@@ -302,6 +323,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
         const node = uploads.shift();
         const paint = painter.paint(node);
         renderer.uploadTile(node, node.decoded, node.relief, paint);
+        if (node.trees && !node.forestOnMetreGround) installForest(node, node.trees, true);
         node.relief = null;
         if (!awaitingAppearance) node.stand = null;
         node.state = 'ready';
@@ -315,11 +337,10 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       for (let i = 0; i < FOREST_PLANTS_PER_FRAME && forestPlanting.length; i++) {
         const node = forestPlanting.shift();
         const { stand, objects } = node.forestRecords;
-        const trees = plantTile({ node, stand, objects: objects ?? null, ground, rules, groundAt: this.heightAt });
         node.forestRecords = null;
-        farSample.add(node, trees);
-        node.forestGpu = trees.length ? renderer.uploadForest(trees) : null;
-        node.forest = 'ready';
+        if (node.forest === 'ready') continue;
+        const trees = plantTile({ node, stand, objects: objects ?? null, ground, rules, groundAt: this.heightAt });
+        installForest(node, trees);
       }
       const planting = performance.now();
       while (farWanted.length && performance.now() - planting < FAR_PLANTING_MS) {
@@ -343,16 +364,19 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
 
     /* The forest in view, as far as a tree still reads. Its tiles are asked for nearest
        first, and those a 1 m tile already plants are left to it. */
-    forest({ planes, eye, reach, exaggeration }) {
+    forest({ planes, eye, reach, exaggeration, holeTiles = [] }) {
       const standing = [], missing = [];
       for (const node of metreTiles) {
         const away = Math.hypot(node.x0 + node.size / 2 - eye[0], node.z0 + node.size / 2 - eye[2]) - node.size;
-        if (away > reach || !boxInFrustum(planes, node.x0, node.minY * exaggeration, node.z0, node.x0 + node.size, node.maxY * exaggeration, node.z0 + node.size)) continue;
-        if (node.forestGpu) standing.push({ node, reach: away });
-        else if (!node.gpu?.trees && (!node.forest || (node.forest === 'failed' && performance.now() - node.failedAt >= RETRY_MS))) missing.push({ node, away });
+        const foreground = holeTiles.includes(node.id);
+        if ((!foreground && away > reach) || !forestInView(node, planes, exaggeration)) continue;
+        if (node.forestGpu) standing.push({ node, reach: away, foreground });
+        else if (!node.forest || (node.forest === 'failed' && performance.now() - node.failedAt >= RETRY_MS)) {
+          missing.push({ node, away, foreground });
+        }
       }
       forestWanted.clear();
-      for (const { node } of missing.sort((a, b) => a.away - b.away)) forestWanted.set(node.id, node);
+      for (const { node } of missing.sort((a, b) => Number(b.foreground) - Number(a.foreground) || a.away - b.away)) forestWanted.set(node.id, node);
       pumpForest();
       /* The far wood waits for enough measured trees to be drawn from, and is planted
          again when finer ground arrives under it, so it stands on what is drawn. */
@@ -447,6 +471,8 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       for (const node of nodes.values()) {
         if (node.state === 'ready' || node.state === 'failed' || queued.has(node)) node.state = null;
         node.forestGpu = null;
+        node.forestOnMetreGround = false;
+        node.forestRecords = null;
         if (node.forest !== 'loading') node.forest = null;
         node.gpu = null;
         node.shadeKey = null;
