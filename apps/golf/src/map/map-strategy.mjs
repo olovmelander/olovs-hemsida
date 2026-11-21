@@ -176,7 +176,12 @@ export function createMapStrategy({ hole, environment, bag, carryBag = bag, heig
     plan(origin, { tee = false, previous = null } = {}) {
       const empty = status => ({ status, hole: hole.n, origin, shots: [] });
       if (!validPoint(origin) || !validPoint(centre) || !greenRing?.length || !clubs.length) return empty('unavailable');
-      if (environment.originAllowed?.(...origin) === false) return empty('blocked');
+      if (environment.originAllowed?.(...origin) === false) {
+        if (heightAt !== unknownHeight && !Number.isFinite(heightAt(...origin))) {
+          return { ...empty('unavailable'), reason: 'unmapped-origin' };
+        }
+        return empty('blocked');
+      }
       if (!greensApproximate && isGreen(origin)) return empty('on-green');
       const cap = tee && String(hole.note ?? '').match(/max(?:imalt)?\s+(\d{2,3})\s*(?:m|meter)/i);
       const maxCarry = cap ? Number(cap[1]) : undefined;
@@ -192,7 +197,7 @@ export function createMapStrategy({ hole, environment, bag, carryBag = bag, heig
       // Below the tee planner's minimum stroke length a short chip still
       // reaches a verified green centre. A missing ring never grants a landing.
       const toCentre = groundDistance(origin, centre);
-      if (greensApproximate && toCentre < 1) return empty('unavailable');
+      if (greensApproximate && toCentre < 1) return { ...empty('unavailable'), reason: 'approximate-green' };
       if (toCentre > 0 && toCentre < 15 && withinCap(centre) && (greensApproximate || ringSD(...centre, greenRing) <= -greenInset) &&
           safeLanding(centre) && clear(origin, centre)) return result(origin, [measured(origin, centre, 'green')]);
       const graph = solve(origin, maxCarry);

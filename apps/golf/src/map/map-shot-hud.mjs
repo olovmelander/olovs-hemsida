@@ -15,9 +15,10 @@ export function shotHud(shot, hole, { approximateGreen = false, waters = [], man
     terrain = surface === 'green' && approximateGreen ? 'Ungefärlig green' : surfaces[surface] ?? '';
   }
   const stateTitle = { loading: 'Beräknar slagförslag…', blocked: 'Ingen säker slagväg', unavailable: 'Bandata saknas', 'on-green': 'På green' };
-  const title = shot.target
-    ? [pinned ? 'Mätpunkt' : 'Nästa slag', terrain].filter(Boolean).join(' · ')
-    : stateTitle[shot.status] ?? 'Ingen säker slagväg';
+  const originTitle = { 'unmapped-origin': 'Höjddata saknas här', 'approximate-green': 'Ungefärligt greenläge' };
+  let title = originTitle[shot.reason] ?? stateTitle[shot.status] ?? 'Ingen säker slagväg';
+  if (shot.status === 'recovery') title = 'Spela till fairway';
+  else if (shot.target) title = [pinned ? 'Mätpunkt' : 'Nästa slag', terrain].filter(Boolean).join(' · ');
   const reading = shot.reading;
   const distance = reading ? metres(reading.distance) : '';
   const club = shot.selectedClub ? (manualClub ? 'Vald · ' : '') + shot.selectedClub.name : '';
@@ -25,12 +26,14 @@ export function shotHud(shot, hole, { approximateGreen = false, waters = [], man
   if (reading) {
     if (Number.isFinite(reading.plays) && Math.round(reading.plays) !== Math.round(reading.distance)) details.push(`Spelas ${metres(reading.plays)}`);
     const left = Math.round(groundDistance(shot.target, hole.green.c));
-    if ((pinned || shot.legs.length > 1) && left > 0) details.push(`${left} m kvar`);
+    if ((pinned || shot.legs.length > 1 || shot.status === 'recovery') && left > 0) details.push(`${left} m kvar`);
+    if (shot.status === 'recovery') details.push('Endast detta slag');
     const rise = Math.round(Math.abs(reading.rise));
     if (rise > 0) conditions.push(`${rise} m ${reading.rise > 0 ? 'uppför' : 'nedför'}`);
     conditions.push(...windWords(reading));
     if (pinned && !shot.reachable) details.push('Utanför räckvidd');
-  } else if (shot.status === 'blocked') details.push('Tryck för att mäta');
+  } else if (shot.status === 'blocked' || shot.reason === 'unmapped-origin') details.push('Tryck för att mäta');
+  else if (shot.reason === 'approximate-green') details.push('Kontrollera läget på green');
   const choice = manualClub && shot.recommendedClub ? `Förslag: ${shot.recommendedClub.name}` : '';
   if (choice) details.push(choice);
   return { title, source, distance, club, detail: details.join(' · '), conditions: conditions.join(' · ') };
@@ -44,7 +47,7 @@ export function measurementTargets(hole, path, origin, hazards) {
     if (along + ahead < total - 10) choices.push({ label: `Spellinjen, ${ahead} m framåt`, point: pointAlongLine(path, along + ahead) });
   }
   for (const hazard of hazards) {
-    const distance = metres(groundDistance(origin, hazard.at));
+    const distance = (hazard.approximate ? 'cirka ' : '') + metres(groundDistance(origin, hazard.at));
     choices.push({ label: `${hazard.kind === 'water' ? 'Vatten' : 'Bunker'}, ${distance}`, point: hazard.at });
   }
   return choices;

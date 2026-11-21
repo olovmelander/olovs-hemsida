@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { createMapShotGeometry, loadMapShotGeometry } from './map-shot-geometry.mjs';
+import { createMapStrategy } from './map-strategy.mjs';
+import { mappedWaterShapes } from './map-hazard-geometry.mjs';
+import { DEFAULT_BAG } from '../engine/caddie.js';
 
 const rect = (left, top, right, bottom) => [[left, top], [right, top], [right, bottom], [left, bottom]];
 const tile = () => ({
@@ -15,10 +18,18 @@ function layout() {
     drains: [], parking: [], paved: [], paths: [], tracks: [], roads: [], railways: [],
     otherBunkers: [rect(24, 20, 32, 25)], buildings: [rect(55, 45, 65, 52)], farBuildings: [],
     obRuns: [{ line: [[28, 68], [28, 78]], holes: [1] }, { line: [[0, 33], [30, 33]], holes: [2] }] };
-  return { hole, course: { holes: [hole, other], greensApproximate: false, features } };
+  return { hole, course: { holes: [hole, other], greensApproximate: false, features, hazards: { waters: mappedWaterShapes(features) } } };
 }
 
 describe('the physical ground used for a GPS shot', () => {
+  it('distinguishes a lie outside the hole survey from a measured lie in water', async () => {
+    const { course, hole } = layout();
+    const data = await loadMapShotGeometry(course, hole, { shotTile: async () => tile() });
+    const planner = createMapStrategy({ ...createMapShotGeometry(data), bag: DEFAULT_BAG });
+    expect(planner.plan([-1, 40])).toMatchObject({ status: 'unavailable', reason: 'unmapped-origin', shots: [] });
+    expect(planner.plan([15, 67])).toMatchObject({ status: 'blocked', shots: [] });
+  });
+
   it('keeps only the played hole’s targets and the hazards from every layout', async () => {
     const { course, hole } = layout();
     const data = await loadMapShotGeometry(course, hole, { shotTile: async () => tile() });

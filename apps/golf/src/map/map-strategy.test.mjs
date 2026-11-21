@@ -50,7 +50,7 @@ describe('live next stroke', () => {
     const strategy = createMapStrategy({ ...defaults, greensApproximate: true });
     const chip = strategy.plan([0, 354]);
     same(chip.shots[0].point, hole.green.c);
-    expect(strategy.plan([0, 359.8])).toMatchObject({ status: 'unavailable', shots: [] });
+    expect(strategy.plan([0, 359.8])).toMatchObject({ status: 'unavailable', reason: 'approximate-green', shots: [] });
     const blockedCentre = createMapStrategy({ ...defaults, greensApproximate: true,
       environment: createShotEnvironment({ landingAllowed: (x, z) => x !== 0 || z !== 360 }) });
     expect(blockedCentre.plan([0, 347]).shots).toEqual([]);

@@ -1,11 +1,58 @@
 /* The shot log: two fixes and a club make a shot, and the awkward cases stay honest. */
 import { describe, expect, it } from 'vitest';
 import {
-  addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isPutter, learnedBag, lockShot, openShot, parseHistory, reachOf, retakeShot, setPutts, shotLength, storeHistory, surfaceAt,
+  addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isPutter, learnedBag, lockShot, openShot, parseHistory, reachOf, reopenPuttOnlyScores, retakeShot, scoreAfterPutting, setPutts, shotLength, storeHistory, surfaceAt,
 } from './map-shots.mjs';
 
 const seven = { id: 'iron-7', carry: 140 }, driver = { id: 'driver', carry: 210 }, putter = { id: 'putter', carry: 0 };
 const lock = (shots, club, point, extra = {}) => lockShot(shots, { hole: 1, club, point, accuracy: 5, at: 1000, ...extra });
+
+describe('confirming the hole score after putting', () => {
+  const putts = count => setPutts(lock([], putter, [3, 5]), 1, count);
+
+  it.each([0, 1, 2, 4])('stores %i putts without considering them the total', count => {
+    expect(scoreAfterPutting(undefined, holeTally(putts(count), 1))).toEqual({ putts: count, strokes: null, logged: false });
+  });
+
+  it('keeps the derived total when a non-putt and penalty were logged', () => {
+    const tally = holeTally([{ ...lock([], seven, [0, 0])[0], penalty: 1 }, ...putts(2)], 1);
+    expect(scoreAfterPutting(undefined, tally)).toEqual({ putts: 2, strokes: 4, picked: false, logged: true });
+  });
+
+  it('retains a manual stroke total or pickup when the same putts are recorded', () => {
+    const tally = holeTally(putts(2), 1);
+    expect(scoreAfterPutting({ strokes: 6, logged: false }, tally)).toEqual({ putts: 2 });
+    expect(scoreAfterPutting({ strokes: null, picked: true, logged: true }, tally)).toBeNull();
+  });
+
+  it('reopens a zero-stroke hole left after zero putts removed the pending lock', () => {
+    const zero = { strokes: 0, putts: 0, logged: true };
+    const round = { scores: { 1: zero, 2: zero, 3: { ...zero, picked: true }, 4: { ...zero, logged: false } } };
+    expect(reopenPuttOnlyScores(round, [{ ...lock([], seven, [0, 0])[0], hole: 2 }])).toBe(true);
+    expect(round.scores[1]).toEqual({ strokes: null, putts: 0, logged: false });
+    expect(round.scores[2]).toEqual(zero);
+    expect(round.scores[3]).toEqual({ ...zero, picked: true });
+    expect(round.scores[4]).toEqual({ ...zero, logged: false });
+  });
+
+  it('reopens a legacy active hole only with corroborating saved putts', () => {
+    const auto = { strokes: 2, putts: 2, logged: true, fairway: 'hit' };
+    const round = { scores: { 1: { ...auto }, 2: { ...auto }, 3: { ...auto, logged: false } } };
+    const two = putts(2);
+    const log = [...two, { ...two[0], hole: 2 }, ...two.map(s => ({ ...s, hole: 3 }))];
+    expect(reopenPuttOnlyScores(round, log)).toBe(true);
+    expect(round.scores[1]).toEqual({ ...auto, strokes: null, logged: false });
+    expect(round.scores[2]).toEqual(auto);
+    expect(round.scores[3]).toEqual({ ...auto, logged: false });
+    expect(reopenPuttOnlyScores(round, log)).toBe(false);
+    for (const entry of [{ endedAt: 1 }, {}]) {
+      const card = { ...entry, scores: { 1: auto } };
+      const shots = entry.endedAt ? two : [...two, lock([], seven, [0, 0])[0]];
+      expect(reopenPuttOnlyScores(card, shots)).toBe(false);
+      expect(card.scores[1]).toEqual(auto);
+    }
+  });
+});
 
 describe('a shot', () => {
   it('starts at one lock and ends at the next', () => {

@@ -70,7 +70,12 @@ async function gpsAtTee(page, context, hole) {
     return { latitude: course.geo.origin.lat - south / 111320, longitude: course.geo.origin.lon + east / course.geo.mPerLon, accuracy: 4 };
   }, hole);
   await context.setGeolocation(fix);
-  await wait(page, () => V3DMap.state.player?.onCourse && V3DMap.state.guidance.source === 'gps');
+  await wait(page, ({ latitude, longitude }) => {
+    const { state } = V3DMap;
+    const [x, z] = V3DMap.worldOf(latitude, longitude);
+    return state.player?.onCourse && state.guidance?.source === 'gps'
+      && Math.hypot(state.player.point[0] - x, state.player.point[1] - z) < 1;
+  }, fix);
   return fix;
 }
 
@@ -95,6 +100,27 @@ try {
   assert.equal(await first.page.locator('[data-gps]').getAttribute('aria-pressed'), 'false');
   await start(first.page, 1);
   console.log('A preview survives refresh without starting GPS or saving setup. Starting on 1 then plays hole 1.');
+  const green = await first.page.evaluate(() => {
+    const { course } = V3DMap;
+    const [east, south] = course.frame.toPack(...course.holes[0].green.c);
+    return { latitude: course.geo.origin.lat - south / 111320, longitude: course.geo.origin.lon + east / course.geo.mPerLon, accuracy: 4 };
+  });
+  await first.context.setGeolocation(green);
+  await wait(first.page, () => V3DMap.wheel() === 'putter' && V3DMap.state.guidance.source === 'gps');
+  await tap(first.page, '[data-wheel-lock]');
+  await first.context.setGeolocation(green);
+  await tap(first.page, '[data-putts-key="2"]');
+  const partial = (await storedRound(first.page)).scores[1];
+  assert.equal(partial.putts, 2);
+  assert.equal(partial.strokes, null);
+  assert.equal(await first.page.locator('[data-score-label]').innerText(), 'Score');
+  assert.match(await first.page.locator('[data-prompt-title]').innerText(), /2 puttar.*slag totalt/);
+  await first.page.reload({ waitUntil: 'domcontentloaded' });
+  await first.page.locator('[data-prompt-key="5"]').waitFor();
+  await tap(first.page, '[data-prompt-key="5"]');
+  assert.equal((await storedRound(first.page)).scores[1].strokes, 5);
+  assert.equal((await storedRound(first.page)).scores[1].putts, 2);
+  console.log('A putter-only hole keeps two putts, asks for total strokes, and resumes that choice after reload.');
   await first.context.close();
 
   const { page, context } = await phone();
@@ -191,6 +217,30 @@ try {
   assert.equal((await round(page)).scores[10].strokes, par + 2);
   assert.equal(await page.evaluate(() => V3DMap.shots().length), 1);
   console.log('Explicitly playing previewed hole 12 preserves the previous score and shot.');
+  if (await page.locator('[data-gps]').getAttribute('aria-pressed') === 'false') await tap(page, '[data-gps]');
+  const playing = (await round(page)).playingHole;
+  const next = await page.evaluate(n => n % V3DMap.course.holes.length + 1, playing);
+  await gpsAtTee(page, context, playing);
+  const lastOrigin = await page.evaluate(() => V3DMap.state.guidance.origin);
+  const session = await context.newCDPSession(page);
+  const { targetInfo } = await session.send('Target.getTargetInfo');
+  const permission = setting => session.send('Browser.setPermission', {
+    permission: { name: 'geolocation' }, setting, origin: base.origin, browserContextId: targetInfo.browserContextId,
+  });
+  await permission('denied');
+  await wait(page, () => V3DMap.state.guidance.source === 'last-gps' && document.querySelector('[data-gps-label]').textContent === 'Tillåt GPS');
+  assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.origin), lastOrigin);
+  await tap(page, '[data-next]');
+  await tap(page, '[data-hole]');
+  await tap(page, '[data-play-hole]');
+  await wait(page, n => V3DMap.state.playing === n && V3DMap.state.guidance.source === 'tee', next);
+  await permission('granted');
+  await tap(page, '[data-gps]');
+  await gpsAtTee(page, context, next);
+  await wait(page, () => document.querySelector('[data-gps-label]').textContent === '±4 m');
+  assert.equal(await page.evaluate(() => V3DMap.shots().length), 1);
+  console.log('Revoking permission retains the last position on its own hole. The next hole previews from its tee, and GPS resumes after regrant.');
+
   assert.deepEqual(errors, []);
   await context.close();
 } finally {

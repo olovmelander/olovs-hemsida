@@ -100,7 +100,8 @@ export function createGuidancePlanner({ loadGeometry, createWorker, onChange }) 
         if (!last?.shots.length || !canRetain({ ...old, origin: last.origin }, active.request)) active.result = null;
         send(active);
       }
-      return active.result ?? { status: active.failed ? 'unavailable' : 'loading', shots: [] };
+      if (active.result) return active.result;
+      return active.failed ? { status: 'unavailable', reason: 'load-failed', shots: [] } : { status: 'loading', shots: [] };
     },
   };
 }

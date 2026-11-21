@@ -39,6 +39,47 @@ describe('the origin of the suggested shot', () => {
 describe('phone geolocation callbacks', () => {
   afterEach(() => vi.unstubAllGlobals());
 
+  it('coalesces recovery requests and ignores a one-off timeout after a newer watch fix', () => {
+    const geolocation = {
+      watchPosition: vi.fn(() => 7), clearWatch: vi.fn(), getCurrentPosition: vi.fn(),
+    };
+    vi.stubGlobal('navigator', { geolocation });
+    const onFix = vi.fn(), onFailure = vi.fn(), gps = createGps({ onFix, onFailure });
+    gps.start();
+    gps.ask();
+    gps.ask();
+    expect(geolocation.getCurrentPosition).toHaveBeenCalledTimes(1);
+    const [watch] = geolocation.watchPosition.mock.calls[0];
+    watch({ coords: { accuracy: 4 }, timestamp: 100 });
+    geolocation.getCurrentPosition.mock.calls[0][1]({ code: 3 });
+    expect(onFailure).not.toHaveBeenCalled();
+    gps.ask();
+    geolocation.getCurrentPosition.mock.calls[1][1]({ code: 3 });
+    expect(onFailure).toHaveBeenCalledWith('GPS svarar inte ännu');
+    expect(gps.active).toBe(true);
+  });
+
+  it('reports permission loss even when the browser silently drops its watch', async () => {
+    const permission = Object.assign(new EventTarget(), { state: 'granted' });
+    const geolocation = {
+      watchPosition: vi.fn(() => 20), clearWatch: vi.fn(), getCurrentPosition: vi.fn(),
+    };
+    vi.stubGlobal('navigator', { geolocation, permissions: { query: async () => permission } });
+    const onFix = vi.fn(), onFailure = vi.fn(), gps = createGps({ onFix, onFailure });
+    gps.start();
+    await Promise.resolve();
+    gps.ask();
+    permission.state = 'denied';
+    permission.dispatchEvent(new Event('change'));
+    expect(gps.active).toBe(false);
+    expect(onFailure).toHaveBeenCalledWith(expect.stringContaining('Platsåtkomst'), { denied: true });
+    expect(geolocation.clearWatch).toHaveBeenCalledWith(20);
+    geolocation.getCurrentPosition.mock.calls[0][0]({ coords: {}, timestamp: 100 });
+    expect(onFix).not.toHaveBeenCalled();
+    permission.dispatchEvent(new Event('change'));
+    expect(onFailure).toHaveBeenCalledTimes(1);
+  });
+
   it('passes the sensor timestamp and discards watch, error and one-off callbacks from a previous session', () => {
     const geolocation = {
       watchPosition: vi.fn(() => 17), clearWatch: vi.fn(), getCurrentPosition: vi.fn(),

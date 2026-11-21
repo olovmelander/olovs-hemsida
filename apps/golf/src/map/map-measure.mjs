@@ -2,7 +2,8 @@
    south). The ground rules stay in rangefinder.js and caddie.js: this only
    carries them to a hole in the world frame. Pure. */
 import { nearestPointOnLine, pointAlongLine } from '../engine/caddie.js';
-import { ringSD } from '../engine/geom.js';
+import { crossing } from './map-hazard-geometry.mjs';
+import { inRing, ptSegD, ringBBox, ringSD } from '../engine/geom.js';
 import { compassBearing, greenDistances, playsLike, windAlong } from '../engine/rangefinder.js';
 
 export const groundDistance = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
@@ -105,7 +106,7 @@ export function windWords({ head, cross }) {
   return words;
 }
 
-const CORRIDOR_METRES = 45, BUNKER_GROUP_METRES = 14, WATER_NEAR_METRES = 18, WATER_STEP_METRES = 4;
+const CORRIDOR_METRES = 45, BUNKER_GROUP_METRES = 14, WATER_NEAR_METRES = 18;
 /* Water at the player's feet is scenery: there is nothing to play short of. */
 const WATER_WORTH_METRES = 30;
 
@@ -128,17 +129,7 @@ export function groupBunkers(rings) {
   });
 }
 
-function box(ring) {
-  let x0 = Infinity, z0 = Infinity, x1 = -Infinity, z1 = -Infinity;
-  for (const [x, z] of ring) {
-    if (x < x0) x0 = x;
-    if (x > x1) x1 = x;
-    if (z < z0) z0 = z;
-    if (z > z1) z1 = z;
-  }
-  return { ring, x0, z0, x1, z1 };
-}
-export const waterShape = box;
+export { waterShape } from './map-hazard-geometry.mjs';
 
 /* Which side of the line of play a thing lies on, facing the green. World z runs
    south, so a positive cross product is to the right. */
@@ -150,11 +141,73 @@ export function sideOfPlay(point, path) {
   return (b[0] - a[0]) * (point[1] - a[1]) - (b[1] - a[1]) * (point[0] - a[0]) > 0 ? 'höger' : 'vänster';
 }
 
-/* What lies ahead on this hole, nearest first: the distance to reach each hazard
-   and to carry it, from where the ball is. Water beside the line can be reached but
-   needs no carrying, so it has no carry. */
+const bankEpsilon = 1e-7;
+const between = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+
+/* Intersect a leg with the surveyed banks. Classifying the open intervals
+   handles concave lakes, bends, tangencies and a stream narrower than a metre.
+   The 18 m corridor only identifies nearby water beside the line. */
+function waterAlongLine(water, path, origin) {
+  const spans = [];
+  let walked = 0, nearby = false;
+  for (let i = 1; i < path.length; i++) {
+    const a = path[i - 1], b = path[i], length = groundDistance(a, b);
+    if (!length) continue;
+    const left = Math.min(a[0], b[0]) - WATER_NEAR_METRES, right = Math.max(a[0], b[0]) + WATER_NEAR_METRES;
+    const low = Math.min(a[1], b[1]) - WATER_NEAR_METRES, high = Math.max(a[1], b[1]) + WATER_NEAR_METRES;
+    for (const ring of water.rings) {
+      const cuts = [0, 1];
+      for (let k = 0, j = ring.length - 1; k < ring.length; j = k++) {
+        const c = ring[j], d = ring[k];
+        if (Math.max(c[0], d[0]) < left || Math.min(c[0], d[0]) > right ||
+            Math.max(c[1], d[1]) < low || Math.min(c[1], d[1]) > high) continue;
+        const cut = crossing(a, b, c, d);
+        if (cut >= 0) { cuts.push(cut); nearby = true; }
+        else if (!nearby) nearby = Math.min(ptSegD(...a, ...c, ...d), ptSegD(...b, ...c, ...d),
+          ptSegD(...c, ...a, ...b), ptSegD(...d, ...a, ...b)) <= WATER_NEAR_METRES;
+      }
+      cuts.sort((x, y) => x - y);
+      for (let k = 1; k < cuts.length; k++) {
+        const lo = cuts[k - 1], hi = cuts[k];
+        if ((hi - lo) * length <= bankEpsilon) continue;
+        const middle = between(a, b, (lo + hi) / 2);
+        if (!inRing(...middle, ring) || ringSD(...middle, ring) >= -bankEpsilon) continue;
+        spans.push({ start: walked + lo * length, end: walked + hi * length,
+          entry: between(a, b, lo), exit: between(a, b, hi) });
+      }
+    }
+    walked += length;
+  }
+  if (spans.length) {
+    // Adjacent legs through the same pond and overlapping stream strips make
+    // one crossing. Dry ground between two arms of a lake separates them.
+    const runs = [];
+    for (const span of spans.sort((a, b) => a.start - b.start)) {
+      const last = runs.at(-1);
+      if (!last || span.start > last.end + bankEpsilon) runs.push(span);
+      else if (span.end > last.end) { last.end = span.end; last.exit = span.exit; }
+    }
+    return runs.map(({ start, end, entry, exit }) => {
+      const endsInWater = end >= walked - bankEpsilon && water.rings.some(ring => ringSD(...exit, ring) < -bankEpsilon);
+      return { kind: 'water', at: start < bankEpsilon && !endsInWater ? exit : entry, front: groundDistance(origin, entry),
+        carry: endsInWater ? null : groundDistance(origin, exit), openWater: endsInWater, side: 'mitt' };
+    });
+  }
+  if (!nearby) return [];
+  let nearest = null;
+  for (const ring of water.rings) {
+    const hit = nearestPointOnLine(origin, [...ring, ring[0]]);
+    if (!nearest || hit.distance < nearest.distance) nearest = hit;
+  }
+  if (!nearest || nearest.distance < WATER_WORTH_METRES) return [];
+  return [{ kind: 'water', at: nearest.point, front: nearest.distance, carry: null, side: sideOfPlay(nearest.point, path) }];
+}
+
+/* The reference line runs from the current ball to the next point on the
+   hole's route and then to the green. Bank distances are measured directly
+   from the ball, regardless of the length of the route between its bends. */
 export function hazardsAhead({ origin, path, bunkers, waters, limit = 5 }) {
-  const start = nearestPointOnLine(origin, path).along;
+  const { along: start, segment } = nearestPointOnLine(origin, path);
   const found = [];
 
   for (const group of bunkers) {
@@ -164,28 +217,16 @@ export function hazardsAhead({ origin, path, bunkers, waters, limit = 5 }) {
     found.push({ kind: 'bunker', at: group.c, front: Math.min(...reaches), carry: Math.max(...reaches), side: sideOfPlay(group.c, path) });
   }
 
-  const total = nearestPointOnLine(path.at(-1), path).total;
-  const hole = box(path);
+  const remaining = [origin, ...path.slice(segment + 1)];
+  const hole = ringBBox(remaining);
   for (const water of waters) {
-    /* By the path's whole box, not its corners: a long straight hole has a pond
-       halfway along that is nowhere near either end of it. */
     if (water.x1 < hole.x0 - WATER_NEAR_METRES || water.x0 > hole.x1 + WATER_NEAR_METRES
       || water.z1 < hole.z0 - WATER_NEAR_METRES || water.z0 > hole.z1 + WATER_NEAR_METRES) continue;
-    let first = null, last = null, wet = null;
-    for (let along = start; along <= total; along += WATER_STEP_METRES) {
-      const point = pointAlongLine(path, along);
-      const edge = ringSD(point[0], point[1], water.ring);
-      if (edge < WATER_NEAR_METRES && !first) first = point;
-      if (edge < 0) wet = point;
-      if (edge < WATER_NEAR_METRES) last = point;
-      else if (first) break;
+    for (const hazard of waterAlongLine(water, remaining, origin)) {
+      if (water.approximate) hazard.approximate = true;
+      found.push(hazard);
     }
-    if (!first || (!wet && groundDistance(origin, first) < WATER_WORTH_METRES)) continue;
-    const spot = wet ?? last;
-    const shore = wet ? spot : water.ring.reduce((best, point) => (groundDistance(spot, point) < groundDistance(spot, best) ? point : best));
-    found.push({ kind: 'water', at: shore, front: groundDistance(origin, first), carry: wet ? groundDistance(origin, wet) : null, side: sideOfPlay(shore, path) });
   }
-
   return found.sort((a, b) => a.front - b.front).slice(0, limit);
 }
 

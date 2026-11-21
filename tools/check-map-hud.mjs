@@ -39,18 +39,21 @@ const SETTINGS = [['plain', {}], ['sun', { sun: true }], ['left-large', { left: 
 
 /* What may lie on what by design: a sheet covers the game until it is closed. */
 const collect = () => {
-  const HUD = { hole: '.map-hole', green: '.map-green', wind: '.map-wind', wheel: '.map-wheel', log: '[data-wheel-lock]:not(.map-sr)', hint: '.map-wheel-hint', recentre: '.map-recentre', viewToggle: '[data-view-toggle]', viewMenu: '[data-view-menu]', note: '[data-locked]', same: '[data-same]', prompt: '[data-prompt]', reading: '[data-reading]', profile: '[data-profile]', legend: '[data-legend]', tools: '.map-tools', status: '[data-status]' };
+  const HUD = { hole: '.map-hole', green: '.map-green', wind: '.map-wind', wheel: '.map-wheel', log: '[data-wheel-lock]:not(.map-sr)', hint: '[data-wheel-hint]', recentre: '.map-recentre', viewToggle: '[data-view-toggle]', viewMenu: '[data-view-menu]', note: '[data-locked]', same: '[data-same]', prompt: '[data-prompt]', reading: '[data-reading]', profile: '[data-profile]', legend: '[data-legend]', tools: '.map-tools', status: '[data-status]' };
   const shown = element => { if (!element || element.hidden) return false; const style = getComputedStyle(element); if (style.display === 'none' || style.visibility === 'hidden') return false; return element.getClientRects().length > 0; };
-  const rects = {};
+  const rects = {}, elements = {};
   for (const [name, selector] of Object.entries(HUD)) {
     const element = document.querySelector(selector);
     if (!shown(element)) continue;
+    elements[name] = element;
     const box = element.getBoundingClientRect();
     rects[name] = { l: box.left, t: box.top, r: box.right, b: box.bottom };
   }
   const issues = [];
   const names = Object.keys(rects);
   for (let i = 0; i < names.length; i++) for (let j = i + 1; j < names.length; j++) {
+    const first = elements[names[i]], second = elements[names[j]];
+    if (first.contains(second) || second.contains(first)) continue;
     const a = rects[names[i]], b = rects[names[j]];
     const w = Math.min(a.r, b.r) - Math.max(a.l, b.l), h = Math.min(a.b, b.b) - Math.max(a.t, b.t);
     if (w > 1 && h > 1) issues.push(`overlap ${names[i]}/${names[j]} ${Math.round(w)}x${Math.round(h)}`);
@@ -96,10 +99,13 @@ const collect = () => {
       else if (at.x < 0 || at.y < 0 || at.x > innerWidth || at.y > innerHeight) issues.push(`outside ${name}`);
     }
     if (state.showHazards && !state.greenView) {
-      const hazards = state.hazards.map(each => under(screen(each.at))).filter(Boolean);
-      if (hazards.length) issues.push(`hazard labels behind ${[...new Set(hazards)].join('+')}: ${hazards.length}/${state.hazards.length}`);
+      const anchors = state.hazards.map(each => under(screen(each.at))).filter(Boolean);
+      if (anchors.length) issues.push(`hazard locations behind ${[...new Set(anchors)].join('+')}: ${anchors.length}/${state.hazards.length}`);
     }
   }
+  const hint = rects.hint;
+  const covered = hint && window.mapPillBoxes.find(box => box.l < hint.r && box.r > hint.l && box.t < hint.b && box.b > hint.t);
+  if (covered) issues.push(`painted map label behind walking distance: ${covered.text}`);
   return { issues, rects };
 };
 
@@ -133,6 +139,26 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
       const checkRotation = phone === 'se1' || phone === 'side-small';
       const before = Object.values(report).reduce((sum, value) => sum + value.count, 0);
       const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 2, hasTouch: true, isMobile: true, permissions: ['geolocation'], geolocation: { latitude: 59.6, longitude: 17.8 } });
+      // The map declutters landmarks according to reach and priority. Capture the
+      // actual rounded labels, including their width, on the most recent canvas frame.
+      await context.addInitScript(() => {
+        window.mapPillBoxes = [];
+        const ctx = CanvasRenderingContext2D.prototype;
+        const clear = ctx.clearRect, rounded = ctx.roundRect, write = ctx.fillText;
+        ctx.clearRect = function (...args) {
+          if (this.canvas.matches('.map-marks')) window.mapPillBoxes.length = 0;
+          return clear.apply(this, args);
+        };
+        ctx.roundRect = function (x, y, w, h, ...radii) {
+          if (this.canvas.matches('.map-marks')) window.mapPillBoxes.push({ l: x, t: y, r: x + w, b: y + h });
+          return rounded.call(this, x, y, w, h, ...radii);
+        };
+        ctx.fillText = function (text, ...position) {
+          const pill = this.canvas.matches('.map-marks') && window.mapPillBoxes.at(-1);
+          if (pill && !pill.text) pill.text = text;
+          return write.call(this, text, ...position);
+        };
+      });
       await context.addInitScript(values => { try { localStorage.setItem('banvy-map-display-v1', JSON.stringify(values)); localStorage.setItem('banvy-map-hint-v1', '1'); } catch {} }, display);
       const page = await context.newPage();
       const problems = [];
@@ -229,9 +255,20 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         await stand(0.5);
         await settled();
         await page.evaluate(() => { document.querySelector('[data-locked]').hidden = true; });
-        await record('walking');
-        if (height > width && !await page.locator('[data-wheel-hint]').isVisible()) {
-          add(phone, setting, 'walking', ['missing walking distance beside automatic guidance']);
+        const recordWalk = async name => {
+          await record(name);
+          const hint = page.locator('[data-wheel-hint]');
+          if (!await hint.isVisible() || !(await hint.locator('[data-hint-note]').innerText()).trim() || !/\d+ m/.test(await hint.innerText())) {
+            add(phone, setting, name, ['missing walking distance or club in the shot card']);
+          }
+        };
+        await recordWalk('walking');
+        if (checkRotation) {
+          await rotate(height, width);
+          await stand(0.5);
+          await settled();
+          await recordWalk('walking-rotated');
+          await rotate(width, height);
         }
         await page.locator('.map-marks').tap({ position: await exposedGround() });
         await page.waitForFunction(() => V3DMap.state.guidance?.mode === 'manual');
@@ -318,6 +355,6 @@ const rows = write();
 for (const row of rows) console.log(String(row.count).padStart(4), row.example.slice(0, 80), '|', row.where.slice(0, 3).join(' '));
 /* The clashes that fail it. The rest is reported for reading. */
 const BY_DESIGN = /overlap (prompt|same)\/(prompt|same)/;
-const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|focus|rotation|shot distance smaller|missing (walking distance|automatic tee target)|outside target|hidden target behind (hole|green|wind|wheel|log|reading|profile|viewToggle|tools)|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
+const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|focus|rotation|painted map label behind walking distance|shot distance smaller|missing (walking distance|automatic tee target)|outside target|hidden target behind (hole|green|wind|wheel|log|reading|profile|viewToggle|tools)|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
 console.log(clashes.length ? `${clashes.length} kinds of clash` : 'the HUD fits every phone measured');
 process.exitCode = clashes.length ? 1 : 0;

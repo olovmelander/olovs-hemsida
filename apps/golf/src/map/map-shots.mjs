@@ -39,7 +39,11 @@ export function surfaceAt(point, hole, waters = []) {
   if (hole.bunkers?.some(inside)) return 'bunker';
   if (hole.teePads?.some(inside)) return 'tee';
   if (hole.fairways?.some(inside)) return 'fairway';
-  if (waters.some(water => inside(water.ring))) return 'water';
+  if (waters.some(water => {
+    if (!water.rings) return !water.overLand && water.ring && inside(water.ring);
+    return point[0] >= water.x0 && point[0] <= water.x1 && point[1] >= water.z0 && point[1] <= water.z1
+      && water.rings.some(inside);
+  })) return 'water';
   return 'rough';
 }
 
@@ -146,6 +150,32 @@ export function holeTally(shots, hole) {
     if (isPutt(shot)) putts++;
   }
   return { strokes: strokes + penalties, shots: strokes, penalties, putts };
+}
+
+/* Putts can be the first thing a golfer records. In that case the log
+   knows the putts, while the player still needs to supply the total. */
+export function scoreAfterPutting(score, tally) {
+  if (score?.picked) return null;
+  if (Number.isFinite(score?.strokes) && !score.logged) return { putts: tally.putts };
+  if (tally.shots === tally.putts) return { putts: tally.putts, strokes: null, logged: false };
+  return { putts: tally.putts, strokes: tally.strokes, picked: false, logged: true };
+}
+
+/* A zero is impossible even when choosing zero putts erased the original lock.
+   For a positive total, the saved shots must still corroborate every putt. */
+export function reopenPuttOnlyScores(round, roundShots) {
+  if (round.endedAt) return false;
+  let changed = false;
+  const pending = openShot(roundShots);
+  for (const [number, score] of Object.entries(round.scores)) {
+    if (!score?.logged || score.picked || !Number.isInteger(score.putts) || score.putts < 0 || score.strokes !== score.putts) continue;
+    const hole = Number(number), tally = holeTally(roundShots, hole);
+    if (tally.shots !== tally.putts || tally.penalties) continue;
+    if (score.putts > 0 && (pending?.hole === hole || tally.putts !== score.putts)) continue;
+    round.scores[number] = { ...score, strokes: null, logged: false };
+    changed = true;
+  }
+  return changed;
 }
 
 export const isMeasured = shot => shot.outcome === 'played' && shot.to && !shot.inHazard && !shot.suspect
