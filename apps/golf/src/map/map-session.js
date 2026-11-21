@@ -2565,10 +2565,22 @@ async function start() {
     ui.reading.hidden = false;
     root.classList.toggle('has-shot-distance', Boolean(hud.distance));
     hudFields.conditions.hidden = !hud.conditions;
-    $('[data-reading-close]').hidden = !manual;
-    $('[data-club-auto]').hidden = !(state.manualClub && shot.recommendedClub);
-    $('[data-aim-retry]').hidden = shot.reason !== 'load-failed';
+    const actions = [
+      [$('[data-reading-close]'), manual],
+      [$('[data-club-auto]'), Boolean(state.manualClub && shot.recommendedClub)],
+      [$('[data-aim-retry]'), shot.reason === 'load-failed'],
+    ];
+    let actionsChanged = false;
+    for (const [button, visible] of actions) {
+      if (button.hidden === visible) {
+        button.hidden = !visible;
+        actionsChanged = true;
+      }
+    }
     refreshLogAction();
+    // A second reset opens a whole row. Fit it in this input event so the
+    // wheel and Logga slag are already clear before the next paint.
+    if (actionsChanged && !sideways.matches) fitLayout();
     // Keep walking distances live on the card. Speak once when the advice itself changes.
     const key = [h.n, shot.mode, shot.status, manual ? shot.target : '', hud.title, shot.source,
       state.manualClub, shot.selectedClub?.id, shot.recommendedClub?.id].join('|');

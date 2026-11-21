@@ -38,4 +38,5 @@ for journey in hub-journeys stats-history play-session map-round map-offline-fir
 done
 echo '::group::Pinned shot card on a short phone screen'
 node tools/check-map-hud.mjs --manual-card --url "$origin/" --quality 3
+node tools/check-map-hud.mjs --manual-card --url "$origin/" --quality 3 --setting sun-left-large
 echo '::endgroup::'

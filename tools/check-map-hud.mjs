@@ -143,7 +143,11 @@ async function checkManualCard() {
   const context = await browser.newContext({ viewport: { width: 360, height: 608 },
     hasTouch: true, isMobile: true, reducedMotion: 'reduce' });
   try {
-    await context.addInitScript(() => localStorage.setItem('banvy-map-hint-v1', '1'));
+    const display = SETTINGS.find(([name]) => name === onlySetting)?.[1] ?? {};
+    await context.addInitScript(display => {
+      localStorage.setItem('banvy-map-hint-v1', '1');
+      localStorage.setItem('banvy-map-display-v1', JSON.stringify(display));
+    }, display);
     const page = await context.newPage();
     const url = new URL(pageUrl);
     url.searchParams.set('bana', 'puttom');
