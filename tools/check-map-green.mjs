@@ -65,7 +65,10 @@ try {
   const page = await context.newPage();
   page.on('pageerror', error => { errors.push(error.message); console.error(error.message); });
   page.on('console', message => {
-    if (message.type() === 'warning' && /INVALID_|CONTEXT_LOST|WebGL error/.test(message.text())) console.warn(message.text());
+    if (message.type() === 'warning' && /WebGL.*(?:INVALID_|OUT_OF_MEMORY)/.test(message.text())) {
+      errors.push(message.text());
+      console.warn(message.text());
+    }
   });
   await openGreen(page);
   const details = await page.evaluate(() => {
