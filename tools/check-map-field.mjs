@@ -3,13 +3,16 @@
  * standing idle, losing the graphics context and playing with no signal.
  *
  * pnpm --filter @banvy/golf build && node tools/serve.mjs apps/golf/dist 8620
- * BANVY_GPU=1 node tools/check-map-field.mjs [--url http://localhost:8620/] [--slug veckefjarden]
+ * BANVY_GPU=1 node tools/check-map-field.mjs [--url http://localhost:8620/] [--slug veckefjarden] [--guidance-only]
+ * --guidance-only runs the shot guidance and saved-course checks without the round UI tour.
  *
  * Fails on any broken expectation or console error. Screenshots go to
  * tools/goldens/map/field/ (ignored). */
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
+import { pointAlongLine } from '../apps/golf/src/engine/caddie.js';
+import { polyLen, ringSD } from '../apps/golf/src/engine/geom.js';
 import { browserArgs, browserExecutable } from './browser-args.mjs';
 
 const args = process.argv.slice(2);
@@ -22,7 +25,8 @@ const failures = [];
 const expect = (ok, what) => { console.log(`${ok ? 'ok  ' : 'FAIL'} ${what}`); if (!ok) failures.push(what); };
 const settled = page => page.waitForFunction(() => {
   const s = V3DMap.stats();
-  return s.frames > 0 && s.busy === 0 && !V3DMap.state.flight && !V3DMap.state.opening;
+  return s.frames > 0 && s.busy === 0 && !V3DMap.state.flight && !V3DMap.state.opening
+    && V3DMap.state.guidance?.status !== 'loading';
 }, null, { timeout: 60000, polling: 100 });
 const note = async (page, label) => {
   if (args.includes('--trace')) console.log('  ' + label, JSON.stringify(await page.evaluate(() => {
@@ -39,8 +43,22 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 const problems = [];
-page.on('console', message => { if (message.type() === 'error') problems.push(message.text()); });
-page.on('pageerror', error => problems.push(error.message));
+/* This harness also runs against the static dist server, where the cloud
+   account module probes for an optional Worker once on startup. */
+const localHealth = new URL('/api/health', BASE);
+function consoleFailure(message) {
+  const staticProbe = ['127.0.0.1', 'localhost'].includes(localHealth.hostname)
+    && message.location().url === localHealth.href && /404|ERR_INTERNET_DISCONNECTED/.test(message.text());
+  return message.type() === 'error' && !staticProbe;
+}
+page.on('console', message => {
+  if (consoleFailure(message)) problems.push(message.text());
+  if (args.includes('--trace') && ['error', 'warning'].includes(message.type())) console.log(message.text(), message.location().url);
+});
+page.on('pageerror', error => {
+  problems.push(error.message);
+  if (args.includes('--trace')) console.log(error);
+});
 const refused = [];
 page.on('requestfailed', request => refused.push(request.url()));
 
@@ -55,6 +73,10 @@ const scripts = loaded.filter(entry => /\.js(\?|$)/.test(entry.name));
 expect(!scripts.some(entry => /three[.-]|ghibli|v2-terrain/.test(entry.name)), `no 3D engine loaded (${scripts.length} scripts)`);
 
 /* ---- idle: nothing draws ---- */
+await page.waitForFunction(() => {
+  const s = V3DMap.stats();
+  return s.busy === 0 && !s.framePending && V3DMap.state.guidance?.status !== 'loading';
+}, null, { timeout: 60000 });
 const framesBefore = (await page.evaluate(() => V3DMap.stats())).frames;
 await page.waitForTimeout(2500);
 const framesAfter = (await page.evaluate(() => V3DMap.stats())).frames;
@@ -64,14 +86,12 @@ expect(framesAfter === framesBefore, `an idle map draws no frames (${framesAfter
 const walk = await page.evaluate(() => {
   const { course, state } = V3DMap;
   const hole = course.holes[state.hole - 1];
-  return { tee: hole.line[0], green: hole.green.c, geo: course.geo };
+  return { tee: hole.line[0], green: hole.green.c, ring: hole.green.ring, line: hole.line,
+    playedTee: (hole.tees[state.tee] ?? hole.tees[0]).point };
 });
-const toLatLon = async (share, side = 0) => page.evaluate(([from, to, t, offset]) => {
-  /* Back through the same frame the map reads a fix with, by search: there is no
-     inverse in the app, and a fix only has to land on the spot. */
-  const { course } = V3DMap;
-  const x = from[0] + (to[0] - from[0]) * t + offset, z = from[1] + (to[1] - from[1]) * t;
-  const { origin, mPerLon } = course.geo;
+const fixCoordinates = async point => page.evaluate(([x, z]) => {
+  // Invert the app's local frame so test positions are actual GPS readings.
+  const { origin, mPerLon } = V3DMap.course.geo;
   let lat = origin.lat, lon = origin.lon;
   for (let i = 0; i < 40; i++) {
     const at = V3DMap.worldOf(lat, lon);
@@ -79,7 +99,31 @@ const toLatLon = async (share, side = 0) => page.evaluate(([from, to, t, offset]
     lat -= (z - at[1]) / 111320;
   }
   return [lat, lon];
-}, [walk.tee, walk.green, share, side]);
+}, point);
+const toLatLon = (share, side = 0) => fixCoordinates([
+  walk.tee[0] + (walk.green[0] - walk.tee[0]) * share + side,
+  walk.tee[1] + (walk.green[1] - walk.tee[1]) * share,
+]);
+async function onPoint(point) {
+  const coords = await fixCoordinates(point);
+  await page.evaluate(([lat, lon]) => V3DMap.fix(lat, lon, 5), coords);
+}
+async function standAt(point) {
+  await onPoint(point);
+  await settled(page);
+}
+
+// Approach the actual mapped green from the middle of its authored route.
+const middle = pointAlongLine(walk.line, polyLen(walk.line) / 2);
+const direction = Math.atan2(middle[1] - walk.green[1], middle[0] - walk.green[0]);
+function outsideGreen(margin) {
+  let point = walk.green;
+  for (let metres = 1; ringSD(...point, walk.ring) < margin; metres++) {
+    point = [walk.green[0] + metres * Math.cos(direction), walk.green[1] + metres * Math.sin(direction)];
+  }
+  return point;
+}
+const approach = outsideGreen(2);
 
 const expected = async share => page.evaluate(([from, to, t]) => {
   const x = from[0] + (to[0] - from[0]) * t, z = from[1] + (to[1] - from[1]) * t;
@@ -92,8 +136,45 @@ const fixAt = async share => {
   await settled(page);
 };
 const midNumber = () => page.evaluate(() => Number(document.querySelector('[data-mid-number]').textContent));
+const samePoint = (a, b) => a && b && Math.hypot(a[0] - b[0], a[1] - b[1]) < 0.05;
+const guidance = () => page.evaluate(() => {
+  const { guidance: g, player } = V3DMap.state;
+  const list = document.querySelector('[data-wheel-list]');
+  const active = document.getElementById(list.getAttribute('aria-activedescendant'));
+  return {
+    ...g,
+    player: player?.point,
+    centred: list.children[Math.round(list.scrollTop / list.firstElementChild.offsetHeight)]?.dataset.club,
+    dot: list.querySelector('.is-suggested')?.dataset.club,
+    active: active?.getAttribute('aria-selected') === 'true' ? active.dataset.club : null,
+    card: document.querySelector('[data-reading-text]').textContent,
+    shots: V3DMap.shots().length,
+  };
+});
+async function checkGuidance(mode, message) {
+  await page.waitForFunction(wanted => {
+    const g = V3DMap.state.guidance;
+    const list = document.querySelector('[data-wheel-list]');
+    const centred = list.children[Math.round(list.scrollTop / list.firstElementChild.offsetHeight)];
+    return g?.mode === wanted && g.target && centred?.dataset.club === g.recommendedClub?.id
+      && list.querySelector('[aria-selected="true"]')?.dataset.club === g.recommendedClub.id;
+  }, mode, { timeout: 60000 }).catch(async error => {
+    const g = await guidance();
+    throw new Error(`${message}: ${g.mode} (${g.status}, ${g.source}), expected ${mode}; wheel ${g.centred}, suggestion ${g.dot}. ${g.card}`, { cause: error });
+  });
+  const g = await guidance(), first = g.legs[0], club = g.recommendedClub;
+  expect(samePoint(g.origin, g.player) && samePoint(first?.from, g.origin) && samePoint(first?.point, g.target),
+    `${message}: the first shot connects the GPS position to the target`);
+  const metres = Math.hypot(g.target[0] - g.origin[0], g.target[1] - g.origin[1]);
+  expect(Math.abs(g.reading.distance - metres) < 1 && g.card.includes(`${Math.round(metres)} m`),
+    `${message}: the card shows the length of the first shot`);
+  expect([g.selectedClub?.id, g.centred, g.dot, g.active].every(id => id === club.id) && g.card.includes(club.name),
+    `${message}: the reading, selected wheel row, suggestion and screen reader agree on ${club.name}`);
+  return g;
+}
 
 await note(page, 'before fix');
+const shotsBeforeGuidance = await page.evaluate(() => V3DMap.shots().length);
 await fixAt(0.25);
 await note(page, 'fix 1');
 const strip = () => page.evaluate(() => {
@@ -103,13 +184,51 @@ const strip = () => page.evaluate(() => {
 const stripEarly = await strip();
 const quarter = await midNumber(), wantQuarter = await expected(0.25);
 expect(Math.abs(quarter - wantQuarter) <= 1, `distance to the green follows the fix (${quarter} m, expected ${wantQuarter.toFixed(1)} m)`);
+const reliableOrigin = (await guidance()).origin;
+const [roughLat, roughLon] = await toLatLon(0.26);
+const weak = await page.evaluate(([lat, lon]) => {
+  V3DMap.fix(lat, lon, 45);
+  const { origin, source } = V3DMap.state.guidance;
+  return { origin, source };
+}, [roughLat, roughLon]);
+expect(weak.source === 'last-gps' && samePoint(weak.origin, reliableOrigin), 'an inaccurate GPS fix keeps the last reliable shot origin');
 await fixAt(0.75);
 await note(page, 'fix 2');
 const stripLate = await strip();
+const late = await midNumber(), wantLate = await expected(0.75);
+/* The last approach on the field fixture has a reachable green. The straight
+   walk used for measuring the two green numbers can cross rough on a dogleg. */
+if (SLUG === 'upsala') {
+  // This point is 7.9 m inside mapped water on Upsala's third hole.
+  await fixAt(0.92);
+  const wet = await guidance();
+  expect(wet.status === 'blocked' && wet.target === null && wet.legs.length === 0 && wet.dot == null,
+    'a GPS fix in the mapped water has no invented target, route or club recommendation');
+}
+await standAt(approach);
+await checkGuidance('auto', 'walking toward the green');
+expect(await page.isVisible('[data-reading]'), 'the recommended shot is visible before the first tap');
+const lineOnMap = await page.evaluate(() => {
+  const { state, camera, heightAt } = V3DMap;
+  const canvas = document.querySelector('.map-marks'), ctx = canvas.getContext('2d');
+  const { from, point } = state.guidance.legs[0];
+  const ratio = canvas.width / canvas.clientWidth;
+  // Probe the interior of the stroke, away from both markers and the distance pill.
+  return [0.2, 0.3, 0.7, 0.8].some(t => {
+    const x = from[0] + (point[0] - from[0]) * t, z = from[1] + (point[1] - from[1]) * t;
+    const at = camera.project(x, heightAt(x, z) * state.exaggeration, z);
+    if (!Number.isFinite(at.x) || !Number.isFinite(at.y)) return false;
+    const { data } = ctx.getImageData(Math.round(at.x * ratio) - 3, Math.round(at.y * ratio) - 3, 7, 7);
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i] > 240 && data[i + 1] > 195 && data[i + 1] < 225 && data[i + 2] < 85 && data[i + 3] > 200) return true;
+    }
+    return false;
+  });
+});
+expect(lineOnMap, 'the map draws the highlighted first shot between the GPS position and its recommended landing');
 expect(stripEarly.shown && stripLate.shown, 'the player stands on the height strip');
 expect(stripLate.share > stripEarly.share + 0.2 && stripEarly.share > 0.05, `and moves along the hole (${stripEarly.share} to ${stripLate.share} of it)`);
 expect(stripEarly.x <= 0.2201 && stripLate.x <= 0.2201, `holding its place while the ground ahead spreads out (at ${stripLate.x})`);
-const late = await midNumber(), wantLate = await expected(0.75);
 expect(Math.abs(late - wantLate) <= 1, `and keeps following it (${late} m, expected ${wantLate.toFixed(1)} m)`);
 expect(late < quarter, 'the number falls as the player walks to the green');
 expect((await page.textContent('[data-from]')).includes('dig'), 'distances are from the player');
@@ -117,13 +236,49 @@ await shot(page, 'gps');
 
 /* ---- measuring: tap the ground ---- */
 const box = page.locator('.map-marks');
+const wheelList = page.locator('[data-wheel-list]');
+/* Scroll to a club that cannot be the recommendation for this approach. */
+const scrollToPutter = await wheelList.evaluate(list => {
+  const rows = [...list.children], stride = rows[0].offsetHeight;
+  const putters = rows.flatMap((row, i) => row.dataset.club === 'putter' ? [i * stride - list.scrollTop] : []);
+  return putters.sort((a, b) => Math.abs(a) - Math.abs(b))[0];
+});
+await wheelList.hover();
+await page.mouse.wheel(0, scrollToPutter);
+await page.waitForFunction(() => V3DMap.state.guidance.selectedClub?.id === 'putter' && V3DMap.wheel() === 'putter');
 await box.tap({ position: { x: 160, y: 430 } });
-await page.waitForTimeout(500);
+const manual = await checkGuidance('manual', 'a new tap after scrolling to the putter');
+expect(manual.recommendedClub.id !== 'putter', 'the tap releases the previous manual club');
 const reading = await page.textContent('[data-reading]');
-expect(/\d+ m/.test(reading) && /kvar/.test(reading), `a tap reads the shot: ${reading}`);
+expect(await page.isVisible('[data-reading]') && /\d+ m/.test(reading) && /kvar/.test(reading), `a tap reads the shot: ${reading}`);
 await note(page, 'measured');
 expect(await page.evaluate(() => !document.querySelector('[data-profile-aim]').hidden), 'the measured point stands on the strip too');
 await shot(page, 'measure');
+
+/* A second tap also wins when a long wheel turn is still scrolling. */
+const touch = await context.newCDPSession(page);
+const wheelBox = await wheelList.boundingBox();
+const x = Math.round(wheelBox.x + wheelBox.width / 2);
+const touchAt = fraction => [{ x, y: Math.round(wheelBox.y + fraction * wheelBox.height) }];
+await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: touchAt(0.88) });
+for (const fraction of [0.74, 0.60, 0.46, 0.32, 0.15]) {
+  await page.waitForTimeout(14);
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: touchAt(fraction) });
+}
+await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+await box.tap({ position: { x: 80, y: 390 } });
+await page.waitForFunction(previous => {
+  const p = V3DMap.state.guidance.target;
+  return p && Math.hypot(p[0] - previous[0], p[1] - previous[1]) > 1;
+}, manual.target);
+const tappedAgain = await checkGuidance('manual', 'tapping during a wheel turn');
+await touch.detach();
+await fixAt(0.55);
+const walkedPin = await checkGuidance('manual', 'walking with a pinned target');
+expect(samePoint(tappedAgain.target, walkedPin.target) && !samePoint(tappedAgain.origin, walkedPin.origin)
+  && Math.abs(tappedAgain.reading.distance - walkedPin.reading.distance) > 1,
+  'walking moves the start of the shot and updates its length while the pin stays put');
+await standAt(approach);
 
 /* ---- what lies ahead, the air, the card ---- */
 const hazards = await page.evaluate(() => V3DMap.state.hazards);
@@ -135,7 +290,7 @@ const windy = await page.textContent('[data-reading]');
 expect(/spelas/.test(windy), `and the shot reads it: ${windy}`);
 
 /* ---- a measuring point takes a drag, and an × ---- */
-const aim = () => page.evaluate(() => { const p = V3DMap.state.target; const s = V3DMap.camera.project(p[0], V3DMap.heightAt(p[0], p[1]) * V3DMap.state.exaggeration, p[1]); return { x: s.x, y: s.y, target: [...p] }; });
+const aim = () => page.evaluate(() => { const p = V3DMap.state.guidance.target; const s = V3DMap.camera.project(p[0], V3DMap.heightAt(p[0], p[1]) * V3DMap.state.exaggeration, p[1]); return { x: s.x, y: s.y, target: [...p] }; });
 const before = await aim();
 await page.mouse.move(before.x, before.y);
 await page.mouse.down();
@@ -147,7 +302,31 @@ const after = await aim();
 expect(Math.hypot(after.target[0] - before.target[0], after.target[1] - before.target[1]) > 2, 'the measuring point follows a finger');
 expect(await page.evaluate(() => !V3DMap.state.viewMoved), 'and the map stays where it was');
 await page.click('[data-reading-close]');
-expect(await page.evaluate(() => V3DMap.state.target === null && document.querySelector('[data-reading]').hidden), 'the × clears it');
+const resumed = await checkGuidance('auto', 'clearing the measuring point');
+expect(resumed.shots === shotsBeforeGuidance, 'GPS, wheel choices, taps and clearing the pin record no shots');
+if (args.includes('--guidance-only')) {
+  const forward = pointAlongLine(walk.line, 45);
+  const span = Math.hypot(...forward.map((v, i) => v - walk.playedTee[i]));
+  const fromTee = metres => walk.playedTee.map((v, i) => v + (forward[i] - v) * metres / span);
+  await standAt(walk.playedTee);
+  await box.tap({ position: { x: 160, y: 430 } });
+  const pinned = await checkGuidance('manual', 'choosing a target for a recorded shot');
+  await holdWheel();
+  const locked = await page.evaluate(() => V3DMap.shots().at(-1));
+  expect(locked?.club === pinned.centred && samePoint(locked?.from, pinned.origin), 'holding the chosen club records it at the GPS position');
+  await standAt(fromTee(10));
+  const nearby = await guidance();
+  expect(nearby.mode === 'manual' && samePoint(nearby.target, pinned.target), 'the pin stays while the player is still beside the shot');
+  await standAt(fromTee(16));
+  const nextShot = await guidance();
+  expect(nextShot.mode === 'auto' && nextShot.source === 'gps' && samePoint(nextShot.origin, fromTee(16)),
+    'walking 16 metres from the tee releases the pin and plans from the player');
+  const recorded = await page.evaluate(() => V3DMap.shots().at(-1));
+  expect(nextShot.shots === shotsBeforeGuidance + 1 && recorded.club === pinned.centred && samePoint(recorded.from, pinned.origin),
+    'resuming automatic guidance preserves the recorded club and stroke');
+  await checkSavedCourse();
+  await finishRun();
+}
 
 /* ---- what lies ahead, in words ---- */
 await page.click('[data-hole]');
@@ -177,10 +356,10 @@ await settled(page);
 expect(await page.evaluate(() => V3DMap.state.follow && !V3DMap.state.viewMoved), 'and it follows the player again');
 
 /* ---- the quick views ---- */
-const pickView = async selector => {
+async function pickView(selector) {
   await page.click('[data-view-toggle]');
   await page.click(selector);
-};
+}
 const framing = () => page.evaluate(() => {
   const { tilt, bearing } = V3DMap.camera.state;
   const { state, course } = V3DMap;
@@ -280,19 +459,6 @@ expect((await page.textContent('[data-score-label]')).includes('+1'), 'the Score
 await page.click('[data-score]');
 
 /* ---- the next tee ---- */
-const onPoint = async point => {
-  const [lat, lon] = await page.evaluate(([x, z]) => {
-    const { origin, mPerLon } = V3DMap.course.geo;
-    let latitude = origin.lat, longitude = origin.lon;
-    for (let i = 0; i < 40; i++) {
-      const at = V3DMap.worldOf(latitude, longitude);
-      longitude += (x - at[0]) / mPerLon;
-      latitude -= (z - at[1]) / 111320;
-    }
-    return [latitude, longitude];
-  }, point);
-  await page.evaluate(([a, b]) => V3DMap.fix(a, b, 5), [lat, lon]);
-};
 const played = await page.evaluate(() => V3DMap.state.hole);
 const nextTee = await page.evaluate(n => V3DMap.course.holes[n].tees[0].point, played);
 await onPoint(nextTee);
@@ -335,7 +501,7 @@ expect(await page.evaluate(([a, b]) => { V3DMap.fix(a, b, 5); return !V3DMap.sta
 
 /* ---- the club wheel ---- */
 const wheelState = () => page.evaluate(() => ({ chosen: V3DMap.wheel(), suggested: document.querySelector('.map-wheel-row.is-suggested')?.dataset.club, count: V3DMap.shots().length, open: V3DMap.shots().at(-1) }));
-const holdWheel = async () => {
+async function holdWheel() {
   await page.evaluate(() => V3DMap.refix());
   const band = await page.locator('.map-wheel-band').boundingBox();
   await page.mouse.move(band.x + band.width / 2, band.y + band.height / 2);
@@ -343,7 +509,7 @@ const holdWheel = async () => {
   await page.waitForTimeout(1050);
   await page.mouse.up();
   await page.waitForTimeout(250);
-};
+}
 expect(await page.isVisible('[data-wheel]'), 'the club wheel is always on screen');
 await page.evaluate(() => V3DMap.invalidate());
 await page.waitForTimeout(900);
@@ -512,28 +678,7 @@ expect(['x', 'y', 'z', 'distance', 'bearing', 'tilt'].every(key => Number.isFini
 /* ---- no signal ---- */
 await pickView('[data-overview]');
 await settled(page);
-await page.click('[data-menu]');
-await page.click('[data-menu-tab="bana"]');
-const saved = page.waitForFunction(() => document.querySelector('[data-download]').textContent === 'Sparad', null, { timeout: 120000 });
-await page.click('[data-download]');
-await saved;
-const held = await page.evaluate(async () => (await (await caches.open('banvy-map-offline-v1')).keys()).length);
-expect(held > 20, `the course is saved (${held} files)`);
-const worker = await page.evaluate(async () => {
-  const registration = await navigator.serviceWorker?.ready;
-  return Boolean(registration?.active);
-});
-if (worker) {
-  await page.waitForTimeout(1500);
-  await context.setOffline(true);
-  await page.goto(`${BASE}?bana=${SLUG}&karta=1&hal=9`, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => globalThis.V3DMap, null, { timeout: 30000 });
-  await settled(page);
-  const offline = await page.evaluate(() => V3DMap.stats());
-  expect(offline.failures === 0 && offline.metreTiles > 0, `a saved course opens with no signal, on 1 m tiles (${offline.metreTiles} tiles, ${offline.failures} failures)`);
-  await shot(page, 'offline');
-  await context.setOffline(false);
-} else console.log('skip offline check: no service worker on this server');
+await checkSavedCourse();
 
 /* ---- a tab lost in the pocket ---- */
 await context.grantPermissions(['geolocation']);
@@ -573,7 +718,7 @@ const roundContext = await browser.newContext({
 });
 const golfer = await roundContext.newPage();
 const golferProblems = [];
-golfer.on('console', message => { if (message.type() === 'error') golferProblems.push(message.text()); });
+golfer.on('console', message => { if (consoleFailure(message)) golferProblems.push(message.text()); });
 golfer.on('pageerror', error => golferProblems.push(error.message));
 /* Since 7-8 November the bare route is the start menu: standing at a course, with the
    position allowed, it offers that course's round, and the map's list leads with it. */
@@ -750,11 +895,48 @@ const ctas = await desktop.$$eval('#chooser .card-item .sha-text', each => each.
 expect(ctas.filter(text => /kartan/.test(text)).length >= ctas.length - 1, `and its start menu offers the map: Lätt 3D, whose cards open it (${ctas.slice(0, 2).join(', ')})`);
 await desktopContext.close();
 
-console.log(refused.length ? `requests refused: ${[...new Set(refused)].slice(0, 8).join(' ')}` : 'no requests refused');
-/* The service worker's own loader is not in its precache; by then the worker is
-   running, so this one refusal offline changes nothing. Any other still fails. */
-const harmless = refused.length > 0 && refused.every(url => url.endsWith('/registerSW.js') || url.includes('api.open-meteo.com'));
-if (harmless) problems.splice(0, problems.length, ...problems.filter(text => !text.includes('ERR_INTERNET_DISCONNECTED')));
-expect(!problems.length, `no console errors${problems.length ? `: ${problems.slice(0, 4).join(' | ')}` : ''}`);
-await browser.close();
-process.exit(failures.length ? 1 : 0);
+await finishRun();
+
+async function finishRun() {
+  console.log(refused.length ? `requests refused: ${[...new Set(refused)].slice(0, 8).join(' ')}` : 'no requests refused');
+  /* The service worker is already active offline. The shell can reopen without
+     its registration loader, a network forecast or the optional cloud probe. */
+  const harmless = refused.length > 0 && refused.every(url =>
+    url.endsWith('/registerSW.js') || url.includes('api.open-meteo.com') || url === localHealth.href);
+  if (harmless) problems.splice(0, problems.length, ...problems.filter(text => !text.includes('ERR_INTERNET_DISCONNECTED')));
+  expect(!problems.length, `no console errors${problems.length ? `: ${problems.slice(0, 4).join(' | ')}` : ''}`);
+  await browser.close();
+  process.exit(failures.length ? 1 : 0);
+}
+
+async function checkSavedCourse() {
+  await page.click('[data-menu]');
+  await page.click('[data-menu-tab="bana"]');
+  const saved = page.waitForFunction(() => document.querySelector('[data-download]').textContent === 'Sparad', null, { timeout: 120000 });
+  await page.click('[data-download]');
+  await saved;
+  const held = await page.evaluate(async () => (await (await caches.open('banvy-map-offline-v1')).keys()).length);
+  expect(held > 20, `the course is saved (${held} files)`);
+  const worker = await page.evaluate(async () => {
+    const registration = await navigator.serviceWorker?.ready;
+    return Boolean(registration?.active);
+  });
+  if (worker) {
+    await page.waitForTimeout(1500);
+    await context.setOffline(true);
+    await page.goto(`${BASE}?bana=${SLUG}&karta=1&hal=9`, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => globalThis.V3DMap, null, { timeout: 30000 });
+    await settled(page);
+    const offline = await page.evaluate(() => V3DMap.stats());
+    expect(offline.failures === 0 && offline.metreTiles > 0, `a saved course opens with no signal, on 1 m tiles (${offline.metreTiles} tiles, ${offline.failures} failures)`);
+    await page.evaluate(() => V3DMap.goHole(3, { fly: false }));
+    await standAt(approach);
+    const offlineApproach = await checkGuidance('auto', 'a GPS approach on a saved course with no signal');
+    await standAt(outsideGreen(1));
+    const offlineWalk = await checkGuidance('auto', 'the next GPS fix while offline');
+    expect(!samePoint(offlineApproach.origin, offlineWalk.origin) && offlineApproach.shots === offlineWalk.shots,
+      'walking offline recalculates guidance and preserves the shot log');
+    await shot(page, 'offline');
+    await context.setOffline(false);
+  } else console.log('skip offline check: no service worker on this server');
+}

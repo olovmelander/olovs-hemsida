@@ -172,6 +172,14 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     cartParks: scenery.cartPark && validRing(scenery.cartPark.line, 2) ? [placeAll(scenery.cartPark.line)] : [],
     /* Out of bounds and penalty areas, stake by stake as they stand. */
     stakes: (vectors.marking ?? []).flatMap(item => (item.pts ?? []).filter(isPoint).map(point => ({ point: place(point), colour: item.c }))),
+    // Keep each run of stakes and the hole ownership of a local rule.
+    // Out-of-bounds outlines may be partial, so they stay open polylines.
+    obRuns: [
+      ...(vectors.marking ?? []).filter(item => item.c === 'w' && validRing(item.pts, 2))
+        .map(item => ({ line: placeAll(item.pts), holes: null })),
+      ...(vectors.outOfBounds?.lines ?? []).filter(item => item.virtual === true && validRing(item.line, 2))
+        .map(item => ({ line: placeAll(item.line), holes: item.holes ?? null })),
+    ],
     outOfBounds: (vectors.outOfBounds?.lines ?? []).filter(item => item.virtual === true && validRing(item.line, 2)).map(item => placeAll(item.line)),
   };
 

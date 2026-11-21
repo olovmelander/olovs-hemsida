@@ -1,28 +1,81 @@
-/* The overlay's aim line: straight at the pin on an open hole, at the dogleg corner until it turns, and wherever the player tapped. */
 import { describe, expect, it } from 'vitest';
-import { clubAimPoint } from './map-overlay.mjs';
+import { createOverlay } from './map-overlay.mjs';
 
-const straightHole = {
-  line: [[0, 300], [0, 0]],
-  green: { c: [0, 0] },
+const origin = [105, 250], target = [185, 250], corner = [260, 150], green = [360, 150];
+const hole = {
+  line: [[90, 300], [90, 150], green],
+  green: { c: green, ring: [[350, 140], [370, 140], [370, 160], [350, 160]] },
+  pin: green,
 };
 
-const doglegHole = {
-  line: [[0, 350], [0, 140], [160, 140]],
-  green: { c: [160, 140] },
+function draw(guidance, options = {}) {
+  let path = [], dash = [];
+  const strokes = [], labels = [];
+  const ctx = {
+    setTransform() {}, clearRect() {}, closePath() {}, fill() {}, ellipse() {}, arc() {}, roundRect() {},
+    beginPath() { path = []; },
+    moveTo(x, y) { path.push([x, y]); },
+    lineTo(x, y) { path.push([x, y]); },
+    setLineDash(pattern) { dash = pattern; },
+    stroke() { strokes.push({ path: [...path], dash, colour: this.strokeStyle }); },
+    measureText(text) { return { width: text.length * 8 }; },
+    fillText(text) { labels.push(text); },
+  };
+  const overlay = createOverlay({ getContext: () => ctx });
+  overlay.resize(412, 915, 1);
+  overlay.draw({
+    camera: { project: (x, y, z) => ({ x, y: z }) }, ground: () => 0,
+    mode: 'hole', hole, origin: [90, 300], carryArcs: false, guidance, ...options,
+  });
+  const primary = strokes.filter(s => s.colour === '#ffd23f' && s.path.length);
+  const later = strokes.filter(s => s.dash.length && s.colour.startsWith('rgba(255,210,63,'));
+  return { primary, later, labels };
+}
+
+const plan = {
+  mode: 'auto', origin, target, reading: { distance: 80 },
+  legs: [{ from: origin, point: target }, { from: target, point: corner }, { from: corner, point: green }],
 };
+const ends = ({ path }) => [path[0], path.at(-1)];
 
-describe('clubAimPoint', () => {
-  it('aims at the green centre on a straight hole', () => {
-    expect(clubAimPoint([0, 300], straightHole)).toEqual([0, 0]);
+describe('active shot overlay', () => {
+  it('draws the active shot from its accepted origin and each later stroke through its own landing', () => {
+    const { primary, later, labels } = draw(plan);
+    expect(primary.map(ends)).toEqual([[origin, target]]);
+    expect(later.map(ends)).toEqual([[target, corner], [corner, green]]);
+    expect(labels).toEqual(['80 m']);
   });
 
-  it('prefers an explicit tapped target over the hole line', () => {
-    expect(clubAimPoint([0, 350], doglegHole, [15, 200])).toEqual([15, 200]);
+  it('points the selected club arc at the active target, independent of the mapped dogleg', () => {
+    const { primary } = draw(plan, { clubArc: { carry: 40 } });
+    const arc = primary.find(stroke => stroke.path.length === 13);
+    expect(arc.path[6][0]).toBeCloseTo(origin[0] + 40);
+    expect(arc.path[6][1]).toBeCloseTo(origin[1]);
   });
 
-  it('aims toward a dogleg bend while it lies ahead of the ball, then aims at the green', () => {
-    expect(clubAimPoint([0, 350], doglegHole)).toEqual([0, 140]);
-    expect(clubAimPoint([40, 140], doglegHole)).toEqual([160, 140]);
+  it('measures a tap immediately when there is no validated continuation', () => {
+    const { primary, later, labels } = draw({ ...plan, mode: 'manual', legs: [] });
+    expect(primary.map(ends)).toEqual([[origin, target]]);
+    expect(later).toEqual([]);
+    expect(labels).toEqual(['80 m']);
+  });
+
+  it('shows no directional guidance when no landing is available', () => {
+    const { primary, later, labels } = draw({ ...plan, target: null, legs: [], reading: null }, { clubArc: { carry: 140 } });
+    expect(primary).toEqual([]);
+    expect(later).toEqual([]);
+    expect(labels).toEqual([]);
+  });
+
+  it('keeps the immediate shot visible at eye level, including when the ball projects behind the camera', () => {
+    const { primary, later, labels } = draw(plan, {
+      atEye: true,
+      camera: { project: (x, y, z) => ({ x: x > origin[0] ? x : NaN, y: z }) },
+    });
+    expect(primary).toHaveLength(1);
+    expect(primary[0].path.length).toBeGreaterThan(1);
+    expect(primary[0].path.at(-1)).toEqual(target);
+    expect(later).toEqual([]);
+    expect(labels).toEqual([]);
   });
 });

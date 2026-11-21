@@ -2,29 +2,59 @@
    screen that stays on, and a course that keeps working with no signal. */
 import { MAP_OFFLINE_CACHE } from './map-tiles.mjs';
 
-/* GPS is opt-in per visit and never starts from stored state, as in the player. */
+export const FRESH_FIX_MS = 10000, PLACING_ACCURACY_METRES = 20;
+
+/* Keep the last reliable origin while the phone is under trees or asleep. Age
+   comes from the sensor's sample time, since a callback can deliver a cached fix. */
+export function createGuidanceFix() {
+  let reliable = null, expiresAt = 0;
+  return {
+    get expiresAt() { return expiresAt; },
+    receive(player, timestamp, now) {
+      const age = now - timestamp;
+      const usable = age >= 0 && age < FRESH_FIX_MS && Number.isFinite(player.accuracy)
+        && player.accuracy >= 0 && player.accuracy <= PLACING_ACCURACY_METRES;
+      if (usable) reliable = player.onCourse ? player.point : null;
+      expiresAt = usable && reliable ? timestamp + FRESH_FIX_MS : 0;
+      return usable;
+    },
+    interrupt() { expiresAt = 0; },
+    clear() { reliable = null; expiresAt = 0; },
+    origin(tee, isPlayingHole, now) {
+      if (!reliable || !isPlayingHole) return { point: tee, source: 'tee' };
+      return { point: reliable, source: now < expiresAt ? 'gps' : 'last-gps' };
+    },
+  };
+}
+
 export function createGps({ onFix, onFailure }) {
-  let watch = null;
+  let watch = null, generation = 0;
+  const deliver = session => position => {
+    if (session === generation) onFix(position.coords, position.timestamp);
+  };
+  function stop() {
+    generation++;
+    if (watch !== null) navigator.geolocation.clearWatch(watch);
+    watch = null;
+  }
   return {
     get active() { return watch !== null; },
     start() {
       if (!navigator.geolocation) { onFailure('Den här webbläsaren saknar platsåtkomst'); return; }
       if (watch !== null) return;
-      watch = navigator.geolocation.watchPosition(position => onFix(position.coords), error => {
+      const session = ++generation;
+      watch = navigator.geolocation.watchPosition(deliver(session), error => {
+        if (session !== generation) return;
         if (error.code === 1) {
-          navigator.geolocation.clearWatch(watch);
-          watch = null;
+          stop();
           onFailure('Platsåtkomst nekades · tillåt plats för sidan i webbläsarens inställningar', { denied: true });
         } else onFailure(error.code === 2 ? 'Ingen GPS-position ännu' : 'GPS svarar inte ännu');
       }, { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 });
     },
-    stop() {
-      if (watch !== null) navigator.geolocation.clearWatch(watch);
-      watch = null;
-    },
+    stop,
     /* A player standing still may get no fixes from the watch: ask for one now. */
     ask() {
-      navigator.geolocation?.getCurrentPosition(position => onFix(position.coords), () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 8000 });
+      if (watch !== null) navigator.geolocation.getCurrentPosition(deliver(generation), () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 8000 });
     },
   };
 }

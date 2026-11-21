@@ -979,8 +979,11 @@ a.map-row-next { text-decoration: none; }
 .is-tight .map-locked:not(.map-same) { flex-wrap: wrap; padding: 6px; }
 .is-tight .map-locked:not(.map-same) b { flex: 1 0 100%; padding: 2px 6px; white-space: normal; }
 .is-tight .map-locked:not(.map-same) button { flex: 1; }
-/* One thing to read at a time on a short screen. */
-.is-compact:has([data-reading]:not([hidden])) .map-wheel-hint { display: none; }
+/* Keep the walking distance beside the wheel while automatic advice is showing.
+   A pinned measurement uses that space; on the shortest screens an automatic
+   card can wrap, so the walking distance sits one line group higher. */
+.is-compact:has([data-reading]:not([hidden]) [data-reading-close]:not([hidden])) .map-wheel-hint { display: none; }
+.is-compact.is-stripless .map-wheel-hint { transform: translateY(-100%); }
 
 /* ---- the wheel by the other hand ---- */
 .is-left .map-side { right: auto; left: calc(env(safe-area-inset-left, 0px) + 10px); }

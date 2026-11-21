@@ -16,20 +16,6 @@ function along(line, step) {
   return out;
 }
 
-/* Aim along the chosen target when set; otherwise toward a dogleg bend still ahead
-   of the ball, or straight at the green centre. */
-export function clubAimPoint(origin, hole, target = null) {
-  if (target) return target;
-  const green = hole.green.c;
-  const toGreen = Math.hypot(green[0] - origin[0], green[1] - origin[1]);
-  for (const bend of (hole.line ?? []).slice(1, -1)) {
-    const bendToGreen = Math.hypot(green[0] - bend[0], green[1] - bend[1]);
-    const originToBend = Math.hypot(bend[0] - origin[0], bend[1] - origin[1]);
-    if (toGreen > bendToGreen + 25 && originToBend > 35) return bend;
-  }
-  return green;
-}
-
 export function createOverlay(canvas) {
   const ctx = canvas.getContext('2d');
   let width = 1, height = 1, ratio = 1, emphasis = 1;
@@ -68,7 +54,9 @@ export function createOverlay(canvas) {
     },
 
     draw(scene) {
-      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true, clubArc = null, atEye = false, safe = null } = scene;
+      const { camera, ground, course, mode, hole, player, guidance, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true, clubArc = null, atEye = false, safe = null } = scene;
+      const origin = guidance?.origin ?? scene.origin;
+      const target = guidance?.target;
       /* In the sun's look the lines and numbers are drawn heavier. */
       emphasis = scene.emphasis ?? 1;
       /* The column's side: a label stays clear of it. */
@@ -181,9 +169,8 @@ export function createOverlay(canvas) {
         }
 
         /* Selected club's landing arc and learned dispersion band along the aim line. */
-        if (clubArc && !atEye && clubArc.carry > 0) {
-          const aim = clubAimPoint(origin, hole, target);
-          const aimBearing = Math.atan2(aim[0] - origin[0], -(aim[1] - origin[1]));
+        if (target && clubArc && !atEye && clubArc.carry > 0) {
+          const aimBearing = Math.atan2(target[0] - origin[0], -(target[1] - origin[1]));
           const half = Math.min(0.24, Math.max(0.08, 16 / clubArc.carry));
           const span = radius => {
             const arc = [];
@@ -266,22 +253,6 @@ export function createOverlay(canvas) {
           }
         }
 
-        if (target && !atEye) {
-          cased([origin, target], '#ffd23f', 2.2);
-          cased([target, hole.green.c], 'rgba(255,210,63,.75)', 1.5, [5, 5]);
-          const s = at(target[0], target[1]);
-          if (Number.isFinite(s.x)) {
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2.5;
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, 8, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.strokeStyle = '#ffd23f';
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-          }
-        }
-
         /* Draw shot trail lines beneath all pills. */
         if (mode === 'hole' && !atEye) {
           for (const shot of trail) {
@@ -297,22 +268,38 @@ export function createOverlay(canvas) {
           }
         }
 
+        if (target) {
+          /* From eye level the later landings stack up on the horizon. In a hole
+             view each dashed section is one of the planner's actual strokes. */
+          if (!atEye) {
+            for (const leg of guidance.legs.slice(1)) {
+              cased(along([leg.from, leg.point], 10), 'rgba(255,210,63,.62)', 1.5, [5, 5], 0.24);
+            }
+          }
+          cased(along([origin, target], 8), '#ffd23f', 2.6);
+          const s = at(target[0], target[1]);
+          if (Number.isFinite(s.x)) {
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, 8, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.strokeStyle = '#ffd23f';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+        }
+
         /* Reserve pills strictly by priority so no two pills ever collide:
            1. active aim measurements, 2. shot trail lengths, 3. reachable hazards, 4. carry rings. */
         const clash = (a, b, wide) => Math.abs(a.x - b.x) < wide * emphasis && Math.abs(a.y - b.y) < 28 * emphasis;
         const placed = [];
 
         if (target && !atEye) {
-          const mid = (a, b) => at((a[0] + b[0]) / 2, (a[1] + b[1]) / 2);
-          const label = (a, b) => `${Math.round(Math.hypot(b[0] - a[0], b[1] - a[1]))} m`;
-          const first = mid(origin, target), second = mid(target, hole.green.c);
+          const first = at((origin[0] + target[0]) / 2, (origin[1] + target[1]) / 2);
           if (inside(first)) {
             placed.push({ x: first.x, y: first.y });
-            pill(first.x, first.y, label(origin, target), { fill: '#ffd23f', ink: '#10201a' });
-          }
-          if (inside(second) && !placed.some(other => clash(other, second, 64))) {
-            placed.push({ x: second.x, y: second.y });
-            pill(second.x, second.y, label(target, hole.green.c));
+            pill(first.x, first.y, `${Math.round(guidance.reading.distance)} m`, { fill: '#ffd23f', ink: '#10201a' });
           }
         }
 

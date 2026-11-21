@@ -18,8 +18,28 @@ hold a fifth of the way across (`stripX`): what is behind them closes up to the 
 and dims, and what is ahead spreads out to fill the rest, on a height scale of its own.
 So a player can always see where they are, and the shot in hand is always the largest
 thing on the strip; on a plain whole-hole strip the last 60 m of a 400 m hole, the
-approach, would be a sliver at the edge. A measured point stands on it in yellow. Its
+approach, would be a sliver at the edge. The current shot target stands on it in yellow. Its
 words give the climb from where the ball is, straight to the green, as the numbers do.
+
+## GPS shot guidance
+
+Open a hole to preview the shot from the selected tee. A reliable GPS fix on the
+hole being played moves the start of the shot to the player. The strong yellow
+line ends at the next landing and the fainter segments show subsequent strokes.
+The wheel suggests a club for the first stroke. On a mapped green it suggests the
+putter. Approximate greens use their published centre.
+
+Tap or drag a measuring point to choose your own target. The wheel centres on the
+club for that distance, even after a manual spin. Walking updates the measurement.
+Turning the wheel changes the selected club and keeps the target. Tap the measuring
+point again or use × to return to automatic guidance. Changing holes or walking
+15 m from a recorded shot also releases the point.
+
+The map runs the shared stroke planner locally with the active hole's fairways,
+green, terrain, tree crowns, buildings and hazards. A verified recovery can show a
+single stroke. If no playable landing can be established, green yardages and tap
+measurement stay available. “Senaste säkra GPS” identifies a held reading when
+the phone stops delivering recent, accurate positions.
 
 ## The screen
 

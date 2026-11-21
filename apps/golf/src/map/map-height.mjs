@@ -22,10 +22,13 @@ export function decodeTileHeights(payload, grid, datum = 0) {
   const count = width * height;
   const view = new DataView(payload.buffer, payload.byteOffset, payload.byteLength);
   const heights = new Float32Array(count);
-  let min = Infinity, max = -Infinity, missing = 0;
+  let min = Infinity, max = -Infinity, missing = null;
   for (let i = 0; i < count; i++) {
     const raw = view.getUint16(i * 2, true);
-    if (raw === noDataValue) { heights[i] = NaN; missing++; continue; }
+    if (raw === noDataValue) {
+      (missing ??= new Uint8Array(count))[i] = 1;
+      continue;
+    }
     const value = heightOffsetMetres + raw * heightScaleMetres - datum;
     heights[i] = value;
     if (value < min) min = value;
@@ -33,8 +36,8 @@ export function decodeTileHeights(payload, grid, datum = 0) {
   }
   /* A hole in a tile must not reach the shader as NaN, which blanks the patch.
      The tile's lowest ground is a floor nobody reads a distance from. */
-  if (missing) for (let i = 0; i < count; i++) if (Number.isNaN(heights[i])) heights[i] = min;
-  return { heights, width, height, min, max };
+  if (missing) for (let i = 0; i < count; i++) if (missing[i]) heights[i] = min;
+  return { heights, width, height, min, max, missing };
 }
 
 const encodeSlope = slope => {

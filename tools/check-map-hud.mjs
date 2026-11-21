@@ -6,7 +6,7 @@
  * 90 px, and that is where this went wrong before it was measured.
  *
  * pnpm --filter @banvy/golf build && node tools/serve.mjs apps/golf/dist 8620
- * node tools/check-map-hud.mjs [--url http://localhost:8620/] [--phone se3] [--label hud]
+ * node tools/check-map-hud.mjs [--url http://localhost:8620/] [--phone se3] [--setting left-large] [--concurrency 1] [--quality 3] [--label hud]
  *
  * Build at the root path: check-basepath leaves a build the map cannot boot from here.
  * Fails on a real clash. A question over the wheel, or a passing note over a mark on the
@@ -23,7 +23,12 @@ const LABEL = flag('label', 'hud');
 const OUT = path.resolve('tools/goldens/map', LABEL);
 fs.mkdirSync(OUT, { recursive: true });
 const BASE = flag('url', 'http://localhost:8620/');
-/* Four at a time, or a full run takes half an hour. */
+const pageUrl = new URL(BASE);
+pageUrl.searchParams.set('bana', 'veckefjarden');
+pageUrl.searchParams.set('karta', '1');
+pageUrl.searchParams.set('hal', '5');
+const quality = flag('quality', null);
+if (quality !== null) pageUrl.searchParams.set('mapquality', quality);
 
 const PHONES = [
   ['se3', 375, 667, 0, 0], ['side-notch', 844, 390, 0, 21], ['iphone-notch', 390, 844, 59, 34], ['android-small', 360, 640, 0, 0],
@@ -99,10 +104,16 @@ const add = (phone, setting, state, found) => {
     report[key].where.add(`${phone}/${setting}/${state}`);
   }
 };
-const CONCURRENT = 4;
+/* A software renderer can run one phone at a time without starving its frames. */
+const CONCURRENT = Number(flag('concurrency', 4));
+if (!Number.isInteger(CONCURRENT) || CONCURRENT < 1) throw new Error('--concurrency must be a positive integer');
 let pending = [];
 const only = flag('phone', null);
-const jobs = PHONES.filter(phone => !only || phone[0] === only).flatMap(phone => SETTINGS.filter(([name]) => name !== 'sun-left-large' || ['se1', 'side-small'].includes(phone[0])).map(setting => [phone, setting]));
+const onlySetting = flag('setting', null);
+const jobs = PHONES.filter(phone => !only || phone[0] === only).flatMap(phone => SETTINGS
+  .filter(([name]) => onlySetting ? name === onlySetting : name !== 'sun-left-large' || ['se1', 'side-small'].includes(phone[0]))
+  .map(setting => [phone, setting]));
+if (!jobs.length) throw new Error('No matching phone or display setting');
 const write = () => {
   const rows = Object.entries(report).sort((a, b) => b[1].count - a[1].count).map(([key, value]) => ({ key, count: value.count, example: value.example, where: [...value.where] }));
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(rows, null, 1));
@@ -119,11 +130,18 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
       page.on('pageerror', e => problems.push(e.message));
       const cdp = await context.newCDPSession(page);
       if (top || bottom) await cdp.send('Emulation.setSafeAreaInsetsOverride', { insets: { top, left: 0, bottom, right: 0 } }).catch(() => {});
-      const settled = () => page.waitForFunction(() => { const s = globalThis.V3DMap?.stats(); return s && s.frames > 0 && s.busy === 0 && !V3DMap.state.flight && !V3DMap.state.opening; }, null, { timeout: 25000, polling: 150 });
+      const settled = () => page.waitForFunction(() => { const s = globalThis.V3DMap?.stats(); return s && s.frames > 0 && s.busy === 0 && !V3DMap.state.flight && !V3DMap.state.opening; }, null, { timeout: 60000, polling: 150 });
       let lastStep = 'boot';
       const record = async state => {
         lastStep = state;
         await page.waitForTimeout(260);
+        /* A slow first frame can start the card's 12 px slide after the wait.
+           Measure the controls in their resting positions. */
+        await page.evaluate(async () => {
+          const animations = document.querySelector('#courseMap').getAnimations({ subtree: true });
+          await Promise.all(animations.filter(a => a.animationName === 'map-rise' || a.animationName === 'map-fall')
+            .map(a => a.finished.catch(() => {})));
+        });
         const { issues } = await page.evaluate(collect);
         add(phone, setting, state, issues);
         if (issues.some(each => each.startsWith('overlap') || each.startsWith('offscreen') || each.startsWith('clipped')) && setting !== 'sun') await page.screenshot({ path: path.join(OUT, `${phone}-${setting}-${state}.png`) }).catch(() => {});
@@ -152,7 +170,7 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         await page.click(selector);
       };
       try {
-        await page.goto(`${BASE}?bana=veckefjarden&karta=1&hal=5`, { waitUntil: 'domcontentloaded' });
+        await page.goto(pageUrl.href, { waitUntil: 'domcontentloaded' });
         await settled();
         await record('idle');
         await page.click('[data-view-toggle]');
@@ -171,6 +189,9 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         await settled();
         await page.evaluate(() => { document.querySelector('[data-locked]').hidden = true; });
         await record('walking');
+        if (height > width && !await page.locator('[data-wheel-hint]').isVisible()) {
+          add(phone, setting, 'walking', ['missing walking distance beside automatic guidance']);
+        }
         await page.locator('.map-marks').tap({ position: { x: Math.round(width * 0.35), y: Math.round(height * 0.42) } });
         await page.waitForTimeout(300);
         await record('reading');
@@ -238,6 +259,6 @@ const rows = write();
 for (const row of rows) console.log(String(row.count).padStart(4), row.example.slice(0, 80), '|', row.where.slice(0, 3).join(' '));
 /* The clashes that fail it. The rest is reported for reading. */
 const BY_DESIGN = /overlap (prompt|same)\/(prompt|same)/;
-const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
+const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|missing walking distance|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
 console.log(clashes.length ? `${clashes.length} kinds of clash` : 'the HUD fits every phone measured');
 process.exitCode = clashes.length ? 1 : 0;
