@@ -498,17 +498,22 @@ await section('launch urls', async () => {
     await page.waitForTimeout(700); /* it slides up into place */
     const sheet = await page.evaluate(() => {
       const d = document.getElementById('courseSheet');
-      const small = [...d.querySelectorAll('button, .cs-tee span, .cs-mode, .seg-opt')].filter(e => e.offsetParent)
+      const small = [...d.querySelectorAll('button, .cs-tee span, .cs-mode, .seg-opt, .cs-light')].filter(e => e.offsetParent)
         .map(e => ({ e, b: e.getBoundingClientRect() })).filter(x => x.b.height < 40)
         .map(x => `${String(x.e.className).split(' ')[0] || x.e.tagName} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
+      const lights = d.querySelector('.cs-lights');
+      const lightBoxes = lights ? [...lights.querySelectorAll('.cs-light')].map(el => el.getBoundingClientRect()) : [];
+      const lightsInSight = Boolean(lights) && lights.scrollWidth <= lights.clientWidth + 1
+        && lightBoxes.length >= 11 && lightBoxes.every(b => b.left >= lights.getBoundingClientRect().left - 1 && b.right <= lights.getBoundingClientRect().right + 1);
       const go = d.querySelector('[data-go]').getBoundingClientRect();
       return { title: d.querySelector('#csTitle').textContent, tees: d.querySelectorAll('.cs-tee').length, go: go.bottom <= innerHeight && go.top >= 0,
-        mode: d.querySelector('input[name="cs-mode"]:checked')?.value, small };
+        mode: d.querySelector('input[name="cs-mode"]:checked')?.value, small, lightsInSight, lightCount: lightBoxes.length };
     });
     if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'course-sheet-390x844.png') });
     gate(sheet.title === course.name && sheet.tees === course.tees.names.length && sheet.mode === 'detailed',
       `phone: a card opens its course's page first (${sheet.title}, ${sheet.tees} tees, mode ${sheet.mode})`);
     gate(sheet.go && sheet.small.length === 0, `phone: its start button is on screen and every choice is a 40 px target${sheet.small.length ? ' -- ' + sheet.small.join(', ') : ''}`);
+    gate(sheet.lightsInSight, `phone: all ${sheet.lightCount} lights fit in view without hidden horizontal scrolling`);
     /* the scorecard, from the course's own pack, in the tee chosen on the page */
     await page.waitForSelector('#courseSheet .cs-sc', { timeout: 20000 });
     const card = await page.evaluate(() => {
