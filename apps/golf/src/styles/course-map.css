@@ -137,6 +137,21 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   -webkit-touch-callout: none;
 }
 .map-wheel.is-away { visibility: hidden; }
+.map-log-shot, .map-shot-actions button {
+  min-height: 44px;
+  padding: 4px 7px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--panel-solid);
+  box-shadow: inset 0 0 0 1px var(--panel-border), var(--panel-shadow);
+  color: var(--link);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.map-log-shot[hidden], .map-shot-actions button[hidden] { display: none; }
 .map-wheel-list {
   position: relative;
   height: 100%;
@@ -397,9 +412,10 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-prompt-head > button:not(.map-sheet-close) { border: 0; background: none; color: var(--link); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; min-height: 44px; padding: 0 6px; }
 .map-reading {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 6px 5px 12px;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 3px 8px;
+  padding: 6px 9px;
   border-radius: 14px;
   background: var(--panel);
   box-shadow: inset 0 0 0 1px var(--panel-border), var(--panel-shadow);
@@ -408,10 +424,21 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   pointer-events: none;
 }
 .map-reading[hidden] { display: none; }
-.map-reading-text { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; gap: 1px 10px; align-items: baseline; }
-.map-reading b { font-size: 20px; color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
-.map-reading em { padding: 1px 7px; border-radius: 8px; background: var(--fill-strong); color: var(--ink); font-style: normal; font-weight: 600; }
-.map-reading .map-sheet-close { pointer-events: auto; }
+.map-reading-text { flex: 1 1 185px; min-width: 0; line-height: 1.22; }
+.map-shot-context, .map-shot-main, .map-shot-actions { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+.map-shot-context { color: var(--ink-body); font-size: 12px; }
+.map-shot-context [data-shot-source] { color: var(--ink-soft); }
+.map-shot-main b { font-size: 25px; color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+.map-shot-main em { color: var(--ink); font-size: 18px; font-style: normal; font-weight: 700; }
+.map-shot-main :empty, [data-shot-detail]:empty { display: none; }
+.map-shot-actions { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; max-width: 100%; }
+.map-shot-actions:not(:has(button:not([hidden]))) { display: none; }
+.map-shot-actions button { background: var(--fill-strong); box-shadow: none; }
+.map-aim-choice { display: grid; gap: 5px; margin: 12px 0; }
+.map-aim-choice[hidden] { display: none; }
+.map-aim-choice label { font-weight: 700; }
+.map-aim-choice select { width: 100%; min-height: 44px; border-radius: 10px; background: var(--panel-solid); color: var(--ink); border: 1px solid var(--panel-border); padding: 5px 10px; font: inherit; }
+.map-aim-choice p { margin: 2px 0; color: var(--ink-body); }
 .map-profile {
   position: relative;
   height: 46px;
@@ -522,6 +549,8 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 
 @media (orientation: landscape) and (max-height: 520px) {
   .map-profile, .map-legend { display: none; }
+  .map-reading { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .map-shot-actions { grid-auto-flow: row; width: 94px; }
   /* The numbers fill the side here: the wheel takes the other one. */
   .map-wheel {
     position: fixed;
@@ -531,6 +560,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
     --rows: 3;
   }
   .map-wheel-hint { display: none; }
+  .map-log-shot { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 232px); left: calc(env(safe-area-inset-left, 0px) + 10px); width: 76px; }
   .map-bottom { left: calc(env(safe-area-inset-left, 0px) + var(--side-width) + 20px); right: calc(env(safe-area-inset-right, 0px) + var(--side-width) + 20px); }
   .map-status { left: calc(env(safe-area-inset-left, 0px) + var(--side-width) + 20px); right: calc(env(safe-area-inset-right, 0px) + var(--side-width) + 20px); }
   .map-tool { height: 44px; }
@@ -848,6 +878,8 @@ a.map-row-next { text-decoration: none; }
 
 /* ---- the sheets of a round ---- */
 .map-sheet:focus { outline: none; }
+.map-sheet:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.map-sheet :is(a, button, input, select, textarea):focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
 /* Tall, and still under the header, whose words a sheet would cut in half. */
 .map-sheet-tall { max-height: min(calc(100% - 146px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)), 720px); }
 @media (orientation: landscape) and (max-height: 520px) {
@@ -964,7 +996,7 @@ a.map-row-next { text-decoration: none; }
 .is-compact .map-side { gap: 4px; }
 .is-compact .map-green { padding: 3px 0; }
 .is-compact .map-green-row { padding: 1px 0; }
-.is-compact .map-green small { display: none; }
+.is-compact .map-green small { margin-top: 1px; }
 .is-compact .map-green-plays { margin: 2px 4px 0; padding: 1px 4px; font-size: 10px; }
 .is-compact .map-green b { font-size: 21px; }
 .is-compact .map-green-mid b { font-size: 32px; }
@@ -972,10 +1004,15 @@ a.map-row-next { text-decoration: none; }
 .is-sun.is-compact .map-green:not(.is-on) .map-green-mid b { font-size: 36px; }
 .is-compact .map-wind { min-height: 40px; padding: 3px 4px; }
 /* The walk's length stands beside the wheel, on the map, not under it. */
-.is-compact .map-wheel-hint { position: absolute; right: calc(100% + 6px); bottom: 0; min-width: 62px; padding: 5px 8px; }
+.map-wheel-hint { position: absolute; right: calc(100% + 6px); bottom: 50px; min-width: 62px; padding: 5px 8px; }
 .is-stripless .map-profile { display: none; }
 /* What a player reads while turning the wheel stands beside it on cramped heights. */
 .is-tight .map-reading, .is-tight .map-locked:not(.map-same) { margin-right: calc(var(--side-width) + 8px); }
+.is-tight .map-wheel { --rows: 1; }
+.is-tight .map-shot-main em { font-size: 16px; }
+@media (max-width: 340px) {
+  .is-tight.is-large .map-shot-actions { grid-auto-flow: row; }
+}
 .is-tight .map-locked:not(.map-same) { flex-wrap: wrap; padding: 6px; }
 .is-tight .map-locked:not(.map-same) b { flex: 1 0 100%; padding: 2px 6px; white-space: normal; }
 .is-tight .map-locked:not(.map-same) button { flex: 1; }
@@ -991,13 +1028,42 @@ a.map-row-next { text-decoration: none; }
 .is-left .map-view-menu { left: auto; right: 0; }
 .is-left.is-tight .map-reading, .is-left.is-tight .map-locked:not(.map-same) { margin-right: 0; margin-left: calc(var(--side-width) + 8px); }
 .is-left .map-status { left: calc(env(safe-area-inset-left, 0px) + var(--side-width) + 18px); right: calc(env(safe-area-inset-right, 0px) + 10px); }
-.is-left.is-compact .map-wheel-hint { right: auto; left: calc(100% + 6px); }
+.is-left .map-wheel-hint { right: auto; left: calc(100% + 6px); }
 @media (orientation: landscape) and (max-height: 520px) {
-  .is-left .map-wheel { left: auto; right: calc(env(safe-area-inset-right, 0px) + 10px); }
+  .is-left .map-wheel, .is-left .map-log-shot { left: auto; right: calc(env(safe-area-inset-right, 0px) + 10px); }
+}
+
+/* On a phone turned on its side, leave the short strip above the shot card for
+   the landing. Camera and recentre share the dock on the shortest screens. */
+@media (orientation: landscape) and (max-height: 360px) {
+  .map-bottom { --camera-room: 50px; }
+  .map-bottom:has([data-recentre]:not([hidden])) { --camera-room: 100px; }
+  .map-float { bottom: 0; height: 44px; gap: 6px; z-index: 8; }
+  .map-view-toggle { width: 44px; padding: 0; justify-content: center; }
+  .map-view-toggle span, .map-tools svg { display: none; }
+  .map-tools { margin-left: var(--camera-room); }
+  .is-left .map-tools { margin-left: 0; margin-right: var(--camera-room); }
+  .map-bottom:has([data-view-menu]:not([hidden])) > :not(.map-float, .map-tools) { visibility: hidden; }
 }
 
 /* ---- Större text: what is read, not what sits on the map ---- */
 .is-large .map-sheet, .is-large .map-prompt, .is-large .map-locked, .is-large .map-reading, .is-large .map-status { zoom: 1.18; }
+#courseMap.has-shot-distance {
+  --shot-number: 32px;
+  --green-middle-number: 24px;
+  --green-edge-number: 19px;
+  --green-middle-ink: var(--ink-body);
+  --green-edge-ink: var(--ink-soft);
+}
+#courseMap.has-shot-distance.is-compact {
+  --shot-number: 28px;
+  --green-middle-number: 21px;
+  --green-edge-number: 17px;
+}
+#courseMap.has-shot-distance .map-shot-main b { color: var(--accent); font-size: var(--shot-number); font-weight: 800; }
+#courseMap.has-shot-distance.is-sun { --green-middle-ink: var(--ink-soft); --green-edge-ink: var(--ink-faint); }
+#courseMap.has-shot-distance .map-green:not(.is-on) b { color: var(--green-edge-ink); font-size: var(--green-edge-number); font-weight: 600; }
+#courseMap.has-shot-distance .map-green:not(.is-on) .map-green-mid b { color: var(--green-middle-ink); font-size: var(--green-middle-number); font-weight: 650; }
 .is-large .map-sheet { max-height: min(72%, 560px); }
 .is-large .map-sheet-tall { max-height: min(72%, 620px); }
 .is-large .map-hole-text b { font-size: 22px; }

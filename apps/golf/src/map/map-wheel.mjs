@@ -23,7 +23,7 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
      where it still stands: arriving on the next tee turned it toward a wedge for the
      green just played, the new hole then asked for the driver, found the wheel still on
      the driver, did nothing, and the turn landed on the wedge. */
-  let heading = -1, snapTop = null;
+  let heading = -1, snapTop = null, suggested = null;
 
   const count = () => clubs.length;
   const indexOf = id => clubs.findIndex(club => club.id === id);
@@ -202,6 +202,13 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
     }
   });
 
+  function markSuggestion(row, club) {
+    const isSuggested = club.id === suggested;
+    row.classList.toggle('is-suggested', isSuggested);
+    const words = [club.name, club.carry ? club.carry + ' meter' : '', isSuggested ? 'föreslagen klubba' : ''];
+    row.setAttribute('aria-label', words.filter(Boolean).join(', '));
+  }
+
   return {
     /* Clubs with their lengths, in the bag's order. Keeps the place by club. */
     setClubs(next) {
@@ -215,6 +222,7 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
         row.id = `map-wheel-${k}`;
         row.setAttribute('role', 'option');
         row.setAttribute('aria-selected', 'false');
+        markSuggestion(row, club);
         /* The bag once to a screen reader: the copies are only for the turning. */
         if (k < clubs.length || k >= clubs.length * 2) row.setAttribute('aria-hidden', 'true');
         const name = document.createElement('b'), length = document.createElement('small');
@@ -243,7 +251,12 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
     current,
     /* The dot stays on the suggestion, wherever the wheel is turned to. */
     suggest(id) {
-      for (const row of rows) row.classList.toggle('is-suggested', row.dataset.club === id);
+      if (suggested === id) return;
+      const previous = suggested;
+      suggested = id;
+      rows.forEach((row, i) => {
+        if (row.dataset.club === previous || row.dataset.club === suggested) markSuggestion(row, clubAt(i));
+      });
     },
     setLocked(locked) { element.classList.toggle('is-locked', locked); },
     refresh: paintSoon,

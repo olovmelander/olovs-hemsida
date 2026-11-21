@@ -57,6 +57,21 @@ export function lockShot(shots, { hole, club, point, accuracy, at, lie = null, r
   return list;
 }
 
+/* On reload the open putter is the durable record of the unanswered putt count.
+   A putter lock closed the preceding shot only when it ended at this exact fix. */
+export function beforePutterLock(shots) {
+  const putter = openShot(shots);
+  if (!putter || !isPutt(putter)) return shots;
+  const list = shots.slice(0, -1), previous = list.at(-1);
+  if (previous?.outcome === 'played' && previous.round === putter.round && previous.course === putter.course
+      && previous.hole === putter.hole && previous.to?.[0] === putter.from[0] && previous.to[1] === putter.from[1]) {
+    const reopened = { ...previous, outcome: 'open', to: null, toAccuracy: null, toLie: null, rise: null };
+    delete reopened.suspect;
+    list[list.length - 1] = reopened;
+  }
+  return list;
+}
+
 /* A club changed at the same spot before the ball was struck. */
 export const changeClub = (shots, club) => {
   const open = openShot(shots);

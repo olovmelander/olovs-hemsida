@@ -687,6 +687,15 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     return handle;
   }
 
+  function repaintTile(node, paint) {
+    for (const [unit, target, image] of [[0, node.gpu.paintTexture, paint.colour], [3, node.gpu.maskTexture, paint.mask]]) {
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, target);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      gl.generateMipmap(gl.TEXTURE_2D);
+    }
+  }
+
   /* A white pixel: every tile's hill shade until it has one of its own. */
   function whiteTexture() {
     const handle = gl.createTexture();
@@ -906,15 +915,12 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
       const mips = image => 1 + Math.floor(Math.log2(image.width));
       const paintTexture = texture(0, gl.RGBA8, paint.colour.width, paint.colour.height, gl.LINEAR_MIPMAP_LINEAR, mips(paint.colour));
-      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, gl.RGBA, gl.UNSIGNED_BYTE, paint.colour);
-      gl.generateMipmap(gl.TEXTURE_2D);
       if (anisotropy) gl.texParameterf(gl.TEXTURE_2D, anisotropy.TEXTURE_MAX_ANISOTROPY_EXT, anisotropyLimit);
 
       const maskTexture = texture(3, gl.RGBA8, paint.mask.width, paint.mask.height, gl.LINEAR_MIPMAP_LINEAR, mips(paint.mask));
-      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, gl.RGBA, gl.UNSIGNED_BYTE, paint.mask);
-      gl.generateMipmap(gl.TEXTURE_2D);
 
       node.gpu = { heightTexture, reliefTexture, paintTexture, maskTexture, trees: null, houses: null };
+      repaintTile(node, paint);
       if (node.trees?.length) {
         const buffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -928,6 +934,8 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
         node.gpu.houses = { vao: houseVao(buffer), buffer, count: node.houses.length / 10 };
       }
     },
+
+    repaintTile,
 
     /* A tile's trees alone: the forest stands on tiles the view has no need to load. */
     uploadForest(trees) {

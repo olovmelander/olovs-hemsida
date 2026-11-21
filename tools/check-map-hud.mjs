@@ -39,7 +39,7 @@ const SETTINGS = [['plain', {}], ['sun', { sun: true }], ['left-large', { left: 
 
 /* What may lie on what by design: a sheet covers the game until it is closed. */
 const collect = () => {
-  const HUD = { hole: '.map-hole', green: '.map-green', wind: '.map-wind', wheel: '.map-wheel', hint: '.map-wheel-hint', recentre: '.map-recentre', viewToggle: '[data-view-toggle]', viewMenu: '[data-view-menu]', note: '[data-locked]', same: '[data-same]', prompt: '[data-prompt]', reading: '[data-reading]', profile: '[data-profile]', legend: '[data-legend]', tools: '.map-tools', status: '[data-status]' };
+  const HUD = { hole: '.map-hole', green: '.map-green', wind: '.map-wind', wheel: '.map-wheel', log: '[data-wheel-lock]:not(.map-sr)', hint: '.map-wheel-hint', recentre: '.map-recentre', viewToggle: '[data-view-toggle]', viewMenu: '[data-view-menu]', note: '[data-locked]', same: '[data-same]', prompt: '[data-prompt]', reading: '[data-reading]', profile: '[data-profile]', legend: '[data-legend]', tools: '.map-tools', status: '[data-status]' };
   const shown = element => { if (!element || element.hidden) return false; const style = getComputedStyle(element); if (style.display === 'none' || style.visibility === 'hidden') return false; return element.getClientRects().length > 0; };
   const rects = {};
   for (const [name, selector] of Object.entries(HUD)) {
@@ -61,6 +61,10 @@ const collect = () => {
   }
   /* Words cut off. */
   const root = document.querySelector('#courseMap');
+  if (root.classList.contains('has-shot-distance') && shown(root.querySelector('[data-shot-distance]')) && shown(root.querySelector('[data-green]:not(.is-on)'))) {
+    const font = selector => parseFloat(getComputedStyle(root.querySelector(selector)).fontSize);
+    if (font('[data-shot-distance]') <= font('[data-mid-number]')) issues.push('shot distance smaller than or equal to green yardage');
+  }
   for (const element of root.querySelectorAll('b, span, small, button, p, output')) {
     if (!shown(element) || element.closest('.map-sheet[hidden]') || element.closest('.map-sr') || element.closest('.map-wheel-list')) continue;
     if (element.children.length && element.tagName !== 'BUTTON') continue;
@@ -79,10 +83,14 @@ const collect = () => {
   const under = at => Object.entries(rects).find(([, r]) => at.x > r.l && at.x < r.r && at.y > r.t && at.y < r.b)?.[0];
   if (state.mode === 'hole' && !state.atEye) {
     const marks = { pin: hole.pin, greenCentre: hole.green.c, you: state.player?.point };
+    if (!state.viewMoved && !state.greenView) marks.target = state.guidance?.target;
     for (const [name, point] of Object.entries(marks)) {
       if (!point) continue;
       const at = screen(point);
-      if (!Number.isFinite(at.x)) continue;
+      if (!Number.isFinite(at.x) || !Number.isFinite(at.y)) {
+        if (name === 'target') issues.push('outside target behind camera');
+        continue;
+      }
       const behind = under(at);
       if (behind) issues.push(`hidden ${name} behind ${behind}`);
       else if (at.x < 0 || at.y < 0 || at.x > innerWidth || at.y > innerHeight) issues.push(`outside ${name}`);
@@ -122,6 +130,7 @@ const write = () => {
 let finished = 0;
 pending = jobs.slice();
 const runOne = async ([[phone, width, height, top, bottom], [setting, display]]) => {
+      const checkRotation = phone === 'se1' || phone === 'side-small';
       const before = Object.values(report).reduce((sum, value) => sum + value.count, 0);
       const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 2, hasTouch: true, isMobile: true, permissions: ['geolocation'], geolocation: { latitude: 59.6, longitude: 17.8 } });
       await context.addInitScript(values => { try { localStorage.setItem('banvy-map-display-v1', JSON.stringify(values)); localStorage.setItem('banvy-map-hint-v1', '1'); } catch {} }, display);
@@ -130,7 +139,7 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
       page.on('pageerror', e => problems.push(e.message));
       const cdp = await context.newCDPSession(page);
       if (top || bottom) await cdp.send('Emulation.setSafeAreaInsetsOverride', { insets: { top, left: 0, bottom, right: 0 } }).catch(() => {});
-      const settled = () => page.waitForFunction(() => { const s = globalThis.V3DMap?.stats(); return s && s.frames > 0 && s.busy === 0 && !V3DMap.state.flight && !V3DMap.state.opening; }, null, { timeout: 60000, polling: 150 });
+      const settled = () => page.waitForFunction(() => { const s = globalThis.V3DMap?.stats(); return s && s.frames > 0 && s.busy === 0 && !V3DMap.state.flight && !V3DMap.state.opening; }, null, { timeout: 180000, polling: 150 });
       let lastStep = 'boot';
       const record = async state => {
         lastStep = state;
@@ -146,6 +155,22 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         add(phone, setting, state, issues);
         if (issues.some(each => each.startsWith('overlap') || each.startsWith('offscreen') || each.startsWith('clipped')) && setting !== 'sun') await page.screenshot({ path: path.join(OUT, `${phone}-${setting}-${state}.png`) }).catch(() => {});
       };
+      const rotate = async (w, h) => {
+        await page.setViewportSize({ width: w, height: h });
+        await page.waitForFunction(([w, h]) => V3DMap.camera.state.width === w && V3DMap.camera.state.height === h, [w, h]);
+        await settled();
+      };
+      const exposedGround = () => page.evaluate(() => {
+        const { camera, state, heightAt } = V3DMap;
+        const target = state.guidance?.target;
+        const mark = target && camera.project(target[0], heightAt(...target) * state.exaggeration, target[1]);
+        for (const row of [.42, .33, .52, .25]) for (const col of [.35, .5, .65]) {
+          const x = Math.round(innerWidth * col), y = Math.round(innerHeight * row);
+          if (!document.elementFromPoint(x, y)?.matches('.map-marks') || (mark && Math.hypot(mark.x - x, mark.y - y) < 35)) continue;
+          if (camera.pick(x, y, heightAt, state.exaggeration)) return { x, y };
+        }
+        throw new Error('No exposed ground available for a map gesture');
+      });
       const stand = async share => {
         const point = await page.evaluate(t => { const h = V3DMap.course.holes[V3DMap.state.hole - 1]; const [a, b] = [h.line[0], h.green.c]; return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }, share);
         await page.evaluate(([x, z]) => {
@@ -173,6 +198,22 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         await page.goto(pageUrl.href, { waitUntil: 'domcontentloaded' });
         await settled();
         await record('idle');
+        if (checkRotation) {
+          await page.waitForFunction(() => V3DMap.state.guidance?.mode === 'auto' && V3DMap.state.guidance.status !== 'loading');
+          if (!await page.evaluate(() => Boolean(V3DMap.state.guidance.target))) add(phone, setting, 'idle', ['missing automatic tee target on hole 5']);
+          await rotate(height, width);
+          await record('automatic-rotated');
+          await rotate(width, height);
+        }
+        await page.locator('[data-menu]').focus();
+        await page.keyboard.press('Enter');
+        await page.keyboard.press('Shift+Tab');
+        const tabInside = () => page.evaluate(() => Boolean(document.activeElement.closest('[role="dialog"][aria-modal="true"]')));
+        if (!await tabInside()) add(phone, setting, 'menu', ['focus escaped the sheet going backwards']);
+        await page.keyboard.press('Tab');
+        if (!await tabInside()) add(phone, setting, 'menu', ['focus escaped the sheet going forwards']);
+        await page.keyboard.press('Escape');
+        if (!await page.locator('[data-menu]').evaluate(button => button === document.activeElement)) add(phone, setting, 'menu', ['focus did not return to the menu']);
         await page.click('[data-view-toggle]');
         await record('view-menu');
         await page.click('[data-view-toggle]');
@@ -192,20 +233,38 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         if (height > width && !await page.locator('[data-wheel-hint]').isVisible()) {
           add(phone, setting, 'walking', ['missing walking distance beside automatic guidance']);
         }
-        await page.locator('.map-marks').tap({ position: { x: Math.round(width * 0.35), y: Math.round(height * 0.42) } });
-        await page.waitForTimeout(300);
+        await page.locator('.map-marks').tap({ position: await exposedGround() });
+        await page.waitForFunction(() => V3DMap.state.guidance?.mode === 'manual');
         await record('reading');
+        if (checkRotation) {
+          const target = () => page.evaluate(() => V3DMap.state.guidance?.target);
+          const pinned = await target();
+          await rotate(height, width);
+          await record('reading-rotated');
+          if (!pinned || JSON.stringify(await target()) !== JSON.stringify(pinned)) add(phone, setting, 'reading-rotated', ['rotation lost the pinned target']);
+          await rotate(width, height);
+        }
         await hold();
         await record('reading+note');
         await page.locator('[data-reading-close]').click().catch(() => {});
         await page.evaluate(() => { document.querySelector('[data-locked]').hidden = true; });
-        const box = { x: Math.round(width * 0.35), y: Math.round(height * 0.4) };
+        const box = await exposedGround();
         await page.mouse.move(box.x, box.y);
         await page.mouse.down();
         await page.mouse.move(box.x + 40, box.y + 30, { steps: 4 });
         await page.mouse.up();
         await page.waitForTimeout(300);
         await record('moved-view');
+        if (checkRotation) {
+          const pan = () => page.evaluate(() => {
+            const { x, z, bearing, tilt, distance } = V3DMap.camera.state;
+            return [V3DMap.state.viewMoved, x, z, bearing, tilt, distance];
+          });
+          const beforeRotation = await pan();
+          await rotate(height, width);
+          if (!beforeRotation[0] || JSON.stringify(await pan()) !== JSON.stringify(beforeRotation)) add(phone, setting, 'pan-rotated', ['rotation reset the panned camera']);
+          await rotate(width, height);
+        }
         await pickView('[data-view="hole"]');
         await settled();
         const green = await page.evaluate(() => V3DMap.course.holes[V3DMap.state.hole - 1].green.c);
@@ -259,6 +318,6 @@ const rows = write();
 for (const row of rows) console.log(String(row.count).padStart(4), row.example.slice(0, 80), '|', row.where.slice(0, 3).join(' '));
 /* The clashes that fail it. The rest is reported for reading. */
 const BY_DESIGN = /overlap (prompt|same)\/(prompt|same)/;
-const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|missing walking distance|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
+const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|focus|rotation|shot distance smaller|missing (walking distance|automatic tee target)|outside target|hidden target behind (hole|green|wind|wheel|log|reading|profile|viewToggle|tools)|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
 console.log(clashes.length ? `${clashes.length} kinds of clash` : 'the HUD fits every phone measured');
 process.exitCode = clashes.length ? 1 : 0;

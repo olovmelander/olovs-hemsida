@@ -213,7 +213,7 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
     return surfaces.get(size);
   };
   const canopy = canopyPattern(surface(512).ctx, atlases);
-  const coverMask = land ? null : landcoverMask(course);
+  const coverMask = land?.forest ? null : landcoverMask(course);
   const small = document.createElement('canvas');
   const smallCtx = small.getContext('2d');
   const maskCanvas = document.createElement('canvas');
@@ -239,14 +239,14 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
   function waterPicture(node, size, colour) {
     const touching = item => item.x1 >= node.x0 && item.x0 <= node.x0 + node.size && item.z1 >= node.z0 && item.z0 <= node.z0 + node.size;
     const reaching = lakeShores.filter(touching);
-    if (!land && !reaching.length) return null;
+    if (!land?.water && !reaching.length) return null;
     const { wet, wetCtx } = surface(size);
     wetCtx.setTransform(1, 0, 0, 1, 0, 0);
     wetCtx.globalCompositeOperation = 'source-over';
     wetCtx.clearRect(0, 0, size, size);
     wetCtx.imageSmoothingEnabled = true;
     wetCtx.imageSmoothingQuality = 'low';
-    if (land) drawShare(wetCtx, land.water, node, size);
+    if (land?.water) drawShare(wetCtx, land.water, node, size);
     if (reaching.length) {
       const scale = size / node.size;
       wetCtx.setTransform(scale, 0, 0, scale, -node.x0 * scale, -node.z0 * scale);
@@ -264,7 +264,7 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
      stamp can read on, plain forest colour. */
   function paintCanopy(node, scale, size) {
     const stand = node.stand;
-    if (!stand && !land && !coverMask) return false;
+    if (!stand && !land?.forest && !coverMask) return false;
     const { ctx, trees, treeCtx } = surface(size);
     treeCtx.setTransform(1, 0, 0, 1, 0, 0);
     treeCtx.globalCompositeOperation = 'source-over';
@@ -281,7 +281,7 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
       });
       smallCtx.putImageData(new ImageData(canopyAlpha({ payload: stand.payload, width, height, unmeasured }), width, height), 0, 0);
       treeCtx.drawImage(small, 0, 0, size, size);
-    } else if (land) drawShare(treeCtx, land.forest, node, size);
+    } else if (land?.forest) drawShare(treeCtx, land.forest, node, size);
     else {
       treeCtx.setTransform(scale, 0, 0, scale, -node.x0 * scale, -node.z0 * scale);
       treeCtx.transform(...coverMask.matrix);
@@ -321,7 +321,7 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
     openSand: polygons(f.openSand),
     rock: polygons(f.rock),
     /* Only the ground's own picture can tell the sea from the land inside such a ring. */
-    water: f.water.filter(item => !(land && item.overLand)).map(item => ({ ...shape(item.ring, ringPath(item.ring), 10), reached: reachedWater.has(item) })),
+    water: f.water.filter(item => !(land?.water && item.overLand)).map(item => ({ ...shape(item.ring, ringPath(item.ring), 10), reached: reachedWater.has(item) })),
     hayfields: polygons(f.hayfields),
     yards: polygons(f.yards),
     clearfells: polygons(f.clearfells),

@@ -28,6 +28,22 @@ const scored = score => Boolean(score?.picked) || Number.isFinite(score?.strokes
 export const holesScored = (round, holes) => holes.filter(hole => scored(round.scores[hole.n])).length;
 export const isRoundComplete = (round, holes) => holes.length > 0 && holesScored(round, holes) === holes.length;
 
+/* Old cards kept only the last viewed hole. An actual logged shot is stronger
+   evidence when migrating those cards. An explicit new start has its own first tee. */
+export function roundEntry({ round, active, shotHole, recentHole, requestedHole, intent, preview, count }) {
+  const valid = number => Number.isInteger(number) && number >= 1 && number <= count ? number : null;
+  const requested = valid(Number(requestedHole));
+  const scoredNumbers = Object.keys(round.scores).map(Number).filter(n => valid(n) && scored(round.scores[n]));
+  const afterScores = scoredNumbers.length ? (Math.max(...scoredNumbers) % count) + 1 : 1;
+  const saved = valid(round.playingHole) ?? valid(shotHole) ?? valid(recentHole) ?? afterScores;
+  const start = intent === '1';
+  const openingHole = requested ?? (start ? 1 : valid(recentHole) ?? 1);
+  const playing = active ? saved : openingHole;
+  const viewing = intent === 'visa' || Boolean(preview);
+  const shown = active && !viewing && (start || intent === 'fortsatt') ? playing : requested ?? playing;
+  return { playing, shown, viewing };
+}
+
 /* Is this round over, now that this hole has its score? Every hole has one, or the last
    hole is done with only a few left blank. A round begun on the 10th is not over on the
    18th: half its card is still to come. */

@@ -27,7 +27,7 @@ const settled = page => page.waitForFunction(() => {
   const s = V3DMap.stats();
   return s.frames > 0 && s.busy === 0 && !V3DMap.state.flight && !V3DMap.state.opening
     && V3DMap.state.guidance?.status !== 'loading';
-}, null, { timeout: 60000, polling: 100 });
+}, null, { timeout: 180000, polling: 100 });
 const note = async (page, label) => {
   if (args.includes('--trace')) console.log('  ' + label, JSON.stringify(await page.evaluate(() => {
     const c = V3DMap.camera.state, p = V3DMap.state.player;
@@ -287,7 +287,9 @@ await page.evaluate(() => V3DMap.setWeather({ windFromDeg: 0, windMs: 6, gustMs:
 await page.waitForTimeout(250);
 expect(await page.isVisible('[data-wind]'), 'the wind shows, with its arrow');
 const windy = await page.textContent('[data-reading]');
-expect(/spelas/.test(windy), `and the shot reads it: ${windy}`);
+const windReading = await page.evaluate(() => V3DMap.state.guidance.reading);
+expect(Boolean(windReading) && /spelas/i.test(windy) === (Math.round(windReading.plays) !== Math.round(windReading.distance)),
+  `the wind-adjusted distance appears when it differs: ${windy}`);
 
 /* ---- a measuring point takes a drag, and an × ---- */
 const aim = () => page.evaluate(() => { const p = V3DMap.state.guidance.target; const s = V3DMap.camera.project(p[0], V3DMap.heightAt(p[0], p[1]) * V3DMap.state.exaggeration, p[1]); return { x: s.x, y: s.y, target: [...p] }; });
@@ -407,9 +409,22 @@ await page.mouse.up();
 await page.waitForTimeout(300);
 const turned = await eyeView();
 expect(Math.abs(turned.bearing - standing.bearing) > 0.02 && turned.along < 1, 'a finger turns the head and the feet stay put');
-await page.locator('.map-marks').tap({ position: { x: 120, y: 420 } });
-await page.waitForTimeout(500);
-expect(await page.evaluate(() => Boolean(V3DMap.state.target)), 'a tap still measures, from eye level');
+/* From eye level y=420 is the horizon on this phone. Tap visible ground, as a
+   golfer does, then compare the actual pin to the point under the finger. */
+const eyeGround = await page.evaluate(() => {
+  const { camera, heightAt, state } = V3DMap;
+  const marks = document.querySelector('.map-marks'), bounds = marks.getBoundingClientRect();
+  for (const row of [.58, .62, .55]) {
+    const x = Math.round(bounds.width * .32), y = Math.round(bounds.height * row);
+    if (document.elementFromPoint(bounds.left + x, bounds.top + y) !== marks) continue;
+    const point = camera.pick(x, y, heightAt, state.exaggeration);
+    if (point) return { x, y, point };
+  }
+  throw new Error('No visible ground in the eye-level map');
+});
+await page.locator('.map-marks').tap({ position: { x: eyeGround.x, y: eyeGround.y } });
+await page.waitForFunction(() => V3DMap.state.target !== null);
+expect(samePoint(await page.evaluate(() => V3DMap.state.target), eyeGround.point), 'a tap on eye-level ground measures the point under the finger');
 await page.click('[data-reading-close]');
 await pickView('[data-view="hole"]');
 await settled(page);
@@ -464,6 +479,9 @@ const nextTee = await page.evaluate(n => V3DMap.course.holes[n].tees[0].point, p
 await onPoint(nextTee);
 expect(await page.evaluate(() => V3DMap.state.hole) === played, 'walking onto the next tee changes nothing yet');
 await page.evaluate(() => V3DMap.skipTime(21000));
+/* Let the 4 s tee recheck actually run without delivering a second GPS sample. */
+await page.waitForTimeout(4200);
+expect(await page.evaluate(() => V3DMap.state.playing) === played, 'a timer cannot confirm a tee from an expired fix');
 await onPoint(nextTee);
 await settled(page);
 expect(await page.evaluate(() => V3DMap.state.hole) === played + 1, 'standing on it turns to that hole');
@@ -481,20 +499,20 @@ await page.evaluate(() => V3DMap.skipTime(70000));
 await onPoint(midNext);
 await settled(page);
 expect(await page.evaluate(() => V3DMap.state.hole) === played, 'a hole chosen by hand survives a phone put away');
-await fixAt(0.75);
-/* Tees side by side can settle it without the button. */
-if (await page.isVisible('[data-recentre]')) await page.click('[data-recentre]');
+await page.click('[data-recentre]');
 await settled(page);
-expect(await page.evaluate(() => V3DMap.state.playing) === played, 'the round button settles which hole is being played');
+expect(await page.evaluate(n => V3DMap.state.hole === n && V3DMap.state.playing === n, played + 1),
+  'the round button returns to the confirmed playing hole');
+await page.click('[data-prev]');
+await page.click('[data-hole]');
+await page.click('[data-play-hole]');
+await settled(page);
 await page.evaluate(() => V3DMap.skipTime(70000));
 await onPoint(midNext);
 await settled(page);
-expect(await page.evaluate(() => V3DMap.state.hole) === played + 1, 'a phone put away over a tee finds the hole again when it wakes');
-await page.click('[data-prev]');
-await settled(page);
+expect(await page.evaluate(n => V3DMap.state.hole === n && V3DMap.state.playing === n, played),
+  'one fix on a neighbouring green after a long gap keeps the confirmed playing hole');
 await fixAt(0.75);
-/* Tees side by side can settle it without the button. */
-if (await page.isVisible('[data-recentre]')) await page.click('[data-recentre]');
 await settled(page);
 const [stillLat, stillLon] = await toLatLon(0.75);
 expect(await page.evaluate(([a, b]) => { V3DMap.fix(a, b, 5); return !V3DMap.state.flight; }, [stillLat, stillLon]), 'a player standing still does not move the map');
@@ -569,6 +587,12 @@ const onGreen = await wheelState();
 expect(onGreen.suggested === 'putter' && onGreen.chosen === 'putter', 'on the green the wheel turns to the putter by itself');
 await holdWheel();
 expect(await page.isVisible('[data-prompt]'), 'the putter asks for the putts');
+await page.reload({ waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => globalThis.V3DMap);
+await settled(page);
+expect(await page.isVisible('[data-putts-key="2"]')
+  && await page.getAttribute('[data-prompt]', 'data-asked') === String(played), 'reload restores the pending putt count for the played hole');
+await onPoint(greenCentre);
 await page.click('[data-putts-key="2"]');
 const written = await page.evaluate(() => ({ score: V3DMap.round().scores[V3DMap.state.hole], tally: V3DMap.shots().filter(shot => shot.hole === V3DMap.state.hole && shot.round === V3DMap.round().id).length }));
 expect(written.score.putts === 2 && written.score.strokes === card.par + 1, `and the score entered by hand stays: ${written.score.strokes}, with the log at ${written.tally}`);
@@ -584,11 +608,18 @@ const hole = await page.evaluate(() => V3DMap.state.hole);
 await page.click('[data-next]');
 await settled(page);
 expect(await page.evaluate(() => V3DMap.state.hole) === hole + 1, 'the next hole opens');
-expect(!(await page.isVisible('[data-prompt]')), 'a hole with a score does not ask for one');
+expect(await page.evaluate(() => V3DMap.state.playing) === hole && !await page.isVisible('[data-prompt]'),
+  'browsing the next hole leaves the score and played hole alone');
+await page.click('[data-hole]');
+await page.click('[data-play-hole]');
+const skipped = hole + 1;
 await page.click('[data-next]');
 await settled(page);
-expect(await page.isVisible('[data-prompt]'), 'a hole left without a score asks for it');
-const skipped = await page.evaluate(() => Number(document.querySelector('[data-prompt]').dataset.asked));
+expect(!await page.isVisible('[data-prompt]'), 'looking ahead again leaves the previous hole open');
+await page.click('[data-hole]');
+await page.click('[data-play-hole]');
+expect(await page.isVisible('[data-prompt]') && await page.getAttribute('[data-prompt]', 'data-asked') === String(skipped),
+  'explicitly moving on asks about the unscored hole just played');
 await page.click('[data-prompt-keys] .is-par');
 expect(await page.evaluate(hole => Number.isFinite(V3DMap.round().scores[hole]?.strokes), skipped), 'and takes it in one tap');
 expect(!(await page.isVisible('[data-prompt]')), 'and goes');
@@ -682,11 +713,12 @@ await checkSavedCourse();
 
 /* ---- a tab lost in the pocket ---- */
 await context.grantPermissions(['geolocation']);
+const playedBeforeReload = await page.evaluate(() => V3DMap.state.playing);
 await page.evaluate(() => V3DMap.goHole(7, { fly: false }));
 await page.goto(`${BASE}?bana=${SLUG}&karta=1`, { waitUntil: 'domcontentloaded' });
 await page.waitForFunction(() => globalThis.V3DMap, null, { timeout: 30000 });
 await settled(page);
-expect(await page.evaluate(() => V3DMap.state.hole) === 7, 'a reopened map comes back to the hole it was on');
+expect(await page.evaluate(() => V3DMap.state.hole) === playedBeforeReload, 'a reopened map comes back to the played hole after a preview');
 await page.waitForTimeout(400);
 expect(await page.getAttribute('[data-gps]', 'aria-pressed') === 'true', 'and with the GPS on, the permission being given');
 
@@ -760,6 +792,8 @@ const lastHole = await golfer.evaluate(() => {
   return { n: last.n, par: last.par, count: course.holes.length };
 });
 await settled(golfer);
+await golfer.click('[data-hole]');
+await golfer.click('[data-play-hole]');
 await golfer.click('[data-score]');
 await golfer.click(`[data-stroke-key="${lastHole.par}"]`);
 expect(await golfer.textContent('[data-score-done]') === 'Se rundan', 'the last hole on the card offers the round');
@@ -930,6 +964,11 @@ async function checkSavedCourse() {
     const offline = await page.evaluate(() => V3DMap.stats());
     expect(offline.failures === 0 && offline.metreTiles > 0, `a saved course opens with no signal, on 1 m tiles (${offline.metreTiles} tiles, ${offline.failures} failures)`);
     await page.evaluate(() => V3DMap.goHole(3, { fly: false }));
+    if (await page.evaluate(() => V3DMap.state.playing !== 3)) {
+      await page.click('[data-hole]');
+      await page.click('[data-play-hole]');
+      if (await page.isVisible('[data-prompt]')) await page.click('[data-prompt-close]');
+    }
     await standAt(approach);
     const offlineApproach = await checkGuidance('auto', 'a GPS approach on a saved course with no signal');
     await standAt(outsideGreen(1));

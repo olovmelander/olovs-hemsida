@@ -14,7 +14,7 @@ import { raiseHouses } from './map-houses.mjs';
 import { createFarBlocker, createFarSample, farForestCells, FAR_FOREST, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
 import { plantTile, TREE_FLOATS } from './map-trees.mjs';
 
-export const MAP_OFFLINE_CACHE = 'banvy-map-offline-v1';
+import { MAP_OFFLINE_CACHE } from './map-offline-status.mjs';
 const MAX_FETCHES = 6;
 const UPLOADS_PER_FRAME = 2;
 const SHADES_PER_FRAME = 2;
@@ -38,14 +38,18 @@ const FAR_PLANTING_MS = 3, FAR_RESIDENT_TREES = 300000;
    by content, so the first visit keeps them: no later visit, and no bad signal, has
    to fetch them again. */
 
+async function optionalOfflineCache() {
+  try { return await globalThis.caches?.open(MAP_OFFLINE_CACHE); }
+  catch { return null; }
+}
+
 export async function fetchKeptFile(url) {
-  const cache = globalThis.caches ? await caches.open(MAP_OFFLINE_CACHE).catch(() => null) : null;
+  const cache = await optionalOfflineCache();
   const held = await cache?.match(url).catch(() => null);
   if (held) return new Uint8Array(await held.arrayBuffer());
   const response = await fetch(url);
   if (!response.ok) throw new Error(`bilddata saknas (${response.status})`);
-  const kept = response.clone();
-  cache?.put(url, kept).catch(() => {});
+  cache?.put(url, response.clone()).catch(() => {});
   return new Uint8Array(await response.arrayBuffer());
 }
 
@@ -53,16 +57,15 @@ export async function fetchKeptFile(url) {
 const sampleWithin = (node, heights, x, z) => sampleTile(heights, (x - node.x0) / node.size, (z - node.z0) / node.size, TILE_SAMPLES);
 
 export async function fetchTileBytes(url, { signal } = {}) {
-  if (globalThis.caches) {
-    const held = await (await caches.open(MAP_OFFLINE_CACHE)).match(url).catch(() => null);
-    if (held) return new Uint8Array(await held.arrayBuffer());
-  }
+  const cache = await optionalOfflineCache();
+  const held = await cache?.match(url).catch(() => null);
+  if (held) return new Uint8Array(await held.arrayBuffer());
   const response = await fetch(url, { signal });
   if (!response.ok) throw new Error(`terrängdata saknas (${response.status})`);
   return new Uint8Array(await response.arrayBuffer());
 }
 
-export function createTileStore({ ground, baseHref, renderer, painter, rules, structures = [], farForest = null, onChange }) {
+export function createTileStore({ ground, baseHref, renderer, painter, rules, structures = [], awaitingAppearance = false, onChange }) {
   const { nodes, root } = buildTileTree(ground);
   const datum = ground.frame.origin.heightRH2000;
   const pending = new Map();      /* wanted, by node id, this view's order */
@@ -75,11 +78,15 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
   /* Past the 1 m tiles, the forest picture's wood (map-far-forest.mjs), once its
      samples are read: until then, and if they cannot be, the painted canopy alone. */
   const templates = rules.catalogue.species;
-  const far = farForest?.land?.forestBytes ? farForestCells(root, metreTiles) : { cells: [] };
+  let far = { cells: [] };
+  let repaints = [];
   const farSample = createFarSample({ templates });
   let farWanted = [], farResident = 0, farEye = [0, 0, 0], farView = 0;
   let forestAt = null, blockerFor = null;
-  if (far.cells.length) {
+  function addFarForest(farForest) {
+    if (!farForest?.land?.forestBytes || far.cells.length) return;
+    far = farForestCells(root, metreTiles);
+    if (!far.cells.length) return;
     const { land } = farForest;
     readForestPicture(land.forestBytes).then(picture => {
       if (disposed) return;
@@ -249,6 +256,13 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
     root,
     isReady,
     fileUrl,
+    setAppearance(nextPainter, farForest, complete) {
+      painter = nextPainter;
+      awaitingAppearance = !complete;
+      repaints = [...nodes.values()].filter(isReady);
+      addFarForest(farForest);
+      onChange();
+    },
 
     // Read the hole's physical data without enqueuing textures or changing the camera.
     // Keep the returned arrays even if the renderer later evicts this node.
@@ -289,9 +303,14 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
         const paint = painter.paint(node);
         renderer.uploadTile(node, node.decoded, node.relief, paint);
         node.relief = null;
-        node.stand = null;
+        if (!awaitingAppearance) node.stand = null;
         node.state = 'ready';
         node.used = ++clock;
+      }
+      const repaint = repaints.shift();
+      if (repaint && isReady(repaint) && repaint.gpu) {
+        renderer.repaintTile(repaint, painter.paint(repaint));
+        if (!awaitingAppearance) repaint.stand = null;
       }
       for (let i = 0; i < FOREST_PLANTS_PER_FRAME && forestPlanting.length; i++) {
         const node = forestPlanting.shift();
@@ -319,7 +338,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
           releaseFar(cell);
         }
       }
-      return uploads.length + forestPlanting.length + farWanted.length;
+      return uploads.length + repaints.length + forestPlanting.length + farWanted.length;
     },
 
     /* The forest in view, as far as a tree still reads. Its tiles are asked for nearest
@@ -404,7 +423,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       metreTiles: [...nodes.values()].filter(node => node.lod === 0 && isReady(node)).length,
       bytesFetched,
       failures,
-      busy: active + pending.size + uploads.length + forestActive + forestWanted.size + forestPlanting.length + farWanted.length,
+      busy: active + pending.size + repaints.length + uploads.length + forestActive + forestWanted.size + forestPlanting.length + farWanted.length,
       farTrees: far.cells.reduce((sum, cell) => sum + (cell.forestGpu?.count ?? 0), 0),
     }),
 
@@ -416,6 +435,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
          "loading" for good and its ground never comes back. */
       const queued = new Set(uploads);
       uploads.length = 0;
+      repaints = [];
       forestWanted.clear();
       forestPlanting.length = 0;
       farWanted = [];

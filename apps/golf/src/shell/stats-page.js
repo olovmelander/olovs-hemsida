@@ -410,7 +410,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
           <ol class="st-steps">
             <li><b>1</b><span><strong>Öppna en bana i Lätt 3D</strong> när du står på första tee.</span></li>
             <li><b>2</b><span><strong>Starta rundan</strong> och för score hål för hål.</span></li>
-            <li><b>3</b><span><strong>Håll klubban i hjulet</strong> vid bollen, så mäts varje slag.</span></li>
+            <li><b>3</b><span>Välj klubba och tryck på <strong>Logga slag</strong> när du står vid bollen.</span></li>
           </ol>
           <div class="st-empty-actions">
             <button class="set-primary" type="button" data-play>Spela i Lätt 3D</button>

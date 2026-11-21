@@ -6,6 +6,7 @@ export function createGuidancePlanner({ loadGeometry, createWorker, onChange }) 
   function clear() {
     const old = active;
     active = null;
+    clearTimeout(old?.retryTimer);
     old?.abort.abort();
     old?.worker?.terminate();
   }
@@ -17,12 +18,25 @@ export function createGuidancePlanner({ loadGeometry, createWorker, onChange }) 
     hole.worker.postMessage({ type: 'plan', id: hole.id, ...hole.request });
   }
 
+  function retry() {
+    if (!active?.failed) return;
+    clearTimeout(active.retryTimer);
+    active.failed = false;
+    active.busy = false;
+    open(active);
+    onChange();
+  }
+
   function fail(hole, error) {
-    if (hole !== active) return;
+    if (hole !== active || hole.failed) return;
     hole.worker?.terminate();
     hole.worker = null;
     hole.ready = false;
-    hole.failedAt = Date.now();
+    hole.failed = true;
+    const delay = Math.min(60000, 3000 * 2 ** Math.min(hole.failures++, 5));
+    hole.retryTimer = setTimeout(() => {
+      if (hole === active && globalThis.navigator?.onLine !== false && !globalThis.document?.hidden) retry();
+    }, delay);
     hole.result = null;
     console.warn('Slagplanering:', error.message);
     onChange();
@@ -35,12 +49,13 @@ export function createGuidancePlanner({ loadGeometry, createWorker, onChange }) 
       const worker = createWorker();
       hole.worker = worker;
       worker.onmessage = ({ data }) => {
-        if (hole !== active) return;
+        if (hole !== active || hole.worker !== worker) return;
         if (data.type === 'ready') {
           hole.ready = true;
           send(hole);
         } else if (data.type === 'result') {
           hole.busy = false;
+          hole.failures = 0;
           if (hole.id !== data.id) {
             // A continuous walk can outpace a slow first search. Keep a complete
             // nearby GPS result visible, at its own origin, while checking the next fix.
@@ -55,7 +70,7 @@ export function createGuidancePlanner({ loadGeometry, createWorker, onChange }) 
           onChange();
         } else if (data.type === 'error') fail(hole, new Error(data.message));
       };
-      worker.onerror = error => fail(hole, error);
+      worker.onerror = error => { if (hole.worker === worker) fail(hole, error); };
       worker.postMessage({ type: 'open', geometry });
     } catch (error) { fail(hole, error); }
   }
@@ -68,11 +83,11 @@ export function createGuidancePlanner({ loadGeometry, createWorker, onChange }) 
   const samePoint = (a, b) => a === b || (a && b && a[0] === b[0] && a[1] === b[1]);
   return {
     clear,
-    retry() { if (active?.failedAt) { clear(); onChange(); } },
+    retry,
     read(key, request) {
-      if (active?.key !== key || (active.failedAt && Date.now() - active.failedAt >= 15000)) {
+      if (active?.key !== key) {
         clear();
-        active = { key, abort: new AbortController(), id: 0, config: 0 };
+        active = { key, abort: new AbortController(), id: 0, config: 0, failures: 0 };
         open(active);
       }
       const old = active.request;
@@ -85,7 +100,7 @@ export function createGuidancePlanner({ loadGeometry, createWorker, onChange }) 
         if (!last?.shots.length || !canRetain({ ...old, origin: last.origin }, active.request)) active.result = null;
         send(active);
       }
-      return active.result ?? { status: active.failedAt ? 'unavailable' : 'loading', shots: [] };
+      return active.result ?? { status: active.failed ? 'unavailable' : 'loading', shots: [] };
     },
   };
 }

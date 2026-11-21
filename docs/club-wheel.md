@@ -37,13 +37,13 @@ It has to be obvious with a glove on, in sunlight, in the middle of a conversati
   dot. Tapping or dragging a new target immediately centres the wheel on its club.
   Clearing a measured point, a new automatic landing, a new hole, or walking 15 m
   from a shot lock also hands the wheel back to the suggestion.
-- **Hold to lock,** for 0.9 s, anywhere on a club. The club under the finger fills and the
+- **Logga slag** records the selected club. Holding a club for 0.9 s also records it. The club under the finger fills and the
   whole panel lights up, since a thumb covers the band, and the phone gives a tick where
   it can. Nothing moves under a finger that is holding. It is a hold and not a tap so that a pocket or a stray
   thumb cannot start a shot. Letting go early changes nothing.
-- **The reward comes straight after:** "Driver 231 m", with Ångra and Plikt +1 beside it.
+- **The confirmation** names the played hole, stroke and club. It shows the previous length for a measurable shot, or “osäker längd” when the fixes are imprecise or a lock appears to have been missed.
 - **By the ball** the band turns green: that one sign says it is locked.
-- **While walking,** the length counts up in large figures under the wheel.
+- **While walking**, “Från slaget” shows the distance from the recorded ball position when both GPS fixes are accurate enough.
 
 The Mät slag button is gone: the wheel does its job.
 
@@ -53,13 +53,13 @@ The Mät slag button is gone: the wheel does its job.
 | --- | --- | --- |
 | Standing at the ball, first shot | Holds the club | A shot opens at this fix |
 | Standing at the ball, next shot | Holds the next club | The last shot ends here, with its length and lie, and the new one opens |
-| On the next tee, inside the tee's 20 s | Holds the club | The new hole begins at once, and the lock is its first shot |
+| On the next tee | Waits for a second fresh fix after 20 s, or selects Spela hål in the hole sheet | The previous hole closes and the player can log the tee shot. Until the change, the log button names the hole being played. |
 | Second lock within 12 m | Chooses Byt klubba, Nytt slag or Omslag +1 | Changed club, a duffed shot, or stroke and distance |
-| Slip of the thumb | Ångra | One step back, whatever the last step was |
+| Slip of the thumb | Ångra | Reverts the last shot action and its calculated score fields. Hand-entered scores remain on the card. |
 | The wrong club, found out later | Taps the shot under Dina slag in Hålet, then the right club in the bag that opens there | The club changes on any shot of the round, a shot under way too. The length stands and counts for the new club, and the check for a missed lock runs again against it. Putts are counted, so they stay out of this |
 | Ball in water or a penalty area | Plikt +1 after the next lock | A stroke on the shot that went in, which leaves the lengths |
 | Out of bounds or lost, played again from the spot | Omslag +1 | The shot stays a stroke and leaves the lengths; a new one opens at the same spot |
-| On the green | Holds the putter once, taps the number of putts | The approach ends here, and the hole's score is written: shots, penalties and putts |
+| On the green | Logs the putter once and taps the number of putts | The approach ends here and the card counts shots, penalties and putts. Reopening the round restores an unanswered putt question. |
 | A lock forgotten, so a shot runs far past its club | Nothing | It shows with a question mark, and leaves the lengths |
 | Chip-in, or the putter never held | Nothing | The next tee closes the shot with no length, and the prompt offers the logged strokes |
 

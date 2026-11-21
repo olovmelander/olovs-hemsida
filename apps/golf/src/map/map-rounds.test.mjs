@@ -1,6 +1,6 @@
 /* The rounds a player keeps, and what they add up to. */
 import { describe, expect, it } from 'vitest';
-import { atTheTurn, courseLength, dropRound, dropRoundShots, holeHistory, holesScored, isRoundComplete, keepRound, parseRounds, roundIsOver, roundRecord, roundSummary, roundText, roundTrend, storeRounds } from './map-rounds.mjs';
+import { atTheTurn, courseLength, dropRound, dropRoundShots, holeHistory, holesScored, isRoundComplete, keepRound, parseRounds, roundEntry, roundIsOver, roundRecord, roundSummary, roundText, roundTrend, storeRounds } from './map-rounds.mjs';
 import { closeHole, lockShot } from './map-shots.mjs';
 
 const holes = [{ n: 1, par: 4, index: 1 }, { n: 2, par: 3, index: 3 }, { n: 3, par: 5, index: 2 }];
@@ -8,6 +8,34 @@ const course = { slug: 'bana', name: 'Banan', holes };
 const round = (scores, extra = {}) => ({ version: 1, id: 7, startedAt: '2026-11-05', handicap: 18, scores, ...extra });
 const seven = { id: 'iron-7', carry: 140 }, driver = { id: 'driver', carry: 210 };
 const lock = (shots, club, point, hole = 1, roundId = 7) => lockShot(shots, { hole, club, point, accuracy: 5, at: 1000, meta: { course: 'bana', round: roundId } });
+
+describe('the hole in play when a round opens', () => {
+  const open = options => roundEntry({ round: round({}), active: false, count: 18, recentHole: 18, ...options });
+
+  it('starts a fresh card on the first or tenth tee regardless of a recent preview', () => {
+    expect(open({ intent: '1' })).toMatchObject({ playing: 1, shown: 1 });
+    expect(open({ intent: '1', requestedHole: '10' })).toMatchObject({ playing: 10, shown: 10 });
+    expect(open({ intent: '1', count: 9, requestedHole: '10' })).toMatchObject({ playing: 1, shown: 1 });
+  });
+
+  it('resumes the actual hole after a launch URL, a reload, or a neighbouring preview', () => {
+    const stored = { active: true, round: round({}, { playingHole: 11 }), shotHole: 10 };
+    for (const intent of ['1', 'fortsatt']) {
+      expect(open({ ...stored, intent, requestedHole: '10' })).toEqual({ playing: 11, shown: 11, viewing: false });
+    }
+    expect(open(stored)).toEqual({ playing: 11, shown: 11, viewing: false });
+    expect(open({ ...stored, intent: 'visa', requestedHole: '1' })).toEqual({ playing: 11, shown: 1, viewing: true });
+    expect(open({ ...stored, preview: true, requestedHole: '1' })).toEqual({ playing: 11, shown: 1, viewing: true });
+    expect(open({ ...stored, requestedHole: '8' })).toMatchObject({ playing: 11, shown: 8 });
+  });
+
+  it('recovers an older active card from actual shots, recent navigation or scores', () => {
+    expect(open({ active: true, shotHole: 5, intent: 'fortsatt' }).playing).toBe(5);
+    expect(open({ active: true, intent: 'fortsatt' }).playing).toBe(18);
+    const old = round({ 10: { strokes: 4 }, 11: { picked: true } }, { playingHole: 99 });
+    expect(open({ active: true, recentHole: null, shotHole: 0, round: old, intent: 'fortsatt' }).playing).toBe(12);
+  });
+});
 
 describe('a round kept', () => {
   it('keeps only the holes that have a score, with each par', () => {

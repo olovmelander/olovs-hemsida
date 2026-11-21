@@ -1,0 +1,198 @@
+/* Course chooser → mobile GPS play → score → home Continue. Run against a
+   production build with: node tools/check-map-round.mjs http://127.0.0.1:8620/ */
+import assert from 'node:assert/strict';
+import { chromium } from 'playwright-core';
+import { browserArgs, browserExecutable } from './browser-args.mjs';
+
+const base = new URL(process.argv[2] ?? 'http://127.0.0.1:8620/');
+const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
+const slug = 'upsala';
+const errors = [];
+const wait = (page, predicate, argument) => page.waitForFunction(predicate, argument, { timeout: 60000, polling: 100 });
+const tap = (page, selector) => page.locator(selector).tap();
+const sheet = '#courseSheet';
+const round = page => page.evaluate(() => structuredClone(V3DMap.round()));
+const storedRound = page => page.evaluate(course => JSON.parse(localStorage.getItem('banvy-map-round-v1:' + course)), slug);
+const choices = page => page.evaluate(course => ({
+  tee: localStorage.getItem('banvy-map-tee-v1:' + course), handicap: localStorage.getItem('banvy-map-handicap-v1'),
+}), slug);
+const visited = [];
+
+async function phone() {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce',
+    permissions: ['geolocation'], geolocation: { latitude: 0, longitude: 0, accuracy: 4 },
+  });
+  await context.addInitScript(() => {
+    localStorage.setItem('banvy-map-quality-v1', '3');
+    localStorage.setItem('banvy-map-hint-v1', '1');
+  });
+  const page = await context.newPage();
+  page.setDefaultTimeout(45000);
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('request', request => {
+    if (request.isNavigationRequest() && request.frame() === page.mainFrame()) {
+      const params = new URL(request.url()).searchParams;
+      if (params.has('runda')) visited.push({ intent: params.get('runda'), hole: params.get('hal') });
+    }
+  });
+  return { page, context };
+}
+
+async function courseCard(page) {
+  await page.goto(new URL('#karta', base).href, { waitUntil: 'domcontentloaded' });
+  await tap(page, `#chooser .card[data-slug="${slug}"]`);
+  await page.locator(sheet + '[open]').waitFor();
+}
+
+async function launch(page, button, intent, hole) {
+  const before = visited.length;
+  await tap(page, button);
+  await wait(page, () => globalThis.V3DMap?.state.guidance);
+  assert.deepEqual(visited.slice(before), [{ intent, hole }]);
+}
+
+async function start(page, hole) {
+  await courseCard(page);
+  await tap(page, `#courseSheet label:has(input[name="cs-hole"][value="${hole}"])`);
+  await tap(page, '#courseSheet label:has(input[name="cs-tee"][value="1"])');
+  await page.locator('#courseSheet [data-hcp]').fill('17');
+  await launch(page, '#courseSheet [data-go]', '1', String(hole));
+  await wait(page, n => V3DMap.round().begunAt && V3DMap.round().playingHole === n && V3DMap.state.hole === n, hole);
+  assert.deepEqual(await choices(page), { tee: '1', handicap: '17' });
+}
+
+async function gpsAtTee(page, context, hole) {
+  const fix = await page.evaluate(number => {
+    const { course, state } = V3DMap;
+    const tees = course.holes[number - 1].tees;
+    const [east, south] = course.frame.toPack(...(tees[state.tee] ?? tees[0]).point);
+    return { latitude: course.geo.origin.lat - south / 111320, longitude: course.geo.origin.lon + east / course.geo.mPerLon, accuracy: 4 };
+  }, hole);
+  await context.setGeolocation(fix);
+  await wait(page, () => V3DMap.state.player?.onCourse && V3DMap.state.guidance.source === 'gps');
+  return fix;
+}
+
+try {
+  const first = await phone();
+  await courseCard(first.page);
+  const initial = await choices(first.page);
+  await first.page.getByRole('button', { name: 'Spara för offline' }).waitFor();
+  assert.match(await first.page.locator('#courseSheet [data-offline-status]').innerText(), /inte sparad/);
+  await tap(first.page, '#courseSheet label:has(input[name="cs-hole"][value="10"])');
+  await tap(first.page, '#courseSheet label:has(input[name="cs-tee"][value="1"])');
+  await first.page.locator('#courseSheet [data-hcp]').fill('17');
+  await launch(first.page, '#courseSheet [data-look]', 'visa', '10');
+  assert.equal(await first.page.evaluate(() => V3DMap.state.hole), 10);
+  assert.ok(!(await round(first.page)).begunAt);
+  assert.equal(await first.page.locator('[data-gps]').getAttribute('aria-pressed'), 'false');
+  assert.deepEqual(await choices(first.page), initial);
+  console.log('Course preview opens on 10 without starting GPS or saving the edited setup.');
+  await first.page.reload({ waitUntil: 'domcontentloaded' });
+  await wait(first.page, () => globalThis.V3DMap?.state.hole === 10);
+  assert.ok(!(await round(first.page)).begunAt);
+  assert.equal(await first.page.locator('[data-gps]').getAttribute('aria-pressed'), 'false');
+  await start(first.page, 1);
+  console.log('A preview survives refresh without starting GPS or saving setup. Starting on 1 then plays hole 1.');
+  await first.context.close();
+
+  const { page, context } = await phone();
+  await start(page, 10);
+  console.log('Course setup starts a new round on 10 with the chosen tee and handicap.');
+  const original = await round(page);
+  const coordinate = await gpsAtTee(page, context, 10);
+  await tap(page, '[data-hole]');
+  await page.locator('[data-aim-choice]').selectOption('0');
+  await wait(page, () => V3DMap.state.guidance.mode === 'manual' && V3DMap.state.guidance.recommendedClub);
+  const pin = await page.evaluate(() => [...V3DMap.state.guidance.target]);
+  await page.locator('[data-wheel-list]').press('ArrowDown');
+  await wait(page, () => Boolean(V3DMap.state.manualClub));
+  await tap(page, '[data-club-auto]');
+  await wait(page, () => !V3DMap.state.manualClub && V3DMap.wheel() === V3DMap.state.guidance.recommendedClub.id);
+  assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pin);
+  await tap(page, '[data-reading-close]');
+  await wait(page, () => V3DMap.state.guidance.mode === 'auto');
+  assert.equal((await page.evaluate(() => V3DMap.shots())).length, 0);
+  console.log('Changing back to the suggested club keeps the measured target. Automatic aim resumes without logging a shot.');
+
+  await tap(page, '[data-next]');
+  await wait(page, () => V3DMap.state.hole === 11 && V3DMap.state.playing === 10);
+  await tap(page, '[data-score]');
+  assert.match(await page.locator('[data-score-title]').innerText(), /^Hål 10\b/);
+  const par = await page.evaluate(() => V3DMap.course.holes[9].par);
+  await tap(page, `[data-stroke-key="${par + 1}"]`);
+  await tap(page, '[data-putt-key="2"]');
+  await tap(page, '[data-score-sheet] [data-close]');
+  let record = await storedRound(page);
+  assert.equal(record.scores[10].strokes, par + 1);
+  assert.equal(record.scores[11], undefined);
+
+  await context.setGeolocation(coordinate);
+  await wait(page, () => V3DMap.state.player?.onCourse);
+  const log = page.getByRole('button', { name: /^Logga slag/ });
+  await log.tap();
+  await wait(page, () => V3DMap.shots().length === 1);
+  assert.equal(await page.evaluate(() => V3DMap.shots()[0].hole), 10);
+  await tap(page, '[data-score]');
+  await tap(page, `[data-stroke-key="${par + 2}"]`);
+  await tap(page, '[data-score-sheet] [data-close]');
+  await tap(page, '[data-locked-undo]');
+  assert.equal(await page.evaluate(() => V3DMap.shots().length), 0);
+  record = await storedRound(page);
+  assert.equal(record.scores[10].strokes, par + 2);
+  assert.equal(record.scores[10].putts, 2);
+  assert.equal(record.scores[11], undefined);
+  console.log('While previewing 11, score and shot belong to 10. Undo removes the shot and preserves later hand-entered score.');
+
+  await context.setGeolocation(coordinate);
+  await log.tap();
+  await wait(page, () => V3DMap.shots().length === 1);
+  await log.tap();
+  await page.locator('[data-same]').waitFor();
+  const before = await page.evaluate(() => ({ shots: V3DMap.shots(), scores: V3DMap.round().scores }));
+  await page.evaluate(() => V3DMap.skipTime(22000));
+  if (await page.locator('[data-same-shot]').isVisible()) await tap(page, '[data-same-shot]');
+  assert.deepEqual(await page.evaluate(() => ({ shots: V3DMap.shots(), scores: V3DMap.round().scores })), before);
+  console.log('A stale same-location confirmation leaves both shots and score intact.');
+
+  await page.goto(base.href, { waitUntil: 'domcontentloaded' });
+  const resume = page.locator('#home [data-resume]');
+  await resume.waitFor();
+  assert.match(await resume.getAttribute('aria-label'), /Hål 10\b/);
+  await launch(page, '#home [data-resume]', 'fortsatt', null);
+  await wait(page, () => V3DMap.state.hole === 10 && V3DMap.state.playing === 10);
+  assert.equal((await round(page)).id, original.id);
+  assert.deepEqual(await choices(page), { tee: '1', handicap: '17' });
+
+  await courseCard(page);
+  assert.match(await page.locator('#courseSheet [data-go]').innerText(), /Fortsätt rundan/);
+  assert.ok(!(await page.locator('#courseSheet [data-hcp]').isVisible()));
+  await launch(page, '#courseSheet [data-go]', 'fortsatt', null);
+  await tap(page, '[data-next]');
+  await tap(page, '[data-score]');
+  assert.match(await page.locator('[data-score-title]').innerText(), /^Hål 10\b/);
+  await tap(page, '[data-score-done]');
+  await wait(page, () => V3DMap.round().playingHole === 11 && V3DMap.state.hole === 11);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await wait(page, () => globalThis.V3DMap?.state.hole === 11 && V3DMap.round().playingHole === 11);
+  record = await storedRound(page);
+  assert.equal(record.id, original.id);
+  assert.equal(record.scores[10].strokes, par + 2);
+  assert.equal(record.scores[11], undefined);
+  assert.equal(await page.evaluate(() => V3DMap.shots()[0].hole), 10);
+  console.log('Home and course Continue return to 10. Finishing its score while viewing 11 advances once and survives refresh.');
+
+  await tap(page, '[data-next]');
+  await tap(page, '[data-hole]');
+  await tap(page, '[data-play-hole]');
+  await wait(page, () => V3DMap.round().playingHole === 12);
+  assert.equal((await storedRound(page)).playingHole, 12);
+  assert.equal((await round(page)).scores[10].strokes, par + 2);
+  assert.equal(await page.evaluate(() => V3DMap.shots().length), 1);
+  console.log('Explicitly playing previewed hole 12 preserves the previous score and shot.');
+  assert.deepEqual(errors, []);
+  await context.close();
+} finally {
+  await browser.close();
+}

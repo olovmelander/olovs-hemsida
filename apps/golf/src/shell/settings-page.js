@@ -159,7 +159,7 @@ export function buildSettings({ courses, onBack }) {
               <div><h2 id="set-data-h">Data</h2><p data-data-sub>Allt sparas bara på den här enheten.</p></div></header>
             <div class="set-panel">
               <div class="set-row"><div class="set-label"><b>Sparade rundor</b><small>Allt de räknas till finns under Statistik, och varje runda under Meny, Mina rundor, i kartan.</small></div><div class="set-control set-inline"><span class="set-metric" data-rounds>0</span><a class="set-link" href="#statistik">Statistik</a></div></div>
-              <div class="set-row"><div class="set-label"><b>Banor sparade för spel utan nät</b><small data-offline-names>Spara en bana under Meny i kartan.</small></div><div class="set-control"><span class="set-metric" data-offline>0</span></div></div>
+              <div class="set-row"><div class="set-label"><b>Tidigare nedladdade banor</b><small data-offline-names>Kontrollera offlinefilerna på banans sida före start.</small></div><div class="set-control"><span class="set-metric" data-offline>0</span></div></div>
               <div class="set-row is-stacked set-backup">
                 <div class="set-label"><b>Säkerhetskopia</b><small>Rundor, slag, bag, handicap och inställningar finns bara i den här webbläsaren. Spara dem i en fil, och läs in filen igen på en ny telefon eller efter att webbläsarens data rensats.</small></div>
                 <div class="set-inline">
@@ -298,9 +298,8 @@ export function buildSettings({ courses, onBack }) {
     $('[data-rounds]').textContent = String(parseRounds(readText(storage(), MAP_KEYS.rounds, null)).length);
     const offline = offlineCourses(storage());
     $('[data-offline]').textContent = String(offline.length);
-    if (offline.length) {
-      $('[data-offline-names]').textContent = offline.map(slug => courses.find(c => c.slug === slug)?.name || slug).join(', ');
-    }
+    const names = offline.map(slug => courses.find(c => c.slug === slug)?.name || slug).join(', ');
+    $('[data-offline-names]').textContent = `${names ? names + '. ' : ''}Kontrollera offlinefilerna på banans sida före start.`;
   }
 
   /* ------------------------------------------------------------- backup

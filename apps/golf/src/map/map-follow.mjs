@@ -32,9 +32,8 @@ export function createTeeWatch() {
   const refused = new Set();
   return {
     get waiting() { return waitingFor !== null; },
-    /* A lock on this tee settles it at once: the player has plainly started the hole. */
     get candidate() { return waitingFor; },
-    standingOn: number => standing.includes(number),
+    reset() { waitingFor = null; },
 
     /* The player chose a hole by hand: the tees they stand on say nothing more until
        they have left them, or the map would take the choice straight back. */
@@ -44,10 +43,10 @@ export function createTeeWatch() {
     },
 
     /* The hole to change to, once the player has stood on its tee long enough.
-       `shown` is the hole on screen, `playing` the one last played, which differ
-       while a player looks ahead, and `fresh` a round with nothing on its card yet,
-       which can start on the first tee from any hole. */
-    update({ point, accuracy, now, holes, shown, playing, fresh = false }) {
+       The order follows the played hole while a player browses the course. A fresh
+       round with nothing on its card yet can start on the first tee from any hole.
+       `now` is the acquisition time of an accepted fix. */
+    update({ point, accuracy, now, holes, playing, fresh = false }) {
       standing = holes.filter(hole => distanceToTee(point, hole) <= TEE_REACH_METRES).map(hole => hole.n);
       for (const number of refused) if (!standing.includes(number)) refused.delete(number);
       /* Holes can share a tee: at Lidingö the 2nd's is the 4th's. Waiting on it to play
@@ -59,13 +58,13 @@ export function createTeeWatch() {
       }
       if (!standing.includes(playing)) leftTee = true;
       const count = holes.length;
-      const ahead = [nextHole(shown, count), nextHole(playing, count), nextHole(nextHole(playing, count), count), ...(fresh ? [1] : [])];
+      const ahead = [nextHole(playing, count), nextHole(nextHole(playing, count), count), ...(fresh ? [1] : [])];
       /* Some tees touch the last green, so being near it says nothing by itself: a
          player is still putting only if the green is the nearer of the two. */
       const toGreen = Math.max(0, ringSD(point[0], point[1], holes[playing - 1].green.ring));
       const putting = number => toGreen < GREEN_MARGIN_METRES && distanceToTee(point, holes[number - 1]) > toGreen;
       const found = accuracy > WORST_ACCURACY_METRES || !leftTee ? null
-        : standing.filter(number => number !== shown && ahead.includes(number) && !refused.has(number) && !putting(number))
+        : standing.filter(number => number !== playing && ahead.includes(number) && !refused.has(number) && !putting(number))
           .sort((a, b) => ahead.indexOf(a) - ahead.indexOf(b))[0] ?? null;
       if (found !== waitingFor) {
         waitingFor = found;
