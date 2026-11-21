@@ -53,7 +53,10 @@ try {
     }
     const name = (await caches.keys()).find(name => name.startsWith('workbox-precache-'));
     const shell = await caches.open(name);
-    const index = (await shell.keys()).find(request => request.url.includes('index.html?__WB_REVISION__='));
+    const index = (await shell.keys()).find(request => {
+      const url = new URL(request.url);
+      return url.pathname === new URL('.', location.href).pathname && url.searchParams.has('__WB_REVISION__');
+    });
     if (!index || !await shell.delete(index)) throw new Error('Missing revisioned shell');
     return keys.length;
   });
@@ -108,6 +111,10 @@ try {
   await wait(ready);
   assert.deepEqual(errors, []);
   console.log('Hard-disconnected cold navigation to hole 9 displays 1 m terrain, playable GPS guidance and verified offline status.');
+  await page.goto(new URL('index.html#statistik', base).href, { waitUntil: 'domcontentloaded' });
+  await page.locator('#stats:not([hidden])').waitFor();
+  assert.equal(new URL(page.url()).hash, '#statistik');
+  console.log('A direct legacy index.html link opens Statistik offline.');
 } finally {
   releaseInstall();
   await browser.close();
