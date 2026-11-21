@@ -12,7 +12,7 @@ import { boxInFrustum, buildTileTree, TILE_SAMPLES } from './map-lod.mjs';
 import { bakeHillShade, shadeKey } from './map-horizon.mjs';
 import { raiseHouses } from './map-houses.mjs';
 import { createFarBlocker, createFarSample, farForestCells, FAR_FOREST, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
-import { plantTile } from './map-trees.mjs';
+import { plantTile, TREE_FLOATS } from './map-trees.mjs';
 
 export const MAP_OFFLINE_CACHE = 'banvy-map-offline-v1';
 const MAX_FETCHES = 6;
@@ -99,22 +99,40 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
   const isReady = node => node.state === 'ready';
   const fileUrl = file => resolveV2AssetUrl(file.url, baseHref);
 
-  const readLayer = async reference => {
+  // Rendering and shot planning can request the same published layer at once.
+  const reading = new Map();
+  function readLayer(reference) {
     if (!reference) return null;
-    const bytes = await fetchTileBytes(fileUrl(reference));
-    bytesFetched += bytes.byteLength;
-    return verifyChunkAssetWeb(reference, bytes);
-  };
+    if (!reading.has(reference)) {
+      const request = fetchTileBytes(fileUrl(reference)).then(bytes => {
+        bytesFetched += bytes.byteLength;
+        return verifyChunkAssetWeb(reference, bytes);
+      }).finally(() => reading.delete(reference));
+      reading.set(reference, request);
+    }
+    return reading.get(reference);
+  }
+
+  async function readTerrain(node) {
+    if (node.decoded) return node.decoded;
+    const { header, payload } = await readLayer(node.layers.terrain);
+    return decodeTileHeights(payload, header.grid, datum);
+  }
+
+  async function readVegetation(node, heights) {
+    const [stands, objects] = await Promise.all([readLayer(node.layers.stands), readLayer(node.layers.objects)]);
+    const stand = stands && { payload: stands.payload, section: stands.header.standField };
+    const trees = plantTile({ node, heights, stand, objects: objects?.content?.records, ground, rules });
+    return { stand, trees };
+  }
 
   /* The vegetation on a 1 m tile is an extra, a few kilobytes: if it fails the
      tile is still the right ground. */
   async function loadVegetation(node, heights) {
-    const read = readLayer;
     try {
-      const [stands, objects] = await Promise.all([read(node.layers.stands), read(node.layers.objects)]);
-      const stand = stands && { payload: stands.payload, section: stands.header.standField };
+      const { stand, trees } = await readVegetation(node, heights);
       node.stand = stand;
-      node.trees = plantTile({ node, heights, stand, objects: objects?.content?.records, ground, rules });
+      node.trees = trees;
       farSample.add(node, node.trees);
     } catch (error) {
       node.stand = null;
@@ -126,10 +144,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
   async function loadTile(node) {
     node.state = 'loading';
     try {
-      const bytes = await fetchTileBytes(fileUrl(node.layers.terrain));
-      bytesFetched += bytes.byteLength;
-      const { header, payload } = await verifyChunkAssetWeb(node.layers.terrain, bytes);
-      const decoded = decodeTileHeights(payload, header.grid, datum);
+      const decoded = await readTerrain(node);
       if (disposed) return;
       node.decoded = decoded;
       node.minHeight = decoded.min;
@@ -234,6 +249,26 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
     root,
     isReady,
     fileUrl,
+
+    // Read the hole's physical data without enqueuing textures or changing the camera.
+    // Keep the returned arrays even if the renderer later evicts this node.
+    async shotTile(id) {
+      const node = nodes.get(id);
+      if (node?.lod !== 0) throw new Error(`Hålets höjddata saknas: ${id}`);
+      const { heights, width, missing } = await readTerrain(node);
+      const trees = node.trees ?? (await readVegetation(node, heights)).trees;
+      const crowns = new Float32Array(trees.length / TREE_FLOATS * 3);
+      for (let i = 0, j = 0; i < trees.length; i += TREE_FLOATS, j += 3) {
+        crowns[j] = trees[i];
+        crowns[j + 1] = trees[i + 2];
+        crowns[j + 2] = trees[i + 4] * templates[trees[i + 6]].templateRadius;
+      }
+      // The renderer fills no-data samples for its mesh. A shot needs an actual
+      // elevation everywhere along the carry, so preserve holes in the survey.
+      const shotHeights = missing ? heights.slice() : heights;
+      if (missing) for (let i = 0; i < missing.length; i++) if (missing[i]) shotHeights[i] = NaN;
+      return { x0: node.x0, z0: node.z0, size: node.size, heights: shotHeights, width, crowns };
+    },
 
     /* The view's request replaces the last one: tiles the camera has left are
        dropped before they start, so a fast swipe spends nothing on them. */

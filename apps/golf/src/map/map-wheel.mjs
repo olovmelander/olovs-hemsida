@@ -9,26 +9,41 @@
    suggestion so the choice is never lost. See docs/club-wheel.md. */
 export const HOLD_MS = 900;
 const ROW_PIXELS = 50, MOVE_SLOP_PIXELS = 8, SETTLE_MS = 110, COPIES = 3, PAINT_REACH = 5;
-const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* What fits a thumb-sized row. */
 const shortName = name => name.replace(/^Lobwedge$/, 'Lob');
 
 export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }) {
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const list = element.querySelector('[data-wheel-list]');
   let clubs = [], rows = [], centre = -1, settleTimer = 0, painting = false, touched = false;
-  let hold = null, lastScroll = 0;
+  let hold = null, lastScroll = 0, releaseTimer = 0;
   /* The club the wheel was last sent to. A smooth turn takes a moment to start, and a
      second rest in that moment must be measured against where the wheel is going, not
      where it still stands: arriving on the next tee turned it toward a wedge for the
      green just played, the new hole then asked for the driver, found the wheel still on
      the driver, did nothing, and the turn landed on the wedge. */
-  let heading = -1;
+  let heading = -1, snapTop = null;
 
   const count = () => clubs.length;
   const indexOf = id => clubs.findIndex(club => club.id === id);
   const centreRow = () => Math.max(0, Math.min(rows.length - 1, Math.round(list.scrollTop / ROW_PIXELS)));
   const clubAt = row => clubs[row % count()];
+  const selectedIndex = () => heading !== -1 && !touched ? heading : centreRow() % count();
+  const current = () => clubs[selectedIndex()] ?? null;
+
+  function markSelection() {
+    if (!count()) return;
+    /* Only the middle copy is exposed to assistive technology. A programmatic
+       turn selects its destination even while the other rows pass the band. */
+    const now = count() + selectedIndex();
+    if (now === centre) return;
+    rows[centre]?.setAttribute('aria-selected', 'false');
+    rows[now].setAttribute('aria-selected', 'true');
+    list.setAttribute('aria-activedescendant', rows[now].id);
+    centre = now;
+    if (touched) navigator.vibrate?.(5);
+  }
 
   function paint() {
     painting = false;
@@ -41,14 +56,7 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
         ? `scale(${(1 - Math.min(away, 2) * 0.05).toFixed(3)})`
         : `perspective(190px) rotateX(${(-offset * 16).toFixed(1)}deg) scale(${(1 - Math.min(away, 2) * 0.05).toFixed(3)})`;
     }
-    const now = centreRow();
-    if (now === centre) return;
-    rows[centre]?.setAttribute('aria-selected', 'false');
-    rows[now]?.setAttribute('aria-selected', 'true');
-    if (rows[now]) list.setAttribute('aria-activedescendant', rows[now].id);
-    centre = now;
-    /* A click of the wheel under the thumb, where the phone can. */
-    if (touched) navigator.vibrate?.(5);
+    markSelection();
   }
   const paintSoon = () => {
     if (painting) return;
@@ -67,6 +75,12 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
   list.addEventListener('scroll', () => {
     lastScroll = performance.now();
     paintSoon();
+    /* Mobile browsers can deliver the tail of a native fling after scrollTo.
+       Keep an explicit target in its band until the next user gesture. */
+    if (snapTop != null) {
+      if (list.scrollTop !== snapTop) list.scrollTo({ top: snapTop, behavior: 'instant' });
+      return;
+    }
     clearTimeout(settleTimer);
     settleTimer = setTimeout(() => {
       if (hold) return;
@@ -87,41 +101,60 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
   /* The shortest way round to a club. */
   function show(index, smooth = true) {
     if (index < 0 || !count()) return;
+    clearTimeout(settleTimer);
+    clearTimeout(releaseTimer);
+    touched = false;
     const from = centreRow();
-    const target = [index, index + count(), index + count() * 2]
-      .reduce((best, row) => (Math.abs(row - from) < Math.abs(best - from) ? row : best));
+    const middle = index + count();
+    const animate = smooth && !reducedMotion;
+    const target = animate
+      ? [index, middle, middle + count()].reduce((best, row) => Math.abs(row - from) < Math.abs(best - from) ? row : best)
+      : middle;
     heading = index;
-    list.scrollTo({ top: target * ROW_PIXELS, behavior: smooth && !reducedMotion ? 'smooth' : 'auto' });
+    snapTop = animate ? null : target * ROW_PIXELS;
+    list.scrollTo({ top: target * ROW_PIXELS, behavior: animate ? 'smooth' : 'instant' });
+    markSelection();
     paintSoon();
   }
 
   const stopHold = () => {
     if (!hold) return;
+    const pending = hold.pending;
     clearTimeout(hold.timer);
     rows[hold.row]?.classList.remove('is-held');
     hold = null;
     element.classList.remove('is-holding');
+    if (pending != null) show(indexOf(pending), false);
+    return pending;
   };
   /* A finger that left without moving the wheel leaves it free to rest again. */
-  const letGo = () => setTimeout(() => {
-    if (performance.now() - lastScroll > SETTLE_MS) touched = false;
-  }, SETTLE_MS * 2);
+  const letGo = () => {
+    clearTimeout(releaseTimer);
+    releaseTimer = setTimeout(() => {
+      if (performance.now() - lastScroll > SETTLE_MS) touched = false;
+    }, SETTLE_MS * 2);
+  };
+  const beginTurn = () => {
+    clearTimeout(releaseTimer);
+    touched = true;
+    heading = -1;
+    snapTop = null;
+  };
 
   list.addEventListener('pointerdown', event => {
+    if (hold) return;
     const target = event.target.closest('[data-club]');
-    touched = true;
+    beginTurn();
     if (!target) { letGo(); return; }
     const row = rows.indexOf(target);
-    stopHold();
+    const club = clubAt(row);
     hold = {
-      row, x: event.clientX, y: event.clientY,
+      row, club, pointer: event.pointerId, x: event.clientX, y: event.clientY,
       timer: setTimeout(() => {
-        const club = clubAt(hold.row);
-        stopHold();
-        touched = false;
-        show(indexOf(club.id), false);
+        const superseded = stopHold() != null;
+        if (!superseded) show(indexOf(club.id), false);
         navigator.vibrate?.([14, 40, 26]);
-        onLock(club);
+        onLock(club, { superseded });
       }, HOLD_MS),
     };
     /* Nothing moves under a finger that is holding: the club it is on fills where it
@@ -130,47 +163,49 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
     target.classList.add('is-held');
   });
   list.addEventListener('pointermove', event => {
-    if (hold && Math.hypot(event.clientX - hold.x, event.clientY - hold.y) > MOVE_SLOP_PIXELS) {
+    if (hold && hold.pointer === event.pointerId && Math.hypot(event.clientX - hold.x, event.clientY - hold.y) > MOVE_SLOP_PIXELS) {
       onSlip('moved');
       stopHold();
       letGo();
     }
   });
   /* Let go before the lock: however long it was, that is a choice and no more. */
-  list.addEventListener('pointerup', () => {
+  list.addEventListener('pointerup', event => {
     if (!hold) { letGo(); return; }
-    const club = clubAt(hold.row);
+    if (event.pointerId !== hold.pointer) return;
+    const club = hold.club;
     onSlip('released');
-    stopHold();
-    touched = false;
+    if (stopHold() != null) return;
     show(indexOf(club.id));
     onChoose(club);
   });
   /* The browser has taken the touch for a scroll, which is a spin and not a hold. */
-  list.addEventListener('pointercancel', () => {
+  list.addEventListener('pointercancel', event => {
+    if (hold && event.pointerId !== hold.pointer) return;
     stopHold();
     letGo();
   });
   list.addEventListener('contextmenu', event => event.preventDefault());
-  list.addEventListener('wheel', () => { touched = true; }, { passive: true });
+  list.addEventListener('wheel', beginTurn, { passive: true });
 
   list.addEventListener('keydown', event => {
+    if (!count() || hold) return;
     const step = { ArrowUp: -1, ArrowDown: 1 }[event.key];
     if (step) {
       event.preventDefault();
-      const next = (centreRow() + step + count()) % count();
+      const next = (selectedIndex() + step + count()) % count();
       show(next);
       onChoose(clubs[next]);
     } else if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      onLock(clubAt(centreRow()));
+      onLock(current());
     }
   });
 
   return {
     /* Clubs with their lengths, in the bag's order. Keeps the place by club. */
     setClubs(next) {
-      const held = count() ? clubAt(centreRow())?.id : null;
+      const held = current()?.id;
       clubs = next;
       const copies = Array.from({ length: COPIES }, () => clubs).flat();
       list.replaceChildren(...copies.map((club, k) => {
@@ -190,15 +225,22 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
       }));
       rows = [...list.children];
       centre = -1;
-      list.scrollTop = (Math.max(0, indexOf(held)) + count()) * ROW_PIXELS;
+      heading = count() ? Math.max(0, indexOf(held)) : -1;
+      snapTop = null;
+      list.scrollTop = (Math.max(0, heading) + count()) * ROW_PIXELS;
       paintSoon();
     },
-    /* Where the wheel rests when no finger has said otherwise. */
-    rest(id) {
+    /* A new target takes ownership of the wheel even during the previous flick.
+       While a club is held, keep the finger's club in place until release. */
+    rest(id, { reclaim = false } = {}) {
       const index = indexOf(id);
-      if (!hold && !touched && (index !== centreRow() % count() || (heading !== -1 && heading !== index))) show(index);
+      if (index < 0) return;
+      if (hold) {
+        if (reclaim || hold.pending != null) hold.pending = id;
+      } else if (reclaim) show(index, false);
+      else if (!touched && selectedIndex() !== index) show(index);
     },
-    current: () => (count() ? clubAt(centreRow()) : null),
+    current,
     /* The dot stays on the suggestion, wherever the wheel is turned to. */
     suggest(id) {
       for (const row of rows) row.classList.toggle('is-suggested', row.dataset.club === id);

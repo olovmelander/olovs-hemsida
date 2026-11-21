@@ -34,8 +34,9 @@ It has to be obvious with a glove on, in sunlight, in the middle of a conversati
   PW on a 490 m par 5. A frame slower than the wheel's settle time, as when the camera
   flies to the new hole, cut a turn short the same way.
 - **A finger overrules it at once.** Spin it, or tap a club. The suggestion keeps a yellow
-  dot, so it is never lost. A new hole, or the walk to the next ball, hands the wheel back
-  to the suggestion.
+  dot. Tapping or dragging a new target immediately centres the wheel on its club.
+  Clearing a measured point, a new automatic landing, a new hole, or walking 15 m
+  from a shot lock also hands the wheel back to the suggestion.
 - **Hold to lock,** for 0.9 s, anywhere on a club. The club under the finger fills and the
   whole panel lights up, since a thumb covers the band, and the phone gives a tick where
   it can. Nothing moves under a finger that is holding. It is a hold and not a tap so that a pocket or a stray
