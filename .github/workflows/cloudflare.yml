@@ -1,18 +1,11 @@
-# Deploy Banvy (static assets + API Worker + D1 migrations) to Cloudflare Workers.
-#
-# Once you have:
-#   1. Created the D1 database (`npx wrangler d1 create banvy-db`) and updated
-#      `database_id` in apps/worker/wrangler.jsonc
-#   2. Added CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID to GitHub Secrets
-#   3. Set production secrets in Cloudflare (`BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`,
-#      `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`)
-# you can trigger this manually or uncomment the `push` trigger below.
+# Deploy Banvy (static assets + API Worker + D1 migrations) to Cloudflare Workers
+# on every push to main (and manually via workflow_dispatch).
 name: cloudflare
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
-  # push:
-  #   branches: [main]
 
 permissions:
   contents: read
