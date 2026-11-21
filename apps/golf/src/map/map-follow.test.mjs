@@ -141,10 +141,21 @@ describe('the next tee', () => {
     expect(at(teeOf(4), SETTLED)).toBe(4);
   });
 
-  it('follows a hole chosen by hand: the tee after that one counts as well', () => {
+  it('keeps following the played hole when someone browses another tee', () => {
     const { at } = watcher({ shown: 7, playing: 3 });
     at(teeOf(8), 0);
-    expect(at(teeOf(8), SETTLED)).toBe(8);
+    expect(at(teeOf(8), SETTLED)).toBeNull();
+    at(teeOf(4), SETTLED + 1);
+    expect(at(teeOf(4), SETTLED * 3)).toBe(4);
+  });
+
+  it('requires fresh sensor evidence on a previewed next tee, including after a bad fix', () => {
+    const { at, watch } = watcher({ shown: 4, playing: 3 });
+    expect(at(teeOf(4), 0)).toBeNull();
+    expect(at(teeOf(4), 0)).toBeNull();
+    watch.reset();
+    expect(at(teeOf(4), SETTLED)).toBeNull();
+    expect(at(teeOf(4), SETTLED * 2)).toBe(4);
   });
 
   it('never takes back a hole chosen by hand, until the player has left that tee', () => {

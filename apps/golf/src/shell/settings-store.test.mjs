@@ -9,6 +9,7 @@ import { ATMOSPHERE_PRESETS } from '../engine/atmosphere-presets.mjs';
 import { FRAME_CAPS, FRAME_CAP_KEY as PACER_KEY } from '../engine/frame-pacer.mjs';
 import { DEV_OVERLAY_STORAGE_KEY } from '../engine/dev-overlay.mjs';
 import { DEFAULT_LIGHT, MAP_LIGHTS } from '../map/map-light.mjs';
+import { storeHistory } from '../map/map-shots.mjs';
 import { DISPLAY_KEY } from '../map/map-display.mjs';
 import { opensMap } from './map-default.mjs';
 import {
@@ -76,7 +77,11 @@ describe('launchUrl', () => {
     /* choosing the player's own default light takes the setting's word out of the link */
     expect(q(launchUrl('visby', 'detailed', { settings, plan: { tee: 0, hole: 1, light: 'kvall' } }))).toEqual({ bana: 'visby', tee: '1' });
     expect(q(launchUrl('visby', 'map', { plan: { tee: 2, hole: 10, round: true } }))).toEqual({ bana: 'visby', karta: '1', runda: '1', hal: '10' });
-    expect(q(launchUrl('visby', 'map', { plan: { round: false } }))).toEqual({ bana: 'visby', karta: '1' });
+    expect(q(launchUrl('visby', 'map', { plan: { round: true, hole: 1 } }))).toEqual({ bana: 'visby', karta: '1', runda: '1', hal: '1' });
+    expect(q(launchUrl('visby', 'map', { plan: { round: true } }))).toEqual({ bana: 'visby', karta: '1', runda: '1', hal: '1' });
+    expect(q(launchUrl('visby', 'map', { plan: { round: false } }))).toEqual({ bana: 'visby', karta: '1', runda: 'visa' });
+    expect(q(launchUrl('visby', 'map', { plan: { round: false, hole: 10, offline: true } }))).toEqual({ bana: 'visby', karta: '1', runda: 'visa', hal: '10', offline: '1' });
+    expect(q(launchUrl('visby', 'map', { plan: { round: 'resume', hole: 1, tee: 0 } }))).toEqual({ bana: 'visby', karta: '1', runda: 'fortsatt' });
     expect(q(launchUrl('visby', 'detailed', { plan: { tee: 9, hole: 0, light: 'disco' } }))).toEqual({ bana: 'visby' });
   });
 
@@ -186,6 +191,26 @@ describe('a round under way', () => {
     expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({}) }), courses, NOW)).toBeNull();
     expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: '{broken' }), courses, NOW)).toBeNull();
   });
+  it('resumes the played hole and round activity even after another hole was previewed', () => {
+    const st = memory({
+      [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 7 * 3600e3, touchedAt: NOW - 120e3, playingHole: 10 }),
+      [`${HOLE_KEY}:visby`]: JSON.stringify({ value: 11, at: NOW }),
+    });
+    expect(liveRound(st, courses, NOW)).toMatchObject({ hole: 10, touched: NOW - 120e3 });
+    expect(liveRound(st, courses, NOW + 6 * 3600e3)).toBeNull();
+  });
+  it('resumes a legacy shots-only round from its own shot history', () => {
+    const st = memory({
+      [`${ROUND_KEY}:visby`]: round({ id: 123 }),
+      [`${HOLE_KEY}:visby`]: JSON.stringify({ value: 11, at: NOW - 3600e3 }),
+      [MAP_KEYS.shots]: storeHistory([
+        { course: 'visby', round: 123, hole: 10, at: NOW - 120e3 },
+        { course: 'puttom', round: 123, hole: 1, at: NOW - 60e3 },
+        { course: 'visby', round: 999, hole: 3, at: NOW },
+      ]),
+    });
+    expect(liveRound(st, courses, NOW)).toMatchObject({ hole: 10, touched: NOW - 120e3 });
+  });
   it('names the keys the map writes', () => {
     expect(source('../map/map-session.js')).toContain(`const ROUND_KEY = '${ROUND_KEY}'`);
     expect(source('../map/map-session.js')).toContain(`const HOLE_KEY = '${HOLE_KEY}'`);
@@ -264,7 +289,7 @@ describe('the keys are the ones the programs read', () => {
   });
 
   it('lists the courses the map kept for play without a signal, by the key it writes', () => {
-    expect(source('../map/map-field.mjs')).toContain(`\`${OFFLINE_PREFIX}\${course.slug}\``);
+    expect(source('../map/map-offline-status.mjs')).toContain(`\`${OFFLINE_PREFIX}\${slug}\``);
     const kept = memory({ [`${OFFLINE_PREFIX}angso`]: 'abc', [`${OFFLINE_PREFIX}visby`]: '1', [BAG_KEY]: '[]' });
     expect(offlineCourses(kept).sort()).toEqual(['angso', 'visby']);
     expect(offlineCourses(null)).toEqual([]);

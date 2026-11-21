@@ -49,9 +49,36 @@ it('discards work for a previous hole and retries a failed worker', async () => 
   expect(planner.onChange).not.toHaveBeenCalled();
   await Promise.resolve();
   vi.spyOn(console, 'warn').mockImplementationOnce(() => {});
-  planner.workers[1].onerror(new Error('offline'));
+  const failed = planner.workers[1];
+  failed.onerror(new Error('offline'));
   expect(planner.read(2, request).status).toBe('unavailable');
   planner.retry();
   expect(planner.read(2, request).status).toBe('loading');
   expect(planner.loadGeometry).toHaveBeenCalledTimes(3);
+  await Promise.resolve();
+  failed.reply({ type: 'result', id: 1, result: playable([99, 99]) });
+  failed.onerror(new Error('late error'));
+  expect(planner.read(2, request).status).toBe('loading');
+  expect(planner.workers[2].terminate).not.toHaveBeenCalled();
+});
+
+it('retries the active hole after a transient failure on a stationary phone', async () => {
+  vi.useFakeTimers();
+  const planner = harness();
+  try {
+    planner.loadGeometry.mockRejectedValueOnce(new Error('503'));
+    vi.spyOn(console, 'warn').mockImplementationOnce(() => {});
+    planner.read(1, request);
+    await Promise.resolve();
+    expect(planner.read(1, request).status).toBe('unavailable');
+    await vi.advanceTimersByTimeAsync(3000);
+    expect(planner.loadGeometry).toHaveBeenCalledTimes(2);
+    const worker = planner.workers[0];
+    worker.reply({ type: 'ready' });
+    worker.reply({ type: 'result', id: 1, result: playable(request.origin) });
+    expect(planner.read(1, request).status).toBe('playable');
+  } finally {
+    planner.clear();
+    vi.useRealTimers();
+  }
 });

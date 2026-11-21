@@ -31,8 +31,9 @@ putter. Approximate greens use their published centre.
 
 Tap or drag a measuring point to choose your own target. The wheel centres on the
 club for that distance, even after a manual spin. Walking updates the measurement.
-Turning the wheel changes the selected club and keeps the target. Tap the measuring
-point again or use × to return to automatic guidance. Changing holes or walking
+Turning the wheel keeps the target. “Föreslagen klubba” restores automatic
+club selection for that target. “Automatiskt mål” clears the pin. “Logga slag”
+records the selected club at the ball on the played hole. Changing holes or walking
 15 m from a recorded shot also releases the point.
 
 The map runs the shared stroke planner locally with the active hole's fairways,
@@ -252,7 +253,7 @@ which pull in three.js. The three species rules the map needs are copied into
 
 - **The hole follows the player** (`map-follow.mjs`, owner request, 5 November): it
   changes when the player stands on the next tee in order of play, within 14 m of any
-  colour's tee for 20 s. Those 20 s are what tell standing from walking through.
+  colour's tee for 20 s with a fresh confirming GPS sample. The clock alone cannot advance play.
   `map.test.mjs` stands on every tee of every next hole on all 13 layouts. Nothing else
   moves it, which ended the nearest line's jumps to a neighbouring fairway. It waits for a
   fix better than ±20 m, while the green being played is nearer than the tee (some tees
@@ -260,18 +261,10 @@ which pull in three.js. The three species rules the map needs are copied into
   played (some holes share one: Lidingö's 2nd and 4th, 15th and 17th). A tee stood on while
   a sheet or the green is open is kept and taken when that closes.
 
-  Three things keep one missed tee from leaving the map behind for the round: the tee
-  after next counts too; the first good fix of a session finds the hole by the nearest
-  line, so a map opened mid-round lands on it; and so does the first good fix after a gap
-  of over a minute, which is a locked phone, but only up to four holes forward and never
-  over a hole chosen by hand. The first tee counts from any hole until the first change,
-  so a round can start from where the map happened to be.
-
-  A hole chosen by hand stays chosen until the player has left that tee, and the tee after
-  the hole on screen counts as well as the ones after the hole last played, so a player
-  can look ahead or skip a hole. The tee played is never detected: it is the player's own
-  choice in Meny. A hole is asked for its score when the tee is reached, not on a tap of ›
-  with the GPS on, which only looks ahead.
+  The hole on the scorecard is stored with the active round. Looking ahead or
+  inspecting another tee leaves shots, score entry and resume on the played hole.
+  The hole sheet lets the golfer explicitly start playing the previewed hole.
+  The arrival prompt offers the score for the actual hole just played.
 - **Hazard distances** (`hazardsAhead`): Hålet lists the five nearest ahead of the ball.
   The 2D map overlay filters those (`reachableHazards`) to at most three hazards within
   reach of the selected shot so distant fairway hazards do not clutter the view; carry
@@ -426,9 +419,11 @@ played tee's own position, or the player. Three limits are the data's:
 
 ## Offline
 
-"Spara" keeps a course's tiles and its tree, water and forest pictures in the map's own cache,
-`banvy-map-offline-v1`. Not the shared `banvy-v2-graph`: that holds 256 entries, and
-the player's streaming could push a saved course out mid-round.
+Saving a course verifies its current startup files, map code, planning worker,
+course data and published tiles. Open the start sheet or Meny → Bana to check the
+download and restore missing files. Start GPS and use the map online even when
+offline storage is unavailable. The planner retries a failed terrain request while
+the golfer stays on the same hole.
 
 ## Checks
 
@@ -436,6 +431,9 @@ the player's streaming could push a saved course out mid-round.
 pnpm exec vitest run apps/golf/src/map
 node packages/course-v2/check-app-build.mjs
 node tools/serve.mjs apps/golf/dist 8620
+node tools/check-map-connectivity.mjs http://localhost:8620/
+node tools/check-map-offline-first.mjs http://localhost:8620/
+node tools/check-map-round.mjs http://localhost:8620/
 BANVY_GPU=1 node tools/check-map-field.mjs --url http://localhost:8620/ --slug visby
 BANVY_GPU=1 node tools/check-map-hud.mjs --url http://localhost:8620/
 BANVY_GPU=1 node tools/map-gallery.mjs --label a --url http://localhost:8620/

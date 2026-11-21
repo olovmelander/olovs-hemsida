@@ -150,7 +150,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
     : c.slug === current && m === 'detailed' ? 'Fortsätt spela'
     : c.slug === leadSlug ? 'Fortsätt' : MODES[m].cta);
   const cardLabel = (c, m = mode) =>
-    `${c.name}${c.club && c.club !== c.name ? `, ${c.club}` : ''}. Par ${c.par}, ${c.holes} hål. ${ctaFor(c, m)}${c.status === 'mapping' ? '' : ` i ${MODES[m].label}`}.${m === 'map' && kept.has(c.slug) ? ' Nedladdad för spel utan nät.' : ''}`;
+    `${c.name}${c.club && c.club !== c.name ? `, ${c.club}` : ''}. Par ${c.par}, ${c.holes} hål. ${ctaFor(c, m)}${c.status === 'mapping' ? '' : ` i ${MODES[m].label}`}.${m === 'map' && kept.has(c.slug) ? ' Tidigare nedladdad.' : ''}`;
   const back = context === 'hub'
     ? `<button class="chooser-back" type="button" id="chooserBack" aria-label="Till startmenyn">${ICONS.chevronLeft(20, 2.4)}</button>`
     : `<a class="chooser-back" id="chooserBack" href="${hubUrl()}" aria-label="Startmenyn" title="Startmenyn">${ICONS.chevronLeft(20, 2.4)}</a>`;
@@ -258,7 +258,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
                           : isCurrent ? '<span class="current-badge">Aktiv bana</span>' : isLead ? '<span class="current-badge is-last">Senast spelad</span>' : ''}
                         ${c.status === 'mapping' ? '<span class="current-badge">Under kartläggning</span>' : ''}
                         ${c.status === 'provisional' ? '<span class="current-badge">Preliminär 3D</span>' : ''}
-                        ${kept.has(c.slug) ? `<span class="saved-badge" title="Nedladdad för spel utan nät">${ICONS.saved(13)}<span>Nedladdad</span></span>` : ''}
+                        ${kept.has(c.slug) ? `<span class="saved-badge" title="Tidigare nedladdad. Kontrollera offlinefilerna på banans sida.">${ICONS.saved(13)}<span>Tidigare nedladdad</span></span>` : ''}
                       </div>
                       <div class="on-shot">
                         <p class="where">${esc(c.club)}</p>

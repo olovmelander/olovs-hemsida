@@ -1,3 +1,4 @@
+import { packIdentity } from './map-offline-status.mjs';
 /* One course, in the map's world.
 
    Everything a golfer sees comes from two things the app already publishes for
@@ -214,8 +215,13 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
   };
 }
 
-export async function loadMapCourse(slug) {
-  const response = await fetch(`${import.meta.env.BASE_URL}courses/index.json`);
+export async function loadMapCourse(slug, { deferAppearance = false } = {}) {
+  const base = import.meta.env.BASE_URL;
+  // A saved layout has its own pair of mutable roots; saving another course
+  // from a newer publication cannot redirect it to unsaved geometry offline.
+  const scopeRoot = url => `${url}?layout=${encodeURIComponent(slug)}`;
+  const packIndex = scopeRoot(`${base}courses/index.json`);
+  const response = await fetch(packIndex);
   if (!response.ok) throw new Error(`banlistan kunde inte hämtas (${response.status})`);
   const manifest = await response.json();
   const meta = manifest.courses.find(entry => entry.slug === slug);
@@ -232,13 +238,27 @@ export async function loadMapCourse(slug) {
     }
   };
   const raster = record => sidecar(record, async (url, sha) => decodeLandcover(await fetchLandcover(url, sha), inflate), 'landcover');
-  const [pack, graph, landcover, mown, surroundings] = await Promise.all([
+  const appearance = Promise.all([raster(meta.landcover), raster(meta.mownSurface)])
+    .then(([landcover, mown]) => ({ landcover, mown }));
+  const [pack, graph, surroundings] = await Promise.all([
     fetchPack(packRequestUrl(meta), meta.sha256),
-    resolvePublishedGraph({ slug, packMeta: meta }),
-    raster(meta.landcover),
-    raster(meta.mownSurface),
+    resolvePublishedGraph({ slug, packMeta: meta, fetchImpl: (url, options) =>
+      fetch(String(url).endsWith('/courses/v2-index.json') ? scopeRoot(url) : url, options) }),
     sidecar(meta.surroundings, (url, sha) => fetchSidecar(url, sha, 'surroundings'), 'surroundings'),
   ]);
   const vectors = JSON.parse(new TextDecoder().decode(await inflate(pack.sv)));
-  return buildMapCourse({ meta, geo: pack.H.GEO, vectors, ground: graph.ground, course: graph.course, landcover, mown, surroundings });
+  const result = buildMapCourse({ meta, geo: pack.H.GEO, vectors, ground: graph.ground, course: graph.course, surroundings });
+  const published = [meta.landcover, meta.mownSurface, meta.surroundings].filter(Boolean);
+  result.offlineRoots = [
+    { href: packIndex, index: 'pack', identity: packIdentity(meta) },
+    { href: scopeRoot(`${base}courses/v2-index.json`), index: 'graph', identity: graph.entry.manifest.sha256 },
+  ];
+  result.offlineData = [
+    { href: packRequestUrl(meta), bytes: meta.bytes, sha256: meta.sha256 },
+    ...published.map(file => ({ ...file, href: `${base}${file.url}?v=${file.sha256.slice(0, 16)}` })),
+    ...[graph.entry.manifest, graph.course.groundManifest].map(file => ({ ...file, href: base + file.url })),
+  ];
+  if (deferAppearance) result.appearance = appearance;
+  else Object.assign(result, await appearance);
+  return result;
 }

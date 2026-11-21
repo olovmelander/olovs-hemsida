@@ -26,9 +26,10 @@
 import '../styles/hub.css';
 import '../styles/course-sheet.css';
 import { MAX_HANDICAP, MIN_HANDICAP } from '../map/map-score.mjs';
+import { savedCourseStatus } from '../map/map-offline-status.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import {
-  LIGHTS, MAP_KEYS, MODES, NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PLAY_CHARACTERS, TEE_KEY, readSettings, readText, savedTee, teeColour, writeText,
+  LIGHTS, MAP_KEYS, MODES, NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PLAY_CHARACTERS, TEE_KEY, liveRound, readSettings, readText, savedTee, teeColour, writeText,
 } from './settings-store.mjs';
 import { perEighteen, perHole } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
@@ -63,7 +64,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   dialog.setAttribute('aria-labelledby', 'csTitle');
   document.body.append(dialog);
 
-  let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false, mine = null;
+  let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false, mine = null, activeRound = null;
 
   function history(slug) {
     const rounds = parseRounds(readText(storage(), MAP_KEYS.rounds, null)).filter(r => r.course === slug);
@@ -138,7 +139,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
               </div>
             </fieldset>
 
-            ${tees.length > 1 ? `<fieldset class="cs-field">
+            ${tees.length > 1 ? `<fieldset class="cs-field" data-round-setup>
               <legend>Tee</legend>
               <div class="cs-tees">${tees.map((name, i) => `
                 <label class="cs-tee"><input type="radio" name="cs-tee" value="${i}"${plan.tee === i ? ' checked' : ''}>
@@ -146,12 +147,12 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
               </div>
             </fieldset>` : ''}
 
-            ${c.holes >= 18 ? `<fieldset class="cs-field">
+            ${c.holes >= 18 ? `<fieldset class="cs-field" data-round-setup>
               <legend>Starta på</legend>
               <div class="seg cs-seg">${[1, 10].map(n => `<label class="seg-opt"><input type="radio" name="cs-hole" value="${n}"${plan.hole === n ? ' checked' : ''}><span>Hål ${n}</span></label>`).join('')}</div>
             </fieldset>` : ''}
 
-            <fieldset class="cs-field" data-only="map play">
+            <fieldset class="cs-field" data-round-setup data-only="map play">
               <legend>Spelhandicap</legend>
               <div class="cs-hcp">
                 <div class="stepper" role="group" aria-label="Spelhandicap">
@@ -195,7 +196,11 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
 
           <div class="cs-actions">
             <button type="button" class="cs-go" data-go></button>
-            <button type="button" class="cs-ghost" data-look data-only="map">Bara titta på banan</button>
+            <div class="cs-map-actions" data-only="map">
+              <button type="button" class="cs-ghost" data-look>Bara titta på banan</button>
+              <button type="button" class="cs-ghost" data-offline-action>Kontrollera offlinebanan</button>
+            </div>
+            <p class="cs-hint" role="status" data-offline-status data-only="map"></p>
             <p class="cs-hint" data-hint></p>
           </div>
         </div>
@@ -240,6 +245,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     dialog.querySelector('[data-close]').addEventListener('click', close);
     dialog.querySelector('[data-go]').addEventListener('click', () => launch(true));
     dialog.querySelector('[data-look]').addEventListener('click', () => launch(false));
+    dialog.querySelector('[data-offline-action]').addEventListener('click', () => launch(false, true));
     /* scrolled, the column's top fades under the close button (course-sheet.css) */
     const scroller = dialog.querySelector('.cs-scroll');
     scroller.addEventListener('scroll', () => scroller.classList.toggle('is-scrolled', scroller.scrollTop > 6), { passive: true });
@@ -358,22 +364,57 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     list.scrollTo({ left: item.offsetLeft, behavior: smooth && !REDUCED ? 'smooth' : 'auto' });
   }
 
+  let offlineCheck = 0;
+  async function checkOffline() {
+    const current = ++offlineCheck;
+    if (plan?.mode !== 'map') return;
+    const status = dialog.querySelector('[data-offline-status]');
+    const button = dialog.querySelector('[data-offline-action]');
+    status.textContent = 'Kontrollerar banans offlinefiler…';
+    const saved = await savedCourseStatus(course.slug, { catalogue: course }).catch(() => 'unavailable');
+    if (current !== offlineCheck) return;
+    const labels = {
+      ready: ['Banan är klar för spel offline.', ''],
+      repair: ['Offlinebanan behöver repareras.', 'Reparera offlinebanan'],
+      unsaved: ['Banan är inte sparad för offline.', 'Spara för offline'],
+      unavailable: ['Offlinefilerna kunde inte kontrolleras.', 'Kontrollera offlinebanan'],
+    };
+    const [message, action] = labels[saved] ?? labels.unavailable;
+    status.textContent = message;
+    button.hidden = !action;
+    if (action) button.textContent = action;
+  }
+  window.addEventListener('pageshow', () => { if (dialog.open) checkOffline(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && dialog.open) checkOffline(); });
+
   /* what changes with the mode: the choices that belong to it, and the button's words */
   function reflect() {
     dialog.dataset.mode = plan.mode;
-    for (const el of dialog.querySelectorAll('[data-only]')) el.hidden = !el.dataset.only.split(' ').includes(plan.mode);
+    const resume = plan.mode === 'map' && Boolean(activeRound);
+    for (const el of dialog.querySelectorAll('[data-only], [data-round-setup]')) {
+      el.hidden = (el.dataset.only && !el.dataset.only.split(' ').includes(plan.mode))
+        || (resume && el.hasAttribute('data-round-setup'));
+    }
+    checkOffline();
     const go = dialog.querySelector('[data-go]');
     go.innerHTML = plan.mode === 'map'
-      ? `${ICON.map}<span>Starta rundan</span>`
+      ? `${ICON.map}<span>${resume ? 'Fortsätt rundan' : 'Starta rundan'}</span>`
       : plan.mode === 'play' ? `${ICON.play}<span>Till första tee</span>`
       : `${ICON.detailed}<span>Spela i 3D</span>`;
-    dialog.querySelector('[data-hint]').textContent = plan.mode === 'map'
+    dialog.querySelector('[data-hint]').textContent = resume
+      ? `Rundan pågår${activeRound.hole ? ` på hål ${activeRound.hole}` : ''}.`
+      : plan.mode === 'map'
       ? 'Rundan startar direkt och GPS:en slås på. Du kan avsluta den när som helst.'
       : plan.mode === 'play' ? 'Du står på tee med din egen bag. Spelade rundor hålls isär från dina riktiga.'
       : 'Banan laddas i full grafik. Tee och ljus går att byta på banan.';
   }
 
-  function launch(round) {
+  function launch(round, offline = false) {
+    if (plan.mode === 'map' && (!round || activeRound)) {
+      close();
+      onLaunch(course.slug, 'map', round ? { round: 'resume' } : { round: false, hole: activeRound?.hole ?? plan.hole, offline });
+      return;
+    }
     /* the choices are kept where the map reads them, so both programs agree */
     writeText(storage(), `${TEE_KEY}:${course.slug}`, plan.tee);
     /* the player's handicap is theirs in both: the map's card and the game's points */
@@ -402,6 +443,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     open(slug, mode = 'detailed') {
       course = courses.find(c => c.slug === slug);
       if (!course) return;
+      activeRound = liveRound(storage(), [course]);
       let character = 'female';
       try { character = PLAY_CHARACTERS.some(c => c.id === storage()?.getItem(CHARACTER_KEY)) ? storage().getItem(CHARACTER_KEY) : 'female'; } catch {}
       plan = { mode: MODES[mode] ? mode : 'detailed', tee: savedTee(storage(), course), hole: 1, light: null, character };

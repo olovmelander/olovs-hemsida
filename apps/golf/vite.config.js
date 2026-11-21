@@ -13,6 +13,7 @@
    ones are immutable, the bug only appears for people who installed the app,
    which is the worst possible place to find it. Read the two together. */
 import { defineConfig } from 'vite';
+import { mapOfflineBuild } from '../../tools/map-offline-build.mjs';
 import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
@@ -26,12 +27,27 @@ import { legacyPageRedirectsPlugin } from '../../tools/legacy-page-redirects.mjs
    processes, but it cannot touch three things, and all three are below: the web
    app manifest's own fields, the service worker's route patterns, and any URL
    the app builds at runtime (those read import.meta.env.BASE_URL instead). */
+// Explicit course downloads survive normal runtime cache rotation. Mutable
+// indexes keep their existing NetworkFirst strategy.
+const savedMapAsset = {
+  cachedResponseWillBeUsed: async ({ request, cachedResponse }) => {
+    // A newer online visit can populate a mutable runtime index without
+    // downloading its new geometry. Offline, a saved layout needs its own root.
+    if (cachedResponse && !new URL(request.url).searchParams.has('layout')) return cachedResponse;
+    return await caches.match(request, { cacheName: 'banvy-map-offline-v1' }).catch(() => undefined) || cachedResponse;
+  },
+  handlerDidError: async ({ request }) =>
+    caches.match(request, { cacheName: 'banvy-map-offline-v1' }).catch(() => undefined),
+  fetchDidSucceed: async ({ request, response }) => response.ok ? response :
+    ((await caches.match(request, { cacheName: 'banvy-map-offline-v1' }).catch(() => undefined)) || response),
+};
 const BASE = process.env.BANVY_BASE || '/';
 const COURSE_SLUGS = JSON.parse(readFileSync(new URL('./public/courses/index.json', import.meta.url), 'utf8')).courses.map(course => course.slug);
 const SOURCE_ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const SOURCE_REVISION = courseSourceRevision(SOURCE_ROOT);
 
 export default defineConfig(({ mode }) => {
+  const mapOffline = mapOfflineBuild();
   const golferLab = mode === 'golfer';
   return {
   cacheDir: golferLab ? 'node_modules/.vite-golfer' : 'node_modules/.vite',
@@ -67,6 +83,7 @@ export default defineConfig(({ mode }) => {
 
   plugins: [
     golferLabPlugin(golferLab),
+    !golferLab && mapOffline.plugin,
     productionPublicAssetsPlugin(),
     legacyPageRedirectsPlugin(),
     {
@@ -109,9 +126,10 @@ export default defineConfig(({ mode }) => {
       },
 
       workbox: {
+        manifestTransforms: [mapOffline.manifestTransform],
         /* Precache the shell only: markup, engine, styles, fonts, icons.
            Course data arrives on demand and stays available offline. */
-        globPatterns: ['index.html', 'assets/*.{js,css}', 'favicon.svg', 'icons/*.png', 'fonts/**'],
+        globPatterns: ['index.html', 'registerSW.js', 'assets/*.{js,css}', 'favicon.svg', 'icons/*.png', 'fonts/**'],
         /* All courses use v2. Load terrain and its matching surface code when
            opening a course, then cache it through runtime-code below. */
         globIgnores: [
@@ -204,6 +222,7 @@ export default defineConfig(({ mode }) => {
             handler: 'CacheFirst',
             options: {
               cacheName: 'banvy-runtime-code',
+              plugins: [savedMapAsset],
               expiration: { maxEntries: 160, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [200] },
             },
@@ -414,6 +433,7 @@ export default defineConfig(({ mode }) => {
             handler: 'NetworkFirst',
             options: {
               cacheName: 'banvy-v2-index',
+              plugins: [savedMapAsset],
               networkTimeoutSeconds: 4,
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
               cacheableResponse: { statuses: [0, 200] },
@@ -432,6 +452,7 @@ export default defineConfig(({ mode }) => {
             handler: 'CacheFirst',
             options: {
               cacheName: 'banvy-v2-graph',
+              plugins: [savedMapAsset],
               expiration: { maxEntries: 256, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
             },
@@ -444,6 +465,7 @@ export default defineConfig(({ mode }) => {
             handler: 'NetworkFirst',
             options: {
               cacheName: 'banvy-manifest',
+              plugins: [savedMapAsset],
               networkTimeoutSeconds: 4,
               expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
             },
@@ -458,6 +480,7 @@ export default defineConfig(({ mode }) => {
             handler: 'CacheFirst',
             options: {
               cacheName: 'banvy-packs',
+              plugins: [savedMapAsset],
               /* pack, land cover, mowing and surroundings, for thirteen courses */
               expiration: { maxEntries: 52, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },

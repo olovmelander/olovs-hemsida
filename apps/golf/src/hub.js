@@ -75,9 +75,9 @@ try {
     /* at a course: its own page, in the map */
     onPlan: (slug, mode) => sheet.open(slug, mode),
     /* back on the tee last chosen there; the map reads it from its own key */
-    onResume: (slug, mode) => {
+    onResume: (slug, mode, plan = null) => {
       const course = courses.find(c => c.slug === slug);
-      launch(slug, mode, mode === 'detailed' && course ? { tee: savedTee(storage(), course) } : null);
+      launch(slug, mode, mode === 'detailed' && course ? { tee: savedTee(storage(), course) } : plan);
     },
   });
   document.body.append(home);

@@ -552,12 +552,12 @@ await section('launch urls', async () => {
     gate(/kartan|Fortsätt/.test(cta || ''), `phone: in Lätt 3D the card says what it opens: "${cta}"`);
     await startFromSheet(page, slug, { tee: 1 });
     const m = seen[0] ? paramsOf(seen[0]) : {};
-    gate(seen.length === 1 && m.karta === '1' && m.runda === '1', `phone: Starta rundan opens ${seen[0]?.replace(BASE, '')} -- karta=1 and the round begun`);
+    gate(seen.length === 1 && m.karta === '1' && m.runda === '1' && m.hal === '1', `phone: Starta rundan opens ${seen[0]?.replace(BASE, '')} -- karta=1 and the round begun`);
     seen.length = 0;
     await page.goto(BASE + '/#karta', { waitUntil: 'load' });
     await page.waitForSelector('#chooser:not([hidden]) .card');
     await startFromSheet(page, slug, { look: true });
-    gate(seen.length === 1 && paramsOf(seen[0]).karta === '1' && !('runda' in paramsOf(seen[0])), `phone: Bara titta opens the map without a round: ${seen[0]?.replace(BASE, '')}`);
+    gate(seen.length === 1 && paramsOf(seen[0]).karta === '1' && paramsOf(seen[0]).runda === 'visa', `phone: Bara titta opens the map without a round: ${seen[0]?.replace(BASE, '')}`);
     await page.goto(BASE + '/', { waitUntil: 'load' });
     const remembered = await page.evaluate(s => [localStorage.getItem('banvy-last-course'), localStorage.getItem('banvy-last-mode'), localStorage.getItem(`banvy-map-tee-v1:${s}`)], slug);
     gate(remembered[0] === slug && remembered[1] === 'map' && remembered[2] === '1', `and the menu will offer it again, with the tee kept for the map: ${remembered.join(', ')}`);
@@ -604,7 +604,7 @@ await section('a round under way', async () => {
   await page.click('#home [data-resume]');
   await page.waitForTimeout(500);
   const p = seen[0] ? paramsOf(seen[0]) : {};
-  gate(p.bana === course.slug && p.karta === '1' && !('runda' in p), `and resumes it in the map, without beginning another: ${seen[0]?.replace(BASE, '')}`);
+  gate(p.bana === course.slug && p.karta === '1' && p.runda === 'fortsatt' && !('hal' in p), `and resumes it in the map, without beginning another: ${seen[0]?.replace(BASE, '')}`);
   await page.goto(BASE + '/#karta', { waitUntil: 'load' });
   await page.waitForSelector('#chooser:not([hidden]) .card');
   const badge = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .current-badge.is-live`)?.textContent, course.slug);
@@ -626,11 +626,11 @@ await section('a course kept for offline play', async () => {
   await page.goto(BASE + '/#karta', { waitUntil: 'load' });
   await page.waitForSelector('#chooser:not([hidden]) .card');
   const map = await read();
-  gate(map.shown.length === 1 && map.shown[0] === course.slug && /Nedladdad/.test(map.label), `the Lätt 3D list marks the downloaded course, and says so: ${map.shown.join(', ')}`);
+  gate(map.shown.length === 1 && map.shown[0] === course.slug && /Tidigare nedladdad/.test(map.label), `the Lätt 3D list marks the downloaded course, and says so: ${map.shown.join(', ')}`);
   await page.click('.c-mode-btn[data-mode="detailed"]');
   await page.waitForTimeout(300);
   const detailed = await read();
-  gate(detailed.shown.length === 0 && !/Nedladdad/.test(detailed.label), 'and the detailed list, which streams, does not');
+  gate(detailed.shown.length === 0 && !/nedladdad/i.test(detailed.label), 'and the detailed list, which streams, does not');
   await ctx.close();
 });
 

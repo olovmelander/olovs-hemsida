@@ -257,7 +257,7 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
         </button>`;
       const btn = resumeSlot.querySelector('[data-resume]');
       btn.setAttribute('aria-label', `Fortsätt rundan på ${live.course.name}: ${where}`);
-      btn.addEventListener('click', () => onResume(live.course.slug, 'map'));
+      btn.addEventListener('click', () => onResume(live.course.slug, 'map', { round: 'resume' }));
       return;
     }
     lookNear();

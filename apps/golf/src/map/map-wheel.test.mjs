@@ -48,6 +48,19 @@ beforeEach(() => {
 afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
 
 describe('a club wheel following a new target', () => {
+  it('names the suggestion separately from the selected row, including after a bag refresh', () => {
+    const { wheel, list, selected } = setup();
+    wheel.suggest('wedge');
+    wheel.rest('iron', { reclaim: true });
+    expect(selected().attributes['aria-label']).toBe('iron, 120 meter');
+    const middle = () => list.children.slice(bag.length, bag.length * 2);
+    expect(middle()[2].attributes['aria-label']).toBe('wedge, 60 meter, föreslagen klubba');
+    wheel.setClubs(bag);
+    expect(middle()[2].attributes['aria-label']).toContain('föreslagen klubba');
+    wheel.suggest(null);
+    expect(middle().some(row => row.attributes['aria-label'].includes('föreslagen'))).toBe(false);
+  });
+
   it('takes over a flick before it settles and ignores further momentum', () => {
     const { wheel, list, emit, onChoose, onLock, selected } = setup();
     emit('wheel');

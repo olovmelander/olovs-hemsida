@@ -12,6 +12,8 @@
    each value: nothing here keeps a second copy of something another program
    stores. */
 
+import { parseHistory } from '../map/map-shots.mjs';
+
 export const SETTINGS_KEY = 'banvy-settings-v1';
 export const LAST_COURSE_KEY = 'banvy-last-course';
 export const LAST_MODE_KEY = 'banvy-last-mode';
@@ -128,8 +130,17 @@ export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS, plan
   const hole = Number(plan?.hole);
   if (mode === 'map') {
     params.set('karta', '1');
-    if (plan?.round) params.set('runda', '1');
-    if (Number.isInteger(hole) && hole > 1) params.set('hal', String(hole));
+    if (plan?.round === 'resume') {
+      params.set('runda', 'fortsatt');
+    } else {
+      if (plan?.round === true) params.set('runda', '1');
+      if (plan?.round === false) {
+        params.set('runda', 'visa');
+        if (plan.offline) params.set('offline', '1');
+      }
+      if (Number.isInteger(hole) && hole >= 1) params.set('hal', String(hole));
+      else if (plan?.round === true) params.set('hal', '1');
+    }
     return '?' + params.toString();
   }
   /* Spela is the detailed course with the game on: karta=0 always, since a
@@ -225,18 +236,26 @@ export const ROUND_KEY = 'banvy-map-round-v1';
 export const HOLE_KEY = 'banvy-map-hole-v1';
 const RESUME_MS = 6 * 60 * 60 * 1000;
 export function liveRound(storage, courses, now = Date.now()) {
-  let best = null;
+  let best = null, history;
   for (const course of courses) {
     let round = null, hole = null;
     try { round = JSON.parse(storage?.getItem(`${ROUND_KEY}:${course.slug}`) ?? 'null'); } catch { round = null; }
     if (!round || round.endedAt || typeof round.scores !== 'object' || round.scores === null) continue;
     const played = Object.values(round.scores).filter(score => score && (score.picked || Number.isFinite(score.strokes)));
-    if (!round.begunAt && !played.length) continue;
+    let lastShot;
+    if (round.id != null && (!round.playingHole || (!round.begunAt && !played.length))) {
+      history ??= parseHistory(readText(storage, MAP_KEYS.shots, null));
+      lastShot = history.findLast(shot => shot?.course === course.slug && shot.round === round.id);
+    }
+    if (!round.begunAt && !played.length && !lastShot) continue;
     try { hole = JSON.parse(storage?.getItem(`${HOLE_KEY}:${course.slug}`) ?? 'null'); } catch { hole = null; }
-    const touched = Math.max(Number(round.begunAt) || 0, Number(hole?.at) || 0);
+    const touched = Number(round.touchedAt) || Math.max(Number(round.begunAt) || 0, Number(lastShot?.at) || 0, Number(hole?.at) || 0);
     if (!touched || now - touched > RESUME_MS) continue;
     if (!best || touched > best.touched) {
-      best = { course, touched, hole: Number(hole?.value) || null, holes: played.length,
+      const playing = Number(round.playingHole ?? lastShot?.hole);
+      const activeHole = Number.isInteger(playing) && playing > 0 && (!course.holes || playing <= course.holes)
+        ? playing : Number(hole?.value) || null;
+      best = { course, touched, hole: activeHole, holes: played.length,
         strokes: played.reduce((sum, score) => sum + (Number.isFinite(score.strokes) ? score.strokes : 0), 0) };
     }
   }

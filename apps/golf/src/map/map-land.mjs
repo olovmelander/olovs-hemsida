@@ -16,29 +16,25 @@ export function outlineOverLand(groundId, ring) {
    the lakes stop at their outlines, as they did. */
 export async function loadShores(record, fetchFile) {
   if (!record?.shores) return null;
-  try {
-    const [picture, lakes] = await Promise.all([
-      fetchFile(record.shores.picture.file).then(bytes => createImageBitmap(new Blob([bytes], { type: 'image/png' }), { colorSpaceConversion: 'none' })),
-      fetchFile(record.shores.lakes.file).then(bytes => JSON.parse(new TextDecoder().decode(bytes))),
-    ]);
-    return { picture, lakes };
-  } catch (error) {
-    console.warn('map shores:', error.message);
-    return null;
-  }
+  const [picture, lakes] = await Promise.all([
+    fetchFile(record.shores.picture.file).then(decodePicture),
+    fetchFile(record.shores.lakes.file).then(bytes => JSON.parse(new TextDecoder().decode(bytes))),
+  ]);
+  return { picture, lakes };
 }
 
-/* Without them the map still opens, on its outlines and land cover. */
-export async function loadLandPictures(record, fetchFile) {
+function decodePicture(bytes) {
+  return createImageBitmap(new Blob([bytes], { type: 'image/png' }), { colorSpaceConversion: 'none' });
+}
+
+export async function loadWaterPicture(record, fetchFile) {
   if (!record) return null;
-  const picture = bytes => createImageBitmap(new Blob([bytes], { type: 'image/png' }), { colorSpaceConversion: 'none' });
-  try {
-    const [waterBytes, forestBytes] = await Promise.all([fetchFile(record.water.file), fetchFile(record.forest.file)]);
-    const [water, forest] = await Promise.all([picture(waterBytes), picture(forestBytes)]);
-    /* The forest's own bytes too: the far wood reads its samples (map-far-forest.mjs). */
-    return { water, forest, forestBytes, x0: record.x0, z0: record.z0, spacing: record.spacing };
-  } catch (error) {
-    console.warn('map land:', error.message);
-    return null;
-  }
+  const water = await decodePicture(await fetchFile(record.water.file));
+  return { water, x0: record.x0, z0: record.z0, spacing: record.spacing };
+}
+
+export async function loadForestPicture(record, fetchFile) {
+  if (!record) return null;
+  const forestBytes = await fetchFile(record.forest.file);
+  return { forest: await decodePicture(forestBytes), forestBytes };
 }

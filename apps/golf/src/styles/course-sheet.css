@@ -317,6 +317,8 @@
   border-top: 1px solid var(--cs-line);
   background: var(--cs-surface);
 }
+.cs-map-actions { display: flex; gap: 8px; }
+.cs-map-actions .cs-ghost { flex: 1; min-width: 0; }
 .cs-actions [hidden] { display: none; }
 .cs-go {
   display: flex;

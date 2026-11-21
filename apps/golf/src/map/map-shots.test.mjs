@@ -1,7 +1,7 @@
 /* The shot log: two fixes and a club make a shot, and the awkward cases stay honest. */
 import { describe, expect, it } from 'vitest';
 import {
-  addPenalty, changeClub, closeHole, clubStats, correctClub, holeTally, isPutter, learnedBag, lockShot, openShot, parseHistory, reachOf, retakeShot, setPutts, shotLength, storeHistory, surfaceAt,
+  addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isPutter, learnedBag, lockShot, openShot, parseHistory, reachOf, retakeShot, setPutts, shotLength, storeHistory, surfaceAt,
 } from './map-shots.mjs';
 
 const seven = { id: 'iron-7', carry: 140 }, driver = { id: 'driver', carry: 210 }, putter = { id: 'putter', carry: 0 };
@@ -16,6 +16,15 @@ describe('a shot', () => {
     expect(second[0].outcome).toBe('played');
     expect(shotLength(second[0])).toBe(220);
     expect(openShot(second).club).toBe('iron-7');
+  });
+
+  it('can undo a pending putter after reloading the history', () => {
+    const previous = lock([], seven, [10, 5]);
+    const pending = parseHistory(storeHistory(lock(previous, putter, [13, 18])));
+    expect(beforePutterLock(pending)).toEqual(previous);
+    expect(beforePutterLock(lock([], putter, [13, 18]))).toEqual([]);
+    const ended = closeHole(previous, 1);
+    expect(beforePutterLock(lock(ended, putter, [13, 18], { hole: 2 }))).toEqual(ended);
   });
 
   it('keeps out of the lengths a shot too long for its club: a lock was missed', () => {
