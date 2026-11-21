@@ -100,7 +100,10 @@ const fixCoordinates = async point => page.evaluate(([x, z]) => {
   }
   return [lat, lon];
 }, point);
-const toLatLon = (share, side = 0) => fixCoordinates(walk.tee.map((v, i) => v + (walk.green[i] - v) * share + (i === 0 ? side : 0)));
+const toLatLon = (share, side = 0) => fixCoordinates([
+  walk.tee[0] + (walk.green[0] - walk.tee[0]) * share + side,
+  walk.tee[1] + (walk.green[1] - walk.tee[1]) * share,
+]);
 async function onPoint(point) {
   const coords = await fixCoordinates(point);
   await page.evaluate(([lat, lon]) => V3DMap.fix(lat, lon, 5), coords);
@@ -196,7 +199,7 @@ const late = await midNumber(), wantLate = await expected(0.75);
 /* The last approach on the field fixture has a reachable green. The straight
    walk used for measuring the two green numbers can cross rough on a dogleg. */
 if (SLUG === 'upsala') {
-  // This point is 7.9 m inside the mapped stream on Upsala's third hole.
+  // This point is 7.9 m inside mapped water on Upsala's third hole.
   await fixAt(0.92);
   const wet = await guidance();
   expect(wet.status === 'blocked' && wet.target === null && wet.legs.length === 0 && wet.dot == null,
@@ -896,8 +899,8 @@ await finishRun();
 
 async function finishRun() {
   console.log(refused.length ? `requests refused: ${[...new Set(refused)].slice(0, 8).join(' ')}` : 'no requests refused');
-  /* The service worker's own loader is not in its precache; by then the worker is
-     running, so this one refusal offline changes nothing. Any other still fails. */
+  /* The service worker is already active offline. The shell can reopen without
+     its registration loader, a network forecast or the optional cloud probe. */
   const harmless = refused.length > 0 && refused.every(url =>
     url.endsWith('/registerSW.js') || url.includes('api.open-meteo.com') || url === localHealth.href);
   if (harmless) problems.splice(0, problems.length, ...problems.filter(text => !text.includes('ERR_INTERNET_DISCONNECTED')));
