@@ -78,7 +78,7 @@ try {
   assert.ok(await page.getByRole('dialog', { name: /veckefj/i }).isVisible());
   await page.locator('[data-end]').focus();
   await page.keyboard.press('Tab');
-  assert.ok(await page.locator('dialog').evaluate(el => el.contains(document.activeElement)));
+  assert.ok(await page.locator('dialog.pl-sheet[open]').evaluate(el => el.contains(document.activeElement)));
   await page.keyboard.press('Shift+Tab');
   assert.ok(await page.locator('[data-end]').evaluate(el => el === document.activeElement));
   await page.keyboard.press('Escape');
