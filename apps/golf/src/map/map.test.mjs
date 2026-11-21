@@ -783,12 +783,50 @@ describe('hazards ahead', () => {
     const crossing = ahead({ waters: [across] });
     expect(crossing.length).toBe(1);
     expect(crossing[0].kind).toBe('water');
-    expect(crossing[0].front).toBeGreaterThan(175);
-    expect(crossing[0].front).toBeLessThan(200);
-    expect(crossing[0].carry).toBeGreaterThan(250);
-    expect(crossing[0].carry).toBeLessThan(265);
+    expect(crossing[0]).toMatchObject({ front: 200, carry: 260, at: [0, -200] });
     const beside = waterShape([[12, -200], [80, -200], [80, -260], [12, -260]]);
-    expect(ahead({ waters: [beside] })[0].carry).toBeNull();
+    expect(ahead({ waters: [beside] })[0]).toMatchObject({ front: Math.hypot(12, 200), carry: null, at: [12, -200] });
+  });
+
+  it('finds both banks of a sub-metre stream and both arms of a single concave lake', () => {
+    const stream = waterShape([[-3, -200.3], [3, -200.3], [3, -200.8], [-3, -200.8]]);
+    const [hit] = ahead({ waters: [{ ...stream, approximate: true }] });
+    expect(hit.approximate).toBe(true);
+    expect(hit.front).toBeCloseTo(200.3);
+    expect(hit.carry).toBeCloseTo(200.8);
+    const lake = waterShape([[-4,-60], [4,-60], [4,-68], [-1,-68], [-1,-85], [4,-85], [4,-91], [-4,-91]]);
+    const arms = ahead({ waters: [lake] }).map(({ front, carry }) => [Math.round(front), Math.round(carry)]);
+    expect(arms).toEqual([[60, 68], [85, 91]]);
+  });
+
+  it('takes direct distances from the actual ball along the remaining hole line', () => {
+    const lake = waterShape([[-30,-100], [30,-100], [30,-130], [-30,-130]]);
+    const [hit] = ahead({ origin: [10, -50], path: [[0, 0], [0, -150], [100, -250]], waters: [lake] });
+    expect(hit.front).toBeCloseTo(Math.hypot(5, 50));
+    expect(hit.carry).toBeCloseTo(Math.hypot(8, 80));
+    expect(hit.at).toEqual([5, -100]);
+    expect(ahead({ origin: [0, -190], waters: [lake] })).toEqual([]);
+  });
+
+  it('distinguishes starting in water, an unobserved exit, and following a bank', () => {
+    const lake = waterShape([[-20,-80], [20,-80], [20,-140], [-20,-140]]);
+    expect(ahead({ origin: [0, -95], waters: [lake] })[0]).toMatchObject({ front: 0, carry: 45, at: [0, -140] });
+    expect(ahead({ path: [[0,0],[0,-100]], waters: [lake] })[0]).toMatchObject({ front: 80, carry: null, openWater: true });
+    const tangent = waterShape([[0,-100],[20,-100],[20,-140],[0,-140]]);
+    expect(ahead({ waters: [tangent] })[0]).toMatchObject({ front: 100, carry: null });
+  });
+
+  it('measures lateral water to the nearest point on an edge and merges adjoining mapped strips', () => {
+    const beside = waterShape([[5, -102], [25, -100], [25, -140], [5, -140]]);
+    const [hit] = ahead({ waters: [beside] });
+    // The near shoreline follows z = x / 10 - 102.5. Its perpendicular foot
+    // is between the vertices, on x = -z / 10.
+    expect(hit.carry).toBeNull();
+    expect(hit.at[0]).toBeCloseTo(102.5 / 10.1);
+    expect(hit.at[1]).toBeCloseTo(-10 * hit.at[0]);
+    expect(hit.front).toBeCloseTo(Math.hypot(...hit.at));
+    const strips = waterShape([[-10,-95],[10,-95],[10,-100],[-10,-100]], [[-10,-100],[10,-100],[10,-105],[-10,-105]]);
+    expect(ahead({ waters: [strips] })).toMatchObject([{ front: 95, carry: 105 }]);
   });
 
   it('says nothing of water at the player\'s feet that needs no carrying', () => {

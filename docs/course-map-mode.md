@@ -37,10 +37,12 @@ records the selected club at the ball on the played hole. Changing holes or walk
 15 m from a recorded shot also releases the point.
 
 The map runs the shared stroke planner locally with the active hole's fairways,
-green, terrain, tree crowns, buildings and hazards. A verified recovery can show a
-single stroke. If no playable landing can be established, green yardages and tap
-measurement stay available. “Senaste säkra GPS” identifies a held reading when
-the phone stops delivering recent, accurate positions.
+green, terrain, tree crowns, buildings and hazards. “Spela till fairway” marks
+a verified recovery stroke. The card gives its distance, club and distance left
+to the green. “Endast detta slag” means the planner could verify that landing only.
+Outside the hole's surveyed terrain, “Höjddata saknas här” explains why automatic
+advice is unavailable. The golfer can still tap to measure. A failed download
+offers a retry.
 
 ## The screen
 
@@ -67,8 +69,9 @@ say, is the green in 3D with its fall drawn on it.
   mean of 6.1% (steepest 11.7% here, 13.0% there). Three things differ: the lines are cut
   in a shader, a pixel or so wide; a shade lies under them, since the map's greens are
   painted paler than the simulator's lit turf; and a pulse is never under 2.6 CSS px wide, since the
-  simulator's are under a pixel from here. The pulses run at about 30 frames a second
-  for a minute after the last touch, then hold; reduced motion holds them still. It is
+  simulator's are under a pixel from here. While the view is still, the renderer keeps
+  the terrain and foreground, then animates just the pulses. It targets 30 frames a
+  second for one minute after the last touch. Reduced motion keeps the grid still. It is
   the only part of the map that draws on its own. It reads the ground, not today's
   speed or pin.
 - **Back to the shot:** the round button appears as soon as the view has left it, and
@@ -85,7 +88,8 @@ say, is the green in 3D with its fall drawn on it.
   screen, at three leans: the map, the golfer's eye and straight down. They keep following
   the player, the choice is remembered, and a tap brings back a view a finger has moved.
   One and two fingers work as before.
-- **Measuring.** A tap sets the point, a drag on it moves it, its × clears it.
+- **Measuring.** A tap sets the point, a drag moves it and “Automatiskt mål”
+  restores the suggested landing.
 - **The club wheel** stands under the numbers, always: see [the club wheel](club-wheel.md).
 - **Score** is a row of keys around par, a row of putts and, on a par 4 or 5, the
   fairway. Green in regulation follows from the strokes and putts. When a player moves
@@ -270,20 +274,23 @@ which pull in three.js. The three species rules the map needs are copied into
   reach of the selected shot so distant fairway hazards do not clutter the view; carry
   rings (`100`–`250 m`) are off by default and toggleable under Meny → Karta →
   Avståndscirklar. Bunkers side by side count as one, and only those within 45 m of the
-  hole's line. Water the line crosses has a carry; water beside it only a reach, and none
-  at all within 30 m of the player. Meny turns them off.
+  hole's line. For water across the line, the distances are measured from the ball to
+  the entry and exit banks. For water alongside the line, the distance is to the shore.
+  Meny turns these labels off.
 - **A rough fix says so** (18 November). Over ±15 m, the length past which the shot log
   stops trusting a fix, the GPS button turns amber and the accuracy stands where "från
   dig" stood, in amber, since the numbers can be that far out. Under the trees that is
   common. A compact column has no room for the line and keeps the amber button. A fix far
   off the course says how far ("1,6 km från närmaste hål"), and that goes the moment a
-  fix lands on it. A refused permission stays on screen for ten seconds, with where to
-  allow it.
+  fix lands on it. “Sök GPS” lets the golfer request a fresh position. After permission
+  is revoked, “Tillåt GPS” explains how to restore it. “Senaste säkra GPS” marks the
+  last reliable position while waiting for reception or permission.
 - **Wind** is the player's own reading (`engine/weather.js`): an arrow that turns with
   the map, and the plays-like numbers take the head wind and the temperature, as the
   simulator's Kikaren does. A reading over three hours old is not used.
 - **The scorecard** (`map-score.mjs`, the Score button) keeps strokes, putts and the
-  fairway per hole on the phone, per course, until "Ny runda". With a playing handicap it adds up
+  fairway per hole on the phone, per course, until "Ny runda". When only putts have
+  been logged, the golfer confirms the total strokes before the hole counts. With a playing handicap it adds up
   Stableford, strokes falling by the holes' indexes. A card without indexes, as the
   korthålsbana's, has no points. It is a personal card, not a registered round: that
   stays with Min Golf. One player for now.
@@ -384,9 +391,9 @@ looks tall, and the first measurement found the flag under the header and the wh
 height strip on a 390 x 844 iPhone, the most common size there is. So nothing assumes a
 height any more (`fitLayout` in `map-session.js`, on every resize and display change):
 
-- The 3-row club wheel is measured against what is left above the bottom strip, and gives
-  way a step at a time: first a tighter column (`is-compact`) with any walking length
-  beside the wheel, and last hiding the elevation strip on extremely short screens.
+- The 3-row club wheel uses a tighter column (`is-compact`) when space is limited.
+  The elevation strip gives way on extremely short screens. The shot card shows the
+  previous club and the distance walked from the stroke in both orientations.
 - Only one contextual bottom card (`prompt`, `same`, `locked` note, or distance reading)
   appears above the bottom bar at a time; when a question or same-spot prompt opens, the
   elevation strip steps aside so the wheel and prompt never collide.
@@ -434,6 +441,7 @@ node tools/serve.mjs apps/golf/dist 8620
 node tools/check-map-connectivity.mjs http://localhost:8620/
 node tools/check-map-offline-first.mjs http://localhost:8620/
 node tools/check-map-round.mjs http://localhost:8620/
+node tools/check-map-green.mjs http://localhost:8620/
 BANVY_GPU=1 node tools/check-map-field.mjs --url http://localhost:8620/ --slug visby
 BANVY_GPU=1 node tools/check-map-hud.mjs --url http://localhost:8620/
 BANVY_GPU=1 node tools/map-gallery.mjs --label a --url http://localhost:8620/

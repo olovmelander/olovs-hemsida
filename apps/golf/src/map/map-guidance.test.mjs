@@ -51,7 +51,7 @@ it('discards work for a previous hole and retries a failed worker', async () => 
   vi.spyOn(console, 'warn').mockImplementationOnce(() => {});
   const failed = planner.workers[1];
   failed.onerror(new Error('offline'));
-  expect(planner.read(2, request).status).toBe('unavailable');
+  expect(planner.read(2, request)).toMatchObject({ status: 'unavailable', reason: 'load-failed' });
   planner.retry();
   expect(planner.read(2, request).status).toBe('loading');
   expect(planner.loadGeometry).toHaveBeenCalledTimes(3);

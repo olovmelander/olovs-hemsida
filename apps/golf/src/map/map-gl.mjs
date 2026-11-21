@@ -14,6 +14,7 @@
      Stencil lets each pixel darken once, so a wood's shadows join instead of
      stacking up into black;
    - buildings, then trees, then the sky behind what is left. */
+import { createGreenCache, CACHED_PULSE_INK, FOREGROUND_UNIT, VISIBILITY_UNIT } from './map-green-cache.mjs';
 import { GRID_VERTEX_FLOATS, PULSE_FLOATS } from './map-greengrid.mjs';
 import { SLOPE_LIMIT } from './map-height.mjs';
 import { SHADE_SIZE } from './map-horizon.mjs';
@@ -591,14 +592,17 @@ void main() {
   gl_Position = uClip * vec4(place.x, (aPlace.y - aPlace.w * travel) * uExaggeration, place.y, 1.0);
 }`;
 
-const GREEN_PULSE_FRAGMENT = `#version 300 es
+const greenPulseFragment = cached => `#version 300 es
 precision highp float;
 in vec3 vColour;
 in vec2 vCorner;
+${cached ? CACHED_PULSE_INK : ''}
 out vec4 colour;
 void main() {
   float d = length(vCorner);
-  colour = vec4(mix(vColour, vec3(1.0), 0.25 * (1.0 - d)), (1.0 - smoothstep(0.55, 1.0, d)) * 0.94);
+  vec3 ink = mix(vColour, vec3(1.0), 0.25 * (1.0 - d));
+  ${cached ? 'ink = cachedPulseInk(ink);' : ''}
+  colour = vec4(ink, (1.0 - smoothstep(0.55, 1.0, d)) * 0.94);
 }`;
 
 function compile(gl, vertex, fragment) {
@@ -673,6 +677,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
   let ground, sky, tree, shadow, contact, house, houseShadow, grids, anisotropy, anisotropyLimit, cornerBuffer, detailTexture;
   let atlases = null, atlasSource = null, detailSource = null, noShade = null;
 
+  let greenCache, cachedPulseProgram, cachedView;
   let greenLines = null, greenPulses = null, gridGpu = null, gridSource = null;
 
   function texture(unit, internal, width, height, filter, levels = 1) {
@@ -757,7 +762,10 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     house = compile(gl, HOUSE_VERTEX, HOUSE_FRAGMENT);
     houseShadow = compile(gl, HOUSE_SHADOW_VERTEX, HOUSE_SHADOW_FRAGMENT);
     greenLines = compile(gl, GREEN_LINES_VERTEX, GREEN_LINES_FRAGMENT);
-    greenPulses = compile(gl, GREEN_PULSE_VERTEX, GREEN_PULSE_FRAGMENT);
+    greenPulses = compile(gl, GREEN_PULSE_VERTEX, greenPulseFragment(false));
+    greenCache = createGreenCache(gl, compile);
+    cachedPulseProgram = null;
+    cachedView = null;
     grids = new Map(PATCH_GRIDS.map(n => [n, createGrid(gl, n)]));
     cornerBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, cornerBuffer);
@@ -793,8 +801,14 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     if (gridSource) uploadGreenGrid(gridSource);
   }
 
+  function releaseGreenFrame() {
+    greenCache.release();
+    cachedView = null;
+  }
+
   /* One hole's grid at a time; null takes it away. Kept, so a lost context gets it back. */
   function uploadGreenGrid(source) {
+    releaseGreenFrame();
     if (gridGpu) {
       gl.deleteVertexArray(gridGpu.lines);
       gl.deleteVertexArray(gridGpu.pulses);
@@ -891,12 +905,33 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     }
   };
 
+  function drawPulses(program, view, time) {
+    setShared(program, view);
+    gl.uniform1f(program.u.uTime, time);
+    gl.uniform1f(program.u.uScale, view.greenGrid.scale);
+    gl.bindVertexArray(gridGpu.pulses);
+    gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, gridGpu.pulseCount);
+  }
+
+  function drawGreenPulseFrame(time) {
+    if (!cachedView || !greenCache.present()) return false;
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    drawPulses(cachedPulseProgram, cachedView, time);
+    gl.disable(gl.BLEND);
+    gl.enable(gl.DEPTH_TEST);
+    return true;
+  }
+
   return {
     gl,
+    drawGreenPulseFrame,
+    releaseGreenFrame,
     uploadDetail,
     uploadAtlases,
     uploadGreenGrid,
     resize(width, height) {
+      releaseGreenFrame();
       canvas.width = width;
       canvas.height = height;
       gl.viewport(0, 0, width, height);
@@ -969,7 +1004,16 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       node.gpu = null;
     },
 
-    draw(patches, view) {
+    draw: function drawScene(patches, view, captureGreen = false) {
+      cachedView = null;
+      greenCache.invalidate();
+      const capture = captureGreen && gridGpu && view.greenGrid && greenCache.prepare();
+      if (capture && !cachedPulseProgram) {
+        cachedPulseProgram = compile(gl, GREEN_PULSE_VERTEX, greenPulseFragment(true));
+        gl.useProgram(cachedPulseProgram.program);
+        gl.uniform1i(cachedPulseProgram.u.uForeground, FOREGROUND_UNIT);
+        gl.uniform1i(cachedPulseProgram.u.uVisibility, VISIBILITY_UNIT);
+      }
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
 
       setShared(ground, view);
@@ -1076,17 +1120,14 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
         setShared(greenLines, view);
         gl.bindVertexArray(gridGpu.lines);
         gl.drawElements(gl.TRIANGLES, gridGpu.count, gl.UNSIGNED_INT, 0);
-        setShared(greenPulses, view);
-        gl.uniform1f(greenPulses.u.uTime, view.greenGrid.time);
-        gl.uniform1f(greenPulses.u.uScale, view.greenGrid.scale);
-        gl.bindVertexArray(gridGpu.pulses);
-        gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, gridGpu.pulseCount);
+        if (!capture) drawPulses(greenPulses, view, view.greenGrid.time);
         triangles += gridGpu.count / 3 + gridGpu.pulseCount * 2;
       }
       gl.disable(gl.BLEND);
       gl.enable(gl.DEPTH_TEST);
       gl.depthMask(true);
 
+      if (capture) greenCache.markForeground();
       setShared(house, view);
       for (const node of planted.keys()) {
         if (!node.gpu.houses) continue;
@@ -1116,6 +1157,12 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       gl.bindVertexArray(null);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       gl.depthMask(true);
+      if (capture) {
+        // If the GPU cannot retain the copies, paint the original scene back immediately.
+        if (!greenCache.finish()) return drawScene(patches, view);
+        cachedView = { clip: view.clip, exaggeration: view.exaggeration, greenGrid: view.greenGrid };
+        drawGreenPulseFrame(view.greenGrid.time);
+      }
       return { triangles: triangles + trees * 2, trees, patches: patches.length };
     },
   };

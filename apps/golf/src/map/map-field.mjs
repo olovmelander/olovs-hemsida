@@ -28,15 +28,30 @@ export function createGuidanceFix() {
 }
 
 export function createGps({ onFix, onFailure }) {
-  let watch = null, generation = 0;
-  const deliver = session => position => {
-    if (session === generation) onFix(position.coords, position.timestamp);
-  };
+  let watch = null, generation = 0, asking = false, fixes = 0;
+  let permission = null;
   function stop() {
     generation++;
+    asking = false;
+    permission?.removeEventListener?.('change', permissionChanged);
+    permission = null;
     if (watch !== null) navigator.geolocation.clearWatch(watch);
     watch = null;
   }
+  function failed(error) {
+    if (error.code === 1) {
+      stop();
+      onFailure('Platsåtkomst nekades · tillåt plats för sidan i webbläsarens inställningar', { denied: true });
+    } else onFailure(error.code === 2 ? 'Ingen GPS-position ännu' : 'GPS svarar inte ännu');
+  }
+  function permissionChanged() {
+    if (permission?.state === 'denied') failed({ code: 1 });
+  }
+  const deliver = session => position => {
+    if (session !== generation) return;
+    fixes++;
+    onFix(position.coords, position.timestamp);
+  };
   return {
     get active() { return watch !== null; },
     start() {
@@ -44,17 +59,30 @@ export function createGps({ onFix, onFailure }) {
       if (watch !== null) return;
       const session = ++generation;
       watch = navigator.geolocation.watchPosition(deliver(session), error => {
-        if (session !== generation) return;
-        if (error.code === 1) {
-          stop();
-          onFailure('Platsåtkomst nekades · tillåt plats för sidan i webbläsarens inställningar', { denied: true });
-        } else onFailure(error.code === 2 ? 'Ingen GPS-position ännu' : 'GPS svarar inte ännu');
+        if (session === generation) failed(error);
       }, { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 });
+      navigator.permissions?.query({ name: 'geolocation' }).then(result => {
+        if (session !== generation) return;
+        permission = result;
+        permission.addEventListener?.('change', permissionChanged);
+        permissionChanged();
+      }).catch(() => {});
     },
     stop,
-    /* A player standing still may get no fixes from the watch: ask for one now. */
+    /* A quiet watch, a returning tab and a tap may all request the same fix. */
     ask() {
-      if (watch !== null) navigator.geolocation.getCurrentPosition(deliver(generation), () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 8000 });
+      if (watch === null || asking) return;
+      asking = true;
+      const session = generation, atRequest = fixes;
+      navigator.geolocation.getCurrentPosition(position => {
+        if (session !== generation) return;
+        asking = false;
+        deliver(session)(position);
+      }, error => {
+        if (session !== generation) return;
+        asking = false;
+        if (error.code === 1 || atRequest === fixes) failed(error);
+      }, { enableHighAccuracy: true, maximumAge: 0, timeout: 8000 });
     },
   };
 }
@@ -63,18 +91,25 @@ export function createGps({ onFix, onFailure }) {
    browser drops the lock whenever the page is hidden, so it is taken again on
    return. Unsupported browsers simply keep their normal timeout. */
 export function createScreenLock() {
-  let wanted = false, lock = null;
+  let wanted = false, requesting = false, lock = null;
   const take = async () => {
-    if (!wanted || lock || document.visibilityState !== 'visible' || !navigator.wakeLock) return;
+    if (!wanted || requesting || (lock && !lock.released) || document.visibilityState !== 'visible' || !navigator.wakeLock) return;
+    requesting = true;
     try {
-      lock = await navigator.wakeLock.request('screen');
-      lock.addEventListener('release', () => { lock = null; });
-    } catch { lock = null; }
+      const granted = await navigator.wakeLock.request('screen');
+      if (!wanted || document.visibilityState !== 'visible') {
+        granted.release().catch(() => {});
+      } else {
+        lock = granted;
+        granted.addEventListener('release', () => { if (lock === granted) lock = null; }, { once: true });
+      }
+    } catch { /* The browser can decline a screen lock in power saving mode. */ }
+    finally { requesting = false; }
   };
   document.addEventListener('visibilitychange', take);
   return {
     hold() { wanted = true; take(); },
-    release() { wanted = false; lock?.release(); lock = null; },
+    release() { wanted = false; lock?.release().catch(() => {}); lock = null; },
   };
 }
 

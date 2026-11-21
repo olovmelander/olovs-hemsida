@@ -112,6 +112,7 @@ describe('GPS shot guidance on published layouts', () => {
         }
         const onGreen = planner.plan(hole.green.c);
         expect(onGreen.status).toBe(course.greensApproximate ? 'unavailable' : 'on-green');
+        if (course.greensApproximate) expect(onGreen.reason).toBe('approximate-green');
         expect(onGreen.shots).toHaveLength(0);
       }
       if (process.env.BANVY_ROUTE_COVERAGE) console.log(slug, JSON.stringify({ playable, recoveries, failures }));

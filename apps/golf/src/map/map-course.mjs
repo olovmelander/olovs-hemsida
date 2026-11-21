@@ -1,4 +1,3 @@
-import { packIdentity } from './map-offline-status.mjs';
 /* One course, in the map's world.
 
    Everything a golfer sees comes from two things the app already publishes for
@@ -6,12 +5,14 @@ import { packIdentity } from './map-offline-status.mjs';
    paths) and the ground manifest (the height tiles). Neither is copied or
    rebaked, so the map cannot drift from the course the simulator draws, and a
    republished course reaches the map by itself. */
+import { mappedWaterShapes } from './map-hazard-geometry.mjs';
+import { packIdentity } from './map-offline-status.mjs';
 import { inflate } from '../engine/codec.js';
 import { decodeLandcover } from '../engine/landcover.mjs';
 import { resolvePublishedGraph } from '../engine/v2-graph-source.mjs';
 import { fetchLandcover, fetchPack, fetchSidecar, packRequestUrl } from '../loader/pack.js';
 import { createMapFrame } from './map-frames.mjs';
-import { groupBunkers, waterShape } from './map-measure.mjs';
+import { groupBunkers } from './map-measure.mjs';
 import { outlineOverLand } from './map-land.mjs';
 
 /* Traced ground, by the layer the map paints it in. */
@@ -201,7 +202,7 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     features,
     hazards: {
       bunkers: groupBunkers([...holes.flatMap(hole => hole.bunkers), ...features.otherBunkers]),
-      waters: features.water.map(item => waterShape(item.ring)),
+      waters: mappedWaterShapes(features),
     },
     landcover,
     mown,

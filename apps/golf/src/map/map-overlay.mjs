@@ -316,7 +316,8 @@ export function createOverlay(canvas) {
           const s = at(hazard.at[0], hazard.at[1]);
           if (!inside(s) || placed.some(other => clash(other, s, 68))) continue;
           placed.push({ x: s.x, y: s.y });
-          const words = hazard.carry === null ? String(Math.round(hazard.front)) : `${Math.round(hazard.front)}–${Math.round(hazard.carry)}`;
+          const front = `${hazard.approximate ? '≈' : ''}${Math.round(hazard.front)}`;
+          const words = hazard.carry === null ? `${front}${hazard.openWater ? '+' : ''} m` : `${front}–${Math.round(hazard.carry)} m`;
           pill(s.x, s.y, words, hazard.kind === 'water'
             ? { fill: 'rgba(20,92,140,.94)', size: 11.5 }
             : { fill: 'rgba(240,229,194,.96)', ink: '#2a2415', size: 11.5 });

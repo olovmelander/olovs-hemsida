@@ -1,6 +1,7 @@
 /* The mobile map and the shared stroke planner use the same ground metres. A hole
    owns its targets. Hazards and physical obstructions belong to the ground and
    can affect a shot even when they were published under a neighbouring layout. */
+import { crossing, stripsOf } from './map-hazard-geometry.mjs';
 import { nearestPointOnLine } from '../engine/caddie.js';
 import { ringBBox, ringSD, ptSegD, inRing } from '../engine/geom.js';
 import { createShotEnvironment } from '../engine/shot-planner.mjs';
@@ -55,11 +56,11 @@ export async function loadMapShotGeometry(course, hole, store, { signal, land, s
   const bunkerRings = [...course.holes.flatMap(h => h.bunkers), ...f.otherBunkers].filter(near);
   // If a corrected sea outline is the only water evidence, its enclosed region
   // stays conservative until its measured replacement can be read.
-  const water = f.water.filter(w => !w.overLand).map(w => w.ring);
+  const water = course.hazards.waters.filter(shape => intersects(shape, bounds, 5))
+    .flatMap(shape => shape.rings.filter(near));
   const uncertainWater = mask ? [] : f.water.filter(w => w.overLand && near(w.ring)).map(w => w.ring);
   const strips = (features, width) => features.filter(item => near(item.line))
     .flatMap(item => stripsOf(item.line, item.width ?? width));
-  const watercourses = [...strips(f.streams, 2), ...strips(f.drains, 1.2)];
   const hardGround = [...f.parking, ...f.paved].filter(near)
     .concat(strips(f.roads, 5), strips(f.tracks, 2.6), strips(f.paths, 2), strips(f.railways, 3));
   return {
@@ -67,40 +68,11 @@ export async function loadMapShotGeometry(course, hole, store, { signal, land, s
       pin: hole.pin, greensApproximate: course.greensApproximate, fairway: { rings: hole.fairways },
       tees: { marks: hole.tees.map(t => ({ c: t.point })) }, bunkers: hole.bunkers.map(ring => ({ ring })) },
     tiles, mask, uncertainWater,
-    bunkers: bunkerRings, water: [...water.filter(near), ...f.basins.filter(near), ...watercourses], hardGround,
+    bunkers: bunkerRings, water, hardGround,
     boundaries: f.obRuns.filter(run => (!run.holes?.length || run.holes.includes(hole.n)) && near(run.line))
       .map(run => ({ line: run.line, holeSpecific: Boolean(run.holes?.length) })),
     buildings: [...f.buildings, ...f.farBuildings].filter(near),
   };
-}
-
-// Distance along a shot to its intersection with one polygon/OB edge.
-// Touching or running along an edge counts, including the far end of an overlap.
-function crossing(a, b, c, d) {
-  const x = b[0] - a[0], z = b[1] - a[1], u = d[0] - c[0], v = d[1] - c[1];
-  const px = c[0] - a[0], pz = c[1] - a[1], denom = x * v - z * u;
-  if (Math.abs(denom) < 1e-8) {
-    const length2 = x * x + z * z;
-    if (!length2 || Math.abs(px * z - pz * x) > 1e-8) return -1;
-    const start = (px * x + pz * z) / length2, end = start + (u * x + v * z) / length2;
-    return Math.min(start, end) <= 1 && Math.max(start, end) >= 0 ? Math.min(1, Math.max(start, end)) : -1;
-  }
-  const t = (px * v - pz * u) / denom, at = (px * z - pz * x) / denom;
-  return t >= 0 && t <= 1 && at >= 0 && at <= 1 ? t : -1;
-}
-
-// Convert a stream with published width into strips, so short diagonal crossings
-// between samples are just as visible to the planner as a wide lake.
-function stripsOf(line, width) {
-  const rings = [];
-  for (let i = 1; i < line.length; i++) {
-    const a = line[i - 1], b = line[i];
-    const dx = b[0] - a[0], dz = b[1] - a[1], len = Math.hypot(dx, dz);
-    if (!len) continue;
-    const u = -dz / len * width / 2, v = dx / len * width / 2;
-    rings.push([[a[0] + u, a[1] + v], [b[0] + u, b[1] + v], [b[0] - u, b[1] - v], [a[0] - u, a[1] - v]]);
-  }
-  return rings;
 }
 
 export function createMapShotGeometry({ hole, tiles, mask, bunkers, water, hardGround = [], uncertainWater = [], boundaries, buildings }) {

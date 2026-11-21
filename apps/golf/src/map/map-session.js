@@ -18,7 +18,7 @@ import { loadMapCourse } from './map-course.mjs';
 import { createGps, createGuidanceFix, createScreenLock, courseDownload, downloadCourse, offlineStatus } from './map-field.mjs';
 import { createMapRenderer } from './map-gl.mjs';
 import { shotUndo } from './map-shot-undo.mjs';
-import { addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isMeasured, isPutt, isPutter, learnedBag, lockShot, MEASURABLE_ACCURACY_METRES, openShot, parseHistory, reachOf, retakeShot, SAME_SPOT_METRES, setPutts, shotLength, storeHistory, surfaceAt } from './map-shots.mjs';
+import { addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isMeasured, isPutt, isPutter, learnedBag, lockShot, MEASURABLE_ACCURACY_METRES, openShot, parseHistory, reachOf, reopenPuttOnlyScores, retakeShot, SAME_SPOT_METRES, scoreAfterPutting, setPutts, shotLength, storeHistory, surfaceAt } from './map-shots.mjs';
 import { createGuidancePlanner } from './map-guidance.mjs';
 import { loadMapShotGeometry } from './map-shot-geometry.mjs';
 import { readMapShot } from './map-strategy.mjs';
@@ -137,7 +137,8 @@ const TEE_RECHECK_MS = 4000;
 const GRAB_PIXELS = 28;
 /* Further than this from a hole's line, a player is not on that hole. */
 const ON_THE_STRIP_METRES = 150;
-const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+let reducedMotion = motionPreference.matches;
 
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 const metres = value => (Number.isFinite(value) ? `${Math.round(value)}` : '–');
@@ -179,7 +180,6 @@ root.innerHTML = `
       <span class="map-sr" id="map-wheel-help">Välj med piltangenterna eller snurra. Logga slaget med Enter, ett långt tryck eller knappen Logga slag.</span>
     </div>
     <button class="map-log-shot" data-wheel-lock>Logga slag</button>
-    <p class="map-wheel-hint" data-wheel-hint hidden><i class="map-hint-tag">Från slaget</i><small data-hint-note></small><b data-hint-metres></b></p>
   </div>
   <section class="map-bottom">
     <div class="map-float">
@@ -223,6 +223,7 @@ root.innerHTML = `
         <div class="map-shot-context"><span data-shot-title></span><span data-shot-source></span></div>
         <div class="map-shot-main"><b data-shot-distance></b><em data-shot-club></em></div>
         <span data-shot-detail></span>
+        <p class="map-walked-shot" data-wheel-hint hidden><span>Från slaget</span> <span data-hint-note></span> <b data-hint-metres></b></p>
       </div>
       <div class="map-shot-actions">
         <button data-reading-close hidden>Automatiskt mål</button>
@@ -314,7 +315,7 @@ root.innerHTML = `
     </div>
     <button class="map-action map-action-next" data-play-hole hidden></button>
     <div data-hazard-section>
-      <h3>Hinder framåt</h3>
+      <h3>Hinder längs hålets spellinje</h3>
       <ul class="map-hazards" data-hazard-list></ul>
     </div>
     <div data-shots-section hidden>
@@ -397,7 +398,7 @@ const ui = {
   legend: $('[data-legend]'), views: $('[data-views]'),
   viewWrap: $('[data-view-wrap]'), viewToggle: $('[data-view-toggle]'), viewLabel: $('[data-view-label]'), viewMenu: $('[data-view-menu]'),
   tools: $('.map-tools'), backdrop: $('[data-backdrop]'),
-  wheel: $('[data-wheel]'), logShot: $('[data-wheel-lock]'), wheelHint: $('[data-wheel-hint]'), hintNote: $('[data-hint-note]'), hintMetres: $('[data-hint-metres]'),
+  wheel: $('[data-wheel]'), logShot: $('[data-wheel-lock]'), walkedShot: $('[data-wheel-hint]'), hintNote: $('[data-hint-note]'), hintMetres: $('[data-hint-metres]'),
   promptMore: $('[data-prompt-more]'), holeNoteMore: $('[data-note-more]'), locked: $('[data-locked]'), lockedText: $('[data-locked-text]'), lockedPenalty: $('[data-locked-penalty]'), lockedEdit: $('[data-locked-edit]'), same: $('[data-same]'),
   clubsSheet: $('[data-clubs-sheet]'), clubs: $('[data-clubs]'), clubsNote: $('[data-clubs-note]'), clubsCount: $('[data-clubs-count]'),
   shotsSection: $('[data-shots-section]'), shotList: $('[data-shots]'), shotsHint: $('[data-shots-hint]'), holePenalty: $('[data-hole-penalty]'),
@@ -425,7 +426,7 @@ const display = createDisplay(root, { read: key => savedText(key, null), write: 
 /* The column and the foot, fitted to this phone. A phone's height says little by itself:
    a notch and a home bar take over 90 px from a screen that looks tall. So the column is
    measured against what is really left above the strip, and gives way a step at a time:
-   fewer rows on the wheel, a tighter column with the walking hint beside it, then the
+   fewer rows on the wheel, a tighter column, then the
    height strip. Where a note and the way-back button would reach the column they stand beside it,
    since the wheel is what a player is using just then. */
 const STRIP_PIXELS = 54, PROMPT_ROOM_PIXELS = 152, TWO_ROWS_PIXELS = 112;
@@ -574,12 +575,13 @@ async function start() {
   renderer.uploadDetail(createDetailTexture());
   const camera = createCamera();
   const overlay = createOverlay($('.map-marks'));
-  let raf = 0, frameRequestedAt = 0;
-  const invalidate = () => {
+  let raf = 0, frameRequestedAt = 0, sceneDirty = true;
+  const requestFrame = () => {
     if (raf) return;
     frameRequestedAt = performance.now();
     raf = requestAnimationFrame(frame);
   };
+  const invalidate = () => { sceneDirty = true; requestFrame(); };
 
   store = createTileStore({
     ground: course.ground,
@@ -674,7 +676,7 @@ async function start() {
     windTurn: null,
     scoreHole: null,
     pace: { start: 0, end: null, samples: [] },
-    stats: { triangles: 0, trees: 0, patches: 0, frames: 0, lastDrawMs: 0 },
+    stats: { triangles: 0, trees: 0, patches: 0, frames: 0, pulseFrames: 0, lastDrawMs: 0 },
   };
   const diary = createDiary({ read: key => savedText(key, null), write: remember });
   diary.add('open', course.slug);
@@ -855,11 +857,16 @@ async function start() {
     return reading && Date.now() - (reading.fetchedAt ?? 0) < WEATHER_TRUSTED_MS ? reading : null;
   };
 
+  let lastHazardQuery = '';
   function refreshNumbers() {
     const h = hole(), from = origin();
-    state.hazards = state.mode === 'hole'
-      ? hazardsAhead({ origin: from, path: playedPath(h, teePoint()), ...course.hazards })
-      : [];
+    const hazardQuery = [state.mode, h.n, state.tee, ...from].join('/');
+    if (hazardQuery !== lastHazardQuery) {
+      lastHazardQuery = hazardQuery;
+      state.hazards = state.mode === 'hole'
+        ? hazardsAhead({ origin: from, path: playedPath(h, teePoint()), ...course.hazards })
+        : [];
+    }
     const { front, centre, back } = greenNumbers(from, h.green);
     /* A placeholder green has a middle but no real edge, so its front and back
        are marked as the estimates they are. */
@@ -1052,6 +1059,7 @@ async function start() {
   }
   function interruptGuidance() {
     clearTimeout(guidanceTimer);
+    if (gps.active) setGpsState('retry');
     if (!guidanceFix.expiresAt) return;
     guidanceFix.interrupt();
     refreshNumbers();
@@ -1061,8 +1069,10 @@ async function start() {
     clearTimeout(guidanceTimer);
     if (!guidanceFix.expiresAt) return;
     const remaining = guidanceFix.expiresAt - gpsClock();
-    if (remaining <= 0) interruptGuidance();
-    else guidanceTimer = setTimeout(scheduleGuidanceExpiry, remaining);
+    if (remaining <= 0) {
+      interruptGuidance();
+      if (gps.active && !document.hidden) gps.ask();
+    } else guidanceTimer = setTimeout(scheduleGuidanceExpiry, remaining);
   }
   const teeWatch = createTeeWatch();
   let teeTimer = 0, lastTeeTimestamp = -Infinity;
@@ -1144,7 +1154,7 @@ async function start() {
       const usable = guidanceFix.receive(state.player, sampleTime, gpsClock());
       scheduleGuidanceExpiry();
       lastAccuracyText = `±${Math.max(1, Math.round(accuracy))} m`;
-      if (!gpsArmed) ui.gpsLabel.textContent = lastAccuracyText;
+      setGpsState(usable ? (onCourse ? 'live' : 'outside') : 'retry');
       if (!usable) {
         forgetTee();
         refreshNumbers();
@@ -1203,11 +1213,9 @@ async function start() {
     onFix: receiveFix,
     onFailure(message, { denied = false } = {}) {
       diary.add('gps-failed', message);
-      /* Refused, the GPS will not come back by itself: the way to allow it stays up long
-         enough to read and act on. A tap on GPS shows it again. */
-      status(message, denied ? 10000 : 3200);
+      gpsStatus(message, denied ? 10000 : 3200);
       forgetTee();
-      if (!gps.active) stopGps();
+      if (!gps.active) stopGps(denied ? 'denied' : 'unavailable');
       else interruptGuidance();
     },
   });
@@ -1217,34 +1225,58 @@ async function start() {
     if (!guidanceFix.expiresAt) gps.ask();
   });
 
-  let gpsArmTimer = 0, gpsArmed = false, lastAccuracyText = 'Söker…';
+  let gpsArmTimer = 0, gpsArmed = false, gpsState = 'off', lastAccuracyText = '', gpsMessage = '';
+  function gpsStatus(message, hold) {
+    gpsMessage = message;
+    status(message, hold);
+  }
+  function setGpsState(next) {
+    const recovered = next === 'live' && gpsState !== 'live';
+    gpsState = next;
+    if (recovered) {
+      clearTimeout(gpsArmTimer);
+      gpsArmed = false;
+      if (gpsMessage && ui.status.textContent === gpsMessage) ui.status.hidden = true;
+      gpsMessage = '';
+    }
+    const labels = { off: 'GPS', searching: 'Söker…', retry: 'Sök GPS', denied: 'Tillåt GPS', unavailable: 'GPS saknas', outside: 'Utanför' };
+    const actions = {
+      off: 'Starta GPS', searching: 'Söker GPS. Tryck för att hämta en ny position.',
+      retry: 'Sök GPS. Positionen är osäker.',
+      denied: 'Tillåt GPS i webbläsarens inställningar och tryck för att söka igen.',
+      unavailable: 'GPS saknas i den här webbläsaren.', outside: 'Utanför banan. Tryck för att stänga av GPS.',
+      live: `GPS, noggrannhet ${lastAccuracyText}. Tryck för att stänga av GPS.`,
+    };
+    const confirmingStop = gpsArmed && next !== 'searching';
+    ui.gpsLabel.textContent = confirmingStop ? 'Stäng av?' : labels[next] ?? lastAccuracyText;
+    ui.gps.setAttribute('aria-label', gpsArmed ? `${confirmingStop ? '' : 'Söker GPS. '}Tryck igen för att stänga av GPS` : actions[next]);
+    ui.gps.setAttribute('aria-pressed', String(gps.active));
+    ui.gps.classList.toggle('is-armed', confirmingStop);
+  }
   function disarmGps() {
     clearTimeout(gpsArmTimer);
-    gpsArmTimer = 0;
     gpsArmed = false;
-    ui.gps.classList.remove('is-armed');
-    if (gps.active) ui.gpsLabel.textContent = lastAccuracyText;
+    setGpsState(gpsState);
   }
 
-  function stopGps() {
+  function stopGps(reason = 'off') {
     clearTimeout(gpsArmTimer);
     clearTimeout(guidanceTimer);
     forgetTee();
     clearPendingLock();
-    guidanceFix.clear();
-    latestTimestamp = -Infinity;
-    lastTeeTimestamp = -Infinity;
-    gpsArmTimer = 0;
     gpsArmed = false;
-    ui.gps.classList.remove('is-armed');
     gps.stop();
     screenLock.release();
+    /* A revoked permission interrupts a round at the last usable fix. An
+       intentional switch-off hands the map back to its tee preview. */
+    if (reason === 'off') {
+      guidanceFix.clear();
+      state.located = false;
+    } else guidanceFix.interrupt();
+    latestTimestamp = -Infinity;
+    lastTeeTimestamp = -Infinity;
     state.player = null;
-    state.located = false;
-    state.owed = null;
-    state.pendingLock = null;
-    ui.gpsLabel.textContent = 'GPS';
-    ui.gps.setAttribute('aria-pressed', 'false');
+    setGpsState(reason);
     refreshNumbers();
     invalidate();
   }
@@ -1252,14 +1284,11 @@ async function start() {
   function startGps() {
     clearTimeout(gpsArmTimer);
     gpsArmed = false;
-    ui.gps.classList.remove('is-armed');
-    lastAccuracyText = 'Söker…';
     gps.start();
     if (!gps.active) return;
     screenLock.hold();
     state.follow = true;
-    ui.gpsLabel.textContent = 'Söker…';
-    ui.gps.setAttribute('aria-pressed', 'true');
+    setGpsState('searching');
   }
 
   ui.gps.onclick = () => {
@@ -1275,13 +1304,14 @@ async function start() {
       startGps();
       return;
     }
-    if ((roundUnderWay() || openShot(roundShots())) && !gpsArmed) {
+    const retry = gpsState === 'retry' || gpsState === 'searching';
+    if (!gpsArmed && (retry || roundUnderWay() || openShot(roundShots()))) {
       gpsArmed = true;
-      ui.gps.classList.add('is-armed');
-      ui.gpsLabel.textContent = 'Stäng av?';
-      status('Tryck igen för att stänga av GPS', 3500);
+      setGpsState(retry ? 'searching' : gpsState);
+      gpsStatus(retry ? 'Söker ny GPS-position. Tryck igen för att stänga av GPS.' : 'Tryck igen för att stänga av GPS', 3500);
       clearTimeout(gpsArmTimer);
       gpsArmTimer = setTimeout(disarmGps, 3500);
+      if (retry) gps.ask();
       return;
     }
     stopGps();
@@ -1610,8 +1640,9 @@ async function start() {
       const row = document.createElement('li');
       const name = hazard.kind === 'water' ? 'Vatten' : 'Bunker';
       const where = hazard.side === 'mitt' ? 'mitt i' : hazard.side;
-      const carry = hazard.carry === null ? '' : `<small>över ${Math.round(hazard.carry)}</small>`;
-      row.innerHTML = `<i class="map-dot is-${hazard.kind}"></i><span>${name}, ${where}</span><b>${Math.round(hazard.front)}</b>${carry}`;
+      const approx = hazard.approximate ? '≈' : '';
+      const far = hazard.carry !== null ? `förbi ${approx}${Math.round(hazard.carry)} m` : hazard.openWater ? 'slut okänt' : '';
+      row.innerHTML = `<i class="map-dot is-${hazard.kind}"></i><span>${name}, ${where}</span><b>${approx}${Math.round(hazard.front)} m</b><small>${far}</small>`;
       return row;
     }));
     ui.holes.replaceChildren(...course.holes.map(each => chip(String(each.n), hasHole && each.n === h.n, () => {
@@ -1828,7 +1859,10 @@ async function start() {
   const fillingIn = () => state.scoreHole !== null && state.scoreHole !== state.playing;
   /* A card left from another day is that day's: the same course played again is a
      new round, or the log would add both together. */
-  const lastShotAt = shots.findLast(shot => shot.course === course.slug && shot.round === round.id)?.at;
+  const ours = shot => shot.course === course.slug && shot.round === round.id;
+  const roundShots = () => shots.filter(ours);
+  const reopenedScores = reopenPuttOnlyScores(round, roundShots());
+  const lastShotAt = roundShots().at(-1)?.at;
   const lastActivity = Math.max(round.touchedAt ?? 0, round.begunAt ?? 0, lastShotAt ?? 0, Date.parse(round.startedAt) || 0);
   if (Date.now() - lastActivity > RESUME_MS) {
     /* Never ended by hand, and still worth keeping. */
@@ -1851,6 +1885,11 @@ async function start() {
 
   function setPlayingHole(number) {
     if (!course.holes[number - 1]) return;
+    if (number !== state.playing && guidanceFix.expiresAt <= gpsClock()) {
+      // The previous hole's last known ball position cannot anchor a new hole.
+      guidanceFix.clear();
+      state.located = false;
+    }
     state.playing = number;
     if (roundUnderWay()) {
       if (!state.previewOnly) clearEntryAddress();
@@ -1878,12 +1917,16 @@ async function start() {
     closeSame();
     ui.prompt.dataset.asked = String(h.n);
     /* The strokes the wheel saw, as the likely answer: a putt or two may be missing. */
-    const { strokes } = holeTally(roundShots(), h.n);
+    const tally = holeTally(roundShots(), h.n);
+    const puttsOnly = Number.isFinite(own?.putts) && tally.shots === tally.putts;
+    const suggested = puttsOnly ? null : tally.strokes;
     ui.prompt.dataset.kind = 'score';
     ui.promptMore.textContent = 'Fler val';
-    ui.promptTitle.textContent = [`Slag på hål ${h.n}?`, `par ${h.par}`, strokes ? `${strokes} loggade` : null].filter(Boolean).join(' · ');
-    ui.promptKeys.replaceChildren(...strokeKeys(h.par, strokes).map(value => {
-      const key = chip(String(value), value === strokes, () => {
+    ui.promptTitle.textContent = puttsOnly
+      ? `Hål ${h.n} · ${own.putts} ${own.putts === 1 ? 'putt' : 'puttar'}. Hur många slag totalt?`
+      : [`Slag på hål ${h.n}?`, `par ${h.par}`, suggested ? `${suggested} loggade` : null].filter(Boolean).join(' · ');
+    ui.promptKeys.replaceChildren(...strokeKeys(h.par, suggested).map(value => {
+      const key = chip(String(value), value === suggested, () => {
         setScore({ strokes: value, picked: false, logged: false }, h.n);
         closePrompt();
         endIfOver(h.n);
@@ -1923,15 +1966,18 @@ async function start() {
     markUndo();
     shots = setPutts(shots, number, putts, ours);
     saveShots();
-    const { strokes } = holeTally(roundShots(), number);
-    const own = round.scores[number];
-    const byHand = Number.isFinite(own?.strokes) && !own.logged;
-    setScore(byHand ? { putts } : { strokes, putts, picked: false, logged: true }, number, true);
+    const change = scoreAfterPutting(round.scores[number], holeTally(roundShots(), number));
+    if (change) setScore(change, number, true);
     closePrompt();
-    /* The total is said out loud, with a way to put it right: a lock can be missed. */
-    ui.locked.dataset.asked = String(number);
-    note(byHand ? `Hål ${number}: kortet säger ${own.strokes}` : `Hål ${number}: ${strokes} · ${scoreName(strokes, course.holes[number - 1].par)}`, { edit: true, end: atTheTurn(round, course.holes, number) });
     refreshShotGuidance();
+    const score = round.scores[number];
+    if (!score.picked && !Number.isFinite(score.strokes)) {
+      askScore(number);
+      return;
+    }
+    ui.locked.dataset.asked = String(number);
+    const result = score.picked ? 'struket' : score.logged ? `${score.strokes} · ${scoreName(score.strokes, course.holes[number - 1].par)}` : `kortet säger ${score.strokes}`;
+    note(`Hål ${number} · ${result}`, { edit: true, end: atTheTurn(round, course.holes, number) });
     endIfOver(number);
   }
 
@@ -1996,7 +2042,8 @@ async function start() {
     const received = strokesReceived(round.handicap, h, course.holes);
     const name = Number.isFinite(own.strokes) && !own.picked ? scoreName(own.strokes, h.par) : own.picked ? 'Struket' : '';
     const points = received === null ? null : own.picked ? 0 : Number.isFinite(own.strokes) ? stablefordPoints(h.par, own.strokes, received) : null;
-    ui.scoreWord.textContent = [name, points === null ? null : `${points} poäng`,
+    const needsTotal = !own.picked && !Number.isFinite(own.strokes) && Number.isFinite(own.putts);
+    ui.scoreWord.textContent = [needsTotal ? 'Ange totalt antal slag' : name, points === null ? null : `${points} poäng`,
       received ? `${received} erhållna slag` : null].filter(Boolean).join(' · ');
     const totals = roundTotals(round, course.holes);
     const toPar = toParText(totals.toPar);
@@ -2042,7 +2089,7 @@ async function start() {
     showSheet(null);
     if (advance) playHole(number % course.holes.length + 1);
   };
-  ui.pickUp.onclick = () => setScore({ strokes: null, putts: null, picked: true });
+  ui.pickUp.onclick = () => setScore({ strokes: null, putts: null, picked: true, logged: false });
   const setHandicap = value => {
     round.handicap = clamp(value, MIN_HANDICAP, MAX_HANDICAP);
     remember(HANDICAP_KEY, String(round.handicap));
@@ -2061,10 +2108,8 @@ async function start() {
     closePrompt();
     round.endedAt = Date.now();
     saveRound();
-    if (gps.active) {
-      stopGps();
-      remember(`${GPS_KEY}:${course.slug}`, '');
-    }
+    stopGps();
+    remember(`${GPS_KEY}:${course.slug}`, '');
     diary.add('round-ended', holesScored(round, course.holes));
     showRound(keepRecord(thisRecord()));
   }
@@ -2247,8 +2292,6 @@ async function start() {
   /* ---- the clubs ---- */
   /* Every round's shots, on every course: a club's length is drawn from them all. */
   let undoPoint = null;
-  const ours = shot => shot.course === course.slug && shot.round === round.id;
-  const roundShots = () => shots.filter(ours);
   const entry = params.get('runda');
   const resumeUnavailable = entry === 'fortsatt' && !roundUnderWay();
   const entryState = roundEntry({
@@ -2261,7 +2304,7 @@ async function start() {
   state.previewOnly = entryState.viewing;
   state.handPicked = previewing();
   state.follow = !state.handPicked;
-  if (roundUnderWay() && round.playingHole !== state.playing) saveRound();
+  if (reopenedScores || (roundUnderWay() && round.playingHole !== state.playing)) saveRound();
   const stale = openShot(shots);
   if (stale && (!ours(stale) || Date.now() - stale.at > STALE_SHOT_MS)) shots = closeHole(shots, stale.hole);
   let clubHistoryStats = clubStats(shots);
@@ -2295,7 +2338,7 @@ async function start() {
   const wheelClubs = clubs => [...clubs].sort((a, b) => b.carry - a.carry);
   let playingBag = learnedBag(bag, clubHistoryStats);
   const hudFields = Object.fromEntries(['title', 'source', 'distance', 'club', 'detail', 'conditions'].map(key => [key, $(`[data-shot-${key}]`)]));
-  const mappedWaters = course.features.water.filter(water => !water.overLand);
+  const mappedWaters = course.hazards.waters;
   let lastAnnouncement = '', lastAnnouncedTarget = null, lastLanding = null, lastKind = null;
   const planner = createGuidancePlanner({
     loadGeometry: async (h, signal) => {
@@ -2378,7 +2421,7 @@ async function start() {
     const length = walking ? `${metres(walked)} m` : '';
     if (ui.hintNote.textContent !== words) ui.hintNote.textContent = words;
     if (ui.hintMetres.textContent !== length) ui.hintMetres.textContent = length;
-    ui.wheelHint.hidden = !words || state.mode !== 'hole';
+    ui.walkedShot.hidden = !words || state.mode !== 'hole';
   }
 
   function updateGuidance(h, position) {
@@ -2418,7 +2461,8 @@ async function start() {
       lastKind = kind;
     }
     const selectedClub = playingBag.find(club => club.id === state.manualClub) ?? recommendedClub;
-    state.guidance = { mode: manual ? 'manual' : 'auto', status, source: position.source, origin: manual ? from : result.origin ?? from, target,
+    state.guidance = { mode: manual ? 'manual' : 'auto', status, reason: status === 'unavailable' ? result.reason : undefined,
+      source: position.source, origin: manual ? from : result.origin ?? from, target,
       legs, reading, recommendedClub, selectedClub, reachable };
     wheel.suggest(recommendedClub?.id ?? null);
     if (recommendedClub && !state.manualClub) {
@@ -2447,7 +2491,7 @@ async function start() {
     hudFields.conditions.hidden = !hud.conditions;
     $('[data-reading-close]').hidden = !manual;
     $('[data-club-auto]').hidden = !(state.manualClub && shot.recommendedClub);
-    $('[data-aim-retry]').hidden = shot.status !== 'unavailable';
+    $('[data-aim-retry]').hidden = shot.reason !== 'load-failed';
     refreshLogAction();
     // Keep walking distances live on the card. Speak once when the advice itself changes.
     const key = [h.n, shot.mode, shot.status, manual ? shot.target : '', hud.title, shot.source,
@@ -2548,7 +2592,7 @@ async function start() {
     const open = openShot(roundShots());
     if (open && open.hole !== h.n) finishOpenShot();
     const before = open?.hole === h.n ? open : null;
-    const lie = surfaceAt(point, h, course.features.water);
+    const lie = surfaceAt(point, h, mappedWaters);
     const rise = before ? store.heightAt(point[0], point[1]) - store.heightAt(before.from[0], before.from[1]) : null;
     markUndo();
     diary.add('lock', [h.n, club.id, Math.round(accuracy)]);
@@ -2954,9 +2998,37 @@ async function start() {
   const frozenWater = !course.features.water.some(item => item.sea);
   let shadesWaiting = 0;
 
+  const greenTime = () => reducedMotion ? 0 : (performance.now() / 1000) % 3600;
+  const animateGreen = () => !reducedMotion && !document.hidden && !renderer.gl.isContextLost() && state.greenGrid?.pulses.length
+    && performance.now() < state.gridAwake;
+  function scheduleGreenPulse() {
+    clearTimeout(gridTimer);
+    if (animateGreen()) gridTimer = setTimeout(requestFrame, GRID_FRAME_MS);
+    else if (state.greenGrid) renderer.releaseGreenFrame();
+  }
+  motionPreference.addEventListener('change', () => {
+    reducedMotion = motionPreference.matches;
+    if (state.greenGrid) {
+      state.gridAwake = performance.now() + GRID_AWAKE_MS;
+      invalidate();
+    }
+  });
+
   function frame(time) {
     raf = 0;
     const started = performance.now();
+    const pulseOnly = !sceneDirty;
+    sceneDirty = false;
+    if (pulseOnly) {
+      if (!animateGreen()) { renderer.releaseGreenFrame(); return; }
+      if (renderer.drawGreenPulseFrame(greenTime())) {
+        state.stats.frames++;
+        state.stats.pulseFrames++;
+        state.stats.lastDrawMs = performance.now() - started;
+        scheduleGreenPulse();
+        return;
+      }
+    }
     const measurePace = time !== undefined && !state.greenGrid && !document.hidden;
     if (measurePace) notePace(time);
     /* A dragged point reads its numbers once a frame, not once a pointer event. */
@@ -3056,11 +3128,11 @@ async function start() {
         /* The greengrid reads the green by itself, as it does in the simulator. */
         contour: [interval, state.contours && !state.greenGrid && !state.atEye ? blend(0.42, 0.2) : 0, 5],
         greenGrid: state.greenGrid && {
-          time: reducedMotion ? 0 : (performance.now() / 1000) % 3600,
+          time: greenTime(),
           scale: Math.max(1, PULSE_LEAST_PIXELS * metresPerPixel / PULSE_WIDTH_METRES),
         },
         tint: [course.heightLow, course.heightHigh],
-      });
+      }, pulseOnly);
       state.stats.triangles = drawn.triangles;
       state.stats.trees = drawn.trees;
       state.stats.patches = drawn.patches;
@@ -3132,10 +3204,7 @@ async function start() {
         invalidate();
       }
     }
-    if (state.greenGrid && !reducedMotion && performance.now() < state.gridAwake) {
-      clearTimeout(gridTimer);
-      gridTimer = setTimeout(invalidate, GRID_FRAME_MS);
-    }
+    scheduleGreenPulse();
     state.pace.end = measurePace ? performance.now() : null;
   }
 
@@ -3192,6 +3261,7 @@ async function start() {
   if (entry !== '1' && !state.previewOnly && !resumeUnavailable && savedFresh(`${GPS_KEY}:${course.slug}`)) {
     navigator.permissions?.query({ name: 'geolocation' }).then(result => {
       if (result.state === 'granted' && !gps.active) startGps();
+      else if (result.state === 'denied' && !gps.active) setGpsState('denied');
     }).catch(() => {});
   }
 
@@ -3224,6 +3294,7 @@ async function start() {
 
   const pendingPutter = openShot(shots);
   if (pendingPutter && ours(pendingPutter) && isPutt(pendingPutter) && !round.endedAt) askPutts(pendingPutter.hole);
+  else if (!previewing() && roundUnderWay() && Number.isFinite(round.scores[state.playing]?.putts)) askScore(state.playing);
 }
 
 start().catch(fail);
