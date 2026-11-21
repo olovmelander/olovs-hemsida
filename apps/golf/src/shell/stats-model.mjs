@@ -14,6 +14,7 @@ import { roundTotals, hitGreen, puttCoverage } from '../map/map-score.mjs';
 
 const DAY_MS = 86400000;
 const FULL = 18;
+const HALF_ROUND = 9;
 /* The newest rounds against the ones before them, as map-rounds.mjs roundTrend. */
 export const RECENT_ROUNDS = 5;
 /* A gap in the bag worth a word: as the bag editor's own notes (ui/bag-editor.mjs). */
@@ -65,11 +66,12 @@ export const roundTime = record => {
 };
 export const playedHoles = record => (record.holes || []).filter(hole => !hole.picked && Number.isFinite(hole.strokes))
   .map(hole => Number.isFinite(hole.par) ? hole : { ...hole, par: record.pars?.[hole.n - 1] });
-/* to par, scaled to 18 holes */
+export const scoreToPar = holes => holes.length && holes.every(hole => Number.isFinite(hole.par))
+  ? sum(holes.map(hole => hole.strokes - hole.par)) : null;
+const scaledToEighteen = (toPar, count) => toPar !== null && count >= HALF_ROUND ? toPar / count * FULL : null;
 export function perEighteen(record) {
-  const holes = playedHoles(record);
-  if (!holes.length || !holes.every(h => Number.isFinite(h.par))) return null;
-  return sum(holes.map(hole => hole.strokes - hole.par)) / holes.length * FULL;
+  const played = playedHoles(record);
+  return scaledToEighteen(scoreToPar(played), played.length);
 }
 
 /* The rounds a view is about, oldest first. */
@@ -112,17 +114,21 @@ function activityInView(rounds, shots, filter, now) {
 
 function scoreRow(record, index) {
   const played = playedHoles(record);
-  const normalized = perEighteen(record);
+  const toPar = scoreToPar(played);
   return {
     id: record.id, course: record.course, courseName: record.courseName, date: record.date, at: roundTime(record),
-    strokes: sum(played.map(hole => hole.strokes)), toPar: normalized != null ? sum(played.map(hole => hole.strokes - hole.par)) : null,
-    perEighteen: normalized, holes: played.length, of: record.holeCount ?? played.length,
-    points: record.totals?.points ?? null, putts: puttCoverage(played),
+    strokes: sum(played.map(hole => hole.strokes)), toPar,
+    // Keep the actual score for short cards. A single bogey should not enter
+    // round averages or trend charts as an estimated +18.
+    perEighteen: scaledToEighteen(toPar, played.length),
+    holes: played.length, of: record.holeCount ?? record.pars?.length ?? played.length,
+    singleHole: played.length === 1 ? played[0] : null,
+    points: Number.isFinite(record.totals?.points) ? record.totals.points : null, putts: puttCoverage(played),
     rolling: null, rollingPoints: null, index,
   };
 }
 
-const bestRound = rows => rows.filter(row => row.holes >= 9 && Number.isFinite(row.perEighteen)).reduce((best, row) =>
+const bestRound = rows => rows.filter(row => Number.isFinite(row.perEighteen)).reduce((best, row) =>
   (!best || row.perEighteen < best.perEighteen || (row.perEighteen === best.perEighteen && row.holes > best.holes)) ? row : best, null);
 
 
@@ -162,16 +168,18 @@ export function playerStats({ rounds = [], shots = [], bag = [], courses: catalo
   const holes = list.flatMap(record => playedHoles(record).map(hole => ({ ...hole, record })));
 
   const trend = list.map(scoreRow);
-  /* Trailing 5-round moving average so noisy rounds show a clear direction. */
-  for (let i = 0; i < trend.length; i++) {
-    const window = trend.slice(Math.max(0, i - RECENT_ROUNDS + 1), i + 1);
+  const comparable = trend.filter(row => Number.isFinite(row.perEighteen));
+  /* Compare the same qualifying rounds on the line, in the rolling average
+     and in the summary, even if short practice cards occur between them. */
+  for (let i = 0; i < comparable.length; i++) {
+    const window = comparable.slice(Math.max(0, i - RECENT_ROUNDS + 1), i + 1);
     const vals = window.map(row => row.perEighteen).filter(Number.isFinite);
     const pts = window.map(row => row.points).filter(Number.isFinite);
-    trend[i].rolling = mean(vals);
-    trend[i].rollingPoints = mean(pts);
+    comparable[i].rolling = mean(vals);
+    comparable[i].rollingPoints = mean(pts);
   }
 
-  const averages = trend.map(row => row.perEighteen).filter(Number.isFinite);
+  const averages = comparable.map(row => row.perEighteen);
   const recent = averages.slice(-RECENT_ROUNDS), before = averages.slice(0, -RECENT_ROUNDS);
 
   /* Recent-5 vs earlier deltas for each KPI tile. */
