@@ -137,6 +137,14 @@ try {
   await tap(page, '[data-club-auto]');
   await wait(page, () => !V3DMap.state.manualClub && V3DMap.wheel() === V3DMap.state.guidance.recommendedClub.id);
   assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pin);
+  await context.setGeolocation(coordinate);
+  await tap(page, '[data-wheel-lock]');
+  await wait(page, () => Boolean(V3DMap.shots()[0]?.aim));
+  const loggedAim = await page.evaluate(() => V3DMap.shots()[0].aim);
+  assert.equal(loggedAim.mode, 'manual');
+  assert.deepEqual(loggedAim.target, pin);
+  assert.equal(loggedAim.selectedClub, loggedAim.recommendedClub);
+  await tap(page, '[data-locked-undo]');
   await tap(page, '[data-reading-close]');
   await wait(page, () => V3DMap.state.guidance.mode === 'auto');
   assert.equal((await page.evaluate(() => V3DMap.shots())).length, 0);
@@ -160,6 +168,7 @@ try {
   await log.tap();
   await wait(page, () => V3DMap.shots().length === 1);
   assert.equal(await page.evaluate(() => V3DMap.shots()[0].hole), 10);
+  assert.equal(await page.evaluate(() => V3DMap.shots()[0].aim), undefined);
   await tap(page, '[data-score]');
   await tap(page, `[data-stroke-key="${par + 2}"]`);
   await tap(page, '[data-score-sheet] [data-close]');
@@ -240,6 +249,25 @@ try {
   await wait(page, () => document.querySelector('[data-gps-label]').textContent === '±4 m');
   assert.equal(await page.evaluate(() => V3DMap.shots().length), 1);
   console.log('Revoking permission retains the last position on its own hole. The next hole previews from its tee, and GPS resumes after regrant.');
+
+  const imported = { course: 'visby', round: 123, hole: 7, at: 120, club: 'wedge', from: [0, 0], to: [0, 85], outcome: 'played' };
+  await page.evaluate(shot => {
+    const key = 'banvy-map-shots-v1';
+    const log = JSON.parse(localStorage.getItem(key));
+    log.shots.unshift(shot);
+    localStorage.setItem(key, JSON.stringify(log));
+    const clubs = [{ id: 'wedge', name: 'Min wedge', carry: 93 }, { id: 'putter', name: 'Putter', carry: 0 }];
+    localStorage.setItem('banvy-caddie-bag-v1', JSON.stringify({ version: 3, clubs }));
+    window.dispatchEvent(new CustomEvent('banvy-sync-changed', { detail: { changed: true } }));
+  }, imported);
+  await wait(page, () => document.querySelector('[data-wheel]').textContent.includes('Min wedge'));
+  const fresh = await gpsAtTee(page, context, next);
+  await tap(page, '[data-wheel-lock]');
+  await context.setGeolocation(fresh);
+  await wait(page, () => V3DMap.shots().some(shot => shot.hole === V3DMap.state.playing && shot.course === 'upsala'));
+  const persisted = await page.evaluate(() => JSON.parse(localStorage.getItem('banvy-map-shots-v1')).shots);
+  assert.deepEqual(persisted.find(shot => shot.course === imported.course), imported);
+  console.log('A bag and a shot imported during play survive the next GPS shot on the played course.');
 
   assert.deepEqual(errors, []);
   await context.close();

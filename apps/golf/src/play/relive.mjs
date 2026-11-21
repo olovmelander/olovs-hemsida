@@ -10,6 +10,7 @@ import { loadGolfer, GOLF_SWINGS, GOLFER_CHARACTERS } from '../engine/golfer.mjs
 import { DEFAULT_BAG, parseBag } from '../engine/caddie.js';
 import { exampleData } from '../shell/stats-model.mjs';
 import { createMapFrame } from '../map/map-frames.mjs';
+import { shotReviewText } from '../map/map-shots.mjs';
 import { BALL, launchState, simulateShot, puttSpeedFor, SURFACES, CLUB_LAUNCH } from './ball-physics.mjs';
 import { clubCategory, launchFor, powerFor, LIE_NAME } from './shot-model.mjs';
 import { reliveRound, exampleRound, EXAMPLE_PREFIX } from './relive-model.mjs';
@@ -116,7 +117,8 @@ export async function mountRelive(h, roundId) {
     if (!h.ground) return fail('Den här banan saknar höjddata att återuppleva på.');
     let frame;
     try { frame = createMapFrame(h.ground.groundId, h.ground.frame); } catch (error) { return fail(`Kunde inte läsa banans ram: ${error.message}`); }
-    round = reliveRound(localStorage, h.slug, roundId, { toCourse: ([x, z]) => frame.toPack(x, z), cupOf });
+    round = reliveRound(localStorage, h.slug, roundId, { toCourse: ([x, z]) => frame.toPack(x, z), cupOf,
+      parOf: n => h.holes[n - 1]?.par, holeCount: h.holes.length });
     if (!round) return fail('Rundan finns inte på den här enheten.');
   }
   const playable = round.holes.filter(hole => hole.plays.length);
@@ -159,6 +161,12 @@ export async function mountRelive(h, roundId) {
 
   const ballMesh = new THREE.Mesh(new THREE.SphereGeometry(BALL.radius, 20, 14), new THREE.MeshStandardNodeMaterial({ color: '#fbfaf3', roughness: .42, emissive: '#5a5a52' }));
   h.scene.add(ballMesh);
+  const targetMark = new THREE.Mesh(new THREE.RingGeometry(1.4, 2, 48),
+    new THREE.MeshBasicNodeMaterial({ color: '#f0a23a', transparent: true, opacity: .95, depthTest: false, depthWrite: false }));
+  targetMark.rotation.x = -Math.PI / 2;
+  targetMark.visible = false;
+  targetMark.renderOrder = 3;
+  h.scene.add(targetMark);
   const tracer = createRibbonTracer({ scene: h.scene, camera: h.camera });
   const audio = createPlayAudio({ enabled: (() => { try { return JSON.parse(localStorage.getItem(PLAY_KEYS.settings) || '{}').sound !== false; } catch { return true; } })() });
   const cam = createPlayCamera({ camera: h.camera, heightAt });
@@ -185,14 +193,17 @@ export async function mountRelive(h, roundId) {
     bar.querySelector('[data-rv-count]').textContent = `Slag ${Math.min(strokeIndex + 1, plays.length)}/${plays.length}`;
     bar.querySelector('[data-rv-dots]').innerHTML = plays.map((p, i) => `<i class="${i < strokeIndex ? 'done' : i === strokeIndex ? 'now' : ''}${p.putt ? ' putt' : ''}"></i>`).join('');
     // And on the hole map: the shots so far, and the ball.
-    const done = plays.slice(0, strokeIndex).map(p => ({ from: p.from, to: p.to || cup() }));
-    holeMap.marks({ ball: from, pin: cup(), strokes: done, aim: s ? (s.to || cup()) : null });
+    const done = plays.slice(0, strokeIndex).filter(p => p.to && p.measuredOutcome !== false);
+    if (s?.measuredOutcome) done.push(s);
+    holeMap.marks({ ball: from, pin: cup(), strokes: done, aim: s?.target ?? s?.to, target: s?.target });
   }
   function address() {
     const s = stroke();
     if (!s) return endHole();
     const club = clubOf(s.club);
-    const to = s.to || cup();
+    const to = s.to || s.target || cup();
+    targetMark.visible = Boolean(s.target);
+    if (s.target) targetMark.position.set(s.target[0], heightAt(...s.target) + .15, s.target[1]);
     const yaw = Math.atan2(to[0] - s.from[0], to[1] - s.from[1]);
     ballAt(s.from[0], s.from[1]);
     golfer.paused = false;
@@ -203,10 +214,13 @@ export async function mountRelive(h, roundId) {
     tracer.reset();
     const n = strokeIndex + 1;
     const length = Math.hypot(to[0] - s.from[0], to[1] - s.from[1]);
+    const measured = Boolean(s.to) && s.measuredOutcome !== false;
+    const review = s.recordedShot ? shotReviewText(s.recordedShot, id => clubOf(id).name) : '';
     hud.third({ kicker: `Hål ${hole().n} · slag ${n} av ${hole().plays.length}`, title: s.putt ? 'Putt' : club.name,
-      sub: `${length < 10 ? length.toFixed(1).replace('.', ',') : Math.round(length)} m · ${LIE_NAME[lieOf(s.fromLie)] || 'Fairway'} → ${s.holed ? 'i hålet' : LIE_NAME[lieOf(s.toLie)] || 'Green'}`,
-      body: s.putt && !round.example && s.counted && strokeIndex === hole().plays.findIndex(p => p.putt) ? 'Puttarna är räknade, inte inmätta: de rullas från första puttens plats.' : '' });
+      sub: measured ? `${length < 10 ? length.toFixed(1).replace('.', ',') : Math.round(length)} m · ${LIE_NAME[lieOf(s.fromLie)] || 'Fairway'} → ${s.holed ? 'i hålet' : LIE_NAME[lieOf(s.toLie)] || 'Green'}` : 'Säker slutpunkt saknas',
+      body: review || (s.putt && !round.example && s.counted && strokeIndex === hole().plays.findIndex(p => p.putt) ? 'Puttarna är räknade. Rullningen är illustrerad.' : '') });
     card();
+    if (!measured) { state = 'rest'; timer = 3; flight = null; return; }
     state = 'address'; timer = 1.1;
     flight = reconstructFlight({ club, from: s.from, to, putt: s.putt, heightAt, lie: lieOf(s.fromLie), landLie: lieOf(s.toLie) });
   }
@@ -238,11 +252,14 @@ export async function mountRelive(h, roundId) {
   }
   function endHole() {
     const H = hole();
-    const name = H.picked ? 'Plockad' : scoreName(H.strokes, H.par);
-    hud.banner(`Hål ${H.n} · ${name}`, H.picked ? '' : `${H.strokes} slag · ${H.putts ?? 0} puttar`, !H.picked && H.strokes <= H.par ? 'good' : '', 2600);
-    playHoleReaction(golfer, H.strokes, H.par, H.picked);
+    targetMark.visible = false;
+    const scored = Number.isFinite(H.strokes) && !H.picked;
+    const name = H.picked ? 'Plockad' : scored ? scoreName(H.strokes, H.par) : 'Score saknas';
+    const detail = scored ? [`${H.strokes} slag`, Number.isFinite(H.putts) ? `${H.putts} ${H.putts === 1 ? 'putt' : 'puttar'}` : 'Puttar ej förda'].join(' · ') : '';
+    hud.banner(`Hål ${H.n} · ${name}`, detail, scored && H.strokes <= H.par ? 'good' : '', 2600);
+    if (scored || H.picked) playHoleReaction(golfer, H.strokes, H.par, H.picked);
     hud.third(null);
-    holeMap.marks({ pin: cup(), strokes: H.plays.map(p => ({ from: p.from, to: p.to || cup() })) });
+    holeMap.marks({ pin: cup(), strokes: H.plays.filter(p => p.to && p.measuredOutcome !== false) });
     state = 'holeEnd'; timer = 2.8;
   }
   function startHole(i) {
@@ -260,11 +277,11 @@ export async function mountRelive(h, roundId) {
     else { state = 'done'; openSheet(true); }
   }
   function openSheet(finished = false) {
-    const rec = { order: round.holes.map(x => x.n), holes: Object.fromEntries(round.holes.map(x => [x.n, { strokes: x.strokes, holed: !x.picked, picked: x.picked }])) };
+    const rec = { order: round.holes.map(x => x.n), holes: Object.fromEntries(round.holes.map(x => [x.n, { strokes: x.strokes, holed: Number.isFinite(x.strokes) && !x.picked, picked: x.picked }])) };
     const t = round.totals;
     const box = hud.openSheet(`<h2>${round.courseName || h.courseName}</h2>
-      <p class="pl-sub">Återupplev · ${round.date}${round.tee ? ` · ${round.tee} tee` : ''}${t ? ` · ${t.strokes} slag` : ''}</p>
-      ${scorecardHtml(rec, h.holes)}
+      <p class="pl-sub">Återupplev · ${round.date}${round.tee ? ` · ${round.tee} tee` : ''}${t?.strokes ? ` · ${t.strokes} slag` : ' · Score saknas'}</p>
+      ${rec.order.some(n => rec.holes[n].holed || rec.holes[n].picked) ? scorecardHtml(rec, h.holes) : ''}
       <p class="pl-sub">${round.example
         ? 'Ett exempel från Statistik: en påhittad spelares runda, med slagen lagda längs banans hål. Det är inte dina siffror.'
         : `${playable.length} av ${round.holes.length} hål har inmätta slag. Puttar är räknade, inte inmätta. Inget i rundan ändras.`}</p>
@@ -293,7 +310,7 @@ export async function mountRelive(h, roundId) {
     if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName) || e.metaKey || e.ctrlKey || e.altKey) return;
     e.stopImmediatePropagation();
     audio.unlock();
-    if (hud.sheetOpen) { if (e.key === 'Escape') { hud.closeSheet(); setPaused(false); } return; }
+    if (hud.sheetOpen) { hud.trapTab(e); if (e.key === 'Escape') { hud.closeSheet(); setPaused(false); } return; }
     if (e.key === ' ') { setPaused(!paused); e.preventDefault(); }
     else if (e.key === 'ArrowRight') bar.querySelector('[data-next]').click();
     else if (e.key === 'ArrowLeft') bar.querySelector('[data-prev]').click();
@@ -341,6 +358,7 @@ export async function mountRelive(h, roundId) {
     dispose() {
       abort.abort(); holeMap.dispose(); hud.dispose(); style.remove(); golfer.dispose(); tracer.dispose(); audio.dispose();
       h.scene.remove(ballMesh); ballMesh.geometry.dispose(); ballMesh.material.dispose();
+      h.scene.remove(targetMark); targetMark.geometry.dispose(); targetMark.material.dispose();
       document.body.classList.remove('pl-on', 'pl-relive'); h.controls.enabled = true;
     },
   };

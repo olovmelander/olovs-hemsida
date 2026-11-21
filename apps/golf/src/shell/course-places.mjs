@@ -74,3 +74,11 @@ export const COURSE_LOCATIONS = {
     iconName: 'tree',
   },
 };
+
+// These layouts share a clubhouse and the same weather observation.
+export const HOST_CLUB = {
+  'upsala-mellanbanan': 'upsala',
+  'johannesberg-9': 'johannesberg',
+  'veckefjarden-korthalsbanan': 'veckefjarden',
+};
+for (const [layout, club] of Object.entries(HOST_CLUB)) COURSE_LOCATIONS[layout] = COURSE_LOCATIONS[club];

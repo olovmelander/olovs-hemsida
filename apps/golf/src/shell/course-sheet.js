@@ -1,3 +1,5 @@
+import { savePlayerProfile } from './cloud.mjs';
+import { readPlayCheckpoint } from '../play/play-rules.mjs';
 /* ===========================================================================
    A course, before the round: the page a course card opens.
 
@@ -31,7 +33,7 @@ import { parseRounds } from '../map/map-rounds.mjs';
 import {
   LIGHTS, MAP_KEYS, MODES, NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PLAY_CHARACTERS, TEE_KEY, liveRound, readSettings, readText, savedTee, teeColour, writeText,
 } from './settings-store.mjs';
-import { perEighteen, perHole } from './stats-model.mjs';
+import { bestScorecard, perEighteen, perHole } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { loadScorecard } from './course-scorecard.mjs';
 import { hubUrl } from './router.js';
@@ -57,25 +59,24 @@ const WIND = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke
 
 const signed = value => (Math.abs(value) < 0.05 ? '±0' : `${value > 0 ? '+' : '−'}${Math.abs(value).toFixed(1).replace('.', ',')}`);
 
-export function createCourseSheet({ courses, lines = {}, onLaunch }) {
+export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = null, onEdit = null }) {
   const dialog = document.createElement('dialog');
   dialog.id = 'courseSheet';
   dialog.className = 'cs';
   dialog.setAttribute('aria-labelledby', 'csTitle');
   document.body.append(dialog);
 
-  let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false, mine = null, activeRound = null;
+  let restoreScroll = 0;
+  let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false, mine = null, activeRound = null, checkpoint = null, guideHole = 1;
 
   function history(slug) {
     const rounds = parseRounds(readText(storage(), MAP_KEYS.rounds, null)).filter(r => r.course === slug);
     if (!rounds.length) return null;
     const scores = rounds.map(perEighteen).filter(Number.isFinite);
-    const full = rounds.filter(r => (r.holes || []).filter(h => !h.picked && Number.isFinite(h.strokes)).length >= 9);
-    const best = full.reduce((top, r) => (!top || r.totals.toPar < top.totals.toPar ? r : top), null);
     return {
       rounds: rounds.length,
       average: scores.length ? scores.reduce((s, v) => s + v, 0) / scores.length : null,
-      best: best ? { strokes: best.totals.strokes, toPar: best.totals.toPar } : null,
+      best: bestScorecard(rounds),
       last: rounds.map(r => r.date).sort().at(-1),
       /* each hole as you usually play it: the scorecard's own row */
       holes: perHole(rounds),
@@ -91,7 +92,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     mine = past?.holes?.length ? { holes: new Map(past.holes.map(h => [h.n, h])), rounds: past.rounds } : null;
     const settings = readSettings(storage());
     const hcpText = readText(storage(), MAP_KEYS.handicap, '');
-    plan.handicap = hcpText !== '' && Number.isFinite(Number(hcpText)) ? Number(hcpText) : null;
+    if (plan.handicap === undefined) plan.handicap = hcpText !== '' && Number.isFinite(Number(hcpText)) ? Number(hcpText) : null;
     plan.light = plan.light ?? settings.light;
     const lightTile = (key, label, sky) => `<label class="cs-light${key === NOW_LIGHT.player ? ' is-now' : ''}">
       <input type="radio" name="cs-light" value="${key}"${plan.light === key ? ' checked' : ''}>
@@ -126,7 +127,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
             <p class="cs-weather" data-weather hidden></p>
             ${past ? `<div class="cs-past" aria-label="Dina rundor här">
               <div><span>Rundor här</span><b>${past.rounds}</b></div>
-              <div><span>Bästa</span><b>${past.best ? `${past.best.strokes}` : '–'}</b>${past.best ? `<small>${past.best.toPar > 0 ? '+' : past.best.toPar < 0 ? '−' : '±'}${Math.abs(past.best.toPar)}</small>` : ''}</div>
+              <div><span>Bästa per 18 hål</span><b>${past.best ? signed(past.best.perEighteen) : '–'}</b>${past.best ? `<small>${past.best.strokes} slag på ${past.best.holes} hål</small>` : ''}</div>
               <div><span>Snitt per 18</span><b>${past.average !== null ? signed(past.average) : '–'}</b></div>
               <a class="cs-past-more" href="${hubUrl(`statistik/${encodeURIComponent(c.slug)}`)}">Hål för hål i Statistik<span aria-hidden="true">→</span></a>
             </div>` : ''}
@@ -139,8 +140,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
               </div>
             </fieldset>
 
-            ${tees.length > 1 ? `<fieldset class="cs-field" data-round-setup>
-              <legend>Tee</legend>
+            ${tees.length > 1 ? `<fieldset class="cs-field">
+              <legend data-tee-legend>Tee</legend>
               <div class="cs-tees">${tees.map((name, i) => `
                 <label class="cs-tee"><input type="radio" name="cs-tee" value="${i}"${plan.tee === i ? ' checked' : ''}>
                   <span><i style="background:${teeColour(c.tees.cols?.[i])}"></i>${esc(name)}</span></label>`).join('')}
@@ -196,6 +197,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
 
           <div class="cs-actions">
             <button type="button" class="cs-go" data-go></button>
+            <button type="button" class="cs-ghost" data-new-sim hidden>Starta ny simulering</button>
+            <button type="button" class="cs-ghost" data-practice data-only="play">Träna slag</button>
             <div class="cs-map-actions" data-only="map">
               <button type="button" class="cs-ghost" data-look>Bara titta på banan</button>
               <button type="button" class="cs-ghost" data-offline-action>Kontrollera offlinebanan</button>
@@ -232,18 +235,29 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     for (const btn of dialog.querySelectorAll('[data-hcp-step]')) btn.addEventListener('click', () => {
       plan.handicap = clampHcp((plan.handicap ?? 18) + Number(btn.dataset.hcpStep));
       hcp.value = String(plan.handicap);
+      onEdit?.();
     });
     hcp.addEventListener('change', () => { plan.handicap = hcp.value.trim() === '' ? null : clampHcp(Number(hcp.value)); hcp.value = plan.handicap ?? ''; });
     dialog.querySelector('form').addEventListener('change', e => {
       const { name, value } = e.target;
-      if (name === 'cs-mode') { plan.mode = value; reflect(); }
+      if (name === 'cs-mode') { plan.mode = value; reflect(); paintCard(); }
       if (name === 'cs-tee') { plan.tee = Number(value); paintCard(); }
       if (name === 'cs-hole') { plan.hole = Number(value); showHole(plan.hole); }
       if (name === 'cs-light') plan.light = value;
       if (name === 'cs-character') plan.character = value;
+      onEdit?.();
     });
-    dialog.querySelector('[data-close]').addEventListener('click', close);
-    dialog.querySelector('[data-go]').addEventListener('click', () => launch(true));
+    dialog.querySelector('[data-close]').addEventListener('click', dismiss);
+    dialog.querySelector('[data-go]').addEventListener('click', () => {
+      if (plan.mode === 'play' && checkpoint) { onEdit?.(); close(); onLaunch(course.slug, 'play', { sim: 'fortsatt' }); }
+      else launch(true);
+    });
+    dialog.querySelector('[data-new-sim]').onclick = () => launch(true);
+    dialog.querySelector('[data-practice]').onclick = () => {
+      onEdit?.();
+      close();
+      onLaunch(course.slug, 'play', { ...plan, sim: 'traning' });
+    };
     dialog.querySelector('[data-look]').addEventListener('click', () => launch(false));
     dialog.querySelector('[data-offline-action]').addEventListener('click', () => launch(false, true));
     /* scrolled, the column's top fades under the close button (course-sheet.css) */
@@ -252,8 +266,15 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     for (const btn of dialog.querySelectorAll('[data-guide-step]')) btn.addEventListener('click', () => {
       const list = dialog.querySelector('[data-guide]');
       const step = (list.firstElementChild?.offsetWidth ?? 260) + 10;
-      list.scrollBy({ left: Number(btn.dataset.guideStep) * step, behavior: REDUCED ? 'auto' : 'smooth' });
+      const nearest = Math.round(list.scrollLeft / step) + 1;
+      showHole(Math.min(course.holes, Math.max(1, nearest + Number(btn.dataset.guideStep))));
     });
+    dialog.querySelector('[data-guide]').onscrollend = e => {
+      const list = e.currentTarget;
+      const nearest = [...list.children].reduce((best, item) =>
+        !best || Math.abs(item.offsetLeft - list.scrollLeft) < Math.abs(best.offsetLeft - list.scrollLeft) ? item : best, null);
+      if (nearest) { guideHole = Number(nearest.dataset.hole); onEdit?.(); }
+    };
     reflect();
 
     /* the weather on the course now: the reading the app keeps half an hour */
@@ -351,9 +372,19 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
           </div>
         </div>
         ${h.note ? `<p class="cs-hole-note">${esc(h.note)}</p>` : ''}
+        <button type="button" class="cs-ghost" data-guide-preview="${h.n}">Visa hål ${h.n} i ${plan.mode === 'detailed' ? 'detaljerad 3D' : 'Lätt 3D'}</button>
       </li>`).join('');
+    list.onclick = e => {
+      const button = e.target.closest('[data-guide-preview]');
+      if (!button) return;
+      const hole = Number(button.dataset.guidePreview);
+      guideHole = hole;
+      onEdit?.();
+      close();
+      onLaunch(course.slug, plan.mode === 'detailed' ? 'detailed' : 'map', { round: false, tee: plan.tee, hole, light: plan.light });
+    };
     list.scrollLeft = keep;
-    if (!guideShown) { guideShown = true; showHole(plan.hole, false); }
+    if (!guideShown) { guideShown = true; showHole(guideHole, false); if (restoreScroll) dialog.querySelector('.cs-scroll').scrollTop = restoreScroll; restoreScroll = 0; }
   }
 
   /* the guide follows the hole the round starts on (the list is the holes' offset parent) */
@@ -361,6 +392,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     const list = dialog.querySelector('[data-guide]');
     const item = list?.querySelector(`[data-hole="${n}"]`);
     if (!item) return;
+    guideHole = n;
+    onEdit?.();
     list.scrollTo({ left: item.offsetLeft, behavior: smooth && !REDUCED ? 'smooth' : 'auto' });
   }
 
@@ -391,16 +424,19 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   function reflect() {
     dialog.dataset.mode = plan.mode;
     const resume = plan.mode === 'map' && Boolean(activeRound);
+    const teeLegend = dialog.querySelector('[data-tee-legend]');
+    if (teeLegend) teeLegend.textContent = resume ? 'Tee för förhandsvisning' : 'Tee';
     for (const el of dialog.querySelectorAll('[data-only], [data-round-setup]')) {
       el.hidden = (el.dataset.only && !el.dataset.only.split(' ').includes(plan.mode))
         || (resume && el.hasAttribute('data-round-setup'));
     }
     checkOffline();
     const go = dialog.querySelector('[data-go]');
+    dialog.querySelector('[data-new-sim]').hidden = !(plan.mode === 'play' && checkpoint);
     go.innerHTML = plan.mode === 'map'
       ? `${ICON.map}<span>${resume ? 'Fortsätt rundan' : 'Starta rundan'}</span>`
-      : plan.mode === 'play' ? `${ICON.play}<span>Till första tee</span>`
-      : `${ICON.detailed}<span>Spela i 3D</span>`;
+      : plan.mode === 'play' ? `${ICON.play}<span>${checkpoint ? `Fortsätt simuleringen · hål ${checkpoint.round.current}` : 'Starta simuleringen'}</span>`
+      : `${ICON.detailed}<span>Utforska i 3D</span>`;
     dialog.querySelector('[data-hint]').textContent = resume
       ? `Rundan pågår${activeRound.hole ? ` på hål ${activeRound.hole}` : ''}.`
       : plan.mode === 'map'
@@ -410,6 +446,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   }
 
   function launch(round, offline = false) {
+    onEdit?.();
     if (plan.mode === 'map' && (!round || activeRound)) {
       close();
       onLaunch(course.slug, 'map', round ? { round: 'resume' } : { round: false, hole: activeRound?.hole ?? plan.hole, offline });
@@ -418,12 +455,16 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     /* the choices are kept where the map reads them, so both programs agree */
     writeText(storage(), `${TEE_KEY}:${course.slug}`, plan.tee);
     /* the player's handicap is theirs in both: the map's card and the game's points */
-    if (plan.mode === 'map' || plan.mode === 'play') writeText(storage(), MAP_KEYS.handicap, plan.handicap ?? null);
+    if ((plan.mode === 'map' || plan.mode === 'play') && !savePlayerProfile('handicap', plan.handicap ?? null)) {
+      dialog.querySelector('[data-hint]').textContent = 'Handicap kunde inte sparas på enheten. Kontrollera webbläsarens lagring och försök igen.';
+      return;
+    }
     if (plan.mode === 'play') { try { storage()?.setItem(CHARACTER_KEY, plan.character); } catch {} }
     close();
-    onLaunch(course.slug, plan.mode, { tee: plan.tee, hole: plan.hole, light: plan.light, character: plan.character, round: plan.mode === 'map' && round });
+    onLaunch(course.slug, plan.mode, { tee: plan.tee, hole: plan.hole, light: plan.light, sim: plan.mode === 'play' ? 'ny' : undefined, character: plan.character, round: plan.mode === 'map' && round });
   }
 
+  function dismiss() { if (onDismiss) onDismiss(); else close(); }
   function close() {
     clearInterval(slideTimer);
     if (dialog.open) dialog.close();
@@ -433,24 +474,37 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   let downOutside = false;
   const outside = e => e.target === dialog;
   dialog.addEventListener('pointerdown', e => { downOutside = outside(e); });
-  dialog.addEventListener('click', e => { if (downOutside && outside(e)) close(); downOutside = false; });
+  dialog.addEventListener('click', e => { if (downOutside && outside(e)) dismiss(); downOutside = false; });
   /* keys typed here are not the page's: the hub's 1-4, a running course's own keys,
      and an Escape that would close the list behind it all stay out. The dialog's own
      Escape still closes it: that is the browser's, not a listener's. */
   dialog.addEventListener('keydown', e => e.stopPropagation());
 
+  dialog.addEventListener('cancel', e => { e.preventDefault(); dismiss(); });
   return {
-    open(slug, mode = 'detailed') {
+    snapshot: () => ({ ...plan, slug: course?.slug, guideHole, scroll: dialog.querySelector('.cs-scroll')?.scrollTop ?? 0 }),
+    open(slug, mode = 'detailed', draft = {}) {
       course = courses.find(c => c.slug === slug);
       if (!course) return;
       activeRound = liveRound(storage(), [course]);
+      checkpoint = readPlayCheckpoint(storage(), slug, course.holes);
       let character = 'female';
       try { character = PLAY_CHARACTERS.some(c => c.id === storage()?.getItem(CHARACTER_KEY)) ? storage().getItem(CHARACTER_KEY) : 'female'; } catch {}
       plan = { mode: MODES[mode] ? mode : 'detailed', tee: savedTee(storage(), course), hole: 1, light: null, character };
       if (!readSettings(storage()).light) plan.light = PLAYER_DEFAULT_LIGHT;
+      const validHole = n => Number.isInteger(n) && n > 0 && n <= course.holes;
+      if (validHole(draft.hole)) plan.hole = draft.hole;
+      if (Number.isInteger(draft.tee) && course.tees?.names?.[draft.tee]) plan.tee = draft.tee;
+      if (MODES[draft.mode]) plan.mode = draft.mode;
+      if (draft.handicap === null || Number.isFinite(draft.handicap)) plan.handicap = draft.handicap;
+      if (PLAY_CHARACTERS.some(c => c.id === draft.character)) plan.character = draft.character;
+      if (draft.light === NOW_LIGHT.player || LIGHTS.some(l => l.player === draft.light)) plan.light = draft.light;
+      guideHole = validHole(draft.guideHole) ? draft.guideHole : plan.hole;
+      restoreScroll = Math.max(0, Number(draft.scroll) || 0);
       render();
       dialog.showModal();
-      dialog.querySelector('[data-go]').focus();
+      dialog.querySelector('[data-go]').focus({ preventScroll: true });
+      if (restoreScroll) dialog.querySelector('.cs-scroll').scrollTop = restoreScroll;
     },
     close,
     isOpen: () => dialog.open,

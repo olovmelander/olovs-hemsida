@@ -308,6 +308,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   const filtersEl = el.querySelector('#chooserFilters');
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  let swedenMapInstance = null, mapVersion = 0, mapKey = '';
   let activeFilter = 'all';
   let activeQuery = '';
 
@@ -332,6 +333,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
        that looks broken. */
     controls.classList.toggle('has-query', !!activeQuery);
     searchClear.hidden = !activeQuery;
+    if (el.classList.contains('map-mode')) switchView('map');
   }
 
   /* On a course a golfer wants that course, without searching for it. The position is
@@ -339,7 +341,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   const nearBtn = el.querySelector('#chooserNear');
   if (nearBtn) {
     const cardList = el.querySelector('#coursesCardList');
-    const showNearest = ({ coords }) => {
+    const showNearest = async (coords, focusMap) => {
       const items = new Map([...cardItems].map(item => [item.dataset.slug, item]));
       const sorted = coursesByDistance(coords, COURSE_LOCATIONS).filter(({ slug }) => items.has(slug));
       for (const { slug, metres } of sorted) {
@@ -354,15 +356,22 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
       cardItems.forEach(item => item.classList.toggle('is-lead', item === items.get(sorted[0]?.slug)));
       nearBtn.classList.remove('is-busy');
       nearBtn.setAttribute('aria-pressed', 'true');
+      if (focusMap && el.classList.contains('map-mode')) {
+        const nearest = sorted.find(({ slug }) => !items.get(slug).hidden);
+        if (nearest) {
+          await switchView('map');
+          if (el.classList.contains('map-mode')) swedenMapInstance?.focusCourse(nearest.slug);
+        }
+      }
     };
-    const locate = () => {
+    const locate = (focusMap = false) => {
       nearBtn.classList.add('is-busy');
-      navigator.geolocation?.getCurrentPosition(showNearest, () => {
+      navigator.geolocation?.getCurrentPosition(({ coords }) => showNearest(coords, focusMap), () => {
         nearBtn.classList.remove('is-busy');
         countEl.textContent = 'Positionen gick inte att läsa';
       }, { timeout: 12000, maximumAge: 120000 });
     };
-    nearBtn.addEventListener('click', locate);
+    nearBtn.addEventListener('click', () => locate(true));
     if (!current) navigator.permissions?.query({ name: 'geolocation' }).then(answer => { if (answer.state === 'granted') locate(); }).catch(() => {});
   }
 
@@ -624,8 +633,6 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   const viewGridBtn = el.querySelector('#viewGridBtn');
   const viewMapBtn = el.querySelector('#viewMapBtn');
 
-  let swedenMapInstance = null;
-
   async function switchView(viewMode) {
     const map = viewMode === 'map';
     viewGridBtn.classList.toggle('active', !map);
@@ -637,13 +644,28 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
     el.classList.toggle('map-mode', map);
     cardsWrap.hidden = map;
     mapWrap.hidden = !map;
+    const version = ++mapVersion;
     if (!map) return;
     el.scrollTop = 0;
-    if (!swedenMapInstance) {
+    const visible = new Set([...cardItems].filter(item => !item.hidden).map(item => item.dataset.slug));
+    const key = mode + ':' + [...visible].join(',');
+    if (!swedenMapInstance || mapKey !== key) {
+      swedenMapInstance?.map.remove();
+      swedenMapInstance?.el.remove();
+      swedenMapInstance = null;
+      mapWrap.replaceChildren();
+      if (!visible.size) {
+        const none = document.createElement('p');
+        none.textContent = 'Ingen bana matchar din sökning.';
+        mapWrap.append(none);
+        return;
+      }
+      mapKey = key;
       const { createSwedenMap } = await import('./map.js');
+      if (version !== mapVersion) return;
       swedenMapInstance = createSwedenMap({
         container: mapWrap,
-        courses: courses.filter(c => mode !== 'map' || c.status !== 'mapping'),
+        courses: courses.filter(c => visible.has(c.slug)),
         current,
         lead: leadSlug,
         onPickCourse: pick,
@@ -674,9 +696,6 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
       if (tag && c.status !== 'mapping') tag.textContent = mode === 'map' ? 'GPS' : '3D';
     }
     applyFilters();
-    /* the map's pins were placed for the other mode's list; it rebuilds on next open */
-    if (swedenMapInstance) { swedenMapInstance.map.remove(); swedenMapInstance.el.remove(); swedenMapInstance = null; }
-    if (el.classList.contains('map-mode')) switchView('map');
   }
   el.dataset.mode = mode;
   modeBtns.forEach(b => b.addEventListener('click', () => {
@@ -698,6 +717,21 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
     el.querySelector('#chooserSettings')?.addEventListener('click', () => onSettings?.());
   }
 
+  el.snapshot = () => ({ query: searchInput.value, filter: activeFilter, view: el.classList.contains('map-mode') ? 'map' : 'grid', scroll: el.scrollTop });
+  el.restore = async data => {
+    if (!data) return;
+    searchInput.value = data.query ?? '';
+    activeQuery = searchInput.value.trim().toLowerCase();
+    setFilter([...filterBtns].some(b => b.dataset.filter === data.filter) ? data.filter : 'all');
+    await switchView(data.view === 'map' ? 'map' : 'grid');
+    el.scrollTop = Number(data.scroll) || 0;
+  };
+  el.focusCourse = slug => {
+    if (el.classList.contains('map-mode')) {
+      swedenMapInstance?.focusCourse(slug);
+      el.querySelector('#mppPlayBtn')?.focus({ preventScroll: true });
+    } else el.querySelector(`.card[data-slug="${CSS.escape(slug)}"]`)?.focus({ preventScroll: true });
+  };
   el.setMode = setMode;
   el.getMode = () => mode;
   return el;

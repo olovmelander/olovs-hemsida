@@ -16,7 +16,7 @@ import {
   DEV_OVERLAY_KEY, FRAME_CAP_CHOICES, FRAME_CAP_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_KEYS, MODES, NOW_LIGHT,
   PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, exportBackup, readBackup, restoreBackup, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
   readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
-  OFFLINE_PREFIX, offlineCourses,
+  OFFLINE_PREFIX, offlineCourses, hasBackupUndo, undoBackup, writeText, replaceStoredValues,
 } from './settings-store.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -79,6 +79,8 @@ describe('launchUrl', () => {
     expect(q(launchUrl('visby', 'map', { plan: { tee: 2, hole: 10, round: true } }))).toEqual({ bana: 'visby', karta: '1', runda: '1', hal: '10' });
     expect(q(launchUrl('visby', 'map', { plan: { round: true, hole: 1 } }))).toEqual({ bana: 'visby', karta: '1', runda: '1', hal: '1' });
     expect(q(launchUrl('visby', 'map', { plan: { round: true } }))).toEqual({ bana: 'visby', karta: '1', runda: '1', hal: '1' });
+    expect(q(launchUrl('visby', 'play', { plan: { sim: 'fortsatt' } }))).toEqual({ bana: 'visby', karta: '0', spela: '1', sim: 'fortsatt' });
+    expect(q(launchUrl('visby', 'map', { plan: { round: false, tee: 1, hole: 7 } }))).toEqual({ bana: 'visby', karta: '1', runda: 'visa', tee: '2', hal: '7' });
     expect(q(launchUrl('visby', 'map', { plan: { round: false } }))).toEqual({ bana: 'visby', karta: '1', runda: 'visa' });
     expect(q(launchUrl('visby', 'map', { plan: { round: false, hole: 10, offline: true } }))).toEqual({ bana: 'visby', karta: '1', runda: 'visa', hal: '10', offline: '1' });
     expect(q(launchUrl('visby', 'map', { plan: { round: 'resume', hole: 1, tee: 0 } }))).toEqual({ bana: 'visby', karta: '1', runda: 'fortsatt' });
@@ -122,7 +124,7 @@ describe('stored settings', () => {
   it('survives a storage that throws', () => {
     const angry = { getItem() { throw new Error('blocked'); }, setItem() { throw new Error('blocked'); }, removeItem() { throw new Error('blocked'); } };
     expect(readSettings(angry).quality).toBe('auto');
-    expect(() => writeSettings(angry, { quality: 'hi' })).not.toThrow();
+    expect(writeSettings(angry, { quality: 'hi' })).toBeNull();
     expect(readFrameCap(angry)).toBe(60);
     expect(mapLight(angry)).toBe(MAP_DEFAULT_LIGHT);
   });
@@ -161,7 +163,7 @@ describe('the backup', () => {
     expect(Object.keys(backup.data).sort()).toEqual(['banvy-fps', 'banvy-map-rounds-v1', 'banvy:dev-overlay']);
   });
   it('reads its own file back and refuses anything else', () => {
-    const file = JSON.stringify(exportBackup(memory({ 'banvy-fps': '30', 'banvy-caddie-bag-v1': '{}' })));
+    const file = JSON.stringify(exportBackup(memory({ 'banvy-fps': '30', 'banvy-caddie-bag-v1': JSON.stringify([{ name: 'PW', carry: 95 }, { name: 'Putter', carry: 0 }]) })));
     const read = readBackup(file);
     expect(read.ok).toBe(true);
     const st = memory();
@@ -171,6 +173,124 @@ describe('the backup', () => {
     expect(readBackup(JSON.stringify({ kind: 'other', version: 1, data: {} })).ok).toBe(false);
     expect(readBackup(JSON.stringify({ kind: 'banvy-backup', version: 1, data: { 'evil': 'x', 'banvy-x': 5 } })).ok).toBe(false);
   });
+  const fileOf = data => JSON.stringify({ kind: 'banvy-backup', version: 1, data });
+  it.each([
+    [MAP_KEYS.rounds, 'not json'],
+    [MAP_KEYS.rounds, '{"version":1,"rounds":[{}]}'],
+    [MAP_KEYS.rounds, '{"version":1,"rounds":[{"id":9,"course":"visby","holes":[null]}]}'],
+    [MAP_KEYS.shots, '{"version":1,"shots":[{"hole":1,"club":"pw","from":[3,null]}]}'],
+    [MAP_KEYS.rounds, '{"version":1,"rounds":[{"id":1,"course":"visby","holes":[],"totals":{"strokes":"wrong"}}]}'],
+    [ROUND_KEY + ':visby', '{"version":1,"scores":{"1":{"strokes":"four"}}}'],
+    [BAG_KEY, '{"clubs":[{"name":"Järn 7","carry":151},{"name":"Trasig"}]}'],
+    [MAP_KEYS.handicap, '200'],
+  ])('rejects an invalid record (%s) before changing any entry', (key, bad) => {
+    const st = memory({ 'banvy-fps': '60' });
+    const data = { 'banvy-fps': '30', [key]: bad };
+    expect(readBackup(fileOf(data))).toMatchObject({ ok: false });
+    expect(() => restoreBackup(st, Object.entries(data))).toThrow(/Ogiltiga/);
+    expect(Object.fromEntries(st.data)).toEqual({ 'banvy-fps': '60' });
+  });
+  it('retains valid legacy bags, shots without round IDs and scorecards without a playing hole', () => {
+    const data = { [BAG_KEY]: JSON.stringify([{ name: 'PW', carry: 90 }, { name: 'Putter', carry: 0 }]),
+      [MAP_KEYS.shots]: JSON.stringify({ version: 1, shots: [{ hole: 1, club: 'pw', from: [0, 4], to: null }] }),
+      [ROUND_KEY + ':visby']: JSON.stringify({ version: 1, scores: { 1: { strokes: 5 } } }) };
+    const result = readBackup(fileOf(data));
+    expect(result.ok).toBe(true);
+    const st = memory();
+    restoreBackup(st, result.entries);
+    expect(exportBackup(st).data).toEqual(data);
+  });
+  it('excludes cache receipts on export and reads old files without overwriting this device’s receipts', () => {
+    const receipt = OFFLINE_PREFIX + 'visby';
+    const deviceKeys = [receipt, 'banvy-weather:1,2', 'banvy-hub-catalogue-v1', 'banvy-device-id-v1', 'banvy-map-gps-v1:visby',
+      'banvy-live-owner-v1:["A","visby",9]'];
+    const privateEntries = value => Object.fromEntries(deviceKeys.map(key => [key, value]));
+    const st = memory({ 'banvy-fps': '60', ...privateEntries('current') });
+    expect(exportBackup(st).data).toEqual({ 'banvy-fps': '60' });
+    const read = readBackup(fileOf({ 'banvy-fps': '30', ...privateEntries('old') }));
+    restoreBackup(st, read.entries);
+    for (const key of deviceKeys) expect(st.getItem(key)).toBe('current');
+    expect(() => restoreBackup(st, [['banvy-device-id-v1', 'other']])).toThrow();
+  });
+  it('reports unreadable or empty backups and storage failures', () => {
+    expect(() => exportBackup(null)).toThrow(/lagring/);
+    expect(() => exportBackup(memory())).toThrow(/tom/);
+    const denied = memory({ 'banvy-fps': '60', 'banvy-x': '1' });
+    denied.getItem = key => { if (key === 'banvy-x') throw new Error('denied'); return '60'; };
+    expect(() => exportBackup(denied)).toThrow(/lagring/);
+    expect(() => restoreBackup(null, [['banvy-fps', '30']])).toThrow(/lagring/);
+    expect(writeText(null, 'banvy-fps', '30')).toBe(false);
+  });
+  it('requires enough space for the recovery copy before the first record is changed', () => {
+    const st = memory({ 'banvy-fps': '60' }), writes = [];
+    st.setItem = key => { writes.push(key); throw new Error('quota'); };
+    expect(() => restoreBackup(st, [['banvy-fps', '30']])).toThrow(/ångerkopia/);
+    expect(writes).toHaveLength(1);
+    expect(st.getItem('banvy-fps')).toBe('60');
+    expect(hasBackupUndo(st)).toBe(false);
+  });
+  it.each(['throw', 'silent'])('rolls back replaced and newly added entries after a %s write failure', failure => {
+    const st = memory({ 'banvy-old': 'longer original', 'unrelated': 'keep' });
+    const before = Object.fromEntries(st.data), write = st.setItem;
+    st.setItem = (key, value) => {
+      if (key !== 'banvy-fails') return write(key, value);
+      if (failure === 'throw') throw new Error('quota');
+    };
+    expect(() => restoreBackup(st, [['banvy-old', 'short'], ['banvy-new', 'x'], ['banvy-fails', 'longest']])).toThrow(/Tidigare/);
+    expect(Object.fromEntries(st.data)).toEqual(before);
+  });
+  it('undoes after reload, scoped to the importing player, without removing later edits', () => {
+    const st = memory({ 'banvy-fps': '60' });
+    const user = id => st.setItem('banvy_sync_meta_v1', JSON.stringify({ version: 1, userId: id }));
+    user('A');
+    restoreBackup(st, [['banvy-fps', '30'], ['banvy-fresh', 'new']]);
+    expect(hasBackupUndo(st)).toBe(true);
+    for (const account of [null, 'B']) {
+      user(account);
+      expect(hasBackupUndo(st)).toBe(false);
+      expect(() => undoBackup(st)).toThrow();
+    }
+    user('A');
+    st.setItem('banvy-fresh', 'later');
+    expect(() => undoBackup(st)).toThrow(/ändrats/);
+    expect(st.getItem('banvy-fps')).toBe('30');
+    st.setItem('banvy-fresh', 'new');
+    expect(undoBackup(st)).toEqual(['banvy-fps', 'banvy-fresh']);
+    expect(st.getItem('banvy-fps')).toBe('60');
+    expect(st.getItem('banvy-fresh')).toBeNull();
+    expect(hasBackupUndo(st)).toBe(false);
+  });
+  it('recovers a partially written import after the browser was interrupted', () => {
+    const st = memory({ 'banvy-fps': '60', [MAP_KEYS.handicap]: '6' });
+    restoreBackup(st, [['banvy-fps', '30'], [MAP_KEYS.handicap, '18']]);
+    st.setItem(MAP_KEYS.handicap, '6');
+    expect(undoBackup(st)).toEqual(['banvy-fps']);
+    expect(Object.fromEntries(st.data)).toEqual({ 'banvy-fps': '60', [MAP_KEYS.handicap]: '6' });
+  });
+  it('commits sync metadata with the restore, including on undo, and rolls back on quota failure', () => {
+    const st = memory({ 'banvy-fps': '60' }), write = st.setItem;
+    const metadata = (after, before) => [['meta', JSON.stringify({ after: [...after], before })]];
+    const failOnMeta = (key, value) => { if (key === 'meta') throw new Error('quota'); write(key, value); };
+    st.setItem = failOnMeta;
+    expect(() => restoreBackup(st, [['banvy-fps', '30']], metadata)).toThrow(/Tidigare/);
+    expect(Object.fromEntries(st.data)).toEqual({ 'banvy-fps': '60' });
+    st.setItem = write;
+    restoreBackup(st, [['banvy-fps', '30']], metadata);
+    expect(JSON.parse(st.getItem('meta'))).toEqual({ after: [['banvy-fps', '30']], before: { 'banvy-fps': '60' } });
+    st.setItem = failOnMeta;
+    expect(() => undoBackup(st, metadata)).toThrow(/Tidigare/);
+    expect(hasBackupUndo(st)).toBe(true);
+    expect(st.getItem('banvy-fps')).toBe('30');
+    st.setItem = write;
+    undoBackup(st, metadata);
+    expect(JSON.parse(st.getItem('meta'))).toEqual({ after: [['banvy-fps', '60']], before: { 'banvy-fps': '30' } });
+  });
+  it('atomically replaces and removes arbitrary keys for the account store', () => {
+    const st = memory({ before: 'release space', unaffected: 'leave' });
+    replaceStoredValues(st, new Map([['after', 'new'], ['before', null]]));
+    expect(Object.fromEntries(st.data)).toEqual({ after: 'new', unaffected: 'leave' });
+  });
+
 });
 
 describe('a round under way', () => {

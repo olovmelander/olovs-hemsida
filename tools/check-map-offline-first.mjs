@@ -41,6 +41,10 @@ try {
   const ready = () => document.querySelector('[data-download]').textContent === 'Sparad';
   await wait(() => ['Sparad', 'Försök spara offline igen'].includes(document.querySelector('[data-download]').textContent));
   assert.ok(await page.evaluate(ready), await page.locator('[data-status]').textContent());
+  const savedRow = page.locator('[data-offline-course="visby"]');
+  const openSettings = () => page.goto(new URL('#installningar', base).href, { waitUntil: 'domcontentloaded' });
+  await openSettings();
+  await savedRow.getByText('Redo för spel offline').waitFor();
   const count = await page.evaluate(async () => {
     const cache = await caches.open('banvy-map-offline-v1'), keys = await cache.keys();
     for (const pattern of [/\/decode-web-.*\.js$/, /\/terrain\/.*\.bvch$/, /\.offline\.json$/]) {
@@ -49,7 +53,10 @@ try {
     }
     const name = (await caches.keys()).find(name => name.startsWith('workbox-precache-'));
     const shell = await caches.open(name);
-    const index = (await shell.keys()).find(request => request.url.includes('index.html?__WB_REVISION__='));
+    const index = (await shell.keys()).find(request => {
+      const url = new URL(request.url);
+      return url.pathname === new URL('.', location.href).pathname && url.searchParams.has('__WB_REVISION__');
+    });
     if (!index || !await shell.delete(index)) throw new Error('Missing revisioned shell');
     return keys.length;
   });
@@ -58,7 +65,9 @@ try {
     await page.locator('#chooser .card[data-slug="visby"]').click();
   }
   await openHubCourse();
-  await page.getByRole('button', { name: 'Reparera offlinebanan' }).click();
+  await page.getByRole('button', { name: 'Reparera offlinebanan' }).waitFor();
+  await openSettings();
+  await savedRow.getByRole('link', { name: /Reparera/ }).click();
   await page.locator('[data-menu-sheet]:visible [data-download]').waitFor();
   assert.deepEqual(await page.evaluate(() => [V3DMap.round().begunAt || null, document.querySelector('[data-gps]').getAttribute('aria-pressed')]), [null, 'false']);
   await wait(() => document.querySelector('[data-download]').textContent === 'Reparera offlinebanan');
@@ -102,6 +111,10 @@ try {
   await wait(ready);
   assert.deepEqual(errors, []);
   console.log('Hard-disconnected cold navigation to hole 9 displays 1 m terrain, playable GPS guidance and verified offline status.');
+  await page.goto(new URL('index.html#statistik', base).href, { waitUntil: 'domcontentloaded' });
+  await page.locator('#stats:not([hidden])').waitFor();
+  assert.equal(new URL(page.url()).hash, '#statistik');
+  console.log('A direct legacy index.html link opens Statistik offline.');
 } finally {
   releaseInstall();
   await browser.close();

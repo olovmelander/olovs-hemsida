@@ -1,0 +1,128 @@
+/* History and course discovery through the shared production UI. */
+import assert from 'node:assert/strict';
+import { chromium } from 'playwright-core';
+import { browserArgs, browserExecutable } from './browser-args.mjs';
+
+const base = process.argv[2] || 'http://127.0.0.1:8711/';
+const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
+try {
+  const context = await browser.newContext({ viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce', serviceWorkers: 'block' });
+  const page = await context.newPage();
+  const errors = [];
+  page.on('pageerror', error => { errors.push(error.message); console.error(error.message); });
+  const sheet = page.locator('#courseSheet[open]');
+  await page.goto(base);
+  await page.locator('#home .mode-map').click();
+  await page.locator('#courseSearchInput').fill('Upsala');
+  await page.goBack();
+  await page.locator('#home:visible').waitFor();
+  await page.goForward();
+  await page.locator('#chooser:visible').waitFor();
+  assert.equal(await page.locator('#courseSearchInput').inputValue(), 'Upsala');
+  assert.equal(await page.locator('.card-item:visible').count(), 2);
+  await page.locator('#viewMapBtn').click();
+  await page.locator('.golf-map-pin').first().waitFor();
+  assert.equal(await page.locator('.golf-map-pin').count(), 1);
+  await page.locator('.golf-map-pin').first().click();
+  await page.locator('[data-map-layout]').selectOption('upsala-mellanbanan');
+  await page.locator('#mppPlayBtn').click();
+  await sheet.waitFor();
+  assert.ok(page.url().includes('#karta/upsala-mellanbanan'));
+  await page.goBack();
+  await sheet.waitFor({ state: 'hidden' });
+  assert.equal(await page.locator('#courseSearchInput').inputValue(), 'Upsala');
+  await page.goForward();
+  await sheet.waitFor();
+  await page.reload();
+  await sheet.waitFor();
+  await sheet.locator('[data-close]').click();
+  await sheet.waitFor({ state: 'hidden' });
+  await page.locator('#viewGridBtn').click();
+  const active = { version: 1, startedAt: '2026-05-12', begunAt: Date.now(), playingHole: 3, scores: { 2: { strokes: 4, putts: 2 } } };
+  await page.evaluate(round => {
+    localStorage.setItem('banvy-map-round-v1:upsala', JSON.stringify(round));
+    localStorage.setItem('banvy-map-tee-v1:upsala', '0');
+    localStorage.setItem('banvy-map-quality-v1', '3');
+  }, active);
+  await page.locator('.card[data-slug="upsala"]').click();
+  await sheet.waitFor();
+  const tee = sheet.locator('input[name="cs-tee"]').nth(1);
+  await tee.check({ force: true });
+  await sheet.locator('[data-guide-preview="7"]').waitFor({ state: 'attached' });
+  const destination = page.waitForRequest(request => request.isNavigationRequest() && new URL(request.url()).searchParams.get('bana') === 'upsala');
+  await sheet.locator('[data-guide-preview="7"]').click();
+  const query = new URL((await destination).url()).searchParams;
+  assert.equal(query.get('hal'), '7');
+  assert.equal(query.get('tee'), '2');
+  assert.equal(query.get('runda'), 'visa');
+  await page.waitForFunction(() => globalThis.V3DMap?.state.guidance, undefined, { timeout: 60000 });
+  const inspectPreview = () => page.evaluate(() => ({
+    hole: V3DMap.state.hole, tee: V3DMap.state.tee, playing: V3DMap.state.playing,
+    storedTee: localStorage.getItem('banvy-map-tee-v1:upsala'),
+    round: JSON.parse(localStorage.getItem('banvy-map-round-v1:upsala')),
+    gps: document.querySelector('[data-gps]').getAttribute('aria-pressed'),
+  }));
+  const expected = { hole: 7, tee: 1, playing: 3, storedTee: '0', round: active, gps: 'false' };
+  assert.deepEqual(await inspectPreview(), expected);
+  await page.reload();
+  await page.waitForFunction(() => globalThis.V3DMap?.state.guidance, undefined, { timeout: 60000 });
+  assert.deepEqual(await inspectPreview(), expected);
+  await page.goBack();
+  await sheet.waitFor();
+  assert.equal(await sheet.locator('input[name="cs-tee"]:checked').inputValue(), '1');
+
+  await page.goto(base + '#installningar');
+  await page.locator('[data-bag-edit]').click();
+  await page.locator('#bagDialog[open]').waitFor();
+  const carry = page.locator('.bag-distance:not(:disabled)').first();
+  await carry.fill('199');
+  await page.reload();
+  await page.locator('#bagDialog[open]').waitFor();
+  assert.equal(await carry.inputValue(), '199');
+  await page.goBack();
+  await page.locator('#bagDialog[open]').waitFor({ state: 'hidden' });
+  assert.match(page.url(), /#installningar$/);
+  await page.locator('[data-bag-edit]').click();
+  assert.equal(await carry.inputValue(), '199');
+  await context.close();
+
+  const nearby = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce', permissions: ['geolocation'], geolocation: { latitude: 59.8415, longitude: 17.4955 }, serviceWorkers: 'block' });
+  const local = await nearby.newPage();
+  await local.goto(base);
+  await local.locator('[data-near]').click();
+  await local.locator('#chooser:visible').waitFor();
+  assert.equal(await local.locator('.card-item:visible').count(), 2);
+  await local.locator('#viewMapBtn').click();
+  await local.locator('#courseSearchInput').fill('');
+  await local.locator('#chooserNear').click();
+  await local.waitForFunction(() => [...document.querySelectorAll('[data-map-layout] option')].some(o => o.value === 'upsala-mellanbanan'));
+  await nearby.close();
+
+  const cold = await browser.newContext({ serviceWorkers: 'block' });
+  const offline = await cold.newPage();
+  let available = false;
+  let release;
+  const pending = new Promise(resolve => { release = resolve; });
+  await offline.route('**/courses/index.json', async route => {
+    if (available) return route.continue();
+    await pending;
+    return route.fulfill({ status: 503, body: '' });
+  });
+  await offline.goto(base, { waitUntil: 'domcontentloaded' });
+  await offline.locator('#home:visible .mode-stats').click({ timeout: 5000 });
+  await offline.locator('#stats:visible').waitFor({ timeout: 5000 });
+  release();
+  await offline.locator('.hub-catalogue-error button').waitFor();
+  await offline.goto(base + '#installningar');
+  await offline.locator('[data-bag-edit]').click();
+  await offline.locator('#bagDialog[open]').waitFor();
+  await offline.locator('#bagCloseBtn').click();
+  available = true;
+  await offline.locator('.hub-catalogue-error:visible button').click();
+  await offline.locator('.hub-ready').waitFor();
+  await offline.goto(base + '#karta');
+  await offline.locator('.card-item:visible').first().waitFor();
+  assert.equal(await offline.locator('.card-item:visible').count(), 13);
+  assert.deepEqual(errors, []);
+  console.log('PASS · searchable layouts, restorable setup, exact guide preview, bag draft and catalogue recovery');
+} finally { await browser.close(); }

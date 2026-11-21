@@ -144,7 +144,7 @@ export async function courseDownload(store, course, { extras, moduleUrl }) {
   const response = held || await fetch(inventoryUrl, { cache: 'no-cache' });
   if (!response.ok) throw new Error('Nedladdningslistan kunde inte hämtas');
   const inventory = await response.clone().json();
-  if (inventory.version !== 1 || !inventory.files?.length) throw new Error('Ladda om för den aktuella banversionen');
+  if (inventory.version !== 2 || !inventory.files?.length) throw new Error('Ladda om för den aktuella banversionen');
   const base = new URL(import.meta.env.BASE_URL, location.href);
   const code = inventory.files.map(file => ({ ...file, href: new URL(file.url, base).href }));
   if (!code.some(file => file.href === moduleUrl)) throw new Error('Ladda om för den aktuella banversionen');

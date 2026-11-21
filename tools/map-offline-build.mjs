@@ -43,13 +43,16 @@ export function mapOfflineBuild() {
     for (const url of revisions.keys()) {
       if (/^(?:fonts\/|icons\/|favicon\.svg$|manifest\.webmanifest$|registerSW\.js$)/.test(url)) paths.add(url);
     }
+    // Workers Static Assets redirects index.html to the scope root. A redirected
+    // network response cannot satisfy a service-worker navigation on a cache miss.
+    const deployedUrl = url => url === 'index.html' ? './' : url;
     const files = [...paths].sort().map(url => {
       const bytes = readFileSync(path.join(directory, url));
-      return { url, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'),
+      return { url: deployedUrl(url), bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'),
         ...(revisions.has(url) ? { precache: revisions.get(url) ?? null } : {}) };
     });
-    writeFileSync(path.join(directory, manifest), JSON.stringify({ version: 1, files }));
-    return { manifest: entries, warnings: [] };
+    writeFileSync(path.join(directory, manifest), JSON.stringify({ version: 2, files }));
+    return { manifest: entries.map(entry => ({ ...entry, url: deployedUrl(entry.url) })), warnings: [] };
   }
   return { plugin, manifestTransform };
 }

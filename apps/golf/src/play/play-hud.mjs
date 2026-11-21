@@ -233,7 +233,7 @@ body.pl-cinema .pl-skip{display:block}
 
 /* -- the clean view -- */
 body.pl-clean .pl-hud>*:not(.pl-banner):not(.pl-clean-hint){visibility:hidden}
-.pl-clean-hint{position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);padding:7px 14px;border-radius:999px;font-size:12px;color:var(--dim);display:none}
+.pl-clean-hint{position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);min-height:44px;padding:8px 18px;border-radius:999px;font-size:14px;color:var(--ink);cursor:pointer;display:none}
 body.pl-clean .pl-clean-hint{display:block}
 
 .pl-help{position:absolute;left:50%;bottom:max(8px,env(safe-area-inset-bottom));transform:translateX(-50%);font-size:11.5px;color:rgba(234,243,236,.62);text-shadow:0 1px 3px rgba(0,0,0,.75);white-space:nowrap;pointer-events:none}
@@ -242,7 +242,9 @@ body.pl-clean .pl-clean-hint{display:block}
 .pl-fade.on{opacity:1}
 
 /* -- the sheets: the menu and a hole's card -- */
-.pl-sheet{position:fixed;inset:0;z-index:42;display:none;place-items:center;background:radial-gradient(ellipse at center,rgba(5,12,9,.35),rgba(5,12,9,.62))}
+.pl-sheet{position:fixed;inset:0;margin:0;padding:0;border:0;width:100%;height:100%;max-width:none;max-height:none;z-index:42;display:none;place-items:center;background:radial-gradient(ellipse at center,rgba(5,12,9,.35),rgba(5,12,9,.62))}
+.pl-sheet :focus-visible{outline:2px solid #8ef0a4;outline-offset:2px}
+.pl-sheet::backdrop{background:transparent}
 .pl-sheet.open{display:grid;animation:pl-fadein .25s}
 @keyframes pl-fadein{from{opacity:0}}
 .pl-sheet-box{width:min(600px,calc(100vw - 28px));max-height:calc(100dvh - 40px);overflow:auto;padding:0;border-radius:22px;color:var(--ink);font-family:Outfit,system-ui,sans-serif;animation:pl-rise .3s var(--ease)}
@@ -288,7 +290,7 @@ body.pl-clean .pl-clean-hint{display:block}
 .pl-stepper output{min-width:42px;text-align:center;font:600 15px 'JetBrains Mono',monospace}
 
 /* -- a phone -- */
-@media (max-width:640px){
+@media (max-width:640px), (max-width:1000px) and (max-height:500px){
   .pl-hud{--gap:max(10px,env(safe-area-inset-left))}
   .pl-left{top:max(10px,env(safe-area-inset-top));gap:8px;max-width:calc(100vw - 140px)}
   .pl-right{top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));gap:8px}
@@ -368,6 +370,43 @@ body.pl-clean .pl-clean-hint{display:block}
   .pl-map{width:200px;height:238px}
   .pl-dist-big{font-size:32px}
 }
+.pl-map:not(.small){max-height:clamp(140px,calc(100dvh - 555px),300px)}
+.pl-setup-panel{max-height:calc(100dvh - 104px);overflow:auto;z-index:2}
+@media (max-width:640px) and (orientation:portrait){
+  .pl-swing[data-method=drag]{width:76px;right:max(8px,env(safe-area-inset-right))}
+  .pl-swing[data-method=drag] .pl-pad{max-width:100%}
+  .pl-swing-hint{text-align:center}
+  .pl-dock{max-width:calc(100% - 104px);gap:5px}
+  .pl-club{min-width:0;max-width:100px}
+  .pl-club b,.pl-setup-btn b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pl-clubs,.pl-setup-btn{min-width:0}
+  .pl-clubs button{width:44px;flex-shrink:0}
+}
+@media (max-width:380px){
+  .pl-top [data-practice-exit]{width:54px;min-width:54px;padding:0;font-size:0;gap:0}
+  .pl-top [data-practice-exit]::before{content:attr(data-short);font-size:13px}
+}
+@media (max-height:650px) and (orientation:portrait){
+  .pl-swing[data-method=drag] .pl-pad{height:150px}
+}
+@media (max-height:500px) and (orientation:landscape){
+  .pl-right{top:max(5px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));display:grid;grid-template-columns:auto auto;gap:5px 7px;align-items:start}
+  .pl-top{grid-column:1 / -1;justify-content:flex-end}
+  .pl-cond{width:112px}
+  .pl-map,.pl-map.small,.pl-map:not(.small){width:100px;height:clamp(78px,25dvh,110px);max-height:none}
+  .pl-map:not(.small){width:134px;height:clamp(96px,34dvh,150px)}
+  .pl-swing{bottom:max(5px,env(safe-area-inset-bottom));right:max(8px,env(safe-area-inset-right))}
+  .pl-swing[data-method=drag]{gap:2px;width:74px}
+  .pl-pad{width:70px;height:clamp(90px,30dvh,148px)}
+  .pl-swing-hint{display:none}
+  .pl-swing[data-method=tap]{left:auto;right:max(8px,env(safe-area-inset-right));bottom:max(5px,env(safe-area-inset-bottom));width:150px}
+  .pl-swing[data-method=tap] .pl-tap{min-height:44px}
+  .pl-dock{bottom:max(5px,env(safe-area-inset-bottom))}
+  .pl-left{top:max(5px,env(safe-area-inset-top));gap:4px}
+  .pl-dist{max-height:calc(100dvh - 143px);overflow:auto}
+  .pl-stats{left:auto;right:88px;bottom:5px;width:min(36vw,300px);max-height:100px;overflow:auto;pointer-events:none!important}
+  .pl-help{display:none}
+}
 /* -- a touch screen: the small corner buttons keep their look and take a thumb --
    The hazard row's clear (26 px), the hole map's size (28 px) and the guide's
    close (34 px) reach 44 px through an invisible margin round each. */
@@ -410,7 +449,7 @@ const DIAL = `<svg class="pl-dial" viewBox="-32 -32 64 64" aria-hidden="true">
   <circle class="hub" r="3.2"/>
 </svg>`;
 
-export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, onReplay, onGuide, onClearTarget }) {
+export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, onReplay, onGuide, onClearTarget, onCleanExit, onPracticeExit }) {
   const style = document.createElement('style'); style.textContent = CSS; document.head.append(style);
   const bars = document.createElement('div'); bars.className = 'pl-bars'; bars.innerHTML = '<i></i><i></i>'; document.body.append(bars);
   const root = document.createElement('div'); root.className = 'pl-hud';
@@ -438,6 +477,7 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
     </div>
     <div class="pl-right" data-right>
       <div class="pl-top">
+        <button class="pl-btn pl-glass" data-practice-exit type="button" hidden>Till rundan</button>
         <button class="pl-btn pl-glass pl-live-btn" data-replay type="button" hidden title="Repris (R)" aria-label="Repris">${ICON.replay}<span>Repris</span></button>
         <button class="pl-btn pl-glass" data-view type="button" title="Kamera: bakom bollen, översikt, greenen, fri (V)" aria-label="Kamera: Bakom">${ICON.camera}<span data-view-label>Bakom</span></button>
         <button class="pl-btn pl-glass" data-menu type="button" aria-label="Meny" title="Meny (Esc)">${ICON.menu}</button>
@@ -472,15 +512,17 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
     <div class="pl-third pl-glass" data-third aria-live="polite"><span class="pl-third-kicker" data-third-kicker></span><b data-third-title></b><span class="pl-third-sub" data-third-sub></span><p data-third-body></p></div>
     <span class="pl-live" data-live><i></i><span data-live-text>Repris</span></span>
     <span class="pl-skip" data-skip>Tryck eller mellanslag för att hoppa över</span>
-    <span class="pl-clean-hint pl-glass">Ren vy · H eller Esc visar panelerna igen</span>
+    <button class="pl-clean-hint pl-glass" type="button" data-clean-exit>Visa reglage</button>
     <div class="pl-help" data-help></div>`;
   document.body.append(root);
   const fade = document.createElement('div'); fade.className = 'pl-fade'; document.body.append(fade);
-  const sheet = document.createElement('div'); sheet.className = 'pl-sheet';
-  sheet.innerHTML = `<div class="pl-sheet-box pl-glass" role="dialog" aria-modal="true"></div>`;
+  const sheet = document.createElement('dialog'); sheet.className = 'pl-sheet';
+  sheet.innerHTML = `<div class="pl-sheet-box pl-glass" ></div>`;
   document.body.append(sheet);
   const q = s => root.querySelector(s);
   q('[data-menu]').onclick = onMenu;
+  q('[data-clean-exit]').onclick = onCleanExit;
+  q('[data-practice-exit]').onclick = onPracticeExit;
   q('[data-view]').onclick = () => onView?.();
   q('[data-replay]').onclick = () => onReplay?.();
   for (const b of root.querySelectorAll('[data-club]')) b.onclick = () => onClub(Number(b.dataset.club));
@@ -489,6 +531,7 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
     const open = force ?? guidePanel.hidden;
     guidePanel.hidden = !open; guideButton.setAttribute('aria-expanded', String(open));
     if (open) onGuide?.();
+    else if (guidePanel.contains(document.activeElement)) guideButton.focus();
   };
   guideButton.onclick = () => toggleGuide();
   q('[data-guide-close]').onclick = () => toggleGuide(false);
@@ -497,6 +540,7 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
   const toggleSetup = force => {
     const open = force ?? setupPanel.hidden;
     setupPanel.hidden = !open; setupButton.setAttribute('aria-expanded', String(open));
+    if (!open && setupPanel.contains(document.activeElement)) setupButton.focus();
     onSetupToggle?.(open);
   };
   setupButton.onclick = () => toggleSetup();
@@ -505,7 +549,8 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
     onSetup?.(b.closest('[data-pick]').dataset.pick, b.dataset.v);
   });
   const help = text => { q('[data-help]').innerHTML = esc(text).replace(/(^|· )([^·]+?) ((?:[←→↑↓A-ZÅÄÖ](?: |$))+)/g, (all, lead, word, keys) => `${lead}${word} ${keys.trim().split(' ').map(k => `<kbd>${k}</kbd>`).join(' ')} `); };
-  let bannerTimer = 0, flashTimer = 0, statsTimer = 0;
+  let bannerTimer = 0, flashTimer = 0, statsTimer = 0, opener = null, attempts = null;
+  sheet.addEventListener('cancel', event => event.preventDefault());
   return {
     root, sheet,
     /** Where the hole map lives. */
@@ -518,11 +563,11 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
       q('[data-name]').textContent = name || `Hål ${n}`;
       q('[data-dots]').innerHTML = received > 0 ? '<i></i>'.repeat(Math.min(4, received)) : '';
       q('[data-dots]').title = received > 0 ? `${received} extraslag med ditt handicap` : '';
-      q('[data-stroke]').textContent = strokes + 1;
+      q('[data-stroke]').textContent = attempts == null ? strokes + 1 : attempts + 1;
       const tp = q('[data-topar]');
       tp.textContent = points != null ? `${points} p` : toPar == null ? '' : toPar === 0 ? 'E' : toPar > 0 ? `+${toPar}` : `−${-toPar}`;
       tp.className = points == null && toPar ? (toPar < 0 ? 'under' : 'over') : '';
-      guideButton.setAttribute('aria-label', `Hål ${n}, par ${par}, ${length} meter${name ? `, ${name}` : ''}. Slag ${strokes + 1}. Banguide`);
+      guideButton.setAttribute('aria-label', `Hål ${n}, par ${par}, ${length} meter${name ? `, ${name}` : ''}. ${attempts == null ? `Slag ${strokes + 1}` : `Träningsförsök ${attempts + 1}`}. Banguide`);
     },
     /** The hole's page of the course guide. */
     guide({ title, sub, note, facts }) {
@@ -623,7 +668,23 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
       el.classList.add('show');
       if (autoHide) statsTimer = setTimeout(() => el.classList.remove('show'), autoHide);
     },
-    replay(available) { q('[data-replay]').hidden = !available; },
+    practice(count, exitLabel = null) {
+      attempts = count;
+      q('[data-practice-exit]').hidden = count == null;
+      q('[data-practice-exit]').disabled = false;
+      if (exitLabel) {
+        const button = q('[data-practice-exit]');
+        button.textContent = exitLabel;
+        button.setAttribute('aria-label', exitLabel);
+        button.dataset.short = exitLabel === 'Till rundan' ? 'Tillbaka' : 'Avsluta';
+      }
+      q('.pl-bug-score small').textContent = count == null ? 'Slag' : 'Försök';
+      if (count != null) {
+        q('[data-stroke]').textContent = count + 1;
+        q('[data-replay]').hidden = true;
+      }
+    },
+    replay(available) { q('[data-replay]').hidden = !available || attempts != null; },
     help,
     banner(title, sub = '', tone = '', ms = 2600) {
       const el = q('[data-banner]');
@@ -655,10 +716,37 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
     /** A broadcast bug on its own (Återupplev's), or null. */
     live(text) { const bug = q('[data-live]'); bug.classList.toggle('show', Boolean(text)); if (text) q('[data-live-text]').textContent = text; },
     fade(on) { fade.classList.toggle('on', on); },
-    openSheet(html) { const box = sheet.querySelector('.pl-sheet-box'); box.innerHTML = html; box.scrollTop = 0; sheet.classList.add('open'); return box; },
-    closeSheet() { sheet.classList.remove('open'); },
+    openSheet(html) {
+      const box = sheet.querySelector('.pl-sheet-box');
+      box.innerHTML = html;
+      const heading = box.querySelector('h2');
+      if (heading) { heading.id = 'pl-dialog-title'; sheet.setAttribute('aria-labelledby', heading.id); }
+      if (!sheet.open) {
+        opener = root.contains(document.activeElement) ? document.activeElement : q('[data-menu]');
+        sheet.classList.add('open'); sheet.showModal();
+      }
+      box.scrollTop = 0;
+      return box;
+    },
+    trapTab(event) {
+      if (event.key !== 'Tab') return;
+      const controls = [...sheet.querySelectorAll('button:enabled,a[href],input:enabled,select:enabled')].filter(b => b.getClientRects().length && b.tabIndex >= 0);
+      if (!controls.length) return;
+      const edge = event.shiftKey ? controls[0] : controls.at(-1);
+      if (document.activeElement !== edge && controls.includes(document.activeElement)) return;
+      event.preventDefault();
+      (event.shiftKey ? controls.at(-1) : controls[0]).focus();
+    },
+    closeSheet() {
+      if (!sheet.open) return;
+      sheet.close(); sheet.classList.remove('open');
+      (opener?.getClientRects().length ? opener : q('[data-menu]')).focus({ preventScroll: true });
+    },
     get sheetOpen() { return sheet.classList.contains('open'); },
-    clean(on) { document.body.classList.toggle('pl-clean', on); },
+    clean(on) {
+      document.body.classList.toggle('pl-clean', on);
+      q(on ? '[data-clean-exit]' : '[data-menu]').focus({ preventScroll: true });
+    },
     dispose() { root.remove(); fade.remove(); sheet.remove(); bars.remove(); style.remove(); document.body.classList.remove('pl-clean', 'pl-cinema'); },
   };
 }

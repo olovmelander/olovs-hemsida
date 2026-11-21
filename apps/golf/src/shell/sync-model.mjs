@@ -14,7 +14,7 @@
    settings-store.mjs exportBackup (/^banvy[-:]/) omits per-device sync state. */
 import { parseRounds, storeRounds } from '../map/map-rounds.mjs';
 import { parseHistory, storeHistory } from '../map/map-shots.mjs';
-import { BAG_KEY, MAP_KEYS, readText, writeText } from './settings-store.mjs';
+import { BAG_KEY, MAP_KEYS, ROUND_KEY, HOLE_KEY, readText, writeText, replaceStoredValues } from './settings-store.mjs';
 
 export const SYNC_META_KEY = 'banvy_sync_meta_v1';
 export const roundKey = (course, id) => `${course}|${id}`;
@@ -115,41 +115,143 @@ export function markShotsDirty(storage, course, id, at = Date.now()) {
 
 /* After a manual JSON backup restore, bump timestamps on restored player data
    so the next sync uploads it to the signed-in account. */
-export function markRestoredDataDirty(storage, at = Date.now()) {
+function restoredMeta(storage, at, keys, previous) {
   const meta = readSyncMeta(storage);
-  if (readText(storage, MAP_KEYS.handicap, null) !== null) {
-    meta.handicapUpdatedAt = Math.max(at, meta.handicapUpdatedAt + 1);
+  const restored = key => !keys || keys.includes(key);
+  const hasBefore = key => Object.hasOwn(previous, key);
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  for (const [field, key] of [['handicap', MAP_KEYS.handicap], ['bag', BAG_KEY]]) {
+    if (!restored(key) || readText(storage, key, null) === (hasBefore(key) ? previous[key] : null)) continue;
+    const stamp = field + 'UpdatedAt';
+    meta[stamp] = Math.max(at, meta[stamp] + 1);
+    meta.dirty = true;
   }
-  if (readText(storage, BAG_KEY, null) !== null) {
-    meta.bagUpdatedAt = Math.max(at, meta.bagUpdatedAt + 1);
+  if (restored(MAP_KEYS.rounds)) {
+    const before = new Map(parseRounds(previous[MAP_KEYS.rounds]).map(record => [roundKey(record.course, record.id), record]));
+    const after = new Map(parseRounds(readText(storage, MAP_KEYS.rounds, null)).map(record => [roundKey(record.course, record.id), record]));
+    for (const key of new Set([...before.keys(), ...after.keys()])) {
+      if (same(before.get(key), after.get(key))) continue;
+      const stamp = Math.max(at, (meta.roundUpdatedAt[key] || 0) + 1, (meta.roundDeletedAt[key] || 0) + 1, (meta.shotsUpdatedAt[key] || 0) + 1);
+      if (after.has(key)) {
+        meta.roundUpdatedAt[key] = stamp;
+        delete meta.roundDeletedAt[key];
+      } else {
+        meta.roundDeletedAt[key] = stamp;
+        delete meta.roundUpdatedAt[key];
+      }
+      meta.dirty = true;
+    }
   }
-  for (const record of parseRounds(readText(storage, MAP_KEYS.rounds, null))) {
-    const key = roundKey(record.course, record.id);
-    meta.roundUpdatedAt[key] = Math.max(at, (meta.roundUpdatedAt[key] || 0) + 1);
-    delete meta.roundDeletedAt[key];
+  if (restored(MAP_KEYS.shots)) {
+    const group = text => {
+      const sets = new Map();
+      for (const shot of parseHistory(text)) {
+        if (!shot?.course || !shot.round) continue;
+        const key = roundKey(shot.course, shot.round);
+        if (!sets.has(key)) sets.set(key, []);
+        sets.get(key).push(shot);
+      }
+      return sets;
+    };
+    const before = group(previous[MAP_KEYS.shots]), after = group(readText(storage, MAP_KEYS.shots, null));
+    for (const key of new Set([...before.keys(), ...after.keys()])) {
+      if (same(before.get(key), after.get(key))) continue;
+      meta.shotsUpdatedAt[key] = Math.max(at, (meta.shotsUpdatedAt[key] || 0) + 1, meta.roundDeletedAt[key] || 0);
+      meta.dirty = true;
+    }
   }
-  const seenSets = new Set();
-  for (const shot of parseHistory(readText(storage, MAP_KEYS.shots, null))) {
-    if (!shot?.course || !shot?.round) continue;
-    const key = roundKey(shot.course, shot.round);
-    if (seenSets.has(key)) continue;
-    seenSets.add(key);
-    meta.shotsUpdatedAt[key] = Math.max(at, (meta.shotsUpdatedAt[key] || 0) + 1);
-  }
-  meta.dirty = true;
-  writeSyncMeta(storage, meta);
   return meta;
 }
 
-/* Clears only the synced player record (never graphics/display settings).
-   Used when switching to a different Google account on the same browser so the
-   previous player's rounds never merge into the new account. */
+export function restoredSyncEntries(storage, changes, previous, at = Date.now()) {
+  const overlay = { getItem: key => changes.has(key) ? changes.get(key) : storage.getItem(key) };
+  const next = restoredMeta(overlay, at, [...changes.keys()], previous);
+  return JSON.stringify(next) === JSON.stringify(readSyncMeta(storage)) ? [] : [[SYNC_META_KEY, JSON.stringify(next)]];
+}
+
+export function markRestoredDataDirty(storage, at = Date.now(), keys = null, previous = {}) {
+  const next = restoredMeta(storage, at, keys, previous);
+  writeSyncMeta(storage, next);
+  return next;
+}
+
+const personalKeys = new Set([MAP_KEYS.rounds, MAP_KEYS.shots, MAP_KEYS.handicap, BAG_KEY, SYNC_META_KEY, 'banvy-map-diary-v1', 'banvy-play-rounds-v1']);
+const personalPrefixes = [`${ROUND_KEY}:`, `${HOLE_KEY}:`, 'banvy-map-gps-v1:', 'banvy-live-owner-v1:', 'banvy-play-checkpoint-v1:'];
+const isPersonalKey = key => personalKeys.has(key) || personalPrefixes.some(prefix => key?.startsWith(prefix));
+const accountCacheKey = userId => 'banvy_sync_cache_v1:' + (userId ? 'user:' + encodeURIComponent(userId) : 'guest');
+
+function playerEntries(storage) {
+  const entries = [];
+  for (let i = 0; i < storage.length; i++) {
+    const key = storage.key(i);
+    if (isPersonalKey(key)) entries.push([key, storage.getItem(key)]);
+  }
+  return entries;
+}
+
 export function clearUserSyncedData(storage) {
-  writeText(storage, MAP_KEYS.rounds, null);
-  writeText(storage, MAP_KEYS.shots, null);
-  writeText(storage, MAP_KEYS.handicap, null);
-  writeText(storage, BAG_KEY, null);
-  writeSyncMeta(storage, emptyMeta());
+  replaceStoredValues(storage, playerEntries(storage).map(([key]) => [key, null]));
+}
+
+/* Keep each previous player's unsent work for their return to this browser.
+   Anonymous data joins a first sign-in. A returning account restores its own
+   cache and leaves separately played guest rounds available after sign-out. */
+export function selectSyncUser(storage, userId, previousUserId = readSyncMeta(storage).userId, identityKey = null, user = null) {
+  if (!storage) throw new Error('Webbläsarens lagring är inte tillgänglig.');
+  const changes = new Map();
+  if (identityKey) changes.set(identityKey, user ? JSON.stringify(user) : null);
+  if (previousUserId === userId) {
+    const meta = readSyncMeta(storage);
+    if (meta.userId !== userId) changes.set(SYNC_META_KEY, JSON.stringify({ ...meta, userId }));
+    replaceStoredValues(storage, changes);
+    return false;
+  }
+  const outgoing = playerEntries(storage);
+  const target = storage.getItem(accountCacheKey(userId));
+  const adoptGuest = !previousUserId && userId && target === null;
+  let meta = readSyncMeta(storage);
+  if (!adoptGuest) {
+    for (const [key] of outgoing) changes.set(key, null);
+    // The recording guard travels with its own card, so a lost transfer
+    // acknowledgement cannot unfreeze an already offered round on re-login.
+    if (outgoing.length) changes.set(accountCacheKey(previousUserId), JSON.stringify(outgoing));
+    if (target !== null) {
+      const incoming = JSON.parse(target);
+      if (!Array.isArray(incoming) || incoming.some(entry => !Array.isArray(entry) || !isPersonalKey(entry[0]) || typeof entry[1] !== 'string')) {
+        throw new Error('Spelarens lokala kopia kunde inte läsas.');
+      }
+      for (const [key, value] of incoming) changes.set(key, value);
+      changes.set(accountCacheKey(userId), null);
+    }
+    meta = changes.get(SYNC_META_KEY) ? JSON.parse(changes.get(SYNC_META_KEY)) : emptyMeta();
+  }
+  changes.set(SYNC_META_KEY, JSON.stringify({ ...meta, userId }));
+  replaceStoredValues(storage, changes);
+  return !adoptGuest;
+}
+
+export function writePlayerProfile(storage, field, value, at = Date.now(), writeValue = null) {
+  if (field !== 'handicap' && field !== 'bag') throw new Error('Okänt spelarval.');
+  const key = field === 'handicap' ? MAP_KEYS.handicap : BAG_KEY;
+  const text = value === null ? null : field === 'bag' ? JSON.stringify({ version: 3, clubs: value }) : String(value);
+  if (storage && storage.getItem(key) === text) return false;
+  const meta = readSyncMeta(storage);
+  const stamp = field + 'UpdatedAt';
+  meta[stamp] = Math.max(at, meta[stamp] + 1);
+  meta.dirty = true;
+  // The detailed viewer already has a synchronous writer which updates its
+  // scene and its raw bag together. Verify that write inside the same rollback
+  // boundary as the revision; direct storage handles any rollback.
+  const destination = writeValue ? {
+    getItem: name => storage.getItem(name),
+    removeItem: name => storage.removeItem(name),
+    setItem(name, next) {
+      if (name === key && next === text) writeValue(value);
+      else storage.setItem(name, next);
+    },
+  } : storage;
+  replaceStoredValues(destination, [[key, text], [SYNC_META_KEY, JSON.stringify(meta)]]);
+  return true;
 }
 
 function readRawBag(storage) {
@@ -261,75 +363,78 @@ export function buildSyncPayload(storage) {
   return { profile, rounds, shotSets };
 }
 
-/* Write the server's canonical merged state back into localStorage. */
-export function applySyncResponse(storage, response, userId) {
-  if (!response || typeof response !== 'object') return { changed: false, rounds: 0, shots: 0 };
-  const prevRoundsText = readText(storage, MAP_KEYS.rounds, null);
-  const prevShotsText = readText(storage, MAP_KEYS.shots, null);
-  const prevHcpText = readText(storage, MAP_KEYS.handicap, null);
-  const prevBagText = readText(storage, BAG_KEY, null);
+const revision = entry => Math.max(entry?.updatedAt || 0, entry?.deletedAt || 0);
 
-  const profile = response.profile || {};
-  if (Number(profile.handicapUpdatedAt) > 0) {
-    if (profile.handicap === null || profile.handicap === undefined) {
-      writeText(storage, MAP_KEYS.handicap, null);
-    } else {
-      writeText(storage, MAP_KEYS.handicap, String(profile.handicap));
+/* A reply acknowledges the request snapshot. A shot logged during its trip
+   stays on the phone and is sent next, even if another device advanced the
+   remote clock while the request was in flight. Unrelated remote edits apply. */
+function reconcileReply(response, sent, current, dirty) {
+  let pending = false;
+  const profile = { ...response.profile };
+  for (const field of ['handicap', 'bag']) {
+    const stamp = field + 'UpdatedAt';
+    if (current.profile[stamp] <= sent.profile[stamp]) continue;
+    // A different tab may already have applied a newer canonical response.
+    if (!dirty && current.profile[stamp] <= profile[stamp]) continue;
+    if (current.profile[stamp] === profile[stamp] && JSON.stringify(current.profile[field]) === JSON.stringify(profile[field])) continue;
+    profile[field] = current.profile[field];
+    profile[stamp] = dirty ? Math.max(current.profile[stamp], (profile[stamp] || 0) + 1) : current.profile[stamp];
+    pending ||= dirty;
+  }
+  function entries(type, id) {
+    const key = item => roundKey(item.course, item[id]);
+    const base = new Map(sent[type].map(item => [key(item), item]));
+    const next = new Map(response[type].map(item => [key(item), item]));
+    for (const item of current[type]) {
+      const k = key(item), remote = next.get(k);
+      if (revision(item) <= revision(base.get(k))) continue;
+      if (!dirty && revision(item) <= revision(remote)) continue;
+      if (JSON.stringify(item) === JSON.stringify(remote)) continue;
+      const updatedAt = dirty ? Math.max(revision(item), revision(remote) + 1) : revision(item);
+      next.set(k, { ...item, updatedAt, deletedAt: item.deletedAt ? updatedAt : null });
+      pending ||= dirty;
     }
+    return [...next.values()];
   }
-  if (Number(profile.bagUpdatedAt) > 0 && profile.bag && Array.isArray(profile.bag.clubs)) {
-    writeText(storage, BAG_KEY, JSON.stringify({ version: profile.bag.version ?? 3, clubs: profile.bag.clubs }));
-  }
+  const rounds = entries('rounds', 'id');
+  const shotSets = entries('shotSets', 'roundId');
+  return { profile, rounds, shotSets, pending };
+}
 
+export function applySyncResponse(storage, response, userId, sent = null) {
+  if (!response?.profile || !Array.isArray(response.rounds) || !Array.isArray(response.shotSets)) {
+    throw new Error('Kunde inte läsa kontots synksvar.');
+  }
+  const { profile, rounds, shotSets, pending = false } = sent ? reconcileReply(response, sent, buildSyncPayload(storage), readSyncMeta(storage).dirty) : response;
   const nextMeta = {
-    version: 1,
-    userId: userId ?? readSyncMeta(storage).userId,
-    lastSyncedAt: Number(response.syncedAt) || Date.now(),
-    handicapUpdatedAt: Number(profile.handicapUpdatedAt) || 0,
-    bagUpdatedAt: Number(profile.bagUpdatedAt) || 0,
-    roundUpdatedAt: {},
-    roundDeletedAt: {},
-    shotsUpdatedAt: {},
-    dirty: false,
+    ...emptyMeta(), userId, lastSyncedAt: Number(response.syncedAt) || Date.now(),
+    handicapUpdatedAt: Number(profile.handicapUpdatedAt) || 0, bagUpdatedAt: Number(profile.bagUpdatedAt) || 0,
+    dirty: pending,
   };
+  const changes = new Map();
+  if (nextMeta.handicapUpdatedAt) changes.set(MAP_KEYS.handicap, profile.handicap == null ? null : String(profile.handicap));
+  if (nextMeta.bagUpdatedAt) changes.set(BAG_KEY, profile.bag ? JSON.stringify({ version: profile.bag.version ?? 3, clubs: profile.bag.clubs }) : null);
 
   const activeRounds = [];
-  for (const r of response.rounds || []) {
+  for (const r of rounds) {
     const key = roundKey(r.course, r.id);
-    if (r.deletedAt) {
-      nextMeta.roundDeletedAt[key] = Number(r.deletedAt);
-    } else if (r.record) {
+    if (r.deletedAt) nextMeta.roundDeletedAt[key] = Number(r.deletedAt);
+    else if (r.record) {
       activeRounds.push(r.record);
       nextMeta.roundUpdatedAt[key] = Number(r.updatedAt) || Number(r.record.endedAt) || 1;
     }
   }
-
+  activeRounds.sort((a, b) => (a.endedAt ?? a.id) - (b.endedAt ?? b.id));
   const flatShots = [];
-  for (const s of response.shotSets || []) {
-    const key = roundKey(s.course, s.roundId);
-    nextMeta.shotsUpdatedAt[key] = Number(s.updatedAt) || 1;
-    if (!s.deletedAt && Array.isArray(s.shots)) {
-      for (const shot of s.shots) flatShots.push(shot);
-    }
+  for (const set of shotSets) {
+    nextMeta.shotsUpdatedAt[roundKey(set.course, set.roundId)] = Number(set.updatedAt) || 1;
+    if (!set.deletedAt && Array.isArray(set.shots)) flatShots.push(...set.shots);
   }
-
-  const nextRoundsText = storeRounds(activeRounds);
-  const nextShotsText = storeHistory(flatShots);
-
-  if (activeRounds.length || prevRoundsText !== null) {
-    writeText(storage, MAP_KEYS.rounds, nextRoundsText);
-  }
-  if (flatShots.length || prevShotsText !== null) {
-    writeText(storage, MAP_KEYS.shots, nextShotsText);
-  }
-
-  writeSyncMeta(storage, nextMeta);
-
-  const changed =
-    readText(storage, MAP_KEYS.rounds, null) !== prevRoundsText ||
-    readText(storage, MAP_KEYS.shots, null) !== prevShotsText ||
-    readText(storage, MAP_KEYS.handicap, null) !== prevHcpText ||
-    readText(storage, BAG_KEY, null) !== prevBagText;
-
-  return { changed, rounds: activeRounds.length, shots: flatShots.length };
+  flatShots.sort((a, b) => a.at - b.at);
+  if (activeRounds.length || storage.getItem(MAP_KEYS.rounds) !== null) changes.set(MAP_KEYS.rounds, storeRounds(activeRounds));
+  if (flatShots.length || storage.getItem(MAP_KEYS.shots) !== null) changes.set(MAP_KEYS.shots, storeHistory(flatShots));
+  const changed = [...changes].some(([key, value]) => storage.getItem(key) !== value);
+  changes.set(SYNC_META_KEY, JSON.stringify(nextMeta));
+  replaceStoredValues(storage, changes);
+  return { changed, dirty: pending, rounds: activeRounds.length, shots: flatShots.length };
 }

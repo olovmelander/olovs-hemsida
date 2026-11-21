@@ -1,11 +1,54 @@
 /* The shot log: two fixes and a club make a shot, and the awkward cases stay honest. */
 import { describe, expect, it } from 'vitest';
 import {
-  addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isPutter, learnedBag, lockShot, openShot, parseHistory, reachOf, reopenPuttOnlyScores, retakeShot, scoreAfterPutting, setPutts, shotLength, storeHistory, surfaceAt,
+  addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isMeasured, isPutter, learnedBag, lockShot, openShot, parseHistory, reachOf, reopenPuttOnlyScores, retakeShot, scoreAfterPutting, setPutts, shotAim, shotComparison, shotLength, shotReviewText, storeHistory, surfaceAt,
 } from './map-shots.mjs';
 
 const seven = { id: 'iron-7', carry: 140 }, driver = { id: 'driver', carry: 210 }, putter = { id: 'putter', carry: 0 };
 const lock = (shots, club, point, extra = {}) => lockShot(shots, { hole: 1, club, point, accuracy: 5, at: 1000, ...extra });
+
+describe('the target a player saw at the ball', () => {
+  const guide = () => ({ origin: [0, 0], target: [0, -100], status: 'playable', source: 'gps', mode: 'auto', reading: { plays: 105 }, recommendedClub: seven });
+  const played = (to, overrides = {}) => ({ ...lock(lock([], driver, [0, 0], { aim: shotAim(guide(), driver) }), seven, to)[0], ...overrides });
+
+  it('freezes the shown auto or pinned target and the chosen club through wheel changes, corrections and reload', () => {
+    const g = { ...guide(), mode: 'manual', status: 'measured' };
+    const first = lock([], driver, [0, 0], { aim: shotAim(g, driver) });
+    g.target[1] = -200;
+    const changed = changeClub(first, seven), done = lock(changed, seven, [20, -74]);
+    expect(parseHistory(storeHistory(done))[0]).toMatchObject({ club: seven.id, aim: { mode: 'manual', target: [0, -100], selectedClub: driver.id, recommendedClub: seven.id } });
+    const review = shotReviewText(done[0]);
+    for (const phrase of ['Eget mål 100 m', 'spelas 105 m', 'vald driver', 'förslag iron-7', 'GPS-längd 77 m', '26 m kort', '20 m höger']) expect(review).toContain(phrase);
+  });
+
+  it('starts the retake with the advice for that stroke alone and keeps the original', () => {
+    const first = lock([], driver, [0, 0], { aim: shotAim(guide(), driver) });
+    const next = retakeShot(first, { club: seven, at: 1001 });
+    expect(next[0].aim.selectedClub).toBe(driver.id);
+    expect(next[1]).not.toHaveProperty('aim');
+    const own = shotAim({ ...guide(), target: [80, -100] }, seven);
+    expect(retakeShot(first, { club: seven, at: 1001, aim: own })[1].aim).toEqual(own);
+  });
+
+  it('compares only eligible fixes and calls direction only outside their combined uncertainty', () => {
+    expect(shotComparison(played([-20, -122])).misses).toEqual(['22 m långt', '20 m vänster']);
+    expect(shotComparison(played([-8, -106])).misses).toEqual([]);
+    for (const change of [{ fromAccuracy: null }, { toAccuracy: 18 }, { toAccuracy: -1 }, { to: null }, { suspect: true }, { inHazard: true }, { outcome: 'out' }]) {
+      const s = played([30, -130], change);
+      expect(isMeasured(s)).toBe(false);
+      expect(shotComparison(s)).toMatchObject({ actual: null, misses: [] });
+      expect(shotReviewText(s)).not.toMatch(/GPS-längd|höger|långt/);
+    }
+  });
+
+  it('keeps previews, stale GPS, missing targets, putts and old shots out of comparisons', () => {
+    for (const flags of [{ source: 'tee' }, { source: 'last-gps' }, { target: null }, { status: 'loading' }, { target: [0, 0] }]) {
+      expect(shotAim({ ...guide(), ...flags }, seven)).toBeNull();
+    }
+    expect(shotAim(guide(), putter)).toBeNull();
+    expect(shotReviewText({ club: seven.id })).toBe('');
+  });
+});
 
 describe('confirming the hole score after putting', () => {
   const putts = count => setPutts(lock([], putter, [3, 5]), 1, count);

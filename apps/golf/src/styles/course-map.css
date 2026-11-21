@@ -1065,3 +1065,4 @@ a.map-row-next { text-decoration: none; }
   .map-bottom { bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); }
   .map-sheet { bottom: calc(env(safe-area-inset-bottom, 0px) + 72px); }
 }
+.map-row[data-live-transfer][hidden] { display: none; }

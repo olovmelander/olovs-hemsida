@@ -38,6 +38,17 @@ describe('a recorded hole', () => {
     expect(strokes[0].from).toEqual([1000, -50]);
     expect(strokes[0].to).toEqual([1000, 150]);
   });
+  it('keeps the original comparison in map metres and converts the target, actual end and start into the course frame', () => {
+    const aim = { mode: 'manual', origin: [1, 2], target: [1, 102], distance: 100, selectedClub: 'driver' };
+    const measured = shot(4, 'driver', [1, 2], [11, 90], { aim, fromAccuracy: 4, toAccuracy: 4 });
+    const convert = ([x, z]) => [z, -x];
+    const [play] = holeStrokes([measured], convert, [0, 200]);
+    expect(play).toMatchObject({ recordedShot: measured, target: [102, -1], from: [2, -1], to: [90, -11], measuredOutcome: true, holed: false });
+    const [uncertain] = holeStrokes([{ ...measured, toAccuracy: 30 }], convert, [0, 200]);
+    expect(uncertain.measuredOutcome).toBe(false);
+    const [unknown] = holeStrokes([{ ...measured, to: null }], convert, [0, 200]);
+    expect(unknown).toMatchObject({ measuredOutcome: false, to: null, holed: false });
+  });
 });
 
 describe('a recorded round', () => {
@@ -57,6 +68,17 @@ describe('a recorded round', () => {
     expect(list).toHaveLength(1);
     expect(list[0].located).toBe(3);
     expect(reliveRound(storage, 'bana', 99, { toCourse: id, cupOf: () => [0, 0] })).toBeNull();
+  });
+  it('replays logged shots on an unscored hole and leaves its final location unknown', () => {
+    const archive = { ...rounds.rounds[0], holes: [], holeCount: 9 };
+    const one = shot(7, 'iron-7', [10, 10], null);
+    const saved = memory({ [MAP_ROUNDS_KEY]: JSON.stringify({ version: 1, rounds: [archive] }),
+      [MAP_SHOTS_KEY]: JSON.stringify({ version: 1, shots: [one] }) });
+    const result = reliveRound(saved, 'bana', '7', { toCourse: id, cupOf: () => [20, 100], parOf: () => 3 });
+    expect(result.holes[0]).toMatchObject({ n: 7, par: 3, strokes: null, putts: null,
+      plays: [{ club: 'iron-7', to: null, distance: null, holed: false }] });
+    const orphan = memory({ [MAP_SHOTS_KEY]: JSON.stringify({ version: 1, shots: [one] }) });
+    expect(reliveRound(orphan, 'bana', '7', { toCourse: id, cupOf: () => [20, 100], parOf: () => 3 }).holes).toEqual(result.holes);
   });
 });
 

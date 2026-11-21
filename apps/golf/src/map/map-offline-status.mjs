@@ -7,7 +7,7 @@ export const cacheKey = file => file.precache ? `${file.href}?__WB_REVISION__=${
 export const isPrecached = file => Object.hasOwn(file, 'precache');
 
 export async function shellCache(base) {
-  // Workbox's navigation route reads index.html under its exact revision.
+  // Workbox's navigation route reads the scope root under its exact revision.
   const names = await caches.keys();
   const name = names.find(n => n.startsWith('workbox-precache-') && n.endsWith(base.href));
   return caches.open(name ?? `workbox-precache-v2-${base.href}`);

@@ -24,6 +24,7 @@ const PUTTER_ID = 'putter';
 export const isPutter = club => club?.carry === 0 || club?.id === PUTTER_ID || club === PUTTER_ID;
 export const isPutt = shot => shot.putt === true || shot.club === PUTTER_ID;
 const metresBetween = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+const finitePoint = point => Array.isArray(point) && point.length === 2 && point.every(Number.isFinite);
 export const shotLength = shot => (shot.to ? metresBetween(shot.from, shot.to) : null);
 /* Past this a club cannot have gone: a lock was missed on the way. */
 export const reachOf = club => (club?.carry ? club.carry * 1.4 + 20 : Infinity);
@@ -49,7 +50,7 @@ export function surfaceAt(point, hole, waters = []) {
 
 /* A lock at the ball: the shot under way ends here, and a new one starts. Returns a
    new list, and a shot left open on another hole never reaches this far. */
-export function lockShot(shots, { hole, club, point, accuracy, at, lie = null, rise = null, farthest = Infinity, meta = {} }) {
+export function lockShot(shots, { hole, club, point, accuracy, at, lie = null, rise = null, farthest = Infinity, meta = {}, aim = null }) {
   const list = shots.slice();
   const open = openShot(list);
   if (open) {
@@ -57,7 +58,7 @@ export function lockShot(shots, { hole, club, point, accuracy, at, lie = null, r
     const suspect = metresBetween(open.from, point) > farthest;
     list[list.length - 1] = { ...open, to: point, toAccuracy: accuracy, toLie: lie, outcome: 'played', rise, suspect };
   }
-  list.push({ ...meta, hole, club: club.id, ...(isPutter(club) ? { putt: true } : {}), at, from: point, fromAccuracy: accuracy, fromLie: lie, to: null, toAccuracy: null, toLie: null, outcome: 'open', penalty: 0, rise: null });
+  list.push({ ...meta, hole, club: club.id, ...(isPutter(club) ? { putt: true } : aim ? { aim } : {}), at, from: point, fromAccuracy: accuracy, fromLie: lie, to: null, toAccuracy: null, toLie: null, outcome: 'open', penalty: 0, rise: null });
   return list;
 }
 
@@ -95,11 +96,14 @@ export function correctClub(shots, shot, club) {
 
 /* Out of bounds or lost: the ball goes again from the same place, one stroke on. The
    shot stays a stroke and leaves the clubs' lengths, since it has no end. */
-export function retakeShot(shots, { club, at }) {
+export function retakeShot(shots, { club, at, aim = null }) {
   const open = openShot(shots);
   if (!open) return shots;
+  const next = { ...open, club: club.id, at, penalty: 0 };
+  if (aim) next.aim = aim;
+  else delete next.aim;
   return [...shots.slice(0, -1), { ...open, outcome: 'out', penalty: 1 },
-    { ...open, club: club.id, at, penalty: 0 }];
+    next];
 }
 
 /* Putts are counted, not walked: the hole's putter shots become this many. */
@@ -178,8 +182,55 @@ export function reopenPuttOnlyScores(round, roundShots) {
   return changed;
 }
 
-export const isMeasured = shot => shot.outcome === 'played' && shot.to && !shot.inHazard && !shot.suspect
-  && !isPutt(shot) && shot.fromAccuracy <= MEASURABLE_ACCURACY_METRES && shot.toAccuracy <= MEASURABLE_ACCURACY_METRES;
+const measurableFix = accuracy => Number.isFinite(accuracy) && accuracy >= 0 && accuracy <= MEASURABLE_ACCURACY_METRES;
+export const isMeasured = shot => shot.outcome === 'played' && finitePoint(shot.from) && finitePoint(shot.to) && !shot.inHazard && !shot.suspect
+  && !isPutt(shot) && measurableFix(shot.fromAccuracy) && measurableFix(shot.toAccuracy);
+
+/* Copy the advice visible when this stroke was logged. Later GPS fixes, club
+   corrections and new advice must leave the golfer's original choice intact. */
+export function shotAim(guidance, club) {
+  if (guidance?.source !== 'gps' || !['manual', 'auto'].includes(guidance.mode) || !['measured', 'playable', 'recovery'].includes(guidance.status)
+      || !finitePoint(guidance.origin) || !finitePoint(guidance.target) || isPutter(club) || !club?.id) return null;
+  const distance = metresBetween(guidance.origin, guidance.target);
+  if (distance < 1) return null;
+  return { mode: guidance.mode, origin: [...guidance.origin], target: [...guidance.target], distance,
+    playsLike: Number.isFinite(guidance.reading?.plays) ? guidance.reading.plays : null,
+    recommendedClub: guidance.recommendedClub?.id ?? null, recommendedName: guidance.recommendedClub?.name ?? null,
+    selectedClub: club.id, selectedName: club.name ?? null };
+}
+
+export function shotComparison(shot) {
+  const aim = shot.aim;
+  if (!aim || !['manual', 'auto'].includes(aim.mode) || !finitePoint(aim.origin) || !finitePoint(aim.target)
+      || !Number.isFinite(aim.distance) || aim.distance < 1 || isPutt(shot)) return null;
+  const actual = isMeasured(shot) ? shotLength(shot) : null;
+  const result = { aim, actual, misses: [] };
+  if (actual === null) return result;
+  const length = metresBetween(aim.origin, aim.target);
+  // The displayed plan may have been retained for a nearby fix. Include that
+  // displacement as well as both fixes' accuracy before calling a directional miss.
+  const error = shot.fromAccuracy + shot.toAccuracy + metresBetween(aim.origin, shot.from);
+  if (length <= error || !length) return result;
+  const dx = (aim.target[0] - aim.origin[0]) / length, dz = (aim.target[1] - aim.origin[1]) / length;
+  const x = shot.to[0] - aim.target[0], z = shot.to[1] - aim.target[1];
+  const along = dx * x + dz * z, right = dx * z - dz * x;
+  if (Math.abs(along) > error) result.misses.push(`${Math.round(Math.abs(along))} m ${along > 0 ? 'långt' : 'kort'}`);
+  if (Math.abs(right) > error) result.misses.push(`${Math.round(Math.abs(right))} m ${right > 0 ? 'höger' : 'vänster'}`);
+  return result;
+}
+
+export function shotReviewText(shot, clubName = id => id) {
+  const review = shotComparison(shot);
+  if (!review) return '';
+  const { aim, actual, misses } = review;
+  const parts = [`${aim.mode === 'manual' ? 'Eget mål' : 'Föreslaget mål'} ${Math.round(aim.distance)} m`];
+  if (Number.isFinite(aim.playsLike) && Math.round(aim.playsLike) !== Math.round(aim.distance)) parts.push(`spelas ${Math.round(aim.playsLike)} m`);
+  if (aim.selectedClub) parts.push(`vald ${aim.selectedName || clubName(aim.selectedClub)}`);
+  if (aim.recommendedClub && aim.recommendedClub !== aim.selectedClub) parts.push(`förslag ${aim.recommendedName || clubName(aim.recommendedClub)}`);
+  if (actual === null) parts.push(shot.outcome === 'out' ? 'omslag' : shot.to ? 'osäkert utfall' : 'slutpunkt saknas');
+  else parts.push(`GPS-längd ${Math.round(actual)} m`, misses.length ? misses.join(', ') : 'avvikelse osäker med GPS');
+  return parts.join(' · ');
+}
 
 /* A club's length is what it does when struck in earnest, and a log also holds every
    chip, top and punch-out with that club. So the lower third goes: a median of what

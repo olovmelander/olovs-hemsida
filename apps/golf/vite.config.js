@@ -163,7 +163,7 @@ export default defineConfig(({ mode }) => {
            /courses/ is data, never a navigation -- the denylist is what stops a
            missing pack being answered with the HTML shell, exactly as the absent
            /* rule in _redirects does on the host. */
-        navigateFallback: 'index.html',
+        navigateFallback: './',
         /* not anchored with ^: under a subpath the pathname is
            /olovs-hemsida/courses/... and an anchored pattern silently
            never matches, which would quietly disable offline packs */
