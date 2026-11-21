@@ -25,7 +25,7 @@ import { readMapShot } from './map-strategy.mjs';
 import { createClubWheel } from './map-wheel.mjs';
 import { measurementTargets, shotHud } from './map-shot-hud.mjs';
 import { createDiary } from './map-diary.mjs';
-import { createDisplay } from './map-display.mjs';
+import { activeFrameMs, createDisplay } from './map-display.mjs';
 import { dateText, renderClubs, renderHoleHistory, renderRound, renderRounds } from './map-panels.mjs';
 import { atTheTurn, courseLength, dropRound, dropRoundShots, holeHistory, holesScored, isRoundComplete, keepRound, parseRounds, roundEntry, roundIsOver, roundRecord, roundSummary, roundText, roundTrend, storeRounds } from './map-rounds.mjs';
 import { createTeeWatch } from './map-follow.mjs';
@@ -574,8 +574,12 @@ async function start() {
   renderer.uploadDetail(createDetailTexture());
   const camera = createCamera();
   const overlay = createOverlay($('.map-marks'));
-  let raf = 0;
-  const invalidate = () => { if (!raf) raf = requestAnimationFrame(frame); };
+  let raf = 0, frameRequestedAt = 0;
+  const invalidate = () => {
+    if (raf) return;
+    frameRequestedAt = performance.now();
+    raf = requestAnimationFrame(frame);
+  };
 
   store = createTileStore({
     ground: course.ground,
@@ -669,7 +673,7 @@ async function start() {
     weather: null,
     windTurn: null,
     scoreHole: null,
-    pace: { last: 0, samples: [] },
+    pace: { start: 0, end: null, samples: [] },
     stats: { triangles: 0, trees: 0, patches: 0, frames: 0, lastDrawMs: 0 },
   };
   const diary = createDiary({ read: key => savedText(key, null), write: remember });
@@ -2905,9 +2909,9 @@ async function start() {
      between two of those says nothing about the device. */
   function notePace(time) {
     const { pace } = state;
-    const moving = time - pace.last < 200;
-    if (moving) pace.samples.push(time - pace.last);
-    pace.last = time;
+    const duration = activeFrameMs(pace, frameRequestedAt, time);
+    if (duration !== null) pace.samples.push(duration);
+    pace.start = time;
     if (pace.samples.length < PACE_SAMPLES) return;
     const typical = [...pace.samples].sort((a, b) => a - b)[PACE_SAMPLES >> 1];
     pace.samples.length = 0;
@@ -2941,7 +2945,10 @@ async function start() {
     else reframeForLayout();
   });
   for (const element of [root, mapHeader, mapFoot, cameraButtons, ui.green, ui.wind, ui.wheel, ui.logShot]) hudSize.observe(element);
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') invalidate(); });
+  document.addEventListener('visibilitychange', () => {
+    state.pace.end = null;
+    if (document.visibilityState === 'visible') invalidate();
+  });
 
   /* Lakes freeze; the sea at Visby does not. */
   const frozenWater = !course.features.water.some(item => item.sea);
@@ -2950,7 +2957,8 @@ async function start() {
   function frame(time) {
     raf = 0;
     const started = performance.now();
-    if (time !== undefined && !state.greenGrid) notePace(time);
+    const measurePace = time !== undefined && !state.greenGrid && !document.hidden;
+    if (measurePace) notePace(time);
     /* A dragged point reads its numbers once a frame, not once a pointer event. */
     if (state.numbersDirty) {
       state.numbersDirty = false;
@@ -3128,6 +3136,7 @@ async function start() {
       clearTimeout(gridTimer);
       gridTimer = setTimeout(invalidate, GRID_FRAME_MS);
     }
+    state.pace.end = measurePace ? performance.now() : null;
   }
 
   resize();

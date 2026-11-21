@@ -1,9 +1,24 @@
 /* How the map shows itself, and the test round's diary. */
 import { describe, expect, it } from 'vitest';
-import { displayChoices } from './map-display.mjs';
+import { activeFrameMs, displayChoices } from './map-display.mjs';
 import { diaryCounts, parseDiary, trimDiary } from './map-diary.mjs';
 
 const plain = { contrast: false, textPixels: 16 };
+
+describe('adaptive rendering frame times', () => {
+  const drawn = { start: 100, end: 120 };
+
+  it('counts a slow frame when the next one was already requested while drawing', () => {
+    expect(activeFrameMs(drawn, 115, 430)).toBe(330);
+    expect(activeFrameMs({ start: 100, end: 450 }, 445, 460)).toBe(360);
+  });
+
+  it('excludes waiting for input, an idle map, and the first frame after the tab wakes', () => {
+    expect(activeFrameMs(drawn, 200, 215)).toBe(35);
+    expect(activeFrameMs(drawn, 1500, 1510)).toBeNull();
+    expect(activeFrameMs({ start: 100, end: null }, 115, 50000)).toBeNull();
+  });
+});
 
 describe('the display choices', () => {
   it('start from the phone\'s own settings', () => {

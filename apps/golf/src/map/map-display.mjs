@@ -4,6 +4,15 @@
    more contrast asked of the system is the sun's look, and a large iOS text size is
    large text here. Reading that size takes the Apple system font's own keyword, which
    any other browser ignores. See docs/course-map-mode.md. */
+/* Time spent drawing or waiting for a requested frame. A new event after an
+   idle spell is the first frame of a new sequence, regardless of its timestamp. */
+export function activeFrameMs(previous, requestedAt, nextStart) {
+  if (previous.end == null) return null;
+  const idle = Math.max(0, requestedAt - previous.end);
+  if (idle >= 200) return null;
+  return Math.max(0, nextStart - previous.start - idle);
+}
+
 export const DISPLAY_KEY = 'banvy-map-display-v1';
 const KEY = DISPLAY_KEY;
 /* Above this a player has turned the size up: the system's default is 17 px. */
