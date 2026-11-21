@@ -27,7 +27,7 @@ import { isPhone } from './map-default.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import { parseHistory } from '../map/map-shots.mjs';
 import { MAP_KEYS, MODES, lastLaunch, liveRound, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
-import { perEighteen, playedHoles } from './stats-model.mjs';
+import { perEighteen, playedHoles, scoreToPar } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
 import { subscribeCloud } from './cloud.mjs';
@@ -221,8 +221,14 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     const rounds = parseRounds(readText(storage(), MAP_KEYS.rounds, null));
     const scores = rounds.map(perEighteen).filter(Number.isFinite);
     if (!scores.length) {
-      const scored = rounds.reduce((count, record) => count + playedHoles(record).length, 0);
-      if (scored) return `${scored} hål med score · par saknas`;
+      const holes = rounds.flatMap(playedHoles);
+      if (holes.length) {
+        const toPar = scoreToPar(holes);
+        if (toPar === null) return `${holes.length} hål med score · par saknas`;
+        const strokes = holes.reduce((total, hole) => total + hole.strokes, 0);
+        const result = toPar === 0 ? 'Par' : `${toPar > 0 ? '+' : '−'}${Math.abs(toPar)} mot par`;
+        return `${holes.length} hål med score · ${strokes} slag · ${result}`;
+      }
       const shots = parseHistory(readText(storage(), MAP_KEYS.shots, null));
       if (shots.length) return `${shots.length} ${shots.length === 1 ? 'loggat slag' : 'loggade slag'} · ingen hålscore`;
       if (rounds.length) return `${rounds.length} ${rounds.length === 1 ? 'sparad runda' : 'sparade rundor'} · ingen hålscore`;

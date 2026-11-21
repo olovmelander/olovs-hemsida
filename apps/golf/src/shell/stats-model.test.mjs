@@ -28,10 +28,12 @@ describe('the rounds in view', () => {
     expect(selectRounds([b, a, other], { period: 'last5', now: NOW }).map(r => r.id)).toEqual([1, 3, 2]);
     expect(selectRounds([b, a, other], { course: 'nian', now: NOW }).map(r => r.id)).toEqual([1, 2]);
   });
-  it('scales a nine to 18 holes, and leaves a struck hole out', () => {
+  it('starts 18-hole comparisons at nine scored holes and leaves a struck hole out', () => {
     expect(perEighteen(b)).toBeCloseTo((36 - 36) / 9 * 18);
     const struck = played(nine, 4, '2026-10-21', [['x'], ...Array(8).fill([5, 2])]);
-    expect(perEighteen(struck)).toBeCloseTo((40 - 32) / 8 * 18);
+    expect(perEighteen(struck)).toBeNull();
+    const ten = played(course('tian', Array(10).fill(4)), 5, '2026-10-21', [['x'], ...Array(9).fill([5, 2])]);
+    expect(perEighteen(ten)).toBe(18);
   });
 });
 
@@ -139,6 +141,26 @@ describe('scored holes and GPS sessions in the same history', () => {
     expect(stat.trend.map(row => row.putts)).toEqual([
       { total: null, recorded: 0, holes: 18 }, { total: 2, recorded: 1, holes: 9 }, { total: 0, recorded: 1, holes: 1 },
     ]);
+  });
+  it('reports a single scored hole and earned points without projecting a whole round', () => {
+    const actual = roundRecord({ id: 1, startedAt: '2026-11-01', handicap: 36, scores: { 10: { strokes: 4 } } }, fullCourse);
+    const stat = playerStats({ rounds: [actual] });
+    expect(stat.latest.row).toMatchObject({ holes: 1, of: 18, strokes: 4, toPar: 0, points: 4,
+      singleHole: { n: 10, par: 4, strokes: 4 }, putts: { recorded: 0, total: null }, perEighteen: null });
+    expect(stat.average).toBeNull();
+    expect(stat.best).toBeNull();
+    expect(perEighteen(actual)).toBeNull();
+    expect(stat.shotsMeasured).toBe(0);
+    expect(stat.greens.tried).toBe(0);
+    expect(stat.fairways.tried).toBe(0);
+  });
+  it('keeps a short card in the history without changing longer-round comparisons', () => {
+    const rounds = [recorded(1, 18, 4, []), recorded(2, 1, 1, []), recorded(3, 9, 1, [])];
+    const stat = playerStats({ rounds });
+    expect(stat.holes).toBe(28);
+    expect(stat.trend.map(row => [row.toPar, row.perEighteen, row.rolling])).toEqual([[4, 4, 4], [1, null, null], [1, 2, 3]]);
+    expect(stat.average).toBe(3);
+    expect(stat.courses[0].best.id).toBe(3);
   });
   it('uses the archived par list and withholds par comparisons when a legacy score has no par', () => {
     const recovered = recorded(1, 9, 1, [2]);

@@ -802,12 +802,19 @@ for (const [w, h, touch] of [[390, 844, true], [1440, 900, false]]) {
     await page.waitForTimeout(300);
     const rows = await page.evaluate(() => document.querySelectorAll('#stats [data-card="trend"] .st-table tbody tr').length);
     gate(rows === m.rounds, `${w}x${h}: the trend's table has every round (${rows})`);
-    await page.click('#stats .seg-opt:has(input[value="90"])');
+    const changeFilter = async action => {
+      const toggle = page.locator('#stats [data-filter-toggle]');
+      const sheet = await toggle.isVisible();
+      if (sheet) await toggle.click();
+      await action();
+      if (sheet) await page.locator('#stats [data-filter-dialog][open] [data-filter-close]').click();
+    };
+    await changeFilter(() => page.click('#stats .seg-opt:has(input[value="90"])'));
     await page.waitForTimeout(300);
     const narrowed = await page.evaluate(() => Number(document.querySelector('#stats .st-tile dd').textContent));
     gate(narrowed > 0 && narrowed < m.rounds, `${w}x${h}: 90 dagar narrows every figure (${narrowed} of ${m.rounds} rounds)`);
     /* hole by hole: offered course by course, drawn a column a hole, with its table */
-    await page.click('#stats .seg-opt:has(input[value="all"])');
+    await changeFilter(() => page.click('#stats .seg-opt:has(input[value="all"])'));
     await page.waitForTimeout(300);
     const picks = await page.evaluate(() => document.querySelectorAll('#stats [data-pick-course]').length);
     await page.click('#stats [data-pick-course]');
@@ -822,7 +829,7 @@ for (const [w, h, touch] of [[390, 844, true], [1440, 900, false]]) {
     const holeRows = await page.evaluate(() => document.querySelectorAll('#stats [data-card="holes"] .st-table tbody tr').length);
     gate(holeRows === 18, `${w}x${h}: and its table has every hole (${holeRows})`);
     /* a row under Banor is a way in to its course too */
-    await page.selectOption('#stats [data-course]', 'all');
+    await changeFilter(() => page.selectOption('#stats [data-course]', 'all'));
     await page.waitForTimeout(300);
     const rowName = await page.evaluate(() => document.querySelector('#stats .st-courses .sc-pick')?.getAttribute('aria-label') ?? '');
     await page.click('#stats .st-courses .sc-pick');
