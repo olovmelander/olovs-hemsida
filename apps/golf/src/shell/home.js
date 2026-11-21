@@ -1,3 +1,4 @@
+import { readPlayCheckpoint } from '../play/play-rules.mjs';
 /* ===========================================================================
    The start menu: how do you want to play?
 
@@ -24,11 +25,13 @@
 import '../styles/hub.css';
 import { isPhone } from './map-default.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
+import { parseHistory } from '../map/map-shots.mjs';
 import { MAP_KEYS, MODES, lastLaunch, liveRound, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
-import { perEighteen } from './stats-model.mjs';
+import { perEighteen, playedHoles } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
 import { subscribeCloud } from './cloud.mjs';
+import { showLiveRounds } from './live-round-panel.mjs';
 
 /* Within this, a phone is at the course or on its way there. */
 const NEAR_METRES = 5000;
@@ -86,11 +89,9 @@ const SETTINGS_ART = `<svg class="mc-dials" viewBox="0 0 400 150" preserveAspect
   }).join('')}
 </svg>`;
 
-export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null }) {
+export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null, onNearby = null }) {
   const phone = isPhone();
-  const playable = courses.filter(c => c.status !== 'mapping');
-  const holes = playable.reduce((sum, c) => sum + (Number(c.holes) || 0), 0);
-  const clubs = new Set(playable.map(c => c.club || c.name)).size;
+  let playable = [];
   const recommended = phone ? 'map' : 'detailed';
 
   const el = document.createElement('div');
@@ -140,15 +141,16 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       <section class="home-hero">
         <p class="home-eyebrow">Svenska golfbanor i 3D</p>
         <h1 class="home-title" id="homeTitle" tabindex="-1">Från soffan till <em>första tee.</em></h1>
-        <p class="home-lead">${playable.length} banor byggda ur verklig terräng och mätta mot klubbarnas egna kort. Spela dem, utforska dem i 3D eller ta med kartan ut på rundan.</p>
-        <dl class="home-stats">
-          <div><dt>Banor</dt><dd>${playable.length}</dd></div>
-          <div><dt>Hål</dt><dd>${holes}</dd></div>
-          <div><dt>Klubbar</dt><dd>${clubs}</dd></div>
+        <p class="home-lead"></p>
+        <dl class="home-stats" hidden>
+          <div><dt>Banor</dt><dd data-count="courses"></dd></div>
+          <div><dt>Hål</dt><dd data-count="holes"></dd></div>
+          <div><dt>Klubbar</dt><dd data-count="clubs"></dd></div>
         </dl>
       </section>
 
       <div class="home-resume-slot"></div>
+      <section class="home-live-transfer" data-live-rounds aria-label="Rundor mellan enheter" hidden></section>
 
       <nav class="home-modes" aria-label="Välj hur du vill spela">
         ${card('detailed', {
@@ -187,7 +189,7 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
             extra: '<span class="mc-summary" data-stats-summary></span>',
           })}
           ${card('settings', {
-            kicker: 'Båda lägena',
+            kicker: 'Din spelare',
             title: 'Inställningar',
             body: 'Grafik, ljus, bag och handicap, klart innan du går ut.',
             art: '',
@@ -205,18 +207,30 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       </footer>
     </div>`;
 
+  if (phone) {
+    const gpsCard = el.querySelector('.mode-card[data-mode="map"]');
+    gpsCard.parentElement.prepend(gpsCard);
+  }
   const bg = el.querySelector('.home-bg');
   const resumeSlot = el.querySelector('.home-resume-slot');
+  const transfers = showLiveRounds(el.querySelector('[data-live-rounds]'), courses);
   const summaryEl = el.querySelector('[data-summary]');
   const statsSummaryEl = el.querySelector('[data-stats-summary]');
   /* the rounds the map kept: how many, and where the scoring stands */
   function statsSummary() {
     const rounds = parseRounds(readText(storage(), MAP_KEYS.rounds, null));
     const scores = rounds.map(perEighteen).filter(Number.isFinite);
-    if (!rounds.length) return 'Fylls i när du spelar';
-    const average = scores.reduce((s, v) => s + v, 0) / (scores.length || 1);
+    if (!scores.length) {
+      const scored = rounds.reduce((count, record) => count + playedHoles(record).length, 0);
+      if (scored) return `${scored} hål med score · par saknas`;
+      const shots = parseHistory(readText(storage(), MAP_KEYS.shots, null));
+      if (shots.length) return `${shots.length} ${shots.length === 1 ? 'loggat slag' : 'loggade slag'} · ingen hålscore`;
+      if (rounds.length) return `${rounds.length} ${rounds.length === 1 ? 'sparad runda' : 'sparade rundor'} · ingen hålscore`;
+      return 'Fylls i när du spelar';
+    }
+    const average = scores.reduce((s, v) => s + v, 0) / scores.length;
     const sign = average > 0.05 ? '+' : average < -0.05 ? '−' : '±';
-    return `${rounds.length} ${rounds.length === 1 ? 'runda' : 'rundor'}${scores.length ? ` · snitt ${sign}${Math.abs(average).toFixed(1).replace('.', ',')}` : ''}`;
+    return `${rounds.length} ${rounds.length === 1 ? 'runda' : 'rundor'} · snitt ${sign}${Math.abs(average).toFixed(1).replace('.', ',')} per 18 hål`;
   }
 
   /* The backdrop fades in once decoded, so the menu never flashes a half-drawn picture. */
@@ -236,6 +250,15 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
   }
 
   function refresh() {
+    playable = courses.filter(c => c.status !== 'mapping');
+    el.querySelector('.home-stats').hidden = !playable.length;
+    el.querySelector('.home-lead').textContent = playable.length
+      ? `${playable.length} banor byggda ur verklig terräng och mätta mot klubbarnas egna kort. Spela dem, utforska dem i 3D eller ta med kartan ut på rundan.`
+      : 'Dina rundor och din bag finns i Statistik och Inställningar.';
+    el.querySelector('[data-count="courses"]').textContent = playable.length;
+    el.querySelector('[data-count="holes"]').textContent = playable.reduce((sum, c) => sum + (Number(c.holes) || 0), 0);
+    el.querySelector('[data-count="clubs"]').textContent = new Set(playable.map(c => c.club || c.name)).size;
+    requestAnimationFrame(() => transfers.refresh());
     const last = lastLaunch(storage(), playable);
     /* A round under way comes first: it is what the golfer is standing in. */
     const live = liveRound(storage(), playable);
@@ -248,7 +271,7 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
         <button class="home-resume is-live" type="button" data-resume>
           <span class="hr-thumb" style="background-image:url('${poster(live.course.slug)}')" aria-hidden="true"></span>
           <span class="hr-text">
-            <span class="hr-kicker"><i class="hr-live" aria-hidden="true"></i>Runda pågår</span>
+            <span class="hr-kicker"><i class="hr-live" aria-hidden="true"></i>Fortsätt GPS-rundan</span>
             <span class="hr-name">${esc(live.course.name)}</span>
             <span class="hr-sub">${esc(where)}</span>
           </span>
@@ -260,21 +283,33 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       btn.addEventListener('click', () => onResume(live.course.slug, 'map', { round: 'resume' }));
       return;
     }
+    const simulation = playable.map(course => ({ course, saved: readPlayCheckpoint(storage(), course.slug, course.holes) }))
+      .filter(item => item.saved).sort((a, b) => b.saved.round.id - a.saved.round.id)[0];
+    if (simulation) {
+      const { course, saved } = simulation;
+      resumeSlot.innerHTML = `<button class="home-resume" type="button" data-resume data-simulation>
+        <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
+        <span class="hr-text"><span class="hr-kicker">Fortsätt simuleringen</span><span class="hr-name">${esc(course.name)}</span>
+        <span class="hr-sub">Hål ${saved.round.current} · Spela</span></span><span class="hr-go" aria-hidden="true">${ARROW}</span></button>`;
+      resumeSlot.querySelector('button').onclick = () => onResume(course.slug, 'play', { sim: 'fortsatt' });
+      return;
+    }
     lookNear();
+    if (resumeSlot.querySelector('[data-near]')) return;
     if (!last) { resumeSlot.innerHTML = ''; return; }
     const { course, mode } = last;
     resumeSlot.innerHTML = `
       <button class="home-resume" type="button" data-resume>
         <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
         <span class="hr-text">
-          <span class="hr-kicker">Fortsätt där du slutade</span>
+          <span class="hr-kicker">Senast öppnad</span>
           <span class="hr-name">${esc(course.name)}</span>
         </span>
         <span class="hr-mode">${mode === 'map' ? PIN : CUBE}${MODES[mode].label}</span>
         <span class="hr-go" aria-hidden="true">${ARROW}</span>
       </button>`;
     const btn = resumeSlot.querySelector('[data-resume]');
-    btn.setAttribute('aria-label', `Fortsätt med ${course.name} i ${MODES[mode].label}`);
+    btn.setAttribute('aria-label', `Öppna ${course.name} i ${MODES[mode].label}`);
     btn.addEventListener('click', () => onResume(course.slug, mode));
   }
 
@@ -283,27 +318,28 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
      never over a round under way, which refresh() has shown first. */
   let nearAsked = false;
   function lookNear() {
-    if (nearAsked || !onPlan || !navigator.permissions || !navigator.geolocation) return;
+    if (!playable.length || nearAsked || !onPlan || !navigator.permissions || !navigator.geolocation) return;
     nearAsked = true;
     navigator.permissions.query({ name: 'geolocation' }).then(answer => {
       if (answer.state !== 'granted') return;
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const nearest = coursesByDistance(coords, COURSE_LOCATIONS).find(({ slug }) => playable.some(c => c.slug === slug));
-        if (!nearest || nearest.metres > NEAR_METRES || resumeSlot.querySelector('.is-live')) return;
+        if (!nearest || nearest.metres > NEAR_METRES || resumeSlot.querySelector('.is-live, [data-simulation]')) return;
         const course = playable.find(c => c.slug === nearest.slug);
+        const siblings = playable.filter(c => c.club === course.club);
         resumeSlot.innerHTML = `
           <button class="home-resume is-near" type="button" data-near data-slug="${esc(course.slug)}">
             <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
             <span class="hr-text">
               <span class="hr-kicker">${PIN}${nearest.metres < 1500 ? 'Du är vid banan' : 'Nära dig'}</span>
               <span class="hr-name">${esc(course.name)}</span>
-              <span class="hr-sub">${distanceText(nearest.metres)} bort · starta rundan med GPS</span>
+              <span class="hr-sub">${distanceText(nearest.metres)} bort · ${siblings.length > 1 ? 'välj bana för GPS-rundan' : 'starta rundan med GPS'}</span>
             </span>
             <span class="hr-go" aria-hidden="true">${ARROW}</span>
           </button>`;
         const btn = resumeSlot.querySelector('[data-near]');
-        btn.setAttribute('aria-label', `Starta en runda på ${course.name}, ${distanceText(nearest.metres)} bort`);
-        btn.addEventListener('click', () => onPlan(course.slug, 'map'));
+        btn.setAttribute('aria-label', `Välj bana för en runda på ${course.name}, ${distanceText(nearest.metres)} bort`);
+        btn.addEventListener('click', () => siblings.length > 1 && onNearby ? onNearby(course.club) : onPlan(course.slug, 'map'));
       }, () => {}, { timeout: 10000, maximumAge: 120000 });
     }).catch(() => {});
   }

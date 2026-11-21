@@ -153,28 +153,23 @@ export function validateSyncPayload(body) {
     bagUpdatedAt: nonNegInt(rawProfile.bagUpdatedAt, 0),
   };
 
-  const rounds = [];
-  if (Array.isArray(body.rounds)) {
-    for (const item of body.rounds.slice(0, MAX_ROUNDS_PER_USER)) {
-      const normalized = normalizeRoundEntry(item);
-      if (normalized) rounds.push(normalized);
-    }
+  const rawRounds = Array.isArray(body.rounds) ? body.rounds : [];
+  const rawSets = Array.isArray(body.shotSets) ? body.shotSets : [];
+  if (rawRounds.length > MAX_ROUNDS_PER_USER || rawSets.length > MAX_ROUNDS_PER_USER) {
+    return { ok: false, error: 'Fler rundor än vad som ryms i en synkning. Dina lokala rundor finns kvar.' };
   }
-
+  const rounds = rawRounds.map(normalizeRoundEntry).filter(Boolean);
   const shotSets = [];
   let totalShots = 0;
-  if (Array.isArray(body.shotSets)) {
-    for (const item of body.shotSets.slice(0, MAX_ROUNDS_PER_USER)) {
-      const normalized = normalizeShotSetEntry(item);
-      if (!normalized) continue;
-      if (totalShots + normalized.shots.length > MAX_TOTAL_SHOTS) {
-        normalized.shots = normalized.shots.slice(0, Math.max(0, MAX_TOTAL_SHOTS - totalShots));
-      }
-      totalShots += normalized.shots.length;
-      shotSets.push(normalized);
+  for (const item of rawSets) {
+    const count = Array.isArray(item?.shots) ? item.shots.length : 0;
+    totalShots += count;
+    if (count > MAX_SHOTS_PER_ROUND || totalShots > MAX_TOTAL_SHOTS) {
+      return { ok: false, error: 'Fler slag än vad som ryms i en synkning. Dina lokala slag finns kvar.' };
     }
+    const normalized = normalizeShotSetEntry(item);
+    if (normalized) shotSets.push(normalized);
   }
-
   return { ok: true, payload: { profile, rounds, shotSets } };
 }
 

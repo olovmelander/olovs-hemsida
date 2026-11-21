@@ -6,7 +6,7 @@
    (stats-model.mjs reads only the map's keys). */
 import { strokesReceived, stablefordPoints } from '../map/map-score.mjs';
 
-export const PLAY_KEYS = Object.freeze({ rounds: 'banvy-play-rounds-v1', settings: 'banvy-play-settings-v1' });
+export const PLAY_KEYS = Object.freeze({ rounds: 'banvy-play-rounds-v1', settings: 'banvy-play-settings-v1', checkpoint: 'banvy-play-checkpoint-v1:' });
 export const CLUB_LENGTH = 1.0;          // the drop's measuring club, in metres
 
 function segmentsCross(ax, az, bx, bz, cx, cz, dx, dz) {
@@ -194,4 +194,40 @@ export function savePlayedRound(storage, round) {
     storage?.setItem(PLAY_KEYS.rounds, JSON.stringify({ version: 1, rounds: rounds.slice(-100) }));
     return true;
   } catch { return false; }
+}
+
+
+/** One settled simulator lie per course. A stroke in flight still has its previous
+    address saved; relief and its penalty are stored together when it lands. */
+export function readPlayCheckpoint(storage, slug, holeCount = null) {
+  try {
+    const saved = JSON.parse(storage.getItem(PLAY_KEYS.checkpoint + slug));
+    if (!saved || saved.version !== 1) return null;
+    const { round, position } = saved;
+    if (round?.slug !== slug || !Number.isFinite(round.id) || round.endedAt != null ||
+        !Array.isArray(round.order) || !round.order.length || (holeCount != null && round.order.length !== holeCount) ||
+        !round.order.every(n => Number.isInteger(n) && n >= 1 && n <= round.order.length) ||
+        new Set(round.order).size !== round.order.length || !round.order.includes(round.current) ||
+        !round.pars || !round.holes || !round.holes[round.current] || !Number.isInteger(round.tee) || round.tee < 0) return null;
+    if (!Object.values(round.holes).every(c => c && [c.strokes, c.putts, c.penalties].every(n => Number.isInteger(n) && n >= 0) && Array.isArray(c.shots))) return null;
+    if (!Array.isArray(position?.ball) || position.ball.length !== 2 || !position.ball.every(Number.isFinite) ||
+        !['address', 'holed'].includes(position.phase)) return null;
+    return saved;
+  } catch { return null; }
+}
+
+export function savePlayCheckpoint(storage, round, position, previousRevision) {
+  try {
+    if (previousRevision !== undefined && (readPlayCheckpoint(storage, round.slug)?.revision ?? null) !== previousRevision) return null;
+    const revision = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
+    storage.setItem(PLAY_KEYS.checkpoint + round.slug, JSON.stringify({ version: 1, revision, round, position }));
+    return revision;
+  } catch { return null; }
+}
+
+export function clearPlayCheckpoint(storage, round, revision) {
+  try {
+    const current = readPlayCheckpoint(storage, round.slug);
+    if (current?.round.id === round.id && (revision === undefined || current.revision === revision)) storage.removeItem(PLAY_KEYS.checkpoint + round.slug);
+  } catch { /* An unavailable store does not interrupt a round. */ }
 }

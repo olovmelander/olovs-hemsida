@@ -9,6 +9,7 @@ import { Hono } from 'hono';
 import { createAuth, isGoogleConfigured, isLocalDevAuthEnabled, resolveBaseURL } from './auth.mjs';
 import { mergeSyncState, validateSyncPayload } from './sync-logic.mjs';
 import { loadUserState, persistDirtyState } from './sync-repo.mjs';
+import { changeLiveRound, listLiveRounds, liveMutation } from './live-rounds.mjs';
 
 const app = new Hono();
 
@@ -70,6 +71,27 @@ async function requireSession(c) {
   return session;
 }
 
+app.get('/api/active-rounds', async c => {
+  const session = await requireSession(c);
+  if (!session) return c.json({ error: 'Inte inloggad.' }, 401);
+  if (c.req.header('X-Banvy-User') !== session.user.id) return c.json({ error: 'Kontot har bytts.' }, 409);
+  return c.json({ rounds: await listLiveRounds(c.env.DB, session.user.id) });
+});
+
+app.post('/api/active-rounds', async c => {
+  const session = await requireSession(c);
+  if (!session) return c.json({ error: 'Inte inloggad.' }, 401);
+  if (c.req.header('X-Banvy-User') !== session.user.id) return c.json({ error: 'Kontot har bytts.' }, 409);
+  if (!c.req.header('Content-Type')?.toLowerCase().startsWith('application/json')) return c.json({ error: 'JSON krävs.' }, 415);
+  const raw = await c.req.text();
+  if (raw.length > 750000) return c.json({ error: 'Rundan är för stor.' }, 413);
+  let input;
+  try { input = liveMutation(JSON.parse(raw)); } catch { /* malformed card */ }
+  if (!input) return c.json({ error: 'Rundan kunde inte läsas.' }, 400);
+  const result = await changeLiveRound(c.env.DB, session.user.id, input);
+  return c.json(result, result.accepted ? 200 : 409);
+});
+
 app.get('/api/player', async c => {
   const session = await requireSession(c);
   if (!session) return c.json({ error: 'Inte inloggad.' }, 401, NO_STORE);
@@ -102,6 +124,9 @@ app.post('/api/sync', async c => {
     return c.json({ error: 'Ogiltig JSON.' }, 400, NO_STORE);
   }
 
+  if (body?.expectedUserId != null && body.expectedUserId !== session.user.id) {
+    return c.json({ error: 'Kontot har bytts. Kontrollera inloggningen.' }, 409, NO_STORE);
+  }
   const parsed = validateSyncPayload(body);
   if (!parsed.ok) {
     return c.json({ error: parsed.error }, 400, NO_STORE);
@@ -109,17 +134,16 @@ app.post('/api/sync', async c => {
 
   const now = Date.now();
   const serverState = await loadUserState(c.env.DB, session.user.id);
-  const { syncedAt, merged, dirty } = mergeSyncState(serverState, parsed.payload, now);
+  const { syncedAt, dirty } = mergeSyncState(serverState, parsed.payload, now);
 
+  let canonical = serverState;
   if (dirty.profile || dirty.rounds.length || dirty.shotSets.length) {
     await persistDirtyState(c.env.DB, session.user.id, dirty, now);
+    canonical = await loadUserState(c.env.DB, session.user.id);
   }
 
   return c.json({
-    syncedAt,
-    profile: merged.profile,
-    rounds: merged.rounds,
-    shotSets: merged.shotSets,
+    syncedAt, ...canonical,
   }, 200, NO_STORE);
 });
 

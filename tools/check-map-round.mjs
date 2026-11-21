@@ -137,6 +137,14 @@ try {
   await tap(page, '[data-club-auto]');
   await wait(page, () => !V3DMap.state.manualClub && V3DMap.wheel() === V3DMap.state.guidance.recommendedClub.id);
   assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pin);
+  await context.setGeolocation(coordinate);
+  await tap(page, '[data-wheel-lock]');
+  await wait(page, () => Boolean(V3DMap.shots()[0]?.aim));
+  const loggedAim = await page.evaluate(() => V3DMap.shots()[0].aim);
+  assert.equal(loggedAim.mode, 'manual');
+  assert.deepEqual(loggedAim.target, pin);
+  assert.equal(loggedAim.selectedClub, loggedAim.recommendedClub);
+  await tap(page, '[data-locked-undo]');
   await tap(page, '[data-reading-close]');
   await wait(page, () => V3DMap.state.guidance.mode === 'auto');
   assert.equal((await page.evaluate(() => V3DMap.shots())).length, 0);
@@ -160,6 +168,7 @@ try {
   await log.tap();
   await wait(page, () => V3DMap.shots().length === 1);
   assert.equal(await page.evaluate(() => V3DMap.shots()[0].hole), 10);
+  assert.equal(await page.evaluate(() => V3DMap.shots()[0].aim), undefined);
   await tap(page, '[data-score]');
   await tap(page, `[data-stroke-key="${par + 2}"]`);
   await tap(page, '[data-score-sheet] [data-close]');

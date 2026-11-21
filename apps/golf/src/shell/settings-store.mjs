@@ -13,6 +13,9 @@
    stores. */
 
 import { parseHistory } from '../map/map-shots.mjs';
+import { normalizeBag } from '../engine/caddie.js';
+import { MIN_HANDICAP, MAX_HANDICAP } from '../map/map-score.mjs';
+import { PLAY_KEYS, readPlayCheckpoint } from '../play/play-rules.mjs';
 
 export const SETTINGS_KEY = 'banvy-settings-v1';
 export const LAST_COURSE_KEY = 'banvy-last-course';
@@ -102,8 +105,7 @@ export function readSettings(storage) {
 export function writeSettings(storage, patch) {
   const next = { ...readSettings(storage), ...patch };
   for (const key of Object.keys(next)) if (!ALLOWED[key]?.has(next[key])) delete next[key];
-  try { storage?.setItem(SETTINGS_KEY, JSON.stringify(next)); } catch { /* it holds for this visit */ }
-  return readSettings(storage) ?? next;
+  return writeText(storage, SETTINGS_KEY, JSON.stringify(next)) ? readSettings(storage) : null;
 }
 
 /* Only what differs from the player's own default goes into the link, so an
@@ -136,6 +138,7 @@ export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS, plan
       if (plan?.round === true) params.set('runda', '1');
       if (plan?.round === false) {
         params.set('runda', 'visa');
+        if (Number.isInteger(plan.tee) && plan.tee >= 0) params.set('tee', String(plan.tee + 1));
         if (plan.offline) params.set('offline', '1');
       }
       if (Number.isInteger(hole) && hole >= 1) params.set('hal', String(hole));
@@ -148,6 +151,7 @@ export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS, plan
   if (phone || mode === 'play') params.set('karta', '0');
   if (mode === 'play') {
     params.set('spela', '1');
+    if (['ny', 'fortsatt', 'traning'].includes(plan?.sim)) params.set('sim', plan.sim);
     if (PLAY_CHARACTERS.some(c => c.id === plan?.character)) params.set('golfare', plan.character);
   }
   for (const [key, value] of detailedParams(settings)) params.set(key, value);
@@ -197,36 +201,208 @@ export function lastLaunch(storage, courses) {
   return { course, mode: MODES[mode] ? mode : 'detailed' };
 }
 
-/* A backup of everything Banvy keeps on this device: settings, the bag, the
-   handicap, every round and shot, and what the map remembers. Rounds live in
-   this browser only, so clearing its data or changing phone loses them; a file
-   the player keeps is the way across. Only Banvy's own keys go out and come in. */
+/* A portable copy of the device's current player data. Account credentials,
+   sync metadata and per-account archives use a different storage namespace. */
 export const BACKUP_KIND = 'banvy-backup';
 const OWN_KEY = /^banvy[-:]/;
-export function exportBackup(storage, now = new Date()) {
-  const data = {};
-  try {
-    for (let i = 0; i < (storage?.length ?? 0); i++) {
-      const key = storage.key(i);
-      if (key && OWN_KEY.test(key)) data[key] = storage.getItem(key);
-    }
-  } catch { /* what could be read */ }
-  return { kind: BACKUP_KIND, version: 1, exportedAt: now.toISOString(), data };
+const deviceOnly = key => key === 'banvy-device-id-v1' || key === 'banvy-hub-catalogue-v1'
+  || [OFFLINE_PREFIX, 'banvy-weather:', 'banvy-live-owner-v1:', 'banvy-map-gps-v1:'].some(prefix => key.startsWith(prefix));
+const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+const positive = value => Number.isSafeInteger(value) && value > 0;
+const count = value => Number.isSafeInteger(value) && value >= 0;
+const point = value => Array.isArray(value) && value.length === 2 && value.every(Number.isFinite);
+const named = value => typeof value === 'string' && Boolean(value.trim());
+
+const validScore = score => object(score)
+  && [score.strokes, score.putts].every(value => value == null || count(value))
+  && (score.picked == null || typeof score.picked === 'boolean');
+const validRound = round => object(round) && positive(round.id) && named(round.course)
+  && Array.isArray(round.holes) && round.holes.every(hole => validScore(hole) && positive(hole.n))
+  && (round.pars == null || (Array.isArray(round.pars) && round.pars.every(par => par == null || positive(par))))
+  && (round.totals == null || (object(round.totals) && ['played', 'strokes', 'putts', 'par', 'points', 'fairways',
+    'fairwaysTried', 'greens', 'greensTried'].every(key => round.totals[key] == null || count(round.totals[key]))
+    && (round.totals.toPar == null || Number.isSafeInteger(round.totals.toPar))));
+const validShot = shot => object(shot) && positive(shot.hole) && named(shot.club)
+  && point(shot.from) && (shot.to == null || point(shot.to)) && (shot.penalty == null || count(shot.penalty))
+  && (shot.round == null || positive(shot.round)) && (shot.course == null || named(shot.course))
+  && (shot.outcome == null || ['open', 'played', 'ended', 'out'].includes(shot.outcome));
+const validPlayRound = round => object(round) && Number.isFinite(round.id) && named(round.slug)
+  && Array.isArray(round.order) && round.order.length > 0 && round.order.every(positive)
+  && object(round.pars) && object(round.holes) && Object.values(round.holes).every(card =>
+    validScore(card) && Array.isArray(card.shots) && card.shots.every(object));
+
+/* Keep the raw entry, including fields from older versions. A permissive
+   reader's fallback (an empty scorecard or the default bag) is not a restore. */
+function validBackupValue(key, raw) {
+  if (typeof raw !== 'string') return false;
+  if (key === MAP_KEYS.handicap) {
+    const hcp = Number(raw);
+    return raw === '' || (raw.trim() !== '' && Number.isFinite(hcp) && hcp >= MIN_HANDICAP && hcp <= MAX_HANDICAP);
+  }
+  if (key.startsWith(PLAY_KEYS.checkpoint)) {
+    return Boolean(readPlayCheckpoint({ getItem: () => raw }, key.slice(PLAY_KEYS.checkpoint.length)));
+  }
+  let validate;
+  if (key === BAG_KEY) validate = bag => {
+    const clubs = Array.isArray(bag) ? bag : bag?.clubs;
+    return Array.isArray(clubs) && clubs.length > 0 && clubs.every(club => named(club?.name))
+      && normalizeBag(clubs, []).length === clubs.length;
+  };
+  else if (key === MAP_KEYS.rounds) validate = log => log?.version === 1 && Array.isArray(log.rounds) && log.rounds.every(validRound);
+  else if (key === MAP_KEYS.shots) validate = log => log?.version === 1 && Array.isArray(log.shots) && log.shots.every(validShot);
+  else if (key === PLAY_KEYS.rounds) validate = log => log?.version === 1 && Array.isArray(log.rounds) && log.rounds.every(validPlayRound);
+  else if (key.startsWith(ROUND_KEY + ':')) validate = round => round?.version === 1 && object(round.scores)
+    && Object.entries(round.scores).every(([n, score]) => positive(Number(n)) && validScore(score));
+  else if (key === SETTINGS_KEY || key === MAP_KEYS.display) validate = object;
+  else return true;
+  try { return validate(JSON.parse(raw)); } catch { return false; }
 }
+
+function validateBackupEntries(entries) {
+  if (!Array.isArray(entries) || !entries.length) throw new Error('Säkerhetskopian är tom.');
+  const seen = new Set();
+  for (const entry of entries) {
+    if (!Array.isArray(entry) || entry.length !== 2) throw new Error('Säkerhetskopian har en ogiltig post.');
+    const [key, value] = entry;
+    if (!named(key) || !OWN_KEY.test(key) || deviceOnly(key) || seen.has(key) || !validBackupValue(key, value)) {
+      throw new Error(`Ogiltiga uppgifter i säkerhetskopian (${key}).`);
+    }
+    seen.add(key);
+  }
+}
+
+export function activeBackupRounds(entries) {
+  const cards = [];
+  for (const [key, raw] of entries) {
+    if (!key.startsWith(ROUND_KEY + ':')) continue;
+    const card = JSON.parse(raw);
+    if (card.begunAt && !card.endedAt && positive(card.id)) cards.push({ course: key.slice(ROUND_KEY.length + 1), id: card.id });
+  }
+  return cards;
+}
+
+export function exportBackup(storage, now = new Date()) {
+  const entries = [];
+  try {
+    for (let i = 0; i < storage.length; i++) {
+      const key = storage.key(i);
+      if (key && OWN_KEY.test(key) && !deviceOnly(key)) entries.push([key, storage.getItem(key)]);
+    }
+  } catch { throw new Error('Webbläsarens lagring kunde inte läsas.'); }
+  validateBackupEntries(entries);
+  // Identify account-backed active cards without exporting an account or installation ID.
+  let owner;
+  try { owner = JSON.parse(storage.getItem('banvy_sync_meta_v1'))?.userId; } catch { /* legacy sync metadata */ }
+  return { kind: BACKUP_KIND, version: 1, exportedAt: now.toISOString(), accountRounds: Boolean(owner), data: Object.fromEntries(entries) };
+}
+
 export function readBackup(text) {
   let backup;
-  try { backup = JSON.parse(text); } catch { return { ok: false, reason: 'Filen är inte en Banvy-säkerhetskopia.' }; }
-  if (backup?.kind !== BACKUP_KIND || backup.version !== 1 || typeof backup.data !== 'object' || backup.data === null) {
+  try { backup = JSON.parse(text); } catch { /* handle invalid files below */ }
+  if (backup?.kind !== BACKUP_KIND || backup.version !== 1 || !object(backup.data)) {
     return { ok: false, reason: 'Filen är inte en Banvy-säkerhetskopia.' };
   }
-  const entries = Object.entries(backup.data).filter(([key, value]) => OWN_KEY.test(key) && typeof value === 'string');
-  if (!entries.length) return { ok: false, reason: 'Säkerhetskopian är tom.' };
-  return { ok: true, entries, exportedAt: backup.exportedAt ?? null };
+  /* Older files included device identities, GPS fixes and cache receipts. */
+  const entries = Object.entries(backup.data).filter(([key]) => !deviceOnly(key));
+  try { validateBackupEntries(entries); } catch (error) { return { ok: false, reason: error.message }; }
+  const date = typeof backup.exportedAt === 'string' && Number.isFinite(Date.parse(backup.exportedAt)) ? backup.exportedAt : null;
+  return { ok: true, entries, exportedAt: date, accountRounds: backup.accountRounds === true };
 }
-export function restoreBackup(storage, entries) {
-  let written = 0;
-  for (const [key, value] of entries) if (writeText(storage, key, value)) written++;
-  return written;
+
+/* Web Storage is atomic per key. Snapshot the whole change before writing,
+   release space first, then read back. Roll back synchronously on failure. */
+export function replaceStoredValues(storage, entries) {
+  let changes;
+  try {
+    if (!storage) throw new Error();
+    changes = Array.from(new Map(entries), ([key, value]) => {
+      if (value !== null && typeof value !== 'string') throw new TypeError();
+      const previous = storage.getItem(key);
+      return { key, value, previous, growth: (value?.length ?? 0) - (previous?.length ?? 0) };
+    });
+  } catch { throw new Error('Webbläsarens lagring kunde inte läsas.'); }
+  changes.sort((a, b) => a.growth - b.growth);
+  const attempted = [];
+  try {
+    for (const change of changes) {
+      if (change.previous === change.value) continue;
+      attempted.push(change);
+      if (!writeText(storage, change.key, change.value)) throw new Error();
+    }
+    if (changes.some(({ key, value }) => storage.getItem(key) !== value)) throw new Error();
+  } catch {
+    let recovered = true;
+    for (const { key, previous } of attempted.reverse()) {
+      try {
+        if (storage.getItem(key) !== previous && !writeText(storage, key, previous)) recovered = false;
+      } catch { recovered = false; }
+    }
+    if (!recovered) throw new Error('Webbläsarens lagring avbröts. Det gick inte att verifiera alla tidigare uppgifter.');
+    throw new Error('Uppgifterna kunde inte sparas. Tidigare uppgifter finns kvar. Kontrollera webbläsarens lagringsutrymme.');
+  }
+}
+
+/* Undo stays with the player who imported, even across reloads and sign-outs.
+   Save exact replaced bytes, including absent keys, and guard later edits. */
+function undoKey(storage) {
+  const meta = JSON.parse(storage.getItem('banvy_sync_meta_v1') ?? 'null');
+  const owner = meta?.userId;
+  return 'banvy_restore_undo_v1:' + (named(owner) ? 'user:' + owner : 'guest');
+}
+
+export function hasBackupUndo(storage) {
+  try { return storage.getItem(undoKey(storage)) !== null; } catch { return false; }
+}
+
+export function restoreBackup(storage, entries, additionalEntries = () => []) {
+  validateBackupEntries(entries);
+  let key, snapshot;
+  try {
+    key = undoKey(storage);
+    snapshot = entries.map(([name, value]) => [name, storage.getItem(name), value])
+      .filter(([, previous, value]) => previous !== value);
+  } catch { throw new Error('Webbläsarens lagring kunde inte läsas.'); }
+  if (!snapshot.length) return entries.length;
+  const changes = new Map(snapshot.map(([name, , value]) => [name, value]));
+  const previous = Object.fromEntries(snapshot.map(([name, value]) => [name, value]));
+  const metadata = additionalEntries(changes, previous);
+  // The recovery copy is durable before the first player record is touched.
+  // Keep the earlier undo record if any subsequent write fails.
+  const earlier = storage.getItem(key);
+  if (!writeText(storage, key, JSON.stringify(snapshot))) {
+    throw new Error('En ångerkopia fick inte plats. Frigör lagringsutrymme och försök igen.');
+  }
+  try {
+    replaceStoredValues(storage, [...entries, ...metadata]);
+  } catch (error) {
+    // Preserve this recovery copy if the storage itself disappeared midway.
+    if (snapshot.every(([name, previous]) => storage.getItem(name) === previous)) {
+      replaceStoredValues(storage, [[key, earlier]]);
+    }
+    throw error;
+  }
+  return entries.length;
+}
+
+export function undoBackup(storage, additionalEntries = () => []) {
+  const key = undoKey(storage);
+  const snapshot = JSON.parse(storage.getItem(key));
+  if (!Array.isArray(snapshot) || !snapshot.length || !snapshot.every(entry =>
+    Array.isArray(entry) && entry.length === 3 && named(entry[0]) && OWN_KEY.test(entry[0])
+    && !deviceOnly(entry[0]) && (entry[1] === null || typeof entry[1] === 'string')
+    && typeof entry[2] === 'string')) throw new Error('Det finns ingen giltig ångerkopia.');
+  // A browser closed mid-import may already have some of the original values.
+  const changes = new Map(), beforeUndo = {};
+  for (const [name, previous, imported] of snapshot) {
+    const current = storage.getItem(name);
+    if (current === previous) continue;
+    if (current !== imported) throw new Error('Uppgifter har ändrats efter inläsningen. De senare ändringarna behålls.');
+    changes.set(name, previous);
+    beforeUndo[name] = current;
+  }
+  const metadata = additionalEntries(changes, beforeUndo);
+  replaceStoredValues(storage, [...changes, ...metadata, [key, null]]);
+  return [...changes.keys()];
 }
 
 /* A round under way in the map: begun and not ended, and touched within the
@@ -308,8 +484,10 @@ export function readText(storage, key, fallback = null) {
 }
 export function writeText(storage, key, value) {
   try {
-    if (value === null) storage?.removeItem(key); else storage?.setItem(key, String(value));
-    return true;
+    if (!storage) return false;
+    const expected = value === null ? null : String(value);
+    if (expected === null) storage.removeItem(key); else storage.setItem(key, expected);
+    return storage.getItem(key) === expected;
   } catch { return false; }
 }
 

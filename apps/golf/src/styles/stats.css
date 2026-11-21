@@ -87,7 +87,7 @@
   background: rgba(0, 0, 0, 0.28);
 }
 .st-mini-seg button {
-  min-height: 32px;
+  min-height: 40px;
   padding: 0 11px;
   border: 0;
   border-radius: 8px;
@@ -123,7 +123,7 @@
 .st-jump::-webkit-scrollbar { display: none; }
 .st-jump button {
   flex: 0 0 auto;
-  min-height: 36px;
+  min-height: 40px;
   padding: 0 12px;
   border-radius: 999px;
   border: 1px solid transparent;
@@ -256,6 +256,16 @@
 .st-insight p { margin-top: 6px; font: 400 13px/1.45 Outfit, sans-serif; color: var(--ink-2); }
 
 /* --------------------------------------------------- latest round spotlight */
+.st-leading { display: grid; gap: 14px; margin-bottom: 18px; scroll-margin-top: 148px; }
+.st-leading:has(.st-insights) { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.st-leading .st-latest, .st-leading .st-insights { margin-bottom: 0; }
+.st-leading .st-insights { align-self: center; }
+.st-leading .st-insights h2 { font-size: 15px; margin-bottom: 6px; }
+.st-more-insights { margin-bottom: 18px; color: var(--ink-2); }
+.st-more-insights > summary { width: fit-content; cursor: pointer; padding: 12px 4px; font-weight: 600; }
+.sr-reviews { margin: 8px 0 12px; padding-left: 20px; color: var(--ink-2); }
+.sr-reviews li { margin-block: 6px; }
+.sr-card h3 { margin-top: 14px; }
 .st-latest {
   display: flex;
   align-items: center;
@@ -398,29 +408,6 @@
 .st-meter.is-blue { background: rgba(80, 150, 234, 0.16); }
 .st-meter.is-blue i { background: #5096ea; }
 
-.st-bag-preview {
-  margin-bottom: 16px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(95, 208, 122, 0.35);
-  background: rgba(95, 208, 122, 0.08);
-}
-.st-bag-preview > p { font: 500 13.5px/1.4 Outfit, sans-serif; color: #d8f8e0; margin-bottom: 10px; }
-.st-bag-diffs { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.st-bag-diffs li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 10px;
-  background: rgba(4, 9, 7, 0.55);
-  border: 1px solid rgba(160, 230, 185, 0.18);
-  font: 500 12.5px/1 Outfit, sans-serif;
-  color: var(--ink-2);
-}
-.st-bag-diffs li b { color: #fff; }
-.st-bag-diffs li strong { color: var(--turf-hi); font-variant-numeric: tabular-nums; }
-
 /* --------------------------------------------------------- the fairway */
 .st-fairway { display: grid; grid-template-columns: 1fr minmax(96px, 120px) 1fr; align-items: center; gap: 8px; }
 .sf-side { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
@@ -543,7 +530,7 @@
 .st-courses li {
   position: relative;
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) auto auto;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
   padding: 8px;
@@ -665,7 +652,7 @@
 
 /* --------------------------------------------------------------- widths */
 @media (max-width: 1100px) {
-  .st-hero-row { grid-template-columns: 1fr; }
+  .st-hero-row, .st-leading:has(.st-insights) { grid-template-columns: 1fr; }
   .st-grid-2, .st-split { grid-template-columns: 1fr; }
 }
 @media (max-width: 820px) {
@@ -693,7 +680,6 @@
   .gr-name { font-size: 13px; }
   .gr-val { font-size: 16px; }
   .st-courses li { grid-template-columns: 52px minmax(0, 1fr) auto; gap: 10px; }
-  .st-courses li .sc-num:last-child { display: none; }
   .sc-thumb { width: 52px; height: 40px; }
   .st-empty-actions > * { flex: 1 1 100%; }
   .st-card-head { flex-wrap: wrap; }

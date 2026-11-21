@@ -65,7 +65,7 @@ const PLAYER = args.includes('--player');
 const SHOTS = args.includes('--shots') ? path.resolve(args[args.indexOf('--shots') + 1]) : null;
 const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 420) * 1000;
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
+const CHROME = process.env.BANVY_CHROME_PATH || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined);
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
 const LAST_KEY = 'banvy-last-course';
 /* the course list, one step in from the start menu */
@@ -460,7 +460,7 @@ for (const [w, h, touch, name] of [[390, 844, true, 'phone'], [1440, 900, false,
     });
     if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `home-${w}x${h}.png`) });
     const tag = `${name} ${w}x${h}`;
-    gate(m.cards.map(c => c.mode).join(',') === 'detailed,map,play,stats,settings', `${tag}: five cards, Detaljerad 3D, Lätt 3D, Spela, Statistik, Inställningar (${m.cards.map(c => c.mode).join(', ')})`);
+    gate(m.cards.map(c => c.mode).join(',') === (touch ? 'map,detailed,play,stats,settings' : 'detailed,map,play,stats,settings'), `${tag}: five cards, Detaljerad 3D, Lätt 3D, Spela, Statistik, Inställningar (${m.cards.map(c => c.mode).join(', ')})`);
     gate(m.cards.every(c => c.top >= 0 && c.bottom <= m.vh), `${tag}: all five whole on screen without scrolling (${m.cards.map(c => `${c.top}-${c.bottom}`).join(', ')} of ${m.vh})`);
     const marked = m.cards.filter(c => c.badge).map(c => c.mode);
     gate(marked.length === 1 && marked[0] === (touch ? 'map' : 'detailed'), `${tag}: the mode this device is best at is marked (${marked.join(', ') || 'none'})`);
@@ -599,7 +599,7 @@ await section('a round under way', async () => {
     const b = document.querySelector('#home [data-resume]');
     return { live: b.classList.contains('is-live'), text: b.textContent.replace(/\s+/g, ' ').trim() };
   });
-  gate(card.live && /Runda pågår/.test(card.text) && card.text.includes(course.name) && /Hål 3/.test(card.text) && /9 slag/.test(card.text),
+  gate(card.live && /Fortsätt GPS-rundan/.test(card.text) && card.text.includes(course.name) && /Hål 3/.test(card.text) && /9 slag/.test(card.text),
     `the menu offers the round under way first: "${card.text}"`);
   await page.click('#home [data-resume]');
   await page.waitForTimeout(500);
@@ -684,7 +684,11 @@ await section('your own card on the course page', async () => {
   await page.waitForTimeout(300);
   await page.click('#stats [data-back]');
   await page.waitForTimeout(600);
-  gate(await page.evaluate(() => location.hash) === '#karta', 'and Tillbaka returns to the list it came from');
+  await page.waitForSelector('#courseSheet[open]');
+  gate((await page.evaluate(() => location.hash)).startsWith(`#karta/${course.slug}`), 'and Tillbaka returns to the exact course setup that opened Statistik');
+  await page.keyboard.press('Escape');
+  await page.waitForSelector('#courseSheet:not([open])', { state: 'attached' });
+  gate((await page.evaluate(() => location.hash)) === '#karta', 'closing the restored setup returns to its list');
   await ctx.close();
 });
 
@@ -701,13 +705,13 @@ await section('mode switch and the way back', async () => {
   gate(after.hash === '#karta' && after.checked === 'map' && /kartan|Fortsätt/.test(after.cta) && /Lätt 3D/.test(after.title),
     `switching to Lätt 3D in place: ${after.hash}, "${after.cta}", "${after.title}"`);
   await page.keyboard.press('Escape');
-  await page.waitForTimeout(500);
+  await page.waitForSelector('#home:not([hidden])');
   gate(await page.evaluate(() => !document.getElementById('home').hidden && document.getElementById('chooser').hidden && location.hash === ''),
     'Escape goes back to the start menu (the switch replaced its step, so one back is enough)');
   await page.click('#home [data-settings]');
   await page.waitForSelector('#settings:not([hidden])');
   await page.goBack();
-  await page.waitForTimeout(500);
+  await page.waitForSelector('#home:not([hidden])');
   gate(await page.evaluate(() => !document.getElementById('home').hidden && document.getElementById('settings').hidden), 'the browser\'s back walks the screens');
   await ctx.close();
 });

@@ -11,14 +11,15 @@ import { isPhone } from '../shell/map-default.mjs';
 import { distanceText } from '../shell/nearest-course.mjs';
 import { detailedUrl, hubUrl, playUrl, reliveUrl } from '../shell/router.js';
 import { MODES, rememberLaunch } from '../shell/settings-store.mjs';
-import { initCloud, notifyLocalChange } from '../shell/cloud.mjs';
+import { getCloudState, initCloud, notifyLocalChange, savePlayerProfile } from '../shell/cloud.mjs';
+import { liveFrozen, liveGuardChange, publishLive } from '../shell/live-rounds.mjs';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
 import { createCamera, createFlight, EYE_FOV_DEGREES, MAX_DISTANCE, MAX_EYE_FOV_DEGREES, MAX_TILT, MIN_DISTANCE, MIN_EYE_FOV_DEGREES, MIN_TILT } from './map-camera.mjs';
 import { loadMapCourse } from './map-course.mjs';
 import { createGps, createGuidanceFix, createScreenLock, courseDownload, downloadCourse, offlineStatus } from './map-field.mjs';
 import { createMapRenderer } from './map-gl.mjs';
 import { shotUndo } from './map-shot-undo.mjs';
-import { addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isMeasured, isPutt, isPutter, learnedBag, lockShot, MEASURABLE_ACCURACY_METRES, openShot, parseHistory, reachOf, reopenPuttOnlyScores, retakeShot, SAME_SPOT_METRES, scoreAfterPutting, setPutts, shotLength, storeHistory, surfaceAt } from './map-shots.mjs';
+import { addPenalty, beforePutterLock, changeClub, closeHole, clubStats, correctClub, holeTally, isMeasured, isPutt, isPutter, learnedBag, lockShot, MEASURABLE_ACCURACY_METRES, openShot, parseHistory, reachOf, reopenPuttOnlyScores, retakeShot, SAME_SPOT_METRES, scoreAfterPutting, setPutts, shotAim, shotLength, shotReviewText, storeHistory, surfaceAt } from './map-shots.mjs';
 import { createGuidancePlanner } from './map-guidance.mjs';
 import { loadMapShotGeometry } from './map-shot-geometry.mjs';
 import { readMapShot } from './map-strategy.mjs';
@@ -355,6 +356,7 @@ root.innerHTML = `
       </div>
       <h3>Runda & klubbor</h3>
       <button class="map-row map-row-next" data-rounds-open><span>Mina rundor</span><span class="map-row-value" data-rounds-count></span></button>
+      <a class="map-row map-row-next" data-live-transfer href="${hubUrl('overlamna')}" hidden>Byt enhet för rundan</a>
       <button class="map-row map-row-next" data-clubs-open><span>Mina klubbor</span><span class="map-row-value" data-clubs-count></span></button>
       <a class="map-row map-row-next" href="${hubUrl('statistik')}"><span>Statistik</span><span class="map-row-value">Hela ditt spel</span></a>
       <a class="map-row map-row-next" data-course-stats style="display:none" href="${hubUrl('statistik')}"><span data-course-stats-name></span><span class="map-row-value" data-course-stats-count></span></a>
@@ -1689,6 +1691,13 @@ async function start() {
     };
     item.append(button);
     if (open) {
+      const review = shotReviewText(shot, clubName);
+      if (review) {
+        const detail = document.createElement('p');
+        detail.className = 'map-shots-hint';
+        detail.textContent = review;
+        item.append(detail);
+      }
       const clubs = document.createElement('div');
       clubs.className = 'map-chips map-shot-clubs';
       clubs.setAttribute('role', 'group');
@@ -1764,7 +1773,8 @@ async function start() {
 
   const teeChips = (after = () => {}) => (course.tees?.names ?? []).map((name, index) => chip(name, index === state.tee, () => {
     state.tee = index;
-    remember(`${TEE_KEY}:${course.slug}`, String(index));
+    if (state.previewOnly) clearEntryAddress(true);
+    else remember(`${TEE_KEY}:${course.slug}`, String(index));
     setAim(null);
     refreshNumbers();
     if (state.mode === 'hole') frameHole(500);
@@ -1785,6 +1795,7 @@ async function start() {
   }
 
   function refreshMenu() {
+    $('[data-live-transfer]').hidden = !(getCloudState().user && roundUnderWay());
     const hasHole = state.mode === 'hole';
     ui.menuTitle.textContent = course.name;
     ui.lightName.textContent = state.lightKey === 'nu' ? 'Nu' : lightByKey(state.lightKey)?.label ?? '';
@@ -1840,16 +1851,33 @@ async function start() {
 
   /* ---- the card ---- */
   const roundKey = `${ROUND_KEY}:${course.slug}`;
+  let accountChanged = false;
   let rounds = parseRounds(savedText(ROUNDS_KEY, null));
   const teeName = () => course.tees?.names?.[state.tee] ?? null;
   const keepRecord = record => {
-    rounds = keepRound(rounds, record);
+    if (accountChanged || liveFrozen(course.slug, record.id)) return record;
+    const stored = savedText(ROUNDS_KEY, null);
+    rounds = keepRound(stored === null ? rounds : parseRounds(stored), record);
     remember(ROUNDS_KEY, storeRounds(rounds));
     notifyLocalChange('round', { course: record.course, id: record.id });
     return record;
   };
   let shots = parseHistory(savedText(SHOTS_KEY, null));
   let round = parseRound(savedText(roundKey, null)) ?? newRound();
+  const leaveTransferred = () => {
+    if (accountChanged) return true;
+    if (!liveFrozen(course.slug, round.id)) return false;
+    location.replace(hubUrl());
+    return true;
+  };
+  if (leaveTransferred()) return;
+  addEventListener('storage', e => { if (liveGuardChange(e.key)) leaveTransferred(); });
+  addEventListener('banvy-account-changed', e => {
+    if (e.detail?.cacheReplaced || e.detail?.previousUserId && e.detail.previousUserId !== e.detail.userId) {
+      accountChanged = true;
+      location.replace(hubUrl());
+    }
+  });
   if (!Number.isFinite(round.handicap)) {
     const known = Number(savedText(HANDICAP_KEY, ''));
     if (savedText(HANDICAP_KEY, '') !== '' && Number.isFinite(known)) round.handicap = known;
@@ -1873,12 +1901,14 @@ async function start() {
   round.id ??= Date.now();
   const thisRecord = () => roundRecord(round, course, { tee: teeName(), at: round.endedAt ?? Date.now() });
   const saveRound = () => {
+    if (leaveTransferred()) return;
     if (roundUnderWay()) {
       round.begunAt ??= roundShots()[0]?.at ?? Date.now();
       round.playingHole = state.playing;
     }
     round.touchedAt = Date.now();
     remember(roundKey, JSON.stringify(round));
+    if (round.begunAt) publishLive(course.slug, round.id);
     /* A round ended can still be put right. */
     if (round.endedAt) keepRecord(thisRecord());
   };
@@ -2091,9 +2121,9 @@ async function start() {
   };
   ui.pickUp.onclick = () => setScore({ strokes: null, putts: null, picked: true, logged: false });
   const setHandicap = value => {
-    round.handicap = clamp(value, MIN_HANDICAP, MAX_HANDICAP);
-    remember(HANDICAP_KEY, String(round.handicap));
-    notifyLocalChange('handicap');
+    const handicap = clamp(value, MIN_HANDICAP, MAX_HANDICAP);
+    if (!savePlayerProfile('handicap', handicap)) { note('Handicap kunde inte sparas'); return; }
+    round.handicap = handicap;
     saveRound();
     refreshScore();
   };
@@ -2124,9 +2154,8 @@ async function start() {
     const own = record.id === round.id && record.course === course.slug;
     state.roundShown = record;
     ui.roundTitle.textContent = record.courseName;
-    /* the round's own course in Statistik, hole by hole (#statistik/<course>) */
     const stats = ui.roundSheet.querySelector('[data-round-stats]');
-    if (stats) stats.href = hubUrl(record.course ? `statistik/${encodeURIComponent(record.course)}` : 'statistik');
+    if (stats) stats.href = hubUrl(`statistik/${encodeURIComponent(record.course)}/${encodeURIComponent(record.id)}`);
     /* a kept round with shots that were located can be watched again on the detailed course */
     const relive = ui.roundSheet.querySelector('[data-round-relive]');
     const located = record.course && shots.some(s => s.course === record.course && s.round === record.id && Array.isArray(s.from));
@@ -2176,9 +2205,10 @@ async function start() {
     clearTimeout(droppingTimer);
     droppingTimer = 0;
     const record = state.roundShown;
-    rounds = dropRound(rounds, record);
+    if (leaveTransferred()) return;
+    rounds = dropRound(parseRounds(savedText(ROUNDS_KEY, storeRounds(rounds))), record);
     remember(ROUNDS_KEY, storeRounds(rounds));
-    shots = dropRoundShots(shots, record);
+    shots = dropRoundShots(parseHistory(savedText(SHOTS_KEY, storeHistory(shots))), record);
     remember(SHOTS_KEY, storeHistory(shots));
     notifyLocalChange('round-deleted', { course: record.course, id: record.id });
     undoPoint = null;
@@ -2192,7 +2222,7 @@ async function start() {
        words alone, as before, where a picture cannot be made */
     try {
       const { shareRoundCard } = await import('../shell/round-card.mjs');
-      const done = await shareRoundCard(record, { poster: `${BASE}courses/${record.course}/hero-1.webp`, text });
+      const done = await shareRoundCard(record, { poster: `${BASE}courses/${record.course}/hero-1.webp`, text, shots });
       if (done === 'saved') status('Bilden av rundan är sparad');
       if (done !== 'failed') return;
     } catch { /* the words alone */ }
@@ -2302,6 +2332,8 @@ async function start() {
   state.playing = entryState.playing;
   state.hole = entryState.shown;
   state.previewOnly = entryState.viewing;
+  const previewTee = Number(params.get('tee')) - 1;
+  if (state.previewOnly && Number.isInteger(previewTee) && course.tees?.names?.[previewTee]) state.tee = previewTee;
   state.handPicked = previewing();
   state.follow = !state.handPicked;
   if (reopenedScores || (roundUnderWay() && round.playingHole !== state.playing)) saveRound();
@@ -2309,6 +2341,11 @@ async function start() {
   if (stale && (!ours(stale) || Date.now() - stale.at > STALE_SHOT_MS)) shots = closeHole(shots, stale.hole);
   let clubHistoryStats = clubStats(shots);
   const saveShots = () => {
+    if (leaveTransferred()) return;
+    // Only this recording card owns its shot set. Other courses may have
+    // arrived from sync or another tab since the map last painted the trail.
+    const persisted = savedText(SHOTS_KEY, null);
+    if (persisted !== null) shots = [...parseHistory(persisted).filter(shot => !ours(shot)), ...roundShots()];
     undoPoint?.capture(shots);
     clubHistoryStats = clubStats(shots);
     remember(SHOTS_KEY, storeHistory(shots));
@@ -2316,7 +2353,12 @@ async function start() {
     saveRound();
     refreshTrail();
   };
-  initCloud();
+  const uploadCurrentRound = () => {
+    if (getCloudState().user && round.begunAt && !document.hidden && !leaveTransferred()) publishLive(course.slug, round.id);
+  };
+  initCloud().then(uploadCurrentRound);
+  addEventListener('online', uploadCurrentRound);
+  document.addEventListener('visibilitychange', uploadCurrentRound);
   /* One step back, whatever the last step was. */
   const markUndo = () => { undoPoint = shotUndo(shots); };
   let trail = [], trailFrom = null;
@@ -2387,7 +2429,8 @@ async function start() {
   function relearnBag() {
     clubHistoryStats = clubStats(shots);
     const next = learnedBag(bag, clubHistoryStats);
-    const changed = next.some((club, k) => club.carry !== playingBag[k].carry);
+    const changed = next.length !== playingBag.length || next.some((club, k) =>
+      club.id !== playingBag[k].id || club.name !== playingBag[k].name || club.carry !== playingBag[k].carry);
     if (changed) {
       playingBag = next;
       wheel.setClubs(wheelClubs(playingBag));
@@ -2395,6 +2438,28 @@ async function start() {
       invalidate();
     }
   }
+
+  function reloadPlayerHistory() {
+    if (leaveTransferred()) return;
+    rounds = parseRounds(savedText(ROUNDS_KEY, null));
+    const received = parseHistory(savedText(SHOTS_KEY, null));
+    const own = roundShots(), incoming = received.filter(ours);
+    // Keep local shot references for undo when only another round changed.
+    const ownChanged = JSON.stringify(own) !== JSON.stringify(incoming);
+    shots = [...received.filter(shot => !ours(shot)), ...(ownChanged ? incoming : own)];
+    if (ownChanged) undoPoint = null;
+    bag = parseBag(savedText(BAG_KEY, null));
+    if (state.manualClub && !bag.some(club => club.id === state.manualClub)) state.manualClub = null;
+    relearnBag();
+    refreshTrail();
+    refreshNumbers();
+    if (!ui.roundsBody.closest('[hidden]')) refreshRounds();
+    invalidate();
+  }
+  addEventListener('banvy-sync-changed', event => { if (!event.detail?.accountChanged) reloadPlayerHistory(); });
+  addEventListener('storage', event => {
+    if ([ROUNDS_KEY, SHOTS_KEY, BAG_KEY].includes(event.key)) reloadPlayerHistory();
+  });
 
   const nearOpenShot = open => open && state.player && Math.hypot(state.player.point[0] - open.from[0], state.player.point[1] - open.from[1]);
 
@@ -2596,7 +2661,9 @@ async function start() {
     const rise = before ? store.heightAt(point[0], point[1]) - store.heightAt(before.from[0], before.from[1]) : null;
     markUndo();
     diary.add('lock', [h.n, club.id, Math.round(accuracy)]);
-    shots = lockShot(shots, { hole: h.n, club, point, accuracy, at: Date.now(), lie, rise, farthest: reachOf(before && bag.find(each => each.id === before.club)), meta: { course: course.slug, round: round.id } });
+    shots = lockShot(shots, { hole: h.n, club, point, accuracy, at: Date.now(), lie, rise,
+      farthest: reachOf(before && bag.find(each => each.id === before.club)), meta: { course: course.slug, round: round.id },
+      aim: state.playing === state.hole ? shotAim(state.guidance, club) : null });
     saveShots();
     state.justLocked = true;
     const closed = before ? shots.at(-2) : null;
@@ -2677,7 +2744,7 @@ async function start() {
     const club = confirmedSameClub();
     if (!club) return;
     markUndo();
-    shots = retakeShot(shots, { club, at: Date.now() });
+    shots = retakeShot(shots, { club, at: Date.now(), aim: state.playing === state.hole ? shotAim(state.guidance, club) : null });
     saveShots();
     note(`Hål ${state.playing} · omslag · ett slag till`);
     refreshShotGuidance();
@@ -3217,13 +3284,16 @@ async function start() {
      while ordinary round links resume the confirmed hole from the card. */
   function clearEntryAddress(keepPreview = false) {
     if (!keepPreview && !params.has('runda') && !params.has('hal') && params.get('vy') !== 'forhandsvisning') return;
+    if (!keepPreview && params.has('tee') && (params.get('runda') === 'visa' || params.get('vy') === 'forhandsvisning')) state.tee = savedTee(course);
     params.delete('runda');
     if (keepPreview) {
       params.set('karta', '1');
       params.set('vy', 'forhandsvisning');
+      if (params.has('tee') || state.tee !== savedTee(course)) params.set('tee', String(state.tee + 1));
       params.set('hal', String(state.hole));
     } else {
       params.delete('hal');
+      params.delete('tee');
       if (params.get('vy') === 'forhandsvisning') params.delete('vy');
     }
     try {

@@ -17,7 +17,7 @@ import { createCourseSheet } from './shell/course-sheet.js';
 import { isPhone } from './shell/map-default.mjs';
 import { packRequestUrl } from './loader/pack.js';
 import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch, savedTee } from './shell/settings-store.mjs';
-import { initCloud } from './shell/cloud.mjs';
+import { getCloudState, initCloud } from './shell/cloud.mjs';
 
 const boot = document.getElementById('boot');
 /* The bare route never loads the player, so its HUD is placeholder markup ("1",
@@ -41,10 +41,23 @@ const TITLES = {
 try {
   if (message) message.textContent = 'laddar banor';
   if (bar) bar.style.width = '45%';
-  const response = await fetch(`${import.meta.env.BASE_URL}courses/index.json`);
-  if (!response.ok) throw new Error(`course manifest ${response.status}`);
-  const manifest = await response.json();
-  const courses = manifest.courses || [];
+  const catalogueKey = 'banvy-hub-catalogue-v1';
+  const courses = [];
+  let catalogueFailed = false;
+  try {
+    const saved = JSON.parse(storage()?.getItem(catalogueKey));
+    if (Array.isArray(saved)) courses.push(...saved);
+  } catch { /* no local catalogue yet */ }
+  const catalogueReady = (async () => {
+    try {
+      const response = await fetch(`${import.meta.env.BASE_URL}courses/index.json`, { signal: AbortSignal.timeout(8000) });
+      if (!response.ok) throw new Error('Banlistan kunde inte hämtas');
+      const manifest = await response.json();
+      if (!Array.isArray(manifest.courses)) throw new Error('Banlistan saknas');
+      courses.splice(0, courses.length, ...manifest.courses);
+      try { storage()?.setItem(catalogueKey, JSON.stringify(courses)); } catch { /* storage can be full */ }
+    } catch { catalogueFailed = true; }
+  })();
   const prefetched = new Set();
 
   /* A course opens in the mode it was picked in, with the settings' launch
@@ -54,35 +67,77 @@ try {
     location.assign(launchUrl(slug, mode, { phone: isPhone(), settings: readSettings(storage()), plan }));
   };
   /* A course card opens the course's own page, where the round is set up. */
-  const sheet = createCourseSheet({ courses, lines: COURSE_LINES, onLaunch: launch });
+  const sheet = createCourseSheet({ courses, lines: COURSE_LINES, onLaunch: launch, onDismiss: () => back(), onEdit: () => {
+    if (!sheet.isOpen()) return;
+    const setup = sheet.snapshot();
+    const [route, slug] = location.hash.slice(1).split('?')[0].split('/');
+    // Loading the guide can finish during a Back or new hash navigation.
+    if (!modeOfRoute(route) || slug !== encodeURIComponent(setup.slug)) return;
+    const query = new URLSearchParams();
+    if (setup.hole !== 1) query.set('hal', setup.hole);
+    query.set('tee', setup.tee + 1);
+    if (setup.guideHole !== setup.hole) query.set('guide', setup.guideHole);
+    const path = `#${MODES[setup.mode].route}/${encodeURIComponent(setup.slug)}?${query}`;
+    history.replaceState({ ...history.state, setup }, '', path);
+  } });
 
   /* Did this visit reach the current screen from inside the hub? Then the
      page's own back button is the browser's back; a screen opened by a link
      goes back to the start menu instead of out of the site. */
-  let walked = false;
-  const go = route => { walked = true; location.hash = route; };
-  const back = () => {
-    if (walked && history.length > 1) history.back();
-    else { history.replaceState(history.state, '', location.pathname + location.search); show(); }
-  };
-
-  const home = buildHome({
-    courses,
-    onMode: mode => go(MODES[mode].route),
-    onSettings: () => go('installningar'),
-    onAccount: () => go('installningar/konto'),
-    onStats: () => go('statistik'),
-    /* at a course: its own page, in the map */
-    onPlan: (slug, mode) => sheet.open(slug, mode),
-    /* back on the tee last chosen there; the map reads it from its own key */
-    onResume: (slug, mode, plan = null) => {
-      const course = courses.find(c => c.slug === slug);
-      launch(slug, mode, mode === 'detailed' && course ? { tee: savedTee(storage(), course) } : plan);
-    },
+  const patchHistory = patch => history.replaceState({ ...history.state, ...patch }, '');
+  let current = null, chooser = null, settings = null, stats = null, sequence = 0, cleanBag = false;
+  let chooserEntry = null;
+  function rememberScreen() {
+    if (!current) return;
+    const active = document.activeElement;
+    const focus = active?.closest('.card[data-slug]')?.dataset.slug;
+    const focusId = active?.id;
+    const state = { scroll: current.scrollTop, focusCourse: focus || null, focusId: focusId || null };
+    if (current === home) state.focusMode = active?.closest('.mode-card')?.dataset.mode || null;
+    if (current === chooser) state.chooser = chooser.snapshot();
+    if (sheet.isOpen()) state.setup = sheet.snapshot();
+    patchHistory(state);
+  }
+  function go(route, extra = {}) {
+    rememberScreen();
+    if (extra.returnCourse && current === chooser) patchHistory({ focusCourse: extra.returnCourse });
+    const from = location.hash;
+    history.pushState({ hubFrom: from, ...extra }, '', '#' + route);
+    show();
+  }
+  const openCourse = (slug, mode) => go(`${MODES[mode].route}/${encodeURIComponent(slug)}`, {
+    chooser: chooser?.snapshot(), returnCourse: slug,
   });
-  document.body.append(home);
+  function back() {
+    if (typeof history.state?.hubFrom === 'string') { history.back(); return; }
+    const [route, detail] = location.hash.slice(1).split('/');
+    const dest = detail ? '#' + route : location.pathname + location.search;
+    history.replaceState(null, '', dest);
+    show();
+  }
 
-  let chooser = null;
+  let home = null;
+  function getHome() {
+    if (home) return home;
+    home = buildHome({
+      courses,
+      onMode: mode => go(MODES[mode].route),
+      onSettings: () => go('installningar'),
+      onAccount: () => go('installningar/konto'),
+      onStats: () => go('statistik'),
+      /* at a course: its own page, in the map */
+      onPlan: openCourse,
+      onNearby: club => go(MODES.map.route, { chooser: { query: club } }),
+      /* back on the tee last chosen there; the map reads it from its own key */
+      onResume: (slug, mode, plan = null) => {
+        const course = courses.find(c => c.slug === slug);
+        launch(slug, mode, mode === 'detailed' && course ? { tee: savedTee(storage(), course) } : plan);
+      },
+    });
+    document.body.append(home);
+    return home;
+  }
+
   const getChooser = mode => {
     if (chooser) return chooser;
     chooser = buildRail({
@@ -92,10 +147,11 @@ try {
       isInitialBoot: true,
       context: 'hub',
       mode,
-      onPick: (slug, pickedMode) => sheet.open(slug, pickedMode),
+      onPick: openCourse,
       /* switching mode in place is not a new step back */
       onModeChange: next => {
         history.replaceState(history.state, '', `#${MODES[next].route}`);
+        chooserEntry = location.hash;
         chooser.setMode(next);
         document.title = TITLES[next];
       },
@@ -113,48 +169,89 @@ try {
         if (course?.packUrl) fetch(packRequestUrl(course), { priority: 'low' }).catch(() => {});
       },
     });
+    // Browser Back does not unload a hash route. Keep its entry current as the
+    // golfer edits the search or scrolls, so Forward restores those choices.
+    const rememberChooser = () => {
+      if (current === chooser && chooserEntry === location.hash && !sheet.isOpen()) rememberScreen();
+    };
+    for (const type of ['input', 'click', 'focusin']) chooser.addEventListener(type, rememberChooser);
+    let scrollTimer;
+    chooser.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(rememberChooser, 140);
+    }, { passive: true });
     chooser.hidden = true;
     document.body.append(chooser);
     return chooser;
   };
 
-  let settings = null;
   const getSettings = async () => {
     if (settings) return settings;
     const { buildSettings } = await import('./shell/settings-page.js');
-    settings = buildSettings({ courses, onBack: back });
+    if (settings) return settings;
+    settings = buildSettings({ courses, onBack: back, onBag: () => go('installningar/bag', { bagDraft: history.state?.bagDraft, bagOwner: history.state?.bagOwner }),
+      onBagDraft: draft => { if (location.hash === '#installningar/bag') patchHistory({ bagDraft: draft, bagOwner: getCloudState().user?.id ?? null }); }, onBagClosed: () => {
+      if (location.hash === '#installningar/bag') { patchHistory({ bagDraft: null }); cleanBag = true; back(); }
+    } });
     settings.hidden = true;
     document.body.append(settings);
     return settings;
   };
 
-  let stats = null;
   const getStats = async () => {
     if (stats) return stats;
     const { buildStats } = await import('./shell/stats-page.js');
+    if (stats) return stats;
     /* the rounds are the map's, so a course is played next in the map */
-    stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route), onCourse: slug => sheet.open(slug, 'map') });
+    stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route), onCourse: slug => openCourse(slug, 'map') });
     stats.hidden = true;
     document.body.append(stats);
     return stats;
   };
 
   /* --------------------------------------------------------------- show */
-  let current = null;
   const PAGES = { installningar: 'settings', statistik: 'stats' };
+  function catalogueNotice(screen) {
+    if (catalogueFailed && !screen.querySelector('.hub-catalogue-error')) {
+      const notice = document.createElement('aside');
+      notice.className = 'hub-catalogue-error';
+      const words = document.createElement('span');
+      words.textContent = courses.length ? 'Visar sparad banlista.' : 'Banlistan kunde inte hämtas.';
+      const retry = document.createElement('button');
+      retry.type = 'button';
+      retry.textContent = 'Försök igen';
+      retry.onclick = () => { rememberScreen(); location.reload(); };
+      notice.append(words, retry);
+      (screen.querySelector('.set-top, .hub-top, .chooser-top-bar') ?? screen.firstElementChild)?.after(notice);
+    }
+  }
   async function show() {
-    /* the course page belongs to the list it was opened from; any other step closes it */
-    if (sheet.isOpen()) sheet.close();
-    /* a screen and what it opens on: #statistik/<course> is one course's statistics */
-    const [route, detail = ''] = location.hash.replace(/^#\/?/, '').split('/');
+    const version = ++sequence;
+    chooserEntry = null;
+    const entry = history.state ?? {};
+    const [path, search] = location.hash.replace(/^#\/?/, '').split('?');
+    const [route, detail = '', roundId = ''] = path.split('/');
+    const query = new URLSearchParams(search);
     const mode = modeOfRoute(route);
     const key = mode || PAGES[route] || 'home';
-    const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats() : mode ? getChooser(mode) : home;
+    const toBag = key === 'settings' && detail === 'bag';
+    const fromBag = document.querySelector('#bagDialog[open]');
+    if (!toBag && fromBag) {
+      const draft = settings?.leaveBag();
+      if (key === 'settings' && draft) patchHistory({ bagDraft: draft, bagOwner: getCloudState().user?.id ?? null });
+    }
+    if (!toBag && cleanBag) { cleanBag = false; patchHistory({ bagDraft: null }); }
+    if (sheet.isOpen()) sheet.close();
+    if (mode) await catalogueReady;
+    if (version !== sequence) return;
+    const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats() : mode ? getChooser(mode) : getHome();
+    if (version !== sequence) return;
     if (mode && screen.getMode() !== mode) screen.setMode(mode);
-    const course = key === 'stats' && detail ? decodeURIComponent(detail) : null;
-    if (course) screen.showCourse(course);
+    const course = key === 'stats' && detail ? detail : null;
+    if (course) screen.showCourse(course, roundId || null);
     else if (key !== 'detailed' && key !== 'map') screen.refresh?.();
     const swap = () => {
+      if (version !== sequence) return;
       for (const other of [home, chooser, settings, stats]) if (other && other !== screen) other.hidden = true;
       screen.hidden = false;
       screen.classList.remove('leaving');
@@ -164,17 +261,69 @@ try {
     const first = !document.documentElement.classList.contains('hub-ready');
     if (!first && !REDUCED && document.startViewTransition && current !== screen) {
       document.documentElement.dataset.hubTo = key;
-      await document.startViewTransition(swap).finished.catch(() => {});
+      const transition = document.startViewTransition(swap);
+      transition.ready.catch(() => {}); // a faster navigation can skip this animation
+      await transition.updateCallbackDone.catch(() => {});
     } else swap();
+    if (version !== sequence) return;
     document.title = TITLES[key];
     document.documentElement.classList.add('hub-ready');
     /* where a keyboard and a screen reader land: the screen's own heading */
     if (!first) (screen.querySelector('h1[tabindex]') || screen.querySelector('h1'))?.focus({ preventScroll: true });
+    if (mode && entry.chooser) await chooser.restore(entry.chooser);
+    else if (entry.scroll && !toBag) screen.scrollTop = entry.scroll;
+    if (version !== sequence) return;
+    if (mode && detail && courses.some(c => c.slug === detail)) {
+      sheet.open(detail, mode, { ...entry.setup, mode,
+        hole: query.has('hal') ? Number(query.get('hal')) : entry.setup?.hole,
+        guideHole: query.has('guide') ? Number(query.get('guide')) : entry.setup?.guideHole,
+        tee: query.has('tee') ? Number(query.get('tee')) - 1 : entry.setup?.tee,
+      });
+      document.title = `${courses.find(c => c.slug === detail).name} · ${TITLES[key]}`;
+    } else if (toBag) {
+      screen.focusSection?.('set-player');
+      await settings.openBag(entry.bagOwner === (getCloudState().user?.id ?? null) ? entry.bagDraft : null);
+      if (version !== sequence) settings.leaveBag();
+    } else if (entry.focusCourse && mode) {
+      chooser.focusCourse(entry.focusCourse);
+    } else if (entry.focusMode && screen === home) {
+      screen.querySelector(`.mode-card[data-mode="${CSS.escape(entry.focusMode)}"]`)?.focus({ preventScroll: true });
+    } else if (fromBag) screen.querySelector('[data-bag-edit]')?.focus({ preventScroll: true });
+    else if (entry.focusId) screen.querySelector('#' + CSS.escape(entry.focusId))?.focus({ preventScroll: true });
+    if (mode && !detail) chooserEntry = location.hash;
     if (course) screen.revealCourse();
+    catalogueNotice(screen);
     if (key === 'settings' && detail === 'konto') requestAnimationFrame(() => screen.focusSection?.('set-account'));
   }
-  /* a link inside the hub (the course page's statistics) is a step walked here too */
-  addEventListener('hashchange', () => { walked = true; show(); });
+  // Same-document links from the course guide and settings are hub entries too.
+  document.addEventListener('click', event => {
+    if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest?.('a[href]');
+    if (!link || link.target || link.hasAttribute('download')) return;
+    const target = new URL(link.href);
+    if (!target.hash || target.origin !== location.origin || target.pathname !== location.pathname || target.search !== location.search) return;
+    event.preventDefault();
+    if (target.hash !== location.hash) go(target.hash.slice(1));
+  });
+  addEventListener('hashchange', show);
+  addEventListener('pagehide', rememberScreen);
+  addEventListener('pageshow', e => { if (e.persisted) show(); });
+  addEventListener('banvy-account-changed', e => {
+    if (!e.detail?.previousUserId && !e.detail?.cacheReplaced) return;
+    settings?.discardBag?.();
+    patchHistory({ bagDraft: null });
+    if (location.hash === '#installningar/bag') back();
+  });
+  catalogueReady.then(() => {
+    if (current === stats && stats) {
+      const [, course, roundId] = location.hash.slice(1).split('/');
+      if (course) { stats.showCourse(course, roundId || null); stats.revealCourse(); }
+      else stats.refresh();
+    }
+    if (current === settings && settings) settings.refresh();
+    if (current === home && home) home.refresh();
+    if (current) catalogueNotice(current);
+  });
   initCloud();
 
   /* Escape is the way back from a list or the settings. The search field and

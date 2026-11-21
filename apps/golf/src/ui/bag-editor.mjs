@@ -1,3 +1,4 @@
+import { bindDetailedBag } from '../shell/detailed-bag.mjs';
 import { DEFAULT_BAG, MAX_BAG_CLUBS, normalizeBag } from '../engine/caddie.js';
 import { clubAssetKey, clubKind, clubIcon, CLUB_KINDS } from '../engine/club-design.mjs';
 import './bag-editor.css';
@@ -36,7 +37,8 @@ export function gapNotes(clubs) {
   return notes;
 }
 
-export function createBagEditor({ getBag, onSave }) {
+export function createBagEditor({ getBag, onSave, onClose, onDraft, persistsProfile = false }) {
+  if (!persistsProfile) onSave = bindDetailedBag(getBag, onSave);
   const $ = id => document.getElementById(id);
   const dialog = $('bagDialog'), form = $('bagForm'), shell = dialog.querySelector('.bag-shell');
   const inventory = dialog.querySelector('.bag-inventory'), detail = $('bagDetail'), list = $('bagList');
@@ -186,8 +188,10 @@ export function createBagEditor({ getBag, onSave }) {
     clubs = normalizeBag(value).map(club => ({ ...club }));
     if (!byId(selectedId)) selectedId = clubs.find(club => clubKind(club) === 'iron')?.id || clubs[0].id;
   }
-  function open() {
+  function draft() { return dirty() ? { clubs: clubs.map(club => ({ ...club })), selectedId } : null; }
+  function open(savedDraft = null) {
     if (dialog.open) return;
+    if (Array.isArray(savedDraft?.clubs) && savedDraft.clubs.length) keptDraft = savedDraft;
     baseline = snapshot(normalizeBag(getBag()));
     // A draft left by a close we could not intercept (a repeated back gesture) is kept.
     if (keptDraft) { ({ clubs, selectedId } = keptDraft); keptDraft = null; }
@@ -213,7 +217,11 @@ export function createBagEditor({ getBag, onSave }) {
       return;
     }
     if (!clubs.some(club => !isPutter(club))) { error.textContent = 'Bagen behöver minst en klubba med carry.'; error.hidden = false; return; }
-    if (dirty()) onSave(normalizeBag(clubs).sort((a,b) => b.carry-a.carry));
+    if (dirty() && onSave(normalizeBag(clubs).sort((a, b) => b.carry - a.carry)) === false) {
+      error.textContent = 'Bagen kunde inte sparas på enheten. Kontrollera lagringsutrymmet och försök igen.';
+      error.hidden = false;
+      return;
+    }
     close();
   }
   function requestClose() {
@@ -355,6 +363,7 @@ export function createBagEditor({ getBag, onSave }) {
   });
   dialog.addEventListener('close', () => {
     if (!closing && dirty()) keptDraft = { clubs: clubs.map(club => ({ ...club })), selectedId };
+    if (closing) onClose?.();
     closing = false; clearTimeout(loadTimer); hideUndo(); viewer?.setActive(false);
   });
   compact.addEventListener('change', () => { if (dialog.open) { applyView(); loadModel(); } });
@@ -374,5 +383,16 @@ export function createBagEditor({ getBag, onSave }) {
     if (button.dataset.clubPose !== 'hero' && mode !== 'head') setMode('head');
     viewer?.pose(button.dataset.clubPose);
   };
-  return { open };
+  for (const type of ['input', 'change', 'click']) dialog.addEventListener(type, () => {
+    if (onDraft && dialog.open) onDraft(draft());
+  });
+  return { open, discard() {
+    keptDraft = null;
+    if (dialog.open) { baseline = snapshot(clubs); dialog.close(); }
+  }, leave() {
+    if (!dialog.open) return null;
+    const saved = draft();
+    dialog.close();
+    return saved;
+  } };
 }

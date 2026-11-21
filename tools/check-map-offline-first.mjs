@@ -41,6 +41,10 @@ try {
   const ready = () => document.querySelector('[data-download]').textContent === 'Sparad';
   await wait(() => ['Sparad', 'Försök spara offline igen'].includes(document.querySelector('[data-download]').textContent));
   assert.ok(await page.evaluate(ready), await page.locator('[data-status]').textContent());
+  const savedRow = page.locator('[data-offline-course="visby"]');
+  const openSettings = () => page.goto(new URL('#installningar', base).href, { waitUntil: 'domcontentloaded' });
+  await openSettings();
+  await savedRow.getByText('Redo för spel offline').waitFor();
   const count = await page.evaluate(async () => {
     const cache = await caches.open('banvy-map-offline-v1'), keys = await cache.keys();
     for (const pattern of [/\/decode-web-.*\.js$/, /\/terrain\/.*\.bvch$/, /\.offline\.json$/]) {
@@ -58,7 +62,9 @@ try {
     await page.locator('#chooser .card[data-slug="visby"]').click();
   }
   await openHubCourse();
-  await page.getByRole('button', { name: 'Reparera offlinebanan' }).click();
+  await page.getByRole('button', { name: 'Reparera offlinebanan' }).waitFor();
+  await openSettings();
+  await savedRow.getByRole('link', { name: /Reparera/ }).click();
   await page.locator('[data-menu-sheet]:visible [data-download]').waitFor();
   assert.deepEqual(await page.evaluate(() => [V3DMap.round().begunAt || null, document.querySelector('[data-gps]').getAttribute('aria-pressed')]), [null, 'false']);
   await wait(() => document.querySelector('[data-download]').textContent === 'Reparera offlinebanan');

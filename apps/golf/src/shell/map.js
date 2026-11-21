@@ -7,7 +7,7 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ICONS } from './icons.js';
-import { COURSE_LOCATIONS } from './course-places.mjs';
+import { COURSE_LOCATIONS, HOST_CLUB } from './course-places.mjs';
 
 export { COURSE_LOCATIONS };
 
@@ -42,6 +42,12 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
   const controls = document.createElement('div');
   controls.className = 'map-region-bar';
   const mappedCourses = courses.filter(course => COURSE_LOCATIONS[course.slug]);
+  const layouts = new Map();
+  for (const course of mappedCourses) {
+    const club = HOST_CLUB[course.slug] ?? course.slug;
+    if (!layouts.has(club)) layouts.set(club, []);
+    layouts.get(club).push(course);
+  }
   const regionCourses = region => mappedCourses.filter(course =>
     region.regions.includes(COURSE_LOCATIONS[course.slug].region));
   controls.innerHTML = `
@@ -97,6 +103,7 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
     const loc = COURSE_LOCATIONS[course.slug] || { city: 'Sverige', regionTag: course.tag, iconName: 'flag' };
     const iconSvg = ICONS[loc.iconName] ? ICONS[loc.iconName](13) : ICONS.flag(13);
     const isCurrent = course.slug === current;
+    const siblings = layouts.get(HOST_CLUB[course.slug] ?? course.slug) ?? [course];
 
     previewPanel.innerHTML = `
       <div class="mpp-card">
@@ -110,6 +117,7 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
         <div class="mpp-titles">
           <div class="mpp-city">${esc(loc.city)}</div>
           <h3>${esc(course.name)}</h3>
+          ${siblings.length > 1 ? `<label class="mpp-layout-label">Bana <select data-map-layout>${siblings.map(s => `<option value="${esc(s.slug)}"${s.slug === course.slug ? ' selected' : ''}>${esc(s.name)}</option>`).join('')}</select></label>` : ''}
         </div>
         <div class="mpp-body">
           <p class="mpp-line">${esc(course.description || LINES[course.slug] || course.club)}</p>
@@ -128,6 +136,11 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
     `;
 
     previewPanel.classList.add('visible');
+    const select = previewPanel.querySelector('[data-map-layout]');
+    if (select) select.onchange = () => {
+      showPreview(siblings.find(c => c.slug === select.value));
+      previewPanel.querySelector('[data-map-layout]').focus();
+    };
 
     previewPanel.querySelector('#mppCloseBtn').onclick = () => {
       previewPanel.classList.remove('visible');
@@ -139,7 +152,8 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
   }
 
   // Create custom pulsing emerald pins for all courses
-  courses.forEach(c => {
+  layouts.forEach(group => {
+    const c = group.find(course => course.slug === current || course.slug === lead) ?? group[0];
     const loc = COURSE_LOCATIONS[c.slug];
     if (!loc) return;
 
@@ -200,7 +214,7 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
      pins themselves always stay, and a hidden plate comes back on hover and as
      soon as the map is zoomed far enough for it to fit. */
   const labelOrder = [...new Set([current, lead, ...Object.keys(markers)])].filter(slug => markers[slug]);
-  const overlaps = (a, b) => !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+  const overlaps = (a, b) => !(a.right + 3 < b.left || a.left > b.right + 3 || a.bottom + 3 < b.top || a.top > b.bottom + 3);
   function declutter() {
     const pins = labelOrder.map(slug => markers[slug].getElement()?.querySelector('.golf-map-pin')).filter(Boolean);
     for (const pin of pins) pin.classList.remove('label-off');
@@ -212,7 +226,8 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
       if (blocked) pin.classList.add('label-off'); else kept.push(plate);
     });
   }
-  map.on('zoomend moveend', declutter);
+  map.on('zoomend moveend resize', () => requestAnimationFrame(declutter));
+  document.fonts?.ready.then(declutter);
 
   /* What a fit has to stay clear of. The region bar lies across the top of the
      map and, on a phone, the preview row across the bottom of it -- a fit to the

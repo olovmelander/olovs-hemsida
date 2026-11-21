@@ -840,7 +840,9 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   flex-direction: column;
   padding-bottom: calc(clamp(12px, 2.4vh, 28px) + env(safe-area-inset-bottom, 0px));
 }
-#chooser.map-mode .chooser-controls { display: none; }
+#chooser.map-mode .chooser-controls { position: static; }
+.mpp-layout-label { display: flex; align-items: center; gap: .5rem; }
+.mpp-layout-label select { min-height: 40px; max-width: 100%; font: inherit; }
 #chooser.map-mode .chooser-scroll {
   flex: 1 1 auto;
   min-height: 0;
@@ -1874,6 +1876,9 @@ a.drawer-main-btn { text-decoration: none; }
      not a poster -- at full size it covered 60% of the map and every pin under
      it the moment the map opened. */
   #chooser.map-mode .chooser-head { display: none; }
+  #chooser.map-mode .chooser-controls { padding: 2px 0; gap: 4px; }
+  #chooser.map-mode .chooser-inner { padding-bottom: max(8px, env(safe-area-inset-bottom, 0px)); }
+  #chooser.map-mode .chooser-scroll { padding-top: 4px; }
   .mrb-label { display: none; }
   .mrb-btn { min-height: 32px; padding: 0 10px; font-size: 11.5px; }
   .mpp-card { grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto 1fr; }

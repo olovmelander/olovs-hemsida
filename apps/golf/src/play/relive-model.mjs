@@ -8,7 +8,7 @@
    hole replays its measured shots exactly, and its putts from the first putt's
    spot, rolled to the cup in as many putts as were counted (and said so). */
 import { parseRounds } from '../map/map-rounds.mjs';
-import { parseHistory, isPutt } from '../map/map-shots.mjs';
+import { parseHistory, isPutt, shotComparison } from '../map/map-shots.mjs';
 
 export const MAP_ROUNDS_KEY = 'banvy-map-rounds-v1';
 export const MAP_SHOTS_KEY = 'banvy-map-shots-v1';
@@ -38,7 +38,7 @@ function puttLeave(k, count, distance) {
  *   cup       [x, z] of the hole's cup
  * Each stroke: { club, putt, from, to, measured, outcome, penalty, distance, counted }
  */
-export function holeStrokes(shots, toCourse, cup) {
+export function holeStrokes(shots, toCourse, cup, { scored = true } = {}) {
   const strokes = [];
   const plays = shots.filter(s => Array.isArray(s.from));
   const putts = plays.filter(isPutt), full = plays.filter(s => !isPutt(s));
@@ -48,12 +48,14 @@ export function holeStrokes(shots, toCourse, cup) {
     const from = toCourse(s.from);
     // A shot's end is its own `to`, else where the next one was played from.
     const next = full[i + 1] ?? putts[0] ?? null;
+    const review = shotComparison(s);
     let to = s.to ? toCourse(s.to) : next?.from ? toCourse(next.from) : null;
-    const ended = !to && !next;
+    const ended = scored && !review && !to && !next;
     if (!to && ended) to = cup.slice();         // the last stroke on the hole: it went in
     strokes.push({ club: s.club, putt: false, from, to, measured: Boolean(s.to || next?.from), outcome: s.outcome || 'played',
       penalty: Number(s.penalty) || 0, inHazard: Boolean(s.inHazard), fromLie: s.fromLie, toLie: s.toLie,
-      distance: to ? Math.hypot(to[0] - from[0], to[1] - from[1]) : null, counted: false, holed: ended });
+      distance: to ? Math.hypot(to[0] - from[0], to[1] - from[1]) : null, counted: false, holed: ended,
+      ...(review ? { recordedShot: s, target: toCourse(review.aim.target), measuredOutcome: review.actual !== null } : {}) });
     last = to;
   }
   if (putts.length) {
@@ -67,7 +69,7 @@ export function holeStrokes(shots, toCourse, cup) {
         fromLie: 'green', toLie: 'green', distance: Math.hypot(to[0] - at[0], to[1] - at[1]), counted: true, holed: leave <= 0 });
       at = to;
     }
-  } else if (strokes.length && !strokes.at(-1).holed) {
+  } else if (scored && strokes.length && !strokes.at(-1).recordedShot && !strokes.at(-1).holed) {
     // No putts counted: the last measured shot finished the hole.
     strokes.at(-1).holed = true;
   }
@@ -80,20 +82,28 @@ export function holeStrokes(shots, toCourse, cup) {
  * Returns null when the round is not stored. Holes without any located shot
  * are kept with an empty stroke list (shown, not played).
  */
-export function reliveRound(storage, slug, roundId, { toCourse, cupOf }) {
+export function reliveRound(storage, slug, roundId, { toCourse, cupOf, parOf = () => null, holeCount = 18 }) {
   const id = Number(roundId);
-  const record = parseRounds(storage?.getItem(MAP_ROUNDS_KEY) ?? 'null').find(r => r.course === slug && Number(r.id) === id);
-  if (!record) return null;
+  const archive = parseRounds(storage?.getItem(MAP_ROUNDS_KEY) ?? 'null').find(r => r.course === slug && Number(r.id) === id);
   const shots = parseHistory(storage?.getItem(MAP_SHOTS_KEY) ?? 'null').filter(s => s.course === slug && Number(s.round) === id);
+  if (!archive && !shots.length) return null;
+  const date = new Date(shots.find(s => Number.isFinite(s.at))?.at ?? NaN);
+  const record = archive ?? { holes: [], holeCount, date: Number.isFinite(+date) ? date.toISOString().slice(0, 10) : '' };
   const byHole = new Map();
   for (const s of shots) {
     if (!byHole.has(s.hole)) byHole.set(s.hole, []);
     byHole.get(s.hole).push(s);
   }
   const first = n => Math.min(...(byHole.get(n) ?? []).map(s => s.at ?? Infinity));
-  const holes = (record.holes ?? []).slice().sort((a, b) => (first(a.n) - first(b.n)) || (a.n - b.n)).map(card => ({
+  const cards = new Map((record.holes ?? []).map(card => [card.n, card]));
+  for (const n of byHole.keys()) {
+    if (!cards.has(n) && Number.isInteger(n) && n >= 1 && n <= Math.min(record.holeCount ?? holeCount, holeCount)) {
+      cards.set(n, { n, par: parOf(n) ?? record.pars?.[n - 1], strokes: null, putts: null });
+    }
+  }
+  const holes = [...cards.values()].sort((a, b) => (first(a.n) - first(b.n)) || (a.n - b.n)).map(card => ({
     n: card.n, par: card.par, strokes: card.strokes, putts: card.putts, picked: Boolean(card.picked),
-    plays: holeStrokes(byHole.get(card.n) ?? [], toCourse, cupOf(card.n)),
+    plays: holeStrokes(byHole.get(card.n) ?? [], toCourse, cupOf(card.n), { scored: Number.isFinite(card.strokes) && !card.picked }),
   }));
   return { id, slug, courseName: record.courseName, date: record.date, tee: record.tee, totals: record.totals ?? null, holes };
 }

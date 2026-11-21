@@ -102,4 +102,18 @@ for (const [width, height] of SIZES) {
 }
 
 gate(errors.length === 0, `no page errors${errors.length ? `: ${errors[0]}` : ''}`);
+for (const [width, height] of [[568, 320], [667, 375], [390, 844]]) {
+  await page.setViewportSize({ width, height });
+  const toggle = page.locator('#mobileMiniToggle'), close = page.locator('#miniCloseBtn');
+  await toggle.click();
+  const reachable = await close.evaluate(el => {
+    const r = el.getBoundingClientRect();
+    return r.top >= 0 && r.bottom <= innerHeight && r.width >= 44 && r.height >= 44
+      && el.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2));
+  });
+  gate(reachable, `${width}x${height}: open overview has a reachable touch close button`);
+  await close.click();
+  gate(await toggle.evaluate(el => el === document.activeElement && el.getAttribute('aria-expanded') === 'false'),
+    'closing the overview restores its launcher');
+}
 await browser.close();

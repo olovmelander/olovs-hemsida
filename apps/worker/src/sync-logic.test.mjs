@@ -80,6 +80,11 @@ describe('worker sync validation & normalization', () => {
     expect(res.payload.rounds).toEqual([]);
   });
 
+  it('rejects oversized sets instead of acknowledging and replacing a truncated log', () => {
+    const shotSet = { course: 'visby', roundId: 1, updatedAt: 1, shots: Array(401).fill({ hole: 1, club: 'iron' }) };
+    expect(validateSyncPayload({ shotSets: [shotSet] })).toMatchObject({ ok: false, error: expect.stringContaining('lokala slag') });
+  });
+
   it('only marks dirty slices when incoming timestamps are strictly newer', () => {
     const server = {
       profile: { handicap: 14, handicapUpdatedAt: 500, bag: null, bagUpdatedAt: 0 },
