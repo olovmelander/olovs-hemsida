@@ -66,7 +66,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
   dialog.setAttribute('aria-labelledby', 'csTitle');
   document.body.append(dialog);
 
-  let restoreScroll = 0;
+  let restoreScroll = 0, restoreFocus = '';
   let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false, mine = null, activeRound = null, checkpoint = null, guideHole = 1;
 
   function history(slug) {
@@ -129,7 +129,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
               <div><span>Rundor här</span><b>${past.rounds}</b></div>
               <div><span>Bästa per 18 hål</span><b>${past.best ? signed(past.best.perEighteen) : '–'}</b>${past.best ? `<small>${past.best.strokes} slag på ${past.best.holes} hål</small>` : ''}</div>
               <div><span>Snitt per 18</span><b>${past.average !== null ? signed(past.average) : '–'}</b></div>
-              <a class="cs-past-more" href="${hubUrl(`statistik/${encodeURIComponent(c.slug)}`)}">Hål för hål i Statistik<span aria-hidden="true">→</span></a>
+              <a id="csPastStats" class="cs-past-more" href="${hubUrl(`statistik/${encodeURIComponent(c.slug)}`)}">Hål för hål i Statistik<span aria-hidden="true">→</span></a>
             </div>` : ''}
 
             <fieldset class="cs-field">
@@ -263,6 +263,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     /* scrolled, the column's top fades under the close button (course-sheet.css) */
     const scroller = dialog.querySelector('.cs-scroll');
     scroller.addEventListener('scroll', () => scroller.classList.toggle('is-scrolled', scroller.scrollTop > 6), { passive: true });
+    scroller.addEventListener('scrollend', () => { if (dialog.open) onEdit?.(); });
     for (const btn of dialog.querySelectorAll('[data-guide-step]')) btn.addEventListener('click', () => {
       const list = dialog.querySelector('[data-guide]');
       const step = (list.firstElementChild?.offsetWidth ?? 260) + 10;
@@ -372,7 +373,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
           </div>
         </div>
         ${h.note ? `<p class="cs-hole-note">${esc(h.note)}</p>` : ''}
-        <button type="button" class="cs-ghost" data-guide-preview="${h.n}">Visa hål ${h.n} i ${plan.mode === 'detailed' ? 'detaljerad 3D' : 'Lätt 3D'}</button>
+        <button type="button" class="cs-ghost" id="csGuidePreview${h.n}" data-guide-preview="${h.n}">Visa hål ${h.n} i ${plan.mode === 'detailed' ? 'detaljerad 3D' : 'Lätt 3D'}</button>
       </li>`).join('');
     list.onclick = e => {
       const button = e.target.closest('[data-guide-preview]');
@@ -384,7 +385,16 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
       onLaunch(course.slug, plan.mode === 'detailed' ? 'detailed' : 'map', { round: false, tee: plan.tee, hole, light: plan.light });
     };
     list.scrollLeft = keep;
-    if (!guideShown) { guideShown = true; showHole(guideHole, false); if (restoreScroll) dialog.querySelector('.cs-scroll').scrollTop = restoreScroll; restoreScroll = 0; }
+    if (!guideShown) {
+      guideShown = true;
+      showHole(guideHole, false);
+      if (restoreScroll) dialog.querySelector('.cs-scroll').scrollTop = restoreScroll;
+      if (restoreFocus && document.activeElement === dialog.querySelector('[data-go]')) {
+        dialog.querySelector('#' + CSS.escape(restoreFocus))?.focus({ preventScroll: true });
+      }
+      restoreScroll = 0;
+      restoreFocus = '';
+    }
   }
 
   /* the guide follows the hole the round starts on (the list is the holes' offset parent) */
@@ -449,7 +459,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     onEdit?.();
     if (plan.mode === 'map' && (!round || activeRound)) {
       close();
-      onLaunch(course.slug, 'map', round ? { round: 'resume' } : { round: false, hole: activeRound?.hole ?? plan.hole, offline });
+      onLaunch(course.slug, 'map', round ? { round: 'resume' } : { round: false, tee: plan.tee, hole: activeRound?.hole ?? plan.hole, offline });
       return;
     }
     /* the choices are kept where the map reads them, so both programs agree */
@@ -482,7 +492,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
 
   dialog.addEventListener('cancel', e => { e.preventDefault(); dismiss(); });
   return {
-    snapshot: () => ({ ...plan, slug: course?.slug, guideHole, scroll: dialog.querySelector('.cs-scroll')?.scrollTop ?? 0 }),
+    snapshot: () => ({ ...plan, slug: course?.slug, guideHole, scroll: dialog.querySelector('.cs-scroll')?.scrollTop ?? 0,
+      focusId: dialog.contains(document.activeElement) ? document.activeElement.id : null }),
     open(slug, mode = 'detailed', draft = {}) {
       course = courses.find(c => c.slug === slug);
       if (!course) return;
@@ -501,9 +512,11 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
       if (draft.light === NOW_LIGHT.player || LIGHTS.some(l => l.player === draft.light)) plan.light = draft.light;
       guideHole = validHole(draft.guideHole) ? draft.guideHole : plan.hole;
       restoreScroll = Math.max(0, Number(draft.scroll) || 0);
+      restoreFocus = draft.focusId || '';
       render();
       dialog.showModal();
-      dialog.querySelector('[data-go]').focus({ preventScroll: true });
+      const opener = draft.focusId ? dialog.querySelector('#' + CSS.escape(draft.focusId)) : null;
+      (opener || dialog.querySelector('[data-go]')).focus({ preventScroll: true });
       if (restoreScroll) dialog.querySelector('.cs-scroll').scrollTop = restoreScroll;
     },
     close,

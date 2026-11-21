@@ -48,7 +48,10 @@ function cardPart(holes, onHole) {
     const words = hole.picked ? 'struket' : Number.isFinite(hole.strokes) ? `${hole.strokes} slag` : 'inget resultat';
     made.setAttribute('aria-label', `Hål ${hole.n}, par ${hole.par}, ${words}`);
     made.append(content);
-    if (onHole) made.onclick = () => onHole(hole.n);
+    if (onHole) {
+      made.dataset.reviewHole = String(hole.n);
+      made.onclick = () => onHole(hole.n, made);
+    }
     return made;
   };
   const score = hole => {
@@ -226,7 +229,8 @@ export function renderRounds(element, { rounds, trend, onOpen }) {
     score.append(node('b', '', record.totals.strokes ? String(record.totals.strokes) : '–'), node('small', '', record.totals.strokes ? toParText(record.totals.toPar) : ''));
     button.append(title, score);
     button.setAttribute('aria-label', `${record.courseName}, ${dateText(record.date)}, ${record.totals.strokes ? `${record.totals.strokes} slag` : 'inga hål med score'}`);
-    button.onclick = () => onOpen(record);
+    button.dataset.reviewRound = record.id;
+    button.onclick = () => onOpen(record, button);
     item.append(button);
     return item;
   }));

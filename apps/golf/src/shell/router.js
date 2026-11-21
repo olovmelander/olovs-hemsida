@@ -81,3 +81,37 @@ export function goToCourse(slug) {
 export function hubUrl(route = '') {
   return `${BASE}${route ? `#${route}` : ''}`;
 }
+
+/* A visit opened by a bookmark has no in-app history to go back through.
+   Remove one layer of its address, including a dialog on a round detail. */
+export function parentHubRoute(hash) {
+  const [path, search] = hash.replace(/^#\/?/, '').split('?');
+  const query = new URLSearchParams(search);
+  if (path.split('/')[0] === 'statistik' && query.get('filter') === '1') {
+    query.delete('filter');
+    return path + (query.size ? '?' + query : '');
+  }
+  const parts = path.split('/').filter(Boolean);
+  parts.pop();
+  return parts.join('/');
+}
+
+/* Only offer browser Back across documents for a course within this app's
+   mount. A link opened in a new tab may have a referrer but no prior entry. */
+export function previousCourseEntry({ href, referrer, historyLength, previousUrl, base = BASE }) {
+  if (!referrer || historyLength < 2) return false;
+  try {
+    const scope = new URL(base, href);
+    const from = new URL(referrer);
+    if (from.origin !== scope.origin || ![scope.pathname, scope.pathname + 'index.html'].includes(from.pathname)
+        || !from.searchParams.get('bana')) return false;
+    if (previousUrl !== undefined) {
+      if (!previousUrl) return false;
+      const previous = new URL(previousUrl);
+      previous.hash = '';
+      from.hash = '';
+      return previous.href === from.href;
+    }
+    return true;
+  } catch { return false; }
+}

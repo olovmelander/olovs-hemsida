@@ -36,10 +36,10 @@ const CHECK = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" strok
 const GOOGLE_MARK = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M21.8 12.23c0-.72-.06-1.41-.18-2.07H12v3.92h5.5a4.7 4.7 0 0 1-2.04 3.09v2.57h3.3c1.93-1.78 3.04-4.4 3.04-7.51z"/><path fill="currentColor" opacity=".82" d="M12 22c2.76 0 5.07-.91 6.76-2.46l-3.3-2.57c-.91.61-2.08.98-3.46.98-2.66 0-4.91-1.8-5.72-4.21H2.87v2.65A10.2 10.2 0 0 0 12 22z"/><path fill="currentColor" opacity=".68" d="M6.28 13.74a6.12 6.12 0 0 1 0-3.48V7.61H2.87a10.2 10.2 0 0 0 0 8.78l3.41-2.65z"/><path fill="currentColor" opacity=".92" d="M12 6.05c1.5 0 2.85.52 3.91 1.53l2.93-2.93C17.06 2.99 14.76 2 12 2A10.2 10.2 0 0 0 2.87 7.61l3.41 2.65C7.09 7.85 9.34 6.05 12 6.05z"/></svg>';
 
 const SECTIONS = [
-  { id: 'set-player', label: 'Spelare och bag', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="7.5" r="3.6"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>' },
-  { id: 'set-display', label: 'Visning och tillgänglighet', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>' },
-  { id: 'set-offline', label: 'Offlinebanor', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>' },
-  { id: 'set-account', label: 'Konto och data', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>' },
+  { id: 'set-player', route: 'spelare', label: 'Spelare och bag', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="7.5" r="3.6"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6"/></svg>' },
+  { id: 'set-display', route: 'visning', label: 'Visning och tillgänglighet', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>' },
+  { id: 'set-offline', route: 'offline', label: 'Offlinebanor', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>' },
+  { id: 'set-account', route: 'konto', label: 'Konto och data', icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>' },
 ];
 
 /* ------------------------------------------------------------ the controls */
@@ -77,7 +77,7 @@ function swatches(name, field, value, fallback, labelId) {
   </div>`;
 }
 
-export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft }) {
+export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft, onSection }) {
   const el = document.createElement('div');
   el.id = 'settings';
   el.className = 'hub-screen';
@@ -100,7 +100,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft 
     <div class="set-inner">
       <div class="set-layout">
         <nav class="set-nav" aria-label="Avsnitt">
-          ${SECTIONS.map(sec => `<button type="button" data-jump="${sec.id}"><span class="sn-icon" aria-hidden="true">${sec.icon}</span>${sec.label}</button>`).join('')}
+          ${SECTIONS.map(sec => `<button type="button" id="settingsNav-${sec.route}" data-jump="${sec.id}"><span class="sn-icon" aria-hidden="true">${sec.icon}</span>${sec.label}</button>`).join('')}
         </nav>
         <div class="set-main">
 
@@ -117,7 +117,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft 
               <div class="set-row is-stacked set-bag">
                 <div class="set-label"><b>Min bag</b><small data-bag-summary></small></div>
                 <ol class="bag-ladder" data-bag-ladder aria-label="Carry per klubba"></ol>
-                <button class="set-primary" type="button" data-bag-edit>Redigera bagen</button>
+                <button class="set-primary" type="button" id="settingsBag" data-bag-edit>Redigera bagen</button>
               </div>
             </div>
           </section>
@@ -159,7 +159,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft 
             <div class="set-panel" data-account-panel hidden></div>
             <h3 class="set-subhead" id="set-data" tabindex="-1">Data på enheten</h3>
             <div class="set-panel">
-              <div class="set-row"><div class="set-label"><b>Sparade rundor</b><small>Allt de räknas till finns under Statistik, och varje runda under Meny, Mina rundor, i kartan.</small></div><div class="set-control set-inline"><span class="set-metric" data-rounds>0</span><a class="set-link" href="#statistik">Statistik</a></div></div>
+              <div class="set-row"><div class="set-label"><b>Sparade rundor</b><small>Allt de räknas till finns under Statistik, och varje runda under Meny, Mina rundor, i kartan.</small></div><div class="set-control set-inline"><span class="set-metric" data-rounds>0</span><a class="set-link" id="settingsStats" href="#statistik">Statistik</a></div></div>
               <div class="set-row is-stacked set-backup">
                 <div class="set-label"><b>Säkerhetskopia</b><small>Spara dina rundor, slag, din bag och dina inställningar i en fil. Offlinebanor hämtas på varje enhet.</small></div>
                 <div class="set-inline">
@@ -304,12 +304,31 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft 
 
   /* ----------------------------------------------------------------- data */
   let offlineCheck = 0;
+  function keepAccountPosition(update) {
+    // The offline inventory sits immediately above Konto. It can arrive
+    // after a cold deep link or a reload has already positioned that section.
+    const account = $('#set-account');
+    const before = account.getBoundingClientRect().top;
+    const visible = !el.hidden && el.scrollTop > 0 && before < el.getBoundingClientRect().bottom &&
+      (account.contains(document.activeElement) || before <= $('.set-top').getBoundingClientRect().bottom);
+    update();
+    if (visible) el.scrollTop += account.getBoundingClientRect().top - before;
+  }
   async function checkOfflineCourses() {
     const check = ++offlineCheck;
     const available = courses.filter(course => course.status !== 'mapping');
     const list = $('[data-offline-list]');
     const status = $('[data-offline-names]');
     status.textContent = 'Kontrollerar filer på den här enheten…';
+    if (available.length !== list.children.length || available.some((course, i) => list.children[i].dataset.offlineCourse !== course.slug)) {
+      keepAccountPosition(() => {
+        list.innerHTML = available.map(course => {
+          const url = launchUrl(course.slug, 'map', { plan: { round: false, offline: true } });
+          return `<div class="set-row" data-offline-course="${esc(course.slug)}"><div class="set-label"><b>${esc(course.name)}</b><small>Kontrollerar…</small></div>
+            <a hidden class="set-link" id="settingsOffline-${esc(course.slug)}" href="${esc(url)}"></a></div>`;
+        }).join('');
+      });
+    }
     const statuses = await Promise.all(available.map(course => savedCourseStatus(course.slug, { catalogue: course })));
     if (check !== offlineCheck) return;
     const ready = statuses.filter(value => value === 'ready').length;
@@ -320,12 +339,16 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft 
       unsaved: ['Finns inte på enheten', 'Spara offline'],
       unavailable: ['Kunde inte kontrollera filerna', 'Kontrollera'],
     };
-    list.innerHTML = available.map((course, i) => {
-      const [message, action] = labels[statuses[i]] ?? labels.unavailable;
-      const url = launchUrl(course.slug, 'map', { plan: { round: false, offline: true } });
-      return `<div class="set-row" data-offline-course="${esc(course.slug)}"><div class="set-label"><b>${esc(course.name)}</b><small>${message}</small></div>
-        ${action ? `<a class="set-link" href="${esc(url)}" aria-label="${esc(action + ' · ' + course.name)}">${action}</a>` : ''}</div>`;
-    }).join('');
+    keepAccountPosition(() => {
+      available.forEach((course, i) => {
+        const row = list.children[i], link = row.querySelector('a');
+        const [message, action] = labels[statuses[i]] ?? labels.unavailable;
+        row.querySelector('small').textContent = message;
+        link.hidden = !action;
+        link.textContent = action;
+        if (action) link.setAttribute('aria-label', action + ' · ' + course.name);
+      });
+    });
   }
   window.addEventListener('pageshow', () => { if (!el.hidden) checkOfflineCourses(); });
   document.addEventListener('visibilitychange', () => { if (!document.hidden && !el.hidden) checkOfflineCourses(); });
@@ -561,15 +584,26 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft 
   const scroller = el;
   const navBtns = [...el.querySelectorAll('[data-jump]')];
   const jumpTo = id => {
-    const target = el.querySelector(`#${id}`);
+    const section = SECTIONS.find(item => item.id === id || item.route === id);
+    const target = section && el.querySelector('#' + section.id);
     if (!target || target.hidden) return;
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    scroller.scrollTo({ top: Math.max(0, target.offsetTop - 84), behavior: reduced ? 'auto' : 'smooth' });
+    const header = el.querySelector('.set-top');
+    const nav = el.querySelector('.set-nav');
+    const navStyle = getComputedStyle(nav);
+    const edge = navStyle.flexDirection === 'row'
+      ? Math.max(header.getBoundingClientRect().bottom, scroller.getBoundingClientRect().top + (parseFloat(navStyle.top) || 0) + nav.offsetHeight)
+      : header.getBoundingClientRect().bottom;
+    const top = scroller.scrollTop + target.getBoundingClientRect().top - edge - 12;
+    scroller.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
     const heading = target.querySelector('h2') || target;
     heading.tabIndex = -1;
     heading.focus({ preventScroll: true });
   };
-  navBtns.forEach(btn => btn.addEventListener('click', () => jumpTo(btn.dataset.jump)));
+  navBtns.forEach(btn => btn.addEventListener('click', () => {
+    const section = SECTIONS.find(item => item.id === btn.dataset.jump);
+    if (onSection) onSection(section.route);
+    else jumpTo(section.id);
+  }));
   el.focusSection = jumpTo;
   /* the section in view is the one the nav marks */
   if ('IntersectionObserver' in window) {

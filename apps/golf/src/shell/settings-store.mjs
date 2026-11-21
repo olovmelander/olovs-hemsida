@@ -27,7 +27,7 @@ export const LAST_MODE_KEY = 'banvy-last-mode';
 export const MODES = Object.freeze({
   detailed: Object.freeze({ route: '3d', label: 'Detaljerad 3D', short: 'Detaljerad', cta: 'Starta i 3D' }),
   map: Object.freeze({ route: 'karta', label: 'Lätt 3D', short: 'Lätt 3D', cta: 'Öppna kartan' }),
-  play: Object.freeze({ route: 'spela', label: 'Spela', short: 'Spela', cta: 'Spela banan' }),
+  play: Object.freeze({ route: 'spela', label: 'Simulator', short: 'Simulator', cta: 'Välj bana' }),
 });
 /* The golfers Spela can play as (engine/golfer.mjs GOLFER_CHARACTERS) */
 export const PLAY_CHARACTERS = Object.freeze([

@@ -171,6 +171,12 @@ try {
       if (mobile) {
         await closeFilters(page);
         await openFilters(page);
+        await page.goBack();
+        await dialog(page).waitFor({ state: 'hidden' });
+        assert.ok(await toggle(page).evaluate(el => el === document.activeElement), 'native Back returns focus to Filter');
+        assert.equal(new URL(page.url()).hash, '#statistik');
+        await page.goForward();
+        await dialog(page).waitFor();
         assert.ok(await dialog(page).locator('input[value="90"]').isChecked());
         assert.equal(await dialog(page).locator('[data-course]').inputValue(), guest.slug);
         await closeFilters(page, true);
@@ -196,6 +202,18 @@ try {
       assert.equal(await detail(2).getAttribute('open'), '', 'the exact scorecard reopens after reload');
       await page.goto(base + '/#statistik/' + course.slug + '/missing');
       await dashboard.getByText('Rundan finns inte i din sparade historik.').waitFor();
+      if (!mobile) {
+        const deep = await ctx.newPage();
+        await deep.goto(base + '/?utm_source=scorecard#statistik/' + course.slug + '/2');
+        await deep.locator(`[data-round-key="${course.slug}|2"][open]`).waitFor();
+        // A link opened directly has no preceding in-app screens in this tab.
+        for (const hash of ['#statistik/' + course.slug, '#statistik', '']) {
+          await deep.locator('#stats [data-back]').click();
+          await deep.waitForURL(url => url.hash === hash);
+        }
+        await deep.locator('#home:visible').waitFor();
+        await deep.close();
+      }
       assert.deepEqual(errors, []);
       console.log(`${width}×${height} · mixed histories, exact round, putt coverage, course ranking and carry preserved`);
     } finally { await ctx.close(); }
@@ -258,9 +276,45 @@ try {
     const current = await sparsePage.locator('.st-tabs [aria-current="true"]').evaluateAll(chips => chips.map(chip => chip.dataset.jump));
     assert.deepEqual(current, [id], 'the tapped section stays selected at the shared bottom position');
   }
+  const roundSummary = sparsePage.locator('.st-round > summary').first();
+  await roundSummary.click();
+  const bagLink = sparsePage.locator('#statsBag');
+  await bagLink.focus();
+  await bagLink.scrollIntoViewIfNeeded();
+  const beforeBag = await sparsePage.locator('#stats').evaluate(el => el.scrollTop);
+  await bagLink.press('Enter');
+  await sparsePage.locator('#bagDialog[open]').waitFor();
+  await sparsePage.goBack();
+  await sparsePage.waitForFunction(() => document.activeElement?.id === 'statsBag');
+  const returned = await sparsePage.locator('#stats').evaluate(el => ({ y: el.scrollTop, expanded: Boolean(el.querySelector('.st-round[open]')) }));
+  assert.ok(Math.abs(returned.y - beforeBag) <= 2 && returned.expanded, 'Back from Min bag restores the same place and expanded scorecard');
+  await sparsePage.goto(base + '/#installningar');
+  await sparsePage.locator('[data-jump="set-offline"]').click();
+  await sparsePage.waitForURL('**/#installningar/offline');
+  await sparsePage.reload();
+  await sparsePage.waitForFunction(() => document.activeElement?.id === 'set-offline-h');
+  const headingClear = await sparsePage.evaluate(() => {
+    const heading = document.getElementById('set-offline-h').getBoundingClientRect();
+    return heading.top >= document.querySelector('#settings .set-nav').getBoundingClientRect().bottom - 1 && heading.top < innerHeight;
+  });
+  assert.ok(headingClear, 'the reloaded section heading stays visible under both sticky header rows');
+  await sparsePage.locator('[data-jump="set-account"]').click();
+  await sparsePage.waitForURL('**/#installningar/konto');
+  await sparsePage.waitForFunction(() => document.activeElement?.id === 'set-account-h');
+  // A fresh catalogue can finish after history has restored the Konto heading.
+  await sparsePage.evaluate(() => localStorage.removeItem('banvy-hub-catalogue-v1'));
+  let releaseCatalogue;
+  const catalogue = new Promise(resolve => { releaseCatalogue = resolve; });
+  await sparsePage.route('**/courses/index.json', async route => { await catalogue; await route.continue(); });
+  await sparsePage.reload({ waitUntil: 'domcontentloaded' });
+  await sparsePage.waitForFunction(() => document.activeElement?.id === 'set-account-h');
+  releaseCatalogue();
+  await sparsePage.locator('[data-offline-course]').first().waitFor({ state: 'attached' });
+  const accountY = await sparsePage.locator('#set-account-h').evaluate(el => el.getBoundingClientRect().top);
+  assert.ok(accountY >= 0 && accountY < 844, 'Konto remains visible when newly verified course rows arrive above it');
   await sparsePage.goto(base + '/');
   await sparsePage.locator('[data-stats-summary]').waitFor();
   assert.match(await sparsePage.locator('[data-stats-summary]').innerText(), /1 hål med score · 4 slag · [Pp]ar/);
   await small.close();
-  console.log('A single recorded hole shows the real strokes, Stableford points, score coverage and bag link.');
+  console.log('A single recorded hole preserves score coverage and Stableford points. Back from Min bag restores the scorecard; section reloads keep Offlinebanor and Konto visible.');
 } finally { await browser.close(); }

@@ -15,6 +15,7 @@ import { buildRail, lastCourse, COURSE_LINES } from './shell/rail.js';
 import { buildHome } from './shell/home.js';
 import { createCourseSheet } from './shell/course-sheet.js';
 import { isPhone } from './shell/map-default.mjs';
+import { parentHubRoute, previousCourseEntry } from './shell/router.js';
 import { packRequestUrl } from './loader/pack.js';
 import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch, savedTee } from './shell/settings-store.mjs';
 import { getCloudState, initCloud } from './shell/cloud.mjs';
@@ -35,7 +36,7 @@ const TITLES = {
   map: 'Lätt 3D med GPS — välj bana · Banvy',
   settings: 'Inställningar · Banvy',
   stats: 'Statistik · Banvy',
-  play: 'Spela — välj bana · Banvy',
+  play: 'Simulator — välj bana · Banvy',
 };
 
 try {
@@ -84,9 +85,18 @@ try {
   /* Did this visit reach the current screen from inside the hub? Then the
      page's own back button is the browser's back; a screen opened by a link
      goes back to the start menu instead of out of the site. */
-  const patchHistory = patch => history.replaceState({ ...history.state, ...patch }, '');
+  const patchHistory = patch => {
+    const previous = history.state;
+    if (Object.keys(patch).every(key => JSON.stringify(previous?.[key]) === JSON.stringify(patch[key]))) return;
+    history.replaceState({ ...previous, ...patch }, '');
+  };
+  const nav = window.navigation;
+  if (typeof history.state?.hubFrom !== 'string' && previousCourseEntry({ href: location.href, referrer: document.referrer, historyLength: history.length,
+    previousUrl: nav?.currentEntry ? nav.entries().find(entry => entry.index === nav.currentEntry.index - 1)?.url ?? null : undefined,
+  })) patchHistory({ hubFrom: document.referrer });
   let current = null, chooser = null, settings = null, stats = null, sequence = 0, cleanBag = false;
-  let chooserEntry = null;
+  let displayedHash = null;
+  const routeUrl = route => route ? '#' + route : location.pathname + location.search;
   function rememberScreen() {
     if (!current) return;
     const active = document.activeElement;
@@ -95,14 +105,28 @@ try {
     const state = { scroll: current.scrollTop, focusCourse: focus || null, focusId: focusId || null };
     if (current === home) state.focusMode = active?.closest('.mode-card')?.dataset.mode || null;
     if (current === chooser) state.chooser = chooser.snapshot();
+    if (current === stats) state.stats = stats.snapshot();
     if (sheet.isOpen()) state.setup = sheet.snapshot();
     patchHistory(state);
+  }
+  function keepPlace(screen) {
+    // Same-document history traversal never runs pagehide. Save the scroll and
+    // keyboard target on the entry the user is actually interacting with.
+    const remember = () => {
+      if (current === screen && displayedHash === location.hash && !document.querySelector('dialog[open]')) rememberScreen();
+    };
+    for (const type of ['focusin', 'input', 'click']) screen.addEventListener(type, remember);
+    let scrollTimer;
+    screen.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(remember, 140);
+    }, { passive: true });
   }
   function go(route, extra = {}) {
     rememberScreen();
     if (extra.returnCourse && current === chooser) patchHistory({ focusCourse: extra.returnCourse });
     const from = location.hash;
-    history.pushState({ hubFrom: from, ...extra }, '', '#' + route);
+    history.pushState({ hubFrom: from, ...extra }, '', routeUrl(route));
     show();
   }
   const openCourse = (slug, mode) => go(`${MODES[mode].route}/${encodeURIComponent(slug)}`, {
@@ -110,10 +134,14 @@ try {
   });
   function back() {
     if (typeof history.state?.hubFrom === 'string') { history.back(); return; }
-    const [route, detail] = location.hash.slice(1).split('/');
-    const dest = detail ? '#' + route : location.pathname + location.search;
-    history.replaceState(null, '', dest);
+    history.replaceState(null, '', routeUrl(parentHubRoute(location.hash)));
     show();
+  }
+  function openHome() {
+    const from = history.state?.hubFrom;
+    if (from === '' || from === '#') history.back();
+    else if (from == null) { history.replaceState(null, '', routeUrl('')); show(); }
+    else go('');
   }
 
   let home = null;
@@ -134,6 +162,7 @@ try {
         launch(slug, mode, mode === 'detailed' && course ? { tee: savedTee(storage(), course) } : plan);
       },
     });
+    keepPlace(home);
     document.body.append(home);
     return home;
   }
@@ -151,11 +180,11 @@ try {
       /* switching mode in place is not a new step back */
       onModeChange: next => {
         history.replaceState(history.state, '', `#${MODES[next].route}`);
-        chooserEntry = location.hash;
+        displayedHash = location.hash;
         chooser.setMode(next);
         document.title = TITLES[next];
       },
-      onHome: back,
+      onHome: openHome,
       onSettings: () => go('installningar'),
       /* Warm the cache for the course under the pointer -- by the SAME url the
          player and the map will ask for, or the warm-up is a whole pack
@@ -169,17 +198,7 @@ try {
         if (course?.packUrl) fetch(packRequestUrl(course), { priority: 'low' }).catch(() => {});
       },
     });
-    // Browser Back does not unload a hash route. Keep its entry current as the
-    // golfer edits the search or scrolls, so Forward restores those choices.
-    const rememberChooser = () => {
-      if (current === chooser && chooserEntry === location.hash && !sheet.isOpen()) rememberScreen();
-    };
-    for (const type of ['input', 'click', 'focusin']) chooser.addEventListener(type, rememberChooser);
-    let scrollTimer;
-    chooser.addEventListener('scroll', () => {
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(rememberChooser, 140);
-    }, { passive: true });
+    keepPlace(chooser);
     chooser.hidden = true;
     document.body.append(chooser);
     return chooser;
@@ -189,11 +208,14 @@ try {
     if (settings) return settings;
     const { buildSettings } = await import('./shell/settings-page.js');
     if (settings) return settings;
-    settings = buildSettings({ courses, onBack: back, onBag: () => go('installningar/bag', { bagDraft: history.state?.bagDraft, bagOwner: history.state?.bagOwner }),
+    settings = buildSettings({ courses, onBack: back,
+      onSection: section => { if (location.hash === '#installningar/' + section) settings.focusSection(section); else go('installningar/' + section); },
+      onBag: () => go('installningar/bag', { bagDraft: history.state?.bagDraft, bagOwner: history.state?.bagOwner }),
       onBagDraft: draft => { if (location.hash === '#installningar/bag') patchHistory({ bagDraft: draft, bagOwner: getCloudState().user?.id ?? null }); }, onBagClosed: () => {
       if (location.hash === '#installningar/bag') { patchHistory({ bagDraft: null }); cleanBag = true; back(); }
     } });
     settings.hidden = true;
+    keepPlace(settings);
     document.body.append(settings);
     return settings;
   };
@@ -203,8 +225,21 @@ try {
     const { buildStats } = await import('./shell/stats-page.js');
     if (stats) return stats;
     /* the rounds are the map's, so a course is played next in the map */
-    stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route), onCourse: slug => openCourse(slug, 'map') });
+    stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route), onCourse: slug => openCourse(slug, 'map'),
+      onFiltersOpen: () => {
+        const [path, search] = location.hash.slice(1).split('?');
+        const query = new URLSearchParams(search);
+        if (query.get('filter') === '1') return;
+        query.set('filter', '1');
+        go(path + '?' + query, { stats: stats.snapshot() });
+      },
+      onFiltersClose: back,
+    });
+    stats.addEventListener('stats-view-change', () => {
+      if (current === stats && displayedHash === location.hash) patchHistory({ stats: stats.snapshot() });
+    });
     stats.hidden = true;
+    keepPlace(stats);
     document.body.append(stats);
     return stats;
   };
@@ -227,14 +262,22 @@ try {
   }
   async function show() {
     const version = ++sequence;
-    chooserEntry = null;
     const entry = history.state ?? {};
-    const [path, search] = location.hash.replace(/^#\/?/, '').split('?');
+    const hash = location.hash;
+    const [path, search] = hash.replace(/^#\/?/, '').split('?');
     const [route, detail = '', roundId = ''] = path.split('/');
     const query = new URLSearchParams(search);
     const mode = modeOfRoute(route);
     const key = mode || PAGES[route] || 'home';
     const toBag = key === 'settings' && detail === 'bag';
+    const filterOpen = key === 'stats' && query.get('filter') === '1';
+    const closingFilters = current === stats && stats && !filterOpen && displayedHash != null
+      && new URLSearchParams(displayedHash.split('?')[1]).get('filter') === '1'
+      && displayedHash.split('?')[0] === hash.split('?')[0];
+    const savedStats = entry.stats?.owner === (getCloudState().user?.id ?? null) ? entry.stats : null;
+    const statsView = closingFilters ? stats.snapshot() : savedStats;
+    if (closingFilters) patchHistory({ stats: statsView });
+    if (current === stats && stats && !filterOpen) stats.setFiltersOpen(false);
     const fromBag = document.querySelector('#bagDialog[open]');
     if (!toBag && fromBag) {
       const draft = settings?.leaveBag();
@@ -248,8 +291,10 @@ try {
     if (version !== sequence) return;
     if (mode && screen.getMode() !== mode) screen.setMode(mode);
     const course = key === 'stats' && detail ? detail : null;
-    if (course) screen.showCourse(course, roundId || null);
-    else if (key !== 'detailed' && key !== 'map') screen.refresh?.();
+    if (key === 'stats') {
+      if (course && !statsView) screen.showCourse(course, roundId || null);
+      else screen.restore(statsView ?? null);
+    } else if (!mode) screen.refresh?.();
     const swap = () => {
       if (version !== sequence) return;
       for (const other of [home, chooser, settings, stats]) if (other && other !== screen) other.hidden = true;
@@ -270,8 +315,8 @@ try {
     document.documentElement.classList.add('hub-ready');
     /* where a keyboard and a screen reader land: the screen's own heading */
     if (!first) (screen.querySelector('h1[tabindex]') || screen.querySelector('h1'))?.focus({ preventScroll: true });
-    if (mode && entry.chooser) await chooser.restore(entry.chooser);
-    else if (entry.scroll && !toBag) screen.scrollTop = entry.scroll;
+    if (mode) await chooser.restore(entry.chooser ?? {});
+    else if (Number.isFinite(entry.scroll) && !toBag) screen.scrollTop = entry.scroll;
     if (version !== sequence) return;
     if (mode && detail && courses.some(c => c.slug === detail)) {
       sheet.open(detail, mode, { ...entry.setup, mode,
@@ -288,12 +333,14 @@ try {
       chooser.focusCourse(entry.focusCourse);
     } else if (entry.focusMode && screen === home) {
       screen.querySelector(`.mode-card[data-mode="${CSS.escape(entry.focusMode)}"]`)?.focus({ preventScroll: true });
-    } else if (fromBag) screen.querySelector('[data-bag-edit]')?.focus({ preventScroll: true });
+    } else if (closingFilters) document.getElementById('statsFilters')?.focus({ preventScroll: true });
     else if (entry.focusId) screen.querySelector('#' + CSS.escape(entry.focusId))?.focus({ preventScroll: true });
-    if (mode && !detail) chooserEntry = location.hash;
-    if (course) screen.revealCourse();
+    else if (fromBag && key === 'settings') screen.querySelector('[data-bag-edit]')?.focus({ preventScroll: true });
+    displayedHash = hash;
+    if (course && !statsView) screen.revealCourse();
+    if (key === 'stats') screen.setFiltersOpen(filterOpen);
+    if (key === 'settings' && detail && !toBag && !Number.isFinite(entry.scroll)) screen.focusSection(detail);
     catalogueNotice(screen);
-    if (key === 'settings' && detail === 'konto') requestAnimationFrame(() => screen.focusSection?.('set-account'));
   }
   // Same-document links from the course guide and settings are hub entries too.
   document.addEventListener('click', event => {
@@ -301,7 +348,9 @@ try {
     const link = event.target.closest?.('a[href]');
     if (!link || link.target || link.hasAttribute('download')) return;
     const target = new URL(link.href);
-    if (!target.hash || target.origin !== location.origin || target.pathname !== location.pathname || target.search !== location.search) return;
+    const base = new URL(import.meta.env.BASE_URL, location.href);
+    if (!target.hash || target.origin !== base.origin || ![base.pathname, base.pathname + 'index.html'].includes(target.pathname)) return;
+    if (target.search && target.search !== location.search) return;
     event.preventDefault();
     if (target.hash !== location.hash) go(target.hash.slice(1));
   });
@@ -316,9 +365,10 @@ try {
   });
   catalogueReady.then(() => {
     if (current === stats && stats) {
-      const [, course, roundId] = location.hash.slice(1).split('/');
-      if (course) { stats.showCourse(course, roundId || null); stats.revealCourse(); }
-      else stats.refresh();
+      const [, course] = location.hash.slice(1).split('?')[0].split('/');
+      // Catalogue names can finish loading after local statistics and filters.
+      stats.restore(stats.snapshot());
+      if (course && history.state?.stats?.owner !== (getCloudState().user?.id ?? null)) stats.revealCourse();
     }
     if (current === settings && settings) settings.refresh();
     if (current === home && home) home.refresh();

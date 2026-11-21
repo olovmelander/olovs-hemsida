@@ -24,6 +24,7 @@
    isOpen, updateActiveCam, updateActivePreset, setDevOverlay, setFrameCap,
    and the drawer's `open` class its key guard reads.
    =========================================================================== */
+import { createPanelHistory } from '../ui/panel-history.mjs';
 import '../styles/drawer.css';
 import { ICONS } from './icons.js';
 import { hubUrl, mapUrl } from './router.js';
@@ -65,8 +66,12 @@ const CAMS = [
 ];
 const NOW_SKY = 'conic-gradient(from 200deg, #294885, #8295ba, #d3b89a, #568bc6, #294885)';
 
+const DRAWER_KEY = 'banvyDetailedMenu';
+// The detailed viewer synchronizes its camera URL while booting.
+const initialEntry = globalThis.history?.state?.[DRAWER_KEY];
+
 export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse, onAction, devOverlay = false }) {
-  const drawer = document.createElement('div');
+  const drawer = document.createElement('dialog');
   drawer.id = 'navDrawer';
   drawer.className = 'nav-drawer';
   drawer.setAttribute('role', 'dialog');
@@ -186,10 +191,51 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
   `;
 
   const $ = sel => drawer.querySelector(sel);
-  const close = () => {
-    drawer.classList.remove('open');
-    document.getElementById('menuToggle')?.classList.remove('open');
+  let viewChange = null;
+  const panels = createPanelHistory({ history, key: DRAWER_KEY, course: current, render(path) {
+    const launcher = document.getElementById('menuToggle');
+    const panel = path.at(-1);
+    launcher?.setAttribute('aria-expanded', String(Boolean(panel)));
+    launcher?.classList.toggle('open', Boolean(panel));
+    drawer.classList.toggle('open', Boolean(panel));
+    if (!panel) {
+      if (drawer.open) {
+        drawer.close();
+        launcher?.focus({ preventScroll: true });
+      }
+      return;
+    }
+    if (!drawer.open && drawer.isConnected) drawer.showModal();
+    syncTiles();
+    selectTab(panel.tab || 'play', true);
+  } });
+  const close = () => panels.close();
+  const open = () => {
+    if (!panels.current) panels.open({ tab: tabs.find(tab => tab.getAttribute('aria-selected') === 'true')?.dataset.tab });
   };
+  function chooseView(action) {
+    const before = location.href;
+    action();
+    if (location.href !== before) {
+      // The viewer's camera/light controls update the current URL. Preserve
+      // their new view when the drawer's transient history entry is removed.
+      viewChange = location.href;
+      if (panels.current) panels.update({ view: viewChange });
+    }
+  }
+  window.addEventListener('popstate', event => {
+    if (viewChange && !event.state?.[DRAWER_KEY]?.path?.length) {
+      history.replaceState(history.state, '', viewChange);
+      viewChange = null;
+    }
+    panels.restore(event.state);
+  });
+  drawer.addEventListener('cancel', event => { event.preventDefault(); close(); });
+  drawer.addEventListener('keydown', event => event.stopPropagation());
+  const launcher = document.getElementById('menuToggle');
+  launcher?.setAttribute('aria-haspopup', 'dialog');
+  launcher?.setAttribute('aria-controls', drawer.id);
+  launcher?.setAttribute('aria-expanded', 'false');
   $('#navDrawerBackdrop').addEventListener('click', close);
   $('#drawerCloseBtn').addEventListener('click', close);
   $('#drawerStartBtn').addEventListener('click', () => { close(); onBackToStart(); });
@@ -206,6 +252,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     }
     for (const panel of drawer.querySelectorAll('[data-panel]')) panel.hidden = panel.dataset.panel !== name;
     $('.nd-scroll').scrollTop = 0;
+    if (panels.current && panels.current.tab !== name) panels.update({ tab: name });
     try { window.sessionStorage.setItem(TAB_KEY, name); } catch { /* the first tab next time */ }
   };
   tabs.forEach(tab => tab.addEventListener('click', () => selectTab(tab.dataset.tab)));
@@ -220,8 +267,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
   /* ------------------------------------------------------------ tools
      Each tile clicks the panel's own button, so the course has one behaviour
      and one state for it; the tile reads that state back. */
-  const RAIL_OF = { fly: 'flyBtn', tour: 'tourBtn', range: 'rangeBtn', strategy: 'strategyBtn', grid: 'gridBtn', gps: 'gpsBtn', bag: 'bagBtn' };
-  const ACTION_OF = { note: 'toggleNote', mini: 'toggleMini' };
+  const RAIL_OF = { fly: 'flyBtn', tour: 'tourBtn', range: 'rangeBtn', strategy: 'strategyBtn', grid: 'gridBtn', gps: 'gpsBtn', bag: 'bagBtn', note: 'mobileNoteToggle', mini: 'mobileMiniToggle' };
   const isOn = key => {
     const btn = RAIL_OF[key] && document.getElementById(RAIL_OF[key]);
     if (!btn) return false;
@@ -235,7 +281,12 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
       const key = el.dataset.tool;
       close();
       if (RAIL_OF[key]) document.getElementById(RAIL_OF[key])?.click();
-      else if (ACTION_OF[key]) onAction(ACTION_OF[key]);
+      if (key === 'note' || key === 'mini') {
+        const panel = document.getElementById(key);
+        const dismiss = document.getElementById(key + 'CloseBtn');
+        if (dismiss?.getClientRects().length) dismiss.focus({ preventScroll: true });
+        else if (panel) { panel.tabIndex = -1; panel.focus({ preventScroll: true }); }
+      }
     });
   }
 
@@ -244,7 +295,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     btn.addEventListener('click', () => {
       const mode = btn.dataset.cam;
       const railBtn = document.querySelector(`#rail .btn[data-cam="${mode}"]`);
-      if (railBtn) railBtn.click(); else onAction('cam', mode);
+      chooseView(() => railBtn ? railBtn.click() : onAction('cam', mode));
       close();
     });
   });
@@ -253,7 +304,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     btn.addEventListener('click', () => {
       const preset = btn.dataset.preset;
       const railBtn = document.querySelector(`#rail .btn[data-preset="${preset}"]`);
-      if (railBtn) railBtn.click(); else onAction('preset', preset);
+      chooseView(() => railBtn ? railBtn.click() : onAction('preset', preset));
     });
   });
   $('#dCleanBtn').addEventListener('click', () => { close(); onAction('clean'); });
@@ -308,17 +359,17 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
   };
   setDevOverlay(devOverlay);
 
+  if (initialEntry?.course === current && initialEntry.path?.length) queueMicrotask(() => {
+    if (!drawer.isConnected) return;
+    history.replaceState({ ...history.state, [DRAWER_KEY]: initialEntry }, '');
+    viewChange = initialEntry.path.at(-1)?.view ?? null;
+    panels.restore(history.state);
+  });
   return {
     el: drawer,
     setDevOverlay,
     setFrameCap,
-    open: () => {
-      syncTiles();
-      drawer.classList.add('open');
-      document.getElementById('menuToggle')?.classList.add('open');
-      const selected = tabs.find(t => t.getAttribute('aria-selected') === 'true');
-      requestAnimationFrame(() => selected?.focus({ preventScroll: true }));
-    },
+    open,
     close,
     isOpen: () => drawer.classList.contains('open'),
     updateActiveCam: mode => {

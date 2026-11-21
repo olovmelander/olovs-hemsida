@@ -1314,6 +1314,15 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
 
 /* ---- In-Game Navigation Drawer (#navDrawer) ---- */
 .nav-drawer {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  background: transparent;
+  color: inherit;
   position: fixed;
   inset: 0;
   z-index: 50;
@@ -1321,6 +1330,7 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.nav-drawer::backdrop { background: transparent; }
 .nav-drawer.open {
   pointer-events: auto;
   opacity: 1;

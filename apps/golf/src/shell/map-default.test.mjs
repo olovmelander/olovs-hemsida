@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { courseUrl, detailedUrl, mapUrl } from './router.js';
-import { isPhone, opensMap } from './map-default.mjs';
+import { isPhone, navigationParams, opensMap } from './map-default.mjs';
 
 const device = (touch, width, height) => ({ matchMedia: () => ({ matches: touch }), screen: { width, height } });
 
@@ -8,6 +8,13 @@ describe('which program a course link opens', () => {
   it('opens the map on a phone, for a plain link', () => {
     expect(opensMap('?bana=visby', true)).toBe(true);
     expect(opensMap('?bana=visby&hal=7', true)).toBe(true);
+  });
+
+  it('keeps the destination when a course or hub link is shared with attribution', () => {
+    expect(navigationParams('?utm_source=club&utm_medium=sms&fbclid=abc').size).toBe(0);
+    expect(opensMap('?bana=visby&hal=7&gclid=123', true)).toBe(true);
+    expect(opensMap('?bana=visby&karta=0&utm_source=club', true)).toBe(false);
+    expect(opensMap('?bana=visby&q=lo&msclkid=123', true)).toBe(false);
   });
 
   it('opens the detailed course everywhere else', () => {

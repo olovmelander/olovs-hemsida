@@ -24,6 +24,7 @@ import { createGuidancePlanner } from './map-guidance.mjs';
 import { loadMapShotGeometry } from './map-shot-geometry.mjs';
 import { readMapShot } from './map-strategy.mjs';
 import { createClubWheel } from './map-wheel.mjs';
+import { createPanelHistory } from '../ui/panel-history.mjs';
 import { measurementTargets, shotHud } from './map-shot-hud.mjs';
 import { createDiary } from './map-diary.mjs';
 import { activeFrameMs, createDisplay } from './map-display.mjs';
@@ -185,7 +186,7 @@ root.innerHTML = `
   <section class="map-bottom">
     <div class="map-float">
       <div class="map-view-wrap" data-view-wrap>
-        <div class="map-view-menu" data-views data-view-menu hidden role="group" aria-label="Kameravy">
+        <div class="map-view-menu" id="map-camera-views" data-views data-view-menu hidden role="group" aria-label="Kameravy">
           <button data-overview aria-pressed="false" aria-label="Hela banan">Banan</button>
           <button data-view="hole" aria-pressed="true">Hela hålet</button>
           <button data-view="behind" aria-pressed="false" aria-label="Bakom bollen, mot greenen">Bakom</button>
@@ -193,7 +194,7 @@ root.innerHTML = `
           <button data-view="eye" aria-pressed="false" aria-label="Min vy, från ögonhöjd mot greenen">Min vy</button>
           <button data-view="green" aria-pressed="false" aria-label="Greenen nära">Green</button>
         </div>
-        <button class="map-view-toggle" data-view-toggle aria-expanded="false" aria-haspopup="true" aria-label="Kameravy">
+        <button class="map-view-toggle" data-view-toggle aria-expanded="false" aria-controls="map-camera-views" aria-label="Kameravy">
           <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.6-2h4.8L16 6h2.5A2.5 2.5 0 0 1 21 8.5v9A2.5 2.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           <span data-view-label>Hela hålet</span>
         </button>
@@ -340,7 +341,7 @@ root.innerHTML = `
     <div class="map-sheet-head"><button class="map-sheet-close" data-clubs-back aria-label="Tillbaka till menyn">‹</button><b>Mina klubbor</b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
     <p class="map-note" data-clubs-note></p>
     <ul class="map-clubs" data-clubs></ul>
-    <div class="map-actions"><a class="map-action" href="${hubUrl('installningar')}">Ändra min bag i Inställningar</a></div>
+    <div class="map-actions"><a class="map-action" href="${hubUrl('installningar/bag')}">Redigera min bag</a></div>
   </section>
   <section class="map-sheet map-menu" data-menu-sheet hidden aria-label="Meny">
     <div class="map-sheet-head"><b data-menu-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
@@ -350,6 +351,7 @@ root.innerHTML = `
       <button type="button" role="tab" data-menu-tab="bana" aria-selected="false">Bana</button>
     </div>
     <div class="map-menu-pane" data-menu-pane="spel" role="tabpanel">
+      <a class="map-row map-row-next" data-home href="${hubUrl()}">Till startmenyn</a>
       <div data-tee-section>
         <h3>Tee</h3>
         <div class="map-chips" data-tees></div>
@@ -378,7 +380,7 @@ root.innerHTML = `
       <div class="map-actions">
         <button class="map-action" data-download>Spara banan</button>
         <button class="map-action" data-diary>Spara provrundans logg</button>
-        <a class="map-action" data-play>Spela banan</a>
+        <a class="map-action" data-play>Öppna simulatorn</a>
         <a class="map-action" data-full>Detaljerad 3D</a>
         <a class="map-action" href="${hubUrl(MODES.map.route)}">Alla banor</a>
       </div>
@@ -1357,9 +1359,8 @@ async function start() {
   }));
 
   function setViewMenu(open) {
-    const want = Boolean(open);
-    ui.viewMenu.hidden = !want;
-    ui.viewToggle.setAttribute('aria-expanded', String(want));
+    if (open) panels.open({ name: 'camera', opener: '[data-view-toggle]' });
+    else if (panels.current?.name === 'camera') panels.back();
   }
   ui.viewToggle.onclick = event => {
     event.stopPropagation();
@@ -1443,47 +1444,114 @@ async function start() {
     }
   }
   for (const button of ui.menuSheet.querySelectorAll('[data-menu-tab]')) {
-    button.onclick = () => setMenuTab(button.dataset.menuTab);
+    button.onclick = () => { setMenuTab(button.dataset.menuTab); panels.update({ tab: state.menuTab }); };
   }
   /* ---- the sheets ---- */
-  const sheets = [[ui.lightSheet, ui.menu], [ui.menuSheet, ui.menu], [ui.clubsSheet, ui.menu], [ui.roundsSheet, ui.menu], [ui.scoreSheet, ui.score], [ui.roundSheet, ui.score], [ui.holeSheet, ui.holeTool], [ui.startSheet, null]];
-  for (const [sheet] of sheets) {
+  const sheets = [
+    [ui.menuSheet, ui.menu, 'menu'], [ui.lightSheet, ui.menu, 'light'], [ui.clubsSheet, ui.menu, 'clubs'],
+    [ui.roundsSheet, ui.menu, 'rounds'], [ui.roundSheet, ui.score, 'round'], [ui.scoreSheet, ui.score, 'score'],
+    [ui.holeSheet, ui.holeTool, 'hole'], [ui.startSheet, null, 'start'],
+  ];
+  for (const [sheet, , name] of sheets) {
+    sheet.id = `map-${name}-sheet`;
     sheet.setAttribute('role', 'dialog');
     sheet.setAttribute('aria-modal', 'true');
     sheet.tabIndex = -1;
   }
+  const invitations = [
+    [ui.menu, ui.menuSheet], [ui.score, ui.scoreSheet], [ui.holeTool, ui.holeSheet], [ui.holeText, ui.holeSheet],
+    [ui.light, ui.lightSheet], [$('[data-clubs-open]'), ui.clubsSheet], [$('[data-rounds-open]'), ui.roundsSheet],
+  ];
+  for (const [button, sheet] of invitations) {
+    button.setAttribute('aria-controls', sheet.id);
+    button.setAttribute('aria-haspopup', 'dialog');
+    button.setAttribute('aria-expanded', 'false');
+  }
   /* Focus goes into a sheet and back to where it was, so a screen reader or a keyboard
      never has to find its way across the whole map. */
-  let cameFrom = null, activeSheet = null;
+  let activeSheet = null, canonicalMapAddress = null;
   let refreshOffline = () => {};
-  function showSheet(sheet) {
-    if (sheet) setViewMenu(false);
-    /* A tip by the thumb is about the map, and would lie across the sheet. */
-    if (sheet && ui.status.classList.contains('is-low')) ui.status.hidden = true;
-    const wasStart = !ui.startSheet.hidden, wasOpen = sheets.some(([each]) => !each.hidden);
-    for (const [each] of sheets) each.hidden = !(each === sheet && each.hidden);
-    for (const [, button] of sheets) button?.setAttribute('aria-expanded', String(sheets.some(([each, owner]) => owner === button && !each.hidden)));
-    const open = sheets.find(([each]) => !each.hidden)?.[0] ?? null;
+  const panels = createPanelHistory({ history: window.history, key: 'banvyMapPanels', course: course.slug, render: renderPanels });
+  window.addEventListener('popstate', event => {
+    panels.restore(event.state);
+    // A start or preview instruction may have been consumed while its sheet was open.
+    if (canonicalMapAddress && location.href !== canonicalMapAddress) {
+      window.history.replaceState(window.history.state, '', canonicalMapAddress);
+    }
+  });
+  function showSheet(sheet, { opener, replace = false } = {}) {
+    if (!sheet) { if (panels.current) panels.close(); return; }
+    const [, owner, name] = sheets.find(([each]) => each === sheet);
+    const active = document.activeElement;
+    const trigger = opener ?? (active?.matches('button, a[href]') && !active.closest('[hidden]') ? active : owner);
+    // Score edits are saved immediately. A golfer exploring the course must start
+    // a round first, unless they explicitly opened a completed card to correct it.
+    if (sheet === ui.scoreSheet && canStartFromPreview()
+        && !(round.endedAt && panels.current?.name === 'round')) {
+      openStart(state.hole, { opener: trigger });
+      return;
+    }
+    const data = trigger?.getAttributeNames().find(key => key.startsWith('data-'));
+    const selector = data ? `[${data}${trigger.getAttribute(data) ? '=' + CSS.escape(trigger.getAttribute(data)) : ''}]` : null;
+    const panel = { name, opener: selector };
+    if (sheet === ui.menuSheet) panel.tab = state.menuTab;
+    if (sheet === ui.startSheet) panel.setup = { ...startSetup };
+    if (sheet === ui.scoreSheet) { panel.hole = state.scoreHole; panel.round = round.id; }
+    if (sheet === ui.roundSheet) { panel.round = state.roundShown.id; panel.course = state.roundShown.course; }
+    panels.open(panel, { replace });
+  }
+  function renderPanels(path, previous) {
+    const panel = path.at(-1), parent = path.at(-2);
+    const cameraOpen = panel?.name === 'camera', wasCamera = !ui.viewMenu.hidden;
+    const open = sheets.find(([, , name]) => name === panel?.name)?.[0] ?? null;
+    const wasOpen = activeSheet, wasStart = wasOpen === ui.startSheet;
+    let record;
+    if (open === ui.roundSheet) {
+      record = panel.round === round.id && panel.course === course.slug ? thisRecord()
+        : rounds.find(each => each.id === panel.round && each.course === panel.course);
+    }
+    // A forward entry can outlive the round it referred to, e.g. after deletion.
+    if ((open === ui.roundSheet && !record) || (open === ui.scoreSheet && panel.round !== round.id)
+        || (open === ui.startSheet && roundUnderWay())) { panels.back(); return; }
+    ui.viewMenu.hidden = !cameraOpen;
+    ui.viewToggle.setAttribute('aria-expanded', String(cameraOpen));
     activeSheet = open;
-    if (open === ui.startSheet || open === ui.menuSheet) refreshOffline();
+    for (const [sheet] of sheets) sheet.hidden = sheet !== open;
+    const rootTool = sheets.find(([, , name]) => name === path[0]?.name)?.[1];
+    for (const [button, sheet] of invitations) {
+      const expanded = button === rootTool || (sheet === open && ![ui.menu, ui.score].includes(button));
+      button.setAttribute('aria-expanded', String(expanded));
+    }
     ui.backdrop.hidden = !open;
     root.classList.toggle('has-sheet', Boolean(open));
     root.classList.toggle('has-light-sheet', open === ui.lightSheet);
+    state.fromRound = open === ui.scoreSheet && parent?.name === 'round';
+    if (open === ui.menuSheet) { setMenuTab(panel.tab ?? 'spel'); refreshMenu(); }
+    if (open === ui.clubsSheet) refreshClubs();
+    if (open === ui.roundsSheet) refreshRounds();
+    if (open === ui.roundSheet) renderRoundSheet(record, parent?.name === 'rounds');
+    if (open === ui.holeSheet) prepareHoleSheet();
+    if (open === ui.scoreSheet) { state.scoreHole = panel.hole ?? null; refreshScore(); }
+    if (open === ui.startSheet) { startSetup = restoreStartSetup(panel.setup); refreshStart(); }
+    if (open === ui.startSheet || open === ui.menuSheet) refreshOffline();
+    // On the way back, restore the actual inviting control inside its parent.
+    // Dynamic round and score rows may have been rebuilt since the tap.
+    const selector = previous.length > path.length ? previous[path.length].opener : null;
+    const returnTo = selector && (open ?? root).querySelector(selector);
     if (open) {
-      if (!wasOpen) cameFrom = root.contains(document.activeElement) ? document.activeElement : sheets.find(([each]) => each === open)?.[1] ?? ui.gps;
-      /* A sheet keeps its scroll while hidden, and always opens at its top. */
-      open.scrollTop = 0;
-      open.focus({ preventScroll: true });
+      if (ui.status.classList.contains('is-low')) ui.status.hidden = true;
+      if (!returnTo) open.scrollTop = 0;
+      (returnTo || open).focus({ preventScroll: true });
+      if (returnTo) returnTo.scrollIntoView({ block: 'nearest' });
       diary.add('sheet', open.getAttribute('aria-label'));
-    } else {
-      cameFrom?.focus?.({ preventScroll: true });
-      cameFrom = null;
-      if (wasOpen) {
-        reframeForLayout();
-        revealLanding(state.guidance?.target);
-      }
+    } else if (cameraOpen) {
+      (ui.viewMenu.querySelector('[aria-pressed="true"]') ?? ui.viewMenu.querySelector('button')).focus({ preventScroll: true });
+    } else if (wasOpen || wasCamera) {
+      const owner = sheets.find(([sheet]) => sheet === wasOpen)?.[1];
+      (returnTo && !returnTo.closest('[hidden]') ? returnTo : wasCamera ? ui.viewToggle : owner ?? ui.gps).focus({ preventScroll: true });
+      if (wasOpen) { reframeForLayout(); revealLanding(state.guidance?.target); }
     }
-    if (wasStart && ui.startSheet.hidden) {
+    if (wasStart && open !== ui.startSheet) {
       if (!roundUnderWay()) {
         remember(LOOK_KEY, JSON.stringify({ value: true, at: Date.now() }));
         state.previewOnly = true;
@@ -1494,35 +1562,33 @@ async function start() {
       }
       firstTip();
     }
-    if (sheet !== ui.scoreSheet) state.fromRound = false;
   }
-  ui.backdrop.onclick = () => showSheet(null);
+  ui.backdrop.onclick = () => panels.close();
   root.addEventListener('pointerdown', event => { state.pressingSheet = Boolean(event.target.closest('.map-sheet')); }, true);
   for (const type of ['pointerup', 'pointercancel']) window.addEventListener(type, () => { state.pressingSheet = false; }, true);
-  ui.light.onclick = () => showSheet(ui.lightSheet);
-  $('[data-light-back]').onclick = () => { setMenuTab('karta'); refreshMenu(); showSheet(ui.menuSheet); };
+  ui.light.onclick = () => showSheet(ui.lightSheet, { opener: ui.light });
+  for (const selector of ['[data-light-back]', '[data-clubs-back]', '[data-rounds-back]', '[data-round-back]']) {
+    $(selector).onclick = () => panels.back();
+  }
+  function openTool(sheet, opener) {
+    const toggleOff = opener.getAttribute('aria-expanded') === 'true';
+    if (panels.current) panels.close();
+    if (!toggleOff) showSheet(sheet, { opener });
+  }
   ui.menu.onclick = () => {
-    const inner = [ui.lightSheet, ui.clubsSheet, ui.roundsSheet].find(sheet => !sheet.hidden);
-    if (!inner && ui.menuSheet.hidden) state.menuTab = 'spel';
-    refreshMenu();
-    showSheet(inner ?? ui.menuSheet);
+    state.menuTab = 'spel';
+    openTool(ui.menuSheet, ui.menu);
   };
-  $('[data-clubs-open]').onclick = () => { refreshClubs(); showSheet(ui.clubsSheet); };
-  $('[data-clubs-back]').onclick = () => { setMenuTab('spel'); refreshMenu(); showSheet(ui.menuSheet); };
-  /* It opens on the hole being played: a hole picked on the card last time is not. */
+  $('[data-clubs-open]').onclick = event => showSheet(ui.clubsSheet, { opener: event.currentTarget });
   ui.score.onclick = () => {
     state.scoreHole = null;
-    refreshScore();
-    showSheet(ui.scoreSheet);
+    openTool(ui.scoreSheet, ui.score);
   };
   ui.holeNoteMore.onclick = () => {
     ui.note.classList.remove('is-clamped');
     ui.holeNoteMore.hidden = true;
   };
-  const openRounds = () => { refreshRounds(); showSheet(ui.roundsSheet); };
-  $('[data-rounds-open]').onclick = openRounds;
-  ui.roundBack.onclick = openRounds;
-  $('[data-rounds-back]').onclick = () => { setMenuTab('spel'); refreshMenu(); showSheet(ui.menuSheet); };
+  $('[data-rounds-open]').onclick = event => showSheet(ui.roundsSheet, { opener: event.currentTarget });
   let landmarks = [];
   const aimChoice = $('[data-aim-choice]');
   aimChoice.onchange = () => {
@@ -1535,7 +1601,7 @@ async function start() {
     revealLanding(state.guidance?.target);
     invalidate();
   };
-  const openHole = () => {
+  function prepareHoleSheet() {
     state.correcting = null;
     $('[data-measure-options]').hidden = state.mode !== 'hole';
     if (state.mode === 'hole') {
@@ -1543,13 +1609,11 @@ async function start() {
       aimChoice.replaceChildren(new Option('Välj punkt på hålet', ''), ...landmarks.map((choice, i) => new Option(choice.label, String(i))));
     }
     refreshHole();
-    showSheet(ui.holeSheet);
-  };
-  ui.holeTool.onclick = openHole;
-  ui.holeText.onclick = openHole;
+  }
+  ui.holeTool.onclick = ui.holeText.onclick = event => openTool(ui.holeSheet, event.currentTarget);
   for (const button of root.querySelectorAll('[data-close]')) button.onclick = () => showSheet(null);
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') { setViewMenu(false); showSheet(null); return; }
+    if (event.key === 'Escape' && panels.current) { event.preventDefault(); panels.back(); return; }
     if (!activeSheet || event.key !== 'Tab') return;
     const stops = [...activeSheet.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')]
       .filter(element => element.tabIndex >= 0 && !element.matches(':disabled') && element.getClientRects().length);
@@ -1618,6 +1682,7 @@ async function start() {
   $('[data-play-hole]').onclick = event => {
     const number = Number(event.currentTarget.dataset.playHole);
     if (!number || number !== playableHole()) { refreshHole(); return; }
+    if (canStartFromPreview()) { openStart(number, { opener: event.currentTarget }); return; }
     const wasPlaying = roundUnderWay();
     if (round.endedAt) freshRound();
     round.begunAt ??= Date.now();
@@ -1806,6 +1871,7 @@ async function start() {
   }
 
   function refreshMenu() {
+    $('[data-home]').textContent = roundUnderWay() ? 'Till startmenyn · rundan sparas' : 'Till startmenyn';
     $('[data-live-transfer]').hidden = !(getCloudState().user && roundUnderWay());
     const hasHole = state.mode === 'hole';
     ui.menuTitle.textContent = course.name;
@@ -2103,11 +2169,13 @@ async function start() {
     const target = event.target.closest('[data-card-hole]');
     if (!target) return;
     state.scoreHole = Number(target.dataset.cardHole);
+    panels.update({ hole: state.scoreHole });
     refreshScore();
   };
   const stepScored = direction => {
     const count = course.holes.length;
     state.scoreHole = ((scoredHole().n - 1 + direction + count) % count) + 1;
+    panels.update({ hole: state.scoreHole });
     refreshScore();
   };
   $('[data-score-prev]').onclick = () => stepScored(-1);
@@ -2116,7 +2184,7 @@ async function start() {
     if (state.fromRound) {
       state.fromRound = false;
       state.scoreHole = null;
-      showRound(thisRecord());
+      panels.back();
       return;
     }
     if (isRoundComplete(round, course.holes) && !round.endedAt) {
@@ -2152,7 +2220,7 @@ async function start() {
     stopGps();
     remember(`${GPS_KEY}:${course.slug}`, '');
     diary.add('round-ended', holesScored(round, course.holes));
-    showRound(keepRecord(thisRecord()));
+    showRound(keepRecord(thisRecord()), { replace: true });
   }
   const endIfOver = number => { if (!round.endedAt && roundIsOver(round, course.holes, number)) endRound(); };
   ui.endRound.onclick = endRound;
@@ -2161,7 +2229,11 @@ async function start() {
     endRound();
   };
 
-  function showRound(record, { back = false } = {}) {
+  function showRound(record, options) {
+    state.roundShown = record;
+    showSheet(ui.roundSheet, options);
+  }
+  function renderRoundSheet(record, back) {
     const own = record.id === round.id && record.course === course.slug;
     state.roundShown = record;
     ui.roundTitle.textContent = record.courseName;
@@ -2177,11 +2249,10 @@ async function start() {
       summary: roundSummary(record, shots),
       clubName,
       /* Another course's card is only to be read: its holes are not loaded here. */
-      onHole: own ? number => {
+      onHole: own ? (number, opener) => {
         state.fromRound = true;
         state.scoreHole = number;
-        refreshScore();
-        showSheet(ui.scoreSheet);
+        showSheet(ui.scoreSheet, { opener });
       } : null,
     });
     ui.roundBack.hidden = !back;
@@ -2190,20 +2261,17 @@ async function start() {
     ui.roundDrop.textContent = 'Ta bort rundan';
     clearTimeout(droppingTimer);
     droppingTimer = 0;
-    ui.roundSheet.scrollTop = 0;
-    if (ui.roundSheet.hidden) showSheet(ui.roundSheet);
+
   }
   ui.roundNew.onclick = () => {
     freshRound();
-    firstTee = 1;
     state.previewOnly = false;
     clearEntryAddress();
     state.playing = 1;
     state.handPicked = false;
     state.follow = true;
     goHole(1);
-    refreshStart();
-    showSheet(ui.startSheet);
+    openStart(1, { replace: true });
   };
   /* Gone for good, and its lengths with it, so it takes a second tap. */
   let droppingTimer = 0;
@@ -2225,7 +2293,7 @@ async function start() {
     undoPoint = null;
     relearnBag();
     diary.add('round-dropped');
-    openRounds();
+    panels.back();
   };
   $('[data-round-share]').onclick = async () => {
     const record = state.roundShown, text = roundText(record, roundSummary(record, shots), dateText(record.date));
@@ -2248,7 +2316,7 @@ async function start() {
     }
   };
   function refreshRounds() {
-    renderRounds(ui.roundsBody, { rounds, trend: roundTrend(rounds), onOpen: record => showRound(record, { back: true }) });
+    renderRounds(ui.roundsBody, { rounds, trend: roundTrend(rounds), onOpen: (record, opener) => showRound(record, { opener }) });
   }
 
   function freshRound() {
@@ -2270,37 +2338,67 @@ async function start() {
   /* ---- the start of a round ---- */
   /* Everything a round needs before its first shot, on one card and filled in from last
      time. Starting from this tap also lets the phone ask for the position. */
-  let firstTee = 1;
+  let startSetup;
+  function openStart(number = 1, options) {
+    startSetup = { from: number, hole: number, tee: state.tee, handicap: round.handicap };
+    showSheet(ui.startSheet, options);
+  }
+  function restoreStartSetup(draft) {
+    const validHole = n => Number.isInteger(n) && n >= 1 && n <= course.holes.length;
+    const from = validHole(draft?.from) ? draft.from : state.hole;
+    const hole = validHole(draft?.hole) && [1, 10, from].includes(draft.hole) ? draft.hole : from;
+    const tee = Number.isInteger(draft?.tee) && draft.tee >= 0 && draft.tee < (course.tees?.names?.length ?? 0) ? draft.tee : state.tee;
+    const handicap = draft?.handicap === null || Number.isFinite(draft?.handicap) && draft.handicap >= MIN_HANDICAP && draft.handicap <= MAX_HANDICAP
+      ? draft.handicap : round.handicap;
+    return { from, hole, tee, handicap };
+  }
   function refreshStart() {
-    const length = courseLength(course.holes, state.tee);
+    const length = courseLength(course.holes, startSetup.tee);
     ui.startTitle.textContent = course.name;
-    $('[data-start-hole-section]').hidden = course.holes.length < 10;
-    $('[data-start-holes]').replaceChildren(...[1, 10].filter(number => number <= course.holes.length).map(number => {
-      const button = chip(`Hål ${number}`, number === firstTee, () => { firstTee = number; refreshStart(); });
-      button.dataset.startHole = String(number);
+    const offered = [...new Set([1, 10, startSetup.from])].filter(number => number <= course.holes.length).sort((a, b) => a - b);
+    $('[data-start-hole-section]').hidden = offered.length < 2;
+    function choice(label, value, field, attribute) {
+      const button = chip(label, value === startSetup[field], () => {
+        startSetup[field] = value;
+        panels.update({ setup: { ...startSetup } });
+        refreshStart();
+        ui.startSheet.querySelector(`[${attribute}="${value}"]`)?.focus({ preventScroll: true });
+      });
+      button.setAttribute(attribute, value);
       return button;
-    }));
+    }
+    $('[data-start-holes]').replaceChildren(...offered.map(number => choice(`Hål ${number}`, number, 'hole', 'data-start-hole')));
     ui.startFacts.textContent = [`${course.holes.length} hål`, `par ${course.par}`, length ? `${length.toLocaleString('sv-SE')} m` : null].filter(Boolean).join(' · ');
-    ui.startTeeSection.hidden = (course.tees?.names?.length ?? 0) < 2;
-    ui.startTees.replaceChildren(...teeChips(refreshStart));
-    ui.startHandicap.textContent = Number.isFinite(round.handicap) ? String(round.handicap) : '–';
+    const tees = course.tees?.names ?? [];
+    ui.startTeeSection.hidden = tees.length < 2;
+    ui.startTees.replaceChildren(...tees.map((name, index) => choice(name, index, 'tee', 'data-start-tee')));
+    ui.startHandicap.textContent = Number.isFinite(startSetup.handicap) ? String(startSetup.handicap) : '–';
   }
   const stepStartHandicap = step => {
-    setHandicap(Number.isFinite(round.handicap) ? round.handicap + step : 18);
+    startSetup.handicap = clamp(Number.isFinite(startSetup.handicap) ? startSetup.handicap + step : 18, MIN_HANDICAP, MAX_HANDICAP);
+    panels.update({ setup: { ...startSetup } });
     refreshStart();
   };
   $('[data-start-more]').onclick = () => stepStartHandicap(1);
   $('[data-start-less]').onclick = () => stepStartHandicap(-1);
   $('[data-start-go]').onclick = () => {
+    if (round.handicap !== startSetup.handicap && !savePlayerProfile('handicap', startSetup.handicap)) {
+      status('Handicap kunde inte sparas');
+      return;
+    }
     if (round.endedAt) freshRound();
+    round.handicap = startSetup.handicap;
+    state.tee = startSetup.tee;
+    remember(`${TEE_KEY}:${course.slug}`, String(state.tee));
     round.begunAt = Date.now();
-    playHole(firstTee, false);
+    playHole(startSetup.hole, false);
     diary.add('round-started', teeName());
     refreshScore();
     showSheet(null);
     if (!gps.active) startGps();
   };
   const roundUnderWay = () => !round.endedAt && (Boolean(round.begunAt) || holesScored(round, course.holes) > 0 || roundShots().length > 0);
+  const canStartFromPreview = () => state.previewOnly && !roundUnderWay();
   let tipGiven = false;
   function firstTip() {
     if (tipGiven || course.greensApproximate) return;
@@ -2432,6 +2530,7 @@ async function start() {
     onSlip: how => diary.add('slip', how),
   });
   ui.logShot.onclick = () => {
+    if (canStartFromPreview()) { openStart(state.hole, { opener: ui.logShot }); return; }
     const club = wheel.current();
     if (club) lockClub(club);
   };
@@ -2550,9 +2649,10 @@ async function start() {
 
   function refreshLogAction() {
     const club = wheel.current(), hole = state.playing;
-    const text = previewing() || tentativeTee() ? `Logga slag · hål ${hole}` : 'Logga slag';
+    const starting = canStartFromPreview();
+    const text = starting ? 'Starta runda' : previewing() || tentativeTee() ? `Logga slag · hål ${hole}` : 'Logga slag';
     if (ui.logShot.textContent !== text) ui.logShot.textContent = text;
-    const label = `Logga slag${club ? ` med ${club.name}` : ''} på hål ${hole}`;
+    const label = starting ? `Starta runda från hål ${state.hole}` : `Logga slag${club ? ` med ${club.name}` : ''} på hål ${hole}`;
     if (ui.logShot.getAttribute('aria-label') !== label) ui.logShot.setAttribute('aria-label', label);
   }
 
@@ -2631,6 +2731,7 @@ async function start() {
 
   /* Long enough to mean it, and the shot starts from this spot, this club. */
   function lockClub(club, { superseded = false } = {}) {
+    if (canStartFromPreview()) { openStart(state.hole, { opener: ui.wheel }); return; }
     const underway = openShot(shots);
     if (underway && ours(underway) && isPutt(underway) && underway.hole === state.playing) {
       askPutts(underway.hole);
@@ -3325,6 +3426,7 @@ async function start() {
     try {
       const search = params.toString();
       globalThis.history.replaceState(globalThis.history.state, '', `${location.pathname}${search ? '?' + search : ''}${location.hash}`);
+      canonicalMapAddress = location.href;
     } catch { /* navigation may be unavailable in an embedded browser */ }
   }
 
@@ -3345,13 +3447,14 @@ async function start() {
   if (openOffline) params.delete('offline');
   if (entry || openOffline) clearEntryAddress(state.previewOnly);
   const offerStart = !entry && !state.previewOnly && isPhone() && !params.has('hal') && !roundUnderWay() && !savedFresh(LOOK_KEY) && !savedFresh(`${GPS_KEY}:${course.slug}`);
-  if (openOffline) {
+  if (window.history.state?.banvyMapPanels?.course === course.slug) {
+    panels.restore(window.history.state);
+  } else if (openOffline) {
     setMenuTab('bana');
     refreshMenu();
     showSheet(ui.menuSheet);
   } else if (resumeUnavailable || offerStart) {
-    refreshStart();
-    showSheet(ui.startSheet);
+    openStart();
   } else firstTip();
 
   if (entry !== '1' && !state.previewOnly && !resumeUnavailable && savedFresh(`${GPS_KEY}:${course.slug}`)) {

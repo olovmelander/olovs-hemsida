@@ -33,6 +33,8 @@ import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
 import { LAST_COURSE_KEY, MODES, launchUrl, liveRound, offlineCourses, readSettings, rememberLaunch } from './settings-store.mjs';
 
+const searchText = text => text.trim().toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
+
 /* `places` is search vocabulary only, never shown: the placeholder promises
    "bana, ort eller par", and a promise on the front door has to be kept. It
    used to search name, club, tag and blurb -- so "Västerås" did not find Ängsö
@@ -244,8 +246,8 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
               /* "Place · kind". The icon already says the kind, so a narrow card
                  keeps the place and lets the rest go. */
               const [place, ...kind] = String(cat.label || '').split(' · ');
-              const search = [c.name, c.club, c.tag, cat.label, cat.places, `par ${c.par}`, `${c.holes} hål`, LINES[c.slug]]
-                .filter(Boolean).join(' ').toLowerCase();
+              const search = searchText([c.name, c.club, c.tag, cat.label, cat.places, `par ${c.par}`, `${c.holes} hål`, LINES[c.slug]]
+                .filter(Boolean).join(' '));
               return `
                 <li class="card-item${isLead ? ' is-lead' : ''}" data-slug="${c.slug}" data-category="${cat.id}" data-status="${esc(c.status || 'playable')}" data-search="${esc(search)}">
                   <button class="card ${isCurrent ? 'is-current' : ''}" type="button" data-slug="${c.slug}"
@@ -409,7 +411,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   };
 
   searchInput.addEventListener('input', e => {
-    activeQuery = e.target.value.trim().toLowerCase();
+    activeQuery = searchText(e.target.value);
     applyFilters();
   });
   /* Escape empties the field first and only closes the chooser once there is
@@ -721,7 +723,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   el.restore = async data => {
     if (!data) return;
     searchInput.value = data.query ?? '';
-    activeQuery = searchInput.value.trim().toLowerCase();
+    activeQuery = searchText(searchInput.value);
     setFilter([...filterBtns].some(b => b.dataset.filter === data.filter) ? data.filter : 'all');
     await switchView(data.view === 'map' ? 'map' : 'grid');
     el.scrollTop = Number(data.scroll) || 0;
