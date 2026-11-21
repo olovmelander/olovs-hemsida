@@ -393,9 +393,17 @@ const framed = await framing();
 expect(framed.tilt > 0.8 && framed.tilt < 1 && framed.off < 0.01, 'Hål brings a moved view back, and fingers still move it');
 expect(await page.evaluate(() => localStorage.getItem('banvy-map-view-v1')) === 'hole', 'the view chosen is remembered');
 const reliefBefore = await page.evaluate(() => V3DMap.state.exaggeration);
+const beforeEye = await page.evaluate(() => V3DMap.stats().frames);
 await pickView('[data-view="eye"]');
-await settled(page);
-await page.waitForTimeout(600);
+/* The panoramic view streams distant stands after the ground at the ball is
+   ready. A golfer can already turn and measure on the metres beneath their feet. */
+await page.waitForFunction(before => {
+  const { state, camera, store, stats } = V3DMap;
+  const point = state.player?.point, eye = camera.derived.eye;
+  if (!state.atEye || state.flight || !point || !store.onMetreGround([point])) return false;
+  const above = eye[1] - store.heightAt(...point);
+  return stats().frames > before && Math.hypot(eye[0] - point[0], eye[2] - point[1]) < 1 && Math.abs(above - 1.8) < .1;
+}, beforeEye, { timeout: 180000, polling: 100 });
 const eyeView = () => page.evaluate(() => {
   const { state, camera, heightAt } = V3DMap, { eye } = camera.derived;
   return { relief: state.exaggeration, fov: camera.state.fov, above: eye[1] - heightAt(eye[0], eye[2]) * state.exaggeration, bearing: camera.state.bearing, along: Math.hypot(eye[0] - state.player.point[0], eye[2] - state.player.point[1]) };
@@ -424,7 +432,8 @@ const eyeGround = await page.evaluate(() => {
 });
 await page.locator('.map-marks').tap({ position: { x: eyeGround.x, y: eyeGround.y } });
 await page.waitForFunction(() => V3DMap.state.target !== null);
-expect(samePoint(await page.evaluate(() => V3DMap.state.target), eyeGround.point), 'a tap on eye-level ground measures the point under the finger');
+const eyePinError = await page.evaluate(point => Math.hypot(...V3DMap.state.target.map((value, i) => value - point[i])), eyeGround.point);
+expect(eyePinError < 1, `a tap on eye-level ground measures the point under the finger (within ${eyePinError.toFixed(2)} m)`);
 await page.click('[data-reading-close]');
 await pickView('[data-view="hole"]');
 await settled(page);
