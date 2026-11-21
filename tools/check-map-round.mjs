@@ -250,6 +250,25 @@ try {
   assert.equal(await page.evaluate(() => V3DMap.shots().length), 1);
   console.log('Revoking permission retains the last position on its own hole. The next hole previews from its tee, and GPS resumes after regrant.');
 
+  const imported = { course: 'visby', round: 123, hole: 7, at: 120, club: 'wedge', from: [0, 0], to: [0, 85], outcome: 'played' };
+  await page.evaluate(shot => {
+    const key = 'banvy-map-shots-v1';
+    const log = JSON.parse(localStorage.getItem(key));
+    log.shots.unshift(shot);
+    localStorage.setItem(key, JSON.stringify(log));
+    const clubs = [{ id: 'wedge', name: 'Min wedge', carry: 93 }, { id: 'putter', name: 'Putter', carry: 0 }];
+    localStorage.setItem('banvy-caddie-bag-v1', JSON.stringify({ version: 3, clubs }));
+    window.dispatchEvent(new CustomEvent('banvy-sync-changed', { detail: { changed: true } }));
+  }, imported);
+  await wait(page, () => document.querySelector('[data-wheel]').textContent.includes('Min wedge'));
+  const fresh = await gpsAtTee(page, context, next);
+  await tap(page, '[data-wheel-lock]');
+  await context.setGeolocation(fresh);
+  await wait(page, () => V3DMap.shots().some(shot => shot.hole === V3DMap.state.playing && shot.course === 'upsala'));
+  const persisted = await page.evaluate(() => JSON.parse(localStorage.getItem('banvy-map-shots-v1')).shots);
+  assert.deepEqual(persisted.find(shot => shot.course === imported.course), imported);
+  console.log('A bag and a shot imported during play survive the next GPS shot on the played course.');
+
   assert.deepEqual(errors, []);
   await context.close();
 } finally {
