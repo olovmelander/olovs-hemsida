@@ -358,13 +358,15 @@ function deltaBadge(value, { unit = '', digits = 1, higherIsBetter = true, thres
 }
 
 /* =============================================================== the page */
-export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
+export function buildStats({ courses, onBack, onPlay, onCourse = null, onFiltersOpen, onFiltersClose }) {
   const el = document.createElement('div');
   el.id = 'stats';
   el.className = 'hub-screen';
   el.setAttribute('role', 'main');
   el.setAttribute('aria-labelledby', 'statsTitle');
-  const state = { period: 'all', course: 'all', example: false, trendMetric: 'score', roundId: null, view: {} };
+  const defaultView = () => ({ period: 'all', course: 'all', example: false, trendMetric: 'score', roundId: null, view: {} });
+  const state = defaultView();
+  const changed = () => el.dispatchEvent(new Event('stats-view-change', { bubbles: true }));
   const poster = slug => (courses.some(c => c.slug === slug) ? `${BASE}courses/${slug}/hero-1.webp` : '');
   const backdropUrl = slug => (courses.some(c => c.slug === slug) ? `${BASE}courses/${slug}/backdrop.webp` : '');
 
@@ -376,7 +378,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
           <h1 class="set-title" id="statsTitle" tabindex="-1">Statistik</h1>
           <span class="st-sub" data-sub></span>
         </div>
-        <button class="st-filter-toggle" type="button" data-filter-toggle aria-haspopup="dialog" aria-expanded="false" aria-controls="st-filter-dialog" hidden>
+        <button class="st-filter-toggle" type="button" id="statsFilters" data-filter-toggle aria-haspopup="dialog" aria-expanded="false" aria-controls="st-filter-dialog" hidden>
           <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 6h3m4 0h9M2 14h9m4 0h3"/><circle cx="7" cy="6" r="2"/><circle cx="13" cy="14" r="2"/></svg>
           Filter<span data-filter-count hidden></span>
         </button>
@@ -414,25 +416,30 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
   const compact = matchMedia('(max-width: 767px), (orientation: landscape) and (max-width: 960px) and (max-height: 500px)');
   el.querySelector('[data-back]').addEventListener('click', onBack);
 
+  function setFiltersOpen(open) {
+    if (open && !toggle.hidden && compact.matches) {
+      if (!dialog.open) dialog.showModal();
+      toggle.setAttribute('aria-expanded', 'true');
+      filters.querySelector(':checked')?.focus({ preventScroll: true });
+    } else if (dialog.open) dialog.close();
+  }
+  el.setFiltersOpen = setFiltersOpen;
+  const closeFilters = () => onFiltersClose ? onFiltersClose() : setFiltersOpen(false);
   function placeFilters() {
-    if (!compact.matches && dialog.open) dialog.close();
+    if (!compact.matches && dialog.open) closeFilters();
     el.querySelector(compact.matches ? '[data-sheet-filters]' : '[data-inline-filters]').append(filters);
   }
   placeFilters();
   compact.addEventListener('change', placeFilters);
-  toggle.onclick = () => {
-    dialog.showModal();
-    toggle.setAttribute('aria-expanded', 'true');
-    filters.querySelector(':checked')?.focus({ preventScroll: true });
-  };
+  toggle.onclick = () => onFiltersOpen ? onFiltersOpen() : setFiltersOpen(true);
   dialog.addEventListener('close', () => toggle.setAttribute('aria-expanded', 'false'));
-  dialog.querySelector('[data-filter-close]').onclick = () => dialog.close();
+  dialog.addEventListener('cancel', event => { event.preventDefault(); closeFilters(); });
+  dialog.querySelector('[data-filter-close]').onclick = closeFilters;
   dialog.onclick = event => {
     if (event.target !== dialog) return;
     const box = dialog.getBoundingClientRect();
-    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close();
+    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) closeFilters();
   };
-  addEventListener('hashchange', () => { if (dialog.open) dialog.close(); });
   filters.onchange = event => {
     if (event.target === courseSelect) state.course = courseSelect.value;
     else if (event.target.name === 'st-period') state.period = event.target.value;
@@ -443,6 +450,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     state.roundId = null;
     el.scrollTop = 0;
     render();
+    changed();
   }
   function resetFilters() {
     state.period = 'all';
@@ -472,7 +480,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     const cloudCta = cloud.available && !cloud.user
       ? (cloud.google
         ? `<button class="st-ghost st-google-cta" type="button" data-cloud-signin>${GOOGLE_MARK}<span>Hämta rundor med Google</span></button>`
-        : `<a class="st-ghost" href="#installningar/konto">Logga in för att hämta rundor</a>`)
+        : `<a class="st-ghost" id="statsAccount" href="#installningar/konto">Logga in för att hämta rundor</a>`)
       : '';
     body.innerHTML = `
       <section class="st-empty">
@@ -496,14 +504,14 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
             <li><b>3</b><span>Välj klubba och tryck på <strong>Logga slag</strong> när du står vid bollen.</span></li>
           </ol>
           <div class="st-empty-actions">
-            <button class="set-primary" type="button" data-play>Spela i Lätt 3D</button>
+            <button class="set-primary" type="button" id="statsPlay" data-play>Spela i Lätt 3D</button>
             ${courses.some(c => c.holes === 18 && c.status !== 'mapping') ? '<button class="st-ghost" type="button" data-example>Visa ett exempel</button>' : ''}
             ${cloudCta}
           </div>
         </div>
       </section>`;
     body.querySelector('[data-play]').addEventListener('click', () => onPlay());
-    body.querySelector('[data-example]')?.addEventListener('click', () => { state.example = true; render(); });
+    body.querySelector('[data-example]')?.addEventListener('click', () => { state.example = true; render(); changed(); });
     body.querySelector('[data-cloud-signin]')?.addEventListener('click', () => signInWithGoogle(`${location.pathname}${location.search}#statistik`));
   }
 
@@ -540,6 +548,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     endSection = target.getBoundingClientRect().top - header.getBoundingClientRect().bottom >= remainingScroll - 2 ? button : null;
     target.scrollIntoView({ block: 'start', behavior: REDUCED ? 'auto' : 'smooth' });
     scheduleSection();
+    changed();
   };
   if ('ResizeObserver' in window) new ResizeObserver(() => {
     if (header.offsetHeight) el.style.setProperty('--st-header-height', header.offsetHeight + 'px');
@@ -586,7 +595,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     toggle.setAttribute('aria-label', applied.length ? 'Filter, ' + applied.join(', ') : 'Filter');
     toggle.hidden = false;
     reset.disabled = !applied.length;
-    const tableToggle = key => `<button class="st-view" type="button" data-view="${key}" aria-pressed="${state.view[key] === 'table'}">${state.view[key] === 'table' ? `${CHART}<span>Diagram</span>` : `${TABLE}<span>Tabell</span>`}</button>`;
+    const tableToggle = key => `<button class="st-view" type="button" id="statsView-${key}" data-view="${key}" aria-pressed="${state.view[key] === 'table'}">${state.view[key] === 'table' ? `${CHART}<span>Diagram</span>` : `${TABLE}<span>Tabell</span>`}</button>`;
     const showTable = key => state.view[key] === 'table';
 
     if (!stat.history.length && !stat.shotCount) {
@@ -645,8 +654,8 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     const shotCountText = shots => `${shots.length} loggade slag`;
     const scoreMeta = row => `${row.holes < row.of ? `${row.holes} av ${row.of}` : row.holes} hål med score · ${puttCoverageText(row.putts)}`;
     const canReplay = ({record, shots}) => courses.some(c => c.slug === record.course) && shots.some(s => Array.isArray(s.from));
-    const replayLink = session => canReplay(session)
-      ? `<a class="st-view" href="${import.meta.env.BASE_URL}${reliveUrl(session.record.course, state.example ? `exempel-${session.record.id}` : session.record.id)}">Återupplev i 3D →</a>` : '';
+    const replayLink = (session, placement) => canReplay(session)
+      ? `<a class="st-view" id="replay-${placement}-${esc(session.record.course)}-${esc(session.record.id)}" href="${import.meta.env.BASE_URL}${reliveUrl(session.record.course, state.example ? `exempel-${session.record.id}` : session.record.id)}">Återupplev i 3D →</a>` : '';
     const latestRow = latest && roundRow(latest.record);
     const versusPrevious = latestRow ? stat.latest?.vsAverage : null;
     const lastHole = latestRow?.singleHole;
@@ -678,7 +687,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
               ${latestRow.points !== null ? `<span class="sl-points">${latestRow.points} poäng · Stableford</span>` : ''}
               ${versusPrevious != null ? `<em class="sl-cmp">${Math.abs(versusPrevious) < 0.3 ? 'I nivå med tidigare snitt' : `${dec(Math.abs(versusPrevious))} slag ${versusPrevious < 0 ? 'bättre' : 'över snittet'} per 18 hål`}</em>` : ''}</div></div>` : ''}
           <div class="sl-actions"><button type="button" class="st-view" data-jump-round="${esc(`${latest.record.course}|${latest.record.id}`)}">${latestRow ? 'Scorekort' : 'Visa rundan'}</button>
-            <button type="button" class="st-view" data-share-round="${esc(`${latest.record.course}|${latest.record.id}`)}">Dela bild</button>${replayLink(latest)}</div>
+            <button type="button" class="st-view" data-share-round="${esc(`${latest.record.course}|${latest.record.id}`)}">Dela bild</button>${replayLink(latest, 'latest')}</div>
         </article>` : `<article class="st-card st-latest"><div class="sl-info"><h2 class="sl-course">Dina loggade slag</h2><p class="sl-meta">${stat.shotCount} loggade · ${stat.shotsMeasured} GPS-uppmätta</p></div></article>`}
         ${overviewInsights.length ? `<section class="st-insights" aria-labelledby="stHowH"><h2 class="st-h2" id="stHowH">Så spelar du</h2>${insightCard(overviewInsights[0])}</section>` : ''}
       </section>
@@ -706,8 +715,8 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
             </div>
             <div class="st-head-actions">
               ${hasPointsTrend && !showTable('trend') ? `<div class="st-mini-seg" role="group" aria-label="Mått">
-                <button type="button" data-trend-metric="score" aria-pressed="${state.trendMetric === 'score'}">Mot par</button>
-                <button type="button" data-trend-metric="points" aria-pressed="${state.trendMetric === 'points'}">Poäng</button>
+                <button type="button" id="statsTrendScore" data-trend-metric="score" aria-pressed="${state.trendMetric === 'score'}">Mot par</button>
+                <button type="button" id="statsTrendPoints" data-trend-metric="points" aria-pressed="${state.trendMetric === 'points'}">Poäng</button>
               </div>` : ''}
               ${tableToggle('trend')}
             </div>
@@ -768,7 +777,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
           <div><h2 id="stClubsH">Klubbor</h2><p>${stat.shotsMeasured
             ? `${stat.shotsMeasured} GPS-uppmätta slag. Totallängden inkluderar rull. Bagens carry är din angivna längd i luften.`
             : all.shotsMeasured ? 'Inga GPS-uppmätta slag i urvalet.' : 'Klubblängder visas när GPS har mätt avståndet mellan två loggade slag.'}</p></div>
-          <div class="st-head-actions">${stat.shotsMeasured ? tableToggle('clubs') : '<a class="st-view" href="#installningar/bag">Se carry i Min bag</a>'}</div>
+          <div class="st-head-actions">${stat.shotsMeasured ? tableToggle('clubs') : '<a class="st-view" id="statsBag" href="#installningar/bag">Se carry i Min bag</a>'}</div>
         </header>
         ${!stat.shotsMeasured ? '' : showTable('clubs') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Klubba</th><th>Slag</th><th>Typisk GPS-total</th><th>Spridning</th><th>Längsta</th><th>Bagens carry</th></tr></thead><tbody>
           ${stat.clubs.filter(c => !c.putter).map(c => `<tr><td>${esc(c.name)}</td><td>${c.stat?.shots ?? 0}</td><td>${c.stat ? `${Math.round(c.stat.typical)} m` : '–'}</td><td>${c.stat ? `${Math.round(c.stat.shortest)}–${Math.round(c.stat.reach)} m` : '–'}</td><td>${c.stat ? `${Math.round(c.stat.longest)} m` : '–'}</td><td>${c.carry ? `${c.carry} m` : '–'}</td></tr>`).join('')}</tbody></table></div>`
@@ -782,7 +791,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
             ${stat.byHoleNumber.map(h => `<tr><td>${h.n}</td><td>${h.par}</td><td>${dec(h.average, 2)}</td><td>${signed(h.toPar, 2)}</td><td>${h.best}</td><td>${h.putts !== null ? dec(h.putts, 1) : '–'}</td><td>${h.fairway !== null ? `${Math.round(h.fairway * 100)}\u00a0%` : '–'}</td><td>${h.rounds}</td></tr>`).join('')}</tbody></table></div>`
           : holeChart(stat.byHoleNumber)}
         ${stat.byHoleNumber && onCourse && courses.some(c => c.slug === state.course) ? `<div class="st-holes-foot">
-          <button type="button" class="st-ghost" data-play-course="${esc(state.course)}">Spela ${esc(courses.find(c => c.slug === state.course).name)} <span aria-hidden="true">→</span></button>
+          <button type="button" class="st-ghost" id="statsPlayCourse" data-play-course="${esc(state.course)}">Spela ${esc(courses.find(c => c.slug === state.course).name)} <span aria-hidden="true">→</span></button>
         </div>` : ''}
       </section>
 
@@ -805,7 +814,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
             const row = roundRow(record);
             const reviews = shots.map(shot => ({ shot, text: shotReviewText(shot, clubName) })).filter(r => r.text);
             return `<details class="st-round" data-round-key="${esc(`${record.course}|${record.id}`)}">
-              <summary>
+              <summary id="statsRound-${esc(record.course)}-${esc(record.id)}">
                 <span class="sr-date"><b>${esc(String(new Date(date).getDate()))}</b><small>${esc(new Date(date).toLocaleDateString('sv-SE', { month: 'short' }).replace('.', ''))}</small></span>
                 <span class="sr-name"><b>${esc(courseNameOf(record))}</b><small>${row ? esc(scoreMeta(row)) : `${session.saved ? 'Ingen hålscore' : 'Endast slaglogg'} · ${shotCountText(shots)}`}${row?.points != null ? ` · ${row.points} p` : ''}</small></span>
                 ${row ? `<span class="sr-score"><b>${row.strokes}</b><small>${row.toPar == null ? 'Par saknas' : signedInt(row.toPar)}</small></span>` : '<span></span>'}
@@ -814,8 +823,8 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
                 ${reviews.length ? `<h3>Planerat och spelat</h3><ol class="sr-reviews">${reviews.map(({shot, text}) => `<li><b>Hål ${esc(shot.hole)} · ${esc(clubName(shot.club))}</b> ${esc(text)}</li>`).join('')}</ol>` : ''}
                 <div class="sr-actions">
                   ${session.saved ? `<button type="button" class="st-ghost sr-share" data-share-round="${esc(`${record.course}|${record.id}`)}">Dela rundan som bild</button>` : ''}
-                  ${onCourse && courses.some(c => c.slug === record.course) ? `<button type="button" class="st-ghost" data-play-course="${esc(record.course)}">Spela banan igen →</button>` : ''}
-                  ${replayLink(session)}
+                  ${onCourse && courses.some(c => c.slug === record.course) ? `<button type="button" class="st-ghost" id="statsPlay-${esc(record.course)}-${esc(record.id)}" data-play-course="${esc(record.course)}">Spela banan igen →</button>` : ''}
+                  ${replayLink(session, 'card')}
                 </div>
               </div>
             </details>`;
@@ -824,7 +833,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
       </section>` : ''}`;
 
     showSections(jumps);
-    body.querySelector('[data-hide-example]')?.addEventListener('click', () => { state.example = false; render(); });
+    body.querySelector('[data-hide-example]')?.addEventListener('click', () => { state.example = false; render(); changed(); });
     for (const btn of body.querySelectorAll('[data-trend-metric]')) {
       btn.addEventListener('click', () => {
         if (state.trendMetric === btn.dataset.trendMetric) return;
@@ -832,6 +841,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         const y = el.scrollTop;
         render();
         el.scrollTop = y;
+        changed();
       });
     }
     for (const btn of body.querySelectorAll('[data-view]')) {
@@ -840,7 +850,8 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
         const y = el.scrollTop;
         render();
         el.scrollTop = y;
-        body.querySelector(`[data-view="${btn.dataset.view}"]`)?.focus();
+        body.querySelector(`[data-view="${btn.dataset.view}"]`)?.focus({ preventScroll: true });
+        changed();
       });
     }
     for (const btn of body.querySelectorAll('[data-jump-round]')) {
@@ -887,14 +898,16 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     for (const btn of body.querySelectorAll('[data-play-course]')) btn.addEventListener('click', () => onCourse?.(btn.dataset.playCourse));
     for (const btn of body.querySelectorAll('[data-pick-course]')) btn.addEventListener('click', () => {
       state.course = btn.dataset.pickCourse;
+      state.roundId = null;
       render();
+      changed();
       (body.querySelector('[data-card="holes"]') || body.querySelector('#st-clubs'))?.scrollIntoView({ block: 'start', behavior: REDUCED ? 'auto' : 'smooth' });
     });
     observe(draw);
   }
 
   function showSections(sections) {
-    endSection = null;
+    if (endSection && !sections.some(section => section.id === endSection.dataset.jump)) endSection = null;
     toolbar.hidden = false;
     nav.hidden = !sections.length;
     for (const button of jumpButtons) button.hidden = !sections.some(s => s.id === button.dataset.jump);
@@ -929,15 +942,26 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     observer.observe(body);
   }
 
-  function render() {
-    const opened = [...body.querySelectorAll('.st-round[open]')].map(item => item.dataset.roundKey);
+  const openedRounds = () => [...body.querySelectorAll('.st-round[open]')].map(item => item.dataset.roundKey);
+  body.addEventListener('toggle', event => {
+    if (event.target.matches('.st-round')) changed();
+  }, true);
+  function render(opened) {
+    // A directly linked scorecard may arrive after the first account sync.
+    // Open it once when it appears; later refreshes respect a manual collapse.
+    const key = state.roundId == null ? null : `${state.course}|${state.roundId}`;
+    const matched = key ? `.st-round[data-round-key="${CSS.escape(key)}"]` : null;
+    const pendingRound = matched && opened === undefined && !body.querySelector(matched);
+    opened ??= openedRounds();
+    const focusId = body.contains(document.activeElement) ? document.activeElement.id : '';
     const data = read();
     if (!data.rounds.length && !data.shots.length && !state.example) renderEmpty();
     else renderStats(data);
-    if (state.roundId != null) {
-      const key = `${state.course}|${state.roundId}`;
-      if (body.querySelector(`.st-round[data-round-key="${CSS.escape(key)}"]`)) opened.push(key);
-      else {
+    if (matched) {
+      if (pendingRound && body.querySelector(matched)) {
+        opened.push(key);
+        if (!el.hidden) el.revealCourse();
+      } else if (!body.querySelector(matched)) {
         const note = document.createElement('p');
         note.className = 'st-card st-muted';
         note.setAttribute('role', 'status');
@@ -949,6 +973,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
       const item = body.querySelector(`.st-round[data-round-key="${CSS.escape(key)}"]`);
       if (item) item.open = true;
     }
+    if (focusId) body.querySelector('#' + CSS.escape(focusId))?.focus({ preventScroll: true });
     if (!REDUCED) {
       body.classList.remove('is-entering');
       void body.offsetWidth;
@@ -956,24 +981,39 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
     }
   }
 
-  el.refresh = () => {
-    if (state.roundId != null) {
-      state.roundId = null;
-      state.course = 'all';
+  el.snapshot = () => ({ ...state, view: { ...state.view }, opened: openedRounds(), endSection: endSection?.dataset.jump ?? null, owner: getCloudState().user?.id ?? null });
+  el.restore = saved => {
+    const base = defaultView();
+    const sameOwner = saved && saved.owner === (getCloudState().user?.id ?? null);
+    if (sameOwner) {
+      base.period = PERIODS.find(period => period.key === saved.period)?.key ?? base.period;
+      base.course = saved.course || base.course;
+      base.roundId = saved.roundId ?? null;
+      base.example = saved.example === true;
+      base.trendMetric = saved.trendMetric === 'points' ? 'points' : 'score';
+      base.view = { ...saved.view };
     }
-    render();
+    Object.assign(state, base);
+    previousScrollTop = 0;
+    endSection = sameOwner ? jumpButtons.find(button => button.dataset.jump === saved.endSection) ?? null : null;
+    render(sameOwner && Array.isArray(saved.opened) ? saved.opened : []);
   };
-  addEventListener('banvy-sync-changed', () => render());
+  el.refresh = () => render();
+  addEventListener('banvy-account-changed', event => {
+    if (event.detail?.cacheReplaced || event.detail?.previousUserId) {
+      el.restore(null);
+      changed();
+    }
+  });
+  addEventListener('banvy-sync-changed', event => { if (!event.detail?.accountChanged) render(); });
   subscribeCloud(() => {
     const data = read();
     if (!data.rounds.length && !data.shots.length && !state.example) render();
   });
   el.showCourse = (slug, roundId = null) => {
-    state.example = false;
-    state.course = slug;
-    state.roundId = roundId;
-    state.period = 'all';
-    render();
+    Object.assign(state, defaultView(), { course: slug, roundId });
+    endSection = null;
+    render(roundId == null ? [] : [`${slug}|${roundId}`]);
   };
   el.revealCourse = () => {
     requestAnimationFrame(() => {

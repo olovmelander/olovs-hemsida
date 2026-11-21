@@ -40,7 +40,7 @@ const PHONES = [
 const SETTINGS = [['plain', {}], ['sun', { sun: true }], ['left-large', { left: true, large: true }], ['sun-left-large', { sun: true, left: true, large: true }]];
 
 /* What may lie on what by design: a sheet covers the game until it is closed. */
-const collect = () => {
+const collect = stateName => {
   const HUD = { hole: '.map-hole', green: '.map-green', wind: '.map-wind', wheel: '.map-wheel', log: '[data-wheel-lock]:not(.map-sr)', hint: '[data-wheel-hint]', recentre: '.map-recentre', viewToggle: '[data-view-toggle]', viewMenu: '[data-view-menu]', note: '[data-locked]', same: '[data-same]', prompt: '[data-prompt]', reading: '[data-reading]', profile: '[data-profile]', legend: '[data-legend]', tools: '.map-tools', status: '[data-status]' };
   const shown = element => { if (!element || element.hidden) return false; const style = getComputedStyle(element); if (style.display === 'none' || style.visibility === 'hidden') return false; return element.getClientRects().length > 0; };
   const rects = {}, elements = {};
@@ -52,6 +52,21 @@ const collect = () => {
     rects[name] = { l: box.left, t: box.top, r: box.right, b: box.bottom };
   }
   const issues = [];
+  if (innerWidth > innerHeight && stateName === 'view-menu') {
+    const choices = [...document.querySelectorAll('[data-view-menu] button')].filter(shown);
+    if (choices.length !== 6) issues.push('missing landscape camera choices');
+    for (const choice of choices) {
+      const { x, y, width, height } = choice.getBoundingClientRect();
+      if (Math.min(width, height) < 44 || !choice.contains(document.elementFromPoint(x + width / 2, y + height / 2))) {
+        issues.push(`unreachable landscape camera choice "${choice.textContent}"`);
+      }
+    }
+  }
+  if (innerWidth > innerHeight && stateName === 'reading+note') {
+    const label = document.querySelector('[data-locked-text]');
+    if (!shown(label) || !label.textContent.includes('Förra:')) issues.push('missing landscape shot confirmation with previous shot');
+    else if (label.scrollHeight > label.clientHeight + 1) issues.push('clipped landscape shot confirmation height');
+  }
   const names = Object.keys(rects);
   for (let i = 0; i < names.length; i++) for (let j = i + 1; j < names.length; j++) {
     const first = elements[names[i]], second = elements[names[j]];
@@ -276,7 +291,7 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
           await Promise.all(animations.filter(a => a.animationName === 'map-rise' || a.animationName === 'map-fall')
             .map(a => a.finished.catch(() => {})));
         });
-        const { issues } = await page.evaluate(collect);
+        const { issues } = await page.evaluate(collect, state);
         add(phone, setting, state, issues);
         if (issues.some(each => each.startsWith('overlap') || each.startsWith('offscreen') || each.startsWith('clipped')) && setting !== 'sun') await page.screenshot({ path: path.join(OUT, `${phone}-${setting}-${state}.png`) }).catch(() => {});
       };
@@ -456,6 +471,6 @@ const rows = write();
 for (const row of rows) console.log(String(row.count).padStart(4), row.example.slice(0, 80), '|', row.where.slice(0, 3).join(' '));
 /* The clashes that fail it. The rest is reported for reading. */
 const BY_DESIGN = /overlap (prompt|same)\/(prompt|same)/;
-const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|focus|rotation|painted map label behind walking distance|shot distance smaller|missing (walking distance|automatic tee target)|outside target|hidden target behind (hole|green|wind|wheel|log|reading|profile|viewToggle|tools)|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
+const clashes = rows.filter(row => /^(overlap|offscreen|clipped|script|pageerror|small|focus|rotation|unreachable landscape camera choice|painted map label behind walking distance|shot distance smaller|missing (landscape|walking distance|automatic tee target)|outside target|hidden target behind (hole|green|wind|wheel|log|reading|profile|viewToggle|tools)|hidden (pin|greenCentre) behind (hole|viewToggle|tools))/.test(row.example) && !BY_DESIGN.test(row.example));
 console.log(clashes.length ? `${clashes.length} kinds of clash` : 'the HUD fits every phone measured');
 process.exitCode = clashes.length ? 1 : 0;

@@ -778,12 +778,13 @@ expect(startColours === 'rgb(255, 210, 63)', 'and the one thing to do on it stan
 const teesOffered = await golfer.locator('[data-start-tees] .map-chip').count();
 if (teesOffered > 1) {
   await golfer.locator('[data-start-tees] .map-chip').nth(1).click();
-  expect(await golfer.evaluate(() => V3DMap.state.tee) === 1, 'the tee is chosen by hand, on the card');
+  expect(await golfer.locator('[data-start-tee="1"]').getAttribute('aria-pressed') === 'true', 'the card shows the chosen tee before confirmation');
 }
 await golfer.click('[data-start-more]');
 await golfer.click('[data-start-go]');
 await golfer.waitForTimeout(300);
 const begun = await golfer.evaluate(() => ({ begun: Boolean(V3DMap.round().begunAt), handicap: V3DMap.round().handicap, open: Boolean(document.querySelector('.map-sheet:not([hidden])')) }));
+if (teesOffered > 1) expect(await golfer.evaluate(() => V3DMap.state.tee) === 1, 'starting the round applies the chosen tee');
 expect(begun.begun && begun.handicap === 18 && !begun.open, 'Starta rundan takes one tap, and the map is ready');
 expect(await golfer.getAttribute('[data-gps]', 'aria-pressed') === 'true', 'with the GPS on');
 expect(await golfer.evaluate(() => document.querySelector('[data-end-round]').hidden && !document.querySelector('[data-end-round]').offsetParent), 'and nothing to end until something is played');
@@ -833,13 +834,21 @@ await golfer.waitForFunction(() => globalThis.V3DMap, null, { timeout: 60000 });
 await settled(golfer);
 expect(!(await golfer.isVisible('[data-start-sheet]')), 'Bara titta is taken at its word');
 
-/* A round cut short, with the wheel. */
+/* A preview must start a round before any score can be written. */
 await golfer.click('[data-score]');
-await golfer.click('[data-stroke-key="3"]').catch(() => {});
+await golfer.waitForSelector('[data-start-sheet]:not([hidden])');
+expect(await golfer.evaluate(() => !V3DMap.round().begunAt && !Object.keys(V3DMap.round().scores).length), 'opening Score from a preview leaves the card untouched');
+await golfer.click('[data-start-go]');
+await golfer.waitForSelector('[data-start-sheet]', { state: 'hidden' });
+await golfer.click('[data-score]');
+await golfer.waitForSelector('[data-score-sheet]:not([hidden])');
+await golfer.click('[data-stroke-key="3"]');
+expect(await golfer.evaluate(() => Boolean(V3DMap.round().begunAt) && V3DMap.round().scores[V3DMap.state.playing]?.strokes === 3), 'the confirmed round records three strokes on its playing hole');
 await golfer.locator('[data-end-round]').scrollIntoViewIfNeeded();
 await golfer.click('[data-end-round]');
 await golfer.waitForSelector('[data-round-sheet]:not([hidden])');
 expect(/1 av \d+ hål/.test(await golfer.textContent('.map-hero')), 'a round cut short says how many holes it holds');
+expect(await golfer.evaluate(() => Boolean(V3DMap.round().endedAt) && V3DMap.rounds().some(record => record.id === V3DMap.round().id && record.totals.strokes === 3)), 'ending the short round archives its three strokes');
 await golfer.click('[data-round-sheet] [data-close]');
 const farAway = await golfer.evaluate(() => { V3DMap.fix(62.5, 18, 5); return document.querySelector('[data-status]').textContent; });
 expect(/\d+ km från närmaste hål/.test(farAway), `far from the course it says kilometres: ${farAway}`);

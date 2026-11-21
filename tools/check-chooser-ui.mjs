@@ -961,6 +961,16 @@ if (PLAYER) {
     await page.keyboard.press('5');
     await page.waitForTimeout(300);
     gate((await read()).hole === inMenu, `keys do not steer the course behind the open menu (hole ${inMenu} -> ${(await read()).hole})`);
+    await page.click('#ndTabMore');
+    await page.goBack();
+    await page.locator('#navDrawer[open]').waitFor({ state: 'hidden' });
+    gate(await page.evaluate(() => document.activeElement.id === 'menuToggle'), 'browser Back closes the detailed menu and restores its launcher');
+    await page.goForward();
+    await page.locator('#navDrawer[open]').waitFor();
+    gate(await page.locator('#ndTabMore').getAttribute('aria-selected') === 'true', 'Forward restores the selected detailed menu tab');
+    await page.click('#ndTabPlay');
+    await page.click('#dNoteBtn');
+    gate(await page.locator('#note').evaluate(panel => panel.classList.contains('mobile-open')), 'Banguide opens the detailed viewer’s own guide');
     await page.keyboard.press('Escape');
   } catch (e) {
     gate(false, `player: ${String(e).split('\n')[0].slice(0, 110)}`);

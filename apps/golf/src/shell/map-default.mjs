@@ -16,8 +16,18 @@ export function isPhone(environment = globalThis) {
   return Math.min(screen?.width ?? Infinity, screen?.height ?? Infinity) <= 768;
 }
 
-export function opensMap(search, phone) {
+/* Campaign links carry the same destination as the link they decorate. Leave
+   the address intact for attribution and keep all renderer and camera options. */
+export function navigationParams(search) {
   const params = new URLSearchParams(search);
+  for (const key of new Set(params.keys())) {
+    if (/^(?:utm_|(?:fbclid|gclid|msclkid)$)/i.test(key)) params.delete(key);
+  }
+  return params;
+}
+
+export function opensMap(search, phone) {
+  const params = navigationParams(search);
   if (params.has('karta')) return params.get('karta') !== '0';
   return phone && params.has('bana') && [...params.keys()].every(key => PLAIN_LINK_KEYS.has(key));
 }

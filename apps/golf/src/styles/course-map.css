@@ -1047,19 +1047,25 @@ a.map-row-next { text-decoration: none; }
 .is-left .map-status { left: calc(env(safe-area-inset-left, 0px) + var(--side-width) + 18px); right: calc(env(safe-area-inset-right, 0px) + 10px); }
 @media (orientation: landscape) and (max-height: 520px) {
   .is-left .map-wheel, .is-left .map-log-shot { left: auto; right: calc(env(safe-area-inset-right, 0px) + 10px); }
+  .map-view-menu { grid-template-columns: repeat(3, max-content); }
+  .map-locked:not(.map-same) b { white-space: normal; overflow: visible; overflow-wrap: anywhere; line-height: 1.2; }
 }
 
 /* On a phone turned on its side, leave the short strip above the shot card for
    the landing. Camera and recentre share the dock on the shortest screens. */
-@media (orientation: landscape) and (max-height: 360px) {
-  .map-bottom { --camera-room: 50px; }
-  .map-bottom:has([data-recentre]:not([hidden])) { --camera-room: 100px; }
+@media (orientation: landscape) and (max-height: 440px) {
+  .map-bottom { --camera-width: 44px; --camera-room: calc(var(--camera-width) + 6px); }
+  .map-bottom:has([data-recentre]:not([hidden])) { --camera-room: calc(var(--camera-width) + 56px); }
   .map-float { bottom: 0; height: 44px; gap: 6px; z-index: 8; }
-  .map-view-toggle { width: 44px; padding: 0; justify-content: center; }
+  .map-view-toggle { width: var(--camera-width); padding: 0; justify-content: center; }
   .map-view-toggle span, .map-tools svg { display: none; }
   .map-tools { margin-left: var(--camera-room); }
   .is-left .map-tools { margin-left: 0; margin-right: var(--camera-room); }
   .map-bottom:has([data-view-menu]:not([hidden])) > :not(.map-float, .map-tools) { visibility: hidden; }
+}
+@media (orientation: landscape) and (max-height: 440px) and (min-width: 700px) {
+  .map-bottom { --camera-width: 116px; }
+  .map-view-toggle span { display: inline; }
 }
 
 /* ---- Större text: what is read, not what sits on the map ---- */

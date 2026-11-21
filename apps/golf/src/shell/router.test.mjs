@@ -2,7 +2,7 @@
    key, and the shapes that must NOT be treated as legacy links. These are the
    links this project was shared with, so the mapping is a contract. */
 import { describe, it, expect } from 'vitest';
-import { legacyTarget, LEGACY_PAGES, VIEW_KEYS, courseUrl } from './router.js';
+import { legacyTarget, LEGACY_PAGES, VIEW_KEYS, courseUrl, parentHubRoute, previousCourseEntry } from './router.js';
 
 const q = url => Object.fromEntries(new URLSearchParams(url.split('?')[1]));
 
@@ -68,5 +68,30 @@ describe('courseUrl', () => {
 
   it('generates a clean course url when no search string is provided', () => {
     expect(courseUrl('puttom', '')).toBe('?bana=puttom');
+  });
+});
+
+describe('hub returns', () => {
+  it('walks shared round links and filter dialogs one level at a time', () => {
+    expect(parentHubRoute('#statistik/upsala/42?filter=1')).toBe('statistik/upsala/42');
+    expect(parentHubRoute('#statistik/upsala/42')).toBe('statistik/upsala');
+    expect(parentHubRoute('#statistik/upsala')).toBe('statistik');
+    expect(parentHubRoute('#/karta/upsala?hal=10&tee=2')).toBe('karta');
+    expect(parentHubRoute('#installningar/bag')).toBe('installningar');
+    expect(parentHubRoute('#statistik')).toBe('');
+  });
+
+  it('recognizes previous viewer entries on this mount without leaving a direct link or new tab', () => {
+    const href = 'https://example.org/golf/#installningar', base = '/golf/';
+    const referrer = 'https://example.org/golf/?bana=upsala&karta=1';
+    const visit = { href, base, referrer, historyLength: 2 };
+    expect(previousCourseEntry(visit)).toBe(true);
+    expect(previousCourseEntry({ ...visit, previousUrl: referrer + '#meny' })).toBe(true);
+    expect(previousCourseEntry({ ...visit, referrer: 'https://example.org/?bana=upsala' })).toBe(false);
+    expect(previousCourseEntry({ ...visit, referrer: 'https://elsewhere.org/golf/?bana=upsala' })).toBe(false);
+    expect(previousCourseEntry({ ...visit, referrer: '' })).toBe(false);
+    expect(previousCourseEntry({ ...visit, previousUrl: null })).toBe(false);
+    expect(previousCourseEntry({ ...visit, previousUrl: href })).toBe(false);
+    expect(previousCourseEntry({ ...visit, historyLength: 1 })).toBe(false);
   });
 });

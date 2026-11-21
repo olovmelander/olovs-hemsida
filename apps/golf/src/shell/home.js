@@ -140,7 +140,7 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
 
       <section class="home-hero">
         <p class="home-eyebrow">Svenska golfbanor i 3D</p>
-        <h1 class="home-title" id="homeTitle" tabindex="-1">Från soffan till <em>första tee.</em></h1>
+        <h1 class="home-title" id="homeTitle" tabindex="-1">${phone ? 'Startmeny' : 'Från soffan till <em>första tee.</em>'}</h1>
         <p class="home-lead"></p>
         <dl class="home-stats" hidden>
           <div><dt>Banor</dt><dd data-count="courses"></dd></div>
@@ -164,16 +164,16 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
         ${card('map', {
           kicker: 'Ute på banan',
           title: `${MODES.map.label} <small>med GPS</small>`,
-          body: 'Snabb 3D-karta för rundan: GPS-avstånd, klubbhjulet och scorekortet.',
+          body: 'Mät avstånd, välj klubba och för score under rundan.',
           feats: ['GPS', 'Klubbhjulet', 'Scorekort'],
           art: `<i style="background-image:url('${poster(MODE_ART.map)}')"></i>`,
           fig: GPS_ART,
           icon: PIN,
         })}
         ${card('play', {
-          kicker: 'Som ett golfspel',
+          kicker: 'Virtuell golf',
           title: MODES.play.label,
-          body: 'Slå varje slag själv med din egen bag: bollfysik, vind, greenernas lutning och scorekort.',
+          body: 'Spela en virtuell runda med din egen bag.',
           feats: ['Bollfysik', 'Puttning', 'Återupplev'],
           art: `<i style="background-image:url('${PLAY_ART}')"></i>`,
           icon: GOLFER,
@@ -296,7 +296,7 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       resumeSlot.innerHTML = `<button class="home-resume" type="button" data-resume data-simulation>
         <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
         <span class="hr-text"><span class="hr-kicker">Fortsätt simuleringen</span><span class="hr-name">${esc(course.name)}</span>
-        <span class="hr-sub">Hål ${saved.round.current} · Spela</span></span><span class="hr-go" aria-hidden="true">${ARROW}</span></button>`;
+        <span class="hr-sub">Hål ${saved.round.current} · ${MODES.play.label}</span></span><span class="hr-go" aria-hidden="true">${ARROW}</span></button>`;
       resumeSlot.querySelector('button').onclick = () => onResume(course.slug, 'play', { sim: 'fortsatt' });
       return;
     }
