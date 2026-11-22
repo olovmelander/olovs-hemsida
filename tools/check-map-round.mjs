@@ -167,7 +167,8 @@ try {
   await railAction.tap();
   await startSheet.locator('[data-start-go]').tap();
   await wait(preview.page, () => V3DMap.round().begunAt && V3DMap.round().playingHole === 18 && V3DMap.state.hole === 18);
-  assert.match(await railAction.innerText(), /^Logga slag\b/);
+  assert.match(await railAction.innerText(), /^Logga\b/);
+  assert.match(await railAction.getAttribute('aria-label'), /^Logga slag\b/);
   assert.equal(await preview.page.evaluate(() => V3DMap.shots().length), 0);
   // A guide link previews hole 7 while the player's existing card is on 18.
   const started = await round(preview.page);
@@ -191,7 +192,7 @@ try {
   const original = await round(page);
   const coordinate = await gpsAtTee(page, context, 10);
   await tap(page, '[data-hole]');
-  await page.locator('[data-aim-choice]').selectOption('0');
+  await tap(page, '[data-measure-hazard="0"]');
   await wait(page, () => V3DMap.state.guidance.mode === 'manual' && V3DMap.state.guidance.recommendedClub);
   const pin = await page.evaluate(() => [...V3DMap.state.guidance.target]);
   await page.locator('[data-wheel-list]').press('ArrowDown');
@@ -201,18 +202,20 @@ try {
   assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pin);
 
   const mapAddress = page.url();
-  const lightSheet = page.locator('[data-light-sheet]');
+  const clubsSheet = page.locator('[data-clubs-sheet]');
   const menuSheet = page.locator('[data-menu-sheet]');
   await tap(page, '[data-menu]');
-  await tap(page, '[data-menu-tab="karta"]');
-  await tap(page, '[data-light]');
-  await lightSheet.waitFor();
+  await tap(page, '[data-menu-tab="visning"]');
+  assert.ok(await page.locator('[data-lights] button').first().isVisible());
+  await tap(page, '[data-menu-tab="runda"]');
+  await tap(page, '[data-clubs-open]');
+  await clubsSheet.waitFor();
   await page.goBack();
   await menuSheet.waitFor();
-  assert.equal(await page.locator('[data-menu-tab="karta"]').getAttribute('aria-selected'), 'true');
-  assert.ok(await page.locator('[data-light]').evaluate(button => button === document.activeElement));
+  assert.equal(await page.locator('[data-menu-tab="runda"]').getAttribute('aria-selected'), 'true');
+  assert.ok(await page.locator('[data-clubs-open]').evaluate(button => button === document.activeElement));
   await page.goForward();
-  await lightSheet.waitFor();
+  await clubsSheet.waitFor();
   await page.keyboard.press('Escape');
   await menuSheet.waitFor();
   await page.goBack();

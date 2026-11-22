@@ -13,7 +13,7 @@ const ROW_PIXELS = 50, MOVE_SLOP_PIXELS = 8, SETTLE_MS = 110, COPIES = 3, PAINT_
 /* What fits a thumb-sized row. */
 const shortName = name => name.replace(/^Lobwedge$/, 'Lob');
 
-export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }) {
+export function createClubWheel(element, { onChoose, onLock, onSlip = () => {}, holdToLock = true }) {
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const list = element.querySelector('[data-wheel-list]');
   let clubs = [], rows = [], centre = -1, settleTimer = 0, painting = false, touched = false;
@@ -150,17 +150,19 @@ export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }
     const club = clubAt(row);
     hold = {
       row, club, pointer: event.pointerId, x: event.clientX, y: event.clientY,
-      timer: setTimeout(() => {
+      timer: holdToLock ? setTimeout(() => {
         const superseded = stopHold() != null;
         if (!superseded) show(indexOf(club.id), false);
         navigator.vibrate?.([14, 40, 26]);
         onLock(club, { superseded });
-      }, HOLD_MS),
+      }, HOLD_MS) : 0,
     };
     /* Nothing moves under a finger that is holding: the club it is on fills where it
        stands, and comes to the centre once it is chosen. */
-    element.classList.add('is-holding');
-    target.classList.add('is-held');
+    if (holdToLock) {
+      element.classList.add('is-holding');
+      target.classList.add('is-held');
+    }
   });
   list.addEventListener('pointermove', event => {
     if (hold && hold.pointer === event.pointerId && Math.hypot(event.clientX - hold.x, event.clientY - hold.y) > MOVE_SLOP_PIXELS) {

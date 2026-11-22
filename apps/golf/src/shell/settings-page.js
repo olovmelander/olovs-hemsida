@@ -108,7 +108,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
             <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[0].icon}</span>
               <div><h2 id="set-player-h" tabindex="-1">Spelare och bag</h2><p>Klubbråd utgår från din bag. Spelhandicapet används när du startar en runda.</p></div></header>
             <div class="set-panel">
-              ${row('Spelhandicap', 'Ger slag per hål på scorekortet i kartan.', `
+              ${row('Spelhandicap', 'Ger slag per hål på scorekortet i Lätt 3D.', `
                 <div class="stepper" role="group" aria-labelledby="lbl-hcp">
                   <button type="button" data-hcp-step="-1" aria-label="Sänk spelhandicap">−</button>
                   <input type="number" inputmode="numeric" min="${MIN_HANDICAP}" max="${MAX_HANDICAP}" step="1" data-hcp aria-labelledby="lbl-hcp" placeholder="–">
@@ -159,7 +159,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
             <div class="set-panel" data-account-panel hidden></div>
             <h3 class="set-subhead" id="set-data" tabindex="-1">Data på enheten</h3>
             <div class="set-panel">
-              <div class="set-row"><div class="set-label"><b>Sparade rundor</b><small>Allt de räknas till finns under Statistik, och varje runda under Meny, Mina rundor, i kartan.</small></div><div class="set-control set-inline"><span class="set-metric" data-rounds>0</span><a class="set-link" id="settingsStats" href="#statistik">Statistik</a></div></div>
+              <div class="set-row"><div class="set-label"><b>Sparade rundor</b><small>Allt de räknas till finns under Statistik, och varje runda under Meny, Mina rundor, i Lätt 3D.</small></div><div class="set-control set-inline"><span class="set-metric" data-rounds>0</span><a class="set-link" id="settingsStats" href="#statistik">Statistik</a></div></div>
               <div class="set-row is-stacked set-backup">
                 <div class="set-label"><b>Säkerhetskopia</b><small>Spara dina rundor, slag, din bag och dina inställningar i en fil. Offlinebanor hämtas på varje enhet.</small></div>
                 <div class="set-inline">

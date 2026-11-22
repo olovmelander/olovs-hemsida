@@ -66,15 +66,19 @@ export function attachGestures(element, handlers) {
     const point = localPoint(event);
     const time = performance.now();
     if (!moved && time - start.time < TAP_MILLISECONDS) {
-      if (time - lastTap < DOUBLE_TAP_MILLISECONDS) {
-        clearTimeout(tapTimer);
-        lastTap = 0;
-        handlers.onDoubleTap?.(point);
+      if (handlers.onDoubleTap) {
+        if (time - lastTap < DOUBLE_TAP_MILLISECONDS) {
+          clearTimeout(tapTimer);
+          lastTap = 0;
+          handlers.onDoubleTap(point);
+        } else {
+          lastTap = time;
+          /* A tap has to wait out a possible second tap, or every zoom-in would
+             also move the measuring point. */
+          tapTimer = setTimeout(() => handlers.onTap?.(point), DOUBLE_TAP_MILLISECONDS);
+        }
       } else {
-        lastTap = time;
-        /* A tap has to wait out a possible second tap, or every zoom-in would
-           also move the measuring point. */
-        tapTimer = setTimeout(() => handlers.onTap?.(point), DOUBLE_TAP_MILLISECONDS);
+        handlers.onTap?.(point);
       }
     }
     start = null;

@@ -97,7 +97,7 @@ try {
   await target.page.reload();
   await wait(target.page, () => globalThis.V3DMap?.round().playingHole === 10);
   assert.equal(await target.page.evaluate(() => V3DMap.shots().length), 1);
-  await target.page.locator('[data-score]').click();
+  await target.page.locator('[data-desk-tab="score"]:visible, [data-score]:visible').first().click();
   await target.page.locator('[data-stroke-key="6"]').click();
   await source.page.reload();
   await source.page.getByText('Hål 10 · 6 slag', { exact: true }).waitFor();

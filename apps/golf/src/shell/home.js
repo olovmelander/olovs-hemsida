@@ -134,7 +134,6 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
         <span class="hub-top-actions">
           <button class="hub-icon-btn hub-install" type="button" data-install hidden>${INSTALL}<span>Installera</span></button>
           <button class="hub-icon-btn hub-account" type="button" data-account hidden></button>
-          <button class="hub-icon-btn" type="button" data-settings aria-label="Inställningar" title="Inställningar">${GEAR}</button>
         </span>
       </div>
 
@@ -349,8 +348,6 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       }, () => {}, { timeout: 10000, maximumAge: 120000 });
     }).catch(() => {});
   }
-
-  el.querySelector('[data-settings]').addEventListener('click', () => onSettings());
 
   const accountBtn = el.querySelector('[data-account]');
   accountBtn.addEventListener('click', () => (onAccount ? onAccount() : onSettings()));

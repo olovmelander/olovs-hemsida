@@ -6,6 +6,7 @@
    in a pocket between shots spends nothing on the map. */
 import '../styles/course-map.css';
 import { DEFAULT_BAG, gpsToLocal, nearestHole, parseBag } from '../engine/caddie.js';
+import { createShortcutKeys, nextInCycle } from '../engine/keyboard-shortcuts.mjs';
 import { compassName as windCompass, fetchWeather, weatherWord } from '../engine/weather.js';
 import { isPhone } from '../shell/map-default.mjs';
 import { distanceText } from '../shell/nearest-course.mjs';
@@ -25,7 +26,7 @@ import { loadMapShotGeometry } from './map-shot-geometry.mjs';
 import { readMapShot } from './map-strategy.mjs';
 import { createClubWheel } from './map-wheel.mjs';
 import { createPanelHistory } from '../ui/panel-history.mjs';
-import { measurementTargets, shotHud } from './map-shot-hud.mjs';
+import { shotHud } from './map-shot-hud.mjs';
 import { createDiary } from './map-diary.mjs';
 import { activeFrameMs, createDisplay } from './map-display.mjs';
 import { dateText, renderClubs, renderHoleHistory, renderRound, renderRounds } from './map-panels.mjs';
@@ -52,8 +53,8 @@ const COURSE_TILT = 0.72;
    way that points, so the picture stays lined up with the player as they walk. They
    differ in how far the camera leans: the hole as a map, the golfer's own eye behind
    the ball, and straight down. */
-const QUICK_VIEWS = Object.freeze({ hole: { tilt: 0.9 }, behind: { tilt: 1.24 }, above: { tilt: 0.06 }, eye: { tilt: 1.5 } });
-const VIEW_NAMES = Object.freeze({ course: 'Banan', hole: 'Hela hålet', behind: 'Bakom', above: 'Ovanifrån', eye: 'Min vy', green: 'Green' });
+const QUICK_VIEWS = Object.freeze({ hole: { tilt: 0.9 }, above: { tilt: 0.06 } });
+const VIEW_NAMES = Object.freeze({ course: 'Banan', hole: 'Hela hålet', above: 'Ovanifrån', green: 'Green' });
 /* How far the trees stand: twelve times the camera's distance, at most 12 km, and
    9 km from Min vy, about where the air has taken the ground (owner request,
    8 November: the woods ended a kilometre or two out). Past the 1 m tiles they are
@@ -105,7 +106,7 @@ const LOOK_KEY = 'banvy-map-looking-v1';
 const PLAY_ON_MS = 30 * 60 * 1000;
 /* Far enough from a locked ball that the player is on the way to the next one. */
 const WHEEL_AWAY_METRES = 15;
-const NOTE_MS = 9000, SAME_SPOT_MS = 12000;
+const NOTE_MS = 15000, SAME_SPOT_MS = 12000;
 /* About two lines of a hole's tip. */
 const NOTE_CLAMP_LETTERS = 90;
 /* A lock waiting for a good fix. Past this the player may have walked off. */
@@ -165,41 +166,39 @@ root.innerHTML = `
   </header>
   <div class="map-side">
     <button class="map-green" data-green aria-label="Avstånd till greenen. Tryck för att se greenen nära.">
-      <svg class="map-green-icon" viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M2 5.5h12M2 10.5h12M5.5 2v12M10.5 2v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="2" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-      <span class="map-green-row"><i>Bak</i><b data-back-number>–</b></span>
-      <span class="map-green-row map-green-mid"><i>Mitt</i><b data-mid-number>–</b></span>
-      <span class="map-green-row"><i>Fram</i><b data-front-number>–</b></span>
+      <span class="map-green-row"><i>Bak</i><span class="map-green-val"><b data-back-number>–</b><u class="map-unit" aria-hidden="true">m</u></span></span>
+      <span class="map-green-row map-green-mid"><i>Mitt</i><span class="map-green-val"><b data-mid-number>–</b><u class="map-unit" aria-hidden="true">m</u></span></span>
+      <span class="map-green-row"><i>Fram</i><span class="map-green-val"><b data-front-number>–</b><u class="map-unit" aria-hidden="true">m</u></span></span>
       <span class="map-green-plays" data-green-plays hidden></span>
       <small data-from></small>
+      <span class="map-green-cue" data-green-cue aria-hidden="true"><svg viewBox="0 0 16 16" width="11" height="11"><path d="M2 5.5h12M2 10.5h12M5.5 2v12M10.5 2v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="2" y="2" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span data-green-cue-text>Greenvy</span></span>
     </button>
     <button class="map-wind" data-wind hidden aria-label="Vind och väder">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" data-wind-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" data-wind-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>
       <b data-wind-speed></b>
     </button>
     <div class="map-wheel" data-wheel>
       <div class="map-wheel-band" aria-hidden="true"></div>
       <div class="map-wheel-list" data-wheel-list role="listbox" tabindex="0" aria-label="Klubba" aria-describedby="map-wheel-help"></div>
-      <span class="map-sr" id="map-wheel-help">Välj med piltangenterna eller snurra. Logga slaget med Enter, ett långt tryck eller knappen Logga slag.</span>
+      <span class="map-sr" id="map-wheel-help">Välj klubba med piltangenterna eller genom att snurra. Tryck på Logga slag eller Enter för att logga slaget.</span>
     </div>
-    <button class="map-log-shot" data-wheel-lock>Logga slag</button>
   </div>
   <section class="map-bottom">
     <div class="map-float">
       <div class="map-view-wrap" data-view-wrap>
         <div class="map-view-menu" id="map-camera-views" data-views data-view-menu hidden role="group" aria-label="Kameravy">
-          <button data-overview aria-pressed="false" aria-label="Hela banan">Banan</button>
           <button data-view="hole" aria-pressed="true">Hela hålet</button>
-          <button data-view="behind" aria-pressed="false" aria-label="Bakom bollen, mot greenen">Bakom</button>
-          <button data-view="above" aria-pressed="false">Ovanifrån</button>
-          <button data-view="eye" aria-pressed="false" aria-label="Min vy, från ögonhöjd mot greenen">Min vy</button>
           <button data-view="green" aria-pressed="false" aria-label="Greenen nära">Green</button>
+          <button data-view="above" aria-pressed="false">Ovanifrån</button>
+          <button data-overview aria-pressed="false" aria-label="Hela banan">Banan</button>
         </div>
         <button class="map-view-toggle" data-view-toggle aria-expanded="false" aria-controls="map-camera-views" aria-label="Kameravy">
           <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.6-2h4.8L16 6h2.5A2.5 2.5 0 0 1 21 8.5v9A2.5 2.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           <span data-view-label>Hela hålet</span>
         </button>
       </div>
-      <button class="map-recentre" data-recentre hidden aria-label="Tillbaka till hålet"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <button class="map-gps-pill" data-gps aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-gps-label>GPS</span></button>
+      <button class="map-recentre" data-recentre hidden aria-label="Tillbaka till hålet"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
     <div class="map-locked" data-locked hidden>
       <b data-locked-text></b>
@@ -207,6 +206,7 @@ root.innerHTML = `
       <button data-locked-end hidden>Avsluta</button>
       <button data-locked-penalty>Plikt +1</button>
       <button data-locked-undo>Ångra</button>
+      <button class="map-locked-close" data-locked-close aria-label="Stäng meddelande">×</button>
     </div>
     <div class="map-locked map-same" data-same hidden>
       <b>Samma plats – vad hände?</b>
@@ -220,7 +220,7 @@ root.innerHTML = `
       <div class="map-prompt-head"><b id="map-prompt-title" data-prompt-title></b><button data-prompt-more>Fler val</button><button class="map-sheet-close" data-prompt-close aria-label="Inte nu">×</button></div>
       <div class="map-keys" data-prompt-keys></div>
     </div>
-    <div class="map-reading" data-reading hidden role="region" aria-label="Nästa slag">
+    <div class="map-reading" data-reading hidden role="region" aria-label="Mätning och slag">
       <div class="map-reading-text" data-reading-text>
         <div class="map-shot-context"><span data-shot-title></span><span data-shot-source></span></div>
         <div class="map-shot-main"><b data-shot-distance></b><em data-shot-club></em></div>
@@ -228,29 +228,37 @@ root.innerHTML = `
         <p class="map-walked-shot" data-wheel-hint hidden><span>Från slaget</span> <span data-hint-note></span> <b data-hint-metres></b></p>
       </div>
       <div class="map-shot-actions">
-        <button data-reading-close hidden>Automatiskt mål</button>
-        <button data-club-auto hidden>Föreslagen klubba</button>
+        <button data-reading-close hidden aria-label="Rensa mätpunkt">Rensa</button>
+        <button data-club-auto hidden>Föreslagen</button>
         <button data-aim-retry hidden>Försök igen</button>
       </div>
     </div>
     <span class="map-sr" role="status" aria-atomic="true" data-shot-status></span>
     <span class="map-sr" role="status" aria-atomic="true" data-log-status></span>
-    <div class="map-profile" data-profile>
-      <svg viewBox="0 0 300 44" preserveAspectRatio="none" aria-hidden="true"><path data-profile-fill fill="rgba(120,205,120,.32)"/><path data-profile-line fill="none" stroke="#a6efa0" stroke-width="2" vector-effect="non-scaling-stroke"/><rect data-profile-walked y="0" width="0" height="44" fill="rgba(12,24,18,.62)"/></svg>
-      <i class="map-mark map-mark-aim" data-profile-aim hidden></i>
-      <i class="map-mark map-mark-you" data-profile-you hidden></i>
-      <span data-profile-text></span><span class="map-plays" data-profile-plays></span>
-    </div>
     <div class="map-legend" data-legend hidden aria-label="Greenens lutning i procent">
       <span>Lutning %</span><div data-legend-steps></div>
     </div>
     <div class="map-tools">
-      <button class="map-tool" data-gps aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 21s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2.4" fill="currentColor"/></svg><span data-gps-label>GPS</span></button>
+      <button class="map-tool map-tool-primary" data-wheel-lock><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span data-wheel-lock-label>Logga slag</span></button>
       <button class="map-tool" data-hole aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 21V4l11 4.5L7 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg><span>Hålet</span></button>
       <button class="map-tool" data-score aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-score-label>Score</span></button>
       <button class="map-tool" data-menu aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Meny</span></button>
     </div>
+    <p class="map-desk-hints" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd> Hål · <kbd>1–18</kbd> · <kbd>C</kbd> Vy · <kbd>G</kbd> Green · <kbd>H</kbd> Panel · <kbd>S</kbd> Score · <kbd>Esc</kbd> Rensa</p>
   </section>
+  <aside class="map-desk-rail" data-desk-rail hidden aria-label="Sidopanel">
+    <div class="map-desk-head">
+      <a class="map-desk-back" href="${hubUrl()}" aria-label="Till startmenyn">‹ Startmenyn</a>
+      <strong class="map-desk-course" data-desk-course></strong>
+      <button type="button" class="map-desk-collapse" data-desk-collapse aria-label="Dölj sidopanel (H)" title="Dölj sidopanel (H)">‹</button>
+    </div>
+    <div class="map-desk-tabs" role="tablist" aria-label="Sidopanel">
+      <button type="button" role="tab" data-desk-tab="hole" aria-selected="true">Hålet</button>
+      <button type="button" role="tab" data-desk-tab="score" aria-selected="false">Score</button>
+      <button type="button" role="tab" data-desk-tab="menu" aria-selected="false">Meny</button>
+    </div>
+  </aside>
+  <button type="button" class="map-desk-open" data-desk-open hidden aria-label="Visa sidopanel (H)" title="Visa sidopanel (H)">Panel ›</button>
   <div class="map-backdrop" data-backdrop hidden></div>
   <section class="map-sheet map-sheet-tall" data-score-sheet hidden aria-label="Scorekort">
     <div class="map-sheet-head">
@@ -268,6 +276,10 @@ root.innerHTML = `
     <p class="map-score-stats" data-score-stats></p>
     <div class="map-card" data-card></div>
     <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-handicap-less aria-label="Sänk spelhandicap">−</button><output data-handicap>–</output><button data-handicap-more aria-label="Höj spelhandicap">+</button></div>
+    <div class="map-score-undo" data-score-undo hidden>
+      <span data-score-undo-text></span>
+      <button type="button" data-score-undo-btn>Ångra</button>
+    </div>
     <div class="map-actions">
       <button class="map-action" data-pick-up>Stryk hålet</button>
       <button class="map-action" data-end-round>Avsluta rundan</button>
@@ -304,27 +316,35 @@ root.innerHTML = `
     <button class="map-action map-action-next map-start-go" data-start-go>Starta rundan</button>
     <button class="map-note-more map-start-look" data-close>Bara titta på banan</button>
   </section>
-  <section class="map-sheet" data-light-sheet hidden aria-label="Ljus">
-    <div class="map-sheet-head"><button class="map-sheet-close" data-light-back aria-label="Tillbaka till menyn">‹</button><b>Ljus</b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
-    <div class="map-lights" data-lights></div>
-  </section>
-  <section class="map-sheet" data-hole-sheet hidden aria-label="Hålet">
-    <div class="map-sheet-head"><b data-hole-sheet-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
-    <div class="map-aim-choice" data-measure-options>
-      <label for="map-aim-landmark">Mät till</label>
-      <select id="map-aim-landmark" data-aim-choice><option value="">Välj punkt på hålet</option></select>
-      <p data-shot-conditions hidden></p>
+  <section class="map-sheet map-sheet-tall" data-hole-sheet hidden aria-label="Hålet">
+    <div class="map-sheet-head">
+      <button class="map-sheet-close" data-hole-prev aria-label="Hålet före">‹</button>
+      <b data-hole-sheet-title></b>
+      <button class="map-sheet-close" data-hole-next aria-label="Hålet efter">›</button>
+      <button class="map-sheet-close" data-close aria-label="Stäng">×</button>
     </div>
     <button class="map-action map-action-next" data-play-hole hidden></button>
+    <h3 class="map-sheet-first-h">Alla hål</h3>
+    <div class="map-holes" data-holes></div>
+    <div class="map-profile map-sheet-profile" data-profile>
+      <svg viewBox="0 0 300 44" preserveAspectRatio="none" aria-hidden="true"><path data-profile-fill fill="rgba(120,205,120,.32)"/><path data-profile-line fill="none" stroke="#a6efa0" stroke-width="2" vector-effect="non-scaling-stroke"/><rect data-profile-walked y="0" width="0" height="44" fill="rgba(12,24,18,.62)"/></svg>
+      <i class="map-mark map-mark-aim" data-profile-aim hidden></i>
+      <i class="map-mark map-mark-you" data-profile-you hidden></i>
+      <span data-profile-text></span><span class="map-plays" data-profile-plays></span>
+    </div>
+    <p class="map-conditions" data-shot-conditions hidden></p>
     <div data-hazard-section>
-      <h3>Hinder längs hålets spellinje</h3>
+      <h3>Hinder · tryck för att mäta</h3>
       <ul class="map-hazards" data-hazard-list></ul>
     </div>
     <div data-shots-section hidden>
       <h3>Dina slag</h3>
       <ol class="map-shots" data-shots></ol>
       <p class="map-shots-hint" data-shots-hint hidden>Fel klubba eller plikt? Tryck på slaget.</p>
-      <button class="map-action map-shots-penalty" data-hole-penalty hidden>Plikt +1</button>
+      <div class="map-shots-actions">
+        <button class="map-action map-shots-penalty" data-hole-penalty hidden>Plikt +1</button>
+        <button class="map-action" data-hole-undo hidden>Ångra senaste</button>
+      </div>
     </div>
     <div data-history-section hidden>
       <h3>Så brukar du spela hålet</h3>
@@ -334,24 +354,22 @@ root.innerHTML = `
       <p class="map-note is-clamped" data-note hidden></p>
       <button class="map-note-more" data-note-more hidden>Läs mer</button>
     </div>
-    <h3>Alla hål</h3>
-    <div class="map-holes" data-holes></div>
   </section>
   <section class="map-sheet" data-clubs-sheet hidden aria-label="Mina klubbor">
     <div class="map-sheet-head"><button class="map-sheet-close" data-clubs-back aria-label="Tillbaka till menyn">‹</button><b>Mina klubbor</b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
     <p class="map-note" data-clubs-note></p>
     <ul class="map-clubs" data-clubs></ul>
-    <div class="map-actions"><a class="map-action" href="${hubUrl('installningar/bag')}">Redigera min bag</a></div>
+    <div class="map-actions"><a class="map-action" data-leave-guard href="${hubUrl('installningar/bag')}">Redigera min bag</a></div>
   </section>
-  <section class="map-sheet map-menu" data-menu-sheet hidden aria-label="Meny">
+  <section class="map-sheet map-sheet-tall map-menu" data-menu-sheet hidden aria-label="Meny">
     <div class="map-sheet-head"><b data-menu-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
+    <label class="map-row map-menu-sun"><span>Solläge<small>Ljusa paneler för starkt solljus</small></span><input type="checkbox" role="switch" data-sun></label>
     <div class="map-menu-tabs" role="tablist" aria-label="Menyflikar">
-      <button type="button" role="tab" data-menu-tab="spel" aria-selected="true">Spel</button>
-      <button type="button" role="tab" data-menu-tab="karta" aria-selected="false">Karta</button>
-      <button type="button" role="tab" data-menu-tab="bana" aria-selected="false">Bana</button>
+      <button type="button" role="tab" data-menu-tab="runda" aria-selected="true">Runda</button>
+      <button type="button" role="tab" data-menu-tab="visning" aria-selected="false">Visning</button>
     </div>
-    <div class="map-menu-pane" data-menu-pane="spel" role="tabpanel">
-      <a class="map-row map-row-next" data-home href="${hubUrl()}">Till startmenyn</a>
+    <div class="map-menu-pane" data-menu-pane="runda" role="tabpanel">
+      <label class="map-row" data-menu-gps-row><span>GPS på banan<small data-menu-gps-sub>Följer din position under rundan</small></span><input type="checkbox" role="switch" data-menu-gps></label>
       <div data-tee-section>
         <h3>Tee</h3>
         <div class="map-chips" data-tees></div>
@@ -362,27 +380,41 @@ root.innerHTML = `
       <button class="map-row map-row-next" data-clubs-open><span>Mina klubbor</span><span class="map-row-value" data-clubs-count></span></button>
       <a class="map-row map-row-next" href="${hubUrl('statistik')}"><span>Statistik</span><span class="map-row-value">Hela ditt spel</span></a>
       <a class="map-row map-row-next" data-course-stats style="display:none" href="${hubUrl('statistik')}"><span data-course-stats-name></span><span class="map-row-value" data-course-stats-count></span></a>
+      <h3>Navigering</h3>
+      <a class="map-row map-row-next" data-home href="${hubUrl()}">Till startmenyn</a>
+      <a class="map-row map-row-next" data-leave-guard href="${hubUrl(MODES.map.route)}"><span>Alla banor</span><span class="map-row-value">Byt bana</span></a>
     </div>
-    <div class="map-menu-pane" data-menu-pane="karta" role="tabpanel" hidden>
-      <h3>Visning</h3>
-      <label class="map-row"><span>Solläge<small>Ljusa paneler för starkt solljus</small></span><input type="checkbox" role="switch" data-sun></label>
+    <div class="map-menu-pane" data-menu-pane="visning" role="tabpanel" hidden>
+      <h3>Skärm & hand</h3>
       <label class="map-row"><span>Större text</span><input type="checkbox" role="switch" data-large></label>
-      <label class="map-row"><span>Hjulet till vänster</span><input type="checkbox" role="switch" data-left></label>
+      <label class="map-row"><span>Klubbhjulet till vänster</span><input type="checkbox" role="switch" data-left></label>
+      <h3>Ljus</h3>
+      <div class="map-lights" data-lights></div>
       <h3>Kartan</h3>
-      <button class="map-row map-row-next" data-light aria-expanded="false"><span>Ljus</span><span class="map-row-value" data-light-name></span></button>
       <label class="map-row"><span>Hinderavstånd</span><input type="checkbox" role="switch" data-hazards></label>
       <label class="map-row"><span>Avståndscirklar<small>100, 150, 200 och 250 m på kartan</small></span><input type="checkbox" role="switch" data-rings></label>
       <label class="map-row"><span>Höjdkurvor</span><input type="checkbox" role="switch" data-contours></label>
       <div class="map-row"><span>Höjdskala</span><div class="map-chips" data-reliefs></div></div>
-    </div>
-    <div class="map-menu-pane" data-menu-pane="bana" role="tabpanel" hidden>
-      <h3>Banan</h3>
+      <h3>Bana & lägen</h3>
       <div class="map-actions">
-        <button class="map-action" data-download>Spara banan</button>
-        <button class="map-action" data-diary>Spara provrundans logg</button>
-        <a class="map-action" data-play>Öppna simulatorn</a>
-        <a class="map-action" data-full>Detaljerad 3D</a>
-        <a class="map-action" href="${hubUrl(MODES.map.route)}">Alla banor</a>
+        <button class="map-action" data-download>Spara banan för offline</button>
+        <a class="map-action" data-full data-leave-guard>Detaljerad 3D</a>
+        <a class="map-action" data-play data-leave-guard>Öppna simulatorn</a>
+        <button class="map-action" data-diary hidden>Spara provrundans logg</button>
+      </div>
+      <div class="map-desk-shortcuts">
+        <h3>Tangentbordsgenvägar</h3>
+        <ul class="map-facts">
+          <li><span>Föregående / nästa hål</span><b><kbd>←</kbd> <kbd>→</kbd> · <kbd>P</kbd> <kbd>N</kbd></b></li>
+          <li><span>Hoppa till hål</span><b><kbd>1</kbd>–<kbd>18</kbd> · <kbd>0</kbd></b></li>
+          <li><span>Byt kameravy</span><b><kbd>C</kbd></b></li>
+          <li><span>Greenvy på / av</span><b><kbd>G</kbd></b></li>
+          <li><span>Centrera hålet</span><b><kbd>R</kbd></b></li>
+          <li><span>Sidopanel / Score / Meny</span><b><kbd>H</kbd> · <kbd>S</kbd> · <kbd>M</kbd></b></li>
+          <li><span>Solläge / Ljus</span><b><kbd>U</kbd> · <kbd>L</kbd></b></li>
+          <li><span>Ångra senaste</span><b><kbd>Z</kbd> / <kbd>Ctrl+Z</kbd></b></li>
+          <li><span>Rensa mätpunkt / stäng</span><b><kbd>Esc</kbd></b></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -392,9 +424,9 @@ document.body.append(root);
 const $ = selector => root.querySelector(selector);
 const ui = {
   hole: $('[data-hole-title]'), facts: $('[data-hole-facts]'), prev: $('[data-prev]'), next: $('[data-next]'),
-  back: $('[data-back-number]'), mid: $('[data-mid-number]'), front: $('[data-front-number]'), greenPlays: $('[data-green-plays]'), from: $('[data-from]'),
+  back: $('[data-back-number]'), mid: $('[data-mid-number]'), front: $('[data-front-number]'), greenPlays: $('[data-green-plays]'), greenCueText: $('[data-green-cue-text]'), from: $('[data-from]'),
   reading: $('[data-reading]'), status: $('[data-status]'),
-  gps: $('[data-gps]'), gpsLabel: $('[data-gps-label]'), light: $('[data-light]'), lightName: $('[data-light-name]'), menu: $('[data-menu]'),
+  gps: $('[data-gps]'), gpsLabel: $('[data-gps-label]'), menuGps: $('[data-menu-gps]'), menuGpsSub: $('[data-menu-gps-sub]'), menu: $('[data-menu]'),
   score: $('[data-score]'), scoreLabel: $('[data-score-label]'), holeTool: $('[data-hole]'), holeText: $('[data-hole-text]'), holeBar: $('[data-hole-bar]'),
   holeSheet: $('[data-hole-sheet]'), holeSheetTitle: $('[data-hole-sheet-title]'), hazardSection: $('[data-hazard-section]'), hazardList: $('[data-hazard-list]'),
   recentre: $('[data-recentre]'),
@@ -402,13 +434,15 @@ const ui = {
   legend: $('[data-legend]'), views: $('[data-views]'),
   viewWrap: $('[data-view-wrap]'), viewToggle: $('[data-view-toggle]'), viewLabel: $('[data-view-label]'), viewMenu: $('[data-view-menu]'),
   tools: $('.map-tools'), backdrop: $('[data-backdrop]'),
-  wheel: $('[data-wheel]'), logShot: $('[data-wheel-lock]'), walkedShot: $('[data-wheel-hint]'), hintNote: $('[data-hint-note]'), hintMetres: $('[data-hint-metres]'),
+  deskRail: $('[data-desk-rail]'), deskCourse: $('[data-desk-course]'), deskCollapse: $('[data-desk-collapse]'), deskOpen: $('[data-desk-open]'),
+  wheel: $('[data-wheel]'), logShot: $('[data-wheel-lock]'), logShotLabel: $('[data-wheel-lock-label]'), walkedShot: $('[data-wheel-hint]'), hintNote: $('[data-hint-note]'), hintMetres: $('[data-hint-metres]'),
   promptMore: $('[data-prompt-more]'), holeNoteMore: $('[data-note-more]'), locked: $('[data-locked]'), lockedText: $('[data-locked-text]'), lockedPenalty: $('[data-locked-penalty]'), lockedEdit: $('[data-locked-edit]'), same: $('[data-same]'),
   clubsSheet: $('[data-clubs-sheet]'), clubs: $('[data-clubs]'), clubsNote: $('[data-clubs-note]'), clubsCount: $('[data-clubs-count]'),
-  shotsSection: $('[data-shots-section]'), shotList: $('[data-shots]'), shotsHint: $('[data-shots-hint]'), holePenalty: $('[data-hole-penalty]'),
+  shotsSection: $('[data-shots-section]'), shotList: $('[data-shots]'), shotsHint: $('[data-shots-hint]'), holePenalty: $('[data-hole-penalty]'), holeUndo: $('[data-hole-undo]'),
   scoreSheet: $('[data-score-sheet]'), scoreTitle: $('[data-score-title]'), strokeKeys: $('[data-stroke-keys]'), puttKeys: $('[data-putt-keys]'),
   fairwayRow: $('[data-fairway-row]'), fairwayKeys: $('[data-fairway-keys]'), scoreDone: $('[data-score-done]'), scoreStats: $('[data-score-stats]'),
   scoreWord: $('[data-score-word]'), scoreSum: $('[data-score-sum]'), card: $('[data-card]'), handicap: $('[data-handicap]'),
+  scoreUndo: $('[data-score-undo]'), scoreUndoText: $('[data-score-undo-text]'), scoreUndoBtn: $('[data-score-undo-btn]'),
   pickUp: $('[data-pick-up]'), endRound: $('[data-end-round]'), hazards: $('[data-hazards]'),
   roundSheet: $('[data-round-sheet]'), roundTitle: $('[data-round-title]'), roundBody: $('[data-round-body]'), roundBack: $('[data-round-back]'), roundNew: $('[data-round-new]'), roundDrop: $('[data-round-drop]'), lockedEnd: $('[data-locked-end]'),
   roundsSheet: $('[data-rounds-sheet]'), roundsBody: $('[data-rounds-body]'), roundsCount: $('[data-rounds-count]'),
@@ -416,7 +450,7 @@ const ui = {
   historySection: $('[data-history-section]'), history: $('[data-history]'),
   sun: $('[data-sun]'), large: $('[data-large]'), left: $('[data-left]'),
   wind: $('[data-wind]'), windArrow: $('[data-wind-arrow]'), windSpeed: $('[data-wind-speed]'),
-  lightSheet: $('[data-light-sheet]'), menuSheet: $('[data-menu-sheet]'), lights: $('[data-lights]'),
+  menuSheet: $('[data-menu-sheet]'), lights: $('[data-lights]'),
   menuTitle: $('[data-menu-title]'), tip: $('[data-tip]'), note: $('[data-note]'), holes: $('[data-holes]'),
   teeSection: $('[data-tee-section]'), tees: $('[data-tees]'), reliefs: $('[data-reliefs]'), contours: $('[data-contours]'), rings: $('[data-rings]'),
   download: $('[data-download]'), full: $('[data-full]'),
@@ -433,46 +467,31 @@ const display = createDisplay(root, { read: key => savedText(key, null), write: 
    fewer rows on the wheel, a tighter column, then the
    height strip. Where a note and the way-back button would reach the column they stand beside it,
    since the wheel is what a player is using just then. */
-const STRIP_PIXELS = 54, PROMPT_ROOM_PIXELS = 152, TWO_ROWS_PIXELS = 112;
+const PROMPT_ROOM_PIXELS = 128, TWO_ROWS_PIXELS = 96;
 const sideways = matchMedia('(orientation: landscape) and (max-height: 520px)');
+const desktopQuery = matchMedia('(min-width: 1024px) and (pointer: fine)');
+const isDesktop = () => desktopQuery.matches;
 function fitLayout() {
-  root.classList.remove('is-compact', 'is-stripless', 'is-tight', 'is-inline-green', 'is-split-rail');
+  root.classList.remove('is-compact', 'is-tight');
   ui.wheel.style.removeProperty('--rows');
-  if (sideways.matches) return;
-  /* Fitted for the column at its fullest, not as it is this moment: the wind arrives after
-     the first picture, and the numbers go on a green and over the whole course. */
+  if (sideways.matches || isDesktop()) return;
+  /* Fitted for the slim right rail (Green + Wind + Club Wheel): with Logga slag in
+     the bottom dock and the elevation strip inside Hålet, the rail stays one column. */
   const onGreen = ui.green.classList.contains('is-on');
   const heldPlays = [ui.greenPlays, ui.greenPlays.hidden, ui.greenPlays.textContent];
   const held = [[ui.wind, ui.wind.hidden], [ui.green, ui.green.hidden]];
   for (const [element] of held) element.hidden = false;
   ui.greenPlays.hidden = false;
-  if (!ui.greenPlays.textContent) ui.greenPlays.textContent = 'Spelas 000';
+  if (!ui.greenPlays.textContent) ui.greenPlays.textContent = 'Spelas 000 m';
   ui.green.classList.remove('is-on');
-  const railBottom = () => Math.max(...[ui.green, ui.wind, ui.wheel, ui.logShot].map(el => el.getBoundingClientRect().bottom));
-  const room = () => {
-    const strip = root.classList.contains('is-stripless') ? 0 : STRIP_PIXELS;
-    return ui.tools.getBoundingClientRect().top - 8 - strip - railBottom();
-  };
-  const steps = [
-    () => {},
-    () => root.classList.add('is-compact'),
-    () => root.classList.add('is-stripless'),
-  ];
-  for (const step of steps) {
-    step();
-    const need = root.classList.contains('is-compact') ? 56 : PROMPT_ROOM_PIXELS;
-    if (room() >= need) break;
-  }
+  const railBottom = () => Math.max(...[ui.green, ui.wind, ui.wheel].map(el => el.getBoundingClientRect().bottom));
+  const room = () => ui.tools.getBoundingClientRect().top - 10 - railBottom();
+  if (room() < PROMPT_ROOM_PIXELS) root.classList.add('is-compact');
   const cardMeetsRail = () => {
     const card = ui.reading.getBoundingClientRect();
     return card.height > 0 && railBottom() + 6 > card.top;
   };
   root.classList.toggle('is-tight', room() < TWO_ROWS_PIXELS || cardMeetsRail());
-  if (cardMeetsRail()) {
-    root.classList.add('is-stripless');
-    if (cardMeetsRail()) root.classList.add('is-inline-green');
-    if (cardMeetsRail()) root.classList.add('is-split-rail');
-  }
   for (const [element, hidden] of held) element.hidden = hidden;
   heldPlays[0].hidden = heldPlays[1];
   heldPlays[0].textContent = heldPlays[2];
@@ -480,7 +499,7 @@ function fitLayout() {
 }
 
 let statusTimer = 0;
-function status(text, hold = 3200, low = false) {
+function status(text, hold = 3200, low = true) {
   ui.status.textContent = text;
   ui.status.hidden = false;
   ui.status.classList.toggle('is-low', low);
@@ -533,7 +552,7 @@ async function start() {
   const assetUrl = file => new URL(`${BASE}${file}`, location.href).href;
   const fetchAsset = file => fetchKeptFile(assetUrl(file));
   const course = await loadMapCourse(slug, { deferAppearance: true });
-  document.title = `${course.name} — Karta | Banvy`;
+  document.title = `${course.name} — Lätt 3D | Banvy`;
   ui.full.href = `${BASE}${detailedUrl(slug)}`;
   $('[data-play]').href = `${BASE}${playUrl(slug)}`;
   /* the start menu's "Fortsätt" brings the golfer back here, in this mode */
@@ -684,7 +703,9 @@ async function start() {
     contours: savedText(CONTOUR_KEY, '1') !== '0',
     showHazards: savedText(HAZARD_KEY, '1') !== '0',
     showRings: savedText(RING_KEY, '0') === '1',
-    menuTab: 'spel',
+    menuTab: 'runda',
+    deskOpen: desktopQuery.matches,
+    deskTab: 'hole',
     hazards: [],
     weather: null,
     windTurn: null,
@@ -717,28 +738,33 @@ async function start() {
     const top = Math.ceil(mapHeader.getBoundingClientRect().bottom) + gap;
     const foot = Math.min(mapFoot.getBoundingClientRect().top, cameraButtons.getBoundingClientRect().top);
     const room = { top, bottom: height - Math.max(top + 48, Math.floor(foot) - gap), left: gap, right: gap };
+    if (root.classList.contains('is-desk-open')) {
+      const rail = ui.deskRail.getBoundingClientRect();
+      if (rail.width) room.left = Math.max(room.left, Math.ceil(rail.right) + gap);
+    }
     /* The wheel changes sides with handedness and occupies the opposite rail
        from the green in landscape. Measure the controls after CSS has laid them out. */
-    for (const element of [ui.green, ui.wind, ui.wheel, ui.logShot]) {
+    for (const element of [ui.green, ui.wind, ui.wheel]) {
       const box = element.getBoundingClientRect();
       if (!box.width) continue;
-      // In the tightest portrait layout the inner column can cross the centre.
       if (box.left + box.width / 2 < width / 2) room.left = Math.max(room.left, Math.ceil(box.right) + gap);
       else room.right = Math.max(room.right, width - Math.floor(box.left) + gap);
     }
     return room;
   }
 
-  let lastFramingLayout = '';
+  let lastFramingRoom = null;
   const canFrameShot = () => state.mode === 'hole' && !state.opening && !state.atEye && !state.greenView
     && !state.viewMoved && !state.draggingTarget && !root.classList.contains('has-sheet');
   function reframeForLayout() {
     if (!canFrameShot()) return;
     const room = insets();
-    const layout = [camera.state.width, camera.state.height, room.top, room.bottom, room.left, room.right].join(',');
-    if (layout === lastFramingLayout) return;
-    lastFramingLayout = layout;
-    frameHole(0);
+    const dims = [camera.state.width, camera.state.height, room.top, room.bottom, room.left, room.right];
+    if (lastFramingRoom && dims[0] === lastFramingRoom[0] && dims[1] === lastFramingRoom[1]
+        && dims.slice(2).every((v, i) => Math.abs(v - lastFramingRoom[i + 2]) < 16)) return;
+    const sizeChanged = !lastFramingRoom || dims[0] !== lastFramingRoom[0] || dims[1] !== lastFramingRoom[1];
+    lastFramingRoom = dims;
+    frameHole(sizeChanged ? 0 : 260);
   }
   function revealLanding(landing) {
     if (!landing || !canFrameShot()) return;
@@ -821,7 +847,7 @@ async function start() {
     for (const leg of state.guidance?.legs ?? []) rest.push(leg.point);
     const points = [...rest, ...h.green.ring.filter((_, i) => i % 3 === 0), h.green.c].map(lifted);
     /* Room above the flag, which stands taller than the green it marks. */
-    points.push([h.pin[0], shown(h.pin[0], h.pin[1]) + camera.state.distance * 0.03, h.pin[1]]);
+    points.push([h.pin[0], shown(h.pin[0], h.pin[1]) + Math.max(10, camera.state.distance * 0.05), h.pin[1]]);
     const saved = { ...camera.state };
     const view = camera.fit(points, {
       bearing: bearingOf(from, h.green.c), tilt: QUICK_VIEWS[state.view].tilt, insets: insets(),
@@ -918,9 +944,10 @@ async function start() {
       : [`Par ${h.par}`, length ? `${length} m` : null, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
     ui.holeText.setAttribute('aria-label', [ui.hole.textContent, ui.facts.textContent, 'Öppna hålinformation'].join('. '));
     ui.green.hidden = state.mode === 'course';
-    ui.profile.hidden = state.mode === 'course' || state.greenView || onTheGreen || state.atEye;
+    ui.profile.hidden = state.mode === 'course';
     ui.legend.hidden = !state.greenView;
     ui.overview.setAttribute('aria-pressed', String(state.mode === 'course'));
+    if (ui.greenCueText) ui.greenCueText.textContent = state.greenView ? 'Tillbaka' : 'Greenvy';
 
     refreshShotGuidance();
     refreshProfile();
@@ -949,26 +976,28 @@ async function start() {
     const flat = Math.round(centre);
     const show = !onTheGreen && Number.isFinite(plays) && Math.abs(plays - flat) >= 2;
     ui.greenPlays.hidden = !show;
-    const text = show ? `Spelas ${plays}` : '';
+    const text = show ? `Spelas ${plays} m` : '';
     if (ui.greenPlays.textContent !== text) ui.greenPlays.textContent = text;
     if (!onTheGreen) {
-      const spoken = `Till greenen ${greenSpokenFrom()}: fram ${ui.front.textContent}, mitt ${ui.mid.textContent}, bak ${ui.back.textContent} meter${show ? `, spelas ${plays}` : ''}.`;
+      const spoken = `Till greenen ${greenSpokenFrom()}: fram ${ui.front.textContent}, mitt ${ui.mid.textContent}, bak ${ui.back.textContent} meter${show ? `, spelas ${plays} meter` : ''}.`;
       ui.green.setAttribute('aria-label', `${spoken} Tryck för att ${state.greenView ? 'gå tillbaka till hålet' : 'se greenen nära'}.`);
     }
   }
 
-  /* The two buttons over the map's corner: back to the shot, and a shot walked off. */
+  /* Floating camera & smart GPS/recentre controls above the bottom dock. */
   function refreshFloat() {
     const walking = gps.active;
     const say = (element, value) => { if (element.ariaLabel !== value) element.setAttribute('aria-label', value); };
-    /* Looking at another hole counts as well: a quick view follows the player, but
-       on the hole on screen. */
     const elsewhere = state.hole !== state.playing || (state.previewOnly && roundUnderWay());
-    ui.recentre.hidden = state.mode !== 'hole' || !(state.viewMoved || state.greenView || elsewhere || (walking && !state.follow));
-    say(ui.recentre, elsewhere ? `Tillbaka till hål ${state.playing}` : walking ? 'Tillbaka till min position' : 'Tillbaka till hålet');
+    const needsRecentre = state.mode === 'hole' && (state.viewMoved || state.greenView || elsewhere || (walking && !state.follow));
+    /* When GPS is active, the GPS pill itself acts as Recentre when panned away;
+       show the standalone Recentre button only when GPS is off. */
+    ui.gps.classList.toggle('is-recentre', walking && needsRecentre);
+    ui.recentre.hidden = walking || !needsRecentre;
+    say(ui.recentre, elsewhere ? `Tillbaka till hål ${state.playing}` : 'Tillbaka till hålet');
     /* Kept in the layout, so the wheel keeps its place while the course is shown. */
     ui.wheel.classList.toggle('is-away', state.mode !== 'hole');
-    ui.logShot.hidden = state.mode !== 'hole';
+    ui.logShot.disabled = state.mode !== 'hole';
     const shownView = state.mode === 'course' ? null : state.greenView ? 'green' : state.view;
     const viewName = VIEW_NAMES[state.mode === 'course' ? 'course' : shownView ?? 'hole'] ?? 'Hela hålet';
     if (ui.viewLabel.textContent !== viewName) ui.viewLabel.textContent = viewName;
@@ -1259,14 +1288,19 @@ async function start() {
       off: 'Starta GPS', searching: 'Söker GPS. Tryck för att hämta en ny position.',
       retry: 'Sök GPS. Positionen är osäker.',
       denied: 'Tillåt GPS i webbläsarens inställningar och tryck för att söka igen.',
-      unavailable: 'GPS saknas i den här webbläsaren.', outside: 'Utanför banan. Tryck för att stänga av GPS.',
-      live: `GPS, noggrannhet ${lastAccuracyText}. Tryck för att stänga av GPS.`,
+      unavailable: 'GPS saknas i den här webbläsaren.', outside: 'Utanför banan. Stäng av GPS i Meny vid behov.',
+      live: `GPS, noggrannhet ${lastAccuracyText}. Tryck för att centrera eller uppdatera position.`,
     };
-    const confirmingStop = gpsArmed && next !== 'searching';
-    ui.gpsLabel.textContent = confirmingStop ? 'Stäng av?' : labels[next] ?? lastAccuracyText;
-    ui.gps.setAttribute('aria-label', gpsArmed ? `${confirmingStop ? '' : 'Söker GPS. '}Tryck igen för att stänga av GPS` : actions[next]);
+    ui.gpsLabel.textContent = labels[next] ?? lastAccuracyText;
+    ui.gps.setAttribute('aria-label', actions[next]);
     ui.gps.setAttribute('aria-pressed', String(gps.active));
-    ui.gps.classList.toggle('is-armed', confirmingStop);
+    ui.gps.classList.remove('is-armed');
+    if (ui.menuGps) {
+      ui.menuGps.checked = gps.active;
+      ui.menuGpsSub.textContent = gps.active
+        ? (next === 'live' ? `Aktiv (${lastAccuracyText})` : labels[next] ?? 'Aktiv')
+        : 'Följer din position under rundan';
+    }
   }
   function disarmGps() {
     clearTimeout(gpsArmTimer);
@@ -1319,20 +1353,30 @@ async function start() {
       startGps();
       return;
     }
-    const retry = gpsState === 'retry' || gpsState === 'searching';
-    if (!gpsArmed && (retry || roundUnderWay() || openShot(roundShots()))) {
-      gpsArmed = true;
-      setGpsState(retry ? 'searching' : gpsState);
-      gpsStatus(retry ? 'Söker ny GPS-position. Tryck igen för att stänga av GPS.' : 'Tryck igen för att stänga av GPS', 3500);
-      clearTimeout(gpsArmTimer);
-      gpsArmTimer = setTimeout(disarmGps, 3500);
-      if (retry) gps.ask();
+    const elsewhere = state.hole !== state.playing || (state.previewOnly && roundUnderWay());
+    if (state.mode !== 'hole' || state.viewMoved || state.greenView || elsewhere || !state.follow) {
+      recentre();
       return;
     }
-    stopGps();
-    remember(`${GPS_KEY}:${course.slug}`, '');
-    status('GPS avstängd', 2500);
+    gps.ask();
+    if (gpsState === 'retry' || gpsState === 'searching') {
+      setGpsState('searching');
+      gpsStatus('Söker ny GPS-position…', 2500);
+    } else {
+      status('GPS aktiv · stäng av i Meny vid behov', 2200);
+    }
   };
+  if (ui.menuGps) {
+    ui.menuGps.onchange = () => {
+      if (ui.menuGps.checked) {
+        if (!gps.active) startGps();
+      } else {
+        stopGps();
+        remember(`${GPS_KEY}:${course.slug}`, '');
+        status('GPS avstängd', 2500);
+      }
+    };
+  }
 
   /* Back to the shot in hand: to where the player is, or to the hole. */
   function recentre() {
@@ -1448,7 +1492,7 @@ async function start() {
   }
   /* ---- the sheets ---- */
   const sheets = [
-    [ui.menuSheet, ui.menu, 'menu'], [ui.lightSheet, ui.menu, 'light'], [ui.clubsSheet, ui.menu, 'clubs'],
+    [ui.menuSheet, ui.menu, 'menu'], [ui.clubsSheet, ui.menu, 'clubs'],
     [ui.roundsSheet, ui.menu, 'rounds'], [ui.roundSheet, ui.score, 'round'], [ui.scoreSheet, ui.score, 'score'],
     [ui.holeSheet, ui.holeTool, 'hole'], [ui.startSheet, null, 'start'],
   ];
@@ -1460,7 +1504,7 @@ async function start() {
   }
   const invitations = [
     [ui.menu, ui.menuSheet], [ui.score, ui.scoreSheet], [ui.holeTool, ui.holeSheet], [ui.holeText, ui.holeSheet],
-    [ui.light, ui.lightSheet], [$('[data-clubs-open]'), ui.clubsSheet], [$('[data-rounds-open]'), ui.roundsSheet],
+    [$('[data-clubs-open]'), ui.clubsSheet], [$('[data-rounds-open]'), ui.roundsSheet],
   ];
   for (const [button, sheet] of invitations) {
     button.setAttribute('aria-controls', sheet.id);
@@ -1524,9 +1568,9 @@ async function start() {
     }
     ui.backdrop.hidden = !open;
     root.classList.toggle('has-sheet', Boolean(open));
-    root.classList.toggle('has-light-sheet', open === ui.lightSheet);
+    if (wasOpen === ui.scoreSheet && open !== ui.scoreSheet) resetEndConfirm();
     state.fromRound = open === ui.scoreSheet && parent?.name === 'round';
-    if (open === ui.menuSheet) { setMenuTab(panel.tab ?? 'spel'); refreshMenu(); }
+    if (open === ui.menuSheet) { setMenuTab(panel.tab === 'visning' ? 'visning' : 'runda'); refreshMenu(); }
     if (open === ui.clubsSheet) refreshClubs();
     if (open === ui.roundsSheet) refreshRounds();
     if (open === ui.roundSheet) renderRoundSheet(record, parent?.name === 'rounds');
@@ -1534,6 +1578,7 @@ async function start() {
     if (open === ui.scoreSheet) { state.scoreHole = panel.hole ?? null; refreshScore(); }
     if (open === ui.startSheet) { startSetup = restoreStartSetup(panel.setup); refreshStart(); }
     if (open === ui.startSheet || open === ui.menuSheet) refreshOffline();
+    if (isDesktop() && state.deskOpen) syncDesktopDock();
     // On the way back, restore the actual inviting control inside its parent.
     // Dynamic round and score rows may have been rebuilt since the tap.
     const selector = previous.length > path.length ? previous[path.length].opener : null;
@@ -1541,14 +1586,14 @@ async function start() {
     if (open) {
       if (ui.status.classList.contains('is-low')) ui.status.hidden = true;
       if (!returnTo) open.scrollTop = 0;
-      (returnTo || open).focus({ preventScroll: true });
+      if (!isDesktop() || !state.deskOpen || open === ui.startSheet) (returnTo || open).focus({ preventScroll: true });
       if (returnTo) returnTo.scrollIntoView({ block: 'nearest' });
       diary.add('sheet', open.getAttribute('aria-label'));
     } else if (cameraOpen) {
       (ui.viewMenu.querySelector('[aria-pressed="true"]') ?? ui.viewMenu.querySelector('button')).focus({ preventScroll: true });
     } else if (wasOpen || wasCamera) {
       const owner = sheets.find(([sheet]) => sheet === wasOpen)?.[1];
-      (returnTo && !returnTo.closest('[hidden]') ? returnTo : wasCamera ? ui.viewToggle : owner ?? ui.gps).focus({ preventScroll: true });
+      if (!isDesktop() || !state.deskOpen) (returnTo && !returnTo.closest('[hidden]') ? returnTo : wasCamera ? ui.viewToggle : owner ?? ui.gps).focus({ preventScroll: true });
       if (wasOpen) { reframeForLayout(); revealLanding(state.guidance?.target); }
     }
     if (wasStart && open !== ui.startSheet) {
@@ -1566,17 +1611,87 @@ async function start() {
   ui.backdrop.onclick = () => panels.close();
   root.addEventListener('pointerdown', event => { state.pressingSheet = Boolean(event.target.closest('.map-sheet')); }, true);
   for (const type of ['pointerup', 'pointercancel']) window.addEventListener(type, () => { state.pressingSheet = false; }, true);
-  ui.light.onclick = () => showSheet(ui.lightSheet, { opener: ui.light });
-  for (const selector of ['[data-light-back]', '[data-clubs-back]', '[data-rounds-back]', '[data-round-back]']) {
+  for (const selector of ['[data-clubs-back]', '[data-rounds-back]', '[data-round-back]']) {
     $(selector).onclick = () => panels.back();
   }
+  function syncDesktopDock() {
+    const desk = isDesktop();
+    const docked = desk && state.deskOpen;
+    root.classList.toggle('is-desktop', desk);
+    root.classList.toggle('is-desk-open', docked);
+    ui.deskRail.hidden = !docked;
+    ui.deskOpen.hidden = !desk || docked;
+    const modalSheet = activeSheet === ui.startSheet;
+    if (docked) {
+      const subSheet = activeSheet && !modalSheet && ![ui.holeSheet, ui.scoreSheet, ui.menuSheet].includes(activeSheet) ? activeSheet : null;
+      const shown = subSheet ?? { hole: ui.holeSheet, score: ui.scoreSheet, menu: ui.menuSheet }[state.deskTab] ?? ui.holeSheet;
+      for (const [sheet] of sheets) {
+        const isModal = sheet === ui.startSheet && modalSheet;
+        sheet.hidden = !(sheet === shown || isModal);
+        sheet.classList.toggle('is-desk-docked', sheet === shown);
+        sheet.setAttribute('aria-modal', String(isModal));
+      }
+      ui.backdrop.hidden = !modalSheet;
+      root.classList.toggle('has-sheet', modalSheet);
+      for (const btn of ui.deskRail.querySelectorAll('[data-desk-tab]')) {
+        btn.setAttribute('aria-selected', String(btn.dataset.deskTab === state.deskTab));
+      }
+      if (shown === ui.holeSheet) prepareHoleSheet();
+      if (shown === ui.scoreSheet) refreshScore();
+      if (shown === ui.menuSheet) { refreshMenu(); refreshOffline(); }
+    } else {
+      for (const [sheet] of sheets) {
+        sheet.classList.remove('is-desk-docked');
+        sheet.hidden = sheet !== activeSheet;
+        sheet.setAttribute('aria-modal', 'true');
+      }
+      ui.backdrop.hidden = !activeSheet;
+      root.classList.toggle('has-sheet', Boolean(activeSheet));
+    }
+    fitLayout();
+    reframeForLayout();
+    invalidate();
+  }
+  function selectDeskTab(tab) {
+    if (tab === 'score' && canStartFromPreview() && !round.endedAt) {
+      openStart(state.hole);
+      return;
+    }
+    state.deskOpen = true;
+    state.deskTab = tab;
+    if (tab === 'score') state.scoreHole = null;
+    if (panels.current) panels.close();
+    syncDesktopDock();
+  }
+  function toggleDeskRail() {
+    state.deskOpen = !state.deskOpen;
+    if (!state.deskOpen && panels.current && activeSheet !== ui.startSheet) panels.close();
+    syncDesktopDock();
+  }
+  ui.deskCourse.textContent = course.name;
+  ui.deskCollapse.onclick = toggleDeskRail;
+  ui.deskOpen.onclick = toggleDeskRail;
+  for (const btn of ui.deskRail.querySelectorAll('[data-desk-tab]')) {
+    btn.onclick = () => selectDeskTab(btn.dataset.deskTab);
+  }
+  desktopQuery.addEventListener('change', () => {
+    state.deskOpen = desktopQuery.matches;
+    syncDesktopDock();
+  });
+
   function openTool(sheet, opener) {
+    if (isDesktop()) {
+      const tab = sheet === ui.holeSheet ? 'hole' : sheet === ui.scoreSheet ? 'score' : 'menu';
+      if (state.deskOpen && state.deskTab === tab && !panels.current) { toggleDeskRail(); return; }
+      selectDeskTab(tab);
+      return;
+    }
     const toggleOff = opener.getAttribute('aria-expanded') === 'true';
     if (panels.current) panels.close();
     if (!toggleOff) showSheet(sheet, { opener });
   }
   ui.menu.onclick = () => {
-    state.menuTab = 'spel';
+    state.menuTab = 'runda';
     openTool(ui.menuSheet, ui.menu);
   };
   $('[data-clubs-open]').onclick = event => showSheet(ui.clubsSheet, { opener: event.currentTarget });
@@ -1589,42 +1704,111 @@ async function start() {
     ui.holeNoteMore.hidden = true;
   };
   $('[data-rounds-open]').onclick = event => showSheet(ui.roundsSheet, { opener: event.currentTarget });
-  let landmarks = [];
-  const aimChoice = $('[data-aim-choice]');
-  aimChoice.onchange = () => {
-    if (!aimChoice.value) return;
-    const choice = landmarks[Number(aimChoice.value)];
-    if (!choice) return;
-    setAim(choice.point);
-    showSheet(null);
-    refreshNumbers();
-    revealLanding(state.guidance?.target);
-    invalidate();
-  };
   function prepareHoleSheet() {
     state.correcting = null;
-    $('[data-measure-options]').hidden = state.mode !== 'hole';
-    if (state.mode === 'hole') {
-      landmarks = measurementTargets(hole(), playedPath(hole(), teePoint()), origin(), state.hazards);
-      aimChoice.replaceChildren(new Option('Välj punkt på hålet', ''), ...landmarks.map((choice, i) => new Option(choice.label, String(i))));
-    }
     refreshHole();
   }
+  const stepHoleSheet = direction => {
+    const count = course.holes.length;
+    const next = ((state.hole - 1 + direction + count) % count) + 1;
+    pickHole(next);
+    prepareHoleSheet();
+  };
+  $('[data-hole-prev]').onclick = () => stepHoleSheet(-1);
+  $('[data-hole-next]').onclick = () => stepHoleSheet(1);
   ui.holeTool.onclick = ui.holeText.onclick = event => openTool(ui.holeSheet, event.currentTarget);
-  for (const button of root.querySelectorAll('[data-close]')) button.onclick = () => showSheet(null);
+  for (const button of root.querySelectorAll('[data-close]')) button.onclick = () => {
+    if (isDesktop() && state.deskOpen && !panels.current) { toggleDeskRail(); return; }
+    showSheet(null);
+  };
+  const MAP_CAMERA_CYCLE = Object.freeze(['hole', 'green', 'above', 'course']);
+  const LIGHT_CYCLE = Object.freeze(['nu', ...MAP_LIGHTS.map(each => each.key)]);
+  const shortcuts = createShortcutKeys({
+    holes: course.holes.length,
+    onAction(action) {
+      if (action.type === 'hole') { pickHole(action.hole); return; }
+      if (action.type === 'prev') { stepHole(-1); return; }
+      if (action.type === 'next') { stepHole(1); return; }
+      if (action.type === 'camera') {
+        const current = state.mode === 'course' ? 'course' : state.greenView ? 'green' : state.view;
+        const next = nextInCycle(MAP_CAMERA_CYCLE, current);
+        if (next === 'course') showCourse();
+        else if (next === 'green') frameGreen();
+        else {
+          state.mode = 'hole';
+          state.view = next;
+          remember(VIEW_KEY, next);
+          state.follow = true;
+          frameHole(500);
+          refreshNumbers();
+        }
+        return;
+      }
+      if (action.type === 'light') {
+        const next = nextInCycle(LIGHT_CYCLE, state.lightKey);
+        if (next === 'nu') pickNow(); else setLight(next);
+        status(`Ljus: ${next === 'nu' ? 'Nu' : lightByKey(next)?.label ?? next}`, 1800, true);
+        return;
+      }
+      if (action.type === 'clean') {
+        if (isDesktop()) toggleDeskRail(); else openTool(ui.holeSheet, ui.holeTool);
+        return;
+      }
+      if (action.type === 'markers') {
+        openTool(ui.menuSheet, ui.menu);
+      }
+    },
+  });
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && panels.current) { event.preventDefault(); panels.back(); return; }
-    if (!activeSheet || event.key !== 'Tab') return;
-    const stops = [...activeSheet.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')]
-      .filter(element => element.tabIndex >= 0 && !element.matches(':disabled') && element.getClientRects().length);
-    const first = stops[0], last = stops.at(-1);
-    if (!first || (event.shiftKey ? [first, activeSheet].includes(document.activeElement) : document.activeElement === last)) {
-      event.preventDefault();
-      (event.shiftKey ? last : first)?.focus();
+    if (event.key === 'Escape') {
+      if (panels.current) { event.preventDefault(); panels.back(); return; }
+      if (state.target) { event.preventDefault(); setAim(null); refreshNumbers(); invalidate(); return; }
+      if (state.greenView) { event.preventDefault(); recentre(); return; }
+      return;
     }
+    if (root.classList.contains('has-sheet') && activeSheet && event.key === 'Tab') {
+      const stops = [...activeSheet.querySelectorAll('button, a[href], input, select, textarea, [tabindex]')]
+        .filter(element => element.tabIndex >= 0 && !element.matches(':disabled') && element.getClientRects().length);
+      const first = stops[0], last = stops.at(-1);
+      if (!first || (event.shiftKey ? [first, activeSheet].includes(document.activeElement) : document.activeElement === last)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first)?.focus();
+      }
+      return;
+    }
+    const tag = event.target?.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || event.target?.isContentEditable) return;
+    if (root.classList.contains('has-sheet')) return;
+    const lower = event.key.length === 1 ? event.key.toLowerCase() : '';
+    if ((event.ctrlKey || event.metaKey) && !event.altKey && lower === 'z') {
+      if (scoreUndo) { event.preventDefault(); undoScore(); return; }
+      if (undoPoint) { event.preventDefault(); takeBack(); return; }
+      return;
+    }
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.target?.closest?.('[data-wheel-list]') && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) return;
+    if (lower === 'g') { event.preventDefault(); if (state.mode === 'hole') { if (state.greenView) recentre(); else frameGreen(); } return; }
+    if (lower === 'r') { event.preventDefault(); recentre(); return; }
+    if (lower === 's') { event.preventDefault(); state.scoreHole = null; openTool(ui.scoreSheet, ui.score); return; }
+    if (lower === 'u') {
+      event.preventDefault();
+      const next = !display.get('sun');
+      ui.sun.checked = next;
+      display.set('sun', next);
+      fitLayout();
+      reframeForLayout();
+      invalidate();
+      status(next ? 'Solläge på' : 'Solläge av', 1600, true);
+      return;
+    }
+    if (lower === 'z') {
+      if (scoreUndo) { event.preventDefault(); undoScore(); return; }
+      if (undoPoint) { event.preventDefault(); takeBack(); return; }
+    }
+    if (shortcuts.press(event.key)) event.preventDefault();
   });
   document.addEventListener('focusin', event => {
-    if (activeSheet && !activeSheet.contains(event.target)) activeSheet.focus({ preventScroll: true });
+    if (root.classList.contains('has-sheet') && activeSheet && !activeSheet.contains(event.target)) activeSheet.focus({ preventScroll: true });
   });
 
   /* A sheet goes back down the way it came. Only by its head: its body scrolls. */
@@ -1694,6 +1878,7 @@ async function start() {
   function refreshHole() {
     const h = hole(), hasHole = state.mode === 'hole';
     ui.holeSheetTitle.textContent = hasHole ? [`Hål ${h.n}`, h.name].filter(Boolean).join(' · ') : course.name;
+    ui.profile.hidden = !hasHole;
     const play = $('[data-play-hole]');
     const playNumber = playableHole();
     play.hidden = !playNumber;
@@ -1709,22 +1894,37 @@ async function start() {
     const strokes = played.filter(shot => !isPutt(shot)), putts = played.length - strokes.length;
     ui.shotsHint.hidden = !strokes.length;
     ui.holePenalty.hidden = !holePenaltyTarget(strokes);
+    ui.holeUndo.hidden = !undoPoint;
     ui.shotList.replaceChildren(...strokes.map(shotRow), ...(putts ? [puttsRow(putts)] : []));
     const history = hasHole ? holeHistory(rounds, shots, course.slug, h.n) : null;
     ui.historySection.hidden = !history;
     if (history) renderHoleHistory(ui.history, { history, clubName });
     ui.hazardSection.hidden = !hasHole || !state.hazards.length;
-    ui.hazardList.replaceChildren(...state.hazards.map(hazard => {
+    ui.hazardList.replaceChildren(...state.hazards.map((hazard, index) => {
       const row = document.createElement('li');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'map-hazard-btn';
+      button.dataset.measureHazard = String(index);
       const name = hazard.kind === 'water' ? 'Vatten' : 'Bunker';
       const where = hazard.side === 'mitt' ? 'mitt i' : hazard.side;
       const approx = hazard.approximate ? '≈' : '';
+      const front = Math.round(hazard.front);
       const far = hazard.carry !== null ? `förbi ${approx}${Math.round(hazard.carry)} m` : hazard.openWater ? 'slut okänt' : '';
-      row.innerHTML = `<i class="map-dot is-${hazard.kind}"></i><span>${name}, ${where}</span><b>${approx}${Math.round(hazard.front)} m</b><small>${far}</small>`;
+      button.setAttribute('aria-label', `Mät till ${name}, ${where}, ${front} meter${far ? `, ${far}` : ''}`);
+      button.innerHTML = `<i class="map-dot is-${hazard.kind}"></i><span>${name}, ${where}</span><b>${approx}${front} m</b><small>${far}</small>`;
+      button.onclick = () => {
+        setAim(hazard.at);
+        if (!isDesktop() || !state.deskOpen) showSheet(null);
+        refreshNumbers();
+        revealLanding(state.guidance?.target);
+        invalidate();
+      };
+      row.append(button);
       return row;
     }));
     ui.holes.replaceChildren(...course.holes.map(each => chip(String(each.n), hasHole && each.n === h.n, () => {
-      showSheet(null);
+      if (!isDesktop() || !state.deskOpen) showSheet(null);
       pickHole(each.n);
     })));
   }
@@ -1875,7 +2075,8 @@ async function start() {
     $('[data-live-transfer]').hidden = !(getCloudState().user && roundUnderWay());
     const hasHole = state.mode === 'hole';
     ui.menuTitle.textContent = course.name;
-    ui.lightName.textContent = state.lightKey === 'nu' ? 'Nu' : lightByKey(state.lightKey)?.label ?? '';
+    const showDiary = params.get('debug') === '1' || savedText('banvy:dev-overlay', '') === '1';
+    $('[data-diary]').hidden = !showDiary;
     const logged = shots.filter(shot => shot.to && !isPutt(shot)).length;
     ui.clubsCount.textContent = logged ? `${logged} slag` : '';
     ui.roundsCount.textContent = rounds.length ? `${rounds.length} ${rounds.length === 1 ? 'runda' : 'rundor'}` : '';
@@ -2004,7 +2205,38 @@ async function start() {
     }
   }
 
+  let scoreUndo = null, scoreUndoTimer = 0;
+  function clearScoreUndo() {
+    clearTimeout(scoreUndoTimer);
+    scoreUndoTimer = 0;
+    scoreUndo = null;
+    ui.scoreUndo.hidden = true;
+  }
+  function pushScoreUndo(number, label) {
+    const existing = round.scores[number];
+    scoreUndo = { hole: number, prev: existing ? { ...existing } : null };
+    ui.scoreUndoText.textContent = label;
+    ui.scoreUndo.hidden = false;
+    clearTimeout(scoreUndoTimer);
+    scoreUndoTimer = setTimeout(clearScoreUndo, NOTE_MS);
+  }
+  function undoScore() {
+    if (!scoreUndo) return;
+    const { hole: number, prev } = scoreUndo;
+    clearScoreUndo();
+    if (prev) round.scores[number] = prev;
+    else delete round.scores[number];
+    saveRound();
+    refreshScore();
+    status(`Hål ${number} återställt`, 2000, true);
+  }
+  ui.scoreUndoBtn.onclick = undoScore;
+
   function setScore(change, number = scoredHole().n, fromShot = false) {
+    if (!fromShot) {
+      const label = change.picked ? `Hål ${number} struket` : `Hål ${number} ändrat`;
+      pushScoreUndo(number, label);
+    }
     undoPoint?.score(round.scores, number, change, fromShot);
     round.scores[number] = { ...round.scores[number], ...change };
     saveRound();
@@ -2111,9 +2343,11 @@ async function start() {
     const cell = (each, text, extra = '') => `<button data-card-hole="${each.n}" class="${extra} ${here(each)}" aria-label="${words(each)}">${text}</button>`;
     /* The row a finger hits, once: a screen reader need not pass three buttons a hole. */
     const label = (each, text) => `<span class="${here(each)}">${text}</span>`;
-    return `<div class="map-card-row map-card-head"><span>Hål</span>${holes.map(each => label(each, each.n)).join('')}<span>Σ</span></div>
+    return `<div class="map-card-part" style="--cols:${holes.length}">
+      <div class="map-card-row map-card-head"><span>Hål</span>${holes.map(each => label(each, each.n)).join('')}<span>Σ</span></div>
       <div class="map-card-row"><span>Par</span>${holes.map(each => label(each, each.par)).join('')}<span>${sum(each => each.par)}</span></div>
-      <div class="map-card-row map-card-score"><span>Slag</span>${holes.map(each => cell(each, `<i>${shown(each)}</i>`, kind(each))).join('')}<span>${sum(each => score(each)?.strokes) || ''}</span></div>`;
+      <div class="map-card-row map-card-score"><span>Slag</span>${holes.map(each => cell(each, `<i>${shown(each)}</i>`, kind(each))).join('')}<span>${sum(each => score(each)?.strokes) || ''}</span></div>
+    </div>`;
   }
 
   function refreshScore() {
@@ -2154,7 +2388,10 @@ async function start() {
       received ? `${received} erhållna slag` : null].filter(Boolean).join(' · ');
     const totals = roundTotals(round, course.holes);
     const toPar = toParText(totals.toPar);
-    ui.scoreLabel.textContent = totals.strokes ? `Score ${toPar}` : 'Score';
+    const scoreBadge = totals.strokes ? `Score ${toPar}` : 'Score';
+    ui.scoreLabel.textContent = scoreBadge;
+    const deskScoreTab = ui.deskRail.querySelector('[data-desk-tab="score"]');
+    if (deskScoreTab) deskScoreTab.textContent = scoreBadge;
     ui.scoreSum.textContent = totals.played
       ? [`${totals.strokes} slag`, totals.strokes ? toPar : null, totals.points === null ? null : `${totals.points} poäng`, totals.putts ? `${totals.putts} putt` : null].filter(Boolean).join(' · ')
       : round.endedAt ? 'Rundan är avslutad' : roundUnderWay() ? 'Rundan är igång · inga hål förda' : 'Rundan har inte börjat';
@@ -2163,6 +2400,7 @@ async function start() {
       hitGreen(own, h.par) ? 'GIR här' : null].filter(Boolean).join(' · ');
     const nines = [course.holes.slice(0, 9), course.holes.slice(9)].filter(part => part.length);
     ui.card.innerHTML = nines.map(cardRows).join('');
+    ui.card.querySelector('.map-card-score .is-now')?.scrollIntoView({ inline: 'center', block: 'nearest' });
   }
 
   ui.card.onclick = event => {
@@ -2212,7 +2450,16 @@ async function start() {
   /* ---- the end of a round ---- */
   /* The round is over: the GPS and the awake screen with it, and the player sees what
      it came to. A lock afterwards simply goes on, so a tap here loses nothing. */
+  let endingTimer = 0;
+  function resetEndConfirm() {
+    clearTimeout(endingTimer);
+    endingTimer = 0;
+    ui.endRound.textContent = 'Avsluta rundan';
+    ui.endRound.classList.remove('is-confirming');
+  }
   function endRound() {
+    resetEndConfirm();
+    clearScoreUndo();
     finishOpenShot();
     closePrompt();
     round.endedAt = Date.now();
@@ -2223,7 +2470,15 @@ async function start() {
     showRound(keepRecord(thisRecord()), { replace: true });
   }
   const endIfOver = number => { if (!round.endedAt && roundIsOver(round, course.holes, number)) endRound(); };
-  ui.endRound.onclick = endRound;
+  ui.endRound.onclick = () => {
+    if (!endingTimer) {
+      ui.endRound.textContent = 'Säker? Tryck igen';
+      ui.endRound.classList.add('is-confirming');
+      endingTimer = setTimeout(resetEndConfirm, 4000);
+      return;
+    }
+    endRound();
+  };
   ui.lockedEnd.onclick = () => {
     ui.locked.hidden = true;
     endRound();
@@ -2521,6 +2776,7 @@ async function start() {
   const clubName = id => bag.find(club => club.id === id)?.name ?? id;
 
   const wheel = createClubWheel($('[data-wheel]'), {
+    holdToLock: false,
     onChoose(club) {
       state.manualClub = club.id;
       refreshShotGuidance();
@@ -2583,13 +2839,6 @@ async function start() {
       state.justLocked = false;
       setAim(null);
     }
-    if (state.mode === 'hole') updateGuidance(h, position);
-    else {
-      state.guidance = null;
-      ui.reading.hidden = true;
-      root.classList.remove('has-shot-distance');
-    }
-    wheel.setLocked(byTheBall && wheel.current()?.id === open.club);
     const walking = walked !== null && !byTheBall && position.source === 'gps' && !isPutt(open)
       && open.fromAccuracy <= MEASURABLE_ACCURACY_METRES && state.player.accuracy <= MEASURABLE_ACCURACY_METRES;
     const words = walking ? clubName(open.club) : '';
@@ -2597,6 +2846,12 @@ async function start() {
     if (ui.hintNote.textContent !== words) ui.hintNote.textContent = words;
     if (ui.hintMetres.textContent !== length) ui.hintMetres.textContent = length;
     ui.walkedShot.hidden = !words || state.mode !== 'hole';
+    if (state.mode === 'hole') updateGuidance(h, position);
+    else {
+      state.guidance = null;
+      ui.reading.hidden = true;
+    }
+    wheel.setLocked(byTheBall && wheel.current()?.id === open.club);
   }
 
   function updateGuidance(h, position) {
@@ -2647,11 +2902,24 @@ async function start() {
     showGuidance(state.guidance, h);
   }
 
+  const shortClubLabel = name => name
+    .replace(/^Driver$/, 'Dr')
+    .replace(/^Putter$/, 'Putt')
+    .replace(/^Järn\s+/, 'J')
+    .replace(/^Hybrid\s+/, 'H')
+    .replace(/^Trä\s+/, 'T')
+    .replace(/^Pitchingwedge$/, 'PW')
+    .replace(/^Gapwedge$/, 'GW')
+    .replace(/^Sandwedge$/, 'SW')
+    .replace(/^Lobwedge$/, 'LW');
+
   function refreshLogAction() {
     const club = wheel.current(), hole = state.playing;
     const starting = canStartFromPreview();
-    const text = starting ? 'Starta runda' : previewing() || tentativeTee() ? `Logga slag · hål ${hole}` : 'Logga slag';
-    if (ui.logShot.textContent !== text) ui.logShot.textContent = text;
+    const clubTag = club ? shortClubLabel(club.name) : '';
+    const text = starting ? 'Starta runda' : previewing() || tentativeTee() ? `Logga · H${hole}` : clubTag ? `Logga · ${clubTag}` : 'Logga slag';
+    if (ui.logShotLabel.textContent !== text) ui.logShotLabel.textContent = text;
+    ui.logShot.classList.toggle('is-starting', starting);
     const label = starting ? `Starta runda från hål ${state.hole}` : `Logga slag${club ? ` med ${club.name}` : ''} på hål ${hole}`;
     if (ui.logShot.getAttribute('aria-label') !== label) ui.logShot.setAttribute('aria-label', label);
   }
@@ -2662,8 +2930,15 @@ async function start() {
     for (const [key, element] of Object.entries(hudFields)) {
       if (element.textContent !== hud[key]) element.textContent = hud[key];
     }
-    ui.reading.hidden = false;
-    root.classList.toggle('has-shot-distance', Boolean(hud.distance));
+    const hasDetailCard = manual
+      || Boolean(state.manualClub && shot.recommendedClub)
+      || shot.status === 'recovery'
+      || shot.status === 'blocked'
+      || shot.status === 'unavailable';
+    const walkingOnly = !hasDetailCard && !ui.walkedShot.hidden;
+    ui.reading.hidden = !hasDetailCard && !walkingOnly;
+    ui.reading.classList.toggle('is-walking-only', walkingOnly);
+    root.classList.remove('has-shot-distance');
     hudFields.conditions.hidden = !hud.conditions;
     const actions = [
       [$('[data-reading-close]'), manual],
@@ -2678,8 +2953,6 @@ async function start() {
       }
     }
     refreshLogAction();
-    // A second reset opens a whole row. Fit it in this input event so the
-    // wheel and Logga slag are already clear before the next paint.
     if (actionsChanged && !sideways.matches) fitLayout();
     // Keep walking distances live on the card. Speak once when the advice itself changes.
     const key = [h.n, shot.mode, shot.status, manual ? shot.target : '', hud.title, shot.source,
@@ -2824,6 +3097,7 @@ async function start() {
     }
     saveShots();
     relearnBag();
+    refreshHole();
     refreshScore();
     ui.locked.hidden = true;
     closePrompt();
@@ -2836,6 +3110,11 @@ async function start() {
     invalidate();
   }
   $('[data-locked-undo]').onclick = takeBack;
+  ui.holeUndo.onclick = takeBack;
+  $('[data-locked-close]').onclick = () => {
+    clearTimeout(noteTimer);
+    ui.locked.hidden = true;
+  };
   $('[data-locked-penalty]').onclick = () => {
     markUndo();
     shots = addPenalty(shots);
@@ -3018,10 +3297,11 @@ async function start() {
       showSheet(null);
       if (state.greenGrid) invalidate();
     },
-    /* A press on the measuring point takes hold of it. */
+    /* A press on a manually placed measuring point takes hold of it — never hijack
+       a fairway pan near an automatic guidance circle. */
     onPress(point) {
       state.draggingTarget = false;
-      const target = state.guidance?.target;
+      const target = state.target;
       if (!target || state.mode !== 'hole') return;
       const s = camera.project(...lifted(target));
       state.draggingTarget = Math.hypot(s.x - point.x, s.y - point.y) < GRAB_PIXELS;
@@ -3081,15 +3361,6 @@ async function start() {
       camera.state.tilt = clamp(camera.state.tilt + lean, MIN_TILT, MAX_TILT);
       invalidate();
     },
-    onDoubleTap(point) {
-      if (state.atEye) return;
-      state.follow = false;
-      state.viewMoved = true;
-      const hit = camera.pick(point.x, point.y, store.heightAt, state.exaggeration);
-      if (!hit) return;
-      const { bearing, tilt, distance } = camera.state;
-      flyTo({ x: hit[0], y: shown(hit[0], hit[1]), z: hit[1], bearing, tilt, distance: clamp(distance * 0.55, MIN_DISTANCE, MAX_DISTANCE) }, 350);
-    },
     onTap(point) {
       if (state.mode === 'course') {
         const tapped = overlay.holeAt(point.x, point.y);
@@ -3109,8 +3380,6 @@ async function start() {
       }
       const hit = camera.pick(point.x, point.y, store.heightAt, state.exaggeration);
       if (!hit) return;
-      clearTimeout(noteTimer);
-      ui.locked.hidden = true;
       setAim(hit);
       refreshNumbers();
       invalidate();
@@ -3179,7 +3448,7 @@ async function start() {
     if (box.width !== camera.state.width || box.height !== camera.state.height) resize();
     else { fitLayout(); reframeForLayout(); }
   });
-  for (const element of [root, mapHeader, mapFoot, cameraButtons, ui.green, ui.wind, ui.wheel, ui.logShot]) hudSize.observe(element);
+  for (const element of [root, mapHeader, mapFoot, cameraButtons, ui.deskRail, ui.green, ui.wind, ui.wheel]) hudSize.observe(element);
   document.addEventListener('visibilitychange', () => {
     state.pace.end = null;
     if (document.visibilityState === 'visible') invalidate();
@@ -3356,9 +3625,7 @@ async function start() {
     const overlayHazards = state.showHazards && !state.greenView && !state.atEye
       ? reachableHazards(state.hazards, overlayReach)
       : [];
-    const topSafe = ui.holeBar.getBoundingClientRect().bottom + 6;
-    const bottomEl = !ui.prompt.hidden ? ui.prompt : !ui.same.hidden ? ui.same : !ui.locked.hidden ? ui.locked : !ui.reading.hidden ? ui.reading : !ui.profile.hidden ? ui.profile : !ui.legend.hidden ? ui.legend : ui.tools;
-    const bottomSafe = Math.max(66, camera.state.height - bottomEl.getBoundingClientRect().top + 8);
+    const safe = insets();
     overlay.draw({
       camera,
       ground: shown,
@@ -3372,7 +3639,7 @@ async function start() {
       carryArcs: !state.atEye && state.showRings,
       clubArc,
       atEye: state.atEye,
-      safe: { top: topSafe, bottom: bottomSafe },
+      safe,
       emphasis: display.get('sun') ? 1.3 : 1,
       mirrored: display.get('left'),
       guidance: state.guidance,
@@ -3447,15 +3714,35 @@ async function start() {
   if (openOffline) params.delete('offline');
   if (entry || openOffline) clearEntryAddress(state.previewOnly);
   const offerStart = !entry && !state.previewOnly && isPhone() && !params.has('hal') && !roundUnderWay() && !savedFresh(LOOK_KEY) && !savedFresh(`${GPS_KEY}:${course.slug}`);
+  /* Protect live GPS rounds from accidental jumps to Simulator / Detailed 3D / Bag editor. */
+  for (const link of root.querySelectorAll('[data-leave-guard]')) {
+    let armed = 0, original = '';
+    link.addEventListener('click', event => {
+      if (!(gps.active && roundUnderWay()) || armed) {
+        clearTimeout(armed);
+        armed = 0;
+        return;
+      }
+      event.preventDefault();
+      original = link.innerHTML;
+      const valueEl = link.querySelector('.map-row-value');
+      if (valueEl) valueEl.textContent = 'Rundan sparas · tryck igen';
+      else link.textContent = `${link.textContent.trim()} · tryck igen`;
+      armed = setTimeout(() => { armed = 0; link.innerHTML = original; }, 4000);
+    });
+  }
+
   if (window.history.state?.banvyMapPanels?.course === course.slug) {
     panels.restore(window.history.state);
   } else if (openOffline) {
-    setMenuTab('bana');
+    setMenuTab('visning');
     refreshMenu();
-    showSheet(ui.menuSheet);
+    if (isDesktop()) selectDeskTab('menu');
+    else showSheet(ui.menuSheet);
   } else if (resumeUnavailable || offerStart) {
     openStart();
   } else firstTip();
+  if (isDesktop()) syncDesktopDock();
 
   if (entry !== '1' && !state.previewOnly && !resumeUnavailable && savedFresh(`${GPS_KEY}:${course.slug}`)) {
     navigator.permissions?.query({ name: 'geolocation' }).then(result => {

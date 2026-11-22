@@ -54,7 +54,7 @@ const TOOL_ICONS = {
   grid: ICONS.grid(22),
   gps: svg('<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'),
   note: ICONS.book(22),
-  mini: ICONS.miniMap(22),
+  mini: ICONS.map(22),
   bag: ICONS.golfBall(22),
   map: svg('<path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/>'),
 };

@@ -54,7 +54,7 @@ const collect = stateName => {
   const issues = [];
   if (innerWidth > innerHeight && stateName === 'view-menu') {
     const choices = [...document.querySelectorAll('[data-view-menu] button')].filter(shown);
-    if (choices.length !== 6) issues.push('missing landscape camera choices');
+    if (choices.length !== 4) issues.push('missing landscape camera choices');
     for (const choice of choices) {
       const { x, y, width, height } = choice.getBoundingClientRect();
       if (Math.min(width, height) < 44 || !choice.contains(document.elementFromPoint(x + width / 2, y + height / 2))) {
@@ -79,11 +79,11 @@ const collect = stateName => {
     const r = rects[name];
     if (r.l < -1 || r.t < -1 || r.r > innerWidth + 1 || r.b > innerHeight + 1) issues.push(`offscreen ${name} ${Math.round(r.l)},${Math.round(r.t)},${Math.round(r.r)},${Math.round(r.b)}`);
   }
-  /* Words cut off. */
+  /* Words cut off & hero green distance stays largest on screen. */
   const root = document.querySelector('#courseMap');
-  if (root.classList.contains('has-shot-distance') && shown(root.querySelector('[data-shot-distance]')) && shown(root.querySelector('[data-green]:not(.is-on)'))) {
+  if (shown(root.querySelector('[data-shot-distance]')) && shown(root.querySelector('[data-green]:not(.is-on)'))) {
     const font = selector => parseFloat(getComputedStyle(root.querySelector(selector)).fontSize);
-    if (font('[data-shot-distance]') <= font('[data-mid-number]')) issues.push('shot distance smaller than or equal to green yardage');
+    if (font('[data-mid-number]') <= font('[data-shot-distance]')) issues.push('green yardage smaller than or equal to shot distance');
   }
   for (const element of root.querySelectorAll('b, span, small, button, p, output')) {
     if (!shown(element) || element.closest('.map-sheet[hidden]') || element.closest('.map-sr') || element.closest('.map-wheel-list')) continue;
@@ -183,18 +183,17 @@ async function checkManualCard() {
     await page.waitForFunction(() => V3DMap.state.guidance?.mode === 'manual' && !V3DMap.state.guidance.reachable);
     const pinned = await page.evaluate(() => V3DMap.state.guidance.target);
     const card = page.locator('[data-reading]');
-    const auto = card.getByRole('button', { name: 'Automatiskt mål' });
+    const auto = card.locator('[data-reading-close]');
     for (const [width, height, changeClub] of [[360, 608], [320, 568], [320, 568, true], [390, 844], [360, 608]]) {
       await page.setViewportSize({ width, height });
       await page.waitForFunction(([w, h]) => V3DMap.camera.state.width === w && V3DMap.camera.state.height === h, [width, height]);
       if (changeClub) {
         await page.locator('[data-wheel-list]').press('ArrowDown');
-        await card.getByRole('button', { name: 'Föreslagen klubba' }).waitFor();
+        await card.locator('[data-club-auto]').waitFor();
       }
       const layout = await card.evaluate(el => {
         const rect = el.getBoundingClientRect();
         const dock = document.querySelector('.map-tools').getBoundingClientRect();
-        const profile = document.querySelector('[data-profile]').getBoundingClientRect();
         const primary = el.querySelector('.map-shot-main').getBoundingClientRect();
         const actions = [...el.querySelectorAll('button:not([hidden])')].map(button => button.getBoundingClientRect());
         const fields = ['[data-shot-title]', '[data-shot-source]', '[data-shot-distance]', '[data-shot-club]', '[data-shot-detail]'];
@@ -211,31 +210,30 @@ async function checkManualCard() {
           const box = button.getBoundingClientRect();
           return Math.min(box.width, box.height) < 40 || !button.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
         }).map(button => button.getAttribute('aria-label') || button.innerText);
-        const overlaps = ['.map-green', '.map-wind', '.map-wheel', '[data-wheel-lock]', '[data-view-toggle]', '[data-profile]', '.map-tools']
+        const overlaps = ['.map-green', '.map-wind', '.map-wheel', '[data-wheel-lock]', '[data-view-toggle]', '.map-tools']
           .filter(selector => {
             const box = document.querySelector(selector).getBoundingClientRect();
             return Math.min(rect.right, box.right) - Math.max(rect.left, box.left) > 1 &&
               Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top) > 1;
           });
-        return { width: rect.width, height: rect.height, dockWidth: dock.width, profileHeight: profile.height,
+        return { width: rect.width, height: rect.height, dockWidth: dock.width,
           inlineAction: actions.length === 1 && actions[0].top < primary.bottom,
           inset: Math.max(Math.abs(rect.left - dock.left), Math.abs(rect.right - dock.right)), unreadable, covered, overlaps };
       });
       const label = `${width}×${height}`;
       assert.ok(layout.inset <= 1, `${label}: pinned card spans ${layout.width}px of the ${layout.dockWidth}px dock`);
       assert.deepEqual(layout.unreadable, [], label + ': manual reading fields fit inside their card');
-      assert.deepEqual(layout.overlaps, [], label + ': card clears the rail, controls and elevation profile');
+      assert.deepEqual(layout.overlaps, [], label + ': card clears the rail and controls');
       assert.deepEqual(layout.covered, [], label + ': all controls are touch-sized and their centres accept touch');
-      if (width === 360) assert.ok(layout.inlineAction, 'Automatiskt mål fits beside the main shot reading at the browser-bar height');
+      if (width === 360) assert.ok(layout.inlineAction, 'Rensa fits beside the main shot reading at the browser-bar height');
       assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pinned, label + ': resize keeps the chosen point');
       const detail = await card.locator('[data-shot-detail]').innerText();
       assert.match(detail, /\d+ m kvar/);
       assert.match(detail, /Utanför räckvidd/);
       if (changeClub) {
         assert.match(detail, /Förslag:/);
-        await card.getByRole('button', { name: 'Föreslagen klubba' }).tap();
+        await card.locator('[data-club-auto]').tap();
       }
-      if (height === 844) assert.ok(layout.profileHeight > 0, 'the full-height phone retains its elevation profile');
       console.log(`${label}: out-of-range manual card ${Math.round(layout.width)}×${Math.round(layout.height)}px`);
     }
     await page.locator('[data-view-toggle]').tap();
@@ -244,7 +242,7 @@ async function checkManualCard() {
     assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pinned, 'changing the camera keeps the manual point');
     await auto.tap();
     await page.waitForFunction(() => V3DMap.state.guidance?.mode === 'auto' && V3DMap.state.guidance.target);
-    assert.ok(!await auto.isVisible(), 'Automatiskt mål returns to automatic guidance');
+    assert.ok(!await auto.isVisible(), 'Rensa returns to automatic guidance');
   } finally { await context.close(); }
 }
 let finished = 0;
@@ -323,11 +321,7 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
       };
       const hold = async () => {
         await page.evaluate(() => V3DMap.refix());
-        const box = await page.locator('[data-wheel]').boundingBox();
-        await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
-        await page.mouse.down();
-        await page.waitForTimeout(1020);
-        await page.mouse.up();
+        await page.locator('[data-wheel-lock]').tap();
         await page.waitForTimeout(220);
       };
       const pickView = async selector => {
@@ -437,9 +431,9 @@ const runOne = async ([[phone, width, height, top, bottom], [setting, display]])
         await settled();
         await page.waitForTimeout(400);
         await record('green-view');
-        await pickView('[data-view="eye"]').catch(() => {});
+        await pickView('[data-view="above"]').catch(() => {});
         await settled();
-        await record('min-vy');
+        await record('above-view');
         await pickView('[data-view="hole"]').catch(() => {});
         await page.click('[data-next]');
         await settled();

@@ -21,14 +21,19 @@ export function createOverlay(canvas) {
   let width = 1, height = 1, ratio = 1, emphasis = 1;
   const hits = [];
 
-  function pill(x, y, text, { fill = 'rgba(12,24,18,.86)', ink = '#fff', size = 13, weight = 700 } = {}) {
+  function pill(x, y, text, { fill = 'rgba(12,24,18,.92)', ink = '#fff', stroke = 'rgba(255,255,255,.32)', size = 13, weight = 700 } = {}) {
     const tall = size * emphasis;
     ctx.font = `${emphasis > 1 ? 800 : weight} ${tall}px ${FONT}`;
-    const w = ctx.measureText(text).width + 14, h = tall + 9;
+    const w = ctx.measureText(text).width + 16, h = tall + 10;
     ctx.fillStyle = fill;
     ctx.beginPath();
     ctx.roundRect(x - w / 2, y - h / 2, w, h, h / 2);
     ctx.fill();
+    if (stroke) {
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = emphasis > 1 ? 2.2 : 1.6;
+      ctx.stroke();
+    }
     ctx.fillStyle = ink;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -45,7 +50,7 @@ export function createOverlay(canvas) {
 
     /* The hole a tap landed on in the overview, if any. */
     holeAt(x, y) {
-      let best = null, reach = 26;
+      let best = null, reach = 32;
       for (const hit of hits) {
         const d = Math.hypot(hit.x - x, hit.y - y);
         if (d < reach) { reach = d; best = hit.hole; }
@@ -109,18 +114,21 @@ export function createOverlay(canvas) {
           if (Number.isFinite(bs.x)) {
             const dx = bs.x - s.x, dy = bs.y - s.y, len = Math.hypot(dx, dy);
             if (len > 1) {
-              for (let step = 0; step < 3 && placedPins.some(p => Math.hypot(p.x - s.x, p.y - s.y) < 26); step++) {
-                s = { x: s.x + dx / len * 26, y: s.y + dy / len * 26 };
+              for (let step = 0; step < 3 && placedPins.some(p => Math.hypot(p.x - s.x, p.y - s.y) < 44); step++) {
+                s = { x: s.x + dx / len * 36, y: s.y + dy / len * 36 };
               }
             }
           }
           placedPins.push({ x: s.x, y: s.y });
-          ctx.fillStyle = 'rgba(12,24,18,.92)';
+          ctx.fillStyle = 'rgba(12,24,18,.94)';
+          ctx.strokeStyle = 'rgba(255,255,255,.55)';
+          ctx.lineWidth = 1.6;
           ctx.beginPath();
-          ctx.arc(s.x, s.y, 12, 0, Math.PI * 2);
+          ctx.arc(s.x, s.y, 15, 0, Math.PI * 2);
           ctx.fill();
+          ctx.stroke();
           ctx.fillStyle = '#fff';
-          ctx.font = `700 12.5px ${FONT}`;
+          ctx.font = `700 13.5px ${FONT}`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(String(each.n), s.x, s.y + 0.5);
@@ -158,12 +166,7 @@ export function createOverlay(canvas) {
             const a = bearing + k * 0.045;
             arc.push([origin[0] + Math.sin(a) * metres, origin[1] - Math.cos(a) * metres]);
           }
-          trace(arc);
-          ctx.strokeStyle = `rgba(255,255,255,${emphasis > 1 ? 0.9 : 0.62})`;
-          ctx.lineWidth = 1.15 * emphasis;
-          ctx.setLineDash([3, 4]);
-          ctx.stroke();
-          ctx.setLineDash([]);
+          cased(arc, `rgba(255,255,255,${emphasis > 1 ? 0.96 : 0.78})`, 1.25, [4, 4], emphasis > 1 ? 0.65 : 0.45);
           const end = at(arc[labelAt][0], arc[labelAt][1]);
           if (inside(end)) arcLabels.push({ x: end.x, y: end.y, metres });
         }
@@ -291,42 +294,51 @@ export function createOverlay(canvas) {
         }
 
         /* Reserve pills strictly by priority so no two pills ever collide:
-           1. active aim measurements, 2. shot trail lengths, 3. reachable hazards, 4. carry rings. */
-        const clash = (a, b, wide) => Math.abs(a.x - b.x) < wide * emphasis && Math.abs(a.y - b.y) < 28 * emphasis;
+           1. active aim measurements, 2. shot trail lengths, 3. reachable hazards, 4. carry rings.
+           Hazards and carry rings also stay clear of the flag/green centre so the target stays clean. */
+        const clash = (a, b, wide) => Math.abs(a.x - b.x) < wide * emphasis && Math.abs(a.y - b.y) < 30 * emphasis;
         const placed = [];
+        const greenPin = Number.isFinite(pin.x) ? { x: pin.x, y: pin.y - 12 } : null;
+        const onPin = s => greenPin && Math.abs(greenPin.x - s.x) < 42 * emphasis && Math.abs(greenPin.y - s.y) < 30 * emphasis;
 
         if (target && !atEye) {
           const first = at((origin[0] + target[0]) / 2, (origin[1] + target[1]) / 2);
           if (inside(first)) {
             placed.push({ x: first.x, y: first.y });
-            pill(first.x, first.y, `${Math.round(guidance.reading.distance)} m`, { fill: '#ffd23f', ink: '#10201a' });
+            pill(first.x, first.y, `${Math.round(guidance.reading.distance)} m`, {
+              fill: '#ffd23f', ink: '#0a1610', stroke: 'rgba(10,22,16,.88)', size: 13.5, weight: 800,
+            });
           }
         }
 
         if (mode === 'hole' && !atEye) {
           for (const shot of trail) {
             const s = at((shot.from[0] + shot.to[0]) / 2, (shot.from[1] + shot.to[1]) / 2);
-            if (!inside(s) || placed.some(other => clash(other, s, 60))) continue;
+            if (!inside(s) || placed.some(other => clash(other, s, 62))) continue;
             placed.push({ x: s.x, y: s.y });
-            pill(s.x, s.y, `${Math.round(Math.hypot(shot.to[0] - shot.from[0], shot.to[1] - shot.from[1]))} m`, { size: 11, weight: 600 });
+            pill(s.x, s.y, `${Math.round(Math.hypot(shot.to[0] - shot.from[0], shot.to[1] - shot.from[1]))} m`, {
+              size: 12, weight: 700, stroke: 'rgba(255,255,255,.42)',
+            });
           }
         }
 
         for (const hazard of hazards) {
-          const s = at(hazard.at[0], hazard.at[1]);
-          if (!inside(s) || placed.some(other => clash(other, s, 68))) continue;
+          let s = at(hazard.at[0], hazard.at[1]);
+          if (!Number.isFinite(s.x)) continue;
+          if (onPin(s)) s = { x: s.x, y: s.y + 30 * emphasis };
+          if (!inside(s) || placed.some(other => clash(other, s, 72))) continue;
           placed.push({ x: s.x, y: s.y });
           const front = `${hazard.approximate ? '≈' : ''}${Math.round(hazard.front)}`;
           const words = hazard.carry === null ? `${front}${hazard.openWater ? '+' : ''} m` : `${front}–${Math.round(hazard.carry)} m`;
           pill(s.x, s.y, words, hazard.kind === 'water'
-            ? { fill: 'rgba(20,92,140,.94)', size: 11.5 }
-            : { fill: 'rgba(240,229,194,.96)', ink: '#2a2415', size: 11.5 });
+            ? { fill: 'rgba(14,82,132,.96)', ink: '#fff', stroke: 'rgba(255,255,255,.65)', size: 12.5, weight: 700 }
+            : { fill: '#f6ecd2', ink: '#141108', stroke: 'rgba(16,24,18,.9)', size: 12.5, weight: 700 });
         }
 
         for (const label of arcLabels) {
-          if (placed.some(other => clash(other, label, 54))) continue;
+          if (onPin(label) || placed.some(other => clash(other, label, 64))) continue;
           placed.push({ x: label.x, y: label.y });
-          pill(label.x, label.y, String(label.metres), { size: 11, weight: 600 });
+          pill(label.x, label.y, `${label.metres} m`, { size: 11.5, weight: 700, stroke: 'rgba(255,255,255,.45)' });
         }
       }
 

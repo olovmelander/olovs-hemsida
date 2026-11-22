@@ -201,8 +201,8 @@
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -1755,10 +1755,10 @@ a.drawer-main-btn { text-decoration: none; }
   #courseNav {
     top: calc(8px + env(safe-area-inset-top));
     left: calc(8px + env(safe-area-inset-left));
-    height: 40px;
+    height: 44px;
   }
   #menuToggle {
-    height: 40px;
+    height: 44px;
     padding: 0 10px 0 8px;
     border-radius: 12px;
     gap: 7px;
@@ -1798,7 +1798,7 @@ a.drawer-main-btn { text-decoration: none; }
   #chooser {
     --pad-x: 14px;
     --search-h: 44px;
-    --chip-h: 40px;
+    --chip-h: 44px;
     --ctl-gap: 8px;
     --ctl-pad: 8px;
   }
@@ -1807,10 +1807,10 @@ a.drawer-main-btn { text-decoration: none; }
   .wordmark { font-size: 23px; }
   .cv-long, .cf-long { display: none; }
   .cv-short, .cf-short { display: inline; }
-  .c-view-btn { min-height: 40px; padding: 0 12px; font-size: 12.5px; }
+  .c-view-btn { min-height: 44px; padding: 0 12px; font-size: 12.5px; }
   .chooser-top-actions { gap: 8px; }
   /* the course's name is on the card under it; here the button is its cross */
-  .chooser-resume-btn { width: 42px; min-height: 42px; padding: 0; justify-content: center; border-radius: 50%; }
+  .chooser-resume-btn { width: 44px; min-height: 44px; padding: 0; justify-content: center; border-radius: 50%; }
   .chooser-resume-btn span { display: none; }
   .chooser-head { padding: 8px 0 2px; }
   /* the switch IS the title on a phone: two halves of the width, said once */
@@ -1831,7 +1831,7 @@ a.drawer-main-btn { text-decoration: none; }
   /* 16 px, not 13: below it iOS Safari zooms the whole page into the field on
      focus and leaves the visitor to pinch their way back out */
   .chooser-search-box input { font-size: 16px; padding-left: 40px; }
-  .search-clear { width: 40px; height: 40px; right: 2px; }
+  .search-clear { width: 44px; height: 44px; right: 0; }
   .chooser-filters { gap: 6px; }
   /* four chips share the row, so none of them is ever off the edge */
   .c-filter-btn { flex: 1 0 auto; justify-content: center; padding: 0 9px; font-size: 12.5px; }
@@ -1899,8 +1899,8 @@ a.drawer-main-btn { text-decoration: none; }
   .mpp-titles h3 { font-size: 16px; }
   .mpp-body { grid-area: 2 / 2; padding: 6px 12px 10px; gap: 8px; }
   .mpp-facts { border-top: 0; padding-top: 0; }
-  .mpp-play-btn { min-height: 40px; padding: 0 10px; }
-  .mpp-close-btn { top: 6px; right: 6px; width: 32px; height: 32px; }
+  .mpp-play-btn { min-height: 44px; padding: 0 10px; }
+  .mpp-close-btn { top: 4px; right: 4px; width: 44px; height: 44px; }
 }
 
 /* A phone on its side, or a very short window: height is what is scarce, so

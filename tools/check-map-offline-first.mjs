@@ -78,7 +78,7 @@ try {
   await page.evaluate(() => caches.delete('banvy-map-offline-v1'));
   await page.locator('[data-menu-sheet] [data-close]').click();
   await page.locator('[data-menu]').click();
-  await page.locator('[data-menu-tab="bana"]').click();
+  await page.locator('[data-menu-tab="visning"]').click();
   await wait(() => document.querySelector('[data-download]').textContent === 'Reparera offlinebanan');
   await page.locator('[data-download]').click();
   await wait(ready);
@@ -107,7 +107,7 @@ try {
   await wait(() => V3DMap.stats().metreTiles > 0 && V3DMap.state.guidance?.source === 'gps' &&
     V3DMap.state.guidance?.status === 'playable');
   await page.locator('[data-menu]').click();
-  await page.locator('[data-menu-tab="bana"]').click();
+  await page.locator('[data-menu-tab="visning"]').click();
   await wait(ready);
   assert.deepEqual(errors, []);
   console.log('Hard-disconnected cold navigation to hole 9 displays 1 m terrain, playable GPS guidance and verified offline status.');

@@ -794,7 +794,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
+  min-height: 44px;
   min-width: 62px;
   padding: 0 15px;
   border-radius: 10px;
@@ -973,7 +973,7 @@
 .set-link {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 14px;
   border-radius: 12px;
   border: 1px solid rgba(80, 150, 234, 0.45);
@@ -1064,7 +1064,7 @@ button.set-link { cursor: pointer; }
     border-bottom: 1px solid var(--line);
   }
   .set-nav::-webkit-scrollbar { display: none; }
-  .set-nav button { flex: 0 0 auto; min-height: 40px; padding: 0 12px; gap: 8px; font-size: 14px; border-color: rgba(255, 255, 255, 0.1); }
+  .set-nav button { flex: 0 0 auto; min-height: 44px; padding: 0 12px; gap: 8px; font-size: 14px; border-color: rgba(255, 255, 255, 0.1); }
   /* The row is swiped: where more sections wait, the chips fade into the bar, so a
      cut chip reads as "more this way". A sticky end piece, shown by the row's own
      scroll timeline: none when the row fits, none without scroll timelines. */
@@ -1098,7 +1098,7 @@ button.set-link { cursor: pointer; }
     .set-nav::before { animation: set-nav-start linear both; animation-timeline: scroll(nearest inline); }
   }
   .sn-icon svg { width: 17px; height: 17px; }
-  .set-section { scroll-margin-top: 130px; }
+  .set-section { scroll-margin-top: 136px; }
 }
 @media (max-width: 600px) {
   .set-top-in { min-height: 56px; }

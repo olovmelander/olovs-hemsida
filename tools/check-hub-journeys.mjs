@@ -104,7 +104,7 @@ try {
   assert.deepEqual(await inspectPreview(), expected);
   const viewerURL = page.url();
   await page.locator('[data-menu]').click();
-  await page.locator('[data-menu-pane="spel"] a[href$="#statistik"]').first().click();
+  await page.locator('[data-menu-pane="runda"] a[href$="#statistik"]').first().click();
   await page.locator('#stats:visible').waitFor();
   await page.goBack();
   await page.waitForFunction(() => globalThis.V3DMap?.state.guidance, undefined, { timeout: 60000 });
@@ -116,7 +116,7 @@ try {
   assert.deepEqual(await inspectPreview(), expected);
 
   await page.goto(base);
-  await page.locator('#home [data-settings]').click();
+  await page.locator('#home .mode-settings').click();
   await page.locator('[data-bag-edit]').click();
   await page.locator('#bagDialog[open]').waitFor();
   const carry = page.locator('.bag-distance:not(:disabled)').first();

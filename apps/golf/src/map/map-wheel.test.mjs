@@ -20,7 +20,7 @@ function element() {
   };
 }
 
-function setup() {
+function setup(options = {}) {
   const handlers = new Map(), list = element();
   const emit = (type, values) => handlers.get(type)({ preventDefault() {}, pointerId: 1, ...values });
   list.addEventListener = (type, callback) => handlers.set(type, callback);
@@ -32,7 +32,7 @@ function setup() {
     }
   };
   const onChoose = vi.fn(), onLock = vi.fn();
-  const wheel = createClubWheel({ ...element(), querySelector: () => list }, { onChoose, onLock });
+  const wheel = createClubWheel({ ...element(), querySelector: () => list }, { onChoose, onLock, ...options });
   wheel.setClubs(bag);
   const heldIron = () => emit('pointerdown', { target: list.children[bag.length + 1], clientX: 5, clientY: 5 });
   const selected = () => list.children.find(row => row.id === list.attributes['aria-activedescendant']);
@@ -112,5 +112,14 @@ describe('a club wheel following a new target', () => {
     expect(onLock).toHaveBeenCalledExactlyOnceWith(bag[1], { superseded: true });
     expect(wheel.current().id).toBe('wedge');
     expect(onChoose).not.toHaveBeenCalled();
+  });
+
+  it('never accidentally locks on a long press when holdToLock is disabled', () => {
+    const { heldIron, emit, onLock, onChoose } = setup({ holdToLock: false });
+    heldIron();
+    vi.advanceTimersByTime(HOLD_MS * 2);
+    expect(onLock).not.toHaveBeenCalled();
+    emit('pointerup');
+    expect(onChoose).toHaveBeenCalledExactlyOnceWith(bag[1]);
   });
 });
