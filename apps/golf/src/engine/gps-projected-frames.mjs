@@ -17,6 +17,22 @@
    a drifted or newly grid-authored course fails that test loudly. */
 export const PROJECTED_GPS_FRAMES = Object.freeze([
   {
+    slug: "bro-hof-stadium",
+    packFrame: "local metres from EPSG:3006; east +x, north -z; origin E649094.5 N6598568.5; heights RH 2000",
+    packOriginWgs84: { latitude: 59.49897348570647, longitude: 17.633748664771936 },
+    packMetresPerLongitude: 56500.89,
+    legacyOriginEpsg3006: { easting: 649094.5, northing: 6598568.5 },
+    bridgeMode: "epsg3006-local-rh2000",
+  },
+  {
+    slug: "bro-hof-castle",
+    packFrame: "local metres from EPSG:3006; east +x, north -z; origin E649094.5 N6598568.5; heights RH 2000",
+    packOriginWgs84: { latitude: 59.49897348570647, longitude: 17.633748664771936 },
+    packMetresPerLongitude: 56500.89,
+    legacyOriginEpsg3006: { easting: 649094.5, northing: 6598568.5 },
+    bridgeMode: "epsg3006-local-rh2000",
+  },
+  {
     slug: "lidingo",
     packFrame: "local metres from EPSG:3006; east +x, north -z; origin E677700.5 N6586399.5; heights RH 2000",
     packOriginWgs84: { latitude: 59.378715385375614, longitude: 18.12816746741512 },

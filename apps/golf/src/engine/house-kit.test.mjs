@@ -217,10 +217,19 @@ describe('main.js', () => {
 
 describe('the measured roofs', () => {
   /* each course that opts in, and every routing that shares its ground (and its scenery module) */
-  const GROUNDS = { veckefjarden: ['veckefjarden', 'veckefjarden-korthalsbanan'], puttom: ['puttom'], angso: ['angso'],
-    upsala: ['upsala', 'upsala-mellanbanan'], lidingo: ['lidingo'], norrfallsviken: ['norrfallsviken'],
-    ribbingsfors: ['ribbingsfors'], tortuna: ['tortuna'], visby: ['visby'],
-    johannesberg: ['johannesberg', 'johannesberg-9'] };
+  const GROUNDS = {
+    angso: ['angso'],
+    norrfallsviken: ['norrfallsviken'],
+    puttom: ['puttom'],
+    ribbingsfors: ['ribbingsfors'],
+    upsala: ['upsala', 'upsala-mellanbanan'],
+    johannesberg: ['johannesberg', 'johannesberg-9'],
+    lidingo: ['lidingo'],
+    visby: ['visby'],
+    tortuna: ['tortuna'],
+    veckefjarden: ['veckefjarden', 'veckefjarden-korthalsbanan'],
+    'bro-hof': ['bro-hof-stadium', 'bro-hof-castle'],
+  };
   it('reach every course (Johannesberg since 9 November)', () => {
     const index = JSON.parse(fs.readFileSync(new URL('../../public/courses/index.json', import.meta.url), 'utf8'));
     const covered = Object.values(GROUNDS).flat();

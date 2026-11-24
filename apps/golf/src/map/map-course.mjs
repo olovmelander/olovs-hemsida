@@ -174,7 +174,7 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     roofs: rings(traced.roofs),
     solar: rings(traced.solar),
     nets: (scenery.rangeFacilities?.nets ?? []).filter(line => validRing(line, 2)).map(placeAll),
-    cartParks: scenery.cartPark && validRing(scenery.cartPark.line, 2) ? [placeAll(scenery.cartPark.line)] : [],
+    cartParks: [scenery.cartPark, ...(scenery.cartParks ?? [])].filter(row => row && validRing(row.line, 2)).map(row => placeAll(row.line)),
     /* Out of bounds and penalty areas, stake by stake as they stand. */
     stakes: (vectors.marking ?? []).flatMap(item => (item.pts ?? []).filter(isPoint).map(point => ({ point: place(point), colour: item.c }))),
     // Keep each run of stakes and the hole ownership of a local rule.

@@ -12,6 +12,8 @@ import { COURSE_LOCATIONS, HOST_CLUB } from './course-places.mjs';
 export { COURSE_LOCATIONS };
 
 const LINES = {
+  'bro-hof-stadium': 'Robert Trent Jones Jr:s mästerskapsbana vid Mälaren: breda fairways, stora vita bunkrar, ö-greenen på 17 och hemgång mot slottet.',
+  'bro-hof-castle': 'Bro Hofs andra arton, också ritad av Robert Trent Jones Jr: sex par 3, sex par 4 och sex par 5 genom park och skog, med små bunkrar och stora sandmarker.',
   tortuna: '18 hål i Tortuna utanför Västerås, med dammar, parkmark och skog.',
   veckefjarden: 'Mästerskapsbanan vid fjärden, känd för sin ikoniska ö-green och utmanande vattenhinder.',
   norrfallsviken: 'Dramatisk skogs- och linkskaraktär på Mjällomlandet med klippor direkt mot Bottenhavet.',

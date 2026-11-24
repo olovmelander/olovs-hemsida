@@ -24,6 +24,11 @@ export const COURSE_LOCATIONS = {
     city: 'Västerås',
     iconName: 'wave',
   },
+  'bro-hof-stadium': {
+    // Navigation marker at the castle (OSM way 319035128), not a survey control.
+    lat: 59.49534, lng: 17.62562, region: 'Mälardalen',
+    regionTag: 'Bro · Slott vid Mälaren', city: 'Bro', iconName: 'castle',
+  },
   johannesberg: {
     lat: 59.7390,
     lng: 18.1760,
@@ -77,6 +82,7 @@ export const COURSE_LOCATIONS = {
 
 // These layouts share a clubhouse and the same weather observation.
 export const HOST_CLUB = {
+  'bro-hof-castle': 'bro-hof-stadium',
   'upsala-mellanbanan': 'upsala',
   'johannesberg-9': 'johannesberg',
   'veckefjarden-korthalsbanan': 'veckefjarden',

@@ -3920,6 +3920,7 @@ if (SCENERY?.loadFacilitiesBeforeSurfaces) await installFacilityArchitecture();
   const groups = new Map();
   for (const feature of M.scenery.mappedFeatures || []) {
     if (feature.kind === 'mown_approach') continue; // drawn at the semi-rough tier above
+    if (feature.kind === 'waste_sand') continue;    // the ground's own class (SURFACE.WASTE); a gravel sheet over it greyed with distance
     if (SCENERY?.customMappedKinds?.includes(feature.kind)) continue;
     if (!feature.rings?.[0]?.length) continue;
     const pathSurface = mappedPathSurface(feature);
@@ -8450,7 +8451,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
    island) needs no modelling: it is real terrain in the vista heightfield. */
 /* the painted props (engine/golf-cart-prop.mjs); ?props=0 is the before, the boxes */
 const PROPS_ON = new URLSearchParams(location.search).get('props') !== '0';
-const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
+const CART_ROWS = [M.scenery?.cartPark, ...(M.scenery?.cartParks || [])].filter(row => row?.line?.length >= 2);
+const GOLF_CART_LOADING = PROPS_ON && CART_ROWS.length
   ? loadGolfCart({ baseUrl: import.meta.env.BASE_URL }).catch(error => { console.warn('golf cart:', error.message); return null; })
   : Promise.resolve(null);
 /* Swans on the lakes (engine/swans.mjs, the swan built in Blender): a pair or
@@ -8669,9 +8671,12 @@ if (new URLSearchParams(location.search).get('lilies') !== '0') {
   }
   /* The cart fleet, in a row on the gravel where the course puts it: a body,
      a roof on four posts, and a windscreen -- the shape a golf cart is from
-     twenty metres. White with a blue one, like the club's own photograph. */
-  const CP = M.scenery.cartPark;
-  if (CP && CP.line && CP.line.length >= 2) {
+     twenty metres. White with a blue one, like the club's own photograph; a fleet
+     the photo shows all white says so (`fleet: 'white'`), and a course may keep
+     several rows (`cartParks`). */
+  const CARTS = [];            /* every row's modelled carts, drawn together */
+  stats.carts = 0;
+  for (const CP of CART_ROWS) {
     const [a, b] = [CP.line[0], CP.line[CP.line.length - 1]];
     const n = Math.max(1, CP.count || 6);
     let ux = b[0] - a[0], uz = b[1] - a[1]; const ul = Math.hypot(ux, uz) || 1; ux /= ul; uz /= ul;
@@ -8691,21 +8696,18 @@ if (new URLSearchParams(location.search).get('lilies') !== '0') {
        ?props=0 asks for the before */
     const cartParts = await GOLF_CART_LOADING;
     if (cartParts) {
-      const carts = [];
       for (let k = 0; k < n; k++) {
         const t = n === 1 ? 0.5 : k / (n - 1);
         const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
-        carts.push({ x: cx, y: terrainH(cx, cz), z: cz, ax: nx, az: nz,
-          colour: new THREE.Color().setRGB(...(k === n - 1 ? L(0x2f5fa8) : L(0xe9e9e6))) });
+        CARTS.push({ x: cx, y: terrainH(cx, cz), z: cz, ax: nx, az: nz,
+          colour: new THREE.Color().setRGB(...(k === n - 1 && CP.fleet !== 'white' ? L(0x2f5fa8) : L(0xe9e9e6))) });
       }
-      scene.add(placeGolfCarts(cartParts, carts));
-      stats.draws += 2;
     }
     for (let k = 0; k < (cartParts ? 0 : n); k++) {
       const t = n === 1 ? 0.5 : k / (n - 1);
       const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
       const y = terrainH(cx, cz);
-      const body = k === n - 1 ? L(0x2f5fa8) : L(0xe9e9e6);
+      const body = k === n - 1 && CP.fleet !== 'white' ? L(0x2f5fa8) : L(0xe9e9e6);
       box(cx, y + 0.28, cz, 1.2, 0.55, 2.3, body);
       box(cx, y + 0.28, cz, 1.25, 0.35, 0.9, L(0x1a1a1a));           /* the seat block */
       quad([cx + ux * -0.62 + nx * -0.9, y + 0.83, cz + uz * -0.62 + nz * -0.9], [cx + ux * 0.62 + nx * -0.9, y + 0.83, cz + uz * 0.62 + nz * -0.9],
@@ -8716,7 +8718,11 @@ if (new URLSearchParams(location.search).get('lilies') !== '0') {
       for (const dn of [-0.85, 0.85]) for (const du of [-0.55, 0.55])
         box(cx + ux * du + nx * dn, y + 0.02, cz + uz * du + nz * dn, 0.2, 0.45, 0.45, L(0x1a1a1a));
     }
-    stats.carts = n;
+    stats.carts += n;
+  }
+  if (CARTS.length) {
+    scene.add(placeGolfCarts(await GOLF_CART_LOADING, CARTS));
+    stats.draws += 2;
   }
   /* Motorhomes on a lot that says so (the ställplats west of Puttom's
      clubhouse): white boxes with a dark cab and a window band, nose to the
