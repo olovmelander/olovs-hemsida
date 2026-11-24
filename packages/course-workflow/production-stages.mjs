@@ -52,7 +52,36 @@ function terrainState(ctx) {
   return { ...document, resources };
 }
 
-export function compareFinest(ctx, compiled) {
+export function compareFinest(ctx, compiled, levels = null) {
+  if (!ctx.config.baselineGround) {
+    assert.equal(ctx.config.firstGenerationPolicy, 'initial-source-compilation',
+      'baselineGround: null requires firstGenerationPolicy: "initial-source-compilation"');
+    const level0 = levels?.find(l => l.lod === 0);
+    assert(level0, 'first-generation terrain verification requires raw LOD0 raster heights');
+    const seg = ctx.spec.tileSegments, side = level0.tilesPerSide * seg + 1;
+    let worst = 0, count = 0;
+    for (const tile of compiled.tiles.filter(t => t.lod === 0)) {
+      const b = verifyChunkAsset(tile.layers.terrain, compiled.resources.get(tile.layers.terrain.url));
+      const bh = decodeTerrainGrid(b.payload, b.header.grid);
+      const tileCol = Math.round((tile.bounds.minEasting - level0.originEasting) / (seg * level0.sampleSpacingMetres));
+      const tileRow = Math.round((level0.originNorthing - tile.bounds.maxNorthing) / (seg * level0.sampleSpacingMetres));
+      for (let r = 0; r <= seg; r++) {
+        for (let c = 0; c <= seg; c++) {
+          const raw = level0.heights[(tileRow * seg + r) * side + (tileCol * seg + c)];
+          const dec = bh[r * (seg + 1) + c];
+          assert(Number.isFinite(raw) && Number.isFinite(dec));
+          worst = Math.max(worst, Math.abs(raw - dec));
+          count++;
+        }
+      }
+    }
+    const tolerance = Math.max(0.0055, ctx.config.terrain.maximumBaselineDifferenceMetres);
+    assert(worst <= tolerance,
+      `initial LOD0 quantization residual ${worst} m exceeds ${tolerance} m`);
+    return { mode: 'initial-source-quantization-check', samples: count,
+      maximumDifferenceMetres: worst, toleranceMetres: tolerance,
+      note: 'Initial generation verified directly against pinned raw LOD0 Float32 samples (quantization bound only; not independent survey).' };
+  }
   const ground = readPinned(ctx.root, ctx.config.baselineGround);
   let worst = 0, count = 0;
   for (const previous of ground.tiles.filter(t => t.lod === 0)) {
@@ -80,7 +109,7 @@ async function terrain(ctx, out) {
   const levels = readRingLevels(ctx);
   const compiled = compileTerrainRings({ groundId: ctx.groundId, courseSlugs: ctx.spec.courseSlugs,
     levels, tileSegments: ctx.spec.tileSegments });
-  const comparison = compareFinest(ctx, compiled);
+  const comparison = compareFinest(ctx, compiled, levels);
   const document = { groundId: ctx.groundId, courseSlugs: [...ctx.spec.courseSlugs], frame: ctx.config.frame,
     bounds: compiled.bounds, shell: compiled.shell, tiles: compiled.tiles, resourceUrls: [...compiled.resources.keys()].sort() };
   assert.deepEqual(terrainErrors(document), []);
@@ -97,7 +126,7 @@ async function terrain(ctx, out) {
    the baseline generation's object and stand chunks */
 async function reviewedVegetation(ctx, out) {
   const ground = terrainState(ctx), c = ctx.config.vegetation, r = c.reviewed;
-  const baseline = readPinned(ctx.root, ctx.config.baselineGround);
+  const baseline = ctx.config.baselineGround ? readPinned(ctx.root, ctx.config.baselineGround) : null;
   const binary = (ref, Type) => {
     const bytes = fs.readFileSync(pinned(ctx.root, ref));
     return { sidecar: readJson(ctx.root, ref.path.replace(/\.bin$/, '.json')), values: new Type(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)) };
@@ -110,7 +139,9 @@ async function reviewedVegetation(ctx, out) {
     readJson(ctx.root, `${ctx.stageRoot}/mapping/models/${course.slug}.epsg3006.json`).geometry));
   /* the rebuilt terrain carries no object or stand layers: the retained and
      replaced records are the baseline generation's, on the same lattice */
-  const target = { ...ground, tiles: ground.tiles.map(tile => ({ ...tile, layers: { ...tile.layers, objects: baseline.tiles.find(t => t.id === tile.id)?.layers.objects ?? null, stands: baseline.tiles.find(t => t.id === tile.id)?.layers.stands ?? null } })) };
+  const target = { ...ground, tiles: ground.tiles.map(tile => ({ ...tile, layers: { ...tile.layers,
+    objects: baseline?.tiles.find(t => t.id === tile.id)?.layers.objects ?? null,
+    stands: baseline?.tiles.find(t => t.id === tile.id)?.layers.stands ?? null } })) };
   const result = await compileReviewedVegetation({ groundId: ctx.groundId, observedOn: c.observedOn,
     campaigns: readPinned(ctx.root, c.campaigns), rows: parseCandidateCsv(fs.readFileSync(pinned(ctx.root, r.candidates), 'utf8')),
     scope: r.scope, residual: { raster, labels: labels.values }, geometry, ground: target,
@@ -118,7 +149,7 @@ async function reviewedVegetation(ctx, out) {
   assert.equal(result.evidence.records.baseHeightMisses.length, 0, 'candidate tree bases missing terrain');
   writeCompilation(safePath(ctx.root, out), result);
   writeJson(ctx.root, `${out}/review-status.json`, { geographicApproval: false, mode: c.reviewMode, notes: c.reviewNote,
-    review: r.review, independentCanopyEvaluation: 'review-2026-11-08 benchmark (held-out gate not met; owner decision to publish)', humanZoneAReview: 'pending' });
+    review: r.review, independentCanopyEvaluation: 'reviewed-candidates-v1 (see review directory)', humanZoneAReview: 'pending' });
   return { records: result.records.length, standTiles: result.stands.chunks.length, geographicApproval: false };
 }
 
@@ -126,11 +157,11 @@ async function vegetation(ctx, out) {
   if (ctx.config.vegetation.reviewMode === 'reviewed-candidates-v1') return reviewedVegetation(ctx, out);
   const ground = terrainState(ctx), c = ctx.config.vegetation;
   assert.equal(c.reviewMode, 'machine-v1', 'unsupported review mode; implement its recorded approval adapter explicitly');
-  const baseline = readPinned(ctx.root, ctx.config.baselineGround);
-  const previous = baseline.tiles.flatMap(tile => {
+  const baseline = ctx.config.baselineGround ? readPinned(ctx.root, ctx.config.baselineGround) : null;
+  const previous = baseline ? baseline.tiles.flatMap(tile => {
     if (!tile.layers.objects) return [];
     return verifyChunkAsset(tile.layers.objects, asset(ctx, 'apps/golf/public', tile.layers.objects.url)).content.records;
-  });
+  }) : [];
   assert.equal(new Set(previous.map(x => x.id)).size, previous.length, 'duplicate baseline identities');
   const geometry = mergeCourseGeometries(ctx.config.courses.map(course =>
     readJson(ctx.root, `${ctx.stageRoot}/mapping/models/${course.slug}.epsg3006.json`).geometry));

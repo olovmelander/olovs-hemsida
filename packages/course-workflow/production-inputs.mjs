@@ -4,7 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { digest, fileDigest, readJson, safePath } from './io.mjs';
 import { ID, SHA } from './standard.mjs';
-import { ringSpecFor } from '../course-v2/ground-rings-registry.mjs';
+import { ringSpecFor, ringLevelExtent } from '../course-v2/ground-rings-registry.mjs';
 import { canonicalJson } from '../course-v2/canonical-json.mjs';
 import { validateSourceManifest } from '../course-geo/manifest.mjs';
 import { verifyChunkAsset } from '../course-v2/chunk-node.mjs';
@@ -18,7 +18,12 @@ export function loadProduction(root, groundId) {
   assert(ID.test(groundId), 'invalid ground identity');
   const configPath = `course-workflows/${groundId}/production.json`;
   const config = readJson(root, configPath);
-  keys(config, ['schemaVersion', 'groundId', 'visualSetup', 'frame', 'baselineGround', 'terrain', 'vegetation', 'courses', 'mappingEvidence', 'review'], configPath);
+  const initial = config?.baselineGround === null;
+  keys(config, ['schemaVersion', 'groundId', 'visualSetup', 'frame', 'baselineGround', ...(initial ? ['firstGenerationPolicy'] : []), 'terrain', 'vegetation', 'courses', 'mappingEvidence', 'review'], configPath);
+  if (initial) {
+    assert.equal(config.firstGenerationPolicy, 'initial-source-compilation',
+      'baselineGround: null requires explicit firstGenerationPolicy: "initial-source-compilation"');
+  }
   keys(config.terrain, ['directory', 'evidence', 'maximumBaselineDifferenceMetres'], 'terrain');
   /* two vegetation decision adapters: machine-v1 re-detects and machine-reviews
      the canopy rasters; reviewed-candidates-v1 imports a reviewed candidate
@@ -82,7 +87,7 @@ export function inputReferences(ctx) {
     ? [c.vegetation.reviewed.candidates, c.vegetation.reviewed.residualChm, c.vegetation.reviewed.residualLabels] : [];
   return [c.baselineGround, c.terrain.evidence, c.vegetation.campaigns, c.vegetation.evidence, ...reviewed,
     ...c.courses.flatMap(x => [x.model, x.card, x.heightfields, x.cover, ...Object.values(x.sidecars)].filter(Boolean)),
-    ...c.mappingEvidence, c.review.acquisition];
+    ...c.mappingEvidence, c.review.acquisition].filter(Boolean);
 }
 
 export function rasterInputs(ctx) {
@@ -104,7 +109,11 @@ export function rasterInputs(ctx) {
   /* an active item that reaches no finest tile of the ground (a 2.5 km
      re-tiling lists neighbours that only touch the AOI) has no canopy to
      measure; every item that does reach the ground needs evidence */
-  const finest = c.baselineGround ? readPinned(ctx.root, c.baselineGround).tiles.filter(tile => tile.lod === 0) : null;
+  const core0 = ctx.spec.levels[0];
+  const core0Bounds = core0 ? ringLevelExtent(core0, ctx.spec.tileSegments) : null;
+  const finest = c.baselineGround
+    ? readPinned(ctx.root, c.baselineGround).tiles.filter(tile => tile.lod === 0)
+    : core0Bounds ? [{ bounds: core0Bounds }] : null;
   const reaches = item => !finest || !item?.projBbox || finest.some(tile => tile.bounds.minEasting < item.projBbox[2] &&
     tile.bounds.maxEasting > item.projBbox[0] && tile.bounds.minNorthing < item.projBbox[3] && tile.bounds.maxNorthing > item.projBbox[1]);
   const items = new Map((campaigns.items || []).map(item => [item.id, item]));
@@ -136,11 +145,15 @@ export function inspectInputs(ctx) {
   });
   for (const ref of inputReferences(ctx)) check(ref.path, () => pinned(root, ref));
   for (const a of source?.artifacts || []) check(a.path, () => pinned(root, { path: a.path, sha256: a.sha256 }));
-  check('baseline frame', () => assert.deepEqual(readPinned(root, config.baselineGround).frame, config.frame));
-  check('baseline resource inventory', () => {
-    for (const ref of baselineAssets(ctx)) check(`apps/golf/public/${ref.url}`, () =>
-      verifyChunkAsset(ref, fs.readFileSync(safePath(root, `apps/golf/public/${ref.url}`))));
-  });
+  if (config.baselineGround) {
+    check('baseline frame', () => assert.deepEqual(readPinned(root, config.baselineGround).frame, config.frame));
+    check('baseline resource inventory', () => {
+      for (const ref of baselineAssets(ctx)) check(`apps/golf/public/${ref.url}`, () =>
+        verifyChunkAsset(ref, fs.readFileSync(safePath(root, `apps/golf/public/${ref.url}`))));
+    });
+  } else {
+    check('first-generation policy', () => assert.equal(config.firstGenerationPolicy, 'initial-source-compilation'));
+  }
   let rasters = [];
   check('raster inventory', () => { rasters = rasterInputs(ctx); });
   for (const ref of rasters) {
@@ -171,7 +184,10 @@ export function validateCanopySidecar(ctx, ref, sidecar) {
     sidecar.originEasting + sidecar.width, sidecar.originNorthing];
   assert(extent[0] <= west && extent[1] <= south && extent[2] >= east && extent[3] >= north,
     'canopy sidecar does not cover its measured tile inventory');
-  const core = ctx.spec.levels[0], world = readPinned(ctx.root, ctx.config.baselineGround).bounds;
+  const core = ctx.spec.levels[0];
+  const world = ctx.config.baselineGround
+    ? readPinned(ctx.root, ctx.config.baselineGround).bounds
+    : ringLevelExtent(ctx.spec.levels.at(-1), ctx.spec.tileSegments);
   // Historical acquisitions use either the world rectangle or --tight-grid.
   // Campaign totals count only intersected cells and are NOT raster dimensions.
   const allowed = [[core.originEasting, core.originNorthing - 4096, core.originEasting + 4096, core.originNorthing],
@@ -182,6 +198,7 @@ export function validateCanopySidecar(ctx, ref, sidecar) {
 }
 
 export function baselineAssets(ctx) {
+  if (!ctx.config.baselineGround) return [];
   const ground = readPinned(ctx.root, ctx.config.baselineGround);
   assert.deepEqual(ground.frame, ctx.config.frame);
   return ground.tiles.flatMap(t => [t.lod === 0 ? t.layers.terrain : null, t.layers.objects].filter(Boolean));

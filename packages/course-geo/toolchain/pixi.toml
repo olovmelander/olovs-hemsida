@@ -12,6 +12,7 @@ libpdal-core = "==2.10.2"
 
 [feature.mapping.dependencies]
 python = ">=3.12,<3.13"
+libblas = { version = "*", build = "*openblas" }
 pillow = ">=12.3.0,<14"
 numpy = ">=2.3,<3"
 rasterio = ">=1.4.3,<2"
