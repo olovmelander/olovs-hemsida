@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "visualSetup": "v2-ghibli",
+  "frame": {
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "origin": {
+      "easting": 649094.5,
+      "heightRH2000": 4.76,
+      "northing": 6598568.5
+    },
+    "verticalCrs": "EPSG:5613",
+    "fingerprint": "c4b165ba2fa965cb58fcfe59c4bf410c48f03a00bc9cc5c9d23574b93bdc88d0"
+  },
+  "baselineGround": null,
+  "firstGenerationPolicy": "initial-source-compilation",
+  "terrain": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings",
+    "evidence": {
+      "path": "geo_data/course-v2/bro-hof/acquisition/ground-rings.json",
+      "sha256": "57ae4f9068adb83e40b0e5386b09761c6fcc2b33f9b6e6537158e138d2e3e5a6"
+    },
+    "maximumBaselineDifferenceMetres": 0.011
+  },
+  "vegetation": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation",
+    "campaigns": {
+      "path": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
+      "sha256": "ba2a5bca637a4eff58690c7c0a6eaa5057172f35a65e4a834cf4838c4610b9eb"
+    },
+    "evidence": {
+      "path": "geo_data/course-v2/bro-hof/vegetation/canopy-evidence.json",
+      "sha256": "1955b17de66127c6066716f0caffc4c5d403bdf7b7ad63506320ec3d9d2b3215"
+    },
+    "reviewMode": "machine-v1",
+    "observedOn": "2026-11-24",
+    "reviewNote": "First generation: machine-v1 crowns and stands from Laserdata Skog (2020-11-06 and 2021-03/04), before the tree pipeline (course-workflows/bro-hof/trees.json) has placed and scored individual trees."
+  },
+  "courses": [
+    {
+      "slug": "bro-hof-stadium",
+      "holes": 18,
+      "model": {
+        "path": "brohofbuild/course-model.json",
+        "sha256": "dd8e2d6a58381b8d4bc89c438c0bbee1b9a3053c57caf9bce2e5b2f5923f7eba"
+      },
+      "heightfields": {
+        "path": "brohofbuild/heightfields.json",
+        "sha256": "c7926a0445039e08bb810d04551e19de4e81f6cadee30a5734be4b990be5795d"
+      },
+      "card": {
+        "path": "brohofbuild/card.json",
+        "sha256": "92a8f39d028c19147a9264dfd2e2e21dcae8a74cc155692b4dd1d9d359aa9cc2"
+      },
+      "cover": null,
+      "strokeIndexStatus": "verified",
+      "accuracyTier": "unrated",
+      "player": {
+        "slug": "bro-hof-stadium",
+        "name": "Bro Hof Stadium",
+        "club": "Bro Hof Slott Golf Club",
+        "title": "Bro Hof Slott GC — The Stadium Course i 3D",
+        "tag": "The Stadium Course",
+        "boot": "Bro · Mälaren",
+        "build": "brohofbuild",
+        "tees": {
+          "names": [
+            "Svart",
+            "Vit",
+            "Gul",
+            "Blå",
+            "Röd"
+          ],
+          "cols": [
+            1710618,
+            16053486,
+            15780154,
+            4886496,
+            14702410
+          ],
+          "hideFrom": 5,
+          "def": 2
+        }
+      },
+      "sidecars": {
+        "landcover": {
+          "path": "brohofbuild/landcover.json",
+          "sha256": "da0daae6aac5b63c2744b2bbd80bc0b9546a2b9f6d0e3da2bbcb8a09c457b1aa"
+        }
+      }
+    },
+    {
+      "slug": "bro-hof-castle",
+      "holes": 18,
+      "model": {
+        "path": "brohofcastlebuild/course-model.json",
+        "sha256": "95bbcfe63a5d2f45138ec7adc7ca4a67c2b82f95445d5e95836debd3777845e6"
+      },
+      "heightfields": {
+        "path": "brohofcastlebuild/heightfields.json",
+        "sha256": "c7926a0445039e08bb810d04551e19de4e81f6cadee30a5734be4b990be5795d"
+      },
+      "card": {
+        "path": "brohofcastlebuild/card.json",
+        "sha256": "c2c9d5a28b8681a534be7c21b09127276b9656112c9938bf863e9f1dd01637b7"
+      },
+      "cover": null,
+      "strokeIndexStatus": "verified",
+      "accuracyTier": "unrated",
+      "player": {
+        "slug": "bro-hof-castle",
+        "name": "Bro Hof Castle",
+        "club": "Bro Hof Slott Golf Club",
+        "title": "Bro Hof Slott GC — The Castle Course i 3D",
+        "tag": "The Castle Course",
+        "boot": "Bro · Mälaren",
+        "build": "brohofcastlebuild",
+        "tees": {
+          "names": [
+            "Vit",
+            "Gul",
+            "Blå",
+            "Röd"
+          ],
+          "cols": [
+            16053486,
+            15780154,
+            4886496,
+            14702410
+          ],
+          "hideFrom": 4,
+          "def": 1
+        }
+      },
+      "sidecars": {
+        "landcover": {
+          "path": "brohofcastlebuild/landcover.json",
+          "sha256": "da0daae6aac5b63c2744b2bbd80bc0b9546a2b9f6d0e3da2bbcb8a09c457b1aa"
+        }
+      }
+    }
+  ],
+  "mappingEvidence": [
+    {
+      "path": "brohofbuild/mapping/decisions.json",
+      "sha256": "600e8679b44d91508c892fc26131d66ae8edb2245909da161069d4a904fe7ad2"
+    },
+    {
+      "path": "brohofbuild/mapping/sand-decisions.json",
+      "sha256": "ed074d929b156bd0add9fe3b968d594c36b319965bdc266dffde8469afd73acf"
+    },
+    {
+      "path": "brohofbuild/mapping/layer-decisions.json",
+      "sha256": "1c46046433f14422aa9a4dadacf12c40791411f15355067e19e0baf2c6905467"
+    },
+    {
+      "path": "brohofbuild/mapping/trace-report.json",
+      "sha256": "10d7ee6a1ff06d6d053fb4b920ea7f023c90a9402f091897a8cabf42e85008a0"
+    },
+    {
+      "path": "brohofcastlebuild/mapping/decisions.json",
+      "sha256": "33e4ab0a56d180eeeeb211b4de0f63ddd6b75badf504e1a05f3d830cc18d3a09"
+    },
+    {
+      "path": "brohofcastlebuild/mapping/trace-report.json",
+      "sha256": "771cbf20fe942e94f0c87255a8d21eb85775ccbbf8b5ac2bbde49227999c9072"
+    },
+    {
+      "path": "brohofbuild/reference/club-scorecard.json",
+      "sha256": "fbfd2159b885e951955aeed5413fb68a5a0d15636177f0838dc22905decf2f76"
+    },
+    {
+      "path": "brohofcastlebuild/reference/club-scorecard.json",
+      "sha256": "091b94a9289514f376b9f6245dffb5ea901f73c8935d87e6ca081fbf0ed1ae29"
+    }
+  ],
+  "review": {
+    "sourceDirectory": "brohofbuild/cache/ortho/2025",
+    "captureBackend": [
+      "webgpu",
+      "webgl2"
+    ],
+    "captureQuality": [
+      "hi",
+      "lo"
+    ],
+    "capturePresets": [
+      "noon",
+      "golden"
+    ],
+    "notes": "Imagery source pixels and captures stay local. Empty or unknown categories require review; counts never approve geography.",
+    "acquisition": {
+      "path": "geo_data/course-v2/bro-hof/acquisition/orthophoto-review.json",
+      "sha256": "9c6e751cde8cdfb1b6a33604b12e533c73df06b046d9f989a81da7dfc0854d43"
+    }
+  }
+}

@@ -1,5 +1,5 @@
 const GEOMETRY_KEYS = new Set([
-  'ring', 'rings', 'line', 'c', 'displayC', 'referenceSurfaceRing', 'pin', 'pts', 'boundary',
+  'ring', 'rings', 'innerRings', 'line', 'c', 'displayC', 'referenceSurfaceRing', 'pin', 'pts', 'boundary',
   'forest', 'rock', 'scrub', 'wetland', 'wood', 'sand',
   'range', 'greens', 'fairways', 'tees', 'bunkers', 'grass',
   'poles', 'towers', 'yard', 'hayfields', 'shallows', 'clearfells',

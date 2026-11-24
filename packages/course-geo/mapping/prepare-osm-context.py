@@ -59,6 +59,8 @@ def main():
         if f['id'] in drop:
             continue
         tags = {k: v for k, v in (f['properties'].get('tags') or {}).items() if k in KEEP}
+        # what the ground's own sources say of a feature OSM only outlines (the castle is the clubhouse)
+        tags.update(cfg.get('tagOverrides', {}).get(f['id'], {}))
         g = shape(f['geometry'])
         if tags.get('building'):
             for k, p in enumerate(polygons(g)):

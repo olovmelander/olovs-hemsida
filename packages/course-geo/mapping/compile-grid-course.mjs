@@ -492,6 +492,7 @@ export function compileGridCourse({
             h: Number.parseFloat(t.height) || (Number.parseFloat(t['building:levels']) > 0 ? Math.round((Number.parseFloat(t['building:levels']) * 2.8 + 1.2) * 10) / 10 : null),
             kind: t.building,
             name: t.name || null,
+            ...(t.amenity ? { amenity: t.amenity } : {}),
             historic: t.historic || null,
             heightStatus: t.height ? 'OSM-tag-unverified' : 'generic-rendering-height-not-measured',
           });

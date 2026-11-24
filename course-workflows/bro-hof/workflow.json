@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "standard": "banvy-course-production-v1",
+  "groundId": "bro-hof",
+  "name": "Bro Hof Slott Golf Club",
+  "courses": [
+    {
+      "slug": "bro-hof-stadium",
+      "holes": 18
+    },
+    {
+      "slug": "bro-hof-castle",
+      "holes": 18
+    }
+  ],
+  "releasePolicy": "required",
+  "sourceManifest": "geo_data/course-v2/bro-hof/source-manifest.json",
+  "publicRoot": "output/course-workflow/bro-hof/public",
+  "reviewFile": "course-workflows/bro-hof/review.json",
+  "watch": [
+    "apps/golf/src",
+    "packages/course-v2",
+    "packages/course-pack",
+    "packages/course-geo",
+    "packages/course-workflow",
+    "pnpm-lock.yaml",
+    "brohofbuild",
+    "brohofcastlebuild",
+    "course-workflows/bro-hof/production.json",
+    "geobuild/mapping",
+    "geobuild/lib.mjs",
+    "tools/build-startup-packs.mjs",
+    "packages/course-geo/toolchain/pixi.lock"
+  ],
+  "stages": {
+    "sources": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "bro-hof",
+        "--stage",
+        "sources"
+      ],
+      "inputs": [
+        "brohofbuild/card.json",
+        "brohofbuild/course-model.json",
+        "brohofbuild/heightfields.json",
+        "brohofbuild/landcover.json",
+        "brohofbuild/mapping/decisions.json",
+        "brohofbuild/mapping/layer-decisions.json",
+        "brohofbuild/mapping/sand-decisions.json",
+        "brohofbuild/mapping/trace-report.json",
+        "brohofbuild/reference/club-scorecard.json",
+        "brohofcastlebuild/card.json",
+        "brohofcastlebuild/course-model.json",
+        "brohofcastlebuild/heightfields.json",
+        "brohofcastlebuild/landcover.json",
+        "brohofcastlebuild/mapping/decisions.json",
+        "brohofcastlebuild/mapping/trace-report.json",
+        "brohofcastlebuild/reference/club-scorecard.json",
+        "course-workflows/bro-hof/production.json",
+        "geo_data/course-v2/bro-hof/acquisition/d2-discovery.json",
+        "geo_data/course-v2/bro-hof/acquisition/ground-rings.json",
+        "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
+        "geo_data/course-v2/bro-hof/acquisition/microterrain-summary.json",
+        "geo_data/course-v2/bro-hof/acquisition/orthophoto-review.json",
+        "geo_data/course-v2/bro-hof/source-manifest.json",
+        "geo_data/course-v2/bro-hof/vegetation/canopy-evidence.json",
+        "geo_data/course-v2/source-catalog.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l0.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l1.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l2.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l3.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l4.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l5.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l6.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-20c028-65950-6475-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-20c028-65950-6475-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-20c028-65975-6475-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-20c028-65975-6475-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c031-65950-6500-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c031-65950-6500-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c031-65975-6500-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c031-65975-6500-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c037-66000-6475-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c037-66000-6475-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c038-66000-6500-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c038-66000-6500-25.json"
+      ],
+      "outputs": [
+        "output/course-workflow/bro-hof/stages/sources"
+      ]
+    },
+    "terrain": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "bro-hof",
+        "--stage",
+        "terrain"
+      ],
+      "inputs": [
+        "course-workflows/bro-hof/production.json",
+        "output/course-workflow/bro-hof/stages/sources",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l0.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l1.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l2.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l3.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l4.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l5.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l6.f32"
+      ],
+      "outputs": [
+        "output/course-workflow/bro-hof/stages/terrain"
+      ]
+    },
+    "mapping": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "bro-hof",
+        "--stage",
+        "mapping"
+      ],
+      "inputs": [
+        "brohofbuild/card.json",
+        "brohofbuild/course-model.json",
+        "brohofbuild/heightfields.json",
+        "brohofbuild/landcover.json",
+        "brohofbuild/mapping/decisions.json",
+        "brohofbuild/mapping/layer-decisions.json",
+        "brohofbuild/mapping/sand-decisions.json",
+        "brohofbuild/mapping/trace-report.json",
+        "brohofbuild/reference/club-scorecard.json",
+        "brohofcastlebuild/card.json",
+        "brohofcastlebuild/course-model.json",
+        "brohofcastlebuild/heightfields.json",
+        "brohofcastlebuild/landcover.json",
+        "brohofcastlebuild/mapping/decisions.json",
+        "brohofcastlebuild/mapping/trace-report.json",
+        "brohofcastlebuild/reference/club-scorecard.json",
+        "course-workflows/bro-hof/production.json",
+        "geo_data/course-v2/bro-hof/source-manifest.json",
+        "output/course-workflow/bro-hof/stages/sources",
+        "output/course-workflow/bro-hof/stages/terrain"
+      ],
+      "outputs": [
+        "output/course-workflow/bro-hof/stages/mapping"
+      ]
+    },
+    "vegetation": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "bro-hof",
+        "--stage",
+        "vegetation"
+      ],
+      "inputs": [
+        "course-workflows/bro-hof/production.json",
+        "output/course-workflow/bro-hof/stages/mapping",
+        "output/course-workflow/bro-hof/stages/sources",
+        "output/course-workflow/bro-hof/stages/terrain",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-20c028-65950-6475-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-20c028-65950-6475-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-20c028-65975-6475-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-20c028-65975-6475-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c031-65950-6500-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c031-65950-6500-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c031-65975-6500-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c031-65975-6500-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c037-66000-6475-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c037-66000-6475-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c038-66000-6500-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation/chm-21c038-66000-6500-25.json"
+      ],
+      "outputs": [
+        "output/course-workflow/bro-hof/stages/vegetation"
+      ]
+    },
+    "assemble": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "bro-hof",
+        "--stage",
+        "assemble"
+      ],
+      "inputs": [
+        "course-workflows/bro-hof/production.json",
+        "output/course-workflow/bro-hof/stages/mapping",
+        "output/course-workflow/bro-hof/stages/sources",
+        "output/course-workflow/bro-hof/stages/terrain",
+        "output/course-workflow/bro-hof/stages/vegetation"
+      ],
+      "outputs": [
+        "output/course-workflow/bro-hof/public"
+      ]
+    },
+    "validate": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "bro-hof",
+        "--stage",
+        "validate"
+      ],
+      "inputs": [
+        "course-workflows/bro-hof/production.json",
+        "output/course-workflow/bro-hof/public",
+        "output/course-workflow/bro-hof/stages/mapping",
+        "output/course-workflow/bro-hof/stages/sources"
+      ],
+      "outputs": [
+        "output/course-workflow/bro-hof/stages/validate"
+      ]
+    }
+  },
+  "performance": {
+    "maxRegressionPercent": 10,
+    "maxColdLoadMs": 10000,
+    "maxFrameP95Ms": {
+      "webgpu": 20,
+      "webgl2": 33.4,
+      "mobile": 33.4
+    }
+  }
+}
