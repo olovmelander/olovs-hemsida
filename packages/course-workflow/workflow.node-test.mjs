@@ -211,8 +211,11 @@ test('an owner acceptance admits one named generation, names every open item and
   w.releasePolicy = 'advisory';
   const admit = () => admitAccepted(root, w, { publicRoot });
   assert.match(admit().errors[0], /recorded owner acceptance/);
-  assert.deepEqual(openItems(root, w, { publicRoot }).items, ['release-review']); // the fixture's review belongs to its mandatory candidate
+  writeJson(root, w.reviewFile, { ...readJson(root, w.reviewFile), performance: [] });
+  assert.deepEqual(openItems(root, w, { publicRoot }).items, ['release-review']); // nobody measured it
   const graph = candidate(root, w, { publicRoot });
+  // CI has none of the private inputs the build read; the acceptance needs the published ground alone
+  for (const stage of Object.values(w.stages)) for (const input of stage.inputs) fs.rmSync(safePath(root, input), { force: true });
   const acceptance = { schemaVersion: 1, groundId: w.groundId, courses: ['fixture-main'], groundManifestSha256: graph.courses[0].groundManifest.sha256,
     decision: 'admit-as-advisory', acceptedBy: 'owner', acceptedOn: '2026-11-24', basis: 'Synthetic test acceptance.', open: { 'release-review': 'not reviewed' } };
   const write = change => { const a = structuredClone(acceptance); change?.(a); writeJson(root, acceptancePath(w.groundId), a); };
