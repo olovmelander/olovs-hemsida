@@ -23,6 +23,7 @@ export const PIPELINE_CODE = Object.freeze([
   'tools/tree-pipeline/geometry.mjs',
   'tools/tree-pipeline/acquire.mjs',
   'tools/tree-pipeline/canopy.mjs',
+  'tools/tree-pipeline/laser-parts.mjs',
   'tools/tree-pipeline/detect.mjs',
   'tools/tree-pipeline/verify.mjs',
   'tools/tree-pipeline/reference.mjs',

@@ -64,6 +64,7 @@ export function postPromotionBakePlan(ctx, { skipGpuBakes = false, allCourses = 
     ...(skipGpuBakes ? [] : [
       { id: 'ground-tints', command: ['node', 'tools/bake-ground-tints.mjs', ...onlyArg] },
       { id: 'prepared-water', command: ['node', 'tools/bake-water.mjs', ...onlyArg] },
+      { id: 'prepared-vista', command: ['node', 'tools/bake-vista.mjs', ...onlyArg] }, // the far vista and the scatter
     ]),
   ];
 }

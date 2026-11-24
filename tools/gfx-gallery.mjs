@@ -32,6 +32,9 @@ export const GALLERY = [
   { id: 'visby-h1-fritt-dag', slug: 'visby', hole: 1, vy: 'fritt', ljus: 'dag' },
   { id: 'ribbingsfors-h3-tee-host', slug: 'ribbingsfors', hole: 3, vy: 'tee', ljus: 'host' },
   { id: 'lidingo-h1-ovan-dag', slug: 'lidingo', hole: 1, vy: 'ovan', ljus: 'dag' },
+  { id: 'bro-hof-stadium-h18-green-dag', slug: 'bro-hof-stadium', hole: 18, vy: 'green', ljus: 'dag' },
+  { id: 'bro-hof-stadium-h17-tee-kvall', slug: 'bro-hof-stadium', hole: 17, vy: 'tee', ljus: 'kvall' },
+  { id: 'bro-hof-castle-h9-ovan-sommar', slug: 'bro-hof-castle', hole: 9, vy: 'ovan', ljus: 'sommar' },
 ];
 
 const args = process.argv.slice(2);

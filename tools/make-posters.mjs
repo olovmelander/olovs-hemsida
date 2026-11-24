@@ -126,6 +126,10 @@ const PLAN = {
   visby:                           { sig: 18, s2: 6, s3: 1 },
   tortuna:                         { sig: 4, s2: 11, s3: 18 },
   lidingo:                         { sig: 2, s2: 16, s3: 18 },
+  /* Stadium's island 17th, the home hole below the castle, the lake along 15. Castle's
+     largest sand (10), the waste carry on 4 and the home hole round its pond. */
+  'bro-hof-stadium':               { sig: 17, s2: 18, s3: 15 },
+  'bro-hof-castle':                { sig: 10, s2: 4, s3: 18 },
 };
 
 /* Eight framings per course: the signature hole from all four cameras, then the
@@ -273,6 +277,20 @@ const POSTERS = {
     { hole: 4, cam: 'orbit', preset: 'golden' },
     { hole: 11, cam: 'orbit', preset: 'golden' },
     { clubhouse: true, turn: 0, preset: 'golden' },
+  ],
+  'bro-hof-stadium': [
+    { hole: 17, cam: 'orbit', preset: 'golden' },
+    { hole: 18, cam: 'orbit', preset: 'golden' },
+    { hole: 15, cam: 'orbit', preset: 'golden' },
+    { hole: 17, cam: 'top', preset: 'noon' },
+    { clubhouse: true, turn: 0, preset: 'golden' },
+  ],
+  'bro-hof-castle': [
+    { hole: 10, cam: 'orbit', preset: 'golden' },
+    { hole: 4, cam: 'orbit', preset: 'golden' },
+    { hole: 18, cam: 'orbit', preset: 'host' },
+    { hole: 8, cam: 'top', preset: 'noon' },
+    { clubhouse: true, turn: 55, preset: 'golden' },
   ],
   /* the par 3 by the pond leads, then home on 18, the drop on the 2nd */
   lidingo: [

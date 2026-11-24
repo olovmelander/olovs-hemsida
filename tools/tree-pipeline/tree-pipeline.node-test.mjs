@@ -9,7 +9,8 @@ import { forbiddenSource, laserPolicyProblems, orthoPolicyProblems, safeOrthoUrl
 import { photoEvidenceKey, photoLabel, shadowEvidenceKey } from './crown-evidence.mjs';
 import { poleLike } from './candidates.mjs';
 import { leafOffClass, strataWarnings, stratumOf } from './detect.mjs';
-import { terrainVerdict } from './canopy.mjs';
+import { campaignSurfaces, terrainVerdict } from './canopy.mjs';
+import { composeByOwner, laserPartProblems, laserParts, partBoxes, partIndexAt, partOwners } from './laser-parts.mjs';
 import { mergeChecklist, openItems } from './review.mjs';
 import { publicationBlockers } from './publish.mjs';
 import { parseArgs } from '../tree-pipeline.mjs';
@@ -668,4 +669,66 @@ test('type rule: a broadleaf call may also need a crown in leaf in the presence 
   assert.equal(report.gate.method, 'r1-typed');
   assert.equal(report.gate.measured.scored, 112);
   assert.ok(report.gate.measured.precision >= 0.9 && report.gate.measured.recall >= 0.9);
+});
+
+test('two laser campaigns: laser.parts partitions the items, and one campaign needs none', () => {
+  const config = johannesberg();
+  const [a, b, ...rest] = config.laser.items;
+  assert.deepEqual(laserParts(config.laser).map(p => p.campaign), [config.laser.campaign]);
+  assert.deepEqual(laserPartProblems(config.laser), []);
+  const part = (campaign, items) => ({ campaign, capturedOn: '2021-04-17', leafState: 'leaf-off', label: `${campaign} 2021-04-17 leaf-off`, items });
+  const two = { ...config, laser: { ...config.laser, parts: [part('A', [a, b]), part('B', rest)] } };
+  assert.deepEqual(validateGroundConfig(two, { groundId: 'johannesberg' }), []);
+  const problems = parts => validateGroundConfig({ ...config, laser: { ...config.laser, parts } }, { groundId: 'johannesberg' });
+  assert.ok(problems([part('A', config.laser.items)]).some(p => /two or more campaigns/.test(p)));
+  assert.ok(problems([part('A', [a]), part('B', rest)]).some(p => /leaves out laser item/.test(p)));
+  assert.ok(problems([part('A', [a, b]), part('B', [b, ...rest])]).some(p => /already in laser.parts\[0\]/.test(p)));
+  assert.ok(problems([part('A', [a, b]), part('A', rest)]).some(p => /listed twice/.test(p)));
+  assert.ok(problems([part('A', [a, b, 'other']), part('B', rest)]).some(p => /not in laser.items/.test(p)));
+  assert.ok(problems([{ ...part('A', [a, b]), capturedOn: '2021' }, part('B', rest)]).some(p => /YYYY-MM-DD/.test(p)));
+  const boxes = partBoxes(two.laser, JSON.parse(fs.readFileSync(path.join(ROOT, config.laser.campaigns), 'utf8')));
+  assert.equal(boxes.length, 2);
+  assert.equal(boxes[0].boxes.length, 2);
+});
+
+test('two laser campaigns: no ground, height or canopy is averaged across the seam', () => {
+  /* campaign A west of x = 10 with its ground at 100 m, B east of it with its ground at 103 m: a 3 m step a mean would smear */
+  const parts = [{ campaign: 'A', items: ['a'], boxes: [[0, 0, 10, 20]] }, { campaign: 'B', items: ['b'], boxes: [[10, 0, 20, 20]] }];
+  assert.equal(partIndexAt(parts, 9.999, 5), 0);
+  assert.equal(partIndexAt(parts, 10, 5), 1);
+  assert.equal(partIndexAt(parts, 25, 5), -1);
+  const ground1 = { minEasting: 0.5, maxNorthing: 20, width: 19, height: 20, sampleSpacingMetres: 1 };
+  const grid = { minEasting: 0.5, maxNorthing: 20, width: 38, height: 40, sampleSpacingMetres: 0.5 };
+  /* the 1 m cell 9.5-10.5 straddles the seam; its centre is the seam, which is B's */
+  assert.equal(partOwners(ground1, parts)[9], 1);
+  assert.equal(partOwners(ground1, parts)[8], 0);
+  const cloud = (x0, x1, ground, crown) => {
+    const list = [];
+    for (let x = x0 + 0.25; x < x1; x += 0.5) for (let y = 0.25; y < 20; y += 0.5) {
+      const canopy = crown && Math.abs(x - 10) < 3 && Math.abs(y - 10) < 3;
+      list.push({ x, y, z: canopy ? ground + 8 : ground, c: canopy ? 1 : 2 });
+      if (canopy) list.push({ x, y, z: ground, c: 2 });
+    }
+    return list;
+  };
+  const build = crown => {
+    const a = cloud(0, 10, 100, crown), b = cloud(10, 20, 103, crown), all = [...a, ...b];
+    const points = { count: all.length, x: Float64Array.from(all, p => p.x), y: Float64Array.from(all, p => p.y), z: Float32Array.from(all, p => p.z), classification: Uint8Array.from(all, p => p.c), returnNumber: new Uint8Array(all.length).fill(1), numberOfReturns: new Uint8Array(all.length).fill(1), intensity: new Uint16Array(all.length) };
+    return { points, surfaces: campaignSurfaces({ grid, ground1, points, parts, readItems: [{ id: 'a', count: a.length }, { id: 'b', count: b.length }] }), a };
+  };
+  const open = build(false).surfaces;
+  for (let i = 0; i < open.mean.length; i++) if (!Number.isNaN(open.ground[i])) assert.ok(open.ground[i] === 100 || open.ground[i] === 103, `ground ${open.ground[i]} is one campaign's, never a mean of both`);
+  assert.equal(open.ground[9], 103);
+  assert.equal(open.ground[8], 100);
+  assert.ok([...open.hag].every(h => h === 0));
+  const { points, surfaces, a } = build(true);
+  for (let i = 0; i < points.count; i++) if (points.classification[i] === 1) assert.ok(Math.abs(surfaces.hag[i] - 8) < 1e-4, 'a crown astride the seam keeps its height on both sides');
+  const at = (x, y) => surfaces.pitFree.values[Math.floor((20 - y) / 0.5) * grid.width + Math.floor((x - 0.5) / 0.5)];
+  assert.ok(Math.abs(at(9.75, 10) - 8) < 1e-4 && Math.abs(at(10.25, 10) - 8) < 1e-4);
+  assert.equal(surfaces.raster.all.reduce((s, v) => s + v, 0), [...points.x].filter(x => x >= 0.5 && x < 19.5).length);
+  assert.deepEqual(surfaces.pointsByPart, [a.length, points.count - a.length]);
+  /* one part is the plain path */
+  const one = campaignSurfaces({ grid, ground1, points, parts: [parts[0]], readItems: [{ id: 'a', count: points.count }] });
+  assert.equal(one.owner1, undefined);
+  assert.deepEqual([...composeByOwner(Uint8Array.of(0, 1, 255), [Float32Array.of(1, 2, 3), Float32Array.of(4, 5, 6)], -9)], [1, 5, -9]);
 });

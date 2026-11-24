@@ -133,7 +133,7 @@ export async function acquireClubSources({
     try {
       const res = await fetchImpl(parsedUrl.href, {
         headers: {
-          'User-Agent': 'BanvyCourseGeoIntake/1.0 (+https://github.com/olovmelander/olovs-hemsida)',
+          'User-Agent': 'course-geo-intake/1.0',
           ...(item.headers || {}),
         },
         signal: AbortSignal.timeout(timeoutMs),

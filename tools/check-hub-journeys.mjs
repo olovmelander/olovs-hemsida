@@ -187,7 +187,8 @@ try {
   await offline.locator('.hub-ready').waitFor();
   await offline.goto(base + '#karta');
   await offline.locator('.card-item:visible').first().waitFor();
-  assert.equal(await offline.locator('.card-item:visible').count(), 13);
+  const published = (await (await fetch(new URL('courses/index.json', base))).json()).courses.length;
+  assert.equal(await offline.locator('.card-item:visible').count(), published, 'every published layout is listed');
   assert.deepEqual(errors, []);
   console.log('PASS · searchable layouts, restorable setup, exact guide preview, bag draft and catalogue recovery');
 } finally { await browser.close(); }

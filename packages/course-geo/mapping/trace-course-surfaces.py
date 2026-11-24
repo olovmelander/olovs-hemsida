@@ -156,20 +156,25 @@ def trace_course(course, ctx):
                 start, src = tt.largest(osm[spec['id']][1]), f"osm:{spec['id']}"
             elif spec['src'] == 'ellipse':
                 start, src = tt.ellipse(spec['c'], *spec['size'], spec['rot']), 'reviewed-ellipse'
+            elif spec['src'] == 'ring':
+                start, src = Polygon(spec['ring']), 'reviewed-ring'
             else:
                 q = min(platforms, key=lambda p: p['polygon'].distance(Point(spec['at'])) + 0.02 * p['polygon'].centroid.distance(Point(spec['at'])))
                 if q['polygon'].distance(Point(spec['at'])) > 4:
                     raise SystemExit(f'hole {n}: no terrain platform at {spec["at"]}')
                 start, src = q['polygon'], 'terrain-platform'
-            poly, st = tt.refine_ring(imagery, start, spec.get('reach', 2.2), ds=0.5, inside_m=0.6, gap_m=0.9, outside_m=3.2,
-                                      smooth_m=0.5, stiffness=0.9)
-            keep = poly is not None and st['dPrime'] >= 1.0 and st['weakShare'] <= 0.5 and 0.5 < poly.area / start.area < 1.9
+            reach = spec.get('reach', 0.9 if spec['src'] == 'ring' else 2.2)
+            poly, st = (start, dict(dPrime=0.0, weakShare=1.0, kept='as-drawn')) if reach == 0 else tt.refine_ring(
+                imagery, start, reach, ds=0.5, inside_m=0.6, gap_m=0.9, outside_m=3.2, smooth_m=0.5, stiffness=0.9)
+            keep = reach == 0 or (poly is not None and st['dPrime'] >= 1.0 and st['weakShare'] <= 0.5 and 0.5 < poly.area / start.area < 1.9)
             if not keep:
                 # Shade or a tree over the deck: the terrain platform under it is the better measurement.
                 under = [p['polygon'] for p in platforms if p['polygon'].intersection(start).area > 0.45 * min(p['polygon'].area, start.area)
                          and 0.5 < p['polygon'].area / start.area < 1.6]
-                poly = under[0] if under and spec['src'] != 'platform' else start
-                st = {**st, 'kept': 'terrain-platform' if under else 'start'}
+                # A ring a reviewer drew on the photo stands; a platform is already the terrain's own.
+                swap = bool(under) and spec['src'] not in ('platform', 'ring')
+                poly = under[0] if swap else start
+                st = {**st, 'kept': 'terrain-platform' if swap else 'start'}
             poly = tt.largest(poly.buffer(0))
             fid = f"{course['prefix']}-tee-{n:02d}-{k}"
             pads.append(dict(id=fid, poly=poly, tees=spec['tees'], src=src, st=st))

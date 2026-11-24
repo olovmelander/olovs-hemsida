@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 import { validateFacilityManifest, linearLuminance } from './validate-facility-glb.mjs';
+import { publishFacility } from './publish-facility-glb.mjs';
 import { checkGroundQuality } from '../check-course-quality.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -113,4 +114,31 @@ test('checkGroundQuality enforces bloom guardrail and passes terrain/seam/course
   assert.equal(report.summary.tiles, 469);
   assert.equal(report.summary.seam.maxEdgeDeltaM, 0);
   assert.equal(report.summary.courses[0].holes, 18);
+});
+
+test('publishFacility names the GLB by its hash, drops the one it replaces and refuses a stale manifest', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'facility-publish-'));
+  try {
+    const from = path.join(dir, 'build'), publicRoot = path.join(dir, 'public');
+    fs.mkdirSync(from, { recursive: true });
+    const write = tint => {
+      const glb = buildMinimalGlb({ baseColorFactor: [tint, tint, tint, 1] }), sha256 = createHash('sha256').update(glb).digest('hex');
+      fs.writeFileSync(path.join(from, 'facilities.glb'), glb);
+      fs.writeFileSync(path.join(from, 'facilities-v1.json'), JSON.stringify({ schemaVersion: 1, groundId: 'demo',
+        asset: { url: `models/demo/facilities-${sha256}.glb`, sha256, bytes: glb.length }, facilities: [{}] }));
+      return sha256;
+    };
+    const first = write(0.5), listed = () => fs.readdirSync(path.join(publicRoot, 'models/demo')).sort();
+    publishFacility({ from, publicRoot });
+    assert.deepEqual(listed(), [`facilities-${first}.glb`, 'facilities-v1.json']);
+    const second = write(0.4);
+    assert.deepEqual(publishFacility({ from, publicRoot, check: true }).stale, [`facilities-${first}.glb`]);
+    assert.deepEqual(listed(), [`facilities-${first}.glb`, 'facilities-v1.json']);   // a check writes nothing
+    publishFacility({ from, publicRoot });
+    assert.deepEqual(listed(), [`facilities-${second}.glb`, 'facilities-v1.json']);
+    fs.writeFileSync(path.join(from, 'facilities.glb'), buildMinimalGlb({ baseColorFactor: [0.1, 0.1, 0.1, 1] }));
+    assert.throws(() => publishFacility({ from, publicRoot }), /another GLB/);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 });

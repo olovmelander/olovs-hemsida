@@ -16,15 +16,15 @@ test('live repository course registries are synchronized with zero drift', async
   const report = checkRegistries(state, ROOT);
   assert.equal(report.ok, true, JSON.stringify(report.drift, null, 2));
   assert.equal(report.driftCount, 0);
-  assert.equal(report.groundsChecked, 10);
-  assert.deepEqual(report.gridAuthoredSlugs, ['lidingo', 'ribbingsfors', 'visby', 'tortuna']);
+  assert.equal(report.groundsChecked, state.derivedGrounds.size);
+  assert.deepEqual([...report.gridAuthoredSlugs].sort(), ['bro-hof-castle', 'bro-hof-stadium', 'lidingo', 'ribbingsfors', 'tortuna', 'visby']);
 });
 
 test('checkRegistries detects drift when a new grid-authored ground is missing from downstream registries', async () => {
   const state = await loadRegistryState(ROOT);
-  const fakeBroHof = {
-    slug: 'bro-hof-stadium',
-    groundId: 'bro-hof',
+  const fake = {
+    slug: 'demo-links-main',
+    groundId: 'demo-links',
     bridgeMode: 'epsg3006-local-rh2000',
     frameFingerprint: 'a'.repeat(64),
     packFrame: 'local metres from EPSG:3006; east +x, north -z; origin E649094.5 N6598568.5; heights RH 2000',
@@ -34,9 +34,9 @@ test('checkRegistries detects drift when a new grid-authored ground is missing f
   };
   const mutated = {
     ...state,
-    allConfigs: [...state.allConfigs, fakeBroHof],
-    derivedGrounds: new Map([...state.derivedGrounds, ['bro-hof', ['bro-hof-stadium']]]),
-    gridConfigs: [...state.gridConfigs, fakeBroHof],
+    allConfigs: [...state.allConfigs, fake],
+    derivedGrounds: new Map([...state.derivedGrounds, ['demo-links', ['demo-links-main']]]),
+    gridConfigs: [...state.gridConfigs, fake],
   };
   const report = checkRegistries(mutated, ROOT);
   assert.equal(report.ok, false);
@@ -47,6 +47,6 @@ test('checkRegistries detects drift when a new grid-authored ground is missing f
   assert.equal(files.has('apps/golf/src/engine/v2-grid-origin.test.mjs'), true);
 
   // Verify entry renderers quote hyphenated groundIds cleanly
-  assert.match(renderMapFrameEntry(fakeBroHof), /"bro-hof": grid\(/);
-  assert.match(renderGpsFrameEntry(fakeBroHof), /slug: "bro-hof-stadium"/);
+  assert.match(renderMapFrameEntry(fake), /"demo-links": grid\(/);
+  assert.match(renderGpsFrameEntry(fake), /slug: "demo-links-main"/);
 });

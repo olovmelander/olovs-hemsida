@@ -91,6 +91,13 @@ export function checkLod0SeamContinuity(publicRoot, l0Nodes, maxSamplePairs = 32
   return { pairsChecked, maxEdgeDeltaM: Math.round(maxEdgeDeltaM * 10000) / 10000, worstPair };
 }
 
+/** Metres from a point to the nearest edge of a ring. */
+const ringGap = (x, z, ring) => ring.reduce((best, [ax, az], i) => {
+  const [bx, bz] = ring[(i + 1) % ring.length], dx = bx - ax, dz = bz - az, l2 = dx * dx + dz * dz;
+  const t = l2 > 0 ? Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / l2)) : 0;
+  return Math.min(best, Math.hypot(x - ax - dx * t, z - az - dz * t));
+}, Infinity);
+
 export function checkGroundQuality({
   groundId,
   publicRoot = path.join(ROOT, 'apps/golf/public'),
@@ -198,6 +205,12 @@ export function checkGroundQuality({
             errors.push(`${entry.slug} h${h.n}: tee pad centroid sits inside water body ${wb.id}`);
           }
         }
+        // The app stands a lake up to 0.3 m over its plate: ground at the water's own level beside it floods (a fill newer
+        // than the laser, Castle 18 at Bro Hof). Heights and levels share a datum only on a grid-authored ground.
+        const medianH = pts.map(p => p.h).sort((m, n) => m - n)[pts.length >> 1];
+        const wet = waterBodies.find(wb => wb.ring && Number.isFinite(wb.level) && Math.abs(medianH - wb.level) < 0.3
+          && pts.some(p => ringGap(p.x, p.z, wb.ring) < 6));
+        if (wet) warnings.push(`${entry.slug} h${h.n}: tee ${pad.id} stands at the water's own level beside ${wet.id}; the laser may be older than the ground`);
         teesDryChecked++;
       }
     }

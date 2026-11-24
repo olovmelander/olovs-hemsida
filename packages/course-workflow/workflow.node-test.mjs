@@ -12,6 +12,7 @@ import { plan, runThrough, runStage } from './runner.mjs';
 import { candidate, inspectGround, terrainErrors } from './audit.mjs';
 import { reviewErrors, releaseCheck } from './release.mjs';
 import { checkNewCourses } from './check-new.mjs';
+import { acceptancePath, admitAccepted, openItems } from './acceptance.mjs';
 import { main } from './cli.mjs';
 
 function repo(t) { const r = emptyRepository(); t.after(() => fs.rmSync(r, { recursive: true, force: true })); return r; }
@@ -192,11 +193,44 @@ test('CI requires new-course reviews and preserves mandatory policy from the bas
   const checker = () => ({ groundId: 'new-ground', ready: true, errors: [] });
   assert.equal(checkNewCourses(root, base, { checkRelease: checker }).ready, true);
   w.releasePolicy = 'advisory'; writeJson(root, 'course-workflows/new-ground/workflow.json', w);
-  assert.equal(checkNewCourses(root, base, { checkRelease: checker }).ready, false);
+  assert.equal(checkNewCourses(root, base, { checkRelease: checker }).ready, false); // advisory, and nobody accepted it
+  const accepted = () => ({ groundId: 'new-ground', ready: true, errors: [] });
+  assert.equal(checkNewCourses(root, base, { checkRelease: checker, checkAcceptance: accepted }).ready, true);
   w.releasePolicy = 'required'; writeJson(root, 'course-workflows/new-ground/workflow.json', w);
   git(['add', 'apps/golf/public/courses/v2-index.json', 'course-workflows/new-ground/workflow.json']); git(['-c', 'commit.gpgsign=false', 'commit', '-qm', 'qualified fixture']);
   const qualified = git(['rev-parse', 'HEAD']);
+  w.releasePolicy = 'advisory'; writeJson(root, 'course-workflows/new-ground/workflow.json', w);
+  assert.equal(checkNewCourses(root, qualified, { checkRelease: checker, checkAcceptance: accepted }).ready, false); // no acceptance downgrades a mandatory ground
   fs.unlinkSync(safePath(root, 'course-workflows/new-ground/workflow.json'));
   assert.equal(checkNewCourses(root, qualified, { checkRelease: checker }).ready, false);
   assert.throws(() => checkNewCourses(root, 'main'), /full commit/);
+});
+test('an owner acceptance admits one named generation, names every open item and still checks the bytes', t => {
+  const root = repo(t), { w } = buildCandidateFixture(root), publicRoot = 'apps/golf/public';
+  fs.cpSync(safePath(root, w.publicRoot), safePath(root, publicRoot), { recursive: true });
+  w.releasePolicy = 'advisory';
+  const admit = () => admitAccepted(root, w, { publicRoot });
+  assert.match(admit().errors[0], /recorded owner acceptance/);
+  assert.deepEqual(openItems(root, w, { publicRoot }).items, ['release-review']); // the fixture's review belongs to its mandatory candidate
+  const graph = candidate(root, w, { publicRoot });
+  const acceptance = { schemaVersion: 1, groundId: w.groundId, courses: ['fixture-main'], groundManifestSha256: graph.courses[0].groundManifest.sha256,
+    decision: 'admit-as-advisory', acceptedBy: 'owner', acceptedOn: '2026-11-24', basis: 'Synthetic test acceptance.', open: { 'release-review': 'not reviewed' } };
+  const write = change => { const a = structuredClone(acceptance); change?.(a); writeJson(root, acceptancePath(w.groundId), a); };
+  write();
+  const admitted = admit();
+  assert.deepEqual(admitted.errors, []); assert.equal(admitted.ready, true); assert.ok(admitted.byteVerification.chunks > 469);
+  for (const [change, reason] of [
+    [a => { a.open = {}; }, /leaves out open item release-review/],
+    [a => { a.open.nothing = 'x'; }, /not open/],
+    [a => { a.groundManifestSha256 = '0'.repeat(64); }, /another generation/],
+    [a => { a.courses = ['other']; }, /other routings/],
+    [a => { a.acceptedBy = 'agent'; }, /needs the owner/],
+    [a => { a.decision = 'qualified'; }, /identity/],
+    [a => { a.extra = 1; }, /acceptance/],
+  ]) { write(change); const r = admit(); assert.equal(r.ready, false); assert.match(r.errors.join('; '), reason); }
+  write();
+  const source = readJson(root, w.sourceManifest);
+  source.blockers = [{ id: 'survey', severity: 'release-blocking', description: 'x', exitGate: 'y' }];
+  writeJson(root, w.sourceManifest, source);
+  assert.match(admit().errors.join('; '), /leaves out open item survey/);
 });

@@ -352,7 +352,7 @@ export function compileGridCourse({
   const mappedOnly = infra.objectPlacement === 'mapped-only';
   const scenery = {
     greens: [], fairways: [], tees: [], bunkers: [], grass: [], range: [],
-    practiceGreens: [], mappedFeatures: [], rangeFacilities: null, cartPark: null,
+    practiceGreens: [], mappedFeatures: [], rangeFacilities: null, cartPark: null, cartParks: [],
   };
   const streams = [];
 
@@ -462,6 +462,8 @@ export function compileGridCourse({
           kind: p.style || 'timber_pier',
           provenance: p.provenance || 'mapped-orthophoto',
         });
+      } else if (p.kind === 'cart_park' && g.type === 'LineString') {
+        scenery.cartParks.push({ id: f.id, line: g.coordinates.map(local), count: p.count, fleet: p.fleet || null, provenance: p.provenance || 'mapped-orthophoto' });
       } else if (p.kind === 'path' && g.type === 'LineString') {
         infra.paths.push({
           id: f.id,

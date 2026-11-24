@@ -263,7 +263,7 @@ export async function fetchOverpass(query, { endpoints = PRIMARY_OVERPASS_ENDPOI
         body: 'data=' + encodeURIComponent(query),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': 'BanvyCourseGeoIntake/1.0 (+https://github.com/olovmelander/olovs-hemsida)',
+          'User-Agent': 'course-geo-intake/1.0',
         },
         signal: AbortSignal.timeout(90_000),
       });

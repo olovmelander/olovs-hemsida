@@ -25,6 +25,7 @@ import { detectLocalMaxima } from '../../packages/course-v2/vegetation/crown-det
 import { smoothChm } from '../../packages/course-v2/vegetation/pit-free-chm.mjs';
 import { closedness, photoDisc } from './crown-evidence.mjs';
 import { nearPlay, playGeometry } from './geometry.mjs';
+import { laserParts } from './laser-parts.mjs';
 import { loadMosaic, loadRaster, renderLayer, toPixel } from './panels.mjs';
 import { writeReceipt } from './receipts.mjs';
 
@@ -104,7 +105,8 @@ export async function run(ctx) {
   const canopy = JSON.parse(fs.readFileSync(ctx.reviewFile('canopy-rasters.json'), 'utf8'));
   const total = maxima.length;
   const closedShare = total ? totals.closed.apexes / total : 0;
-  const days = Math.round(Math.abs(Date.parse(ctx.leafOff.date) - Date.parse(ctx.config.laser.capturedOn)) / 86400000);
+  /* where campaigns meet, the one furthest in time from the leaf-off photo */
+  const days = Math.max(...laserParts(ctx.config.laser).map(part => Math.round(Math.abs(Date.parse(ctx.leafOff.date) - Date.parse(part.capturedOn)) / 86400000)));
   const cellList = [...cells.values()].sort((a, b) => b.bbox[1] - a.bbox[1] || a.bbox[0] - b.bbox[0]);
   /* where each stratum is commonest, near play first: candidate reference windows */
   const suggestions = Object.fromEntries(STRATA.map(t => [t.id, [...cellList]

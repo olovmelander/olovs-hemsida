@@ -115,6 +115,10 @@ def main():
         elif f['geometry']['type'] == 'Point' and tags.get('power') in ('pole', 'tower') and outer.contains(g):
             put(f, g, tags)
             counts['power-point'] = counts.get('power-point', 0) + 1
+    # buildings the photo shows and OSM lacks, traced and named in the configuration
+    for b in cfg.get('extraBuildings', []):
+        ring = [*b['ring'], b['ring'][0]]
+        out.append({'type': 'Feature', 'id': b['id'], 'properties': {'tags': b['tags'], 'source': b.get('source')}, 'geometry': {'type': 'Polygon', 'coordinates': [ring]}})
     tt.write_json(cfg['out'], tt.collection(out, source=dict(licence='ODbL-1.0', attribution='© OpenStreetMap contributors', input=cfg['context'])))
     Path(cfg['farOut']).write_text(json.dumps({'schemaVersion': 1, 'frame': cfg['frame'], 'boxes': far}) + '\n', encoding='utf-8', newline='\n')
     print(json.dumps(dict(features=len(out), farBuildings=len(far), **counts)))

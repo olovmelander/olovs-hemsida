@@ -1,6 +1,7 @@
 # Course production workflow
 
-For executable Puttom/Johannesberg adapters, pinned inputs, pilot comparison and
+For a new ground, [pipeline v2](pipeline-v2.md) gives the exact order of tools and
+what each one learned. For executable Puttom/Johannesberg adapters, pinned inputs, pilot comparison and
 actual rebuild/review commands, see the [production integration guide](course-production-integration.md).
 
 Start here for every new ground and every course upgrade. The executable policy

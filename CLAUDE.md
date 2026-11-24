@@ -5,7 +5,10 @@
 For every new course or upgrade, read the
 [course production workflow](docs/course-production-workflow.md). Use its shared
 initializer, staged adapters, source and per-hole reviews, and release checks.
-The catalogue currently has 13 layouts on 10 grounds using the common 469-tile
+A new ground follows [pipeline v2](docs/pipeline-v2.md) step by step: one tracer,
+one compiler, one campus loader, and the ground's own judgement in decision files
+(Bro Hof, 24 November, is the first built that way).
+The catalogue currently has 15 layouts on 11 grounds using the common 469-tile
 terrain/ring contract. Historical course builders are evidence, not templates
 for new courses.
 
@@ -169,6 +172,15 @@ land cover's WATER class is a colour verdict: never paint from it. See
 - Rebuilds must update content-addressed assets and their references coherently,
   including GPK1 compatibility hashes. Use the workflow's staging and receipts;
   do not hand-edit derived hashes, weaken a gate or invent a passing report.
+- A waste area is its own ground class (`SURFACE.WASTE`, 17: tan, unraked, played as
+  hard sand), never SHORE or SAND. A revetment is a `bulkhead` of the kind the photo
+  shows (timber, stone or boulders), and a campus is a Blender model built from the
+  laser's levels, loaded whole by `scenery/campus-facilities.mjs`. A hole guide's plate
+  is a drawing: it names things, and never places them.
+- A ground flown with its ponds full sets `deferWaterBedToWorld` in its scenery module, or
+  the early carve lowers the ground before the level is read. `tools/gpu-pass.mjs` bakes
+  every course's prepared data and runs the GPU checks in one sitting; take pictures
+  before it, since any engine edit after it means baking everything again.
 - Imagery used for tracing is not automatically licensed for redistribution.
   Preserve the source register's restrictions and keep private caches private.
 - Place a ground's trees with the tree pipeline (`tools/tree-pipeline.mjs`,

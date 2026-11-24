@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { NEEDS_MAPPING, PIXI } from '../toolchain/mapping-environment.mjs';
 
 import { registerBanguide, transformPixelToEpsg3006, projectPixelAnnotations } from './register-banguide.mjs';
 import { compileGridCourse, assertNoEpsg3006Leakage } from './compile-grid-course.mjs';
@@ -51,8 +52,8 @@ test('register-banguide recovers similarity/affine transforms, rejects RANSAC ou
   assert.equal(projected.features[0].geometry.type, 'LineString');
 });
 
-test('assist-surface-segmentation.py extracts bunker with grass island innerRing and water/green polygons', t => {
-  const pixiExe = fs.existsSync('C:\\Users\\olovm\\.pixi\\bin\\pixi.exe') ? 'C:\\Users\\olovm\\.pixi\\bin\\pixi.exe' : 'pixi';
+test('assist-surface-segmentation.py extracts bunker with grass island innerRing and water/green polygons', { skip: NEEDS_MAPPING }, t => {
+  const pixiExe = PIXI;
   const manifest = path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml');
   const dir = tempDir(t);
   const rgbiPath = path.join(dir, 'synthetic.tif');
@@ -199,9 +200,9 @@ test('compileGridCourse compiles 9-hole course with innerRings, bulkheads, waste
   assert.throws(() => assertNoEpsg3006Leakage(leaked), /EPSG:3006 coordinate leakage/);
 });
 
-test('turf_tracing snaps a rough ring to the photo edge, finds a raised tee deck and keeps a waste area whole', () => {
+test('turf_tracing snaps a rough ring to the photo edge, finds a raised tee deck and keeps a waste area whole', { skip: NEEDS_MAPPING }, () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'turf-tracing-'));
-  const pixiExe = fs.existsSync('C:\\Users\\olovm\\.pixi\\bin\\pixi.exe') ? 'C:\\Users\\olovm\\.pixi\\bin\\pixi.exe' : 'pixi';
+  const pixiExe = PIXI;
   const manifest = path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml');
   const script = `
 import sys, json, math

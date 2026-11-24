@@ -214,7 +214,7 @@ test('first-generation production profile requires explicit policy and checks LO
   const plan = postPromotionBakePlan(loaded, { skipGpuBakes: true });
   assert.deepEqual(plan.map(s => s.id), ['emit-manifest', 'startup-packs', 'map-land', 'audit-water-levels']);
   const fullPlan = postPromotionBakePlan(loaded, { allCourses: true });
-  assert.deepEqual(fullPlan.map(s => s.id), ['emit-manifest', 'startup-packs', 'map-land', 'audit-water-levels', 'ground-tints', 'prepared-water']);
+  assert.deepEqual(fullPlan.map(s => s.id), ['emit-manifest', 'startup-packs', 'map-land', 'audit-water-levels', 'ground-tints', 'prepared-water', 'prepared-vista']);
   assert.equal(fullPlan.at(-1).command.includes('--only'), false);
 
   // Verify initial-generation quantization check against raw Float32 LOD0 samples.

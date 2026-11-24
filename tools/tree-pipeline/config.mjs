@@ -16,6 +16,7 @@
    write another without touching the first.                                 */
 import fs from 'node:fs';
 import path from 'node:path';
+import { laserPartProblems } from './laser-parts.mjs';
 import { photoDetectProblems } from './photo-detect.mjs';
 import { fileURLToPath } from 'node:url';
 
@@ -91,13 +92,15 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     p.check(finite(config.window.chmCellMetres) && config.window.chmCellMetres > 0, 'window.chmCellMetres must be > 0');
   }
 
-  if (keys(p, config.laser, ['campaigns', 'items', 'label', 'campaign', 'capturedOn', 'leafState', 'note'], 'laser')) {
+  if (keys(p, config.laser, ['campaigns', 'items', 'label', 'campaign', 'capturedOn', 'leafState', 'note', 'parts'], 'laser')) {
     repoPath(p, config.laser.campaigns, 'laser.campaigns');
     p.check(Array.isArray(config.laser.items) && config.laser.items.length > 0 && config.laser.items.every(i => typeof i === 'string'), 'laser.items must list the pinned COPC item ids');
     p.check(typeof config.laser.label === 'string' && config.laser.label.length > 0, 'laser.label must name the campaign, date and leaf state');
     p.check(typeof config.laser.campaign === 'string' && config.laser.campaign.length > 0, 'laser.campaign must be the scan area id');
     p.check(DATE.test(config.laser.capturedOn || ''), 'laser.capturedOn must be YYYY-MM-DD');
     p.check(['leaf-off', 'leaf-on', 'mixed'].includes(config.laser.leafState), 'laser.leafState must be leaf-off, leaf-on or mixed');
+    /* optional: campaigns that meet in the window, each on its own (laser-parts.mjs) */
+    for (const problem of laserPartProblems(config.laser)) p.check(false, problem);
   }
 
   if (keys(p, config.orthophotos, ['stacSearchBboxWgs84', 'items', 'campaigns', 'leafOff', 'presence', 'notFetched'], 'orthophotos')) {

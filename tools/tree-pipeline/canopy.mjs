@@ -12,7 +12,12 @@
    the app draws: a systematic difference means a terrain revision, and the
    stage stops for the owner. Rasters and a compact point file go to the
    ignored cache; a credential-free evidence file goes to the review
-   directory.                                                               */
+   directory.
+
+   Where two laser campaigns meet in the window (laser.parts, laser-parts.mjs)
+   every surface is built per campaign from its own returns alone, and each
+   cell takes the campaign whose items hold its centre: nothing is averaged
+   across the seam. One campaign is the whole window, as before.            */
 import fs from 'node:fs';
 import path from 'node:path';
 import { readJson, sha256File } from '../../packages/course-geo/manifest.mjs';
@@ -20,6 +25,7 @@ import { openItem, readWindow } from '../../packages/course-geo/copc-reader/copc
 import { canopyHeightModel, fillGround, gridSpec, groundAt, groundGrid, smoothGround, GROUND_CLASSES, NOISE_CLASSES, HAG_CEILING_METRES } from '../../packages/course-geo/copc-reader/canopy-build.mjs';
 import { createGroundHeightLookup } from '../../packages/course-v2/vegetation/ground-sampler.mjs';
 import { PIT_FREE_DEFAULTS, pitFreeChm, rasterizeReturns } from '../../packages/course-v2/vegetation/pit-free-chm.mjs';
+import { composeByOwner, partBoxes, partOwners } from './laser-parts.mjs';
 import { publishedGround } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
 
@@ -71,6 +77,7 @@ export async function run(ctx) {
   const copcFiles = [];
   /* ---------- read every return in the window ---------- */
   const parts = [];
+  const readItems = [];
   const itemEvidence = [];
   for (const id of ctx.config.laser.items) {
     const item = campaigns.items.find(entry => entry.id === id);
@@ -83,6 +90,7 @@ export async function run(ctx) {
     if (sub[0] >= sub[2] || sub[1] >= sub[3]) continue;
     const read = await readWindow(opened, sub, { padMetres: 2 });
     parts.push(read.points);
+    readItems.push({ id, count: read.points.count });
     itemEvidence.push({ itemId: id, sha256: item.assets.data.sha256, windowEpsg3006: sub, nodes: read.statistics.nodes, decodedPoints: read.statistics.decodedPoints, pointsInWindow: read.statistics.pointsInWindow, firstReturns: read.statistics.firstReturns, byClass: read.statistics.byClass, headerPointCount: opened.header.pointCount });
     console.log(`${id}: ${read.statistics.pointsInWindow} points in window (${read.statistics.nodes} nodes), classes ${JSON.stringify(read.statistics.byClass)}`);
   }
@@ -98,34 +106,15 @@ export async function run(ctx) {
     offset += part.count;
   }
   parts.length = 0;
-  /* ---------- ground from the cloud, 1 m ---------- */
+  /* ---------- ground (1 m), heights and 0.5 m rasters, per campaign ---------- */
   const ground1 = gridSpec({ minEasting: bbox[0], maxNorthing: bbox[3], width: Math.round(bbox[2] - bbox[0]), height: Math.round(bbox[3] - bbox[1]) });
-  const { mean, count: groundCount } = groundGrid(ground1, points);
-  const { ground: filledGround, fillDistance } = fillGround(ground1, mean);
-  const ground = smoothGround(ground1, filledGround);
-  /* ---------- height above ground per return ---------- */
-  const hag = new Float32Array(count);
-  let noise = 0, clipped = 0, unreferenced = 0;
-  for (let i = 0; i < count; i++) {
-    const c = points.classification[i];
-    if (NOISE_CLASSES.has(c)) { hag[i] = Number.NaN; noise++; continue; }
-    if (GROUND_CLASSES.has(c)) { hag[i] = 0; continue; }
-    const base = groundAt(ground1, ground, points.x[i], points.y[i]);
-    if (Number.isNaN(base)) { hag[i] = Number.NaN; unreferenced++; continue; }
-    let h = points.z[i] - base;
-    if (h < 0) h = 0;
-    if (h > HAG_CEILING_METRES) { hag[i] = Number.NaN; clipped++; continue; }
-    hag[i] = h;
-  }
-  /* ---------- 0.5 m rasters ---------- */
   const grid = ctx.chmGrid;
-  const raster = rasterizeReturns(grid, points, hag);
-  const pitFree = pitFreeChm(grid, raster, PIT_FREE_DEFAULTS);
+  const campaignParts = partBoxes(ctx.config.laser, campaigns);
+  const surfaces = campaignSurfaces({ grid, ground1, points, parts: campaignParts, readItems });
+  const { mean, groundCount, ground, fillDistance, hag, noise, clipped, unreferenced, raster, pitFree, legacy } = surfaces;
   const empty = new Uint8Array(grid.width * grid.height);
   let emptyCells = 0, voidCells = 0;
   for (let i = 0; i < empty.length; i++) { if (!raster.all[i]) { empty[i] = 1; emptyCells++; } if (Number.isNaN(pitFree.values[i])) voidCells++; }
-  /* ---------- the published method's 1 m CHM, same ground ---------- */
-  const legacy = canopyHeightModel(ground1, points, ground);
   /* ---------- cloud ground against the published terrain ---------- */
   /* the review's baseline generation: the terrain the app drew when the review began */
   const { publicDir, groundManifestUrl, ground: groundManifest } = publishedGround(ctx, ctx.config.published.baselineGroundManifest);
@@ -133,6 +122,7 @@ export async function run(ctx) {
   const inner = ctx.innerWindow;
   const signed = [];
   const absolute = [];
+  const signedByPart = campaignParts.map(() => []);
   for (let row = 0; row < ground1.height; row++) {
     const northing = ground1.maxNorthing - row - 0.5;
     if (northing < inner.minNorthing || northing > inner.maxNorthing) continue;
@@ -144,6 +134,7 @@ export async function run(ctx) {
       const published = lookup.heightAt(easting, northing);
       if (!Number.isFinite(published)) continue;
       const d = mean[index] - published;
+      if (surfaces.owner1) signedByPart[surfaces.owner1[index]]?.push(d);
       signed.push(d);
       absolute.push(Math.abs(d));
     }
@@ -209,6 +200,7 @@ export async function run(ctx) {
     innerWindowEpsg3006: [inner.minEasting, inner.minNorthing, inner.maxEasting, inner.maxNorthing],
     points: { total: count, noiseDropped: noise, clippedAbove60m: clipped, unreferenced },
     innerDensity: { ...innerCells, emptyCellFraction100: empty1m },
+    ...(surfaces.owner1 ? { campaigns: campaignEvidence({ ctx, grid, parts: campaignParts, surfaces, signedByPart }) } : {}),
     pitFree: { parameters: PIT_FREE_DEFAULTS, layers: pitFree.layers, pitCellsFilled: pitFree.pitCellsFilled, emptyCells050: emptyCells, voidCells050: voidCells },
     groundCheck: {
       statement: 'cloud ground (mean of class 2/9 returns per 1 m cell, measured cells only) minus the published RH2000 terrain the app draws, inner window, every measured cell',
@@ -229,11 +221,119 @@ export async function run(ctx) {
   const evidencePath = ctx.reviewFile('canopy-rasters.json');
   fs.writeFileSync(evidencePath, JSON.stringify(evidence, null, 2) + '\n');
   console.log(JSON.stringify({ innerDensity: evidence.innerDensity, pitFree: { layers: evidence.pitFree.layers, pitCellsFilled: evidence.pitFree.pitCellsFilled }, groundCheck: evidence.groundCheck, elapsedSeconds: evidence.elapsedSeconds }, null, 1));
-  const terrain = terrainVerdict(evidence.groundCheck);
+  /* the whole window and, where campaigns meet, each campaign on its own */
+  const verdicts = [evidence.groundCheck, ...(evidence.campaigns || []).map(c => c.groundCheck)].map(terrainVerdict);
+  const terrain = verdicts.find(v => v.stop) ?? verdicts[0];
   const rasterFiles = Object.values(files).map(f => path.resolve(ctx.root, f.file));
   writeReceipt(ctx, 'canopy', { inputs: [campaignsPath, ...copcFiles], outputs: [evidencePath, ...rasterFiles, pointFile], result: { innerDensity: evidence.innerDensity, groundCheck: evidence.groundCheck, terrain } });
   if (terrain.stop) return { status: 'stop', message: `terrain revision? ${terrain.reason}. Stop and ask the owner: the tree bases sample the published terrain, and a terrain change is a separate reviewed source revision.` };
   return { status: 'done', message: `pit-free CHM ${grid.width} x ${grid.height} at ${grid.sampleSpacingMetres} m; ${evidence.innerDensity.firstReturnsPerSquareMetre} first returns/m2; cloud ground against the published terrain |p95| ${evidence.groundCheck.absoluteP95Metres} m` };
+}
+
+/* ground, heights, rasters and both canopy models from one campaign's returns */
+function surfacesOf(grid, ground1, points) {
+  const { mean, count: groundCount } = groundGrid(ground1, points);
+  const { ground: filledGround, fillDistance } = fillGround(ground1, mean);
+  const ground = smoothGround(ground1, filledGround);
+  const hag = new Float32Array(points.count);
+  let noise = 0, clipped = 0, unreferenced = 0;
+  for (let i = 0; i < points.count; i++) {
+    const c = points.classification[i];
+    if (NOISE_CLASSES.has(c)) { hag[i] = Number.NaN; noise++; continue; }
+    if (GROUND_CLASSES.has(c)) { hag[i] = 0; continue; }
+    const base = groundAt(ground1, ground, points.x[i], points.y[i]);
+    if (Number.isNaN(base)) { hag[i] = Number.NaN; unreferenced++; continue; }
+    let h = points.z[i] - base;
+    if (h < 0) h = 0;
+    if (h > HAG_CEILING_METRES) { hag[i] = Number.NaN; clipped++; continue; }
+    hag[i] = h;
+  }
+  const raster = rasterizeReturns(grid, points, hag);
+  const pitFree = pitFreeChm(grid, raster, PIT_FREE_DEFAULTS);
+  /* the published method's 1 m CHM, same ground */
+  const legacy = canopyHeightModel(ground1, points, ground);
+  return { mean, groundCount, ground, fillDistance, hag, noise, clipped, unreferenced, raster, pitFree, legacy };
+}
+
+/**
+ * The window's surfaces. One campaign: its own. Several (laser.parts): each
+ * built from its own returns alone and composed by the cells' owners, so no
+ * ground mean, fill, smoothing or canopy interpolation reads across the seam.
+ * `readItems` gives, in order, the items the points were concatenated from.
+ */
+export function campaignSurfaces({ grid, ground1, points, parts, readItems }) {
+  if (parts.length === 1) return surfacesOf(grid, ground1, points);
+  const owner1 = partOwners(ground1, parts), owner050 = partOwners(grid, parts);
+  const ranges = [];
+  let start = 0;
+  for (const { id, count } of readItems) { ranges.push({ part: parts.findIndex(p => p.items.includes(id)), start, end: start + count }); start += count; }
+  const hag = new Float32Array(points.count);
+  const built = parts.map((part, p) => {
+    const own = ranges.filter(r => r.part === p);
+    const count = own.reduce((sum, r) => sum + r.end - r.start, 0);
+    const subset = { count };
+    for (const key of ['x', 'y', 'z', 'classification', 'returnNumber', 'numberOfReturns', 'intensity']) {
+      if (!points[key]) continue;
+      subset[key] = new points[key].constructor(count);
+      let o = 0;
+      for (const r of own) { subset[key].set(points[key].subarray(r.start, r.end), o); o += r.end - r.start; }
+    }
+    const s = surfacesOf(grid, ground1, subset);
+    let o = 0;
+    for (const r of own) { hag.set(s.hag.subarray(o, o + r.end - r.start), r.start); o += r.end - r.start; }
+    /* only what is composed is kept */
+    return { ...s, hag: null, raster: { max: s.raster.max, all: s.raster.all, first: s.raster.first, ground: s.raster.ground }, count };
+  });
+  const c1 = (pick, none) => composeByOwner(owner1, built.map(pick), none);
+  const c050 = (pick, none) => composeByOwner(owner050, built.map(pick), none);
+  const sum = pick => built.reduce((total, s) => total + pick(s), 0);
+  return {
+    owner1, owner050,
+    mean: c1(s => s.mean, Number.NaN), groundCount: c1(s => s.groundCount, 0), ground: c1(s => s.ground, Number.NaN), fillDistance: c1(s => s.fillDistance, -1),
+    hag, noise: sum(s => s.noise), clipped: sum(s => s.clipped), unreferenced: sum(s => s.unreferenced),
+    raster: { max: c050(s => s.raster.max, Number.NaN), all: c050(s => s.raster.all, 0), first: c050(s => s.raster.first, 0), ground: c050(s => s.raster.ground, 0) },
+    pitFree: {
+      values: c050(s => s.pitFree.values, Number.NaN),
+      layers: built.map((s, p) => ({ campaign: parts[p].campaign, layers: s.pitFree.layers })),
+      pitCellsFilled: sum(s => s.pitFree.pitCellsFilled),
+    },
+    legacy: { chm: c1(s => s.legacy.chm, Number.NaN), allReturns: c1(s => s.legacy.allReturns, 0) },
+    pointsByPart: built.map(s => s.count),
+  };
+}
+
+/* per campaign in the inner window: area, density, voids and the cloud ground against the published terrain */
+function campaignEvidence({ ctx, grid, parts, surfaces, signedByPart }) {
+  const inner = ctx.innerWindow;
+  const totals = parts.map(() => ({ cells: 0, all: 0, first: 0, empty: 0, voids: 0 }));
+  for (let row = 0; row < grid.height; row++) {
+    const northing = grid.maxNorthing - (row + 0.5) * grid.sampleSpacingMetres;
+    if (northing < inner.minNorthing || northing > inner.maxNorthing) continue;
+    for (let column = 0; column < grid.width; column++) {
+      const easting = grid.minEasting + (column + 0.5) * grid.sampleSpacingMetres;
+      if (easting < inner.minEasting || easting > inner.maxEasting) continue;
+      const index = row * grid.width + column;
+      const t = totals[surfaces.owner050[index]];
+      if (!t) continue;
+      t.cells++; t.all += surfaces.raster.all[index]; t.first += surfaces.raster.first[index];
+      if (!surfaces.raster.all[index]) t.empty++;
+      if (Number.isNaN(surfaces.pitFree.values[index])) t.voids++;
+    }
+  }
+  return parts.map((part, p) => {
+    const t = totals[p], area = t.cells * grid.sampleSpacingMetres ** 2;
+    const signed = signedByPart[p].sort((a, b) => a - b), absolute = signed.map(Math.abs).sort((a, b) => a - b);
+    return {
+      campaign: part.campaign, capturedOn: part.capturedOn, leafState: part.leafState, items: part.items, pointsInWindow: surfaces.pointsByPart[p],
+      innerSquareMetres: area,
+      allReturnsPerSquareMetre: round(t.all / Math.max(1, area)), firstReturnsPerSquareMetre: round(t.first / Math.max(1, area)),
+      emptyCellFraction050: round(t.empty / Math.max(1, t.cells), 4), voidFractionAfterPitFree: round(t.voids / Math.max(1, t.cells), 5),
+      groundCheck: {
+        samples: signed.length, medianMetres: round(quantile(signed, 0.5)), p05Metres: round(quantile(signed, 0.05)), p95Metres: round(quantile(signed, 0.95)),
+        absoluteMedianMetres: round(quantile(absolute, 0.5)), absoluteP95Metres: round(quantile(absolute, 0.95)), absoluteP99Metres: round(quantile(absolute, 0.99)),
+      },
+    };
+  });
 }
 
 /** Whether the laser ground and the published terrain disagree enough to stop for a terrain revision. */

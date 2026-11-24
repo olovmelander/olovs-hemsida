@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { NEEDS_MAPPING, PIXI } from '../toolchain/mapping-environment.mjs';
 
 import {
   stitchRings,
@@ -233,8 +234,8 @@ test('summarizeLaserPoints extracts roof eave/ridge, shoreline bulkhead step, an
   assert.deepEqual(selected.map(i => i.id), ['new', 'old']);
 });
 
-test('acquire-ortho-windows.py emits acquisition.json verified by render-source-overlays.py', t => {
-  const pixiExe = fs.existsSync('C:\\Users\\olovm\\.pixi\\bin\\pixi.exe') ? 'C:\\Users\\olovm\\.pixi\\bin\\pixi.exe' : 'pixi';
+test('acquire-ortho-windows.py emits acquisition.json verified by render-source-overlays.py', { skip: NEEDS_MAPPING }, t => {
+  const pixiExe = PIXI;
   const dir = tempDir(t);
   const srcTif = path.join(dir, 'synthetic-rgbi.tif');
   const cacheDir = path.join(dir, 'cache', 'ortho');
