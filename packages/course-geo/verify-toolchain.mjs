@@ -3,7 +3,7 @@ import { gridPath, loadGridSpec, runGeoCommand, sha256File } from './proj.mjs';
 
 const EXPECTED = Object.freeze({
   gdal: '3.13.3',
-  proj: '9.8.1',
+  proj: '9.9.0',
   pdal: '2.10.2',
 });
 
@@ -26,11 +26,11 @@ requireVersion('PROJ', proj, EXPECTED.proj);
 requireVersion('PDAL', pdal, EXPECTED.pdal);
 
 const compound = combined('projinfo', ['EPSG:5845', '-o', 'PROJJSON']);
-if (!compound.includes('CompoundCRS') || !compound.includes('SWEREF99 TM') || !compound.includes('RH2000')) {
+if (!compound.includes('CompoundCRS') || !/SWEREF\s*99\s*\]?\s*TM/.test(compound) || !compound.includes('RH2000')) {
   throw new Error('EPSG:5845 is not the expected SWEREF99 TM + RH2000 compound CRS');
 }
 const horizontal = combined('projinfo', ['EPSG:3006', '-o', 'PROJJSON']);
-if (!horizontal.includes('SWEREF99 TM')) {
+if (!/SWEREF\s*99\s*TM/.test(horizontal)) {
   throw new Error('EPSG:3006 is not available as SWEREF99 TM');
 }
 const vertical = combined('projinfo', ['EPSG:5613', '-o', 'PROJJSON']);

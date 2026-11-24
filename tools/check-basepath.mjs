@@ -29,14 +29,18 @@ const PORT = +(process.argv[3] || 8641);
 const MOUNT = BASE.replace(/\/$/, '');
 const URLB = `http://127.0.0.1:${PORT}${MOUNT}`;
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const CHROME = process.env.BANVY_CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined);
+const CHROME = process.env.BANVY_CHROME_PATH || process.env.BANVY_CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined);
 
 let bad = 0;
 const gate = (ok, m) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${m}`); if (!ok) bad++; };
 
 console.log(`  building with base ${BASE}`);
-execFileSync('pnpm', ['--filter', '@banvy/golf', 'build'],
-  { cwd: ROOT, env: { ...process.env, BANVY_BASE: BASE }, stdio: 'ignore' });
+const pnpmCmd = process.platform === 'win32' ? 'corepack.cmd' : 'pnpm';
+const pnpmArgs = process.platform === 'win32'
+  ? ['pnpm', '--filter', '@banvy/golf', 'build']
+  : ['--filter', '@banvy/golf', 'build'];
+execFileSync(pnpmCmd, pnpmArgs,
+  { cwd: ROOT, env: { ...process.env, BANVY_BASE: BASE, COREPACK_ENABLE_DOWNLOAD_PROMPT: '0' }, stdio: 'ignore', shell: process.platform === 'win32' });
 
 /* assemble exactly as .github/workflows/pages.yml does */
 const site = fs.mkdtempSync(path.join(os.tmpdir(), 'banvy-base-'));
