@@ -32,6 +32,7 @@ export const MAP_COLOURS = Object.freeze({
   water: '#1f6383',
   shallows: '#3d8f97',
   sand: '#efe6c6',
+  waste: '#d8c9a6',
   sandEdge: '#9c8f62',
   rock: '#8f8c7f',
   hay: '#a3a868',
@@ -89,6 +90,16 @@ function ringPath(ring) {
   return path;
 }
 
+/* An outline and the islands in it, filled even-odd. */
+function islandedPath(rings) {
+  const path = new Path2D();
+  for (const ring of rings) {
+    ring.forEach(([x, z], i) => (i ? path.lineTo(x, z) : path.moveTo(x, z)));
+    path.closePath();
+  }
+  return path;
+}
+
 function linePath(line) {
   const path = new Path2D();
   line.forEach(([x, z], i) => (i ? path.lineTo(x, z) : path.moveTo(x, z)));
@@ -124,6 +135,7 @@ export function softened(ring, rounds = 2) {
 
 const shape = (points, path, pad = 0) => ({ path, ...box(points, pad) });
 const polygons = (rings, pad = 0) => rings.map(ring => shape(ring, ringPath(ring), pad));
+const islanded = groups => groups.map(rings => shape(rings[0], islandedPath(rings)));
 
 /* A wood seen from above, from the trees themselves: each stamp is a real crown's
    view from overhead, over its own shadow, on a dark floor. It repeats, so a whole
@@ -319,6 +331,8 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
     range: polygons(f.range),
     grass: polygons(f.grass),
     openSand: polygons(f.openSand),
+    wasteAreas: islanded(f.wasteAreas ?? []),
+    hardstandings: islanded(f.hardstandings ?? []),
     rock: polygons(f.rock),
     /* Only the ground's own picture can tell the sea from the land inside such a ring. */
     water: f.water.filter(item => !(land?.water && item.overLand)).map(item => ({ ...shape(item.ring, ringPath(item.ring), 10), reached: reachedWater.has(item) })),
@@ -396,7 +410,7 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
     maskCtx.fillStyle = '#0f0';
     for (const item of mown) if (touches(item)) maskCtx.fill(item.path, 'evenodd');
     maskCtx.fillStyle = '#00f';
-    for (const set of [layers.bunkers, layers.otherBunkers, layers.openSand]) for (const item of set) if (touches(item)) maskCtx.fill(item.path, 'evenodd');
+    for (const set of [layers.bunkers, layers.otherBunkers, layers.openSand, layers.wasteAreas]) for (const item of set) if (touches(item)) maskCtx.fill(item.path, 'evenodd');
     maskCtx.fillStyle = '#f00';
     for (const set of [layers.water, layers.basins]) for (const item of set) if (touches(item)) maskCtx.fill(item.path, 'evenodd');
     maskCtx.strokeStyle = '#f00';
@@ -450,6 +464,7 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
       if (!canopied || node.lod > CANOPY_FINEST_LOD) fill(layers.forest, MAP_COLOURS.forest);
       fill(layers.rock, MAP_COLOURS.rock);
       fill(layers.openSand, MAP_COLOURS.sand);
+      fill(layers.wasteAreas, MAP_COLOURS.waste);
 
       /* A pale rim round an outline, but not round a lake drawn to its own shore,
          where it would lie on the bank in the outline's straight lines. */
@@ -525,6 +540,7 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
 
       stroke(layers.paths, MAP_COLOURS.pathEdge, item => item.width + 0.7);
       stroke(layers.paths, MAP_COLOURS.path, item => item.width);
+      fill(layers.hardstandings, MAP_COLOURS.path);
       fill(layers.paved, MAP_COLOURS.path);
       fill(layers.bareGround, MAP_COLOURS.rock);
       fill(layers.courts, MAP_COLOURS.court);

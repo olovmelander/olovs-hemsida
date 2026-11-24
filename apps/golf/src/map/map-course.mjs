@@ -19,10 +19,11 @@ import { outlineOverLand } from './map-land.mjs';
 const TRACED_SURFACES = Object.freeze({
   practice_green: 'otherGreens', practice_bunker: 'otherBunkers', range_bunker: 'otherBunkers',
   mown_approach: 'otherFairways', range_tee_pad: 'otherTees', range_mat: 'mats', range_target_surface: 'grass',
-  waste_sand: 'openSand',
   paved_path: 'paved', terrace: 'paved', non_turf_island: 'bare', sports_court: 'courts',
   clubhouse_roof_section: 'roofs', roof_solar: 'solar',
 });
+/* Ground with islands in it: its first ring is the outline, the rest are cut out. */
+const ISLANDED_SURFACES = Object.freeze({ waste_sand: 'wasteAreas', hardstanding: 'hardstandings' });
 /* Norrfällsviken's source traces that reached no other list. */
 const TRACED_SOURCES = Object.freeze({
   'lm-practice-green': 'practice_green', 'lm-range-field': 'range_target_surface',
@@ -105,10 +106,16 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
   /* A yard or a hayfield is published as one ring, a clear-fell as a list of them. */
   const ringOrRings = value => (isPoint(value?.[0]) ? rings([value]) : rings(value));
   const traced = Object.fromEntries(Object.values(TRACED_SURFACES).map(name => [name, []]));
-  const tracedLines = [];
+  const tracedLines = [], islanded = Object.fromEntries(Object.values(ISLANDED_SURFACES).map(name => [name, []]));
   const named = (scenery.sourceFeatures ?? []).filter(item => TRACED_SOURCES[item.id]).map(item => ({ ...item, kind: TRACED_SOURCES[item.id] }));
   for (const item of [...(scenery.mappedFeatures ?? []), ...named]) {
     if (item.kind === 'ditch') tracedLines.push(item);
+    const islands = islanded[ISLANDED_SURFACES[item.kind]];
+    if (islands) {
+      const list = (item.rings ?? []).filter(ring => validRing(ring)).map(placeAll);
+      if (list.length) islands.push(list);
+      continue;
+    }
     const layer = traced[TRACED_SURFACES[item.kind]];
     if (layer) layer.push(...(item.rings ?? (item.ring ? [item.ring] : [])));
   }
@@ -121,7 +128,8 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     forest: rings([...(veg.forest ?? []), ...(veg.wood ?? [])]),
     scrub: rings(veg.scrub),
     wetland: rings(veg.wetland),
-    openSand: rings([...(veg.sand ?? []), ...(traced.openSand ?? [])]),
+    openSand: rings(veg.sand),
+    ...islanded,
     rock: rings(veg.rock),
     water: [...(vectors.water ?? []), ...(far?.water ?? []).filter(item => Number.isFinite(item.level))]
       .filter(item => validRing(item?.ring))

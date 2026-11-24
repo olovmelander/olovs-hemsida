@@ -80,6 +80,8 @@ Each of these cost time at Bro Hof and is now in the tools.
   lowers the ground before the level is read, and the ponds then stand well inside their own walls. No CPU check
   shows it; the first GPU picture did.
 - **Take pictures before the bakes.** Any engine edit after them means baking every course again.
+- **Look at the phone map too.** It paints from the pack on its own: a mapped kind it does not know is left off (the
+  forecourt), and an island in an outline has to be cut there as well (the waste areas' grass).
 - **A class drawn by the ground must not also be drawn as a sheet.** The waste areas carried both, and the sheet won with
   distance.
 - **Trees second, on a published first generation.** The reviewed candidates need the machine-v1 generation as

@@ -1386,3 +1386,14 @@ describe('a separate, small program', () => {
     expect(entry).toMatch(/opensMap\(location\.search, isPhone\(\)\)[\s\S]*?await import\('\.\/map\/map-app\.js'\)/);
   });
 });
+
+describe('ground with islands in it', () => {
+  it('keeps the grass islands of the waste areas and the lawn in the forecourt', () => {
+    const { features } = courseFor('bro-hof-castle');
+    expect(features.wasteAreas).toHaveLength(10);
+    expect(features.wasteAreas.reduce((n, rings) => n + rings.length - 1, 0)).toBe(40);
+    expect(features.hardstandings.some(rings => rings.length === 2)).toBe(true);   // the turning circle's lawn
+    expect(features.openSand).toEqual([]);                                          // a waste area is not plain sand
+    expect(courseFor('veckefjarden').features.wasteAreas).toEqual([]);
+  });
+});
