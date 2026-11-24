@@ -8,7 +8,7 @@
     "bro-hof-castle"
   ],
   "targetBboxWgs84": [
-    17.610,
+    17.61,
     59.485,
     17.658,
     59.512
@@ -61,7 +61,7 @@
       "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_64.tif",
       "localPath": "geo_data/course-v2/bro-hof/acquisition/ground-rings.json",
       "bboxWgs84": [
-        17.610,
+        17.61,
         59.485,
         17.658,
         59.512
@@ -88,7 +88,7 @@
       "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_64_brytgeometri.gpkg",
       "localPath": "geo_data/course-v2/bro-hof/mapping/water-breakgeometry-epsg3006.geojson",
       "bboxWgs84": [
-        17.610,
+        17.61,
         59.485,
         17.658,
         59.512
@@ -115,7 +115,7 @@
       "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
       "localPath": "geo_data/course-v2/bro-hof/acquisition/orthophoto-review.json",
       "bboxWgs84": [
-        17.610,
+        17.61,
         59.485,
         17.658,
         59.512
@@ -142,7 +142,7 @@
       "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
       "localPath": "geo_data/course-v2/bro-hof/acquisition/orthophoto-leafoff-2021.json",
       "bboxWgs84": [
-        17.610,
+        17.61,
         59.485,
         17.658,
         59.512
@@ -170,7 +170,7 @@
       "sourceUri": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/20c028/y20c028-65975_6475_25.copc.laz",
       "localPath": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
       "bboxWgs84": [
-        17.610,
+        17.61,
         59.485,
         17.658,
         59.512
@@ -225,7 +225,7 @@
       "sourceUri": "https://www.brohofslott.se/banor/the-stadium-course",
       "localPath": "geo_data/course-v2/bro-hof/reference/club-source-ledger.json",
       "bboxWgs84": [
-        17.610,
+        17.61,
         59.485,
         17.658,
         59.512
@@ -247,7 +247,11 @@
       "kind": "acquisition",
       "path": "geo_data/course-v2/bro-hof/acquisition/d2-discovery.json",
       "sha256": "52970b934b94603ac708d17ea3ff49bbde7a4b42924811f2a291d028d5b88d14",
-      "derivedFrom": ["terrain-lm-1m", "laser-lm-skog", "imagery-lm-ortho-2025"],
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "laser-lm-skog",
+        "imagery-lm-ortho-2025"
+      ],
       "use": "discovery-evidence",
       "notes": "Public Lantmäteriet STAC discovery confirming 100% DTM, LiDAR and Ortofoto coverage over Bro Hof."
     },
@@ -256,7 +260,9 @@
       "kind": "acquisition",
       "path": "geo_data/course-v2/bro-hof/acquisition/ground-rings.json",
       "sha256": "57ae4f9068adb83e40b0e5386b09761c6fcc2b33f9b6e6537158e138d2e3e5a6",
-      "derivedFrom": ["terrain-lm-1m"],
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
       "use": "discovery-evidence",
       "notes": "All 7 standard resolution rings (1 m .. 64 m, 16,384 m root) read from Lantmäteriet dtm-cog items 659_64, 659_65, 660_64, 660_65."
     },
@@ -265,7 +271,9 @@
       "kind": "acquisition",
       "path": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
       "sha256": "ba2a5bca637a4eff58690c7c0a6eaa5057172f35a65e4a834cf4838c4610b9eb",
-      "derivedFrom": ["laser-lm-skog"],
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
       "use": "discovery-evidence",
       "notes": "Pinned Laserdata Skog COPC inventory across all 6 overlapping 2.5 km tiles."
     },
@@ -274,9 +282,96 @@
       "kind": "control",
       "path": "geo_data/course-v2/bro-hof/acquisition/microterrain-summary.json",
       "sha256": "d2e2c9b3daee11f626fc5f23cb740a8462f5c479bec7c3be835b79046a34cf19",
-      "derivedFrom": ["laser-lm-skog"],
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
       "use": "discovery-evidence",
       "notes": "Aggregate RH 2000 & 1064 nm intensity stats for 6 Bro Hof landmark & shoreline targets; raw point clouds stay in ignored cache."
+    },
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "brohofbuild/course-model.json",
+      "sha256": "83c165a020729d89ad9813303025fa642927a1f3e682e05c8a62e28ebd8329df",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Compiled from EPSG:3006 layers by compile-grid-course.mjs: exact projected local metres and RH 2000 heights. Survey gates remain open."
+    },
+    {
+      "id": "legacy-castle-model",
+      "kind": "composite",
+      "path": "brohofcastlebuild/course-model.json",
+      "sha256": "fcb40f3dbae50a866d9e3b4a19aebc5e4083287d773b2ec367518f7aa2b417de",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Compiled from EPSG:3006 layers by compile-grid-course.mjs: exact projected local metres and RH 2000 heights. Survey gates remain open."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/bro-hof/migration/course-model.epsg3006.json",
+      "sha256": "1722d74b2887fb70ab7beb35c249347e4c188eebfa4db63642c0038ce0483f92",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Exact translation back to EPSG:3006, preserving source coordinates and RH 2000 heights."
+    },
+    {
+      "id": "migration-castle-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/bro-hof/migration/castle-model.epsg3006.json",
+      "sha256": "1dcdc32c823c0940526e83809fa06bc3b98592383c82e63ee9c4bed81abc816e",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Exact translation back to EPSG:3006, preserving source coordinates and RH 2000 heights."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/bro-hof/migration/residual-report.json",
+      "sha256": "5e64603397c25fd7c9004c36a0ff4bbeb5bed332aef21b7819d9f7c0e7f9a804",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic frame translation audit, not independent survey controls."
     }
   ],
   "blockers": [

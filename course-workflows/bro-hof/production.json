@@ -18,8 +18,10 @@
     "verticalCrs": "EPSG:5613",
     "fingerprint": "c4b165ba2fa965cb58fcfe59c4bf410c48f03a00bc9cc5c9d23574b93bdc88d0"
   },
-  "baselineGround": null,
-  "firstGenerationPolicy": "initial-source-compilation",
+  "baselineGround": {
+    "path": "apps/golf/public/grounds/bro-hof/ground-v2-bf788372d09ac6227c472486a2a6ac6df63500bc276ad512c7b43b911fc47012.json",
+    "sha256": "bf788372d09ac6227c472486a2a6ac6df63500bc276ad512c7b43b911fc47012"
+  },
   "terrain": {
     "directory": "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings",
     "evidence": {
@@ -38,9 +40,30 @@
       "path": "geo_data/course-v2/bro-hof/vegetation/canopy-evidence.json",
       "sha256": "1955b17de66127c6066716f0caffc4c5d403bdf7b7ad63506320ec3d9d2b3215"
     },
-    "reviewMode": "machine-v1",
+    "reviewMode": "reviewed-candidates-v1",
     "observedOn": "2026-11-24",
-    "reviewNote": "First generation: machine-v1 crowns and stands from Laserdata Skog (2020-11-06 and 2021-03/04), before the tree pipeline (course-workflows/bro-hof/trees.json) has placed and scored individual trees."
+    "reviewNote": "Round r1 of review-2026-11-24, published on the owner answer of 24 November 2026 (\"Publish if better\"): the 90% held-out gate is MISSED (P 0.784 / R 0.807 / F1 0.795 on 166 unseen reference crowns), and the same crowns score P 0.662 / R 0.530 / F1 0.589 for the automatic first generation (machine-v1 records and stand trees as the app draws them). In park and building windows precision is lower than in the first generation (0.419 against 0.467, recall 0.867 against 0.467). 15,206 placed trees in the inner 2,048 m frontier, 2,079 held and unreviewed and not placed, 392 crowns the June 2025 photo does not show removed by a mechanical screen; tiles outside the frontier keep the 2026-11-24 machine-v1 generation. Owner look not done.",
+    "reviewed": {
+      "candidates": {
+        "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/candidates.csv",
+        "sha256": "105da8bc6705662f02379c19c59ba4557bd33b7ab591ec34f9edef577df184c1"
+      },
+      "residualChm": {
+        "path": "brohofbuild/cache/trees-2026-11-24/rasters/residual-chm-050.bin",
+        "sha256": "06cb244dbb387ece432377d8d23061e2a388929472670047272cbe369b965e5d"
+      },
+      "residualLabels": {
+        "path": "brohofbuild/cache/trees-2026-11-24/rasters/residual-labels-050.bin",
+        "sha256": "1ee0db39830c22af0f53aa3bc5da435f584d23245396f93e32466155bc2f9f75"
+      },
+      "scope": [
+        648070.5,
+        6597544.5,
+        650118.5,
+        6599592.5
+      ],
+      "review": "reviewed candidates, review-2026-11-24 round r1: the type-aware laser detector (20C028 of 2020-11-06 west of E 650000, 21C031 of 2021-03-23 east of it), tuned with a reduced search on the calibration windows only. The 90% held-out gate is MISSED: on 166 unseen reference crowns P 0.784 / R 0.807 / F1 0.795; the machine-v1 first generation (records and stand trees) scores P 0.662 / R 0.530 / F1 0.589 on the same sample. Agent-led reference interpretation (Claude), not a survey; mostly conifers and separate crowns, closed leafless broadleaf stands are not measured. Crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank); 392 crowns the June 2025 photo does not show removed by a mechanical screen spot-checked by the agent; every felling-screened, pole-like, no-vegetation and on-building crown is held, unreviewed, and not placed; broadleaf only where the April 2021 crown is leafless and the June 2025 crown in leaf, not spot-checked; no GPU photo detector and no human review"
+    }
   },
   "courses": [
     {
@@ -48,7 +71,7 @@
       "holes": 18,
       "model": {
         "path": "brohofbuild/course-model.json",
-        "sha256": "dd8e2d6a58381b8d4bc89c438c0bbee1b9a3053c57caf9bce2e5b2f5923f7eba"
+        "sha256": "83c165a020729d89ad9813303025fa642927a1f3e682e05c8a62e28ebd8329df"
       },
       "heightfields": {
         "path": "brohofbuild/heightfields.json",
@@ -100,7 +123,7 @@
       "holes": 18,
       "model": {
         "path": "brohofcastlebuild/course-model.json",
-        "sha256": "95bbcfe63a5d2f45138ec7adc7ca4a67c2b82f95445d5e95836debd3777845e6"
+        "sha256": "fcb40f3dbae50a866d9e3b4a19aebc5e4083287d773b2ec367518f7aa2b417de"
       },
       "heightfields": {
         "path": "brohofcastlebuild/heightfields.json",
@@ -149,7 +172,7 @@
   "mappingEvidence": [
     {
       "path": "brohofbuild/mapping/decisions.json",
-      "sha256": "600e8679b44d91508c892fc26131d66ae8edb2245909da161069d4a904fe7ad2"
+      "sha256": "feebe3eb507ae588281cb071dd49cadf9615490a6ca91e8d10644e4678d9d5a6"
     },
     {
       "path": "brohofbuild/mapping/sand-decisions.json",
@@ -157,19 +180,19 @@
     },
     {
       "path": "brohofbuild/mapping/layer-decisions.json",
-      "sha256": "1c46046433f14422aa9a4dadacf12c40791411f15355067e19e0baf2c6905467"
+      "sha256": "78f145ecfe0e7546bfcc395bd131d214c894354f303c1c6bb7b644693185befa"
     },
     {
       "path": "brohofbuild/mapping/trace-report.json",
-      "sha256": "10d7ee6a1ff06d6d053fb4b920ea7f023c90a9402f091897a8cabf42e85008a0"
+      "sha256": "ca58736d8b4b85969f5f249c19f50cf8591294fd636d32571e09c619528fbb55"
     },
     {
       "path": "brohofcastlebuild/mapping/decisions.json",
-      "sha256": "33e4ab0a56d180eeeeb211b4de0f63ddd6b75badf504e1a05f3d830cc18d3a09"
+      "sha256": "1af6a067046c0692e4e9734258e6981be3888b8c319f0d0dae392ef884c57b35"
     },
     {
       "path": "brohofcastlebuild/mapping/trace-report.json",
-      "sha256": "771cbf20fe942e94f0c87255a8d21eb85775ccbbf8b5ac2bbde49227999c9072"
+      "sha256": "008f44b98ab4db2e80ce540ce9bacd3efa06dd4325411c42c256064a720e508c"
     },
     {
       "path": "brohofbuild/reference/club-scorecard.json",

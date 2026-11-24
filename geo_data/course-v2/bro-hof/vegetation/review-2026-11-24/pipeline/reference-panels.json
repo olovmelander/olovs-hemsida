@@ -1,0 +1,409 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "reference-panels",
+ "groundId": "bro-hof",
+ "reviewId": "review-2026-11-24",
+ "round": "r1",
+ "ranAt": "2026-11-24T21:00:49.915Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/bro-hof/trees.json",
+  "bytes": 7610,
+  "sha256": "638efe33e9cdfc6a7f1dc2d2bb778f8787f14fa6f18f9a6e8cb43268c1d6a2e2"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "902b5b9274dc934bafaa26fcd20a3149d70552ea0a94dc79891b8abe721b69b5",
+  "tools/tree-pipeline/config.mjs": "0d4325b9401da1c814db9b5478d4416989052cd27afcd15717d4aff9ce3c1f2f",
+  "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "6d7adc7b9eae9686d4adbfc43887b9b8d74d479498508d0c8df34c5760aafe70",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "08471353d981e22d7a473c5797c0c1196bb14c97f1747bd1a2875992593a07a2",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "48bde1ad12e02fc3660753f35e058c29f939a23267367c4e2d7d9ff7c550eee2",
+  "tools/tree-pipeline/laser-parts.mjs": "b94cf5756aecd1c7cba6b37939db6221cea80315280b91d7dff8b0da7d8724bd",
+  "tools/tree-pipeline/detect.mjs": "84b123699d1f327ccadbdc6b07a83772abd7145f4ba7a4e53665adbc5935fa78",
+  "tools/tree-pipeline/verify.mjs": "b0e98daa5567ffd01407e5a0ad61e082133296885b54f9586776f7f5e5483a22",
+  "tools/tree-pipeline/reference.mjs": "5d097c318c4d6766d10aad7f7c247d9b270ad848e11d1afbde3b8d7e13afb72a",
+  "tools/tree-pipeline/benchmark.mjs": "fe6eacbbb3747b0ee0ab166eff9ced11b9ca84cd0d47325e30d2371d9dab0f42",
+  "tools/tree-pipeline/candidates.mjs": "88b52e54003b1a39bf92f47e9802d8326bc7bd75cfddc9655ab2f4412a108af7",
+  "tools/tree-pipeline/review.mjs": "9ec7d0288c7e77198e5b77dd7d1f08e7ad1dce817a2a6df4c7b191a8b46e014d",
+  "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
+  "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+  "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+  "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/reference-windows.json",
+   "bytes": 12354,
+   "sha256": "a24b2f22006419be3e317133116099f96cf24a9214cf317437ec791c3516ea34"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/chm-pitfree-050.bin",
+   "bytes": 75203584,
+   "sha256": "f59f6d480a1cc26cd48746e1c7384ef60d9f91aca31d8691ee99ee4a5b39985f"
+  },
+  {
+   "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/registration.json",
+   "bytes": 121284,
+   "sha256": "3d0800a7b2792f743134e8095de561e9ab3584da209d8b6b0176f4766310a926"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C1-castle-park.native.png",
+   "bytes": 3136639,
+   "sha256": "2f3128fe1949376be14a00eab9916dc50b5193fc29352db9375d8553d0dc0a2c"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C1-castle-park.candidates.json",
+   "bytes": 25629,
+   "sha256": "4c6b23d69e70a7fbc6b7201a4b1477f7c1a1e3601ca1d9f84164c2b13af559dd"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C2-c17-avenue.native.png",
+   "bytes": 3715841,
+   "sha256": "9fa3d4cb5d9a09b09d808cbc8fcadc32113c6de0a190eb2da5f2701f526389e5"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C2-c17-avenue.candidates.json",
+   "bytes": 2239,
+   "sha256": "bfa82a93bf5ef84bfada1febd916a0edc74ffed6a7207b354016dcedb05420cd"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C3-s16-forest.native.png",
+   "bytes": 1129720,
+   "sha256": "37b15e61bc0ce44389a9e37a5dd0b481276049c5022c5e12b41c0a7b934b45b0"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C3-s16-forest.candidates.json",
+   "bytes": 12231,
+   "sha256": "649eb8410a5e1267c68be281dae58f571327d9ee3d586826519039821bedaaef"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C4-c11-closed.native.png",
+   "bytes": 1127519,
+   "sha256": "b2610c70313c3b70151ba06beb5f8dab468d06eacd07c98db94c1ff7c13823aa"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C4-c11-closed.candidates.json",
+   "bytes": 10703,
+   "sha256": "5be622aa50fd91ff2f67720f09fc4bf56780b534a03a74337cebbf5b83d77734"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C5-c13-edge.native.png",
+   "bytes": 1924835,
+   "sha256": "94ea170383da2ec8d032a979d798c92a75c5a74266a67d3838654fa6a386c1dd"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C5-c13-edge.candidates.json",
+   "bytes": 13994,
+   "sha256": "79c6644327ff5da716d98e9676dc8eeed787559dd6e9d703dae9ae7a421f6014"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C6-s2-grove.native.png",
+   "bytes": 2369063,
+   "sha256": "d7835eb564cf16087607d8bbfb1c2eb3eb472112db217e5bdce077abecdff989"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C6-s2-grove.candidates.json",
+   "bytes": 15243,
+   "sha256": "1d6f15b1f1625db05c3d8055390a393af0c7bbc029f8b6c23111c0453dffecfc"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C7-c4-avenue.native.png",
+   "bytes": 3755721,
+   "sha256": "8f59120f41ed6198337c5e2cc0d0340f79fffae3e10a84705ef6e67efeb79fd0"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C7-c4-avenue.candidates.json",
+   "bytes": 3357,
+   "sha256": "858c27d53f3f38b16331a667fae6058fcb7f266b604aeec519e1df6d6639a092"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C8-s5-planted.native.png",
+   "bytes": 2382575,
+   "sha256": "8df36c22290a70016283017f233b906c69909c464374c281b5a95baccbc8dc0a"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C8-s5-planted.candidates.json",
+   "bytes": 1713,
+   "sha256": "29d58698d7afa3f6eddbee3f0c691e7c956cc3c8172f840d1f7d6fe2fc7acc58"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C9-s8-grove.native.png",
+   "bytes": 1205632,
+   "sha256": "4746dffc668c88ff2a0d131fb960ed737047e0b2a12c06c4c77522647fde2749"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C9-s8-grove.candidates.json",
+   "bytes": 5309,
+   "sha256": "040415f0ae71d61266b9f6e996f6d279f3fb79066c398f581d42c238c3102632"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C11-churchyard.native.png",
+   "bytes": 2254286,
+   "sha256": "920d445d9fe1f8ea7f6c5316f35b20e9b03ee8065f81bc079082cffcc51e57be"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C11-churchyard.candidates.json",
+   "bytes": 8816,
+   "sha256": "1b4c438f1947943c2696a9a7b32883350a1eb8d6720a067474c05936482779b9"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C12-c7-east.native.png",
+   "bytes": 1207022,
+   "sha256": "904a32402808c27e878267acc8d013631c5882639a4d77f752ccd09932b8a34a"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C12-c7-east.candidates.json",
+   "bytes": 11016,
+   "sha256": "0a7ebad7e03bd2fd8444c547777b71b29f0a60007f6503cf34f3e6b7694aec91"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C13-se-east.native.png",
+   "bytes": 1893602,
+   "sha256": "ee26069f883229cee1119fcd051e38142f41c9627feb9cfb2985e363a5050ee7"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C13-se-east.candidates.json",
+   "bytes": 13894,
+   "sha256": "9d3a76864f835d2987bb20b62b48af92dd0a965c6d9d5ecf9b6e415cb633680f"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C14-c2-group.native.png",
+   "bytes": 1940362,
+   "sha256": "969eb2f11f564be537aa9da6f5337df5ab72c65a7078c9d99be354e3360e09ab"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C14-c2-group.candidates.json",
+   "bytes": 8794,
+   "sha256": "0c60668574cdb28576a3c110fcd2ec01ec91fdbf801a04e6fc9fb93238d5b955"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C15-park-garden.native.png",
+   "bytes": 1971495,
+   "sha256": "41e3c24cfe879ab467ad454058576151de18b38578164087fc76246553ac256b"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C15-park-garden.candidates.json",
+   "bytes": 6049,
+   "sha256": "6bc321e6a673a2b18ce79d2658a678781428c6ecbe7eea043fd178738bb74f1e"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C16-s18-wood.native.png",
+   "bytes": 1896853,
+   "sha256": "049cb42c641d77c2e3ede99b820e0eb54ec6a7bd8e96dae79227991310d964ce"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C16-s18-wood.candidates.json",
+   "bytes": 18039,
+   "sha256": "ab169c265809a0e7348b81d8c5740a092af7f23d63c583f9ce0aa06a45bc2e56"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C17-se-row.native.png",
+   "bytes": 2134907,
+   "sha256": "d441015e6e5c0449acae8346aa2b4d48846bd0ed8933a1c35ba312cced1f3f70"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C17-se-row.candidates.json",
+   "bytes": 5985,
+   "sha256": "252ea23807d57c126054004437138dc9941421c25a7e067e15d0357b80c29f07"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C18-s3-group.native.png",
+   "bytes": 1949958,
+   "sha256": "9ec8d9dc7769dfb316a381a22076a0286d56df381150d13e23295cbbe2e85867"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C18-s3-group.candidates.json",
+   "bytes": 9318,
+   "sha256": "386af437584cd09675c65f584534db4f5c633f687a3eb15925590e39791c34b8"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H1-farm.native.png",
+   "bytes": 1937946,
+   "sha256": "e54d0ea922926f440b508b32585e437021a4812d1aa9b037d465c80f89fa51a3"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H1-farm.candidates.json",
+   "bytes": 15491,
+   "sha256": "238769a1b38c25c1a90c259a9bd1a9ae3624309f5c71fadd78eb26bee0d0b918"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H2-avenue.native.png",
+   "bytes": 3817022,
+   "sha256": "2b26752c38ff23c3d8f2ebf470f028b95e9a904a28fe5356c1e0728c4f19c597"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H2-avenue.candidates.json",
+   "bytes": 6103,
+   "sha256": "f2e444e0e6db422df6dc6f300b70c7ea007d47fc5f4023f9d968abcc360b9a15"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H3-s14-wood.native.png",
+   "bytes": 1222660,
+   "sha256": "7702f53fd794756bdbca9496f2ec5d831468060de784ac33f06081c3f6362b0e"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H3-s14-wood.candidates.json",
+   "bytes": 13341,
+   "sha256": "90a24da9e10ddbbfa34baa4fb3158184536ad91e336d51072ffb4f5838917e5d"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H4-c15-closed.native.png",
+   "bytes": 1122247,
+   "sha256": "40d960e8ecc433b9bb17b088660a1b84922e4817f0c83ca4a1b5cdaf1f64c4c4"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H4-c15-closed.candidates.json",
+   "bytes": 13142,
+   "sha256": "03a6145190520fcaa5e6cccd49b01dd459e521e68f58da45aa0f5fe7eaeec6b7"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H5-s14-group.native.png",
+   "bytes": 1891876,
+   "sha256": "c65d2c300ceeeb5dca1f0a221a77e2c102b1f020d220c0ed091b94c04b8b90ea"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H5-s14-group.candidates.json",
+   "bytes": 16940,
+   "sha256": "cc17eb6bb926676f3b56e9f4c4c35084df03b13f613668ad736aa65829566ac1"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H6-s9-shore.native.png",
+   "bytes": 3058177,
+   "sha256": "89168e78db366f530f21e974afb093b493b523e69d4c9ff13187ce70c8da0e3e"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H6-s9-shore.candidates.json",
+   "bytes": 6076,
+   "sha256": "79b6e822214f04b06e1b3b31f88200c00cfc013e06b5348f90494f9acbd974d5"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H8-c7-east.native.png",
+   "bytes": 1212435,
+   "sha256": "9f7b0091d34b07222d985b4d0fba589b0a8ece4c5a891650d45beacea60b5a9d"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H8-c7-east.candidates.json",
+   "bytes": 9223,
+   "sha256": "d32082a2ec1bec01cb256a59d4038292099d3ee520a229c7fb01fd1bdda2a496"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H9-c7-east-edge.native.png",
+   "bytes": 1916594,
+   "sha256": "2717e03044bd4c08a6f231c15ee6afa406e7cad5ed67787447777b8bc712934d"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H9-c7-east-edge.candidates.json",
+   "bytes": 9832,
+   "sha256": "20cddbcd57b3c6fda311727b1adf3027b258b5db9ec3e3b08e21b63d978370f0"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H10-s3-grove.native.png",
+   "bytes": 1235651,
+   "sha256": "fb19f29bd38ff23f11c6ef6448da8e933bf8614b3e926fdee772a61b55b94b25"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H10-s3-grove.candidates.json",
+   "bytes": 11691,
+   "sha256": "738fdeb2de015295fdd9ba41da0bc263d2fdf27876244361058a7b4bdeca142a"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H11-c6-ridge.native.png",
+   "bytes": 1236645,
+   "sha256": "94579fc31bc66476ea4257e1866b90e11506d0099e20ba931aeb170a9fc02107"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H11-c6-ridge.candidates.json",
+   "bytes": 8141,
+   "sha256": "ba141b5c0328799791d5ebe36f5ee3a0bd5340a723bc24e1d5ffe0b0d87750b4"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H12-park2.native.png",
+   "bytes": 3092050,
+   "sha256": "2f99ffb613e96f8ce2deab011629f36af58709fc26ecc8868519d1ebabe829ba"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H12-park2.candidates.json",
+   "bytes": 7573,
+   "sha256": "001ba625e82079217b7a0a81b56fa9c2fa58d1b55274c25b443c20e3a4436077"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H13-c8-grove.native.png",
+   "bytes": 1872203,
+   "sha256": "6e0bf29c8c10f8bbbede40ccf68b27eb3eced9dfe2d5b9d82abd4b2251b55423"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H13-c8-grove.candidates.json",
+   "bytes": 12702,
+   "sha256": "3a642006ea11fa9c1276f2bee9a32b260eea8d7f722f6d150e2c92a5f0a90705"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H14-s13-shore.native.png",
+   "bytes": 1986265,
+   "sha256": "fbf1e779bc9ef0a735236d4e2ac1e17bcf076efaa1a557f9d1efc0505b7e9d72"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H14-s13-shore.candidates.json",
+   "bytes": 6004,
+   "sha256": "356eaef619276f177fd6cda89b8bf7884c9f5d74bcd2f16087d6df30ae45a149"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H16-s1-garden.native.png",
+   "bytes": 1987150,
+   "sha256": "3b8b8ddcd15e46da4bf2e585163fb1be3ecd02b673e8f4360a53869d8b153e4e"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H16-s1-garden.candidates.json",
+   "bytes": 7653,
+   "sha256": "84cce5328780caaa082978c7fe04ec40b9890b5522735b6bf3f218b25ccd3d3a"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H17-c12-mixed.native.png",
+   "bytes": 2019601,
+   "sha256": "cb8cf870c86f05233b45e89b55b67fe4610aadd718d37d79b989117857e71458"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H17-c12-mixed.candidates.json",
+   "bytes": 8859,
+   "sha256": "8729b08664111bd0ae2ada8063198b7ed0f8844a13f3e4765f5a12aa13d33d8e"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H19-c8-ridge.native.png",
+   "bytes": 1933796,
+   "sha256": "15db43a3429e90214ecdb4a5e6305482d84bfb50a262fa89f60e8c6c1a39bc14"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H19-c8-ridge.candidates.json",
+   "bytes": 6811,
+   "sha256": "4e9e202c89d4da56221e63e77dad0f3148bb80d60076c1a493ea66d0241176ab"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H21-c12-scatter.native.png",
+   "bytes": 2384575,
+   "sha256": "60b396c2defb204c382d24cae7e21049794558f52e5ceb3a8e2225a6f2e4c0cc"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H21-c12-scatter.candidates.json",
+   "bytes": 14230,
+   "sha256": "49c01d51e830afcbc802c53b3e5237d0c1a70a9d91b2561d7d9527b5d191dfd3"
+  }
+ ],
+ "result": {
+  "windows": 34
+ }
+}

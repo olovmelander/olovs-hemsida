@@ -417,16 +417,16 @@
    "hole": 5,
    "kind": "tee",
    "id": "stadium-tee-05-3",
-   "start": "osm:w1563592809",
+   "start": "reviewed-ring",
    "tees": [
     "gul"
    ],
-   "area": 104.1,
-   "dPrime": 1.71,
-   "meanShift": -0.02,
-   "rmsShift": 0.18,
-   "weakShare": 0.21,
-   "meanEdge": 0.5
+   "area": 111.4,
+   "dPrime": 2.42,
+   "meanShift": 0.1,
+   "rmsShift": 0.14,
+   "weakShare": 0.05,
+   "meanEdge": 0.77
   },
   {
    "hole": 5,
@@ -466,7 +466,7 @@
    "cardResidual": {
     "svart": -2.1,
     "vit": -0.1,
-    "gul": 2.7,
+    "gul": 0.0,
     "bla": -0.0,
     "rod": 0.0
    }
@@ -585,17 +585,14 @@
    "hole": 7,
    "kind": "tee",
    "id": "stadium-tee-07-1",
-   "start": "reviewed-ellipse",
+   "start": "reviewed-ring",
    "tees": [
     "svart"
    ],
-   "area": 33.6,
-   "dPrime": 3.19,
-   "meanShift": -0.05,
-   "rmsShift": 0.3,
-   "weakShare": 0.0,
-   "meanEdge": 0.62,
-   "kept": "terrain-platform"
+   "area": 20.9,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
   },
   {
    "hole": 7,
@@ -659,10 +656,10 @@
   {
    "hole": 7,
    "kind": "route",
-   "length": 227.1,
+   "length": 226.0,
    "card": 228,
    "cardResidual": {
-    "svart": -0.9,
+    "svart": -2.0,
     "vit": 0.0,
     "gul": -0.1,
     "bla": -0.1,
@@ -714,17 +711,17 @@
    "hole": 8,
    "kind": "tee",
    "id": "stadium-tee-08-3",
-   "start": "osm:w1563599282",
+   "start": "reviewed-ring",
    "tees": [
     "gul",
     "bla"
    ],
-   "area": 265.5,
-   "dPrime": 2.58,
-   "meanShift": 0.06,
-   "rmsShift": 0.18,
-   "weakShare": 0.2,
-   "meanEdge": 0.45
+   "area": 155.6,
+   "dPrime": 3.15,
+   "meanShift": 0.15,
+   "rmsShift": 0.27,
+   "weakShare": 0.03,
+   "meanEdge": 0.55
   },
   {
    "hole": 8,
@@ -749,8 +746,8 @@
    "cardResidual": {
     "svart": -2.6,
     "vit": -0.0,
-    "gul": 0.1,
-    "bla": 0.1,
+    "gul": -0.1,
+    "bla": -0.1,
     "rod": 0.8
    }
   },
@@ -799,24 +796,10 @@
    "hole": 9,
    "kind": "tee",
    "id": "stadium-tee-09-3",
-   "start": "osm:w1563599296",
+   "start": "reviewed-ellipse",
    "tees": [
     "gul"
    ],
-   "area": 144.3,
-   "dPrime": 0.81,
-   "meanShift": 0.11,
-   "rmsShift": 0.27,
-   "weakShare": 0.14,
-   "meanEdge": 0.71,
-   "kept": "terrain-platform"
-  },
-  {
-   "hole": 9,
-   "kind": "tee",
-   "id": "stadium-tee-09-4",
-   "start": "reviewed-ellipse",
-   "tees": [],
    "area": 60.0,
    "dPrime": 5.34,
    "meanShift": 0.1,
@@ -827,7 +810,7 @@
   {
    "hole": 9,
    "kind": "tee",
-   "id": "stadium-tee-09-5",
+   "id": "stadium-tee-09-4",
    "start": "osm:w1563599297",
    "tees": [
     "bla"
@@ -842,7 +825,7 @@
   {
    "hole": 9,
    "kind": "tee",
-   "id": "stadium-tee-09-6",
+   "id": "stadium-tee-09-5",
    "start": "reviewed-ellipse",
    "tees": [
     "rod"
@@ -862,7 +845,7 @@
    "cardResidual": {
     "svart": -0.0,
     "vit": 0.1,
-    "gul": 7.2,
+    "gul": 1.0,
     "bla": 1.3,
     "rod": 8.8
    }
@@ -912,36 +895,22 @@
    "hole": 10,
    "kind": "tee",
    "id": "stadium-tee-10-3",
-   "start": "osm:w1563609170",
-   "tees": [],
-   "area": 56.0,
-   "dPrime": 1.26,
-   "meanShift": 0.14,
-   "rmsShift": 0.19,
-   "weakShare": 0.28,
-   "meanEdge": 0.38
+   "start": "reviewed-ring",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 63.6,
+   "dPrime": 6.35,
+   "meanShift": 0.02,
+   "rmsShift": 0.1,
+   "weakShare": 0.0,
+   "meanEdge": 0.66
   },
   {
    "hole": 10,
    "kind": "tee",
    "id": "stadium-tee-10-4",
-   "start": "osm:w1563609171",
-   "tees": [
-    "gul",
-    "bla"
-   ],
-   "area": 109.7,
-   "dPrime": 0.88,
-   "meanShift": 0.14,
-   "rmsShift": 0.19,
-   "weakShare": 0.35,
-   "meanEdge": 0.59,
-   "kept": "terrain-platform"
-  },
-  {
-   "hole": 10,
-   "kind": "tee",
-   "id": "stadium-tee-10-5",
    "start": "osm:w1563609172",
    "tees": [
     "rod"
@@ -961,8 +930,8 @@
    "cardResidual": {
     "svart": -0.0,
     "vit": -0.1,
-    "gul": 7.7,
-    "bla": 7.7,
+    "gul": -0.0,
+    "bla": -0.0,
     "rod": -0.0
    }
   },
@@ -1096,16 +1065,16 @@
    "hole": 12,
    "kind": "tee",
    "id": "stadium-tee-12-3",
-   "start": "osm:w477815588",
+   "start": "reviewed-ellipse",
    "tees": [
     "gul"
    ],
-   "area": 229.9,
-   "dPrime": 1.84,
-   "meanShift": 0.26,
-   "rmsShift": 0.35,
-   "weakShare": 0.27,
-   "meanEdge": 0.62
+   "area": 83.1,
+   "dPrime": 2.29,
+   "meanShift": 0.05,
+   "rmsShift": 0.1,
+   "weakShare": 0.0,
+   "meanEdge": 0.64
   },
   {
    "hole": 12,
@@ -1145,7 +1114,7 @@
    "cardResidual": {
     "svart": 0.0,
     "vit": 0.4,
-    "gul": 6.7,
+    "gul": 0.0,
     "bla": -0.0,
     "rod": -0.0
    }
@@ -1548,51 +1517,37 @@
    "hole": 17,
    "kind": "tee",
    "id": "stadium-tee-17-3",
-   "start": "osm:w1323718490",
-   "tees": [],
-   "area": 204.6,
-   "dPrime": 1.54,
-   "meanShift": 0.11,
-   "rmsShift": 0.27,
-   "weakShare": 0.1,
-   "meanEdge": 0.5
+   "start": "reviewed-ring",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 253.4,
+   "dPrime": 4.46,
+   "meanShift": 0.01,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.73
   },
   {
    "hole": 17,
    "kind": "tee",
    "id": "stadium-tee-17-4",
-   "start": "osm:w1563706746",
+   "start": "reviewed-ring",
    "tees": [
-    "gul",
-    "bla"
+    "rod"
    ],
-   "area": 516.3,
-   "dPrime": 0.5,
-   "meanShift": 0.05,
-   "rmsShift": 0.28,
-   "weakShare": 0.12,
-   "meanEdge": 0.87,
-   "kept": "start"
+   "area": 223.1,
+   "dPrime": 4.59,
+   "meanShift": 0.06,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.56
   },
   {
    "hole": 17,
    "kind": "tee",
    "id": "stadium-tee-17-5",
-   "start": "osm:w1563706747",
-   "tees": [
-    "rod"
-   ],
-   "area": 284.0,
-   "dPrime": 2.15,
-   "meanShift": 0.01,
-   "rmsShift": 0.14,
-   "weakShare": 0.16,
-   "meanEdge": 0.59
-  },
-  {
-   "hole": 17,
-   "kind": "tee",
-   "id": "stadium-tee-17-6",
    "start": "osm:w377215780",
    "tees": [],
    "area": 66.7,
@@ -1605,7 +1560,7 @@
   {
    "hole": 17,
    "kind": "tee",
-   "id": "stadium-tee-17-7",
+   "id": "stadium-tee-17-6",
    "start": "osm:w377215771",
    "tees": [],
    "area": 52.5,
@@ -1618,7 +1573,7 @@
   {
    "hole": 17,
    "kind": "tee",
-   "id": "stadium-tee-17-8",
+   "id": "stadium-tee-17-7",
    "start": "osm:w377215768",
    "tees": [],
    "area": 90.2,
@@ -1636,8 +1591,8 @@
    "cardResidual": {
     "svart": -0.0,
     "vit": 0.0,
-    "gul": -1.5,
-    "bla": -1.5,
+    "gul": -0.0,
+    "bla": -0.0,
     "rod": 0.0
    }
   },

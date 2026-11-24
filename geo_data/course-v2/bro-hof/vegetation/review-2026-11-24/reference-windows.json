@@ -1,0 +1,524 @@
+{
+ "schemaVersion": 1,
+ "groundId": "bro-hof",
+ "reviewId": "review-2026-11-24",
+ "state": "frozen-windows",
+ "crs": "EPSG:3006",
+ "note": "Scoring rectangles chosen on 2026-11-24 from the pit-free CHM, the 2025 and 2021 photos and detector-neutral measurements (tools/tree-pipeline/photo/window-measure.mjs; window-measure.json), before any detector under test ran. Both routings, both laser campaigns (21C031: C12, C13, C17, H8, H9; 20C028: the rest), the castle park and churchyard (C1, C11, C15, H6, H12, H16), closed stands (C3, C4, C5, C12, C13, C16, C18, H1, H3, H4, H5, H8, H10), edges and groups, single and avenue trees (C2, C7, C8, H2, H6), shores (H3, H14) and building surroundings (C11, C15, C16, H12, H16). No held-out window is within 15 m of a calibration window. Draft rectangles dropped before declaration, on the contact sheets: a conifer stand west of Castle 18 thinned since the 2020 laser, two clearings felled since it (Castle 11 and Castle 7 north), single trees by the Stadium 10 tee felled since it, a stream thicket and a planted willow stand whose crowns no source separates, a castle terrace without trees and a shed yard. The sample is the ground as the laser and the 2025 photo both show it.",
+ "matchingRule": {
+  "kind": "one-to-one, closest pairs first",
+  "radiusMetres": 4,
+  "declaredBeforeScoring": true
+ },
+ "minimumScoredHeightMetres": 3,
+ "declaredBeforeScoring": {
+  "rule": "agent (Claude), 2026-11-24: two detectors are tuned in order on the calibration windows only: r1 typed (the type-aware detector, coordinate descent from TYPED_DEFAULTS) and r2 refined (the r1 settings, suppressed tops taken back only on their own laser cone and apex and a separate crown in the photo). No fused or split round: their photo crowns come from the GPU stage photo-detect, which is not run on this ground. A v2 grid-search round was planned first and stopped unfinished, before any lock or score, to meet the delivery time; the sample did not change. Both rounds read this one sample (r2 carries it verbatim). No evaluation window is scored until both locks exist; then round r2's benchmark scores them once, together with the published first generation (machine-v1 records, with and without its stand trees) and the 1 m detector. The detector put forward is the one with the higher held-out F1, unless its held-out precision is more than 0.03 below the other's (then the other); a tie goes to the simpler r1. If it reaches precision and recall of at least 0.9 on at least 30 scored crowns the gate passes; otherwise the gate is missed and that is what is reported.",
+  "strata": "recall by stratum (isolated, group, edge, closed), by type and by height is reported with the totals, and per campaign (20C028, 21C031), for the park and building windows (H6, H12, H16) and for the shore windows (H3, H14)",
+  "secondary": "the decided candidates (after the holds, the bank rule and the reviews) are scored on the held-out windows as a secondary number, which decides nothing; the published first generation (published-individuals+stands) and the 1 m detector are scored alongside and decide nothing"
+ },
+ "windows": [
+  {
+   "id": "C1-castle-park",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-stadium/1"
+   ],
+   "bbox": [
+    648670.5,
+    6598244.5,
+    648725.5,
+    6598299.5
+   ],
+   "setting": "the castle park west of the 1st of the Stadium: large broadleaves in groups"
+  },
+  {
+   "id": "C2-c17-avenue",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-castle/17",
+    "bro-hof-castle/18"
+   ],
+   "bbox": [
+    648470.5,
+    6597799.5,
+    648530.5,
+    6597859.5
+   ],
+   "setting": "the old avenue between Castle 17 and Stadium 18: single trees"
+  },
+  {
+   "id": "C5-c13-edge",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-castle/1",
+    "bro-hof-castle/13"
+   ],
+   "bbox": [
+    648415.5,
+    6598734.5,
+    648455.5,
+    6598774.5
+   ],
+   "setting": "a conifer stand and its edge by the Castle 13 tee"
+  },
+  {
+   "id": "C6-s2-grove",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-castle/4",
+    "bro-hof-stadium/2"
+   ],
+   "bbox": [
+    648985.5,
+    6599044.5,
+    649030.5,
+    6599089.5
+   ],
+   "setting": "the broadleaf grove by the Castle 4 tee and the Stadium 2 green"
+  },
+  {
+   "id": "C7-c4-avenue",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-castle/4",
+    "bro-hof-castle/5"
+   ],
+   "bbox": [
+    649160.5,
+    6599224.5,
+    649220.5,
+    6599284.5
+   ],
+   "setting": "the avenue between Castle 4 and Castle 10: single young trees"
+  },
+  {
+   "id": "C8-s5-planted",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-stadium/5",
+    "bro-hof-stadium/12"
+   ],
+   "bbox": [
+    649570.5,
+    6598639.5,
+    649630.5,
+    6598679.5
+   ],
+   "setting": "a planted row of small conifers between Stadium 5 and 6"
+  },
+  {
+   "id": "C9-s8-grove",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-stadium/8"
+   ],
+   "bbox": [
+    649310.5,
+    6598674.5,
+    649340.5,
+    6598704.5
+   ],
+   "setting": "conifers and broadleaves at the edge of the Stadium 8 wood, 30 m square"
+  },
+  {
+   "id": "C11-churchyard",
+   "role": "calibration",
+   "holes": [],
+   "bbox": [
+    648630.5,
+    6599324.5,
+    648675.5,
+    6599369.5
+   ],
+   "setting": "the churchyard of Bro church: large broadleaves beside the church roof (outside the play zone)"
+  },
+  {
+   "id": "C14-c2-group",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-castle/2",
+    "bro-hof-castle/3"
+   ],
+   "bbox": [
+    648812.5,
+    6598709.5,
+    648852.5,
+    6598749.5
+   ],
+   "setting": "a group of tall broadleaves between Castle 2 and 3"
+  },
+  {
+   "id": "C15-park-garden",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-castle/1"
+   ],
+   "bbox": [
+    648580.5,
+    6598304.5,
+    648620.5,
+    6598344.5
+   ],
+   "setting": "trees round a red-roofed building of the castle (its roof is canopy in the pit-free CHM)"
+  },
+  {
+   "id": "C17-se-row",
+   "role": "calibration",
+   "holes": [],
+   "bbox": [
+    650060.5,
+    6597874.5,
+    650105.5,
+    6597919.5
+   ],
+   "setting": "a row of broadleaves in the south-east, in the 2021 campaign (21C031), outside the play zone"
+  },
+  {
+   "id": "C18-s3-group",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-stadium/3",
+    "bro-hof-stadium/8"
+   ],
+   "bbox": [
+    649145.5,
+    6598834.5,
+    649185.5,
+    6598874.5
+   ],
+   "setting": "a conifer stand between Stadium 3 and 8"
+  },
+  {
+   "id": "H2-avenue",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/5",
+    "bro-hof-castle/10"
+   ],
+   "bbox": [
+    649275.5,
+    6599314.5,
+    649335.5,
+    6599374.5
+   ],
+   "setting": "avenue trees and the thicket north of the Castle 5 tee"
+  },
+  {
+   "id": "H4-c15-closed",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/15"
+   ],
+   "bbox": [
+    648305.5,
+    6598694.5,
+    648333.5,
+    6598722.5
+   ],
+   "setting": "closed conifers west of Castle 15, 28 m square"
+  },
+  {
+   "id": "H6-s9-shore",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-stadium/1",
+    "bro-hof-stadium/9",
+    "bro-hof-stadium/10"
+   ],
+   "bbox": [
+    648735.5,
+    6598144.5,
+    648795.5,
+    6598194.5
+   ],
+   "setting": "single park trees and groups by the Stadium 1 tee and the 9th green pond"
+  },
+  {
+   "id": "H8-c7-east",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/7"
+   ],
+   "bbox": [
+    650015.5,
+    6598774.5,
+    650045.5,
+    6598804.5
+   ],
+   "setting": "closed conifers beside Castle 7, in the 2021 campaign (21C031), 30 m square"
+  },
+  {
+   "id": "H9-c7-east-edge",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/7",
+    "bro-hof-castle/8"
+   ],
+   "bbox": [
+    650005.5,
+    6598704.5,
+    650045.5,
+    6598744.5
+   ],
+   "setting": "mixed thicket and wood edge south of Castle 7, in the 2021 campaign (21C031)"
+  },
+  {
+   "id": "H10-s3-grove",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-stadium/2",
+    "bro-hof-stadium/3"
+   ],
+   "bbox": [
+    648970.5,
+    6598744.5,
+    649000.5,
+    6598774.5
+   ],
+   "setting": "closed tall broadleaves between Stadium 2 and 3, 30 m square"
+  },
+  {
+   "id": "H11-c6-ridge",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/5",
+    "bro-hof-castle/6"
+   ],
+   "bbox": [
+    649710.5,
+    6599104.5,
+    649740.5,
+    6599134.5
+   ],
+   "setting": "pines on the ridge between Castle 5 and 6, 30 m square"
+  },
+  {
+   "id": "H12-park2",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/1",
+    "bro-hof-stadium/1"
+   ],
+   "bbox": [
+    648590.5,
+    6598179.5,
+    648645.5,
+    6598234.5
+   ],
+   "setting": "park trees, hedges and a pavilion in the castle forecourt"
+  },
+  {
+   "id": "H13-c8-grove",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/8",
+    "bro-hof-castle/9"
+   ],
+   "bbox": [
+    649590.5,
+    6598844.5,
+    649630.5,
+    6598884.5
+   ],
+   "setting": "the broadleaf grove between Castle 8 and 9"
+  },
+  {
+   "id": "H14-s13-shore",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-stadium/12",
+    "bro-hof-stadium/13"
+   ],
+   "bbox": [
+    649685.5,
+    6598424.5,
+    649725.5,
+    6598464.5
+   ],
+   "setting": "shore trees at the creek between Stadium 12 and 13"
+  },
+  {
+   "id": "H16-s1-garden",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-stadium/1"
+   ],
+   "bbox": [
+    648755.5,
+    6598399.5,
+    648795.5,
+    6598439.5
+   ],
+   "setting": "garden trees round the red-roofed house west of Stadium 1"
+  },
+  {
+   "id": "H17-c12-mixed",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/12"
+   ],
+   "bbox": [
+    648525.5,
+    6598834.5,
+    648565.5,
+    6598874.5
+   ],
+   "setting": "trees in the road bend by the Castle 12 tee"
+  },
+  {
+   "id": "H19-c8-ridge",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/8",
+    "bro-hof-castle/6"
+   ],
+   "bbox": [
+    649720.5,
+    6598994.5,
+    649760.5,
+    6599034.5
+   ],
+   "setting": "the southern edge of the Castle 6 ridge"
+  },
+  {
+   "id": "H21-c12-scatter",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/13",
+    "bro-hof-castle/12"
+   ],
+   "bbox": [
+    648435.5,
+    6599024.5,
+    648480.5,
+    6599069.5
+   ],
+   "setting": "pines and broadleaves on rock north of Castle 12"
+  }
+ ],
+ "dropped": [
+  {
+   "id": "C3-s16-forest",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-stadium/10",
+    "bro-hof-stadium/16"
+   ],
+   "bbox": [
+    648720.5,
+    6597924.5,
+    648748.5,
+    6597952.5
+   ],
+   "setting": "the wood west of Stadium 16: closed, mostly leafless in April, 28 m square",
+   "reason": "closed thicket, leafless in both the laser and the April photo; the June photo shows no crown edges that match the laser lobes"
+  },
+  {
+   "id": "C4-c11-closed",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-castle/11",
+    "bro-hof-castle/10"
+   ],
+   "bbox": [
+    648710.5,
+    6599024.5,
+    648738.5,
+    6599052.5
+   ],
+   "setting": "the wood between Castle 11 and the church: closed, mixed, up to 26 m, 28 m square",
+   "reason": "closed mixed stand: the broadleaf half shows no crown edges and the photo shift over the canopy could not be measured (k unusable)"
+  },
+  {
+   "id": "C12-c7-east",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-castle/6",
+    "bro-hof-castle/7"
+   ],
+   "bbox": [
+    650030.5,
+    6598854.5,
+    650060.5,
+    6598884.5
+   ],
+   "setting": "the Castle 7 wood, closed and mixed, in the 2021 campaign (21C031), 30 m square",
+   "reason": "closed mixed stand at the east edge of the image strips (shift over the canopy 10 m); crowns in the photos cannot be tied to laser lobes"
+  },
+  {
+   "id": "C13-se-east",
+   "role": "calibration",
+   "holes": [],
+   "bbox": [
+    650005.5,
+    6597964.5,
+    650045.5,
+    6598004.5
+   ],
+   "setting": "closed young broadleaves in the south-east, in the 2021 campaign (21C031), outside the play zone",
+   "reason": "closed young broadleaves, leafless in the laser; crowns do not separate in either photo"
+  },
+  {
+   "id": "C16-s18-wood",
+   "role": "calibration",
+   "holes": [
+    "bro-hof-stadium/18",
+    "bro-hof-castle/18"
+   ],
+   "bbox": [
+    648450.5,
+    6597604.5,
+    648490.5,
+    6597644.5
+   ],
+   "setting": "closed tall broadleaves by the houses south of Castle 18",
+   "reason": "closed tall broadleaves, leafless in the laser; only one or two domes separate in the June photo"
+  },
+  {
+   "id": "H1-farm",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-castle/1"
+   ],
+   "bbox": [
+    648570.5,
+    6598634.5,
+    648610.5,
+    6598674.5
+   ],
+   "setting": "the closed broadleaf grove at the maintenance farm east of Castle 1",
+   "reason": "closed broadleaf grove, leafless in the laser: its tops stand about 4 m apart on one even canopy and no photo decides which are crowns"
+  },
+  {
+   "id": "H3-s14-wood",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-stadium/14"
+   ],
+   "bbox": [
+    649590.5,
+    6598144.5,
+    649620.5,
+    6598174.5
+   ],
+   "setting": "the shore wood inside Stadium 14: leaning broadleaves, 30 m square",
+   "reason": "leaning shore broadleaves with several stems each; crowns do not separate in either photo"
+  },
+  {
+   "id": "H5-s14-group",
+   "role": "evaluation",
+   "holes": [
+    "bro-hof-stadium/14",
+    "bro-hof-stadium/12"
+   ],
+   "bbox": [
+    649425.5,
+    6598464.5,
+    649465.5,
+    6598504.5
+   ],
+   "setting": "a dense broadleaf grove between Stadium 12 and 14",
+   "reason": "dense broadleaf grove, leafless in the laser: no crown edges in either photo"
+  }
+ ]
+}

@@ -1,0 +1,219 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "reference",
+ "groundId": "bro-hof",
+ "reviewId": "review-2026-11-24",
+ "round": "r1",
+ "ranAt": "2026-11-24T21:18:20.697Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/bro-hof/trees.json",
+  "bytes": 7408,
+  "sha256": "bdc8b3f01ab3b853bf64f9f45bacf6c0dd42ad3bb5386b532feeb2fb50131137"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "902b5b9274dc934bafaa26fcd20a3149d70552ea0a94dc79891b8abe721b69b5",
+  "tools/tree-pipeline/config.mjs": "0d4325b9401da1c814db9b5478d4416989052cd27afcd15717d4aff9ce3c1f2f",
+  "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "6d7adc7b9eae9686d4adbfc43887b9b8d74d479498508d0c8df34c5760aafe70",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "08471353d981e22d7a473c5797c0c1196bb14c97f1747bd1a2875992593a07a2",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "48bde1ad12e02fc3660753f35e058c29f939a23267367c4e2d7d9ff7c550eee2",
+  "tools/tree-pipeline/laser-parts.mjs": "b94cf5756aecd1c7cba6b37939db6221cea80315280b91d7dff8b0da7d8724bd",
+  "tools/tree-pipeline/detect.mjs": "84b123699d1f327ccadbdc6b07a83772abd7145f4ba7a4e53665adbc5935fa78",
+  "tools/tree-pipeline/verify.mjs": "b0e98daa5567ffd01407e5a0ad61e082133296885b54f9586776f7f5e5483a22",
+  "tools/tree-pipeline/reference.mjs": "5d097c318c4d6766d10aad7f7c247d9b270ad848e11d1afbde3b8d7e13afb72a",
+  "tools/tree-pipeline/benchmark.mjs": "fe6eacbbb3747b0ee0ab166eff9ced11b9ca84cd0d47325e30d2371d9dab0f42",
+  "tools/tree-pipeline/candidates.mjs": "88b52e54003b1a39bf92f47e9802d8326bc7bd75cfddc9655ab2f4412a108af7",
+  "tools/tree-pipeline/review.mjs": "9ec7d0288c7e77198e5b77dd7d1f08e7ad1dce817a2a6df4c7b191a8b46e014d",
+  "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
+  "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+  "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+  "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/reference-windows.json",
+   "bytes": 13477,
+   "sha256": "e257c64daf55554366f2b4ec7e74ff81972dd64aecb2a81ecf5a7bdcd59e1a18"
+  },
+  {
+   "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/reference-annotations.json",
+   "bytes": 162905,
+   "sha256": "0941973b32872159109ef0aeb3320d89cbed91d3e6e31c4b244cddb5c35876fb"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C1-castle-park.candidates.json",
+   "bytes": 25629,
+   "sha256": "4c6b23d69e70a7fbc6b7201a4b1477f7c1a1e3601ca1d9f84164c2b13af559dd"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C2-c17-avenue.candidates.json",
+   "bytes": 2239,
+   "sha256": "bfa82a93bf5ef84bfada1febd916a0edc74ffed6a7207b354016dcedb05420cd"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C5-c13-edge.candidates.json",
+   "bytes": 13994,
+   "sha256": "79c6644327ff5da716d98e9676dc8eeed787559dd6e9d703dae9ae7a421f6014"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C6-s2-grove.candidates.json",
+   "bytes": 15243,
+   "sha256": "1d6f15b1f1625db05c3d8055390a393af0c7bbc029f8b6c23111c0453dffecfc"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C7-c4-avenue.candidates.json",
+   "bytes": 3357,
+   "sha256": "858c27d53f3f38b16331a667fae6058fcb7f266b604aeec519e1df6d6639a092"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C8-s5-planted.candidates.json",
+   "bytes": 1713,
+   "sha256": "29d58698d7afa3f6eddbee3f0c691e7c956cc3c8172f840d1f7d6fe2fc7acc58"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C9-s8-grove.candidates.json",
+   "bytes": 5309,
+   "sha256": "040415f0ae71d61266b9f6e996f6d279f3fb79066c398f581d42c238c3102632"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C11-churchyard.candidates.json",
+   "bytes": 8816,
+   "sha256": "1b4c438f1947943c2696a9a7b32883350a1eb8d6720a067474c05936482779b9"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C14-c2-group.candidates.json",
+   "bytes": 8794,
+   "sha256": "0c60668574cdb28576a3c110fcd2ec01ec91fdbf801a04e6fc9fb93238d5b955"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C15-park-garden.candidates.json",
+   "bytes": 6049,
+   "sha256": "6bc321e6a673a2b18ce79d2658a678781428c6ecbe7eea043fd178738bb74f1e"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C17-se-row.candidates.json",
+   "bytes": 5985,
+   "sha256": "252ea23807d57c126054004437138dc9941421c25a7e067e15d0357b80c29f07"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/C18-s3-group.candidates.json",
+   "bytes": 9318,
+   "sha256": "386af437584cd09675c65f584534db4f5c633f687a3eb15925590e39791c34b8"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H2-avenue.candidates.json",
+   "bytes": 6103,
+   "sha256": "f2e444e0e6db422df6dc6f300b70c7ea007d47fc5f4023f9d968abcc360b9a15"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H4-c15-closed.candidates.json",
+   "bytes": 13142,
+   "sha256": "03a6145190520fcaa5e6cccd49b01dd459e521e68f58da45aa0f5fe7eaeec6b7"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H6-s9-shore.candidates.json",
+   "bytes": 6076,
+   "sha256": "79b6e822214f04b06e1b3b31f88200c00cfc013e06b5348f90494f9acbd974d5"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H8-c7-east.candidates.json",
+   "bytes": 9223,
+   "sha256": "d32082a2ec1bec01cb256a59d4038292099d3ee520a229c7fb01fd1bdda2a496"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H9-c7-east-edge.candidates.json",
+   "bytes": 9832,
+   "sha256": "20cddbcd57b3c6fda311727b1adf3027b258b5db9ec3e3b08e21b63d978370f0"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H10-s3-grove.candidates.json",
+   "bytes": 11691,
+   "sha256": "738fdeb2de015295fdd9ba41da0bc263d2fdf27876244361058a7b4bdeca142a"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H11-c6-ridge.candidates.json",
+   "bytes": 8141,
+   "sha256": "ba141b5c0328799791d5ebe36f5ee3a0bd5340a723bc24e1d5ffe0b0d87750b4"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H12-park2.candidates.json",
+   "bytes": 7573,
+   "sha256": "001ba625e82079217b7a0a81b56fa9c2fa58d1b55274c25b443c20e3a4436077"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H13-c8-grove.candidates.json",
+   "bytes": 12702,
+   "sha256": "3a642006ea11fa9c1276f2bee9a32b260eea8d7f722f6d150e2c92a5f0a90705"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H14-s13-shore.candidates.json",
+   "bytes": 6004,
+   "sha256": "356eaef619276f177fd6cda89b8bf7884c9f5d74bcd2f16087d6df30ae45a149"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H16-s1-garden.candidates.json",
+   "bytes": 7653,
+   "sha256": "84cce5328780caaa082978c7fe04ec40b9890b5522735b6bf3f218b25ccd3d3a"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H17-c12-mixed.candidates.json",
+   "bytes": 8859,
+   "sha256": "8729b08664111bd0ae2ada8063198b7ed0f8844a13f3e4765f5a12aa13d33d8e"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H19-c8-ridge.candidates.json",
+   "bytes": 6811,
+   "sha256": "4e9e202c89d4da56221e63e77dad0f3148bb80d60076c1a493ea66d0241176ab"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/reference-panels/H21-c12-scatter.candidates.json",
+   "bytes": 14230,
+   "sha256": "49c01d51e830afcbc802c53b3e5237d0c1a70a9d91b2561d7d9527b5d191dfd3"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/reference.geojson",
+   "bytes": 670479,
+   "sha256": "2759416d0855be7c451a295dd40557eaf92478d98d687e405a9787630e13921a"
+  },
+  {
+   "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/reference-lock.json",
+   "bytes": 3994,
+   "sha256": "7b0b86e5aed2109d2138a5d6b6005a575c6ea8457d56ef06dbcc796c41c771f1"
+  }
+ ],
+ "result": {
+  "counts": {
+   "calibration": {
+    "scored": 151,
+    "window": 151,
+    "margin": 213,
+    "ambiguous": 0,
+    "smallUnder3m": 0
+   },
+   "evaluation": {
+    "scored": 166,
+    "window": 166,
+    "margin": 299,
+    "ambiguous": 0,
+    "smallUnder3m": 0
+   }
+  }
+ }
+}

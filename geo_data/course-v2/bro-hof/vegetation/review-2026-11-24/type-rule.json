@@ -1,0 +1,6171 @@
+{
+ "schemaVersion": 1,
+ "kind": "conifer-broadleaf-rule",
+ "method": "detected crowns matched (4 m, one-to-one) to reference crowns typed conifer or broadleaf by the interpreter; thresholds searched on calibration examples by balanced accuracy; reported on evaluation examples",
+ "examples": {
+  "calibration": 242,
+  "evaluation": 263
+ },
+ "chosen": {
+  "rule": "(groundShare < 0.201) OR (aprilVegetatedShare >= 0.387)",
+  "terms": [
+   {
+    "name": "groundShare",
+    "dir": "<",
+    "t": 0.201
+   },
+   {
+    "name": "aprilVegetatedShare",
+    "dir": ">=",
+    "t": 0.387
+   }
+  ],
+  "op": "OR",
+  "calibration": {
+   "balanced": 0.9566929133858268,
+   "coniferRecall": 1,
+   "broadleafRecall": 0.9133858267716536,
+   "conifers": 115,
+   "broadleaves": 127
+  },
+  "evaluation": {
+   "balanced": 0.883702715247157,
+   "coniferRecall": 0.8561151079136691,
+   "broadleafRecall": 0.9112903225806451,
+   "conifers": 139,
+   "broadleaves": 124
+  }
+ },
+ "singleFeatureBest": [
+  {
+   "rule": "firstCanopyShare >= 0.877",
+   "calibration": {
+    "balanced": 0.8100992810681273,
+    "coniferRecall": 0.7304347826086957,
+    "broadleafRecall": 0.889763779527559,
+    "conifers": 115,
+    "broadleaves": 127
+   },
+   "evaluation": {
+    "balanced": 0.7479983754931538,
+    "coniferRecall": 0.6330935251798561,
+    "broadleafRecall": 0.8629032258064516,
+    "conifers": 139,
+    "broadleaves": 124
+   }
+  },
+  {
+   "rule": "groundShare < 0.201",
+   "calibration": {
+    "balanced": 0.9095172885997946,
+    "coniferRecall": 0.8347826086956521,
+    "broadleafRecall": 0.984251968503937,
+    "conifers": 115,
+    "broadleaves": 127
+   },
+   "evaluation": {
+    "balanced": 0.7028602924112324,
+    "coniferRecall": 0.4460431654676259,
+    "broadleafRecall": 0.9596774193548387,
+    "conifers": 139,
+    "broadleaves": 124
+   }
+  },
+  {
+   "rule": "aprilContrastP90 >= 0.27",
+   "calibration": {
+    "balanced": 0.9401232454638822,
+    "coniferRecall": 0.9826086956521739,
+    "broadleafRecall": 0.8976377952755905,
+    "conifers": 115,
+    "broadleaves": 127
+   },
+   "evaluation": {
+    "balanced": 0.8261487584126247,
+    "coniferRecall": 0.7410071942446043,
+    "broadleafRecall": 0.9112903225806451,
+    "conifers": 139,
+    "broadleaves": 124
+   }
+  },
+  {
+   "rule": "aprilVegetatedShare >= 0.387",
+   "calibration": {
+    "balanced": 0.9558712769599452,
+    "coniferRecall": 0.9826086956521739,
+    "broadleafRecall": 0.9291338582677166,
+    "conifers": 115,
+    "broadleaves": 127
+   },
+   "evaluation": {
+    "balanced": 0.8773787421675563,
+    "coniferRecall": 0.8273381294964028,
+    "broadleafRecall": 0.9274193548387096,
+    "conifers": 139,
+    "broadleaves": 124
+   }
+  }
+ ],
+ "examplesTable": [
+  {
+   "ref": "C1-castle-park-06",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 20.128,
+   "features": {
+    "firstCanopyShare": 0.789,
+    "groundShare": 0.405,
+    "aprilContrastP90": 0.066,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C1-castle-park-10",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 24.008,
+   "features": {
+    "firstCanopyShare": 0.67,
+    "groundShare": 0.264,
+    "aprilContrastP90": 0.123,
+    "aprilVegetatedShare": 0.106
+   }
+  },
+  {
+   "ref": "C1-castle-park-02",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 24.967,
+   "features": {
+    "firstCanopyShare": 0.641,
+    "groundShare": 0.279,
+    "aprilContrastP90": 0.137,
+    "aprilVegetatedShare": 0.158
+   }
+  },
+  {
+   "ref": "C1-castle-park-05",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 23.364,
+   "features": {
+    "firstCanopyShare": 0.821,
+    "groundShare": 0.269,
+    "aprilContrastP90": 0.088,
+    "aprilVegetatedShare": 0.031
+   }
+  },
+  {
+   "ref": "C1-castle-park-01",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 27.382,
+   "features": {
+    "firstCanopyShare": 0.825,
+    "groundShare": 0.253,
+    "aprilContrastP90": 0.076,
+    "aprilVegetatedShare": 0.018
+   }
+  },
+  {
+   "ref": "C1-castle-park-03",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 25.151,
+   "features": {
+    "firstCanopyShare": 0.964,
+    "groundShare": 0.258,
+    "aprilContrastP90": 0.114,
+    "aprilVegetatedShare": 0.081
+   }
+  },
+  {
+   "ref": "C1-castle-park-23",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 25.211,
+   "features": {
+    "firstCanopyShare": 0.89,
+    "groundShare": 0.223,
+    "aprilContrastP90": 0.089,
+    "aprilVegetatedShare": 0.016
+   }
+  },
+  {
+   "ref": "C1-castle-park-33",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 23.121,
+   "features": {
+    "firstCanopyShare": 0.866,
+    "groundShare": 0.246,
+    "aprilContrastP90": 0.093,
+    "aprilVegetatedShare": 0.031
+   }
+  },
+  {
+   "ref": "C1-castle-park-09",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 25.588,
+   "features": {
+    "firstCanopyShare": 0.9,
+    "groundShare": 0.23,
+    "aprilContrastP90": 0.094,
+    "aprilVegetatedShare": 0.065
+   }
+  },
+  {
+   "ref": "C1-castle-park-37",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 20.221,
+   "features": {
+    "firstCanopyShare": 0.808,
+    "groundShare": 0.233,
+    "aprilContrastP90": 0.24,
+    "aprilVegetatedShare": 0.146
+   }
+  },
+  {
+   "ref": "C1-castle-park-16",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 27.163,
+   "features": {
+    "firstCanopyShare": 0.793,
+    "groundShare": 0.299,
+    "aprilContrastP90": 0.067,
+    "aprilVegetatedShare": 0.011
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-05",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.366,
+   "features": {
+    "firstCanopyShare": 0.765,
+    "groundShare": 0.44,
+    "aprilContrastP90": 0.22,
+    "aprilVegetatedShare": 0.207
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-01",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 12.893,
+   "features": {
+    "firstCanopyShare": 0.831,
+    "groundShare": 0.265,
+    "aprilContrastP90": 0.088,
+    "aprilVegetatedShare": 0.025
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-10",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.236,
+   "features": {
+    "firstCanopyShare": 0.6,
+    "groundShare": 0.375,
+    "aprilContrastP90": 0.03,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-04",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 17.812,
+   "features": {
+    "firstCanopyShare": 0.733,
+    "groundShare": 0.267,
+    "aprilContrastP90": 0.125,
+    "aprilVegetatedShare": 0.111
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-02",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 11.982,
+   "features": {
+    "firstCanopyShare": 0.776,
+    "groundShare": 0.282,
+    "aprilContrastP90": 0.083,
+    "aprilVegetatedShare": 0.04
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-07",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.207,
+   "features": {
+    "firstCanopyShare": 0.714,
+    "groundShare": 0.419,
+    "aprilContrastP90": 0.124,
+    "aprilVegetatedShare": 0.104
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-03",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 12.344,
+   "features": {
+    "firstCanopyShare": 0.779,
+    "groundShare": 0.282,
+    "aprilContrastP90": 0.089,
+    "aprilVegetatedShare": 0.061
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-11",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.591,
+   "features": {
+    "firstCanopyShare": 0.813,
+    "groundShare": 0.379,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-06",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.784,
+   "features": {
+    "firstCanopyShare": 0.824,
+    "groundShare": 0.346,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C2-c17-avenue-08",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.824,
+   "features": {
+    "firstCanopyShare": 0.683,
+    "groundShare": 0.412,
+    "aprilContrastP90": 0.126,
+    "aprilVegetatedShare": 0.116
+   }
+  },
+  {
+   "ref": "C5-c13-edge-18",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.167,
+   "features": {
+    "firstCanopyShare": 0.929,
+    "groundShare": 0.163,
+    "aprilContrastP90": 0.399,
+    "aprilVegetatedShare": 0.927
+   }
+  },
+  {
+   "ref": "C5-c13-edge-19",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.853,
+   "features": {
+    "firstCanopyShare": 0.952,
+    "groundShare": 0.167,
+    "aprilContrastP90": 0.394,
+    "aprilVegetatedShare": 0.939
+   }
+  },
+  {
+   "ref": "C5-c13-edge-21",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.132,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.143,
+    "aprilContrastP90": 0.396,
+    "aprilVegetatedShare": 0.961
+   }
+  },
+  {
+   "ref": "C5-c13-edge-23",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 3.622,
+   "features": {
+    "firstCanopyShare": 0.536,
+    "groundShare": 0.49,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.967
+   }
+  },
+  {
+   "ref": "C5-c13-edge-25",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.583,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.134,
+    "aprilContrastP90": 0.387,
+    "aprilVegetatedShare": 0.582
+   }
+  },
+  {
+   "ref": "C5-c13-edge-28",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.189,
+   "features": {
+    "firstCanopyShare": 0.969,
+    "groundShare": 0.134,
+    "aprilContrastP90": 0.387,
+    "aprilVegetatedShare": 0.833
+   }
+  },
+  {
+   "ref": "C5-c13-edge-31",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.478,
+   "features": {
+    "firstCanopyShare": 0.948,
+    "groundShare": 0.131,
+    "aprilContrastP90": 0.381,
+    "aprilVegetatedShare": 0.535
+   }
+  },
+  {
+   "ref": "C5-c13-edge-34",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 22.809,
+   "features": {
+    "firstCanopyShare": 0.958,
+    "groundShare": 0.129,
+    "aprilContrastP90": 0.387,
+    "aprilVegetatedShare": 0.922
+   }
+  },
+  {
+   "ref": "C5-c13-edge-36",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.368,
+   "features": {
+    "firstCanopyShare": 0.873,
+    "groundShare": 0.236,
+    "aprilContrastP90": 0.365,
+    "aprilVegetatedShare": 0.744
+   }
+  },
+  {
+   "ref": "C5-c13-edge-37",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.844,
+   "features": {
+    "firstCanopyShare": 0.911,
+    "groundShare": 0.175,
+    "aprilContrastP90": 0.385,
+    "aprilVegetatedShare": 0.889
+   }
+  },
+  {
+   "ref": "C5-c13-edge-38",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.69,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.139,
+    "aprilContrastP90": 0.379,
+    "aprilVegetatedShare": 0.677
+   }
+  },
+  {
+   "ref": "C5-c13-edge-39",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.066,
+   "features": {
+    "firstCanopyShare": 0.851,
+    "groundShare": 0.169,
+    "aprilContrastP90": 0.387,
+    "aprilVegetatedShare": 0.989
+   }
+  },
+  {
+   "ref": "C5-c13-edge-43",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.164,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.077,
+    "aprilContrastP90": 0.365,
+    "aprilVegetatedShare": 0.619
+   }
+  },
+  {
+   "ref": "C5-c13-edge-46",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.383,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.168,
+    "aprilContrastP90": 0.365,
+    "aprilVegetatedShare": 0.779
+   }
+  },
+  {
+   "ref": "C5-c13-edge-48",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.474,
+   "features": {
+    "firstCanopyShare": 0.892,
+    "groundShare": 0.162,
+    "aprilContrastP90": 0.376,
+    "aprilVegetatedShare": 0.782
+   }
+  },
+  {
+   "ref": "C5-c13-edge-50",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.086,
+   "features": {
+    "firstCanopyShare": 0.975,
+    "groundShare": 0.107,
+    "aprilContrastP90": 0.351,
+    "aprilVegetatedShare": 0.571
+   }
+  },
+  {
+   "ref": "C5-c13-edge-51",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.515,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.067,
+    "aprilContrastP90": 0.378,
+    "aprilVegetatedShare": 0.996
+   }
+  },
+  {
+   "ref": "C5-c13-edge-52",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.159,
+   "features": {
+    "firstCanopyShare": 0.886,
+    "groundShare": 0.171,
+    "aprilContrastP90": 0.369,
+    "aprilVegetatedShare": 0.836
+   }
+  },
+  {
+   "ref": "C5-c13-edge-61",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.856,
+   "features": {
+    "firstCanopyShare": 0.772,
+    "groundShare": 0.194,
+    "aprilContrastP90": 0.382,
+    "aprilVegetatedShare": 0.75
+   }
+  },
+  {
+   "ref": "C5-c13-edge-65",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.056,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.103,
+    "aprilContrastP90": 0.393,
+    "aprilVegetatedShare": 0.737
+   }
+  },
+  {
+   "ref": "C5-c13-edge-66",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 17.693,
+   "features": {
+    "firstCanopyShare": 0.791,
+    "groundShare": 0.232,
+    "aprilContrastP90": 0.391,
+    "aprilVegetatedShare": 0.621
+   }
+  },
+  {
+   "ref": "C5-c13-edge-68",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.209,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.142,
+    "aprilContrastP90": 0.391,
+    "aprilVegetatedShare": 0.797
+   }
+  },
+  {
+   "ref": "C5-c13-edge-69",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.885,
+   "features": {
+    "firstCanopyShare": 0.932,
+    "groundShare": 0.122,
+    "aprilContrastP90": 0.383,
+    "aprilVegetatedShare": 0.541
+   }
+  },
+  {
+   "ref": "C5-c13-edge-72",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.818,
+   "features": {
+    "firstCanopyShare": 0.772,
+    "groundShare": 0.181,
+    "aprilContrastP90": 0.278,
+    "aprilVegetatedShare": 0.286
+   }
+  },
+  {
+   "ref": "C5-c13-edge-24",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.914,
+   "features": {
+    "firstCanopyShare": 0.988,
+    "groundShare": 0.088,
+    "aprilContrastP90": 0.396,
+    "aprilVegetatedShare": 0.709
+   }
+  },
+  {
+   "ref": "C5-c13-edge-30",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.982,
+   "features": {
+    "firstCanopyShare": 0.889,
+    "groundShare": 0.16,
+    "aprilContrastP90": 0.365,
+    "aprilVegetatedShare": 0.771
+   }
+  },
+  {
+   "ref": "C5-c13-edge-40",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.02,
+   "features": {
+    "firstCanopyShare": 0.893,
+    "groundShare": 0.138,
+    "aprilContrastP90": 0.379,
+    "aprilVegetatedShare": 0.839
+   }
+  },
+  {
+   "ref": "C5-c13-edge-56",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.429,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.105,
+    "aprilContrastP90": 0.345,
+    "aprilVegetatedShare": 0.563
+   }
+  },
+  {
+   "ref": "C5-c13-edge-60",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 17.474,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.068,
+    "aprilContrastP90": 0.365,
+    "aprilVegetatedShare": 0.684
+   }
+  },
+  {
+   "ref": "C5-c13-edge-71",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.745,
+   "features": {
+    "firstCanopyShare": 0.713,
+    "groundShare": 0.264,
+    "aprilContrastP90": 0.17,
+    "aprilVegetatedShare": 0.125
+   }
+  },
+  {
+   "ref": "C5-c13-edge-78",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.298,
+   "features": {
+    "firstCanopyShare": 0.872,
+    "groundShare": 0.28,
+    "aprilContrastP90": 0.263,
+    "aprilVegetatedShare": 0.195
+   }
+  },
+  {
+   "ref": "C5-c13-edge-47",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.219,
+   "features": {
+    "firstCanopyShare": 0.904,
+    "groundShare": 0.173,
+    "aprilContrastP90": 0.379,
+    "aprilVegetatedShare": 0.982
+   }
+  },
+  {
+   "ref": "C5-c13-edge-54",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.273,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.145,
+    "aprilContrastP90": 0.373,
+    "aprilVegetatedShare": 0.861
+   }
+  },
+  {
+   "ref": "C5-c13-edge-03",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.244,
+   "features": {
+    "firstCanopyShare": 0.986,
+    "groundShare": 0.127,
+    "aprilContrastP90": 0.388,
+    "aprilVegetatedShare": 0.996
+   }
+  },
+  {
+   "ref": "C5-c13-edge-05",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.167,
+   "features": {
+    "firstCanopyShare": 0.976,
+    "groundShare": 0.132,
+    "aprilContrastP90": 0.375,
+    "aprilVegetatedShare": 0.918
+   }
+  },
+  {
+   "ref": "C5-c13-edge-04",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.413,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.155,
+    "aprilContrastP90": 0.374,
+    "aprilVegetatedShare": 0.746
+   }
+  },
+  {
+   "ref": "C5-c13-edge-07",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.072,
+   "features": {
+    "firstCanopyShare": 0.802,
+    "groundShare": 0.189,
+    "aprilContrastP90": 0.373,
+    "aprilVegetatedShare": 0.679
+   }
+  },
+  {
+   "ref": "C5-c13-edge-02",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.065,
+   "features": {
+    "firstCanopyShare": 0.935,
+    "groundShare": 0.166,
+    "aprilContrastP90": 0.388,
+    "aprilVegetatedShare": 0.917
+   }
+  },
+  {
+   "ref": "C5-c13-edge-64",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.302,
+   "features": {
+    "firstCanopyShare": 0.946,
+    "groundShare": 0.103,
+    "aprilContrastP90": 0.393,
+    "aprilVegetatedShare": 0.791
+   }
+  },
+  {
+   "ref": "C5-c13-edge-79",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.735,
+   "features": {
+    "firstCanopyShare": 0.756,
+    "groundShare": 0.222,
+    "aprilContrastP90": 0.313,
+    "aprilVegetatedShare": 0.418
+   }
+  },
+  {
+   "ref": "C5-c13-edge-01",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.33,
+   "features": {
+    "firstCanopyShare": 0.886,
+    "groundShare": 0.144,
+    "aprilContrastP90": 0.386,
+    "aprilVegetatedShare": 0.997
+   }
+  },
+  {
+   "ref": "C5-c13-edge-76",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 14.674,
+   "features": {
+    "firstCanopyShare": 0.45,
+    "groundShare": 0.504,
+    "aprilContrastP90": 0.285,
+    "aprilVegetatedShare": 0.282
+   }
+  },
+  {
+   "ref": "C5-c13-edge-06",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.7,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.103,
+    "aprilContrastP90": 0.389,
+    "aprilVegetatedShare": 0.857
+   }
+  },
+  {
+   "ref": "C5-c13-edge-10",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.343,
+   "features": {
+    "firstCanopyShare": 0.917,
+    "groundShare": 0.114,
+    "aprilContrastP90": 0.374,
+    "aprilVegetatedShare": 0.464
+   }
+  },
+  {
+   "ref": "C5-c13-edge-09",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.667,
+   "features": {
+    "firstCanopyShare": 0.778,
+    "groundShare": 0.163,
+    "aprilContrastP90": 0.36,
+    "aprilVegetatedShare": 0.588
+   }
+  },
+  {
+   "ref": "C5-c13-edge-08",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.174,
+   "features": {
+    "firstCanopyShare": 0.881,
+    "groundShare": 0.174,
+    "aprilContrastP90": 0.36,
+    "aprilVegetatedShare": 0.704
+   }
+  },
+  {
+   "ref": "C5-c13-edge-11",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.684,
+   "features": {
+    "firstCanopyShare": 0.908,
+    "groundShare": 0.194,
+    "aprilContrastP90": 0.385,
+    "aprilVegetatedShare": 0.867
+   }
+  },
+  {
+   "ref": "C5-c13-edge-12",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.038,
+   "features": {
+    "firstCanopyShare": 0.877,
+    "groundShare": 0.112,
+    "aprilContrastP90": 0.397,
+    "aprilVegetatedShare": 0.904
+   }
+  },
+  {
+   "ref": "C5-c13-edge-14",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.504,
+   "features": {
+    "firstCanopyShare": 0.988,
+    "groundShare": 0.144,
+    "aprilContrastP90": 0.403,
+    "aprilVegetatedShare": 0.77
+   }
+  },
+  {
+   "ref": "C5-c13-edge-29",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.766,
+   "features": {
+    "firstCanopyShare": 0.891,
+    "groundShare": 0.177,
+    "aprilContrastP90": 0.401,
+    "aprilVegetatedShare": 0.993
+   }
+  },
+  {
+   "ref": "C5-c13-edge-15",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.289,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.122,
+    "aprilContrastP90": 0.391,
+    "aprilVegetatedShare": 0.592
+   }
+  },
+  {
+   "ref": "C5-c13-edge-33",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.621,
+   "features": {
+    "firstCanopyShare": 0.955,
+    "groundShare": 0.151,
+    "aprilContrastP90": 0.368,
+    "aprilVegetatedShare": 0.768
+   }
+  },
+  {
+   "ref": "C5-c13-edge-41",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.248,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.111,
+    "aprilContrastP90": 0.377,
+    "aprilVegetatedShare": 0.999
+   }
+  },
+  {
+   "ref": "C5-c13-edge-53",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 19.37,
+   "features": {
+    "firstCanopyShare": 0.709,
+    "groundShare": 0.259,
+    "aprilContrastP90": 0.308,
+    "aprilVegetatedShare": 0.281
+   }
+  },
+  {
+   "ref": "C5-c13-edge-20",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.275,
+   "features": {
+    "firstCanopyShare": 0.923,
+    "groundShare": 0.178,
+    "aprilContrastP90": 0.364,
+    "aprilVegetatedShare": 0.864
+   }
+  },
+  {
+   "ref": "C5-c13-edge-44",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.734,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.227,
+    "aprilContrastP90": 0.377,
+    "aprilVegetatedShare": 0.997
+   }
+  },
+  {
+   "ref": "C5-c13-edge-57",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 14.322,
+   "features": {
+    "firstCanopyShare": 0.806,
+    "groundShare": 0.311,
+    "aprilContrastP90": 0.043,
+    "aprilVegetatedShare": 0.003
+   }
+  },
+  {
+   "ref": "C5-c13-edge-32",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 21.567,
+   "features": {
+    "firstCanopyShare": 0.875,
+    "groundShare": 0.237,
+    "aprilContrastP90": 0.269,
+    "aprilVegetatedShare": 0.165
+   }
+  },
+  {
+   "ref": "C5-c13-edge-67",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 19.6,
+   "features": {
+    "firstCanopyShare": 0.773,
+    "groundShare": 0.319,
+    "aprilContrastP90": 0.286,
+    "aprilVegetatedShare": 0.225
+   }
+  },
+  {
+   "ref": "C5-c13-edge-22",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 3.133,
+   "features": {
+    "firstCanopyShare": 0.643,
+    "groundShare": 0.576,
+    "aprilContrastP90": 0.277,
+    "aprilVegetatedShare": 0.977
+   }
+  },
+  {
+   "ref": "C6-s2-grove-14",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.897,
+   "features": {
+    "firstCanopyShare": 0.759,
+    "groundShare": 0.306,
+    "aprilContrastP90": -0.019,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-42",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.406,
+   "features": {
+    "firstCanopyShare": 0.623,
+    "groundShare": 0.396,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-19",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.554,
+   "features": {
+    "firstCanopyShare": 0.787,
+    "groundShare": 0.313,
+    "aprilContrastP90": 0.005,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-16",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.834,
+   "features": {
+    "firstCanopyShare": 0.836,
+    "groundShare": 0.324,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-32",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.675,
+   "features": {
+    "firstCanopyShare": 0.69,
+    "groundShare": 0.389,
+    "aprilContrastP90": 0.016,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-31",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.959,
+   "features": {
+    "firstCanopyShare": 0.708,
+    "groundShare": 0.411,
+    "aprilContrastP90": -0.018,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-21",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 12.908,
+   "features": {
+    "firstCanopyShare": 0.821,
+    "groundShare": 0.253,
+    "aprilContrastP90": -0.008,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-24",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.12,
+   "features": {
+    "firstCanopyShare": 0.507,
+    "groundShare": 0.384,
+    "aprilContrastP90": 0.013,
+    "aprilVegetatedShare": 0.043
+   }
+  },
+  {
+   "ref": "C6-s2-grove-07",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.798,
+   "features": {
+    "firstCanopyShare": 0.667,
+    "groundShare": 0.389,
+    "aprilContrastP90": -0.007,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-17",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.797,
+   "features": {
+    "firstCanopyShare": 0.7,
+    "groundShare": 0.405,
+    "aprilContrastP90": -0.016,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-20",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.994,
+   "features": {
+    "firstCanopyShare": 0.747,
+    "groundShare": 0.359,
+    "aprilContrastP90": -0.01,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-08",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.594,
+   "features": {
+    "firstCanopyShare": 0.639,
+    "groundShare": 0.398,
+    "aprilContrastP90": -0.009,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-41",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.606,
+   "features": {
+    "firstCanopyShare": 0.788,
+    "groundShare": 0.333,
+    "aprilContrastP90": 0.01,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-10",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.029,
+   "features": {
+    "firstCanopyShare": 0.576,
+    "groundShare": 0.377,
+    "aprilContrastP90": -0.019,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-22",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.612,
+   "features": {
+    "firstCanopyShare": 0.937,
+    "groundShare": 0.365,
+    "aprilContrastP90": -0.004,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-48",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.633,
+   "features": {
+    "firstCanopyShare": 0.514,
+    "groundShare": 0.486,
+    "aprilContrastP90": 0.006,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-12",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.154,
+   "features": {
+    "firstCanopyShare": 0.471,
+    "groundShare": 0.333,
+    "aprilContrastP90": 0.015,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-47",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 11.898,
+   "features": {
+    "firstCanopyShare": 0.9,
+    "groundShare": 0.263,
+    "aprilContrastP90": 0.04,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-37",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 9.56,
+   "features": {
+    "firstCanopyShare": 0.847,
+    "groundShare": 0.3,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-43",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 9.026,
+   "features": {
+    "firstCanopyShare": 0.813,
+    "groundShare": 0.307,
+    "aprilContrastP90": 0.043,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-36",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.724,
+   "features": {
+    "firstCanopyShare": 0.889,
+    "groundShare": 0.351,
+    "aprilContrastP90": 0.049,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-09",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.844,
+   "features": {
+    "firstCanopyShare": 0.667,
+    "groundShare": 0.415,
+    "aprilContrastP90": -0.017,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-05",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.061,
+   "features": {
+    "firstCanopyShare": 0.657,
+    "groundShare": 0.408,
+    "aprilContrastP90": -0.007,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-02",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.847,
+   "features": {
+    "firstCanopyShare": 0.752,
+    "groundShare": 0.307,
+    "aprilContrastP90": -0.006,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-23",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.748,
+   "features": {
+    "firstCanopyShare": 0.795,
+    "groundShare": 0.328,
+    "aprilContrastP90": -0.017,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-06",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 9.401,
+   "features": {
+    "firstCanopyShare": 0.753,
+    "groundShare": 0.307,
+    "aprilContrastP90": 0.004,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-44",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 19.176,
+   "features": {
+    "firstCanopyShare": 0.822,
+    "groundShare": 0.292,
+    "aprilContrastP90": 0.01,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-45",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 15.142,
+   "features": {
+    "firstCanopyShare": 0.735,
+    "groundShare": 0.307,
+    "aprilContrastP90": 0.289,
+    "aprilVegetatedShare": 0.215
+   }
+  },
+  {
+   "ref": "C6-s2-grove-04",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 10.666,
+   "features": {
+    "firstCanopyShare": 0.793,
+    "groundShare": 0.362,
+    "aprilContrastP90": -0.005,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-01",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 10.607,
+   "features": {
+    "firstCanopyShare": 0.846,
+    "groundShare": 0.278,
+    "aprilContrastP90": -0.005,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-35",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 9.882,
+   "features": {
+    "firstCanopyShare": 0.881,
+    "groundShare": 0.275,
+    "aprilContrastP90": 0.005,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-28",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.218,
+   "features": {
+    "firstCanopyShare": 0.908,
+    "groundShare": 0.274,
+    "aprilContrastP90": -0.004,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-26",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.563,
+   "features": {
+    "firstCanopyShare": 0.707,
+    "groundShare": 0.367,
+    "aprilContrastP90": -0.013,
+    "aprilVegetatedShare": 0.033
+   }
+  },
+  {
+   "ref": "C6-s2-grove-25",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.776,
+   "features": {
+    "firstCanopyShare": 0.574,
+    "groundShare": 0.433,
+    "aprilContrastP90": -0.023,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-39",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.921,
+   "features": {
+    "firstCanopyShare": 0.831,
+    "groundShare": 0.28,
+    "aprilContrastP90": 0.009,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-03",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 8.648,
+   "features": {
+    "firstCanopyShare": 0.78,
+    "groundShare": 0.331,
+    "aprilContrastP90": -0.008,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C6-s2-grove-13",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.948,
+   "features": {
+    "firstCanopyShare": 0.77,
+    "groundShare": 0.331,
+    "aprilContrastP90": -0.009,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-08",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 8.406,
+   "features": {
+    "firstCanopyShare": 0.645,
+    "groundShare": 0.345,
+    "aprilContrastP90": 0.029,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-05",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 8.815,
+   "features": {
+    "firstCanopyShare": 0.697,
+    "groundShare": 0.302,
+    "aprilContrastP90": 0.033,
+    "aprilVegetatedShare": 0.002
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-11",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 3.824,
+   "features": {
+    "firstCanopyShare": 0.545,
+    "groundShare": 0.417,
+    "aprilContrastP90": -0.004,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-04",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 9.101,
+   "features": {
+    "firstCanopyShare": 0.669,
+    "groundShare": 0.316,
+    "aprilContrastP90": 0.025,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-03",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 10.601,
+   "features": {
+    "firstCanopyShare": 0.698,
+    "groundShare": 0.286,
+    "aprilContrastP90": -0.037,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-09",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.929,
+   "features": {
+    "firstCanopyShare": 0.61,
+    "groundShare": 0.404,
+    "aprilContrastP90": -0.004,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-10",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 11.185,
+   "features": {
+    "firstCanopyShare": 0.694,
+    "groundShare": 0.234,
+    "aprilContrastP90": 0.01,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-01",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 12.008,
+   "features": {
+    "firstCanopyShare": 0.706,
+    "groundShare": 0.334,
+    "aprilContrastP90": -0.032,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-06",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 11.525,
+   "features": {
+    "firstCanopyShare": 0.66,
+    "groundShare": 0.289,
+    "aprilContrastP90": 0.043,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C7-c4-avenue-15",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 11.031,
+   "features": {
+    "firstCanopyShare": 0.663,
+    "groundShare": 0.35,
+    "aprilContrastP90": 0.155,
+    "aprilVegetatedShare": 0.113
+   }
+  },
+  {
+   "ref": "C8-s5-planted-07",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.296,
+   "features": {
+    "firstCanopyShare": 0.595,
+    "groundShare": 0.446,
+    "aprilContrastP90": 0.373,
+    "aprilVegetatedShare": 0.966
+   }
+  },
+  {
+   "ref": "C8-s5-planted-03",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.549,
+   "features": {
+    "firstCanopyShare": 0.642,
+    "groundShare": 0.468,
+    "aprilContrastP90": 0.312,
+    "aprilVegetatedShare": 0.995
+   }
+  },
+  {
+   "ref": "C8-s5-planted-06",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.648,
+   "features": {
+    "firstCanopyShare": 0.536,
+    "groundShare": 0.421,
+    "aprilContrastP90": 0.37,
+    "aprilVegetatedShare": 0.998
+   }
+  },
+  {
+   "ref": "C8-s5-planted-08",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 4.63,
+   "features": {
+    "firstCanopyShare": 0.706,
+    "groundShare": 0.478,
+    "aprilContrastP90": 0.255,
+    "aprilVegetatedShare": 0.953
+   }
+  },
+  {
+   "ref": "C8-s5-planted-05",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.611,
+   "features": {
+    "firstCanopyShare": 0.674,
+    "groundShare": 0.439,
+    "aprilContrastP90": 0.289,
+    "aprilVegetatedShare": 0.992
+   }
+  },
+  {
+   "ref": "C8-s5-planted-01",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.176,
+   "features": {
+    "firstCanopyShare": 0.727,
+    "groundShare": 0.308,
+    "aprilContrastP90": 0.357,
+    "aprilVegetatedShare": 1
+   }
+  },
+  {
+   "ref": "C8-s5-planted-02",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.013,
+   "features": {
+    "firstCanopyShare": 0.621,
+    "groundShare": 0.529,
+    "aprilContrastP90": 0.303,
+    "aprilVegetatedShare": 0.995
+   }
+  },
+  {
+   "ref": "C8-s5-planted-04",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.787,
+   "features": {
+    "firstCanopyShare": 0.707,
+    "groundShare": 0.453,
+    "aprilContrastP90": 0.29,
+    "aprilVegetatedShare": 0.942
+   }
+  },
+  {
+   "ref": "C9-s8-grove-09",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.607,
+   "features": {
+    "firstCanopyShare": 0.872,
+    "groundShare": 0.16,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.73
+   }
+  },
+  {
+   "ref": "C9-s8-grove-11",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.217,
+   "features": {
+    "firstCanopyShare": 0.73,
+    "groundShare": 0.214,
+    "aprilContrastP90": 0.323,
+    "aprilVegetatedShare": 0.693
+   }
+  },
+  {
+   "ref": "C9-s8-grove-14",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.085,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.142,
+    "aprilContrastP90": 0.341,
+    "aprilVegetatedShare": 0.947
+   }
+  },
+  {
+   "ref": "C9-s8-grove-15",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.547,
+   "features": {
+    "firstCanopyShare": 0.862,
+    "groundShare": 0.144,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.735
+   }
+  },
+  {
+   "ref": "C9-s8-grove-17",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.025,
+   "features": {
+    "firstCanopyShare": 0.942,
+    "groundShare": 0.107,
+    "aprilContrastP90": 0.338,
+    "aprilVegetatedShare": 0.856
+   }
+  },
+  {
+   "ref": "C9-s8-grove-24",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.461,
+   "features": {
+    "firstCanopyShare": 0.986,
+    "groundShare": 0.12,
+    "aprilContrastP90": 0.292,
+    "aprilVegetatedShare": 0.587
+   }
+  },
+  {
+   "ref": "C9-s8-grove-06",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 3.95,
+   "features": {
+    "firstCanopyShare": 0.5,
+    "groundShare": 0.444,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C9-s8-grove-10",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.239,
+   "features": {
+    "firstCanopyShare": 0.938,
+    "groundShare": 0.138,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.956
+   }
+  },
+  {
+   "ref": "C9-s8-grove-26",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.764,
+   "features": {
+    "firstCanopyShare": 0.983,
+    "groundShare": 0.127,
+    "aprilContrastP90": 0.293,
+    "aprilVegetatedShare": 0.552
+   }
+  },
+  {
+   "ref": "C9-s8-grove-03",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.66,
+   "features": {
+    "firstCanopyShare": 0.731,
+    "groundShare": 0.218,
+    "aprilContrastP90": 0.256,
+    "aprilVegetatedShare": 0.284
+   }
+  },
+  {
+   "ref": "C9-s8-grove-07",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 3.978,
+   "features": {
+    "firstCanopyShare": 0.444,
+    "groundShare": 0.49,
+    "aprilContrastP90": -0.015,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C9-s8-grove-22",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 14.847,
+   "features": {
+    "firstCanopyShare": 0.726,
+    "groundShare": 0.282,
+    "aprilContrastP90": 0.056,
+    "aprilVegetatedShare": 0.006
+   }
+  },
+  {
+   "ref": "C9-s8-grove-18",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.081,
+   "features": {
+    "firstCanopyShare": 0.923,
+    "groundShare": 0.135,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.566
+   }
+  },
+  {
+   "ref": "C9-s8-grove-23",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.384,
+   "features": {
+    "firstCanopyShare": 0.746,
+    "groundShare": 0.232,
+    "aprilContrastP90": 0.291,
+    "aprilVegetatedShare": 0.551
+   }
+  },
+  {
+   "ref": "C9-s8-grove-04",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.361,
+   "features": {
+    "firstCanopyShare": 0.931,
+    "groundShare": 0.14,
+    "aprilContrastP90": 0.289,
+    "aprilVegetatedShare": 0.446
+   }
+  },
+  {
+   "ref": "C9-s8-grove-27",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.41,
+   "features": {
+    "firstCanopyShare": 0.87,
+    "groundShare": 0.259,
+    "aprilContrastP90": 0.05,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C9-s8-grove-01",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 16.924,
+   "features": {
+    "firstCanopyShare": 0.866,
+    "groundShare": 0.199,
+    "aprilContrastP90": 0.317,
+    "aprilVegetatedShare": 0.387
+   }
+  },
+  {
+   "ref": "C9-s8-grove-02",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 16.452,
+   "features": {
+    "firstCanopyShare": 0.824,
+    "groundShare": 0.137,
+    "aprilContrastP90": 0.27,
+    "aprilVegetatedShare": 0.332
+   }
+  },
+  {
+   "ref": "C9-s8-grove-08",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.023,
+   "features": {
+    "firstCanopyShare": 0.952,
+    "groundShare": 0.167,
+    "aprilContrastP90": 0.295,
+    "aprilVegetatedShare": 0.624
+   }
+  },
+  {
+   "ref": "C9-s8-grove-12",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.735,
+   "features": {
+    "firstCanopyShare": 0.881,
+    "groundShare": 0.176,
+    "aprilContrastP90": 0.336,
+    "aprilVegetatedShare": 0.521
+   }
+  },
+  {
+   "ref": "C9-s8-grove-16",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.814,
+   "features": {
+    "firstCanopyShare": 0.91,
+    "groundShare": 0.159,
+    "aprilContrastP90": 0.352,
+    "aprilVegetatedShare": 0.607
+   }
+  },
+  {
+   "ref": "C11-churchyard-02",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 19.294,
+   "features": {
+    "firstCanopyShare": 0.851,
+    "groundShare": 0.224,
+    "aprilContrastP90": 0.085,
+    "aprilVegetatedShare": 0.021
+   }
+  },
+  {
+   "ref": "C11-churchyard-01",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.36,
+   "features": {
+    "firstCanopyShare": 0.897,
+    "groundShare": 0.221,
+    "aprilContrastP90": 0.058,
+    "aprilVegetatedShare": 0.001
+   }
+  },
+  {
+   "ref": "C11-churchyard-03",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.305,
+   "features": {
+    "firstCanopyShare": 0.867,
+    "groundShare": 0.214,
+    "aprilContrastP90": 0.078,
+    "aprilVegetatedShare": 0.01
+   }
+  },
+  {
+   "ref": "C11-churchyard-04",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 14.762,
+   "features": {
+    "firstCanopyShare": 0.846,
+    "groundShare": 0.247,
+    "aprilContrastP90": 0.063,
+    "aprilVegetatedShare": 0.002
+   }
+  },
+  {
+   "ref": "C11-churchyard-07",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.448,
+   "features": {
+    "firstCanopyShare": 0.867,
+    "groundShare": 0.256,
+    "aprilContrastP90": 0.046,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C11-churchyard-08",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 17.345,
+   "features": {
+    "firstCanopyShare": 0.767,
+    "groundShare": 0.261,
+    "aprilContrastP90": 0.113,
+    "aprilVegetatedShare": 0.071
+   }
+  },
+  {
+   "ref": "C11-churchyard-11",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 19.494,
+   "features": {
+    "firstCanopyShare": 0.86,
+    "groundShare": 0.217,
+    "aprilContrastP90": 0.066,
+    "aprilVegetatedShare": 0.011
+   }
+  },
+  {
+   "ref": "C11-churchyard-05",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.957,
+   "features": {
+    "firstCanopyShare": 0.889,
+    "groundShare": 0.198,
+    "aprilContrastP90": 0.062,
+    "aprilVegetatedShare": 0.001
+   }
+  },
+  {
+   "ref": "C11-churchyard-20",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 20.83,
+   "features": {
+    "firstCanopyShare": 0.837,
+    "groundShare": 0.217,
+    "aprilContrastP90": 0.119,
+    "aprilVegetatedShare": 0.098
+   }
+  },
+  {
+   "ref": "C11-churchyard-24",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 17.625,
+   "features": {
+    "firstCanopyShare": 0.804,
+    "groundShare": 0.218,
+    "aprilContrastP90": 0.122,
+    "aprilVegetatedShare": 0.106
+   }
+  },
+  {
+   "ref": "C11-churchyard-09",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 17.234,
+   "features": {
+    "firstCanopyShare": 0.918,
+    "groundShare": 0.244,
+    "aprilContrastP90": 0.062,
+    "aprilVegetatedShare": 0.008
+   }
+  },
+  {
+   "ref": "C14-c2-group-12",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 14.143,
+   "features": {
+    "firstCanopyShare": 0.677,
+    "groundShare": 0.355,
+    "aprilContrastP90": 0.35,
+    "aprilVegetatedShare": 0.832
+   }
+  },
+  {
+   "ref": "C14-c2-group-15",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 12.286,
+   "features": {
+    "firstCanopyShare": 0.611,
+    "groundShare": 0.376,
+    "aprilContrastP90": 0.365,
+    "aprilVegetatedShare": 0.935
+   }
+  },
+  {
+   "ref": "C14-c2-group-17",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 14.271,
+   "features": {
+    "firstCanopyShare": 0.646,
+    "groundShare": 0.477,
+    "aprilContrastP90": 0.244,
+    "aprilVegetatedShare": 0.452
+   }
+  },
+  {
+   "ref": "C14-c2-group-08",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 15.826,
+   "features": {
+    "firstCanopyShare": 0.69,
+    "groundShare": 0.304,
+    "aprilContrastP90": 0.154,
+    "aprilVegetatedShare": 0.165
+   }
+  },
+  {
+   "ref": "C14-c2-group-24",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 3.245,
+   "features": {
+    "firstCanopyShare": 0.714,
+    "groundShare": 0.306,
+    "aprilContrastP90": 0.01,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C14-c2-group-20",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 5.533,
+   "features": {
+    "firstCanopyShare": 0.722,
+    "groundShare": 0.374,
+    "aprilContrastP90": 0.14,
+    "aprilVegetatedShare": 0.17
+   }
+  },
+  {
+   "ref": "C14-c2-group-09",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.639,
+   "features": {
+    "firstCanopyShare": 0.492,
+    "groundShare": 0.328,
+    "aprilContrastP90": 0.131,
+    "aprilVegetatedShare": 0.141
+   }
+  },
+  {
+   "ref": "C14-c2-group-07",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 22.596,
+   "features": {
+    "firstCanopyShare": 0.741,
+    "groundShare": 0.255,
+    "aprilContrastP90": 0.059,
+    "aprilVegetatedShare": 0.023
+   }
+  },
+  {
+   "ref": "C14-c2-group-04",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 20.17,
+   "features": {
+    "firstCanopyShare": 0.845,
+    "groundShare": 0.236,
+    "aprilContrastP90": 0.244,
+    "aprilVegetatedShare": 0.193
+   }
+  },
+  {
+   "ref": "C14-c2-group-27",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 19.86,
+   "features": {
+    "firstCanopyShare": 0.588,
+    "groundShare": 0.327,
+    "aprilContrastP90": 0.059,
+    "aprilVegetatedShare": 0.007
+   }
+  },
+  {
+   "ref": "C14-c2-group-05",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 21.318,
+   "features": {
+    "firstCanopyShare": 0.846,
+    "groundShare": 0.222,
+    "aprilContrastP90": 0.074,
+    "aprilVegetatedShare": 0.009
+   }
+  },
+  {
+   "ref": "C14-c2-group-16",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 9.52,
+   "features": {
+    "firstCanopyShare": 0.813,
+    "groundShare": 0.272,
+    "aprilContrastP90": 0.165,
+    "aprilVegetatedShare": 0.176
+   }
+  },
+  {
+   "ref": "C14-c2-group-19",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 22.213,
+   "features": {
+    "firstCanopyShare": 0.675,
+    "groundShare": 0.301,
+    "aprilContrastP90": 0.254,
+    "aprilVegetatedShare": 0.268
+   }
+  },
+  {
+   "ref": "C14-c2-group-11",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 4.684,
+   "features": {
+    "firstCanopyShare": 0.723,
+    "groundShare": 0.362,
+    "aprilContrastP90": 0.023,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C14-c2-group-13",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 12.676,
+   "features": {
+    "firstCanopyShare": 0.575,
+    "groundShare": 0.377,
+    "aprilContrastP90": 0.312,
+    "aprilVegetatedShare": 0.866
+   }
+  },
+  {
+   "ref": "C14-c2-group-02",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 20.913,
+   "features": {
+    "firstCanopyShare": 0.8,
+    "groundShare": 0.227,
+    "aprilContrastP90": 0.125,
+    "aprilVegetatedShare": 0.105
+   }
+  },
+  {
+   "ref": "C14-c2-group-06",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.709,
+   "features": {
+    "firstCanopyShare": 0.709,
+    "groundShare": 0.279,
+    "aprilContrastP90": 0.056,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C14-c2-group-14",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.515,
+   "features": {
+    "firstCanopyShare": 0.824,
+    "groundShare": 0.289,
+    "aprilContrastP90": 0.245,
+    "aprilVegetatedShare": 0.164
+   }
+  },
+  {
+   "ref": "C14-c2-group-01",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 20.305,
+   "features": {
+    "firstCanopyShare": 0.909,
+    "groundShare": 0.234,
+    "aprilContrastP90": 0.341,
+    "aprilVegetatedShare": 0.415
+   }
+  },
+  {
+   "ref": "C15-park-garden-09",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 28.058,
+   "features": {
+    "firstCanopyShare": 0.882,
+    "groundShare": 0.201,
+    "aprilContrastP90": 0.218,
+    "aprilVegetatedShare": 0.229
+   }
+  },
+  {
+   "ref": "C15-park-garden-04",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 19.379,
+   "features": {
+    "firstCanopyShare": 0.574,
+    "groundShare": 0.44,
+    "aprilContrastP90": 0.137,
+    "aprilVegetatedShare": 0.14
+   }
+  },
+  {
+   "ref": "C15-park-garden-10",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 21.166,
+   "features": {
+    "firstCanopyShare": 0.766,
+    "groundShare": 0.274,
+    "aprilContrastP90": 0.125,
+    "aprilVegetatedShare": 0.114
+   }
+  },
+  {
+   "ref": "C15-park-garden-02",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 20.809,
+   "features": {
+    "firstCanopyShare": 0.843,
+    "groundShare": 0.228,
+    "aprilContrastP90": 0.237,
+    "aprilVegetatedShare": 0.36
+   }
+  },
+  {
+   "ref": "C17-se-row-02",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 9.13,
+   "features": {
+    "firstCanopyShare": 0.901,
+    "groundShare": 0.286,
+    "aprilContrastP90": 0.046,
+    "aprilVegetatedShare": 0.013
+   }
+  },
+  {
+   "ref": "C17-se-row-11",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 14.29,
+   "features": {
+    "firstCanopyShare": 0.874,
+    "groundShare": 0.259,
+    "aprilContrastP90": 0.08,
+    "aprilVegetatedShare": 0.052
+   }
+  },
+  {
+   "ref": "C17-se-row-01",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 10.988,
+   "features": {
+    "firstCanopyShare": 0.864,
+    "groundShare": 0.31,
+    "aprilContrastP90": 0.075,
+    "aprilVegetatedShare": 0.058
+   }
+  },
+  {
+   "ref": "C17-se-row-03",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 8.9,
+   "features": {
+    "firstCanopyShare": 0.843,
+    "groundShare": 0.355,
+    "aprilContrastP90": 0.037,
+    "aprilVegetatedShare": 0.006
+   }
+  },
+  {
+   "ref": "C17-se-row-06",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 6.824,
+   "features": {
+    "firstCanopyShare": 0.681,
+    "groundShare": 0.391,
+    "aprilContrastP90": 0.151,
+    "aprilVegetatedShare": 0.157
+   }
+  },
+  {
+   "ref": "C17-se-row-12",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.044,
+   "features": {
+    "firstCanopyShare": 0.699,
+    "groundShare": 0.172,
+    "aprilContrastP90": 0.182,
+    "aprilVegetatedShare": 0.353
+   }
+  },
+  {
+   "ref": "C17-se-row-14",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 7.324,
+   "features": {
+    "firstCanopyShare": 0.649,
+    "groundShare": 0.424,
+    "aprilContrastP90": 0.022,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C17-se-row-07",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 10.261,
+   "features": {
+    "firstCanopyShare": 0.727,
+    "groundShare": 0.346,
+    "aprilContrastP90": -0.031,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "C18-s3-group-07",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 15.606,
+   "features": {
+    "firstCanopyShare": 0.867,
+    "groundShare": 0.193,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.556
+   }
+  },
+  {
+   "ref": "C18-s3-group-11",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 15.599,
+   "features": {
+    "firstCanopyShare": 0.976,
+    "groundShare": 0.16,
+    "aprilContrastP90": 0.345,
+    "aprilVegetatedShare": 0.815
+   }
+  },
+  {
+   "ref": "C18-s3-group-16",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 16.589,
+   "features": {
+    "firstCanopyShare": 0.897,
+    "groundShare": 0.167,
+    "aprilContrastP90": 0.317,
+    "aprilVegetatedShare": 0.608
+   }
+  },
+  {
+   "ref": "C18-s3-group-17",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 17.54,
+   "features": {
+    "firstCanopyShare": 0.833,
+    "groundShare": 0.186,
+    "aprilContrastP90": 0.322,
+    "aprilVegetatedShare": 0.535
+   }
+  },
+  {
+   "ref": "C18-s3-group-18",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 12.433,
+   "features": {
+    "firstCanopyShare": 0.714,
+    "groundShare": 0.038,
+    "aprilContrastP90": 0.312,
+    "aprilVegetatedShare": 0.61
+   }
+  },
+  {
+   "ref": "C18-s3-group-23",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.884,
+   "features": {
+    "firstCanopyShare": 0.833,
+    "groundShare": 0.249,
+    "aprilContrastP90": 0.326,
+    "aprilVegetatedShare": 0.729
+   }
+  },
+  {
+   "ref": "C18-s3-group-24",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.69,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.138,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.78
+   }
+  },
+  {
+   "ref": "C18-s3-group-26",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.454,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.171,
+    "aprilContrastP90": 0.341,
+    "aprilVegetatedShare": 0.769
+   }
+  },
+  {
+   "ref": "C18-s3-group-27",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.552,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.219,
+    "aprilContrastP90": 0.298,
+    "aprilVegetatedShare": 0.563
+   }
+  },
+  {
+   "ref": "C18-s3-group-28",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.947,
+   "features": {
+    "firstCanopyShare": 0.922,
+    "groundShare": 0.162,
+    "aprilContrastP90": 0.33,
+    "aprilVegetatedShare": 0.86
+   }
+  },
+  {
+   "ref": "C18-s3-group-29",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.405,
+   "features": {
+    "firstCanopyShare": 0.971,
+    "groundShare": 0.069,
+    "aprilContrastP90": 0.337,
+    "aprilVegetatedShare": 0.643
+   }
+  },
+  {
+   "ref": "C18-s3-group-30",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.486,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.15,
+    "aprilContrastP90": 0.317,
+    "aprilVegetatedShare": 0.796
+   }
+  },
+  {
+   "ref": "C18-s3-group-31",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.134,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.165,
+    "aprilContrastP90": 0.34,
+    "aprilVegetatedShare": 0.925
+   }
+  },
+  {
+   "ref": "C18-s3-group-33",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.082,
+   "features": {
+    "firstCanopyShare": 0.957,
+    "groundShare": 0.131,
+    "aprilContrastP90": 0.337,
+    "aprilVegetatedShare": 0.697
+   }
+  },
+  {
+   "ref": "C18-s3-group-34",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.508,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.184,
+    "aprilContrastP90": 0.32,
+    "aprilVegetatedShare": 0.808
+   }
+  },
+  {
+   "ref": "C18-s3-group-36",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.517,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.143,
+    "aprilContrastP90": 0.294,
+    "aprilVegetatedShare": 0.809
+   }
+  },
+  {
+   "ref": "C18-s3-group-38",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.587,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.156,
+    "aprilContrastP90": 0.327,
+    "aprilVegetatedShare": 0.865
+   }
+  },
+  {
+   "ref": "C18-s3-group-42",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.15,
+   "features": {
+    "firstCanopyShare": 0.969,
+    "groundShare": 0.133,
+    "aprilContrastP90": 0.324,
+    "aprilVegetatedShare": 0.702
+   }
+  },
+  {
+   "ref": "C18-s3-group-43",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.442,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.218,
+    "aprilContrastP90": 0.292,
+    "aprilVegetatedShare": 0.821
+   }
+  },
+  {
+   "ref": "C18-s3-group-44",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.04,
+   "features": {
+    "firstCanopyShare": 0.969,
+    "groundShare": 0.182,
+    "aprilContrastP90": 0.316,
+    "aprilVegetatedShare": 0.768
+   }
+  },
+  {
+   "ref": "C18-s3-group-45",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.677,
+   "features": {
+    "firstCanopyShare": 0.683,
+    "groundShare": 0.154,
+    "aprilContrastP90": 0.293,
+    "aprilVegetatedShare": 0.858
+   }
+  },
+  {
+   "ref": "C18-s3-group-14",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 18.888,
+   "features": {
+    "firstCanopyShare": 0.771,
+    "groundShare": 0.242,
+    "aprilContrastP90": 0.34,
+    "aprilVegetatedShare": 0.726
+   }
+  },
+  {
+   "ref": "C18-s3-group-12",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 14.157,
+   "features": {
+    "firstCanopyShare": 0.971,
+    "groundShare": 0.195,
+    "aprilContrastP90": 0.343,
+    "aprilVegetatedShare": 0.747
+   }
+  },
+  {
+   "ref": "C18-s3-group-20",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.212,
+   "features": {
+    "firstCanopyShare": 0.91,
+    "groundShare": 0.076,
+    "aprilContrastP90": 0.32,
+    "aprilVegetatedShare": 0.551
+   }
+  },
+  {
+   "ref": "C18-s3-group-37",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.58,
+   "features": {
+    "firstCanopyShare": 0.802,
+    "groundShare": 0.188,
+    "aprilContrastP90": 0.291,
+    "aprilVegetatedShare": 0.762
+   }
+  },
+  {
+   "ref": "C18-s3-group-39",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.922,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.185,
+    "aprilContrastP90": 0.324,
+    "aprilVegetatedShare": 0.863
+   }
+  },
+  {
+   "ref": "C18-s3-group-48",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 20.245,
+   "features": {
+    "firstCanopyShare": 0.732,
+    "groundShare": 0.223,
+    "aprilContrastP90": 0.295,
+    "aprilVegetatedShare": 0.868
+   }
+  },
+  {
+   "ref": "C18-s3-group-15",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 17.318,
+   "features": {
+    "firstCanopyShare": 0.855,
+    "groundShare": 0.152,
+    "aprilContrastP90": 0.313,
+    "aprilVegetatedShare": 0.464
+   }
+  },
+  {
+   "ref": "C18-s3-group-32",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.801,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.181,
+    "aprilContrastP90": 0.298,
+    "aprilVegetatedShare": 0.717
+   }
+  },
+  {
+   "ref": "C18-s3-group-47",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.023,
+   "features": {
+    "firstCanopyShare": 0.928,
+    "groundShare": 0.177,
+    "aprilContrastP90": 0.324,
+    "aprilVegetatedShare": 0.799
+   }
+  },
+  {
+   "ref": "C18-s3-group-03",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.389,
+   "features": {
+    "firstCanopyShare": 0.891,
+    "groundShare": 0.179,
+    "aprilContrastP90": 0.348,
+    "aprilVegetatedShare": 0.848
+   }
+  },
+  {
+   "ref": "C18-s3-group-04",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.831,
+   "features": {
+    "firstCanopyShare": 0.955,
+    "groundShare": 0.154,
+    "aprilContrastP90": 0.294,
+    "aprilVegetatedShare": 0.523
+   }
+  },
+  {
+   "ref": "C18-s3-group-02",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.12,
+   "features": {
+    "firstCanopyShare": 0.774,
+    "groundShare": 0.258,
+    "aprilContrastP90": 0.318,
+    "aprilVegetatedShare": 0.671
+   }
+  },
+  {
+   "ref": "C18-s3-group-06",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 21.223,
+   "features": {
+    "firstCanopyShare": 0.886,
+    "groundShare": 0.174,
+    "aprilContrastP90": 0.288,
+    "aprilVegetatedShare": 0.597
+   }
+  },
+  {
+   "ref": "C18-s3-group-21",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.853,
+   "features": {
+    "firstCanopyShare": 0.971,
+    "groundShare": 0.178,
+    "aprilContrastP90": 0.318,
+    "aprilVegetatedShare": 0.661
+   }
+  },
+  {
+   "ref": "C18-s3-group-22",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.978,
+   "features": {
+    "firstCanopyShare": 0.961,
+    "groundShare": 0.13,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.644
+   }
+  },
+  {
+   "ref": "C18-s3-group-46",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.463,
+   "features": {
+    "firstCanopyShare": 0.945,
+    "groundShare": 0.105,
+    "aprilContrastP90": 0.322,
+    "aprilVegetatedShare": 0.561
+   }
+  },
+  {
+   "ref": "C18-s3-group-01",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 17.485,
+   "features": {
+    "firstCanopyShare": 0.9,
+    "groundShare": 0.166,
+    "aprilContrastP90": 0.329,
+    "aprilVegetatedShare": 0.615
+   }
+  },
+  {
+   "ref": "C18-s3-group-05",
+   "role": "calibration",
+   "type": "broadleaf",
+   "heightMetres": 19.204,
+   "features": {
+    "firstCanopyShare": 0.731,
+    "groundShare": 0.228,
+    "aprilContrastP90": 0.22,
+    "aprilVegetatedShare": 0.338
+   }
+  },
+  {
+   "ref": "C18-s3-group-08",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 19.033,
+   "features": {
+    "firstCanopyShare": 0.968,
+    "groundShare": 0.123,
+    "aprilContrastP90": 0.34,
+    "aprilVegetatedShare": 0.709
+   }
+  },
+  {
+   "ref": "C18-s3-group-09",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 17.374,
+   "features": {
+    "firstCanopyShare": 0.924,
+    "groundShare": 0.183,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.576
+   }
+  },
+  {
+   "ref": "C18-s3-group-10",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 15.849,
+   "features": {
+    "firstCanopyShare": 0.698,
+    "groundShare": 0.218,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.593
+   }
+  },
+  {
+   "ref": "C18-s3-group-19",
+   "role": "calibration",
+   "type": "conifer",
+   "heightMetres": 18.536,
+   "features": {
+    "firstCanopyShare": 0.92,
+    "groundShare": 0.145,
+    "aprilContrastP90": 0.318,
+    "aprilVegetatedShare": 0.664
+   }
+  },
+  {
+   "ref": "H2-avenue-04",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.226,
+   "features": {
+    "firstCanopyShare": 0.667,
+    "groundShare": 0.341,
+    "aprilContrastP90": -0.044,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.311,
+   "features": {
+    "firstCanopyShare": 0.54,
+    "groundShare": 0.321,
+    "aprilContrastP90": -0.071,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.936,
+   "features": {
+    "firstCanopyShare": 0.732,
+    "groundShare": 0.28,
+    "aprilContrastP90": -0.05,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 8.962,
+   "features": {
+    "firstCanopyShare": 0.642,
+    "groundShare": 0.333,
+    "aprilContrastP90": -0.05,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-09",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 11.014,
+   "features": {
+    "firstCanopyShare": 0.692,
+    "groundShare": 0.317,
+    "aprilContrastP90": -0.052,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-05",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 12.72,
+   "features": {
+    "firstCanopyShare": 0.765,
+    "groundShare": 0.24,
+    "aprilContrastP90": 0.012,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-15",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 7.89,
+   "features": {
+    "firstCanopyShare": 0.754,
+    "groundShare": 0.236,
+    "aprilContrastP90": 0.007,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-13",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 7.687,
+   "features": {
+    "firstCanopyShare": 0.834,
+    "groundShare": 0.176,
+    "aprilContrastP90": -0.062,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-10",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 9.996,
+   "features": {
+    "firstCanopyShare": 0.691,
+    "groundShare": 0.335,
+    "aprilContrastP90": -0.059,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H2-avenue-06",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.368,
+   "features": {
+    "firstCanopyShare": 0.784,
+    "groundShare": 0.269,
+    "aprilContrastP90": -0.037,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H4-c15-closed-12",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.949,
+   "features": {
+    "firstCanopyShare": 0.836,
+    "groundShare": 0.174,
+    "aprilContrastP90": 0.385,
+    "aprilVegetatedShare": 0.767
+   }
+  },
+  {
+   "ref": "H4-c15-closed-14",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.351,
+   "features": {
+    "firstCanopyShare": 0.918,
+    "groundShare": 0.127,
+    "aprilContrastP90": 0.357,
+    "aprilVegetatedShare": 0.672
+   }
+  },
+  {
+   "ref": "H4-c15-closed-15",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.788,
+   "features": {
+    "firstCanopyShare": 0.991,
+    "groundShare": 0.116,
+    "aprilContrastP90": 0.351,
+    "aprilVegetatedShare": 0.502
+   }
+  },
+  {
+   "ref": "H4-c15-closed-18",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.437,
+   "features": {
+    "firstCanopyShare": 0.98,
+    "groundShare": 0.085,
+    "aprilContrastP90": 0.375,
+    "aprilVegetatedShare": 0.661
+   }
+  },
+  {
+   "ref": "H4-c15-closed-19",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.486,
+   "features": {
+    "firstCanopyShare": 0.911,
+    "groundShare": 0.254,
+    "aprilContrastP90": 0.369,
+    "aprilVegetatedShare": 0.605
+   }
+  },
+  {
+   "ref": "H4-c15-closed-20",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.723,
+   "features": {
+    "firstCanopyShare": 0.955,
+    "groundShare": 0.146,
+    "aprilContrastP90": 0.385,
+    "aprilVegetatedShare": 0.733
+   }
+  },
+  {
+   "ref": "H4-c15-closed-21",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.343,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.179,
+    "aprilContrastP90": 0.343,
+    "aprilVegetatedShare": 0.568
+   }
+  },
+  {
+   "ref": "H4-c15-closed-22",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.794,
+   "features": {
+    "firstCanopyShare": 0.972,
+    "groundShare": 0.204,
+    "aprilContrastP90": 0.32,
+    "aprilVegetatedShare": 0.459
+   }
+  },
+  {
+   "ref": "H4-c15-closed-26",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.476,
+   "features": {
+    "firstCanopyShare": 0.923,
+    "groundShare": 0.248,
+    "aprilContrastP90": 0.377,
+    "aprilVegetatedShare": 0.777
+   }
+  },
+  {
+   "ref": "H4-c15-closed-29",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.096,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.132,
+    "aprilContrastP90": 0.375,
+    "aprilVegetatedShare": 0.75
+   }
+  },
+  {
+   "ref": "H4-c15-closed-37",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.806,
+   "features": {
+    "firstCanopyShare": 0.983,
+    "groundShare": 0.181,
+    "aprilContrastP90": 0.329,
+    "aprilVegetatedShare": 0.585
+   }
+  },
+  {
+   "ref": "H4-c15-closed-41",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.669,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.194,
+    "aprilContrastP90": 0.355,
+    "aprilVegetatedShare": 0.705
+   }
+  },
+  {
+   "ref": "H4-c15-closed-46",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.05,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.115,
+    "aprilContrastP90": 0.329,
+    "aprilVegetatedShare": 0.653
+   }
+  },
+  {
+   "ref": "H4-c15-closed-47",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.432,
+   "features": {
+    "firstCanopyShare": 0.968,
+    "groundShare": 0.182,
+    "aprilContrastP90": 0.344,
+    "aprilVegetatedShare": 0.553
+   }
+  },
+  {
+   "ref": "H4-c15-closed-57",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.749,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.17,
+    "aprilContrastP90": 0.29,
+    "aprilVegetatedShare": 0.594
+   }
+  },
+  {
+   "ref": "H4-c15-closed-66",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.727,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.088,
+    "aprilContrastP90": 0.254,
+    "aprilVegetatedShare": 0.522
+   }
+  },
+  {
+   "ref": "H4-c15-closed-71",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.942,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.096,
+    "aprilContrastP90": 0.291,
+    "aprilVegetatedShare": 0.704
+   }
+  },
+  {
+   "ref": "H4-c15-closed-73",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.385,
+   "features": {
+    "firstCanopyShare": 0.986,
+    "groundShare": 0.218,
+    "aprilContrastP90": 0.273,
+    "aprilVegetatedShare": 0.391
+   }
+  },
+  {
+   "ref": "H4-c15-closed-74",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.79,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.076,
+    "aprilContrastP90": 0.279,
+    "aprilVegetatedShare": 0.758
+   }
+  },
+  {
+   "ref": "H4-c15-closed-75",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.123,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.149,
+    "aprilContrastP90": 0.291,
+    "aprilVegetatedShare": 0.641
+   }
+  },
+  {
+   "ref": "H4-c15-closed-76",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 17.838,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.152,
+    "aprilContrastP90": 0.28,
+    "aprilVegetatedShare": 0.391
+   }
+  },
+  {
+   "ref": "H4-c15-closed-79",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.76,
+   "features": {
+    "firstCanopyShare": 0.961,
+    "groundShare": 0.171,
+    "aprilContrastP90": 0.269,
+    "aprilVegetatedShare": 0.489
+   }
+  },
+  {
+   "ref": "H4-c15-closed-82",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.446,
+   "features": {
+    "firstCanopyShare": 0.97,
+    "groundShare": 0.203,
+    "aprilContrastP90": 0.264,
+    "aprilVegetatedShare": 0.479
+   }
+  },
+  {
+   "ref": "H4-c15-closed-83",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.727,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.136,
+    "aprilContrastP90": 0.295,
+    "aprilVegetatedShare": 0.668
+   }
+  },
+  {
+   "ref": "H4-c15-closed-08",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.093,
+   "features": {
+    "firstCanopyShare": 0.837,
+    "groundShare": 0.179,
+    "aprilContrastP90": 0.381,
+    "aprilVegetatedShare": 0.665
+   }
+  },
+  {
+   "ref": "H4-c15-closed-09",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.438,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.138,
+    "aprilContrastP90": 0.324,
+    "aprilVegetatedShare": 0.659
+   }
+  },
+  {
+   "ref": "H4-c15-closed-10",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.396,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.104,
+    "aprilContrastP90": 0.348,
+    "aprilVegetatedShare": 0.744
+   }
+  },
+  {
+   "ref": "H4-c15-closed-31",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.621,
+   "features": {
+    "firstCanopyShare": 0.975,
+    "groundShare": 0.172,
+    "aprilContrastP90": 0.329,
+    "aprilVegetatedShare": 0.562
+   }
+  },
+  {
+   "ref": "H4-c15-closed-53",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.881,
+   "features": {
+    "firstCanopyShare": 0.986,
+    "groundShare": 0.169,
+    "aprilContrastP90": 0.303,
+    "aprilVegetatedShare": 0.64
+   }
+  },
+  {
+   "ref": "H4-c15-closed-67",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.613,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.138,
+    "aprilContrastP90": 0.293,
+    "aprilVegetatedShare": 0.751
+   }
+  },
+  {
+   "ref": "H4-c15-closed-77",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.541,
+   "features": {
+    "firstCanopyShare": 0.956,
+    "groundShare": 0.187,
+    "aprilContrastP90": 0.25,
+    "aprilVegetatedShare": 0.341
+   }
+  },
+  {
+   "ref": "H4-c15-closed-84",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.478,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.124,
+    "aprilContrastP90": 0.314,
+    "aprilVegetatedShare": 0.59
+   }
+  },
+  {
+   "ref": "H4-c15-closed-51",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.926,
+   "features": {
+    "firstCanopyShare": 0.948,
+    "groundShare": 0.237,
+    "aprilContrastP90": 0.287,
+    "aprilVegetatedShare": 0.427
+   }
+  },
+  {
+   "ref": "H4-c15-closed-04",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.432,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.208,
+    "aprilContrastP90": 0.297,
+    "aprilVegetatedShare": 0.67
+   }
+  },
+  {
+   "ref": "H4-c15-closed-06",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.532,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.18,
+    "aprilContrastP90": 0.286,
+    "aprilVegetatedShare": 0.393
+   }
+  },
+  {
+   "ref": "H4-c15-closed-01",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.197,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.153,
+    "aprilContrastP90": 0.329,
+    "aprilVegetatedShare": 0.611
+   }
+  },
+  {
+   "ref": "H4-c15-closed-03",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.037,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.15,
+    "aprilContrastP90": 0.268,
+    "aprilVegetatedShare": 0.637
+   }
+  },
+  {
+   "ref": "H4-c15-closed-02",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.367,
+   "features": {
+    "firstCanopyShare": 0.923,
+    "groundShare": 0.225,
+    "aprilContrastP90": 0.349,
+    "aprilVegetatedShare": 0.624
+   }
+  },
+  {
+   "ref": "H4-c15-closed-17",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.357,
+   "features": {
+    "firstCanopyShare": 0.925,
+    "groundShare": 0.214,
+    "aprilContrastP90": 0.385,
+    "aprilVegetatedShare": 0.799
+   }
+  },
+  {
+   "ref": "H4-c15-closed-59",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.623,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.155,
+    "aprilContrastP90": 0.318,
+    "aprilVegetatedShare": 0.691
+   }
+  },
+  {
+   "ref": "H4-c15-closed-07",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.106,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.184,
+    "aprilContrastP90": 0.275,
+    "aprilVegetatedShare": 0.422
+   }
+  },
+  {
+   "ref": "H4-c15-closed-58",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 20.399,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.097,
+    "aprilContrastP90": 0.275,
+    "aprilVegetatedShare": 0.443
+   }
+  },
+  {
+   "ref": "H4-c15-closed-11",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.718,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.167,
+    "aprilContrastP90": 0.323,
+    "aprilVegetatedShare": 0.534
+   }
+  },
+  {
+   "ref": "H4-c15-closed-56",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.527,
+   "features": {
+    "firstCanopyShare": 0.969,
+    "groundShare": 0.076,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.576
+   }
+  },
+  {
+   "ref": "H4-c15-closed-64",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 21.206,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.094,
+    "aprilContrastP90": 0.273,
+    "aprilVegetatedShare": 0.503
+   }
+  },
+  {
+   "ref": "H4-c15-closed-44",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 20.053,
+   "features": {
+    "firstCanopyShare": 0.934,
+    "groundShare": 0.145,
+    "aprilContrastP90": 0.27,
+    "aprilVegetatedShare": 0.41
+   }
+  },
+  {
+   "ref": "H4-c15-closed-05",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.345,
+   "features": {
+    "firstCanopyShare": 0.895,
+    "groundShare": 0.314,
+    "aprilContrastP90": 0.295,
+    "aprilVegetatedShare": 0.444
+   }
+  },
+  {
+   "ref": "H4-c15-closed-78",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.363,
+   "features": {
+    "firstCanopyShare": 0.769,
+    "groundShare": 0.312,
+    "aprilContrastP90": 0.257,
+    "aprilVegetatedShare": 0.404
+   }
+  },
+  {
+   "ref": "H4-c15-closed-60",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.781,
+   "features": {
+    "firstCanopyShare": 0.924,
+    "groundShare": 0.175,
+    "aprilContrastP90": 0.308,
+    "aprilVegetatedShare": 0.46
+   }
+  },
+  {
+   "ref": "H4-c15-closed-40",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.84,
+   "features": {
+    "firstCanopyShare": 0.985,
+    "groundShare": 0.186,
+    "aprilContrastP90": 0.366,
+    "aprilVegetatedShare": 0.591
+   }
+  },
+  {
+   "ref": "H4-c15-closed-23",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 22.622,
+   "features": {
+    "firstCanopyShare": 0.929,
+    "groundShare": 0.145,
+    "aprilContrastP90": 0.324,
+    "aprilVegetatedShare": 0.52
+   }
+  },
+  {
+   "ref": "H4-c15-closed-63",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.748,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.286,
+    "aprilContrastP90": 0.311,
+    "aprilVegetatedShare": 0.587
+   }
+  },
+  {
+   "ref": "H6-s9-shore-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.211,
+   "features": {
+    "firstCanopyShare": 0.765,
+    "groundShare": 0.282,
+    "aprilContrastP90": 0.09,
+    "aprilVegetatedShare": 0.007
+   }
+  },
+  {
+   "ref": "H6-s9-shore-09",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 15.029,
+   "features": {
+    "firstCanopyShare": 0.772,
+    "groundShare": 0.292,
+    "aprilContrastP90": 0.032,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H6-s9-shore-04",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.173,
+   "features": {
+    "firstCanopyShare": 0.672,
+    "groundShare": 0.363,
+    "aprilContrastP90": 0.036,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H6-s9-shore-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 19.037,
+   "features": {
+    "firstCanopyShare": 0.767,
+    "groundShare": 0.268,
+    "aprilContrastP90": 0.214,
+    "aprilVegetatedShare": 0.297
+   }
+  },
+  {
+   "ref": "H6-s9-shore-05",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.202,
+   "features": {
+    "firstCanopyShare": 0.633,
+    "groundShare": 0.363,
+    "aprilContrastP90": 0.053,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H6-s9-shore-06",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.906,
+   "features": {
+    "firstCanopyShare": 0.547,
+    "groundShare": 0.441,
+    "aprilContrastP90": 0.129,
+    "aprilVegetatedShare": 0.132
+   }
+  },
+  {
+   "ref": "H6-s9-shore-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 16.218,
+   "features": {
+    "firstCanopyShare": 0.709,
+    "groundShare": 0.274,
+    "aprilContrastP90": 0.18,
+    "aprilVegetatedShare": 0.266
+   }
+  },
+  {
+   "ref": "H6-s9-shore-07",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 9.407,
+   "features": {
+    "firstCanopyShare": 0.603,
+    "groundShare": 0.369,
+    "aprilContrastP90": 0.097,
+    "aprilVegetatedShare": 0.012
+   }
+  },
+  {
+   "ref": "H8-c7-east-12",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 22.159,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.15,
+    "aprilContrastP90": 0.262,
+    "aprilVegetatedShare": 0.443
+   }
+  },
+  {
+   "ref": "H8-c7-east-17",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.539,
+   "features": {
+    "firstCanopyShare": 0.875,
+    "groundShare": 0.151,
+    "aprilContrastP90": 0.325,
+    "aprilVegetatedShare": 0.667
+   }
+  },
+  {
+   "ref": "H8-c7-east-19",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 22.049,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.115,
+    "aprilContrastP90": 0.274,
+    "aprilVegetatedShare": 0.571
+   }
+  },
+  {
+   "ref": "H8-c7-east-24",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.056,
+   "features": {
+    "firstCanopyShare": 0.955,
+    "groundShare": 0.155,
+    "aprilContrastP90": 0.322,
+    "aprilVegetatedShare": 0.721
+   }
+  },
+  {
+   "ref": "H8-c7-east-26",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.668,
+   "features": {
+    "firstCanopyShare": 0.98,
+    "groundShare": 0.185,
+    "aprilContrastP90": 0.318,
+    "aprilVegetatedShare": 0.724
+   }
+  },
+  {
+   "ref": "H8-c7-east-38",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.542,
+   "features": {
+    "firstCanopyShare": 0.661,
+    "groundShare": 0.367,
+    "aprilContrastP90": 0.242,
+    "aprilVegetatedShare": 0.453
+   }
+  },
+  {
+   "ref": "H8-c7-east-39",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.162,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.152,
+    "aprilContrastP90": 0.309,
+    "aprilVegetatedShare": 0.78
+   }
+  },
+  {
+   "ref": "H8-c7-east-40",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.425,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.067,
+    "aprilContrastP90": 0.312,
+    "aprilVegetatedShare": 0.748
+   }
+  },
+  {
+   "ref": "H8-c7-east-08",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.5,
+   "features": {
+    "firstCanopyShare": 0.636,
+    "groundShare": 0.288,
+    "aprilContrastP90": 0.252,
+    "aprilVegetatedShare": 0.356
+   }
+  },
+  {
+   "ref": "H8-c7-east-29",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.726,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.196,
+    "aprilContrastP90": 0.315,
+    "aprilVegetatedShare": 0.817
+   }
+  },
+  {
+   "ref": "H8-c7-east-32",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 22.173,
+   "features": {
+    "firstCanopyShare": 0.969,
+    "groundShare": 0.162,
+    "aprilContrastP90": 0.252,
+    "aprilVegetatedShare": 0.425
+   }
+  },
+  {
+   "ref": "H8-c7-east-10",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 21.436,
+   "features": {
+    "firstCanopyShare": 0.833,
+    "groundShare": 0.201,
+    "aprilContrastP90": 0.253,
+    "aprilVegetatedShare": 0.401
+   }
+  },
+  {
+   "ref": "H8-c7-east-33",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 21.564,
+   "features": {
+    "firstCanopyShare": 0.968,
+    "groundShare": 0.232,
+    "aprilContrastP90": 0.269,
+    "aprilVegetatedShare": 0.543
+   }
+  },
+  {
+   "ref": "H8-c7-east-15",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 22.169,
+   "features": {
+    "firstCanopyShare": 0.823,
+    "groundShare": 0.197,
+    "aprilContrastP90": 0.287,
+    "aprilVegetatedShare": 0.286
+   }
+  },
+  {
+   "ref": "H8-c7-east-13",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 21.001,
+   "features": {
+    "firstCanopyShare": 0.813,
+    "groundShare": 0.153,
+    "aprilContrastP90": 0.299,
+    "aprilVegetatedShare": 0.449
+   }
+  },
+  {
+   "ref": "H8-c7-east-01",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 20.264,
+   "features": {
+    "firstCanopyShare": 0.806,
+    "groundShare": 0.188,
+    "aprilContrastP90": 0.267,
+    "aprilVegetatedShare": 0.403
+   }
+  },
+  {
+   "ref": "H8-c7-east-23",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 22.609,
+   "features": {
+    "firstCanopyShare": 0.97,
+    "groundShare": 0.162,
+    "aprilContrastP90": 0.299,
+    "aprilVegetatedShare": 0.517
+   }
+  },
+  {
+   "ref": "H8-c7-east-04",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.34,
+   "features": {
+    "firstCanopyShare": 0.698,
+    "groundShare": 0.291,
+    "aprilContrastP90": 0.261,
+    "aprilVegetatedShare": 0.303
+   }
+  },
+  {
+   "ref": "H8-c7-east-36",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.897,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.151,
+    "aprilContrastP90": 0.27,
+    "aprilVegetatedShare": 0.53
+   }
+  },
+  {
+   "ref": "H8-c7-east-46",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.595,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.204,
+    "aprilContrastP90": 0.313,
+    "aprilVegetatedShare": 0.705
+   }
+  },
+  {
+   "ref": "H8-c7-east-47",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.719,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.178,
+    "aprilContrastP90": 0.303,
+    "aprilVegetatedShare": 0.587
+   }
+  },
+  {
+   "ref": "H8-c7-east-43",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.346,
+   "features": {
+    "firstCanopyShare": 0.726,
+    "groundShare": 0.279,
+    "aprilContrastP90": 0.252,
+    "aprilVegetatedShare": 0.438
+   }
+  },
+  {
+   "ref": "H8-c7-east-05",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.752,
+   "features": {
+    "firstCanopyShare": 0.768,
+    "groundShare": 0.274,
+    "aprilContrastP90": 0.205,
+    "aprilVegetatedShare": 0.145
+   }
+  },
+  {
+   "ref": "H8-c7-east-35",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 20.457,
+   "features": {
+    "firstCanopyShare": 0.912,
+    "groundShare": 0.171,
+    "aprilContrastP90": 0.271,
+    "aprilVegetatedShare": 0.53
+   }
+  },
+  {
+   "ref": "H8-c7-east-14",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 20.418,
+   "features": {
+    "firstCanopyShare": 0.971,
+    "groundShare": 0.171,
+    "aprilContrastP90": 0.269,
+    "aprilVegetatedShare": 0.5
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-12",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.429,
+   "features": {
+    "firstCanopyShare": 0.909,
+    "groundShare": 0.121,
+    "aprilContrastP90": 0.26,
+    "aprilVegetatedShare": 0.446
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-10",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.879,
+   "features": {
+    "firstCanopyShare": 0.978,
+    "groundShare": 0.141,
+    "aprilContrastP90": 0.224,
+    "aprilVegetatedShare": 0.349
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-07",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.904,
+   "features": {
+    "firstCanopyShare": 0.541,
+    "groundShare": 0.328,
+    "aprilContrastP90": -0.053,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 19.61,
+   "features": {
+    "firstCanopyShare": 0.8,
+    "groundShare": 0.231,
+    "aprilContrastP90": 0.068,
+    "aprilVegetatedShare": 0.07
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-04",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 7.786,
+   "features": {
+    "firstCanopyShare": 0.781,
+    "groundShare": 0.318,
+    "aprilContrastP90": 0.087,
+    "aprilVegetatedShare": 0.082
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 8.331,
+   "features": {
+    "firstCanopyShare": 0.537,
+    "groundShare": 0.475,
+    "aprilContrastP90": -0.035,
+    "aprilVegetatedShare": 0.007
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-20",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 16.608,
+   "features": {
+    "firstCanopyShare": 0.814,
+    "groundShare": 0.241,
+    "aprilContrastP90": 0.238,
+    "aprilVegetatedShare": 0.273
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 14.87,
+   "features": {
+    "firstCanopyShare": 0.703,
+    "groundShare": 0.292,
+    "aprilContrastP90": -0.012,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-19",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 18.478,
+   "features": {
+    "firstCanopyShare": 0.806,
+    "groundShare": 0.241,
+    "aprilContrastP90": 0.091,
+    "aprilVegetatedShare": 0.079
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-16",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.867,
+   "features": {
+    "firstCanopyShare": 0.951,
+    "groundShare": 0.153,
+    "aprilContrastP90": 0.248,
+    "aprilVegetatedShare": 0.286
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-30",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 11.683,
+   "features": {
+    "firstCanopyShare": 0.851,
+    "groundShare": 0.305,
+    "aprilContrastP90": -0.032,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-27",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 15.405,
+   "features": {
+    "firstCanopyShare": 0.832,
+    "groundShare": 0.267,
+    "aprilContrastP90": -0.015,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-34",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 17.629,
+   "features": {
+    "firstCanopyShare": 0.746,
+    "groundShare": 0.258,
+    "aprilContrastP90": 0.023,
+    "aprilVegetatedShare": 0.009
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-25",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 20.886,
+   "features": {
+    "firstCanopyShare": 0.809,
+    "groundShare": 0.243,
+    "aprilContrastP90": 0.036,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-09",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 17.403,
+   "features": {
+    "firstCanopyShare": 0.693,
+    "groundShare": 0.291,
+    "aprilContrastP90": 0.046,
+    "aprilVegetatedShare": 0.061
+   }
+  },
+  {
+   "ref": "H9-c7-east-edge-17",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.461,
+   "features": {
+    "firstCanopyShare": 0.632,
+    "groundShare": 0.375,
+    "aprilContrastP90": 0.254,
+    "aprilVegetatedShare": 0.334
+   }
+  },
+  {
+   "ref": "H10-s3-grove-06",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 20.29,
+   "features": {
+    "firstCanopyShare": 0.74,
+    "groundShare": 0.334,
+    "aprilContrastP90": 0.045,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-34",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 14.661,
+   "features": {
+    "firstCanopyShare": 0.846,
+    "groundShare": 0.462,
+    "aprilContrastP90": -0.012,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 18.941,
+   "features": {
+    "firstCanopyShare": 0.87,
+    "groundShare": 0.282,
+    "aprilContrastP90": 0.047,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-05",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 21.357,
+   "features": {
+    "firstCanopyShare": 0.906,
+    "groundShare": 0.246,
+    "aprilContrastP90": 0.019,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-32",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 19.917,
+   "features": {
+    "firstCanopyShare": 0.764,
+    "groundShare": 0.323,
+    "aprilContrastP90": 0.056,
+    "aprilVegetatedShare": 0.009
+   }
+  },
+  {
+   "ref": "H10-s3-grove-17",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 14.367,
+   "features": {
+    "firstCanopyShare": 0.936,
+    "groundShare": 0.275,
+    "aprilContrastP90": 0.02,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-08",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 23.198,
+   "features": {
+    "firstCanopyShare": 0.948,
+    "groundShare": 0.244,
+    "aprilContrastP90": 0.034,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 24.623,
+   "features": {
+    "firstCanopyShare": 0.944,
+    "groundShare": 0.23,
+    "aprilContrastP90": 0.033,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 24.176,
+   "features": {
+    "firstCanopyShare": 0.899,
+    "groundShare": 0.231,
+    "aprilContrastP90": 0.017,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-22",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 25.866,
+   "features": {
+    "firstCanopyShare": 0.939,
+    "groundShare": 0.217,
+    "aprilContrastP90": 0.053,
+    "aprilVegetatedShare": 0.004
+   }
+  },
+  {
+   "ref": "H10-s3-grove-37",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 17.524,
+   "features": {
+    "firstCanopyShare": 0.787,
+    "groundShare": 0.363,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H10-s3-grove-14",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 18.603,
+   "features": {
+    "firstCanopyShare": 0.971,
+    "groundShare": 0.259,
+    "aprilContrastP90": 0.007,
+    "aprilVegetatedShare": 0.001
+   }
+  },
+  {
+   "ref": "H10-s3-grove-38",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 20.47,
+   "features": {
+    "firstCanopyShare": 0.849,
+    "groundShare": 0.317,
+    "aprilContrastP90": 0.04,
+    "aprilVegetatedShare": 0.007
+   }
+  },
+  {
+   "ref": "H10-s3-grove-23",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 22.556,
+   "features": {
+    "firstCanopyShare": 0.895,
+    "groundShare": 0.266,
+    "aprilContrastP90": 0.01,
+    "aprilVegetatedShare": 0.006
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-04",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 5.787,
+   "features": {
+    "firstCanopyShare": 0.8,
+    "groundShare": 0.203,
+    "aprilContrastP90": 0.193,
+    "aprilVegetatedShare": 0.322
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-16",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 10.394,
+   "features": {
+    "firstCanopyShare": 0.925,
+    "groundShare": 0.233,
+    "aprilContrastP90": 0.275,
+    "aprilVegetatedShare": 0.661
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-19",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 8.203,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.232,
+    "aprilContrastP90": 0.221,
+    "aprilVegetatedShare": 0.594
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-20",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.208,
+   "features": {
+    "firstCanopyShare": 0.933,
+    "groundShare": 0.221,
+    "aprilContrastP90": 0.252,
+    "aprilVegetatedShare": 0.264
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-21",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 8.28,
+   "features": {
+    "firstCanopyShare": 0.854,
+    "groundShare": 0.33,
+    "aprilContrastP90": 0.202,
+    "aprilVegetatedShare": 0.462
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-29",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.186,
+   "features": {
+    "firstCanopyShare": 0.777,
+    "groundShare": 0.287,
+    "aprilContrastP90": 0.27,
+    "aprilVegetatedShare": 0.487
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-31",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.269,
+   "features": {
+    "firstCanopyShare": 0.803,
+    "groundShare": 0.263,
+    "aprilContrastP90": 0.285,
+    "aprilVegetatedShare": 0.477
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-32",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.825,
+   "features": {
+    "firstCanopyShare": 0.898,
+    "groundShare": 0.194,
+    "aprilContrastP90": 0.279,
+    "aprilVegetatedShare": 0.502
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-01",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.252,
+   "features": {
+    "firstCanopyShare": 0.779,
+    "groundShare": 0.213,
+    "aprilContrastP90": 0.22,
+    "aprilVegetatedShare": 0.265
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-06",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 7.358,
+   "features": {
+    "firstCanopyShare": 0.831,
+    "groundShare": 0.266,
+    "aprilContrastP90": 0.252,
+    "aprilVegetatedShare": 0.261
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-08",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.726,
+   "features": {
+    "firstCanopyShare": 0.859,
+    "groundShare": 0.257,
+    "aprilContrastP90": 0.337,
+    "aprilVegetatedShare": 0.667
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-10",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 11.489,
+   "features": {
+    "firstCanopyShare": 0.831,
+    "groundShare": 0.259,
+    "aprilContrastP90": 0.023,
+    "aprilVegetatedShare": 0.03
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-05",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.239,
+   "features": {
+    "firstCanopyShare": 0.748,
+    "groundShare": 0.249,
+    "aprilContrastP90": 0.251,
+    "aprilVegetatedShare": 0.26
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-02",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.863,
+   "features": {
+    "firstCanopyShare": 0.894,
+    "groundShare": 0.203,
+    "aprilContrastP90": 0.338,
+    "aprilVegetatedShare": 0.67
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-15",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 3.894,
+   "features": {
+    "firstCanopyShare": 0.743,
+    "groundShare": 0.246,
+    "aprilContrastP90": 0.028,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-03",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.042,
+   "features": {
+    "firstCanopyShare": 0.835,
+    "groundShare": 0.201,
+    "aprilContrastP90": 0.297,
+    "aprilVegetatedShare": 0.369
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-17",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 6.662,
+   "features": {
+    "firstCanopyShare": 0.776,
+    "groundShare": 0.343,
+    "aprilContrastP90": 0.232,
+    "aprilVegetatedShare": 0.515
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-18",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 9.989,
+   "features": {
+    "firstCanopyShare": 0.819,
+    "groundShare": 0.254,
+    "aprilContrastP90": 0.032,
+    "aprilVegetatedShare": 0.041
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-27",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.993,
+   "features": {
+    "firstCanopyShare": 0.899,
+    "groundShare": 0.205,
+    "aprilContrastP90": 0.337,
+    "aprilVegetatedShare": 0.707
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-13",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 9.66,
+   "features": {
+    "firstCanopyShare": 0.897,
+    "groundShare": 0.221,
+    "aprilContrastP90": 0.263,
+    "aprilVegetatedShare": 0.579
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-07",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 8.976,
+   "features": {
+    "firstCanopyShare": 0.84,
+    "groundShare": 0.251,
+    "aprilContrastP90": 0.157,
+    "aprilVegetatedShare": 0.142
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-11",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.493,
+   "features": {
+    "firstCanopyShare": 0.777,
+    "groundShare": 0.297,
+    "aprilContrastP90": 0.203,
+    "aprilVegetatedShare": 0.198
+   }
+  },
+  {
+   "ref": "H11-c6-ridge-25",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 8.371,
+   "features": {
+    "firstCanopyShare": 0.613,
+    "groundShare": 0.366,
+    "aprilContrastP90": 0.25,
+    "aprilVegetatedShare": 0.368
+   }
+  },
+  {
+   "ref": "H12-park2-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 20.999,
+   "features": {
+    "firstCanopyShare": 0.713,
+    "groundShare": 0.235,
+    "aprilContrastP90": 0.253,
+    "aprilVegetatedShare": 0.527
+   }
+  },
+  {
+   "ref": "H12-park2-14",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.712,
+   "features": {
+    "firstCanopyShare": 0.758,
+    "groundShare": 0.171,
+    "aprilContrastP90": -0.15,
+    "aprilVegetatedShare": 0.003
+   }
+  },
+  {
+   "ref": "H12-park2-04",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.454,
+   "features": {
+    "firstCanopyShare": 0.742,
+    "groundShare": 0.253,
+    "aprilContrastP90": 0.257,
+    "aprilVegetatedShare": 0.303
+   }
+  },
+  {
+   "ref": "H12-park2-07",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 21.674,
+   "features": {
+    "firstCanopyShare": 0.763,
+    "groundShare": 0.25,
+    "aprilContrastP90": 0.265,
+    "aprilVegetatedShare": 0.77
+   }
+  },
+  {
+   "ref": "H12-park2-13",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 21.638,
+   "features": {
+    "firstCanopyShare": 0.796,
+    "groundShare": 0.263,
+    "aprilContrastP90": 0.268,
+    "aprilVegetatedShare": 0.309
+   }
+  },
+  {
+   "ref": "H12-park2-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 23.12,
+   "features": {
+    "firstCanopyShare": 0.76,
+    "groundShare": 0.202,
+    "aprilContrastP90": 0.337,
+    "aprilVegetatedShare": 0.59
+   }
+  },
+  {
+   "ref": "H12-park2-09",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 26.318,
+   "features": {
+    "firstCanopyShare": 0.828,
+    "groundShare": 0.203,
+    "aprilContrastP90": 0.344,
+    "aprilVegetatedShare": 0.511
+   }
+  },
+  {
+   "ref": "H12-park2-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.583,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.35,
+    "aprilContrastP90": 0.358,
+    "aprilVegetatedShare": 0.929
+   }
+  },
+  {
+   "ref": "H13-c8-grove-09",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 18.269,
+   "features": {
+    "firstCanopyShare": 0.962,
+    "groundShare": 0.204,
+    "aprilContrastP90": 0.254,
+    "aprilVegetatedShare": 0.21
+   }
+  },
+  {
+   "ref": "H13-c8-grove-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 18.684,
+   "features": {
+    "firstCanopyShare": 0.841,
+    "groundShare": 0.26,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H13-c8-grove-26",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.362,
+   "features": {
+    "firstCanopyShare": 0.628,
+    "groundShare": 0.402,
+    "aprilContrastP90": 0.077,
+    "aprilVegetatedShare": 0.069
+   }
+  },
+  {
+   "ref": "H13-c8-grove-04",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 17.225,
+   "features": {
+    "firstCanopyShare": 0.808,
+    "groundShare": 0.266,
+    "aprilContrastP90": 0.021,
+    "aprilVegetatedShare": 0.054
+   }
+  },
+  {
+   "ref": "H13-c8-grove-30",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 14.715,
+   "features": {
+    "firstCanopyShare": 0.878,
+    "groundShare": 0.242,
+    "aprilContrastP90": 0.096,
+    "aprilVegetatedShare": 0.085
+   }
+  },
+  {
+   "ref": "H13-c8-grove-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.442,
+   "features": {
+    "firstCanopyShare": 0.841,
+    "groundShare": 0.284,
+    "aprilContrastP90": 0.14,
+    "aprilVegetatedShare": 0.129
+   }
+  },
+  {
+   "ref": "H13-c8-grove-42",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.711,
+   "features": {
+    "firstCanopyShare": 0.662,
+    "groundShare": 0.34,
+    "aprilContrastP90": 0.279,
+    "aprilVegetatedShare": 0.21
+   }
+  },
+  {
+   "ref": "H13-c8-grove-34",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 14.756,
+   "features": {
+    "firstCanopyShare": 0.8,
+    "groundShare": 0.31,
+    "aprilContrastP90": -0.011,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H13-c8-grove-21",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.28,
+   "features": {
+    "firstCanopyShare": 0.648,
+    "groundShare": 0.356,
+    "aprilContrastP90": 0.045,
+    "aprilVegetatedShare": 0.001
+   }
+  },
+  {
+   "ref": "H13-c8-grove-05",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 17.316,
+   "features": {
+    "firstCanopyShare": 0.831,
+    "groundShare": 0.272,
+    "aprilContrastP90": -0.014,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H13-c8-grove-19",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.155,
+   "features": {
+    "firstCanopyShare": 0.789,
+    "groundShare": 0.353,
+    "aprilContrastP90": 0.007,
+    "aprilVegetatedShare": 0.019
+   }
+  },
+  {
+   "ref": "H13-c8-grove-08",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.521,
+   "features": {
+    "firstCanopyShare": 0.823,
+    "groundShare": 0.246,
+    "aprilContrastP90": -0.013,
+    "aprilVegetatedShare": 0.003
+   }
+  },
+  {
+   "ref": "H13-c8-grove-27",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.259,
+   "features": {
+    "firstCanopyShare": 0.785,
+    "groundShare": 0.327,
+    "aprilContrastP90": -0.018,
+    "aprilVegetatedShare": 0.002
+   }
+  },
+  {
+   "ref": "H13-c8-grove-41",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 16.989,
+   "features": {
+    "firstCanopyShare": 0.82,
+    "groundShare": 0.279,
+    "aprilContrastP90": -0.011,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H13-c8-grove-23",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 18.259,
+   "features": {
+    "firstCanopyShare": 0.741,
+    "groundShare": 0.244,
+    "aprilContrastP90": 0.15,
+    "aprilVegetatedShare": 0.174
+   }
+  },
+  {
+   "ref": "H13-c8-grove-40",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 14.055,
+   "features": {
+    "firstCanopyShare": 0.818,
+    "groundShare": 0.285,
+    "aprilContrastP90": -0.016,
+    "aprilVegetatedShare": 0.014
+   }
+  },
+  {
+   "ref": "H13-c8-grove-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 16.326,
+   "features": {
+    "firstCanopyShare": 0.78,
+    "groundShare": 0.28,
+    "aprilContrastP90": 0.132,
+    "aprilVegetatedShare": 0.12
+   }
+  },
+  {
+   "ref": "H13-c8-grove-35",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.814,
+   "features": {
+    "firstCanopyShare": 0.86,
+    "groundShare": 0.253,
+    "aprilContrastP90": 0.026,
+    "aprilVegetatedShare": 0.014
+   }
+  },
+  {
+   "ref": "H13-c8-grove-15",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 16.969,
+   "features": {
+    "firstCanopyShare": 0.767,
+    "groundShare": 0.309,
+    "aprilContrastP90": 0.208,
+    "aprilVegetatedShare": 0.283
+   }
+  },
+  {
+   "ref": "H13-c8-grove-37",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 17.83,
+   "features": {
+    "firstCanopyShare": 0.864,
+    "groundShare": 0.271,
+    "aprilContrastP90": -0.005,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H14-s13-shore-09",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 3.167,
+   "features": {
+    "firstCanopyShare": 0.75,
+    "groundShare": 0.286,
+    "aprilContrastP90": -0.034,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H14-s13-shore-04",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 4.804,
+   "features": {
+    "firstCanopyShare": 0.727,
+    "groundShare": 0.299,
+    "aprilContrastP90": 0.025,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H14-s13-shore-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 4.777,
+   "features": {
+    "firstCanopyShare": 0.854,
+    "groundShare": 0.313,
+    "aprilContrastP90": 0.089,
+    "aprilVegetatedShare": 0.028
+   }
+  },
+  {
+   "ref": "H14-s13-shore-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.088,
+   "features": {
+    "firstCanopyShare": 0.733,
+    "groundShare": 0.333,
+    "aprilContrastP90": 0.046,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H14-s13-shore-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 16.4,
+   "features": {
+    "firstCanopyShare": 0.89,
+    "groundShare": 0.215,
+    "aprilContrastP90": 0.077,
+    "aprilVegetatedShare": 0.002
+   }
+  },
+  {
+   "ref": "H14-s13-shore-11",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 7.107,
+   "features": {
+    "firstCanopyShare": 0.686,
+    "groundShare": 0.291,
+    "aprilContrastP90": 0.034,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H16-s1-garden-07",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.328,
+   "features": {
+    "firstCanopyShare": 0.806,
+    "groundShare": 0.269,
+    "aprilContrastP90": 0.101,
+    "aprilVegetatedShare": 0.066
+   }
+  },
+  {
+   "ref": "H16-s1-garden-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 12.506,
+   "features": {
+    "firstCanopyShare": 0.845,
+    "groundShare": 0.247,
+    "aprilContrastP90": 0.121,
+    "aprilVegetatedShare": 0.101
+   }
+  },
+  {
+   "ref": "H16-s1-garden-06",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.699,
+   "features": {
+    "firstCanopyShare": 0.886,
+    "groundShare": 0.27,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H16-s1-garden-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.089,
+   "features": {
+    "firstCanopyShare": 0.844,
+    "groundShare": 0.285,
+    "aprilContrastP90": 0.024,
+    "aprilVegetatedShare": 0.005
+   }
+  },
+  {
+   "ref": "H16-s1-garden-04",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 19.177,
+   "features": {
+    "firstCanopyShare": 0.683,
+    "groundShare": 0.371,
+    "aprilContrastP90": 0.028,
+    "aprilVegetatedShare": 0.004
+   }
+  },
+  {
+   "ref": "H16-s1-garden-05",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 16.693,
+   "features": {
+    "firstCanopyShare": 0.798,
+    "groundShare": 0.265,
+    "aprilContrastP90": 0.049,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H16-s1-garden-09",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 9.443,
+   "features": {
+    "firstCanopyShare": 0.819,
+    "groundShare": 0.296,
+    "aprilContrastP90": 0.004,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H16-s1-garden-10",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.481,
+   "features": {
+    "firstCanopyShare": 0.79,
+    "groundShare": 0.273,
+    "aprilContrastP90": 0.195,
+    "aprilVegetatedShare": 0.146
+   }
+  },
+  {
+   "ref": "H16-s1-garden-11",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 4.941,
+   "features": {
+    "firstCanopyShare": 0.613,
+    "groundShare": 0.483,
+    "aprilContrastP90": -0.005,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-04",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 9.496,
+   "features": {
+    "firstCanopyShare": 0.779,
+    "groundShare": 0.309,
+    "aprilContrastP90": 0,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-01",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 19.918,
+   "features": {
+    "firstCanopyShare": 0.735,
+    "groundShare": 0.257,
+    "aprilContrastP90": 0.229,
+    "aprilVegetatedShare": 0.15
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-10",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.595,
+   "features": {
+    "firstCanopyShare": 0.65,
+    "groundShare": 0.255,
+    "aprilContrastP90": 0.045,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-12",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 11.614,
+   "features": {
+    "firstCanopyShare": 0.845,
+    "groundShare": 0.248,
+    "aprilContrastP90": 0.023,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-06",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 5.679,
+   "features": {
+    "firstCanopyShare": 0.676,
+    "groundShare": 0.39,
+    "aprilContrastP90": -0.014,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-21",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 16.212,
+   "features": {
+    "firstCanopyShare": 0.838,
+    "groundShare": 0.255,
+    "aprilContrastP90": 0.024,
+    "aprilVegetatedShare": 0.008
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-13",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 9.521,
+   "features": {
+    "firstCanopyShare": 0.771,
+    "groundShare": 0.347,
+    "aprilContrastP90": -0.021,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-09",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 8.166,
+   "features": {
+    "firstCanopyShare": 0.766,
+    "groundShare": 0.324,
+    "aprilContrastP90": 0.006,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-05",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 11.07,
+   "features": {
+    "firstCanopyShare": 0.777,
+    "groundShare": 0.298,
+    "aprilContrastP90": 0.06,
+    "aprilVegetatedShare": 0.002
+   }
+  },
+  {
+   "ref": "H17-c12-mixed-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 18.75,
+   "features": {
+    "firstCanopyShare": 0.848,
+    "groundShare": 0.264,
+    "aprilContrastP90": 0.254,
+    "aprilVegetatedShare": 0.122
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-09",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 4.858,
+   "features": {
+    "firstCanopyShare": 0.783,
+    "groundShare": 0.231,
+    "aprilContrastP90": 0.274,
+    "aprilVegetatedShare": 0.316
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-10",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.277,
+   "features": {
+    "firstCanopyShare": 0.832,
+    "groundShare": 0.216,
+    "aprilContrastP90": 0.304,
+    "aprilVegetatedShare": 0.365
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-19",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 17.06,
+   "features": {
+    "firstCanopyShare": 0.922,
+    "groundShare": 0.16,
+    "aprilContrastP90": 0.285,
+    "aprilVegetatedShare": 0.64
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-20",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.637,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.235,
+    "aprilContrastP90": 0.277,
+    "aprilVegetatedShare": 0.778
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-21",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.361,
+   "features": {
+    "firstCanopyShare": 0.868,
+    "groundShare": 0.212,
+    "aprilContrastP90": 0.269,
+    "aprilVegetatedShare": 0.519
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-23",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 3.897,
+   "features": {
+    "firstCanopyShare": 0.636,
+    "groundShare": 0.357,
+    "aprilContrastP90": 0.175,
+    "aprilVegetatedShare": 0.944
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-08",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 6.706,
+   "features": {
+    "firstCanopyShare": 0.688,
+    "groundShare": 0.313,
+    "aprilContrastP90": 0.243,
+    "aprilVegetatedShare": 0.212
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-11",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.475,
+   "features": {
+    "firstCanopyShare": 0.636,
+    "groundShare": 0.383,
+    "aprilContrastP90": 0.096,
+    "aprilVegetatedShare": 0.094
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-31",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 4.646,
+   "features": {
+    "firstCanopyShare": 0.714,
+    "groundShare": 0.286,
+    "aprilContrastP90": 0.115,
+    "aprilVegetatedShare": 0.072
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-29",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 5.035,
+   "features": {
+    "firstCanopyShare": 0.778,
+    "groundShare": 0.231,
+    "aprilContrastP90": 0.119,
+    "aprilVegetatedShare": 0.093
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-05",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 11.453,
+   "features": {
+    "firstCanopyShare": 0.734,
+    "groundShare": 0.231,
+    "aprilContrastP90": 0.306,
+    "aprilVegetatedShare": 0.425
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-13",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.604,
+   "features": {
+    "firstCanopyShare": 0.811,
+    "groundShare": 0.229,
+    "aprilContrastP90": 0.286,
+    "aprilVegetatedShare": 0.518
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-03",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 11.117,
+   "features": {
+    "firstCanopyShare": 0.758,
+    "groundShare": 0.246,
+    "aprilContrastP90": 0.311,
+    "aprilVegetatedShare": 0.369
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-14",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.841,
+   "features": {
+    "firstCanopyShare": 0.912,
+    "groundShare": 0.305,
+    "aprilContrastP90": 0.293,
+    "aprilVegetatedShare": 0.289
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-24",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 15.625,
+   "features": {
+    "firstCanopyShare": 0.803,
+    "groundShare": 0.204,
+    "aprilContrastP90": 0.254,
+    "aprilVegetatedShare": 0.35
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-12",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.96,
+   "features": {
+    "firstCanopyShare": 0.823,
+    "groundShare": 0.239,
+    "aprilContrastP90": 0.222,
+    "aprilVegetatedShare": 0.312
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-27",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.978,
+   "features": {
+    "firstCanopyShare": 0.838,
+    "groundShare": 0.243,
+    "aprilContrastP90": 0.304,
+    "aprilVegetatedShare": 0.603
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-28",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 19.986,
+   "features": {
+    "firstCanopyShare": 0.79,
+    "groundShare": 0.28,
+    "aprilContrastP90": 0.29,
+    "aprilVegetatedShare": 0.38
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-06",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 8.709,
+   "features": {
+    "firstCanopyShare": 0.733,
+    "groundShare": 0.365,
+    "aprilContrastP90": 0.309,
+    "aprilVegetatedShare": 0.462
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-02",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 7.643,
+   "features": {
+    "firstCanopyShare": 0.6,
+    "groundShare": 0.416,
+    "aprilContrastP90": 0.263,
+    "aprilVegetatedShare": 0.291
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-15",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 11.767,
+   "features": {
+    "firstCanopyShare": 0.841,
+    "groundShare": 0.261,
+    "aprilContrastP90": 0.316,
+    "aprilVegetatedShare": 0.422
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-16",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.472,
+   "features": {
+    "firstCanopyShare": 1,
+    "groundShare": 0.206,
+    "aprilContrastP90": 0.294,
+    "aprilVegetatedShare": 0.666
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-17",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.531,
+   "features": {
+    "firstCanopyShare": 0.766,
+    "groundShare": 0.311,
+    "aprilContrastP90": 0.28,
+    "aprilVegetatedShare": 0.22
+   }
+  },
+  {
+   "ref": "H19-c8-ridge-25",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.115,
+   "features": {
+    "firstCanopyShare": 0.929,
+    "groundShare": 0.197,
+    "aprilContrastP90": 0.283,
+    "aprilVegetatedShare": 0.5
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-06",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.11,
+   "features": {
+    "firstCanopyShare": 0.517,
+    "groundShare": 0.439,
+    "aprilContrastP90": 0.309,
+    "aprilVegetatedShare": 0.398
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-09",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.673,
+   "features": {
+    "firstCanopyShare": 0.81,
+    "groundShare": 0.285,
+    "aprilContrastP90": 0.299,
+    "aprilVegetatedShare": 0.37
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-11",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 11.63,
+   "features": {
+    "firstCanopyShare": 0.806,
+    "groundShare": 0.23,
+    "aprilContrastP90": 0.303,
+    "aprilVegetatedShare": 0.489
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-19",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.187,
+   "features": {
+    "firstCanopyShare": 0.94,
+    "groundShare": 0.262,
+    "aprilContrastP90": 0.345,
+    "aprilVegetatedShare": 0.656
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-20",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.306,
+   "features": {
+    "firstCanopyShare": 0.823,
+    "groundShare": 0.233,
+    "aprilContrastP90": 0.303,
+    "aprilVegetatedShare": 0.58
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-21",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 15.529,
+   "features": {
+    "firstCanopyShare": 0.849,
+    "groundShare": 0.235,
+    "aprilContrastP90": 0.341,
+    "aprilVegetatedShare": 0.576
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-22",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.145,
+   "features": {
+    "firstCanopyShare": 0.757,
+    "groundShare": 0.21,
+    "aprilContrastP90": 0.322,
+    "aprilVegetatedShare": 0.534
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-26",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.8,
+   "features": {
+    "firstCanopyShare": 0.915,
+    "groundShare": 0.185,
+    "aprilContrastP90": 0.344,
+    "aprilVegetatedShare": 0.781
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-27",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.37,
+   "features": {
+    "firstCanopyShare": 0.974,
+    "groundShare": 0.223,
+    "aprilContrastP90": 0.339,
+    "aprilVegetatedShare": 0.699
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-41",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.055,
+   "features": {
+    "firstCanopyShare": 0.92,
+    "groundShare": 0.277,
+    "aprilContrastP90": 0.308,
+    "aprilVegetatedShare": 0.347
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-50",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.789,
+   "features": {
+    "firstCanopyShare": 0.79,
+    "groundShare": 0.266,
+    "aprilContrastP90": 0.292,
+    "aprilVegetatedShare": 0.454
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-52",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 11.75,
+   "features": {
+    "firstCanopyShare": 0.918,
+    "groundShare": 0.256,
+    "aprilContrastP90": 0.28,
+    "aprilVegetatedShare": 0.424
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-57",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.987,
+   "features": {
+    "firstCanopyShare": 0.78,
+    "groundShare": 0.3,
+    "aprilContrastP90": 0.241,
+    "aprilVegetatedShare": 0.41
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-13",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.58,
+   "features": {
+    "firstCanopyShare": 0.791,
+    "groundShare": 0.287,
+    "aprilContrastP90": 0.146,
+    "aprilVegetatedShare": 0.119
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-16",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.948,
+   "features": {
+    "firstCanopyShare": 0.953,
+    "groundShare": 0.216,
+    "aprilContrastP90": 0.296,
+    "aprilVegetatedShare": 0.481
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-25",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.505,
+   "features": {
+    "firstCanopyShare": 0.866,
+    "groundShare": 0.237,
+    "aprilContrastP90": 0.327,
+    "aprilVegetatedShare": 0.706
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-28",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 10.022,
+   "features": {
+    "firstCanopyShare": 0.927,
+    "groundShare": 0.229,
+    "aprilContrastP90": 0.278,
+    "aprilVegetatedShare": 0.437
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-29",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.363,
+   "features": {
+    "firstCanopyShare": 0.97,
+    "groundShare": 0.29,
+    "aprilContrastP90": 0.321,
+    "aprilVegetatedShare": 0.736
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-40",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.984,
+   "features": {
+    "firstCanopyShare": 0.739,
+    "groundShare": 0.261,
+    "aprilContrastP90": 0.326,
+    "aprilVegetatedShare": 0.405
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-18",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 10.295,
+   "features": {
+    "firstCanopyShare": 0.708,
+    "groundShare": 0.274,
+    "aprilContrastP90": 0.281,
+    "aprilVegetatedShare": 0.316
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-46",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 5.906,
+   "features": {
+    "firstCanopyShare": 0.667,
+    "groundShare": 0.447,
+    "aprilContrastP90": 0.243,
+    "aprilVegetatedShare": 0.273
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-10",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.341,
+   "features": {
+    "firstCanopyShare": 0.914,
+    "groundShare": 0.242,
+    "aprilContrastP90": 0.3,
+    "aprilVegetatedShare": 0.381
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-30",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 9.72,
+   "features": {
+    "firstCanopyShare": 0.856,
+    "groundShare": 0.351,
+    "aprilContrastP90": 0.275,
+    "aprilVegetatedShare": 0.534
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-02",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 12.524,
+   "features": {
+    "firstCanopyShare": 0.909,
+    "groundShare": 0.166,
+    "aprilContrastP90": 0.309,
+    "aprilVegetatedShare": 0.695
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-35",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.683,
+   "features": {
+    "firstCanopyShare": 0.783,
+    "groundShare": 0.306,
+    "aprilContrastP90": 0.09,
+    "aprilVegetatedShare": 0.062
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-24",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.182,
+   "features": {
+    "firstCanopyShare": 0.764,
+    "groundShare": 0.326,
+    "aprilContrastP90": 0.306,
+    "aprilVegetatedShare": 0.519
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-36",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 6.94,
+   "features": {
+    "firstCanopyShare": 0.843,
+    "groundShare": 0.285,
+    "aprilContrastP90": 0.075,
+    "aprilVegetatedShare": 0.031
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-01",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 14.458,
+   "features": {
+    "firstCanopyShare": 0.927,
+    "groundShare": 0.254,
+    "aprilContrastP90": 0.312,
+    "aprilVegetatedShare": 0.482
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-07",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 12.436,
+   "features": {
+    "firstCanopyShare": 0.697,
+    "groundShare": 0.338,
+    "aprilContrastP90": 0.247,
+    "aprilVegetatedShare": 0.21
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-47",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 4.663,
+   "features": {
+    "firstCanopyShare": 0.62,
+    "groundShare": 0.391,
+    "aprilContrastP90": 0.085,
+    "aprilVegetatedShare": 0
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-48",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 7.35,
+   "features": {
+    "firstCanopyShare": 0.558,
+    "groundShare": 0.429,
+    "aprilContrastP90": 0.248,
+    "aprilVegetatedShare": 0.284
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-49",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 8.068,
+   "features": {
+    "firstCanopyShare": 0.964,
+    "groundShare": 0.339,
+    "aprilContrastP90": 0.333,
+    "aprilVegetatedShare": 0.553
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-37",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 16.545,
+   "features": {
+    "firstCanopyShare": 0.945,
+    "groundShare": 0.202,
+    "aprilContrastP90": 0.321,
+    "aprilVegetatedShare": 0.538
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-51",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.074,
+   "features": {
+    "firstCanopyShare": 0.844,
+    "groundShare": 0.27,
+    "aprilContrastP90": 0.295,
+    "aprilVegetatedShare": 0.507
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-60",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.654,
+   "features": {
+    "firstCanopyShare": 0.841,
+    "groundShare": 0.296,
+    "aprilContrastP90": 0.27,
+    "aprilVegetatedShare": 0.537
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-58",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 13.829,
+   "features": {
+    "firstCanopyShare": 0.758,
+    "groundShare": 0.351,
+    "aprilContrastP90": 0.194,
+    "aprilVegetatedShare": 0.158
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-31",
+   "role": "evaluation",
+   "type": "conifer",
+   "heightMetres": 13.759,
+   "features": {
+    "firstCanopyShare": 0.848,
+    "groundShare": 0.338,
+    "aprilContrastP90": 0.216,
+    "aprilVegetatedShare": 0.241
+   }
+  },
+  {
+   "ref": "H21-c12-scatter-59",
+   "role": "evaluation",
+   "type": "broadleaf",
+   "heightMetres": 2.989,
+   "features": {
+    "firstCanopyShare": 0.611,
+    "groundShare": 0.419,
+    "aprilContrastP90": 0.219,
+    "aprilVegetatedShare": 0.324
+   }
+  }
+ ]
+}

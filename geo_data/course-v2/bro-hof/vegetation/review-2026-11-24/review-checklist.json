@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "kind": "tree-review-checklist",
+  "groundId": "bro-hof",
+  "reviewId": "review-2026-11-24",
+  "round": "r1",
+  "howToMark": "person and owner items: set status to done (with by, on and evidence or a note) or not-applicable with a reason; only the owner marks owner items. Automatic items are recomputed on every review run.",
+  "items": [
+    {
+      "id": "reference-frozen",
+      "who": "auto",
+      "question": "The round's reference sample is frozen and its lock matches (who interpreted it is recorded in the lock).",
+      "status": "done",
+      "by": "agent-led interpretation (Claude), not a survey or human approval",
+      "on": "2026-11-24",
+      "evidence": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/reference-lock.json"
+    },
+    {
+      "id": "held-out-gate",
+      "who": "auto",
+      "question": "The 90% held-out gate passed, or the owner recorded an exception pinning this benchmark in trees.json.",
+      "status": "open",
+      "note": "held-out gate FAILED (precision 0.784 is below 0.9; recall 0.807 is below 0.9). Stop and ask the owner: improve the method with a new round and a new unseen sample, or record an owner exception in trees.json pinning this benchmark."
+    },
+    {
+      "id": "felling-screen-reviewed",
+      "who": "auto",
+      "question": "Every felling-screened crown has a verdict in felling-review.json.",
+      "status": "open",
+      "note": "178 screened crowns unreviewed"
+    },
+    {
+      "id": "felled-list-confirmed",
+      "who": "owner",
+      "question": "The owner confirmed the trees decided felled or not a tree since the laser (removals and not placed).",
+      "status": "open",
+      "by": null,
+      "on": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "pole-like-reviewed",
+      "who": "auto",
+      "question": "Every pole-like crown (holds.poleLike) has a verdict in pole-review.json, or the hold is switched off and recorded as such.",
+      "status": "open",
+      "note": "204 pole-like crowns unreviewed"
+    },
+    {
+      "id": "holds-reviewed",
+      "who": "auto",
+      "question": "Every crown held on a mapped building or with no presence vegetation has a verdict in hold-review.json (bank, present, absent, not-tree or unclear).",
+      "status": "open",
+      "note": "1737 held crowns unreviewed: draw them with --only holds"
+    },
+    {
+      "id": "species-spot-check-photos",
+      "who": "person",
+      "question": "The broadleaf calls near play were checked on the leaf-off and presence photos (type-panels chips); tally of verdicts recorded in the note.",
+      "status": "open",
+      "by": null,
+      "on": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "species-mix-flags",
+      "who": "auto",
+      "question": "No hole is flagged for a high broadleaf share near play (species-mix.json), or the owner accepted each flag.",
+      "status": "open",
+      "note": "flagged for the owner: bro-hof-stadium hole 1: 107 of 202 near-play records typed broadleaf (53%); bro-hof-stadium hole 2: 176 of 281 near-play records typed broadleaf (63%); bro-hof-stadium hole 3: 104 of 209 near-play records typed broadleaf (50%); bro-hof-stadium hole 4: 17 of 19 near-play records typed broadleaf (90%); bro-hof-stadium hole 5: 94 of 202 near-play records typed broadleaf (47%); bro-hof-stadium hole 6: 110 of 241 near-play records typed broadleaf (46%); bro-hof-stadium hole 7: 68 of 166 near-play records typed broadleaf (41%); bro-hof-stadium hole 8: 126 of 372 near-play records typed broadleaf (34%); bro-hof-stadium hole 9: 23 of 34 near-play records typed broadleaf (68%); bro-hof-stadium hole 10: 125 of 297 near-play records typed broadleaf (42%); bro-hof-stadium hole 12: 139 of 217 near-play records typed broadleaf (64%); bro-hof-stadium hole 13: 159 of 237 near-play records typed broadleaf (67%); bro-hof-stadium hole 14: 166 of 198 near-play records typed broadleaf (84%); bro-hof-stadium hole 16: 94 of 136 near-play records typed broadleaf (69%); bro-hof-stadium hole 17: 49 of 146 near-play records typed broadleaf (34%); bro-hof-stadium hole 18: 90 of 120 near-play records typed broadleaf (75%); bro-hof-castle hole 1: 235 of 447 near-play records typed broadleaf (53%); bro-hof-castle hole 2: 110 of 140 near-play records typed broadleaf (79%); bro-hof-castle hole 3: 209 of 322 near-play records typed broadleaf (65%); bro-hof-castle hole 4: 108 of 129 near-play records typed broadleaf (84%); bro-hof-castle hole 5: 102 of 293 near-play records typed broadleaf (35%); bro-hof-castle hole 7: 145 of 412 near-play records typed broadleaf (35%); bro-hof-castle hole 8: 111 of 279 near-play records typed broadleaf (40%); bro-hof-castle hole 9: 186 of 247 near-play records typed broadleaf (75%); bro-hof-castle hole 10: 247 of 497 near-play records typed broadleaf (50%); bro-hof-castle hole 11: 146 of 370 near-play records typed broadleaf (40%); bro-hof-castle hole 12: 166 of 342 near-play records typed broadleaf (49%); bro-hof-castle hole 13: 157 of 427 near-play records typed broadleaf (37%); bro-hof-castle hole 14: 129 of 322 near-play records typed broadleaf (40%); bro-hof-castle hole 16: 131 of 334 near-play records typed broadleaf (39%); bro-hof-castle hole 17: 30 of 51 near-play records typed broadleaf (59%); bro-hof-castle hole 18: 153 of 431 near-play records typed broadleaf (36%)"
+    },
+    {
+      "id": "species-mix-screenshots",
+      "who": "owner",
+      "question": "The owner compared before/after screenshots of the app on the GPU (holes near play) and the species mix reads right.",
+      "status": "open",
+      "by": null,
+      "on": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "runtime-cost-measured",
+      "who": "owner",
+      "question": "Frame times before/after were measured on the owner's GPU (interleaved runs, high and low quality) and accepted.",
+      "status": "open",
+      "by": null,
+      "on": null,
+      "evidence": null,
+      "note": null
+    }
+  ]
+}

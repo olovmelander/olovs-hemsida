@@ -1150,6 +1150,78 @@
   },
   {
    "type": "Feature",
+   "id": "cart-row-forecourt-east",
+   "properties": {
+    "kind": "cart_park",
+    "count": 15,
+    "fleet": "white",
+    "sourceId": "orto-o2-2025",
+    "provenance": "orthophoto 2025-06-14 (15 carts in a row)"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648669.4,
+      6598218.4
+     ],
+     [
+      648673.7,
+      6598201.0
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "cart-row-forecourt-west",
+   "properties": {
+    "kind": "cart_park",
+    "count": 8,
+    "fleet": "white",
+    "sourceId": "orto-o2-2025",
+    "provenance": "orthophoto 2025-06-14 (8 carts in a row)"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648639.3,
+      6598218.4
+     ],
+     [
+      648647.9,
+      6598221.8
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "cart-row-forecourt-north",
+   "properties": {
+    "kind": "cart_park",
+    "count": 3,
+    "fleet": "white",
+    "sourceId": "orto-o2-2025",
+    "provenance": "orthophoto 2025-06-14 (3 carts)"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648651.6,
+      6598223.1
+     ],
+     [
+      648655.6,
+      6598224.8
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
    "id": "w222073368",
    "properties": {
     "kind": "path",

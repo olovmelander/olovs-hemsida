@@ -169,7 +169,7 @@ for spec in dec['facilities']:
         ring = next(shape(f['geometry']) for f in tt.load_json(ROOT / cfg['osm'])['features'] if f['id'] == spec['osm'])
         start = tt.largest(ring)
     elif 'ring' in spec:
-        start = Polygon(spec['ring'])
+        start = Polygon(spec['ring'], spec.get('holes', []))
     else:
         start = component(green if spec.get('class') == 'green' else mown, spec['seed'], spec.get('cap', 30), spec.get('close', 3))
     if spec.get('reach', 1.5) == 0:
@@ -227,6 +227,10 @@ for spec in dec['bridges']:
     infra.append({'type': 'Feature', 'id': spec['id'], 'properties': {'kind': 'bridge', 'style': spec['style'], 'width': spec['width'], 'sourceId': IMG,
                                                                       'provenance': 'orthophoto-2025', 'observedYear': 2025, 'meanSnapMetres': round(moved, 2)},
                   'geometry': {'type': 'LineString', 'coordinates': rnd(line.coords)}})
+for spec in dec.get('cartParks', []):
+    infra.append({'type': 'Feature', 'id': spec['id'], 'properties': {'kind': 'cart_park', 'count': spec['count'], 'fleet': spec.get('fleet'), 'sourceId': IMG,
+                                                                      'provenance': spec['evidence']},
+                  'geometry': {'type': 'LineString', 'coordinates': rnd(spec['line'])}})
 for f in tt.load_json(ROOT / cfg['osm'])['features']:
     tags = f['properties'].get('tags') or {}
     if tags.get('golf') == 'cartpath' and f['geometry']['type'] == 'LineString':

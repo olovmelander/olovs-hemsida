@@ -1,0 +1,651 @@
+{
+ "schemaVersion": 1,
+ "groundId": "bro-hof",
+ "courseSlugs": [
+  "bro-hof-stadium",
+  "bro-hof-castle"
+ ],
+ "coordinateFrame": {
+  "kind": "epsg3006-local-rh2000",
+  "originEasting": 649094.5,
+  "originNorthing": 6598568.5,
+  "axes": "east-up-south",
+  "heightDatum": "RH2000"
+ },
+ "asset": {
+  "url": "models/bro-hof/facilities-d635ad371740eab2c7e61c20f07f6dd585d665c6d8045e576536afbdf1a167ac.glb",
+  "sha256": "d635ad371740eab2c7e61c20f07f6dd585d665c6d8045e576536afbdf1a167ac",
+  "bytes": 1125432
+ },
+ "replacesRangeFacilities": false,
+ "replacesCourtyard": false,
+ "facilities": [
+  {
+   "id": "castle",
+   "nodeName": "BroHof-Castle",
+   "sourceBuildingIds": [
+    "w319035128"
+   ],
+   "footprintLocal": [
+    [
+     -473.06,
+     389.63
+    ],
+    [
+     -458.45,
+     396.25
+    ],
+    [
+     -456.86,
+     392.74
+    ],
+    [
+     -449.8,
+     395.93
+    ],
+    [
+     -451.22,
+     399.06
+    ],
+    [
+     -436.83,
+     405.57
+    ],
+    [
+     -442.78,
+     418.71
+    ],
+    [
+     -447.92,
+     416.4
+    ],
+    [
+     -448.34,
+     417.31
+    ],
+    [
+     -457.4,
+     413.21
+    ],
+    [
+     -457.8,
+     414.08
+    ],
+    [
+     -465.45,
+     410.62
+    ],
+    [
+     -465.05,
+     409.74
+    ],
+    [
+     -474.12,
+     405.64
+    ],
+    [
+     -473.72,
+     404.77
+    ],
+    [
+     -478.86,
+     402.44
+    ]
+   ],
+   "groundAnchorLocal": [
+    -454,
+    390
+   ],
+   "groundAnchorRh2000M": 13.83,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -479.257,
+     11.2,
+     389.235
+    ],
+    "max": [
+     -436.434,
+     41.75,
+     419.112
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 10091,
+   "evidence": {
+    "levels": "Laserdata Skog 2020-11-06: courtyard 13.7, eaves 24.3, mansard break 27.9, ridge 29, wings 19.5, dome top 38.9",
+    "facade": "Wikimedia Commons Bro Hof Slott Entre.jpg (CC BY-SA 4.0, reference only), north side; the south side repeats it"
+   }
+  },
+  {
+   "id": "castle-terrace",
+   "nodeName": "BroHof-Terrace",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -474.52,
+     405.44
+    ],
+    [
+     -476,
+     408.72
+    ],
+    [
+     -480.83,
+     406.53
+    ],
+    [
+     -483.64,
+     412.73
+    ],
+    [
+     -478.81,
+     414.91
+    ],
+    [
+     -479.55,
+     416.55
+    ],
+    [
+     -470.26,
+     420.76
+    ],
+    [
+     -473.1,
+     427.04
+    ],
+    [
+     -467.36,
+     429.64
+    ],
+    [
+     -464.52,
+     423.36
+    ],
+    [
+     -453.58,
+     428.3
+    ],
+    [
+     -453.01,
+     427.03
+    ],
+    [
+     -449.73,
+     428.51
+    ],
+    [
+     -446.76,
+     421.95
+    ],
+    [
+     -450.04,
+     420.47
+    ],
+    [
+     -448.55,
+     417.19
+    ]
+   ],
+   "groundAnchorLocal": [
+    -474.5,
+    431.5
+   ],
+   "groundAnchorRh2000M": 11.28,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -483.835,
+     10.4,
+     405.226
+    ],
+    "max": [
+     -446.561,
+     16.13,
+     429.658
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 2482,
+   "evidence": {
+    "levels": "Laserdata Skog: floor 15.1, lawn 11.3, side rooms 14.6",
+    "plan": "orthophoto 2025-06-14",
+    "balustrade": "estimated"
+   }
+  },
+  {
+   "id": "pavilion",
+   "nodeName": "BroHof-Pavilion",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -430,
+     503.5
+    ],
+    [
+     -430.14,
+     502.44
+    ],
+    [
+     -430.55,
+     501.45
+    ],
+    [
+     -431.2,
+     500.6
+    ],
+    [
+     -432.05,
+     499.95
+    ],
+    [
+     -433.04,
+     499.54
+    ],
+    [
+     -434.1,
+     499.4
+    ],
+    [
+     -435.16,
+     499.54
+    ],
+    [
+     -436.15,
+     499.95
+    ],
+    [
+     -437,
+     500.6
+    ],
+    [
+     -437.65,
+     501.45
+    ],
+    [
+     -438.06,
+     502.44
+    ],
+    [
+     -438.2,
+     503.5
+    ],
+    [
+     -438.06,
+     504.56
+    ],
+    [
+     -437.65,
+     505.55
+    ],
+    [
+     -437,
+     506.4
+    ],
+    [
+     -436.15,
+     507.05
+    ],
+    [
+     -435.16,
+     507.46
+    ],
+    [
+     -434.1,
+     507.6
+    ],
+    [
+     -433.04,
+     507.46
+    ],
+    [
+     -432.05,
+     507.05
+    ],
+    [
+     -431.2,
+     506.4
+    ],
+    [
+     -430.55,
+     505.55
+    ],
+    [
+     -430.14,
+     504.56
+    ]
+   ],
+   "groundAnchorLocal": [
+    -434.1,
+    503.5
+   ],
+   "groundAnchorRh2000M": 16.96,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -438.2,
+     15.4,
+     499.4
+    ],
+    "max": [
+     -430,
+     21.6,
+     507.6
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 530,
+   "evidence": {
+    "plan": "orthophoto 2025-06-14",
+    "height": "its shadow; built after the laser"
+   }
+  },
+  {
+   "id": "halfway-stadium",
+   "nodeName": "BroHof-HalfwayStadium",
+   "sourceBuildingIds": [
+    "w1235353673"
+   ],
+   "footprintLocal": [
+    [
+     162.5,
+     51.6
+    ],
+    [
+     170.5,
+     53.1
+    ],
+    [
+     175.4,
+     53.2
+    ],
+    [
+     176.2,
+     45.6
+    ],
+    [
+     176.4,
+     41.9
+    ],
+    [
+     173.6,
+     37.6
+    ],
+    [
+     167.4,
+     36.8
+    ],
+    [
+     163.6,
+     40.1
+    ],
+    [
+     163.3,
+     43.7
+    ]
+   ],
+   "groundAnchorLocal": [
+    168.5,
+    50.5
+   ],
+   "groundAnchorRh2000M": 6.54,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     162.5,
+     4.6,
+     36.8
+    ],
+    "max": [
+     176.4,
+     12.25,
+     53.2
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 790,
+   "evidence": {
+    "levels": "Laserdata Skog: ground 6.3, roof 11.7",
+    "plan": "OSM octagon and orthophoto 2025-06-14",
+    "walls": "estimated"
+   }
+  },
+  {
+   "id": "halfway-stadium-walls",
+   "nodeName": "BroHof-HalfwayStadiumWalls",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     152.98,
+     59.78
+    ],
+    [
+     184.44,
+     59.78
+    ],
+    [
+     184.44,
+     36.54
+    ],
+    [
+     152.98,
+     36.54
+    ]
+   ],
+   "groundAnchorLocal": [
+    155.5,
+    46.5
+   ],
+   "groundAnchorRh2000M": 6.55,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     152.976,
+     4.687,
+     36.538
+    ],
+    "max": [
+     184.436,
+     7.576,
+     59.783
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 1030,
+   "evidence": {
+    "plan": "orthophoto 2025-06-14",
+    "height": "their shadows"
+   }
+  },
+  {
+   "id": "halfway-castle",
+   "nodeName": "BroHof-HalfwayCastle",
+   "sourceBuildingIds": [
+    "ortho-halfway-house-castle"
+   ],
+   "footprintLocal": [
+    [
+     150.77,
+     -680.39
+    ],
+    [
+     161.48,
+     -682.45
+    ],
+    [
+     158.8,
+     -696.4
+    ],
+    [
+     148.09,
+     -694.34
+    ]
+   ],
+   "groundAnchorLocal": [
+    153.7,
+    -690.1
+   ],
+   "groundAnchorRh2000M": 10.91,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     147.564,
+     9.25,
+     -696.717
+    ],
+    "max": [
+     161.477,
+     16.2,
+     -680.395
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 756,
+   "evidence": {
+    "plan": "orthophoto 2025-06-14",
+    "walls": "estimated"
+   }
+  },
+  {
+   "id": "halfway-castle-garden",
+   "nodeName": "BroHof-HalfwayCastleGarden",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     148.65,
+     -678.05
+    ],
+    [
+     162.15,
+     -678.05
+    ],
+    [
+     162.15,
+     -684.95
+    ],
+    [
+     148.65,
+     -684.95
+    ]
+   ],
+   "groundAnchorLocal": [
+    154.5,
+    -680.3
+   ],
+   "groundAnchorRh2000M": 10.41,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     148.655,
+     9.494,
+     -684.948
+    ],
+    "max": [
+     162.147,
+     11.704,
+     -678.052
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 160,
+   "evidence": {
+    "plan": "orthophoto 2025-06-14",
+    "height": "estimated"
+   }
+  },
+  {
+   "id": "courtyard",
+   "nodeName": "BroHof-Courtyard",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -488.02,
+     382.14
+    ],
+    [
+     -412.68,
+     382.14
+    ],
+    [
+     -412.68,
+     334.67
+    ],
+    [
+     -488.02,
+     334.67
+    ]
+   ],
+   "groundAnchorLocal": [
+    -443.2,
+    370.9
+   ],
+   "groundAnchorRh2000M": 13.86,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -488.017,
+     12.904,
+     334.666
+    ],
+    "max": [
+     -412.68,
+     16.36,
+     382.143
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 974,
+   "evidence": {
+    "plan": "orthophoto 2025-06-14",
+    "height": "estimated from the entrance photo"
+   }
+  },
+  {
+   "id": "avenue-gate",
+   "nodeName": "BroHof-Gate",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -364.91,
+     174.81
+    ],
+    [
+     -336.36,
+     174.81
+    ],
+    [
+     -336.36,
+     161.22
+    ],
+    [
+     -364.91,
+     161.22
+    ]
+   ],
+   "groundAnchorLocal": [
+    -352.55,
+    172.25
+   ],
+   "groundAnchorRh2000M": 7.06,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -364.907,
+     6.262,
+     161.22
+    ],
+    "max": [
+     -336.358,
+     11.082,
+     174.807
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 3564,
+   "evidence": {
+    "plan": "orthophoto 2025-06-14",
+    "order": "Wikimedia Commons Bro Hof Slott Entre.jpg (CC BY-SA 4.0, reference only)"
+   }
+  }
+ ]
+}

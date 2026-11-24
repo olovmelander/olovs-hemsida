@@ -1,0 +1,383 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-species-mix",
+ "groundId": "bro-hof",
+ "reviewId": "review-2026-11-24",
+ "note": "placed records by type; unknown records and the stand field take the runtime's own mix (the course rule or the engine's conifer-led background), so counts are not what the player draws: the owner checks screenshots. Holes with at least 10 near-play records and a broadleaf share above 0.3 are flagged.",
+ "byZone": {
+  "near": {
+   "conifer": 2617,
+   "broadleaf": 3109,
+   "unknown": 1787,
+   "total": 7513,
+   "broadleafShare": 0.414
+  },
+  "woodland": {
+   "conifer": 3269,
+   "broadleaf": 3172,
+   "unknown": 1252,
+   "total": 7693,
+   "broadleafShare": 0.412
+  }
+ },
+ "byHole": [
+  {
+   "course": "bro-hof-stadium",
+   "hole": 1,
+   "conifer": 68,
+   "broadleaf": 107,
+   "unknown": 27,
+   "total": 202,
+   "broadleafShare": 0.53
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 2,
+   "conifer": 57,
+   "broadleaf": 176,
+   "unknown": 48,
+   "total": 281,
+   "broadleafShare": 0.626
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 3,
+   "conifer": 83,
+   "broadleaf": 104,
+   "unknown": 22,
+   "total": 209,
+   "broadleafShare": 0.498
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 4,
+   "conifer": 0,
+   "broadleaf": 17,
+   "unknown": 2,
+   "total": 19,
+   "broadleafShare": 0.895
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 5,
+   "conifer": 77,
+   "broadleaf": 94,
+   "unknown": 31,
+   "total": 202,
+   "broadleafShare": 0.465
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 6,
+   "conifer": 51,
+   "broadleaf": 110,
+   "unknown": 80,
+   "total": 241,
+   "broadleafShare": 0.456
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 7,
+   "conifer": 36,
+   "broadleaf": 68,
+   "unknown": 62,
+   "total": 166,
+   "broadleafShare": 0.41
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 8,
+   "conifer": 129,
+   "broadleaf": 126,
+   "unknown": 117,
+   "total": 372,
+   "broadleafShare": 0.339
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 9,
+   "conifer": 1,
+   "broadleaf": 23,
+   "unknown": 10,
+   "total": 34,
+   "broadleafShare": 0.676
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 10,
+   "conifer": 115,
+   "broadleaf": 125,
+   "unknown": 57,
+   "total": 297,
+   "broadleafShare": 0.421
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 11,
+   "conifer": 0,
+   "broadleaf": 0,
+   "unknown": 0,
+   "total": 0,
+   "broadleafShare": 0
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 12,
+   "conifer": 58,
+   "broadleaf": 139,
+   "unknown": 20,
+   "total": 217,
+   "broadleafShare": 0.641
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 13,
+   "conifer": 33,
+   "broadleaf": 159,
+   "unknown": 45,
+   "total": 237,
+   "broadleafShare": 0.671
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 14,
+   "conifer": 21,
+   "broadleaf": 166,
+   "unknown": 11,
+   "total": 198,
+   "broadleafShare": 0.838
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 15,
+   "conifer": 0,
+   "broadleaf": 1,
+   "unknown": 0,
+   "total": 1,
+   "broadleafShare": 1
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 16,
+   "conifer": 16,
+   "broadleaf": 94,
+   "unknown": 26,
+   "total": 136,
+   "broadleafShare": 0.691
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 17,
+   "conifer": 36,
+   "broadleaf": 49,
+   "unknown": 61,
+   "total": 146,
+   "broadleafShare": 0.336
+  },
+  {
+   "course": "bro-hof-stadium",
+   "hole": 18,
+   "conifer": 0,
+   "broadleaf": 90,
+   "unknown": 30,
+   "total": 120,
+   "broadleafShare": 0.75
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 1,
+   "conifer": 123,
+   "broadleaf": 235,
+   "unknown": 89,
+   "total": 447,
+   "broadleafShare": 0.526
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 2,
+   "conifer": 11,
+   "broadleaf": 110,
+   "unknown": 19,
+   "total": 140,
+   "broadleafShare": 0.786
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 3,
+   "conifer": 66,
+   "broadleaf": 209,
+   "unknown": 47,
+   "total": 322,
+   "broadleafShare": 0.649
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 4,
+   "conifer": 10,
+   "broadleaf": 108,
+   "unknown": 11,
+   "total": 129,
+   "broadleafShare": 0.837
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 5,
+   "conifer": 131,
+   "broadleaf": 102,
+   "unknown": 60,
+   "total": 293,
+   "broadleafShare": 0.348
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 6,
+   "conifer": 418,
+   "broadleaf": 119,
+   "unknown": 211,
+   "total": 748,
+   "broadleafShare": 0.159
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 7,
+   "conifer": 144,
+   "broadleaf": 145,
+   "unknown": 123,
+   "total": 412,
+   "broadleafShare": 0.352
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 8,
+   "conifer": 74,
+   "broadleaf": 111,
+   "unknown": 94,
+   "total": 279,
+   "broadleafShare": 0.398
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 9,
+   "conifer": 22,
+   "broadleaf": 186,
+   "unknown": 39,
+   "total": 247,
+   "broadleafShare": 0.753
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 10,
+   "conifer": 134,
+   "broadleaf": 247,
+   "unknown": 116,
+   "total": 497,
+   "broadleafShare": 0.497
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 11,
+   "conifer": 125,
+   "broadleaf": 146,
+   "unknown": 99,
+   "total": 370,
+   "broadleafShare": 0.395
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 12,
+   "conifer": 88,
+   "broadleaf": 166,
+   "unknown": 88,
+   "total": 342,
+   "broadleafShare": 0.485
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 13,
+   "conifer": 174,
+   "broadleaf": 157,
+   "unknown": 96,
+   "total": 427,
+   "broadleafShare": 0.368
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 14,
+   "conifer": 103,
+   "broadleaf": 129,
+   "unknown": 90,
+   "total": 322,
+   "broadleafShare": 0.401
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 15,
+   "conifer": 842,
+   "broadleaf": 185,
+   "unknown": 369,
+   "total": 1396,
+   "broadleafShare": 0.133
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 16,
+   "conifer": 135,
+   "broadleaf": 131,
+   "unknown": 68,
+   "total": 334,
+   "broadleafShare": 0.392
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 17,
+   "conifer": 8,
+   "broadleaf": 30,
+   "unknown": 13,
+   "total": 51,
+   "broadleafShare": 0.588
+  },
+  {
+   "course": "bro-hof-castle",
+   "hole": 18,
+   "conifer": 150,
+   "broadleaf": 153,
+   "unknown": 128,
+   "total": 431,
+   "broadleafShare": 0.355
+  }
+ ],
+ "flagged": [
+  "bro-hof-stadium hole 1: 107 of 202 near-play records typed broadleaf (53%)",
+  "bro-hof-stadium hole 2: 176 of 281 near-play records typed broadleaf (63%)",
+  "bro-hof-stadium hole 3: 104 of 209 near-play records typed broadleaf (50%)",
+  "bro-hof-stadium hole 4: 17 of 19 near-play records typed broadleaf (90%)",
+  "bro-hof-stadium hole 5: 94 of 202 near-play records typed broadleaf (47%)",
+  "bro-hof-stadium hole 6: 110 of 241 near-play records typed broadleaf (46%)",
+  "bro-hof-stadium hole 7: 68 of 166 near-play records typed broadleaf (41%)",
+  "bro-hof-stadium hole 8: 126 of 372 near-play records typed broadleaf (34%)",
+  "bro-hof-stadium hole 9: 23 of 34 near-play records typed broadleaf (68%)",
+  "bro-hof-stadium hole 10: 125 of 297 near-play records typed broadleaf (42%)",
+  "bro-hof-stadium hole 12: 139 of 217 near-play records typed broadleaf (64%)",
+  "bro-hof-stadium hole 13: 159 of 237 near-play records typed broadleaf (67%)",
+  "bro-hof-stadium hole 14: 166 of 198 near-play records typed broadleaf (84%)",
+  "bro-hof-stadium hole 16: 94 of 136 near-play records typed broadleaf (69%)",
+  "bro-hof-stadium hole 17: 49 of 146 near-play records typed broadleaf (34%)",
+  "bro-hof-stadium hole 18: 90 of 120 near-play records typed broadleaf (75%)",
+  "bro-hof-castle hole 1: 235 of 447 near-play records typed broadleaf (53%)",
+  "bro-hof-castle hole 2: 110 of 140 near-play records typed broadleaf (79%)",
+  "bro-hof-castle hole 3: 209 of 322 near-play records typed broadleaf (65%)",
+  "bro-hof-castle hole 4: 108 of 129 near-play records typed broadleaf (84%)",
+  "bro-hof-castle hole 5: 102 of 293 near-play records typed broadleaf (35%)",
+  "bro-hof-castle hole 7: 145 of 412 near-play records typed broadleaf (35%)",
+  "bro-hof-castle hole 8: 111 of 279 near-play records typed broadleaf (40%)",
+  "bro-hof-castle hole 9: 186 of 247 near-play records typed broadleaf (75%)",
+  "bro-hof-castle hole 10: 247 of 497 near-play records typed broadleaf (50%)",
+  "bro-hof-castle hole 11: 146 of 370 near-play records typed broadleaf (40%)",
+  "bro-hof-castle hole 12: 166 of 342 near-play records typed broadleaf (49%)",
+  "bro-hof-castle hole 13: 157 of 427 near-play records typed broadleaf (37%)",
+  "bro-hof-castle hole 14: 129 of 322 near-play records typed broadleaf (40%)",
+  "bro-hof-castle hole 16: 131 of 334 near-play records typed broadleaf (39%)",
+  "bro-hof-castle hole 17: 30 of 51 near-play records typed broadleaf (59%)",
+  "bro-hof-castle hole 18: 153 of 431 near-play records typed broadleaf (36%)"
+ ]
+}

@@ -1,0 +1,377 @@
+{
+  "schemaVersion": 1,
+  "kind": "pilot-canopy-rasters",
+  "groundId": "bro-hof",
+  "reviewId": "review-2026-11-24",
+  "builtFrom": {
+    "laserCampaigns": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
+    "laserCampaignsSha256": "ba2a5bca637a4eff58690c7c0a6eaa5057172f35a65e4a834cf4838c4610b9eb",
+    "items": [
+      {
+        "itemId": "20c028-65950_6475_25",
+        "sha256": "76e7c9600ded723f0c980c7d8ff148f8d30e057599677b0956afe120a7806266",
+        "windowEpsg3006": [
+          648010.5,
+          6597484.5,
+          650000,
+          6597500
+        ],
+        "nodes": 16,
+        "decodedPoints": 219200,
+        "pointsInWindow": 10817,
+        "firstReturns": 4749,
+        "byClass": {
+          "1": 6771,
+          "2": 3487,
+          "7": 72,
+          "9": 478,
+          "18": 9
+        },
+        "headerPointCount": 3637117
+      },
+      {
+        "itemId": "20c028-65975_6475_25",
+        "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97",
+        "windowEpsg3006": [
+          648010.5,
+          6597500,
+          650000,
+          6599652.5
+        ],
+        "nodes": 1092,
+        "decodedPoints": 13641295,
+        "pointsInWindow": 12620301,
+        "firstReturns": 8482788,
+        "byClass": {
+          "1": 4866104,
+          "2": 7687323,
+          "7": 8860,
+          "9": 55606,
+          "17": 2099,
+          "18": 309
+        },
+        "headerPointCount": 20601050
+      },
+      {
+        "itemId": "21c031-65950_6500_25",
+        "sha256": "32e473324d1f6dda53cf2275eef0330dd163a5e70bd7ae50351565f8680f1568",
+        "windowEpsg3006": [
+          650000,
+          6597484.5,
+          650178.5,
+          6597500
+        ],
+        "nodes": 5,
+        "decodedPoints": 199967,
+        "pointsInWindow": 248,
+        "firstReturns": 248,
+        "byClass": {
+          "1": 29,
+          "7": 1,
+          "9": 218
+        },
+        "headerPointCount": 11560144
+      },
+      {
+        "itemId": "21c031-65975_6500_25",
+        "sha256": "b19f5bb2b74e28fba7f1b8ab69f039ea560fd407ea936c3c48baac78b4c55fdd",
+        "windowEpsg3006": [
+          650000,
+          6597500,
+          650178.5,
+          6599652.5
+        ],
+        "nodes": 67,
+        "decodedPoints": 2429532,
+        "pointsInWindow": 1382237,
+        "firstReturns": 998040,
+        "byClass": {
+          "1": 456560,
+          "2": 914028,
+          "7": 1000,
+          "9": 9426,
+          "18": 1223
+        },
+        "headerPointCount": 20648414
+      }
+    ]
+  },
+  "windowEpsg3006": [
+    648010.5,
+    6597484.5,
+    650178.5,
+    6599652.5
+  ],
+  "innerWindowEpsg3006": [
+    648070.5,
+    6597544.5,
+    650118.5,
+    6599592.5
+  ],
+  "points": {
+    "total": 14013603,
+    "noiseDropped": 11474,
+    "clippedAbove60m": 0,
+    "unreferenced": 0
+  },
+  "innerDensity": {
+    "cells": 16777216,
+    "squareMetres": 4194304,
+    "allReturnsPerSquareMetre": 3,
+    "firstReturnsPerSquareMetre": 2.032,
+    "emptyCellFraction050": 0.543,
+    "voidFractionAfterPitFree": 0.17608,
+    "emptyCellFraction100": 0.2076
+  },
+  "campaigns": [
+    {
+      "campaign": "20C028",
+      "capturedOn": "2020-11-06",
+      "leafState": "leaf-off",
+      "items": [
+        "20c028-65950_6475_25",
+        "20c028-65975_6475_25"
+      ],
+      "pointsInWindow": 12631118,
+      "innerSquareMetres": 3951616,
+      "allReturnsPerSquareMetre": 2.944,
+      "firstReturnsPerSquareMetre": 1.996,
+      "emptyCellFraction050": 0.5503,
+      "voidFractionAfterPitFree": 0.18547,
+      "groundCheck": {
+        "samples": 2937386,
+        "medianMetres": 0,
+        "p05Metres": -0.1,
+        "p95Metres": 0.085,
+        "absoluteMedianMetres": 0.02,
+        "absoluteP95Metres": 0.215,
+        "absoluteP99Metres": 1.72
+      }
+    },
+    {
+      "campaign": "21C031",
+      "capturedOn": "2021-03-23",
+      "leafState": "leaf-off",
+      "items": [
+        "21c031-65950_6500_25",
+        "21c031-65975_6500_25"
+      ],
+      "pointsInWindow": 1382485,
+      "innerSquareMetres": 242688,
+      "allReturnsPerSquareMetre": 3.908,
+      "firstReturnsPerSquareMetre": 2.618,
+      "emptyCellFraction050": 0.4239,
+      "voidFractionAfterPitFree": 0.02321,
+      "groundCheck": {
+        "samples": 229285,
+        "medianMetres": 0,
+        "p05Metres": -0.062,
+        "p95Metres": 0.058,
+        "absoluteMedianMetres": 0.017,
+        "absoluteP95Metres": 0.085,
+        "absoluteP99Metres": 0.15
+      }
+    }
+  ],
+  "pitFree": {
+    "parameters": {
+      "thresholdsMetres": [
+        0,
+        2,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "radiusMetres": 1.5,
+      "groundRadiusMetres": 2,
+      "minimumQuadrants": 3,
+      "pit": {
+        "minimumHeightMetres": 2,
+        "absoluteMetres": 1.5,
+        "relativeFraction": 0.25,
+        "passes": 2
+      }
+    },
+    "layers": [
+      {
+        "campaign": "20C028",
+        "layers": [
+          {
+            "thresholdMetres": 0,
+            "radiusMetres": 2,
+            "seedCells": 7692443,
+            "filledCells": 6168115,
+            "cellsRaised": 0
+          },
+          {
+            "thresholdMetres": 2,
+            "radiusMetres": 1.5,
+            "seedCells": 2034146,
+            "filledCells": 1201591,
+            "cellsRaised": 966665
+          },
+          {
+            "thresholdMetres": 5,
+            "radiusMetres": 1.5,
+            "seedCells": 1685393,
+            "filledCells": 1025124,
+            "cellsRaised": 385990
+          },
+          {
+            "thresholdMetres": 10,
+            "radiusMetres": 1.5,
+            "seedCells": 1148727,
+            "filledCells": 814871,
+            "cellsRaised": 432232
+          },
+          {
+            "thresholdMetres": 15,
+            "radiusMetres": 1.5,
+            "seedCells": 582103,
+            "filledCells": 528738,
+            "cellsRaised": 373873
+          },
+          {
+            "thresholdMetres": 20,
+            "radiusMetres": 1.5,
+            "seedCells": 145953,
+            "filledCells": 175402,
+            "cellsRaised": 155770
+          },
+          {
+            "thresholdMetres": 25,
+            "radiusMetres": 1.5,
+            "seedCells": 5744,
+            "filledCells": 7940,
+            "cellsRaised": 7502
+          },
+          {
+            "thresholdMetres": 30,
+            "radiusMetres": 1.5,
+            "seedCells": 48,
+            "filledCells": 46,
+            "cellsRaised": 45
+          }
+        ]
+      },
+      {
+        "campaign": "21C031",
+        "layers": [
+          {
+            "thresholdMetres": 0,
+            "radiusMetres": 2,
+            "seedCells": 852793,
+            "filledCells": 636312,
+            "cellsRaised": 0
+          },
+          {
+            "thresholdMetres": 2,
+            "radiusMetres": 1.5,
+            "seedCells": 163733,
+            "filledCells": 91257,
+            "cellsRaised": 82026
+          },
+          {
+            "thresholdMetres": 5,
+            "radiusMetres": 1.5,
+            "seedCells": 118155,
+            "filledCells": 58420,
+            "cellsRaised": 28226
+          },
+          {
+            "thresholdMetres": 10,
+            "radiusMetres": 1.5,
+            "seedCells": 73767,
+            "filledCells": 39368,
+            "cellsRaised": 23883
+          },
+          {
+            "thresholdMetres": 15,
+            "radiusMetres": 1.5,
+            "seedCells": 37530,
+            "filledCells": 26470,
+            "cellsRaised": 20748
+          },
+          {
+            "thresholdMetres": 20,
+            "radiusMetres": 1.5,
+            "seedCells": 7311,
+            "filledCells": 7899,
+            "cellsRaised": 7388
+          },
+          {
+            "thresholdMetres": 25,
+            "radiusMetres": 1.5,
+            "seedCells": 33,
+            "filledCells": 36,
+            "cellsRaised": 36
+          },
+          {
+            "thresholdMetres": 30,
+            "radiusMetres": 1.5,
+            "seedCells": 2,
+            "filledCells": 0,
+            "cellsRaised": 0
+          }
+        ]
+      }
+    ],
+    "pitCellsFilled": 241063,
+    "emptyCells050": 10255660,
+    "voidCells050": 3451088
+  },
+  "groundCheck": {
+    "statement": "cloud ground (mean of class 2/9 returns per 1 m cell, measured cells only) minus the published RH2000 terrain the app draws, inner window, every measured cell",
+    "publishedGroundManifest": "grounds/bro-hof/ground-v2-9ba61580c946eab177678846c2310cb4e4a9851850458040c759882a66a0ac2c.json",
+    "samples": 3166671,
+    "medianMetres": 0,
+    "meanMetres": -0.016,
+    "p05Metres": -0.095,
+    "p95Metres": 0.082,
+    "absoluteMedianMetres": 0.02,
+    "absoluteP95Metres": 0.19,
+    "absoluteP99Metres": 1.625
+  },
+  "files": {
+    "chmPitFree": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/chm-pitfree-050.bin",
+      "sha256": "f59f6d480a1cc26cd48746e1c7384ef60d9f91aca31d8691ee99ee4a5b39985f"
+    },
+    "chmHighest": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/chm-highest-050.bin",
+      "sha256": "fbb763a4f4da43cc0f0adf635834dc29aaafdfd1afb4097b4bf9f61e5775106a"
+    },
+    "returnsAll": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/returns-all-050.bin",
+      "sha256": "90395063c600d26e3a74f47c24c4e1fcc22b0dac070b0ad5635413ba200a5fd3"
+    },
+    "returnsFirst": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/returns-first-050.bin",
+      "sha256": "109490d066740e88fde89a6e3a73c26a7941bc78807918d5e387acbad850fc37"
+    },
+    "returnsGround": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/returns-ground-050.bin",
+      "sha256": "ee1d8ec3e583e6ff3b3d8d784421d35b626fea13dd43af1fa9db5edccd9bf538"
+    },
+    "emptyCells": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/empty-050.bin",
+      "sha256": "3cde4529ffa58a6bb2b4079046a1254d1396128721c69f811ada66edd5194435"
+    },
+    "groundCloud": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/ground-cloud-100.bin",
+      "sha256": "6af6e33ffd5e06ed892c7ac24dbd4bcd442ed4cd7c8e786a7b71615700177954"
+    },
+    "groundFillDistance": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/ground-fill-100.bin",
+      "sha256": "948b7e0389a88be123fd2b589925624e2697281016d6b7c827c7803ea336e182"
+    },
+    "chmLegacy": {
+      "file": "brohofbuild/cache/trees-2026-11-24/rasters/chm-legacy-100.bin",
+      "sha256": "1499a80d1fea6176a178b92f1a3024d9efaeff5897e3da22e66fabeb3b85f406"
+    }
+  },
+  "elapsedSeconds": 156.4
+}
