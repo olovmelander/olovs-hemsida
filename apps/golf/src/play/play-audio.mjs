@@ -105,7 +105,7 @@ export function createPlayAudio({ enabled = true } = {}) {
         hiss(t, { freq: 1900, q: 2, gain: .12 * p, decay: .02 });
         return;
       }
-      if (lie === 'sand') {
+      if (lie === 'sand' || lie === 'waste') {
         hiss(t, { freq: 1400, q: .6, gain: .75 * p, attack: .005, decay: .32, freqEnd: 700 });
         tone(t, { freq: 140, gain: .25 * p, decay: .1 });
         return;
@@ -134,7 +134,7 @@ export function createPlayAudio({ enabled = true } = {}) {
     bounce(surface, speed = 5) {
       if (!ready()) return;
       const t = ctx.currentTime + .003, v = Math.max(.06, Math.min(1, speed / 14));
-      if (surface === 'sand') { hiss(t, { freq: 1700, q: .8, gain: .5 * v, decay: .14 }); return; }
+      if (surface === 'sand' || surface === 'waste') { hiss(t, { freq: 1700, q: .8, gain: .5 * v, decay: .14 }); return; }
       if (surface === 'path') { tone(t, { freq: 950, gain: .3 * v, decay: .03 }); hiss(t, { freq: 3200, gain: .4 * v, decay: .02 }); return; }
       if (surface === 'rough' || surface === 'forest') {
         hiss(t, { type: 'lowpass', freq: 380, gain: .4 * v, decay: .08 });

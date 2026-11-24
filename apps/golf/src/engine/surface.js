@@ -24,6 +24,8 @@ export const SURFACE = {
   GRAVEL: 14,
   DIRT: 15,
   MUD: 16,
+  /* unraked sand (a links or heathland waste area): open sand, never a bunker */
+  WASTE: 17,
 };
 
 /* Explicit rendering and rasterization priority order (highest precedence first).
@@ -39,6 +41,9 @@ export const SURFACE_PRIORITY = [
   SURFACE.PATH,
   SURFACE.ASPHALT,
   SURFACE.GRAVEL,
+  /* a waste area is traced on the photo; the collar, fairway and semi bands round
+     the mown rings are drawn at a set width and would cover its edge */
+  SURFACE.WASTE,
   SURFACE.FRINGE,
   SURFACE.FAIRWAY,
   SURFACE.SEMI,
@@ -88,6 +93,7 @@ export const SURFACE_TRANSITION_WIDTH_METRES = Object.freeze({
   [SURFACE.GRAVEL]: 0.22,
   [SURFACE.DIRT]: 0.30,
   [SURFACE.MUD]: 0.35,
+  [SURFACE.WASTE]: 0.22,
 });
 export const SURFACE_TRANSITION_WIDTH_DEFAULT_METRES = 0.22;
 

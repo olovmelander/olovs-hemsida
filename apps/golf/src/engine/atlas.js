@@ -569,11 +569,13 @@ export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...optio
   };
   const classifyAt = (wx, wz) => {
     const s = sampleAt(wx, wz);
-    const c = { green: 0, fringe: 0, tee: 0, sand: 0, fair: 0, path: 0, forest: 0, wet: 0, dLine: s.dLine, hole: s.hole, surface: s.surface, inBounds: s.inBounds };
+    const c = { green: 0, fringe: 0, tee: 0, sand: 0, waste: 0, fair: 0, path: 0, forest: 0, wet: 0, dLine: s.dLine, hole: s.hole, surface: s.surface, inBounds: s.inBounds };
     if (s.surface === SURFACE.GREEN) c.green = 1;
     else if (s.surface === SURFACE.FRINGE) { c.fringe = 1; c.fair = 0.35; }
     else if (s.surface === SURFACE.TEE) c.tee = 1;
     else if (s.surface === SURFACE.SAND) c.sand = 1;
+    /* open sand: nothing is planted on it, as on a bunker, but it is no bunker */
+    else if (s.surface === SURFACE.WASTE) { c.sand = 1; c.waste = 1; }
     else if (s.surface === SURFACE.FAIRWAY) c.fair = 1;
     else if (s.surface === SURFACE.SEMI) c.fair = 0.35;
     else if ([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT].includes(s.surface)) c.path = 1;

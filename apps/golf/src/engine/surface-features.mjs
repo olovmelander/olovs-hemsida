@@ -105,7 +105,7 @@ export function buildGroundSurfaceFeatures({
     const surface = feature.kind === 'mown_approach' ? SURFACE.SEMI
       : feature.kind === 'practice_green' || isTurfRangeTarget(feature) ? SURFACE.GREEN
       : feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' ? SURFACE.SAND
-      : feature.kind === 'waste_sand' ? SURFACE.SHORE
+      : feature.kind === 'waste_sand' ? SURFACE.WASTE
         : feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface' ? SURFACE.TEE : null;
     if (surface !== null && validRings(feature.rings).length) {
       features.push({ surface, polygons: [{ rings: feature.rings }], sourceId: feature.id });

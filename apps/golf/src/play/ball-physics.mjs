@@ -32,6 +32,8 @@ export const SURFACES = Object.freeze({
   rough:   { e: .22, keep: .36, mu: .75, grip: .20, roll: .360 },
   forest:  { e: .20, keep: .30, mu: .85, grip: .15, roll: .450 },
   sand:    { e: .05, keep: .12, mu: 1.4, grip: .10, roll: .900 },
+  /* a waste area's firm unraked sand: the ball runs a little, never plugs */
+  waste:   { e: .14, keep: .32, mu: 1.0, grip: .15, roll: .520 },
   path:    { e: .58, keep: .82, mu: .35, grip: .30, roll: .035 },
   water:   { e: 0, keep: 0, mu: 1, grip: 0, roll: 1 },
 });

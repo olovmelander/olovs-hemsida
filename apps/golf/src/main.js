@@ -1,6 +1,6 @@
 import { createBagEditor } from './ui/bag-editor.mjs';
 import { bunkerRings, bunkerSignedDistance, pointInBunker } from './engine/bunker-geometry.mjs';
-import { buildBulkheadGeometry, bridgeOutlineFromLine } from './engine/water-bulkheads.mjs';
+import { buildBulkheadGeometry, bridgeOutlineFromLine, isNearBulkhead } from './engine/water-bulkheads.mjs';
 
 /* ===========================================================================
    Ängsö Golfklubb — a course on a Mälaren peninsula at Stora Bodarna.
@@ -1545,7 +1545,7 @@ const C = {
      ground between the crowns is most of what a top-down view sees. Moss and
      bilberry are green; this keeps the measured luminance (98 against 100)
      and moves red down to 77% of green, where the rough's own ratio sits. */
-  heath:  L(0x6d8142), forest: L(0x526b3b), shore: L(0xb2a37e),
+  heath:  L(0x6d8142), forest: L(0x526b3b), shore: L(0xb2a37e), waste: L(0xb8a585),
   /* what a stand reads as from a kilometre off, where the cones stand one to a
      30 m cell and the ground between them is most of what the eye sees: the
      crowns' green, not the floor's brown -- spruce/pine dark, birch lighter */
@@ -1584,6 +1584,7 @@ const SHADE = {
   [SURFACE.WETLAND]: [0.72, 0.92, 0.10, 0], [SURFACE.ROCK]: [1.8, 0.48, 0.16, 0],
   [SURFACE.ASPHALT]: [3.4, 0.18, 0.34, 0], [SURFACE.GRAVEL]: [2.6, 0.46, 0.12, 0],
   [SURFACE.DIRT]: [1.9, 0.55, 0.08, 0], [SURFACE.MUD]: [1.2, 0.38, 0.30, 0],
+  [SURFACE.WASTE]: [2.0, 0.55, 0.12, 0],
 };
 
 /* the colour and the four shading channels at a point */
@@ -4762,8 +4763,10 @@ if (COASTAL_WATER?.indices.length) {
     const length = Math.sqrt(length2), ux = dx / length, uz = dz / length;
     // Sample the visible deck ends and a short approach beyond each end, so a
     // water-carved centre cell cannot pull the deck down into the channel bed.
-    const ha = Math.max(meshH(...a), meshH(a[0] - ux * 0.8, a[1] - uz * 0.8)) + 0.12;
-    const hb = Math.max(meshH(...b), meshH(b[0] + ux * 0.8, b[1] + uz * 0.8)) + 0.12;
+    // A deck without a stated kind keeps the dimensions every course shipped with.
+    const approachLift = isTimber || isStone ? 0.12 : 0.10;
+    const ha = Math.max(meshH(...a), meshH(a[0] - ux * 0.8, a[1] - uz * 0.8)) + approachLift;
+    const hb = Math.max(meshH(...b), meshH(b[0] + ux * 0.8, b[1] + uz * 0.8)) + approachLift;
     if (!Number.isFinite(ha) || !Number.isFinite(hb)) continue;
     const point = ([x, z], drop = 0) => {
       const t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / length2));
@@ -4772,7 +4775,7 @@ if (COASTAL_WATER?.indices.length) {
     const faces = triangulate(ring);
     if (!faces.length) continue;
     for (const [i, j, k] of faces) tri(point(ring[i]), point(ring[k]), point(ring[j]), deckTop);
-    const skirtDrop = isStone ? 0.95 : 0.22;
+    const skirtDrop = isStone ? 0.95 : isTimber ? 0.22 : 0.18;
     for (let i = 0; i < ring.length; i++) {
       const p = ring[i], q = ring[(i + 1) % ring.length];
       quad(point(p, skirtDrop), point(q, skirtDrop), point(q), point(p), deckSide);
@@ -4780,25 +4783,22 @@ if (COASTAL_WATER?.indices.length) {
     // Timber / stone low edge curb or side rail along the span edges
     if (isTimber || isStone) {
       const halfW = (bridge.w || 2.6) * 0.5;
-      const nx = -uz, nz = ux;
       const railH = isStone ? 0.24 : 0.16;
       const railT = isStone ? 0.22 : 0.12;
-      for (const sgn of [-1, 1]) {
-        const ax0 = a[0] + nx * sgn * (halfW - railT * 0.5), az0 = a[1] + nz * sgn * (halfW - railT * 0.5);
-        const bx0 = b[0] + nx * sgn * (halfW - railT * 0.5), bz0 = b[1] + nz * sgn * (halfW - railT * 0.5);
-        const pA0 = point([ax0 - nx * railT * 0.5, az0 - nz * railT * 0.5], 0);
-        const pB0 = point([bx0 - nx * railT * 0.5, bz0 - nz * railT * 0.5], 0);
-        const pA1 = point([ax0 + nx * railT * 0.5, az0 + nz * railT * 0.5], 0);
-        const pB1 = point([bx0 + nx * railT * 0.5, bz0 + nz * railT * 0.5], 0);
-        const qA0 = [pA0[0], pA0[1] + railH, pA0[2]], qB0 = [pB0[0], pB0[1] + railH, pB0[2]];
-        const qA1 = [pA1[0], pA1[1] + railH, pA1[2]], qB1 = [pB1[0], pB1[1] + railH, pB1[2]];
-        quad(pA0, pB0, qB0, qA0, deckSide);
-        quad(pB1, pA1, qA1, qB1, deckSide);
-        quad(qA0, qB0, qB1, qA1, deckTop);
+      /* the curb follows the deck's own line: a causeway may bend */
+      const edges = [bridgeOutlineFromLine(axis, (halfW - railT) * 2), bridgeOutlineFromLine(axis, halfW * 2)];
+      const count = axis.length;
+      for (let side = 0; side < 2; side++) for (let i = 0; i + 1 < count; i++) {
+        const k0 = side ? 2 * count - 1 - i : i, k1 = side ? 2 * count - 2 - i : i + 1;
+        const [pA0, pB0, pA1, pB1] = [edges[0][k0], edges[0][k1], edges[1][k0], edges[1][k1]].map(p => point(p, 0));
+        const lift = p => [p[0], p[1] + railH, p[2]];
+        quad(pA0, pB0, lift(pB0), lift(pA0), deckSide);
+        quad(pB1, pA1, lift(pA1), lift(pB1), deckSide);
+        quad(lift(pA0), lift(pB0), lift(pB1), lift(pA1), deckTop);
       }
     }
     rendered.push({ id: bridge.id, kind: bridge.kind || 'mapped', railsObserved: bridge.railsObserved === true,
-      verticalDimensions: 'estimated', deckThicknessM: skirtDrop, approachLiftM: 0.12,
+      verticalDimensions: 'estimated', deckThicknessM: skirtDrop, approachLiftM: approachLift,
       elevationSource: 'rendered terrain sampled at visible deck ends and approaches',
       material: isTimber ? 'weathered-timber' : isStone ? 'granite-masonry' : 'neutral rendering material' });
   }
@@ -4810,7 +4810,7 @@ if (COASTAL_WATER?.indices.length) {
     const mesh = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
       vertexColors: true, roughness: 0.9, metalness: 0, flatShading: true, side: THREE.DoubleSide,
     }));
-    mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 0;
+    mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 7;
     mesh.userData = { tag: 'mapped-bridge-footprints', features: rendered };
     scene.add(mesh); stats.draws++;
     stats.verts += V.length / 3; stats.tris += V.length / 9;
@@ -5163,6 +5163,8 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       const shalBB = SHAL.some(sr => px > sr.bb.x0 && px < sr.bb.x1 && pz > sr.bb.z0 && pz < sr.bb.z1);
       if (!shalBB && SHORE(px, pz) > 7) return;
       if (LOWQ && hash2(i + 5, j + 5) < 0.5) return;
+      /* a wall or a boulder bank has no reed fringe */
+      if (M.infra.bulkheads?.length && isNearBulkhead(px, pz, M.infra.bulkheads, 2.5)) return;
       h = terrainH(px, pz);
       /* on the silt flats reeds gather into offshore islands -- the close aerial of
          the 14th shows whole beds standing in the shallow water -- while on firm
@@ -11088,7 +11090,7 @@ function kikLie(x, z, y) {
   for (const w of WI.at(x, z)) if (!w.stream && ringSD(x, z, w.ring) < 0 && y < w.level + 0.3) over = true;
   if (over) return 'vatten';
   const c = classify(x, z);
-  return c.green > 0.5 ? 'green' : c.sand > 0.4 ? 'bunker' : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway'
+  return c.green > 0.5 ? 'green' : c.waste > 0.4 ? 'sandmark' : c.sand > 0.4 ? 'bunker' : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway'
        : c.path > 0.4 ? 'stig' : c.forest > 0.5 ? 'skog' : 'ruff';
 }
 /* every number on the card, with no DOM in it, so the harness can ask for the

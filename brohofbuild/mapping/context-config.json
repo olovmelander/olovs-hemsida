@@ -1,0 +1,12 @@
+{
+ "schemaVersion": 1,
+ "groundId": "bro-hof",
+ "frame": { "easting": 649094.5, "northing": 6598568.5 },
+ "context": "geo_data/course-v2/bro-hof/reference/osm-context-epsg3006.geojson",
+ "water": "brohofbuild/mapping/water.geojson",
+ "innerHalfMetres": 1300,
+ "outerHalfMetres": 2040,
+ "dropIds": [],
+ "out": "brohofbuild/mapping/context.geojson",
+ "farOut": "brohofbuild/mapping/far-buildings.json"
+}

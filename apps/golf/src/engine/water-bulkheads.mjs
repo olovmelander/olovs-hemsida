@@ -1,5 +1,5 @@
-/* Reusable timber & stone water retaining walls (bulkheads) for Detailed 3D,
- * Light 3D Map, and Spela ball-physics collision.
+/* Reusable timber & stone water retaining walls (bulkheads) and boulder banks for
+ * Detailed 3D, Light 3D Map, and Spela ball-physics collision.
  *
  * Pure Three-free geometry & collision kernel so it works identically in Vitest
  * Node tests, main.js opaque BufferGeometry assembly, and play/ball-physics.mjs.
@@ -8,7 +8,7 @@
  *   infra.bulkheads = [{
  *     id: string,
  *     line: [[x, z], ...],         // polyline in local metres
- *     kind: 'timber' | 'stone',    // weathered vertical sleepers or stacked granite wall
+ *     kind: 'timber' | 'stone' | 'boulders', // weathered sleepers, a stacked granite wall, a bank of loose boulders
  *     waterId?: string | null,     // optional water body id for exact RH 2000 water level
  *     heightAboveWater?: number | null,
  *     provenance?: string,
@@ -22,6 +22,30 @@ export function hexLinear(hex) {
     srgbToLinear(((hex >> 8) & 255) / 255),
     srgbToLinear((hex & 255) / 255),
   ];
+}
+
+const KINDS = new Set(['timber', 'stone', 'boulders']);
+export const bulkheadKind = kind => KINDS.has(kind) ? kind : 'timber';
+
+/* A BANK OF LOOSE BOULDERS: one squat rock every `step` metres, a little off the line,
+   half sunk. Positions and sizes come from the point itself, so a rebuild is the same
+   bank. The collider reads the same list. */
+export const BOULDER_BANK = Object.freeze({ step: 0.95, wander: 0.45, radius: [0.38, 0.82], squat: [0.55, 0.85], sides: 7 });
+export function boulderPlan(line) {
+  const out = [];
+  for (let i = 0; i < line.length - 1; i++) {
+    const [ax, az] = line[i], [bx, bz] = line[i + 1];
+    const dx = bx - ax, dz = bz - az, len = Math.hypot(dx, dz);
+    if (len < 0.05) continue;
+    const nx = -dz / len, nz = dx / len, count = Math.max(1, Math.round(len / BOULDER_BANK.step));
+    for (let k = 0; k < count; k++) {
+      const t = (k + 0.5) / count, mx = ax + dx * t, mz = az + dz * t;
+      const off = (hash01(mx, mz, 1) - 0.5) * 2 * BOULDER_BANK.wander;
+      const r = BOULDER_BANK.radius[0] + (BOULDER_BANK.radius[1] - BOULDER_BANK.radius[0]) * hash01(mx, mz, 2) ** 1.4;
+      out.push({ x: mx + nx * off, z: mz + nz * off, r, h: r * (BOULDER_BANK.squat[0] + (BOULDER_BANK.squat[1] - BOULDER_BANK.squat[0]) * hash01(mx, mz, 3)) });
+    }
+  }
+  return out;
 }
 
 function hash01(x, z, salt = 0) {
@@ -77,12 +101,39 @@ export function buildBulkheadGeometry(bulkheads, { waterList = [], heightAt, lin
   const stoneWall = linear(0x7c7a74);
   const stoneCap = linear(0x8e8c85);
   const stoneShadow = linear(0x63615c);
+  const boulderStone = linear(0x8b877d);
 
   for (const bh of bulkheads) {
     const pts = bh?.line;
     if (!Array.isArray(pts) || pts.length < 2) continue;
-    const kind = bh.kind === 'stone' ? 'stone' : 'timber';
+    const kind = bulkheadKind(bh.kind);
     const waterLevel = nearestWaterLevel(pts[0], waterList, bh.waterId);
+    if (kind === 'boulders') {
+      let rocks = 0;
+      for (const rock of boulderPlan(pts)) {
+        const ground = heightAt(rock.x, rock.z);
+        if (!Number.isFinite(ground)) continue;
+        const foot = Math.max(ground, Number.isFinite(waterLevel) ? waterLevel - 0.15 : ground);
+        const yBot = Math.min(ground, foot) - 0.45, yMid = foot + rock.h * 0.45, yTop = foot + rock.h;
+        const n = BOULDER_BANK.sides, turn = hash01(rock.x, rock.z, 4) * Math.PI * 2;
+        const ringAt = (y, scale, salt) => Array.from({ length: n }, (_, k) => {
+          const a = turn + k / n * Math.PI * 2, rr = rock.r * scale * (0.82 + 0.36 * hash01(rock.x + k, rock.z, salt));
+          return [rock.x + Math.cos(a) * rr, y, rock.z + Math.sin(a) * rr];
+        });
+        const low = ringAt(yBot, 1.05, 5), mid = ringAt(yMid, 1, 6), cap = ringAt(foot + rock.h * 0.86, 0.6, 7);
+        const base = vary(boulderStone, 0.34, hash01(rock.x, rock.z, 8));
+        const top = [rock.x, yTop, rock.z];
+        for (let k = 0; k < n; k++) {
+          const m = (k + 1) % n, shade = vary(base, 0.12, hash01(rock.x, rock.z, 9 + k));
+          quad(low[k], low[m], mid[m], mid[k], vary(shade, 0, 0.5).map(v => v * 0.82));
+          quad(mid[k], mid[m], cap[m], cap[k], shade);
+          tri(cap[k], cap[m], top, shade);
+        }
+        rocks++;
+      }
+      if (rocks) rendered.push({ id: bh.id || null, kind, segments: rocks, waterLevel });
+      continue;
+    }
     const stepLen = kind === 'stone' ? 1.15 : 0.72;
     const halfThick = kind === 'stone' ? 0.24 : 0.13;
     const capOverhang = kind === 'stone' ? 0.04 : 0.05;
@@ -102,7 +153,9 @@ export function buildBulkheadGeometry(bulkheads, { waterList = [], heightAt, lin
         const x0 = ax + dx * t0, z0 = az + dz * t0;
         const x1 = ax + dx * t1, z1 = az + dz * t1;
         const mx = (x0 + x1) * 0.5, mz = (z0 + z1) * 0.5;
-        const h0 = heightAt(x0, z0), h1 = heightAt(x1, z1);
+        /* the 1 m terrain rounds a wall's bank off: read the ground a step either side too */
+        const crest = (x, z) => Math.max(heightAt(x, z), heightAt(x + nx * 0.8, z + nz * 0.8), heightAt(x - nx * 0.8, z - nz * 0.8));
+        const h0 = crest(x0, z0), h1 = crest(x1, z1);
         if (!Number.isFinite(h0) || !Number.isFinite(h1)) continue;
 
         const baseW = Number.isFinite(waterLevel) ? waterLevel : Math.min(h0, h1) - 0.85;
@@ -170,9 +223,9 @@ export function createBulkheadCollider(bulkheads, { waterList = [], heightAt } =
     for (const bh of bulkheads) {
       const pts = bh?.line;
       if (!Array.isArray(pts) || pts.length < 2) continue;
-      const kind = bh.kind === 'stone' ? 'stone' : 'timber';
+      const kind = bulkheadKind(bh.kind);
       const waterLevel = nearestWaterLevel(pts[0], waterList, bh.waterId);
-      const halfThick = kind === 'stone' ? 0.28 : 0.18;
+      const halfThick = kind === 'boulders' ? 0.5 : kind === 'stone' ? 0.28 : 0.18;
       for (let i = 0; i < pts.length - 1; i++) {
         const [ax, az] = pts[i], [bx, bz] = pts[i + 1];
         const dx = bx - ax, dz = bz - az;
@@ -183,7 +236,8 @@ export function createBulkheadCollider(bulkheads, { waterList = [], heightAt } =
         const baseW = Number.isFinite(waterLevel) ? waterLevel : Math.min(hA, hB) - 0.85;
         const yMax = Number.isFinite(bh.heightAboveWater)
           ? baseW + bh.heightAboveWater
-          : Math.max(baseW + 0.36, Math.max(hA, hB) + 0.08);
+          : kind === 'boulders' ? Math.max(baseW, hA, hB) + 0.42
+            : Math.max(baseW + 0.36, Math.max(hA, hB) + 0.08);
         segments.push({
           id: bh.id || null,
           kind,

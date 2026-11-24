@@ -4,6 +4,8 @@ import {
   createBulkheadCollider,
   isNearBulkhead,
   bridgeOutlineFromLine,
+  boulderPlan,
+  bulkheadKind,
 } from './water-bulkheads.mjs';
 import { simulateShot } from '../play/ball-physics.mjs';
 import { buildGroundSurfaceFeatures } from './surface-features.mjs';
@@ -30,6 +32,23 @@ describe('water bulkheads (timber & stone retaining walls)', () => {
       const lum = luminanceOf({ r: colors[i], g: colors[i + 1], b: colors[i + 2] });
       expect(lum).toBeLessThan(GLOW.threshold - 0.2);
     }
+  });
+
+  it('lays a boulder bank the same every time, half sunk, and keeps it bloom-safe', () => {
+    const bank = [{ id: 'bank', kind: 'boulders', line: [[0, 0], [12, 0], [18, 6]] }];
+    expect(boulderPlan(bank[0].line)).toEqual(boulderPlan(bank[0].line));
+    const plan = boulderPlan(bank[0].line);
+    expect(plan.length).toBeGreaterThan(18);
+    for (const rock of plan) expect(Math.min(...[rock.r, rock.h])).toBeGreaterThan(0.15);
+    const { positions, colors, rendered } = buildBulkheadGeometry(bank, { waterList, heightAt: () => 2.6 });
+    expect(rendered).toEqual([{ id: 'bank', kind: 'boulders', segments: plan.length, waterLevel: 2.71 }]);
+    let lowest = Infinity, highest = -Infinity;
+    for (let i = 1; i < positions.length; i += 3) { lowest = Math.min(lowest, positions[i]); highest = Math.max(highest, positions[i]); }
+    expect(lowest).toBeLessThan(2.3);
+    expect(highest).toBeLessThan(3.6);
+    for (let i = 0; i < colors.length; i += 3) expect(luminanceOf({ r: colors[i], g: colors[i + 1], b: colors[i + 2] })).toBeLessThan(GLOW.threshold - 0.2);
+    expect(createBulkheadCollider(bank, { waterList, heightAt: () => 2.6 }).near(6, 0.3)[0].kind).toBe('boulders');
+    expect(bulkheadKind('unknown')).toBe('timber');
   });
 
   it('detects shoreline proximity for reed suppression and builds bridge outlines from lines', () => {
@@ -68,7 +87,7 @@ describe('water bulkheads (timber & stone retaining walls)', () => {
 });
 
 describe('waste_sand mapped surface feature', () => {
-  it('maps waste_sand polygons (including interior fescue islands) to SURFACE.SHORE', () => {
+  it('maps waste_sand polygons (including interior fescue islands) to SURFACE.WASTE', () => {
     const outer = [[0, 0], [30, 0], [30, 20], [0, 20]];
     const island = [[10, 6], [16, 6], [16, 12], [10, 12]];
     const features = buildGroundSurfaceFeatures({
@@ -81,7 +100,7 @@ describe('waste_sand mapped surface feature', () => {
     });
     const waste = features.find(f => f.sourceId === 'castle-waste-1');
     expect(waste).toBeDefined();
-    expect(waste.surface).toBe(SURFACE.SHORE);
+    expect(waste.surface).toBe(SURFACE.WASTE);
     expect(waste.polygons[0].rings.length).toBe(2);
   });
 });

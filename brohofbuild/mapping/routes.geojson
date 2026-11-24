@@ -1,0 +1,510 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "EPSG:3006"
+  }
+ },
+ "status": "traced-awaiting-review",
+ "provenance": {
+  "imagery": "orto-o2-2025",
+  "imagerySha256": {
+   "stadium-sw-2025.tif": "a7644c1de4e8c2c89e1217fcf728775fb92f91d46332c5ad0e74448b79796bc5",
+   "stadium-ne-2025.tif": "5ac0944c4e5e736b2300d26805567f89d11d238f0daf587c4dc17d56c27071cf",
+   "castle-n-2025.tif": "41208e267f4ea2b6111adbe50ad58244491c8cfe312d557013a0267a10a82842",
+   "overview-2025.tif": "e4ef98df120981ec85fd45cbd873785909123126d99ed6c614ab7ffd85f60ee2"
+  },
+  "terrainSha256": "f5a0fbd4dfa80f0227031e446a482557815c3e71c35c9511431d26f016c1de59",
+  "osmSha256": "853d16041108e16448dfe6870573acaa1bbb1113a073df02c0b8c2d7184faf1d",
+  "tool": "packages/course-geo/mapping/trace-course-surfaces.py"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": "stadium-route-01",
+   "properties": {
+    "kind": "hole",
+    "hole": 1,
+    "par": 5,
+    "lengthMetres": 578.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648725.56,
+      6598130.59
+     ],
+     [
+      648806,
+      6598330
+     ],
+     [
+      648930,
+      6598585
+     ],
+     [
+      648957.63,
+      6598659.46
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-02",
+   "properties": {
+    "kind": "hole",
+    "hole": 2,
+    "par": 4,
+    "lengthMetres": 442.4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648896.43,
+      6598707.76
+     ],
+     [
+      649080,
+      6598998
+     ],
+     [
+      649148.11,
+      6599069.8
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-03",
+   "properties": {
+    "kind": "hole",
+    "hole": 3,
+    "par": 4,
+    "lengthMetres": 394.2
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649161.87,
+      6599017.08
+     ],
+     [
+      649075,
+      6598800
+     ],
+     [
+      649117.46,
+      6598645.29
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-04",
+   "properties": {
+    "kind": "hole",
+    "hole": 4,
+    "par": 3,
+    "lengthMetres": 219.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649000.83,
+      6598555.41
+     ],
+     [
+      649216.82,
+      6598519.29
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-05",
+   "properties": {
+    "kind": "hole",
+    "hole": 5,
+    "par": 4,
+    "lengthMetres": 465.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649331.53,
+      6598551.1
+     ],
+     [
+      649572,
+      6598632
+     ],
+     [
+      649784.15,
+      6598629.25
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-06",
+   "properties": {
+    "kind": "hole",
+    "hole": 6,
+    "par": 4,
+    "lengthMetres": 468.2
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649763.75,
+      6598664.73
+     ],
+     [
+      649460,
+      6598752
+     ],
+     [
+      649318.41,
+      6598807.7
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-07",
+   "properties": {
+    "kind": "hole",
+    "hole": 7,
+    "par": 3,
+    "lengthMetres": 227.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649261.9,
+      6598862.1
+     ],
+     [
+      649216.55,
+      6599084.61
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-08",
+   "properties": {
+    "kind": "hole",
+    "hole": 8,
+    "par": 4,
+    "lengthMetres": 448.4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649183.98,
+      6598979.6
+     ],
+     [
+      649222,
+      6598702
+     ],
+     [
+      649303.39,
+      6598554.83
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-09",
+   "properties": {
+    "kind": "hole",
+    "hole": 9,
+    "par": 5,
+    "lengthMetres": 581.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649195.19,
+      6598478.28
+     ],
+     [
+      648955,
+      6598455
+     ],
+     [
+      648888,
+      6598292
+     ],
+     [
+      648809.42,
+      6598148.72
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-10",
+   "properties": {
+    "kind": "hole",
+    "hole": 10,
+    "par": 4,
+    "lengthMetres": 430.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648778.33,
+      6597988.8
+     ],
+     [
+      648958,
+      6598224
+     ],
+     [
+      649042.14,
+      6598328.3
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-11",
+   "properties": {
+    "kind": "hole",
+    "hole": 11,
+    "par": 3,
+    "lengthMetres": 191.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649072.35,
+      6598353.34
+     ],
+     [
+      649234.21,
+      6598454.66
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-12",
+   "properties": {
+    "kind": "hole",
+    "hole": 12,
+    "par": 5,
+    "lengthMetres": 525.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649339.63,
+      6598529.0
+     ],
+     [
+      649590,
+      6598545
+     ],
+     [
+      649782,
+      6598528
+     ],
+     [
+      649824.69,
+      6598597.29
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-13",
+   "properties": {
+    "kind": "hole",
+    "hole": 13,
+    "par": 5,
+    "lengthMetres": 563.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649898.39,
+      6598646.61
+     ],
+     [
+      649898,
+      6598396
+     ],
+     [
+      649758,
+      6598218
+     ],
+     [
+      649684.5,
+      6598262.52
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-14",
+   "properties": {
+    "kind": "hole",
+    "hole": 14,
+    "par": 4,
+    "lengthMetres": 415.6
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649635.73,
+      6598268.57
+     ],
+     [
+      649528,
+      6598436
+     ],
+     [
+      649319.87,
+      6598495.77
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-15",
+   "properties": {
+    "kind": "hole",
+    "hole": 15,
+    "par": 5,
+    "lengthMetres": 567.3
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649250.36,
+      6598400.93
+     ],
+     [
+      649085,
+      6598240
+     ],
+     [
+      648975,
+      6598068
+     ],
+     [
+      648983.25,
+      6597935.89
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-16",
+   "properties": {
+    "kind": "hole",
+    "hole": 16,
+    "par": 3,
+    "lengthMetres": 238.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648893.25,
+      6598004.29
+     ],
+     [
+      648883.37,
+      6597766.45
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-17",
+   "properties": {
+    "kind": "hole",
+    "hole": 17,
+    "par": 3,
+    "lengthMetres": 150.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648809.98,
+      6597790.43
+     ],
+     [
+      648660.02,
+      6597788.98
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stadium-route-18",
+   "properties": {
+    "kind": "hole",
+    "hole": 18,
+    "par": 4,
+    "lengthMetres": 368.5
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648681.69,
+      6597584.15
+     ],
+     [
+      648572,
+      6597826
+     ],
+     [
+      648610.66,
+      6597921.37
+     ]
+    ]
+   }
+  }
+ ]
+}

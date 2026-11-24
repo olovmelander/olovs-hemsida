@@ -1,0 +1,277 @@
+{
+ "schemaVersion": 1,
+ "groundId": "bro-hof",
+ "slug": "bro-hof-stadium",
+ "horizontalCrs": "EPSG:3006",
+ "coordinateOrder": [
+  "easting",
+  "northing"
+ ],
+ "reviewedOn": "2026-11-24",
+ "reviewer": "Claude Opus 5.5 (agent), on the 2025-06-14 0.16 m RGBI orthophoto, the 1 m laser terrain and the 2024 Caddee card",
+ "note": "A pad with no tees is a visible platform the 2024 card gives no colour. Hole 17 carries the three Masters tee platforms north of the pond.",
+ "holes": {
+  "1": {
+   "bends": [
+    [648806, 6598330],
+    [648930, 6598585]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w1533199095", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1533199096", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1533199097", "tees": [ "gul" ] },
+    { "src": "osm", "id": "w1533199098", "tees": [ "bla" ] },
+    { "src": "osm", "id": "w1533199099", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w444067216"
+   }
+  },
+  "2": {
+   "bends": [
+    [649080, 6598998]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w444068072", "tees": [ "svart", "vit" ] },
+    { "src": "osm", "id": "w1563017949", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563017950", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563017953"
+   }
+  },
+  "3": {
+   "bends": [
+    [649075, 6598800]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w454740390", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563350396", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563350397", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563350398", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563350401"
+   }
+  },
+  "4": {
+   "bends": [],
+   "pads": [
+    { "src": "osm", "id": "w444067204", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w444067203", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w444067205", "tees": [] },
+    { "src": "osm", "id": "w1563592805", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563592806", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563592807"
+   }
+  },
+  "5": {
+   "bends": [
+    [649572, 6598632]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w444067218", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563592811", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563592809", "tees": [ "gul" ] },
+    { "src": "osm", "id": "w1563592810", "tees": [ "bla" ] },
+    { "src": "ellipse", "c": [649497.6, 6598636.5], "size": [7, 6], "rot": 0, "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563592813"
+   }
+  },
+  "6": {
+   "bends": [
+    [649460, 6598752]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w1563592819", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563592820", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563592821", "tees": [ "gul" ] },
+    { "src": "osm", "id": "w1563592822", "tees": [ "bla" ] },
+    { "src": "ellipse", "c": [649577, 6598682.5], "size": [7.5, 6], "rot": 0, "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563592828"
+   }
+  },
+  "7": {
+   "bends": [],
+   "pads": [
+    { "src": "ellipse", "c": [649261.5, 6598864.3], "size": [6.8, 5.8], "rot": 0, "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563599272", "tees": [] },
+    { "src": "osm", "id": "w1563599273", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563599274", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563599275", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563599277"
+   }
+  },
+  "8": {
+   "bends": [
+    [649222, 6598702]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w1563599284", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563599283", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563599282", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563599285", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563599281"
+   }
+  },
+  "9": {
+   "bends": [
+    [648955, 6598455],
+    [648888, 6598292]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w1563599294", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563599295", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563599296", "tees": [ "gul" ] },
+    { "src": "ellipse", "c": [649122.5, 6598467.5], "size": [9, 5.5], "rot": 15, "tees": [] },
+    { "src": "osm", "id": "w1563599297", "tees": [ "bla" ] },
+    { "src": "ellipse", "c": [649016.5, 6598480], "size": [7, 6], "rot": 35, "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563599288"
+   }
+  },
+  "10": {
+   "bends": [
+    [648958, 6598224]
+   ],
+   "pads": [
+    { "src": "ellipse", "c": [648779.5, 6597990.5], "size": [6.5, 4.5], "rot": 50, "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563609169", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563609170", "tees": [] },
+    { "src": "osm", "id": "w1563609171", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563609172", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563669025"
+   }
+  },
+  "11": {
+   "bends": [],
+   "pads": [
+    { "src": "osm", "id": "w454740375", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w454740379", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w454740378", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w454740377", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w444067213"
+   }
+  },
+  "12": {
+   "bends": [
+    [649590, 6598545],
+    [649782, 6598528]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w444067219", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563676625", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w477815588", "tees": [ "gul" ] },
+    { "src": "osm", "id": "w477815589", "tees": [ "bla" ] },
+    { "src": "ellipse", "c": [649508, 6598543.5], "size": [8, 6], "rot": -10, "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w477815586"
+   }
+  },
+  "13": {
+   "bends": [
+    [649898, 6598396],
+    [649758, 6598218]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w1563696540", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w477815582", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w477815583", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563706731", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563706734"
+   }
+  },
+  "14": {
+   "bends": [
+    [649528, 6598436]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w454740381", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w477815579", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563706736", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563706737", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w444067215"
+   }
+  },
+  "15": {
+   "bends": [
+    [649085, 6598240],
+    [648975, 6598068]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w1563669027", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563676617", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w444067211", "tees": [] },
+    { "src": "osm", "id": "w1563676619", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563676620", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w1563676621"
+   }
+  },
+  "16": {
+   "bends": [],
+   "pads": [
+    { "src": "osm", "id": "w1563706742", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563706743", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563706744", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563706745", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w454740384"
+   }
+  },
+  "17": {
+   "bends": [],
+   "pads": [
+    { "src": "osm", "id": "w454740387", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1323718491", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1323718490", "tees": [] },
+    { "src": "osm", "id": "w1563706746", "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563706747", "tees": [ "rod" ] },
+    { "src": "osm", "id": "w377215780", "tees": [] },
+    { "src": "osm", "id": "w377215771", "tees": [] },
+    { "src": "osm", "id": "w377215768", "tees": [] }
+   ],
+   "green": {
+    "ring": "osm:w1563706753"
+   }
+  },
+  "18": {
+   "bends": [
+    [648572, 6597826]
+   ],
+   "pads": [
+    { "src": "osm", "id": "w1563706748", "tees": [ "svart" ] },
+    { "src": "osm", "id": "w1563706749", "tees": [ "vit" ] },
+    { "src": "osm", "id": "w1563706750", "tees": [] },
+    { "src": "osm", "id": "w1563706751", "tees": [] },
+    { "src": "ellipse", "c": [648605.2, 6597653], "size": [10.5, 6.5], "rot": 90, "tees": [ "gul", "bla" ] },
+    { "src": "osm", "id": "w1563706752", "tees": [ "rod" ] }
+   ],
+   "green": {
+    "ring": "osm:w377215778"
+   }
+  }
+ }
+}

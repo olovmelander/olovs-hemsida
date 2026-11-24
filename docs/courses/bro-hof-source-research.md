@@ -92,3 +92,39 @@ Primary source: `© Caddee Golf 2024` printed scorecard (`scorekort_bro-hof-cast
 - **Bro Hof Slott:** Built 1888 by architect Herman Holmgren (baroque/empire whitewashed stucco facade with corner cupolas/towers, copper/dark-slate mansard roof, lakeside terrace overlooking Hole 18 and Lake Mälaren). Calibrated warm white stucco strictly `< 0.82` linear luminance (below `GLOW.threshold = 0.86`).
 - **Stadium Bunkers:** Crushed white marble (`marmorkross`) with deep sculpted faces and interior grass islands (`innerRings`) — calibrated below bloom glare across all 10 lighting presets.
 - **Water Retaining Walls / Bulkheads (`infra.bulkheads`):** Official Caddee plates (`stadium17.jpg`, `stadium18.jpg`) confirm **stacked stone/granite masonry walls** encircling the 17th island green + cobbled stone access causeway AND retaining the 18th fairway/green shoreline, alongside timber/stone hazard revetments across Holes 9, 11, 13, 15, and 16 (verified against 2025 `0.16 m` RGBI).
+
+## 7. Mapping (Stage 3, 2026-11-24)
+
+Traced by `packages/course-geo/mapping/trace-course-surfaces.py` from reviewed decisions
+(`brohofbuild/mapping/decisions.json`, `brohofcastlebuild/mapping/decisions.json`,
+`sand-decisions.json`, `layer-decisions.json`). Every edge is measured on the 2025-06-14
+0.16 m RGBI photo; per-outline statistics are in each `trace-report.json`.
+
+- **36 greens, 159 tee platforms, 110 bunkers, 38 fairways and approaches, 10 waste areas (40 fescue islands).**
+  Where an outline started from OSM, the photo moved it by a mean 0.64 m on Stadium greens
+  (1.62 m at most, the 18th) and 0.49-0.67 m on tees. OSM's Castle fairways are drawn 5-10 m
+  off the photo and are not used; no Castle route exists in OSM.
+- **Tees against the card:** a mark stands on its platform where its playing distance is the
+  card's own. Median residual 0.1 m over 162 marks; 150 lie within 5 m. The rest are measured, not
+  fitted: Castle 6 Röd +13.8 m and 10 Röd +11.6 m are the largest, where the only platform
+  stands longer than the card.
+- **Water** is Lantmäteriet's break geometry and level, its outline joined with the photo's
+  near-infrared water line. Mälaren is one body across `E 650 000` (0.99 m). The Stadium 6
+  north pond and the open creek on Stadium 5/12 and Castle 9 have no break geometry; their
+  level is the lower quartile of the 1 m terrain inside the photo outline.
+- **Stonework:** stacked stone on 17 and 18 (plates and photo); loose boulders on 9 and 11
+  (plates and photo) and along the lake on 15 and 16 (photo). **No timber revetment is drawn
+  on any plate or visible anywhere on the estate**, so none is modelled (section 6 above and
+  the plan named timber on 9, 11, 13, 15 and 16).
+- **Both overview maps are drawings**, not scaled: they fixed the Castle routing order only.
+
+### Open facts for the club or the owner
+
+1. **Stadium 14 was changed after the photo.** The club's `stadium14-2026.jpg` draws about
+   twelve small bunkers across the landing area (some 85-125 m from the green) that the
+   2025-06-14 photo does not have. The model keeps the photographed hole: no source gives the
+   new bunkers' positions.
+2. **Stroke indexes disagree.** The plates print index 3 on 14 and 17 on 18; the 2024 card and
+   the club's own page (read 2026-11-24) print 17 and 13. The card stands.
+3. **Out of bounds on 18** is drawn on the plate along the western side. It is schematic, so no
+   boundary is placed.

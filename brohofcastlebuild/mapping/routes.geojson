@@ -1,0 +1,518 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "EPSG:3006"
+  }
+ },
+ "status": "traced-awaiting-review",
+ "provenance": {
+  "imagery": "orto-o2-2025",
+  "imagerySha256": {
+   "stadium-sw-2025.tif": "a7644c1de4e8c2c89e1217fcf728775fb92f91d46332c5ad0e74448b79796bc5",
+   "stadium-ne-2025.tif": "5ac0944c4e5e736b2300d26805567f89d11d238f0daf587c4dc17d56c27071cf",
+   "castle-n-2025.tif": "41208e267f4ea2b6111adbe50ad58244491c8cfe312d557013a0267a10a82842",
+   "overview-2025.tif": "e4ef98df120981ec85fd45cbd873785909123126d99ed6c614ab7ffd85f60ee2"
+  },
+  "terrainSha256": "f5a0fbd4dfa80f0227031e446a482557815c3e71c35c9511431d26f016c1de59",
+  "osmSha256": "853d16041108e16448dfe6870573acaa1bbb1113a073df02c0b8c2d7184faf1d",
+  "tool": "packages/course-geo/mapping/trace-course-surfaces.py"
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": "castle-route-01",
+   "properties": {
+    "kind": "hole",
+    "hole": 1,
+    "par": 5,
+    "lengthMetres": 557.8
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648574.55,
+      6598311.79
+     ],
+     [
+      648503,
+      6598570
+     ],
+     [
+      648506,
+      6598765
+     ],
+     [
+      648585.21,
+      6598817.14
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-02",
+   "properties": {
+    "kind": "hole",
+    "hole": 2,
+    "par": 3,
+    "lengthMetres": 154.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648744.26,
+      6598637.49
+     ],
+     [
+      648795.13,
+      6598782.82
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-03",
+   "properties": {
+    "kind": "hole",
+    "hole": 3,
+    "par": 4,
+    "lengthMetres": 337.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648858.67,
+      6598696.8
+     ],
+     [
+      648920,
+      6598870
+     ],
+     [
+      648974.37,
+      6599013.27
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-04",
+   "properties": {
+    "kind": "hole",
+    "hole": 4,
+    "par": 3,
+    "lengthMetres": 214.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649055.15,
+      6599067.37
+     ],
+     [
+      649219.65,
+      6599204.34
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-05",
+   "properties": {
+    "kind": "hole",
+    "hole": 5,
+    "par": 5,
+    "lengthMetres": 512.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649243.65,
+      6599289.76
+     ],
+     [
+      649415,
+      6599190
+     ],
+     [
+      649590,
+      6599098
+     ],
+     [
+      649705.28,
+      6599085.15
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-06",
+   "properties": {
+    "kind": "hole",
+    "hole": 6,
+    "par": 4,
+    "lengthMetres": 414.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649790.23,
+      6599171.63
+     ],
+     [
+      649878,
+      6598942
+     ],
+     [
+      649982,
+      6598870
+     ],
+     [
+      650010.32,
+      6598839.44
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-07",
+   "properties": {
+    "kind": "hole",
+    "hole": 7,
+    "par": 3,
+    "lengthMetres": 123.6
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      650020.15,
+      6598778.57
+     ],
+     [
+      649915.46,
+      6598712.96
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-08",
+   "properties": {
+    "kind": "hole",
+    "hole": 8,
+    "par": 4,
+    "lengthMetres": 350.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649884.6,
+      6598730.07
+     ],
+     [
+      649797,
+      6598878
+     ],
+     [
+      649647.04,
+      6598974.05
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-09",
+   "properties": {
+    "kind": "hole",
+    "hole": 9,
+    "par": 5,
+    "lengthMetres": 494.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649646.14,
+      6598859.86
+     ],
+     [
+      649520,
+      6599010
+     ],
+     [
+      649385,
+      6599112
+     ],
+     [
+      649278.05,
+      6599183.7
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-10",
+   "properties": {
+    "kind": "hole",
+    "hole": 10,
+    "par": 5,
+    "lengthMetres": 542.4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      649108.6,
+      6599234.5
+     ],
+     [
+      648890,
+      6599185
+     ],
+     [
+      648835,
+      6598985
+     ],
+     [
+      648801.76,
+      6598879.27
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-11",
+   "properties": {
+    "kind": "hole",
+    "hole": 11,
+    "par": 3,
+    "lengthMetres": 166.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648719.59,
+      6598942.31
+     ],
+     [
+      648722.01,
+      6598776.36
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-12",
+   "properties": {
+    "kind": "hole",
+    "hole": 12,
+    "par": 3,
+    "lengthMetres": 144.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648602.6,
+      6598862.25
+     ],
+     [
+      648472.32,
+      6598923.51
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-13",
+   "properties": {
+    "kind": "hole",
+    "hole": 13,
+    "par": 5,
+    "lengthMetres": 471.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648410.2,
+      6598887.28
+     ],
+     [
+      648382,
+      6599085
+     ],
+     [
+      648357,
+      6599290
+     ],
+     [
+      648296.88,
+      6599314.03
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-14",
+   "properties": {
+    "kind": "hole",
+    "hole": 14,
+    "par": 4,
+    "lengthMetres": 294.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648246.92,
+      6599310.67
+     ],
+     [
+      648263,
+      6599135
+     ],
+     [
+      648345.55,
+      6599049.94
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-15",
+   "properties": {
+    "kind": "hole",
+    "hole": 15,
+    "par": 5,
+    "lengthMetres": 471.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648274.65,
+      6599035.07
+     ],
+     [
+      648328,
+      6598835
+     ],
+     [
+      648408,
+      6598678
+     ],
+     [
+      648416.03,
+      6598590.66
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-16",
+   "properties": {
+    "kind": "hole",
+    "hole": 16,
+    "par": 4,
+    "lengthMetres": 319.7
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648413.38,
+      6598535.64
+     ],
+     [
+      648482,
+      6598330
+     ],
+     [
+      648460.41,
+      6598229.4
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-17",
+   "properties": {
+    "kind": "hole",
+    "hole": 17,
+    "par": 3,
+    "lengthMetres": 166.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648558.77,
+      6598068.32
+     ],
+     [
+      648481.39,
+      6597921.39
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "castle-route-18",
+   "properties": {
+    "kind": "hole",
+    "hole": 18,
+    "par": 4,
+    "lengthMetres": 382.3
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      648429.62,
+      6597799.52
+     ],
+     [
+      648403,
+      6598000
+     ],
+     [
+      648432,
+      6598075
+     ],
+     [
+      648526.95,
+      6598105.37
+     ]
+    ]
+   }
+  }
+ ]
+}

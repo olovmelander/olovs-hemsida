@@ -1,0 +1,1936 @@
+{
+ "schemaVersion": 1,
+ "slug": "bro-hof-stadium",
+ "classifierAccuracy": {
+  "green": 0.9992,
+  "fairway": 0.9732,
+  "otherGrass": 0.9704
+ },
+ "provenance": {
+  "imagery": "orto-o2-2025",
+  "imagerySha256": {
+   "stadium-sw-2025.tif": "a7644c1de4e8c2c89e1217fcf728775fb92f91d46332c5ad0e74448b79796bc5",
+   "stadium-ne-2025.tif": "5ac0944c4e5e736b2300d26805567f89d11d238f0daf587c4dc17d56c27071cf",
+   "castle-n-2025.tif": "41208e267f4ea2b6111adbe50ad58244491c8cfe312d557013a0267a10a82842",
+   "overview-2025.tif": "e4ef98df120981ec85fd45cbd873785909123126d99ed6c614ab7ffd85f60ee2"
+  },
+  "terrainSha256": "f5a0fbd4dfa80f0227031e446a482557815c3e71c35c9511431d26f016c1de59",
+  "osmSha256": "853d16041108e16448dfe6870573acaa1bbb1113a073df02c0b8c2d7184faf1d",
+  "tool": "packages/course-geo/mapping/trace-course-surfaces.py"
+ },
+ "rows": [
+  {
+   "hole": 1,
+   "kind": "green",
+   "start": "osm:w444067216",
+   "area": 467.7,
+   "dPrime": 7.3,
+   "meanShift": -0.02,
+   "rmsShift": 0.08,
+   "weakShare": 0.02,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "stadium-tee-01-1",
+   "start": "osm:w1533199095",
+   "tees": [
+    "svart"
+   ],
+   "area": 44.5,
+   "dPrime": 2.86,
+   "meanShift": 0.04,
+   "rmsShift": 0.09,
+   "weakShare": 0.22,
+   "meanEdge": 0.42
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "stadium-tee-01-2",
+   "start": "osm:w1533199096",
+   "tees": [
+    "vit"
+   ],
+   "area": 84.3,
+   "dPrime": 7.46,
+   "meanShift": 0.03,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.77
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "stadium-tee-01-3",
+   "start": "osm:w1533199097",
+   "tees": [
+    "gul"
+   ],
+   "area": 98.9,
+   "dPrime": 5.25,
+   "meanShift": 0.05,
+   "rmsShift": 0.07,
+   "weakShare": 0.0,
+   "meanEdge": 0.81
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "stadium-tee-01-4",
+   "start": "osm:w1533199098",
+   "tees": [
+    "bla"
+   ],
+   "area": 150.0,
+   "dPrime": 6.87,
+   "meanShift": 0.04,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.52
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "stadium-tee-01-5",
+   "start": "osm:w1533199099",
+   "tees": [
+    "rod"
+   ],
+   "area": 49.4,
+   "dPrime": 6.44,
+   "meanShift": 0.08,
+   "rmsShift": 0.12,
+   "weakShare": 0.0,
+   "meanEdge": 0.76
+  },
+  {
+   "hole": 1,
+   "kind": "route",
+   "length": 578.0,
+   "card": 578,
+   "cardResidual": {
+    "svart": -0.0,
+    "vit": 0.0,
+    "gul": 0.0,
+    "bla": -0.1,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 2,
+   "kind": "green",
+   "start": "osm:w1563017953",
+   "area": 476.6,
+   "dPrime": 5.54,
+   "meanShift": 0.02,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.53
+  },
+  {
+   "hole": 2,
+   "kind": "tee",
+   "id": "stadium-tee-02-1",
+   "start": "osm:w444068072",
+   "tees": [
+    "svart",
+    "vit"
+   ],
+   "area": 347.7,
+   "dPrime": 4.88,
+   "meanShift": 0.1,
+   "rmsShift": 0.15,
+   "weakShare": 0.0,
+   "meanEdge": 0.79
+  },
+  {
+   "hole": 2,
+   "kind": "tee",
+   "id": "stadium-tee-02-2",
+   "start": "osm:w1563017949",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 42.1,
+   "dPrime": 1.8,
+   "meanShift": 0.01,
+   "rmsShift": 0.03,
+   "weakShare": 0.0,
+   "meanEdge": 1.01
+  },
+  {
+   "hole": 2,
+   "kind": "tee",
+   "id": "stadium-tee-02-3",
+   "start": "osm:w1563017950",
+   "tees": [
+    "rod"
+   ],
+   "area": 45.0,
+   "dPrime": 6.23,
+   "meanShift": 0.07,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.66
+  },
+  {
+   "hole": 2,
+   "kind": "route",
+   "length": 442.4,
+   "card": 445,
+   "cardResidual": {
+    "svart": -2.6,
+    "vit": 0.2,
+    "gul": -1.0,
+    "bla": -1.0,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 3,
+   "kind": "green",
+   "start": "osm:w1563350401",
+   "area": 386.5,
+   "dPrime": 6.41,
+   "meanShift": 0.07,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 3,
+   "kind": "tee",
+   "id": "stadium-tee-03-1",
+   "start": "osm:w454740390",
+   "tees": [
+    "svart"
+   ],
+   "area": 108.4,
+   "dPrime": 8.38,
+   "meanShift": 0.11,
+   "rmsShift": 0.19,
+   "weakShare": 0.1,
+   "meanEdge": 0.4
+  },
+  {
+   "hole": 3,
+   "kind": "tee",
+   "id": "stadium-tee-03-2",
+   "start": "osm:w1563350396",
+   "tees": [
+    "vit"
+   ],
+   "area": 56.2,
+   "dPrime": 7.97,
+   "meanShift": 0.04,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.72
+  },
+  {
+   "hole": 3,
+   "kind": "tee",
+   "id": "stadium-tee-03-3",
+   "start": "osm:w1563350397",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 89.7,
+   "dPrime": 6.55,
+   "meanShift": 0.06,
+   "rmsShift": 0.1,
+   "weakShare": 0.0,
+   "meanEdge": 0.73
+  },
+  {
+   "hole": 3,
+   "kind": "tee",
+   "id": "stadium-tee-03-4",
+   "start": "osm:w1563350398",
+   "tees": [
+    "rod"
+   ],
+   "area": 56.3,
+   "dPrime": 4.8,
+   "meanShift": 0.05,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.86
+  },
+  {
+   "hole": 3,
+   "kind": "route",
+   "length": 394.2,
+   "card": 395,
+   "cardResidual": {
+    "svart": -0.8,
+    "vit": 0.0,
+    "gul": -0.0,
+    "bla": -0.0,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 4,
+   "kind": "green",
+   "start": "osm:w1563592807",
+   "area": 520.2,
+   "dPrime": 9.23,
+   "meanShift": -0.05,
+   "rmsShift": 0.09,
+   "weakShare": 0.02,
+   "meanEdge": 0.4
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "stadium-tee-04-1",
+   "start": "osm:w444067204",
+   "tees": [
+    "svart"
+   ],
+   "area": 80.4,
+   "dPrime": 4.04,
+   "meanShift": 0.11,
+   "rmsShift": 0.13,
+   "weakShare": 0.0,
+   "meanEdge": 0.64
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "stadium-tee-04-2",
+   "start": "osm:w444067203",
+   "tees": [
+    "vit"
+   ],
+   "area": 118.5,
+   "dPrime": 8.6,
+   "meanShift": 0.04,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.91
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "stadium-tee-04-3",
+   "start": "osm:w444067205",
+   "tees": [],
+   "area": 91.2,
+   "dPrime": 7.52,
+   "meanShift": 0.02,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.87
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "stadium-tee-04-4",
+   "start": "osm:w1563592805",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 226.0,
+   "dPrime": 3.82,
+   "meanShift": 0.01,
+   "rmsShift": 0.07,
+   "weakShare": 0.0,
+   "meanEdge": 0.96
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "stadium-tee-04-5",
+   "start": "osm:w1563592806",
+   "tees": [
+    "rod"
+   ],
+   "area": 79.8,
+   "dPrime": 5.63,
+   "meanShift": 0.07,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.91
+  },
+  {
+   "hole": 4,
+   "kind": "route",
+   "length": 219.0,
+   "card": 219,
+   "cardResidual": {
+    "svart": -0.0,
+    "vit": 0.0,
+    "gul": 0.1,
+    "bla": 0.1,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 5,
+   "kind": "green",
+   "start": "osm:w1563592813",
+   "area": 422.3,
+   "dPrime": 6.36,
+   "meanShift": 0.02,
+   "rmsShift": 0.1,
+   "weakShare": 0.11,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "stadium-tee-05-1",
+   "start": "osm:w444067218",
+   "tees": [
+    "svart"
+   ],
+   "area": 87.0,
+   "dPrime": 7.55,
+   "meanShift": 0.02,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.53
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "stadium-tee-05-2",
+   "start": "osm:w1563592811",
+   "tees": [
+    "vit"
+   ],
+   "area": 87.5,
+   "dPrime": 7.13,
+   "meanShift": -0.01,
+   "rmsShift": 0.03,
+   "weakShare": 0.0,
+   "meanEdge": 0.88
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "stadium-tee-05-3",
+   "start": "osm:w1563592809",
+   "tees": [
+    "gul"
+   ],
+   "area": 104.1,
+   "dPrime": 1.71,
+   "meanShift": -0.02,
+   "rmsShift": 0.18,
+   "weakShare": 0.21,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "stadium-tee-05-4",
+   "start": "osm:w1563592810",
+   "tees": [
+    "bla"
+   ],
+   "area": 61.8,
+   "dPrime": 6.74,
+   "meanShift": 0.02,
+   "rmsShift": 0.04,
+   "weakShare": 0.0,
+   "meanEdge": 0.67
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "stadium-tee-05-5",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "rod"
+   ],
+   "area": 36.0,
+   "dPrime": 5.34,
+   "meanShift": 0.07,
+   "rmsShift": 0.09,
+   "weakShare": 0.0,
+   "meanEdge": 0.67
+  },
+  {
+   "hole": 5,
+   "kind": "route",
+   "length": 465.9,
+   "card": 468,
+   "cardResidual": {
+    "svart": -2.1,
+    "vit": -0.1,
+    "gul": 2.7,
+    "bla": -0.0,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 6,
+   "kind": "green",
+   "start": "osm:w1563592828",
+   "area": 513.1,
+   "dPrime": 8.61,
+   "meanShift": -0.05,
+   "rmsShift": 0.11,
+   "weakShare": 0.07,
+   "meanEdge": 0.39
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "stadium-tee-06-1",
+   "start": "osm:w1563592819",
+   "tees": [
+    "svart"
+   ],
+   "area": 39.1,
+   "dPrime": 9.19,
+   "meanShift": 0.08,
+   "rmsShift": 0.09,
+   "weakShare": 0.0,
+   "meanEdge": 0.56
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "stadium-tee-06-2",
+   "start": "osm:w1563592820",
+   "tees": [
+    "vit"
+   ],
+   "area": 90.6,
+   "dPrime": 7.99,
+   "meanShift": 0.02,
+   "rmsShift": 0.04,
+   "weakShare": 0.0,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "stadium-tee-06-3",
+   "start": "osm:w1563592821",
+   "tees": [
+    "gul"
+   ],
+   "area": 161.8,
+   "dPrime": 4.4,
+   "meanShift": 0.05,
+   "rmsShift": 0.08,
+   "weakShare": 0.04,
+   "meanEdge": 0.51
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "stadium-tee-06-4",
+   "start": "osm:w1563592822",
+   "tees": [
+    "bla"
+   ],
+   "area": 62.7,
+   "dPrime": 5.44,
+   "meanShift": 0.08,
+   "rmsShift": 0.09,
+   "weakShare": 0.0,
+   "meanEdge": 0.68
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "stadium-tee-06-5",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "rod"
+   ],
+   "area": 35.2,
+   "dPrime": 6.53,
+   "meanShift": 0.09,
+   "rmsShift": 0.13,
+   "weakShare": 0.0,
+   "meanEdge": 0.6
+  },
+  {
+   "hole": 6,
+   "kind": "route",
+   "length": 468.2,
+   "card": 472,
+   "cardResidual": {
+    "svart": -3.8,
+    "vit": -2.2,
+    "gul": 0.0,
+    "bla": -0.0,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 7,
+   "kind": "green",
+   "start": "osm:w1563599277",
+   "area": 435.1,
+   "dPrime": 5.42,
+   "meanShift": -0.01,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.53
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "stadium-tee-07-1",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "svart"
+   ],
+   "area": 33.6,
+   "dPrime": 3.19,
+   "meanShift": -0.05,
+   "rmsShift": 0.3,
+   "weakShare": 0.0,
+   "meanEdge": 0.62,
+   "kept": "terrain-platform"
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "stadium-tee-07-2",
+   "start": "osm:w1563599272",
+   "tees": [],
+   "area": 91.3,
+   "dPrime": 8.11,
+   "meanShift": 0.03,
+   "rmsShift": 0.07,
+   "weakShare": 0.0,
+   "meanEdge": 0.45
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "stadium-tee-07-3",
+   "start": "osm:w1563599273",
+   "tees": [
+    "vit"
+   ],
+   "area": 129.9,
+   "dPrime": 5.31,
+   "meanShift": 0.02,
+   "rmsShift": 0.04,
+   "weakShare": 0.07,
+   "meanEdge": 0.46
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "stadium-tee-07-4",
+   "start": "osm:w1563599274",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 284.7,
+   "dPrime": 3.6,
+   "meanShift": 0.15,
+   "rmsShift": 0.35,
+   "weakShare": 0.02,
+   "meanEdge": 0.59
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "stadium-tee-07-5",
+   "start": "osm:w1563599275",
+   "tees": [
+    "rod"
+   ],
+   "area": 48.0,
+   "dPrime": 6.84,
+   "meanShift": 0.02,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.51
+  },
+  {
+   "hole": 7,
+   "kind": "route",
+   "length": 227.1,
+   "card": 228,
+   "cardResidual": {
+    "svart": -0.9,
+    "vit": 0.0,
+    "gul": -0.1,
+    "bla": -0.1,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 8,
+   "kind": "green",
+   "start": "osm:w1563599281",
+   "area": 405.1,
+   "dPrime": 8.94,
+   "meanShift": -0.05,
+   "rmsShift": 0.12,
+   "weakShare": 0.0,
+   "meanEdge": 0.47
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "stadium-tee-08-1",
+   "start": "osm:w1563599284",
+   "tees": [
+    "svart"
+   ],
+   "area": 60.8,
+   "dPrime": 9.72,
+   "meanShift": 0.06,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "stadium-tee-08-2",
+   "start": "osm:w1563599283",
+   "tees": [
+    "vit"
+   ],
+   "area": 77.6,
+   "dPrime": 8.3,
+   "meanShift": 0.04,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.45
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "stadium-tee-08-3",
+   "start": "osm:w1563599282",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 265.5,
+   "dPrime": 2.58,
+   "meanShift": 0.06,
+   "rmsShift": 0.18,
+   "weakShare": 0.2,
+   "meanEdge": 0.45
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "stadium-tee-08-4",
+   "start": "osm:w1563599285",
+   "tees": [
+    "rod"
+   ],
+   "area": 28.6,
+   "dPrime": 5.88,
+   "meanShift": 0.05,
+   "rmsShift": 0.09,
+   "weakShare": 0.0,
+   "meanEdge": 0.64
+  },
+  {
+   "hole": 8,
+   "kind": "route",
+   "length": 448.4,
+   "card": 451,
+   "cardResidual": {
+    "svart": -2.6,
+    "vit": -0.0,
+    "gul": 0.1,
+    "bla": 0.1,
+    "rod": 0.8
+   }
+  },
+  {
+   "hole": 9,
+   "kind": "green",
+   "start": "osm:w1563599288",
+   "area": 573.4,
+   "dPrime": 6.62,
+   "meanShift": 0.04,
+   "rmsShift": 0.08,
+   "weakShare": 0.06,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "stadium-tee-09-1",
+   "start": "osm:w1563599294",
+   "tees": [
+    "svart"
+   ],
+   "area": 62.3,
+   "dPrime": 5.7,
+   "meanShift": 0.0,
+   "rmsShift": 0.05,
+   "weakShare": 0.0,
+   "meanEdge": 0.57
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "stadium-tee-09-2",
+   "start": "osm:w1563599295",
+   "tees": [
+    "vit"
+   ],
+   "area": 84.3,
+   "dPrime": 5.65,
+   "meanShift": 0.02,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.68
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "stadium-tee-09-3",
+   "start": "osm:w1563599296",
+   "tees": [
+    "gul"
+   ],
+   "area": 144.3,
+   "dPrime": 0.81,
+   "meanShift": 0.11,
+   "rmsShift": 0.27,
+   "weakShare": 0.14,
+   "meanEdge": 0.71,
+   "kept": "terrain-platform"
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "stadium-tee-09-4",
+   "start": "reviewed-ellipse",
+   "tees": [],
+   "area": 60.0,
+   "dPrime": 5.34,
+   "meanShift": 0.1,
+   "rmsShift": 0.24,
+   "weakShare": 0.07,
+   "meanEdge": 0.51
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "stadium-tee-09-5",
+   "start": "osm:w1563599297",
+   "tees": [
+    "bla"
+   ],
+   "area": 61.6,
+   "dPrime": 5.13,
+   "meanShift": 0.03,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.79
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "stadium-tee-09-6",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "rod"
+   ],
+   "area": 35.7,
+   "dPrime": 4.62,
+   "meanShift": 0.11,
+   "rmsShift": 0.13,
+   "weakShare": 0.0,
+   "meanEdge": 0.96
+  },
+  {
+   "hole": 9,
+   "kind": "route",
+   "length": 581.0,
+   "card": 581,
+   "cardResidual": {
+    "svart": -0.0,
+    "vit": 0.1,
+    "gul": 7.2,
+    "bla": 1.3,
+    "rod": 8.8
+   }
+  },
+  {
+   "hole": 10,
+   "kind": "green",
+   "start": "osm:w1563669025",
+   "area": 549.1,
+   "dPrime": 8.39,
+   "meanShift": -0.01,
+   "rmsShift": 0.09,
+   "weakShare": 0.09,
+   "meanEdge": 0.39
+  },
+  {
+   "hole": 10,
+   "kind": "tee",
+   "id": "stadium-tee-10-1",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "svart"
+   ],
+   "area": 23.6,
+   "dPrime": 5.4,
+   "meanShift": 0.08,
+   "rmsShift": 0.09,
+   "weakShare": 0.06,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 10,
+   "kind": "tee",
+   "id": "stadium-tee-10-2",
+   "start": "osm:w1563609169",
+   "tees": [
+    "vit"
+   ],
+   "area": 164.2,
+   "dPrime": 5.47,
+   "meanShift": 0.02,
+   "rmsShift": 0.07,
+   "weakShare": 0.03,
+   "meanEdge": 0.43
+  },
+  {
+   "hole": 10,
+   "kind": "tee",
+   "id": "stadium-tee-10-3",
+   "start": "osm:w1563609170",
+   "tees": [],
+   "area": 56.0,
+   "dPrime": 1.26,
+   "meanShift": 0.14,
+   "rmsShift": 0.19,
+   "weakShare": 0.28,
+   "meanEdge": 0.38
+  },
+  {
+   "hole": 10,
+   "kind": "tee",
+   "id": "stadium-tee-10-4",
+   "start": "osm:w1563609171",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 109.7,
+   "dPrime": 0.88,
+   "meanShift": 0.14,
+   "rmsShift": 0.19,
+   "weakShare": 0.35,
+   "meanEdge": 0.59,
+   "kept": "terrain-platform"
+  },
+  {
+   "hole": 10,
+   "kind": "tee",
+   "id": "stadium-tee-10-5",
+   "start": "osm:w1563609172",
+   "tees": [
+    "rod"
+   ],
+   "area": 52.3,
+   "dPrime": 7.79,
+   "meanShift": 0.04,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 10,
+   "kind": "route",
+   "length": 430.0,
+   "card": 430,
+   "cardResidual": {
+    "svart": -0.0,
+    "vit": -0.1,
+    "gul": 7.7,
+    "bla": 7.7,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 11,
+   "kind": "green",
+   "start": "osm:w444067213",
+   "area": 460.1,
+   "dPrime": 8.4,
+   "meanShift": -0.03,
+   "rmsShift": 0.11,
+   "weakShare": 0.0,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 11,
+   "kind": "tee",
+   "id": "stadium-tee-11-1",
+   "start": "osm:w454740375",
+   "tees": [
+    "svart"
+   ],
+   "area": 160.2,
+   "dPrime": 7.46,
+   "meanShift": 0.05,
+   "rmsShift": 0.09,
+   "weakShare": 0.09,
+   "meanEdge": 0.37
+  },
+  {
+   "hole": 11,
+   "kind": "tee",
+   "id": "stadium-tee-11-2",
+   "start": "osm:w454740379",
+   "tees": [
+    "vit"
+   ],
+   "area": 126.9,
+   "dPrime": 4.54,
+   "meanShift": 0.07,
+   "rmsShift": 0.11,
+   "weakShare": 0.02,
+   "meanEdge": 0.67
+  },
+  {
+   "hole": 11,
+   "kind": "tee",
+   "id": "stadium-tee-11-3",
+   "start": "osm:w454740378",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 158.1,
+   "dPrime": 3.78,
+   "meanShift": 0.08,
+   "rmsShift": 0.1,
+   "weakShare": 0.01,
+   "meanEdge": 0.78
+  },
+  {
+   "hole": 11,
+   "kind": "tee",
+   "id": "stadium-tee-11-4",
+   "start": "osm:w454740377",
+   "tees": [
+    "rod"
+   ],
+   "area": 117.4,
+   "dPrime": 5.09,
+   "meanShift": 0.05,
+   "rmsShift": 0.12,
+   "weakShare": 0.09,
+   "meanEdge": 0.74
+  },
+  {
+   "hole": 11,
+   "kind": "route",
+   "length": 191.0,
+   "card": 191,
+   "cardResidual": {
+    "svart": -0.0,
+    "vit": -0.1,
+    "gul": 0.1,
+    "bla": 0.1,
+    "rod": 0.1
+   }
+  },
+  {
+   "hole": 12,
+   "kind": "green",
+   "start": "osm:w477815586",
+   "area": 477.5,
+   "dPrime": 5.87,
+   "meanShift": 0.01,
+   "rmsShift": 0.1,
+   "weakShare": 0.07,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 12,
+   "kind": "tee",
+   "id": "stadium-tee-12-1",
+   "start": "osm:w444067219",
+   "tees": [
+    "svart"
+   ],
+   "area": 53.6,
+   "dPrime": 9.13,
+   "meanShift": 0.0,
+   "rmsShift": 0.0,
+   "weakShare": 0.0,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 12,
+   "kind": "tee",
+   "id": "stadium-tee-12-2",
+   "start": "osm:w1563676625",
+   "tees": [
+    "vit"
+   ],
+   "area": 78.9,
+   "dPrime": 10.69,
+   "meanShift": 0.02,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.38
+  },
+  {
+   "hole": 12,
+   "kind": "tee",
+   "id": "stadium-tee-12-3",
+   "start": "osm:w477815588",
+   "tees": [
+    "gul"
+   ],
+   "area": 229.9,
+   "dPrime": 1.84,
+   "meanShift": 0.26,
+   "rmsShift": 0.35,
+   "weakShare": 0.27,
+   "meanEdge": 0.62
+  },
+  {
+   "hole": 12,
+   "kind": "tee",
+   "id": "stadium-tee-12-4",
+   "start": "osm:w477815589",
+   "tees": [
+    "bla"
+   ],
+   "area": 68.2,
+   "dPrime": 6.01,
+   "meanShift": 0.02,
+   "rmsShift": 0.04,
+   "weakShare": 0.0,
+   "meanEdge": 0.59
+  },
+  {
+   "hole": 12,
+   "kind": "tee",
+   "id": "stadium-tee-12-5",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "rod"
+   ],
+   "area": 34.7,
+   "dPrime": 7.45,
+   "meanShift": 0.04,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.61
+  },
+  {
+   "hole": 12,
+   "kind": "route",
+   "length": 525.0,
+   "card": 525,
+   "cardResidual": {
+    "svart": 0.0,
+    "vit": 0.4,
+    "gul": 6.7,
+    "bla": -0.0,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 13,
+   "kind": "green",
+   "start": "osm:w1563706734",
+   "area": 429.1,
+   "dPrime": 6.26,
+   "meanShift": -0.03,
+   "rmsShift": 0.09,
+   "weakShare": 0.12,
+   "meanEdge": 0.43
+  },
+  {
+   "hole": 13,
+   "kind": "tee",
+   "id": "stadium-tee-13-1",
+   "start": "osm:w1563696540",
+   "tees": [
+    "svart"
+   ],
+   "area": 33.0,
+   "dPrime": 3.34,
+   "meanShift": 0.07,
+   "rmsShift": 0.14,
+   "weakShare": 0.05,
+   "meanEdge": 0.53
+  },
+  {
+   "hole": 13,
+   "kind": "tee",
+   "id": "stadium-tee-13-2",
+   "start": "osm:w477815582",
+   "tees": [
+    "vit"
+   ],
+   "area": 102.1,
+   "dPrime": 4.59,
+   "meanShift": 0.06,
+   "rmsShift": 0.1,
+   "weakShare": 0.26,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 13,
+   "kind": "tee",
+   "id": "stadium-tee-13-3",
+   "start": "osm:w477815583",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 136.6,
+   "dPrime": 5.55,
+   "meanShift": 0.01,
+   "rmsShift": 0.05,
+   "weakShare": 0.06,
+   "meanEdge": 0.49
+  },
+  {
+   "hole": 13,
+   "kind": "tee",
+   "id": "stadium-tee-13-4",
+   "start": "osm:w1563706731",
+   "tees": [
+    "rod"
+   ],
+   "area": 55.2,
+   "dPrime": 5.94,
+   "meanShift": 0.01,
+   "rmsShift": 0.03,
+   "weakShare": 0.07,
+   "meanEdge": 0.46
+  },
+  {
+   "hole": 13,
+   "kind": "route",
+   "length": 563.0,
+   "card": 565,
+   "cardResidual": {
+    "svart": -2.0,
+    "vit": 0.1,
+    "gul": -1.3,
+    "bla": -1.3,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 14,
+   "kind": "green",
+   "start": "osm:w444067215",
+   "area": 434.6,
+   "dPrime": 7.89,
+   "meanShift": -0.05,
+   "rmsShift": 0.12,
+   "weakShare": 0.06,
+   "meanEdge": 0.43
+  },
+  {
+   "hole": 14,
+   "kind": "tee",
+   "id": "stadium-tee-14-1",
+   "start": "osm:w454740381",
+   "tees": [
+    "svart"
+   ],
+   "area": 73.6,
+   "dPrime": 4.51,
+   "meanShift": 0.1,
+   "rmsShift": 0.13,
+   "weakShare": 0.0,
+   "meanEdge": 0.46
+  },
+  {
+   "hole": 14,
+   "kind": "tee",
+   "id": "stadium-tee-14-2",
+   "start": "osm:w477815579",
+   "tees": [
+    "vit"
+   ],
+   "area": 118.8,
+   "dPrime": 7.87,
+   "meanShift": -0.02,
+   "rmsShift": 0.04,
+   "weakShare": 0.0,
+   "meanEdge": 0.37
+  },
+  {
+   "hole": 14,
+   "kind": "tee",
+   "id": "stadium-tee-14-3",
+   "start": "osm:w1563706736",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 172.1,
+   "dPrime": 4.25,
+   "meanShift": 0.05,
+   "rmsShift": 0.07,
+   "weakShare": 0.0,
+   "meanEdge": 0.77
+  },
+  {
+   "hole": 14,
+   "kind": "tee",
+   "id": "stadium-tee-14-4",
+   "start": "osm:w1563706737",
+   "tees": [
+    "rod"
+   ],
+   "area": 89.2,
+   "dPrime": 6.03,
+   "meanShift": 0.07,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.61
+  },
+  {
+   "hole": 14,
+   "kind": "route",
+   "length": 415.6,
+   "card": 416,
+   "cardResidual": {
+    "svart": -0.4,
+    "vit": -0.1,
+    "gul": 0.4,
+    "bla": 0.4,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 15,
+   "kind": "green",
+   "start": "osm:w1563676621",
+   "area": 370.0,
+   "dPrime": 5.26,
+   "meanShift": 0.06,
+   "rmsShift": 0.11,
+   "weakShare": 0.02,
+   "meanEdge": 0.62
+  },
+  {
+   "hole": 15,
+   "kind": "tee",
+   "id": "stadium-tee-15-1",
+   "start": "osm:w1563669027",
+   "tees": [
+    "svart"
+   ],
+   "area": 37.4,
+   "dPrime": 7.37,
+   "meanShift": 0.04,
+   "rmsShift": 0.14,
+   "weakShare": 0.0,
+   "meanEdge": 0.48
+  },
+  {
+   "hole": 15,
+   "kind": "tee",
+   "id": "stadium-tee-15-2",
+   "start": "osm:w1563676617",
+   "tees": [
+    "vit"
+   ],
+   "area": 38.9,
+   "dPrime": 7.81,
+   "meanShift": 0.06,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 15,
+   "kind": "tee",
+   "id": "stadium-tee-15-3",
+   "start": "osm:w444067211",
+   "tees": [],
+   "area": 47.2,
+   "dPrime": 5.53,
+   "meanShift": 0.0,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 15,
+   "kind": "tee",
+   "id": "stadium-tee-15-4",
+   "start": "osm:w1563676619",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 196.3,
+   "dPrime": 4.69,
+   "meanShift": 0.04,
+   "rmsShift": 0.07,
+   "weakShare": 0.02,
+   "meanEdge": 0.48
+  },
+  {
+   "hole": 15,
+   "kind": "tee",
+   "id": "stadium-tee-15-5",
+   "start": "osm:w1563676620",
+   "tees": [
+    "rod"
+   ],
+   "area": 44.0,
+   "dPrime": 5.98,
+   "meanShift": 0.02,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.51
+  },
+  {
+   "hole": 15,
+   "kind": "route",
+   "length": 567.3,
+   "card": 569,
+   "cardResidual": {
+    "svart": -1.7,
+    "vit": -0.0,
+    "gul": 0.0,
+    "bla": 0.0,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 16,
+   "kind": "green",
+   "start": "osm:w454740384",
+   "area": 601.4,
+   "dPrime": 3.29,
+   "meanShift": -0.01,
+   "rmsShift": 0.09,
+   "weakShare": 0.03,
+   "meanEdge": 0.6
+  },
+  {
+   "hole": 16,
+   "kind": "tee",
+   "id": "stadium-tee-16-1",
+   "start": "osm:w1563706742",
+   "tees": [
+    "svart"
+   ],
+   "area": 92.3,
+   "dPrime": 4.07,
+   "meanShift": 0.05,
+   "rmsShift": 0.07,
+   "weakShare": 0.0,
+   "meanEdge": 0.47
+  },
+  {
+   "hole": 16,
+   "kind": "tee",
+   "id": "stadium-tee-16-2",
+   "start": "osm:w1563706743",
+   "tees": [
+    "vit"
+   ],
+   "area": 79.0,
+   "dPrime": 7.05,
+   "meanShift": 0.0,
+   "rmsShift": 0.03,
+   "weakShare": 0.0,
+   "meanEdge": 0.57
+  },
+  {
+   "hole": 16,
+   "kind": "tee",
+   "id": "stadium-tee-16-3",
+   "start": "osm:w1563706744",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 219.9,
+   "dPrime": 5.58,
+   "meanShift": 0.03,
+   "rmsShift": 0.07,
+   "weakShare": 0.0,
+   "meanEdge": 0.62
+  },
+  {
+   "hole": 16,
+   "kind": "tee",
+   "id": "stadium-tee-16-4",
+   "start": "osm:w1563706745",
+   "tees": [
+    "rod"
+   ],
+   "area": 32.0,
+   "dPrime": 5.39,
+   "meanShift": 0.03,
+   "rmsShift": 0.12,
+   "weakShare": 0.0,
+   "meanEdge": 0.57
+  },
+  {
+   "hole": 16,
+   "kind": "route",
+   "length": 238.0,
+   "card": 238,
+   "cardResidual": {
+    "svart": 0.0,
+    "vit": 0.0,
+    "gul": -0.1,
+    "bla": -0.1,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 17,
+   "kind": "green",
+   "start": "osm:w1563706753",
+   "area": 388.9,
+   "dPrime": 5.03,
+   "meanShift": -0.01,
+   "rmsShift": 0.07,
+   "weakShare": 0.06,
+   "meanEdge": 0.48
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "stadium-tee-17-1",
+   "start": "osm:w454740387",
+   "tees": [
+    "svart"
+   ],
+   "area": 72.5,
+   "dPrime": 4.05,
+   "meanShift": 0.04,
+   "rmsShift": 0.07,
+   "weakShare": 0.11,
+   "meanEdge": 0.39
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "stadium-tee-17-2",
+   "start": "osm:w1323718491",
+   "tees": [
+    "vit"
+   ],
+   "area": 72.3,
+   "dPrime": 5.88,
+   "meanShift": 0.0,
+   "rmsShift": 0.07,
+   "weakShare": 0.0,
+   "meanEdge": 0.57
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "stadium-tee-17-3",
+   "start": "osm:w1323718490",
+   "tees": [],
+   "area": 204.6,
+   "dPrime": 1.54,
+   "meanShift": 0.11,
+   "rmsShift": 0.27,
+   "weakShare": 0.1,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "stadium-tee-17-4",
+   "start": "osm:w1563706746",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 516.3,
+   "dPrime": 0.5,
+   "meanShift": 0.05,
+   "rmsShift": 0.28,
+   "weakShare": 0.12,
+   "meanEdge": 0.87,
+   "kept": "start"
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "stadium-tee-17-5",
+   "start": "osm:w1563706747",
+   "tees": [
+    "rod"
+   ],
+   "area": 284.0,
+   "dPrime": 2.15,
+   "meanShift": 0.01,
+   "rmsShift": 0.14,
+   "weakShare": 0.16,
+   "meanEdge": 0.59
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "stadium-tee-17-6",
+   "start": "osm:w377215780",
+   "tees": [],
+   "area": 66.7,
+   "dPrime": 6.63,
+   "meanShift": -0.14,
+   "rmsShift": 0.21,
+   "weakShare": 0.0,
+   "meanEdge": 0.68
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "stadium-tee-17-7",
+   "start": "osm:w377215771",
+   "tees": [],
+   "area": 52.5,
+   "dPrime": 7.13,
+   "meanShift": -0.06,
+   "rmsShift": 0.1,
+   "weakShare": 0.0,
+   "meanEdge": 0.66
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "stadium-tee-17-8",
+   "start": "osm:w377215768",
+   "tees": [],
+   "area": 90.2,
+   "dPrime": 7.7,
+   "meanShift": -0.01,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.67
+  },
+  {
+   "hole": 17,
+   "kind": "route",
+   "length": 150.0,
+   "card": 150,
+   "cardResidual": {
+    "svart": -0.0,
+    "vit": 0.0,
+    "gul": -1.5,
+    "bla": -1.5,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 18,
+   "kind": "green",
+   "start": "osm:w377215778",
+   "area": 634.6,
+   "dPrime": 5.09,
+   "meanShift": 0.1,
+   "rmsShift": 0.24,
+   "weakShare": 0.2,
+   "meanEdge": 0.51
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "stadium-tee-18-1",
+   "start": "osm:w1563706748",
+   "tees": [
+    "svart"
+   ],
+   "area": 40.7,
+   "dPrime": 6.84,
+   "meanShift": 0.04,
+   "rmsShift": 0.1,
+   "weakShare": 0.0,
+   "meanEdge": 0.48
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "stadium-tee-18-2",
+   "start": "osm:w1563706749",
+   "tees": [
+    "vit"
+   ],
+   "area": 98.3,
+   "dPrime": 6.03,
+   "meanShift": 0.01,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.72
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "stadium-tee-18-3",
+   "start": "osm:w1563706750",
+   "tees": [],
+   "area": 88.3,
+   "dPrime": 6.12,
+   "meanShift": 0.06,
+   "rmsShift": 0.09,
+   "weakShare": 0.0,
+   "meanEdge": 0.57
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "stadium-tee-18-4",
+   "start": "osm:w1563706751",
+   "tees": [],
+   "area": 25.5,
+   "dPrime": 6.0,
+   "meanShift": 0.05,
+   "rmsShift": 0.09,
+   "weakShare": 0.0,
+   "meanEdge": 0.62
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "stadium-tee-18-5",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 55.6,
+   "dPrime": 5.47,
+   "meanShift": 0.05,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "stadium-tee-18-6",
+   "start": "osm:w1563706752",
+   "tees": [
+    "rod"
+   ],
+   "area": 52.1,
+   "dPrime": 6.48,
+   "meanShift": 0.03,
+   "rmsShift": 0.06,
+   "weakShare": 0.0,
+   "meanEdge": 0.6
+  },
+  {
+   "hole": 18,
+   "kind": "route",
+   "length": 368.5,
+   "card": 373,
+   "cardResidual": {
+    "svart": -4.5,
+    "vit": -0.1,
+    "gul": 0.0,
+    "bla": 0.0,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 7,
+   "kind": "fairway",
+   "area": 2021,
+   "dPrime": 3.56,
+   "meanShift": 0.54,
+   "rmsShift": 0.95,
+   "weakShare": 0.25,
+   "meanEdge": 0.52
+  },
+  {
+   "hole": 2,
+   "kind": "fairway",
+   "area": 8428,
+   "dPrime": 5.4,
+   "meanShift": 0.1,
+   "rmsShift": 0.65,
+   "weakShare": 0.26,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 3,
+   "kind": "fairway",
+   "area": 7349,
+   "dPrime": 5.23,
+   "meanShift": 0.3,
+   "rmsShift": 0.87,
+   "weakShare": 0.1,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 6,
+   "kind": "fairway",
+   "area": 10416,
+   "dPrime": 4.71,
+   "meanShift": -0.29,
+   "rmsShift": 0.74,
+   "weakShare": 0.35,
+   "meanEdge": 0.33
+  },
+  {
+   "hole": 8,
+   "kind": "fairway",
+   "area": 8908,
+   "dPrime": 4.92,
+   "meanShift": 0.1,
+   "rmsShift": 0.74,
+   "weakShare": 0.28,
+   "meanEdge": 0.32
+  },
+  {
+   "hole": 1,
+   "kind": "fairway",
+   "area": 16719,
+   "dPrime": 4.44,
+   "meanShift": 0.14,
+   "rmsShift": 0.79,
+   "weakShare": 0.31,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 5,
+   "kind": "fairway",
+   "area": 6297,
+   "dPrime": 6.78,
+   "meanShift": -0.5,
+   "rmsShift": 1.14,
+   "weakShare": 0.34,
+   "meanEdge": 0.32
+  },
+  {
+   "hole": 12,
+   "kind": "fairway",
+   "area": 7863,
+   "dPrime": 4.21,
+   "meanShift": 0.29,
+   "rmsShift": 0.85,
+   "weakShare": 0.15,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 4,
+   "kind": "fairway",
+   "area": 2837,
+   "dPrime": 4.11,
+   "meanShift": 0.08,
+   "rmsShift": 0.57,
+   "weakShare": 0.23,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 12,
+   "kind": "fairway",
+   "area": 5747,
+   "dPrime": 4.45,
+   "meanShift": 0.02,
+   "rmsShift": 0.68,
+   "weakShare": 0.33,
+   "meanEdge": 0.37
+  },
+  {
+   "hole": 14,
+   "kind": "fairway",
+   "area": 9500,
+   "dPrime": 3.91,
+   "meanShift": 0.29,
+   "rmsShift": 0.85,
+   "weakShare": 0.27,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 13,
+   "kind": "fairway",
+   "area": 14177,
+   "dPrime": 3.94,
+   "meanShift": 0.12,
+   "rmsShift": 0.82,
+   "weakShare": 0.3,
+   "meanEdge": 0.35
+  },
+  {
+   "hole": 9,
+   "kind": "fairway",
+   "area": 14166,
+   "dPrime": 4.44,
+   "meanShift": 0.19,
+   "rmsShift": 0.97,
+   "weakShare": 0.3,
+   "meanEdge": 0.35
+  },
+  {
+   "hole": 11,
+   "kind": "fairway",
+   "area": 1909,
+   "dPrime": 4.05,
+   "meanShift": 0.11,
+   "rmsShift": 0.56,
+   "weakShare": 0.25,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 10,
+   "kind": "fairway",
+   "area": 10136,
+   "dPrime": 4.26,
+   "meanShift": 0.42,
+   "rmsShift": 0.83,
+   "weakShare": 0.3,
+   "meanEdge": 0.37
+  },
+  {
+   "hole": 15,
+   "kind": "fairway",
+   "area": 11906,
+   "dPrime": 4.36,
+   "meanShift": 0.51,
+   "rmsShift": 1.08,
+   "weakShare": 0.28,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 18,
+   "kind": "fairway",
+   "area": 6756,
+   "dPrime": 4.49,
+   "meanShift": -0.01,
+   "rmsShift": 0.75,
+   "weakShare": 0.24,
+   "meanEdge": 0.38
+  },
+  {
+   "hole": 16,
+   "kind": "fairway",
+   "area": 1991,
+   "dPrime": 2.57,
+   "meanShift": 0.34,
+   "rmsShift": 1.09,
+   "weakShare": 0.24,
+   "meanEdge": 0.38
+  }
+ ]
+}

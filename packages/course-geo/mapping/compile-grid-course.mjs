@@ -175,6 +175,11 @@ export function compileGridCourse({
   fineTerrain, // { float32, side, spacing, x0, z0, sha256 }
   vistaTerrain = null, // { float32, side, spacing, x0, z0, sha256 }
   defaultTeeIndex = 1,
+  /* Runtime placement policies. A key set to null is left out, which is how the living ground
+     (grass round the ball, reeds, furniture, the measured shore) is turned on for a course. */
+  placement = {},
+  farBuildings = null, // far boxes: [cx, cz, half width, half depth, angle, kind, height?]
+  hf0SpanMetres = 2048,
   evidence = {},
 }) {
   const local = makeLocalProjector(frame);
@@ -215,10 +220,12 @@ export function compileGridCourse({
     const pads = teeFeatures.map(f => {
       const [ring] = projectPolygonRings(f, local, { allowHoles: false });
       return {
+        ...(f.id ? { id: f.id } : {}),
         ring,
         preserveTerrain: true,
         sourceFeatureId: f.id || null,
         ...(f.properties?.teeIds ? { teeIds: f.properties.teeIds } : {}),
+        ...(f.properties?.teeMarks ? { teeMarks: Object.fromEntries(Object.entries(f.properties.teeMarks).map(([id, c]) => [id, local(c)])) } : {}),
       };
     });
 
@@ -227,6 +234,19 @@ export function compileGridCourse({
       const m = t[ti];
       // Prefer explicitly tagged tee platform when mapped, else nearest observed platform by route length
       const explicit = pads.find(p => Array.isArray(p.teeIds) && p.teeIds.includes(tee.id));
+      const reviewed = pads.find(p => p.teeMarks?.[tee.id]);
+      if (reviewed) {
+        const c = reviewed.teeMarks[tee.id];
+        if (!pointInPoly(c[0], c[1], reviewed.ring)) throw new Error(`${slug} h${row.number} tee ${tee.id}: reviewed mark lies outside its platform`);
+        return {
+          c,
+          b: 0,
+          m,
+          sourcePadId: reviewed.id,
+          placement: 'representative-start-on-named-platform; daily-marker-position-unknown',
+          orthophotoReference: { kind: 'orthophoto-platform-reference', sourceId: reviewed.sourceId || evidence.imagerySourceId || null, captureDate: evidence.imageryCaptured || null, dailyMarkerPositionVerified: false },
+        };
+      }
       if (explicit) {
         return {
           c: interiorPoint(explicit.ring, `${slug} h${row.number} tee ${tee.id}`),
@@ -272,7 +292,12 @@ export function compileGridCourse({
       pin,
       green: { ring: greenRing, c: pin, sourceFeatureId: greens[0].id || null },
       fairway: { rings: fairwayRings },
-      tees: { inferPads: false, pads, marks },
+      tees: {
+        inferPads: false,
+        pads: pads.map(({ teeMarks, ...pad }) => pad),
+        marks,
+        ...(marks.every(mark => mark.sourcePadId) ? { markerPlacement: 'reviewed', markerLayout: 'separate-reviewed-colours' } : {}),
+      },
       bunkers,
       elev: { tee: r1(teeHeight), green: r1(greenHeight), rise: r1(greenHeight - teeHeight) },
       tiers: 1,
@@ -314,12 +339,17 @@ export function compileGridCourse({
     paths: [], tracks: [], roads: [], buildings: [], farB: [], parking: [],
     piers: [], bridges: [], bulkheads: [], basins: [], pitches: [],
     landuse: [], reserves: [], power: { lines: [], towers: [], poles: [] }, railway: [],
-    objectPlacement: 'mapped-only',
-    bridgePlacement: 'mapped-only',
-    vegetationPlacement: 'measured-only',
-    terrainPlacement: 'measured-only',
+    ...Object.fromEntries(Object.entries({
+      objectPlacement: 'mapped-only',
+      bridgePlacement: 'mapped-only',
+      vegetationPlacement: 'measured-only',
+      terrainPlacement: 'measured-only',
+      ...placement,
+    }).filter(([, value]) => value !== null)),
     preserveMappedBoundaries: true,
   };
+  if (farBuildings) infra.farB = farBuildings.map(item => [...item]);
+  const mappedOnly = infra.objectPlacement === 'mapped-only';
   const scenery = {
     greens: [], fairways: [], tees: [], bunkers: [], grass: [], range: [],
     practiceGreens: [], mappedFeatures: [], rangeFacilities: null, cartPark: null,
@@ -384,7 +414,9 @@ export function compileGridCourse({
         if (p.kind === 'range_field') {
           scenery.range.push(rings[0]);
         } else if (p.kind === 'parking') {
-          infra.parking.push({ id, ring: rings[0], surface: p.surface || 'unknown', cars: false, sourceId: p.sourceId || 'mapped' });
+          infra.parking.push({ id, ring: rings[0], surface: p.surface || 'unknown', ...(mappedOnly ? { cars: false } : {}), sourceId: p.sourceId || 'mapped' });
+        } else if (p.kind === 'range_fairway') {
+          scenery.fairways.push(rings[0]);
         } else {
           scenery.mappedFeatures.push({
             id, kind: p.kind, rings,
@@ -435,6 +467,7 @@ export function compileGridCourse({
           id: f.id,
           line: g.coordinates.map(local),
           w: Number.isFinite(p.width) ? p.width : 2.2,
+          widthMetres: Number.isFinite(p.width) ? p.width : 2.2,
           kind: p.highway || 'cartpath',
           surface: p.surface || 'asphalt',
           sourceId: p.sourceId || 'mapped',
@@ -454,28 +487,33 @@ export function compileGridCourse({
         const ring = rings[0];
         if (t.building) {
           infra.buildings.push({
-            id, ring, h: Number.parseFloat(t.height) || 5,
-            kind: t.building === 'apartments' ? 'block' : 'house',
+            id, ring,
+            /* the source's own tag and height; the house kit types what OSM only calls a building */
+            h: Number.parseFloat(t.height) || (Number.parseFloat(t['building:levels']) > 0 ? Math.round((Number.parseFloat(t['building:levels']) * 2.8 + 1.2) * 10) / 10 : null),
+            kind: t.building,
             name: t.name || null,
             historic: t.historic || null,
             heightStatus: t.height ? 'OSM-tag-unverified' : 'generic-rendering-height-not-measured',
           });
         }
-        if (t.amenity === 'parking') infra.parking.push({ id, ring, surface: t.surface || 'unknown', cars: false });
+        if (t.amenity === 'parking') infra.parking.push({ id, ring, surface: t.surface || 'unknown', ...(mappedOnly ? { cars: false } : {}) });
         if (t.landuse) infra.landuse.push({ id, ring, kind: t.landuse });
-        if (t.landuse === 'grass') scenery.grass.push(ring);
-        const vegKind = t.landuse === 'forest' ? 'forest' : t.natural;
+        const vegKind = t.landuse === 'forest' ? 'forest' : t.natural === 'bare_rock' ? 'rock' : t.natural;
         if (Object.hasOwn(vegetation, vegKind)) vegetation[vegKind].push(ring);
       } else if (g.type === 'LineString') {
         const line = g.coordinates.map(local);
         if (t.highway && !['platform', 'construction', 'proposed'].includes(t.highway)) {
-          const group = ['path', 'footway', 'cycleway', 'steps', 'pedestrian'].includes(t.highway) ? 'paths' : t.highway === 'track' ? 'tracks' : 'roads';
-          const width = Number.parseFloat(t.width) || (group === 'paths' ? 2 : group === 'tracks' ? 3 : 5);
-          infra[group].push({ id, line, w: width, kind: t.highway, surface: t.surface || 'unknown' });
+          const group = ['path', 'footway', 'cycleway', 'steps', 'pedestrian'].includes(t.highway) ? 'paths' : ['track', 'service'].includes(t.highway) ? 'tracks' : 'roads';
+          const width = Number.parseFloat(t.width) || (group === 'paths' ? 2 : group === 'tracks' ? 3.4 : 5);
+          infra[group].push({ id, line, w: width, widthMetres: width, kind: t.highway, surface: t.surface || 'unknown', ...(t.name ? { name: t.name } : {}), ...(t.oneway === 'yes' ? { oneway: true } : {}) });
         }
         if (t.waterway && !['culvert', 'yes'].includes(t.tunnel) && !t.covered) {
-          streams.push({ id, line, w: Number.parseFloat(t.width) || 1, kind: t.waterway });
+          streams.push({ id, line, w: Number.parseFloat(t.width) / 2 || 1, kind: t.waterway });
         }
+        if (['wall', 'fence', 'hedge', 'retaining_wall'].includes(t.barrier)) (infra.barriers ??= []).push({ id, line, kind: t.barrier === 'retaining_wall' ? 'wall' : t.barrier, sourceId: 'osm' });
+        if (['line', 'minor_line'].includes(t.power)) infra.power.lines.push({ id, line, kind: t.power });
+      } else if (g.type === 'Point' && t.power) {
+        infra.power[t.power === 'tower' ? 'towers' : 'poles'].push(mappedOnly ? { id, c: local(g.coordinates), sourceId: 'osm' } : local(g.coordinates));
       }
     }
   }
@@ -512,7 +550,7 @@ export function compileGridCourse({
   assertNoEpsg3006Leakage(model);
 
   // Build GPK1 compatibility HF0 (4 m) + HF1 (vista) directly from measured Float32 arrays
-  const hf0Span = Math.min(2048, (fineTerrain.side - 1) * fineTerrain.spacing);
+  const hf0Span = Math.min(hf0SpanMetres, (fineTerrain.side - 1) * fineTerrain.spacing);
   const hf0Step = Math.max(1, Math.round(4 / fineTerrain.spacing));
   const hf0Side = Math.floor(hf0Span / 4) + 1;
   const startOffsetSamples = Math.round(((fineTerrain.side - 1) - (hf0Side - 1) * hf0Step) / 2);
@@ -599,6 +637,9 @@ function main() {
     fineTerrain: loadRawTerrain({ ...cfg.fineTerrain, path: rel(cfg.fineTerrain.path) }, cfg.frame),
     vistaTerrain: cfg.vistaTerrain ? loadRawTerrain({ ...cfg.vistaTerrain, path: rel(cfg.vistaTerrain.path) }, cfg.frame) : null,
     defaultTeeIndex: cfg.defaultTeeIndex ?? 1,
+    placement: cfg.placement || {},
+    farBuildings: cfg.farBuildings ? readJson(rel(cfg.farBuildings)).boxes : null,
+    hf0SpanMetres: cfg.hf0SpanMetres ?? 2048,
     evidence: cfg.evidence || {},
   });
 

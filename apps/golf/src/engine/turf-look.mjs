@@ -46,6 +46,7 @@ export const TURF_LOOK = Object.freeze({
     [S.WETLAND]: Object.freeze(['g', 0.18, 0.007]),
     [S.SAND]: Object.freeze(['a', 0.12, 0.002]),
     [S.SHORE]: Object.freeze(['a', 0.12, 0.002]),
+    [S.WASTE]: Object.freeze(['a', 0.14, 0.0025]),
     [S.PATH]: Object.freeze(['b', 0.26, 0.006]),
     [S.GRAVEL]: Object.freeze(['b', 0.3, 0.007]),
     [S.DIRT]: Object.freeze(['b', 0.16, 0.004]),

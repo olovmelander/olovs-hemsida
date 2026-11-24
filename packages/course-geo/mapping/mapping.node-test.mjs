@@ -198,3 +198,98 @@ test('compileGridCourse compiles 9-hole course with innerRings, bulkheads, waste
   leaked.holes[0].line[0] = [649100, 6598500];
   assert.throws(() => assertNoEpsg3006Leakage(leaked), /EPSG:3006 coordinate leakage/);
 });
+
+test('turf_tracing snaps a rough ring to the photo edge, finds a raised tee deck and keeps a waste area whole', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'turf-tracing-'));
+  const pixiExe = fs.existsSync('C:\\Users\\olovm\\.pixi\\bin\\pixi.exe') ? 'C:\\Users\\olovm\\.pixi\\bin\\pixi.exe' : 'pixi';
+  const manifest = path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml');
+  const script = `
+import sys, json, math
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'packages/course-geo/mapping'))})
+import numpy as np, rasterio, turf_tracing as tt
+from rasterio.transform import from_origin
+from shapely.geometry import Point, Polygon
+rng = np.random.default_rng(3)
+R = 0.25; W = 480
+yy, xx = np.mgrid[0:W, 0:W]
+e = 649000 + (xx + .5) * R; n = 6598500 + W * R - (yy + .5) * R
+img = np.stack([np.full((W, W), v, np.float32) for v in (75, 96, 80, 134)])
+disc = np.hypot(e - 649040, n - 6598560) < 12
+for k, v in enumerate((108, 121, 102, 144)): img[k][disc] = v
+waste = (np.abs(n - 6598530) < 8) & (np.abs(e - 649060) < 50) & ~(np.hypot(e - 649060, n - 6598530) < 4)
+for k, v in enumerate((165, 153, 140, 106)): img[k][waste] = v
+img += rng.normal(0, 2.0, img.shape)
+path = ${JSON.stringify(path.join(dir, 'p.tif'))}
+with rasterio.open(path, 'w', driver='GTiff', dtype='uint8', count=4, width=W, height=W, crs='EPSG:3006', transform=from_origin(649000, 6598500 + W * R, R, R)) as d:
+    d.write(np.clip(img, 0, 255).astype(np.uint8))
+im = tt.Imagery([path])
+start = Point(649041.2, 6598559.0).buffer(13.2)
+ring, st = tt.refine_ring(im, start, 3.0, res=R)
+true = Point(649040, 6598560).buffer(12)
+iou = ring.intersection(true).area / ring.union(true).area
+sand = tt.extract_sand(im, [649000, 6598500, 649120, 6598620], 'waste_sand')
+z = np.full((200, 200), 10.0, np.float32) + (np.arange(200)[None] * 0.06).astype(np.float32)
+yy, xx = np.mgrid[0:200, 0:200]
+deck = (np.abs(yy - 100) < 6) & (np.abs(xx - 90) < 9)
+z[deck] = 16.4
+pads = tt.tee_platforms(z, 649000.5, 6598699.5, [649020, 6598520, 649180, 6598680])
+print(json.dumps(dict(iou=iou, d=st['dPrime'], wastes=len(sand), islands=[len(s.interiors) for s in sand], wasteArea=sand[0].area if sand else 0,
+                      pads=[round(p['area']) for p in pads], at=[[round(p['polygon'].centroid.x), round(p['polygon'].centroid.y)] for p in pads])))
+`;
+  try {
+    const run = spawnSync(pixiExe, ['run', '--manifest-path', manifest, '-e', 'mapping', '--frozen', 'python', '-c', script], { encoding: 'utf8' });
+    assert.equal(run.status, 0, run.stderr);
+    const out = JSON.parse(run.stdout.trim().split('\n').at(-1));
+    assert.ok(out.iou > 0.955, `refined green overlaps the true disc ${out.iou}`);
+    assert.ok(out.d > 4);
+    assert.equal(out.wastes, 1);
+    assert.deepEqual(out.islands, [1]);
+    assert.ok(Math.abs(out.wasteArea - (1600 - Math.PI * 16)) < 90, `waste area ${out.wasteArea}`);
+    assert.equal(out.pads.length, 1);
+    assert.ok(out.at[0].every((v, i) => Math.abs(v - [649091, 6598600][i]) <= 2), JSON.stringify(out.at));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('compileGridCourse keeps reviewed tee marks on their platform, far boxes, and only the policies a course asks for', () => {
+  const frame = { easting: 649094.5, northing: 6598568.5, latitude: 59.498973, longitude: 17.633749 };
+  const E = dx => frame.easting + dx;
+  const N = dz => frame.northing - dz;
+  const rect = (x0, z0, x1, z1) => [[E(x0), N(z0)], [E(x1), N(z0)], [E(x1), N(z1)], [E(x0), N(z1)], [E(x0), N(z0)]];
+  const crs = { type: 'name', properties: { name: 'EPSG:3006' } };
+  const holes = Array.from({ length: 9 }, (_, i) => ({ number: i + 1, par: i % 3 === 0 ? 3 : i % 3 === 1 ? 4 : 5, index: i * 2 + 1, lengths: { club: 130 + i * 25 } }));
+  const card = { par: { front: 36, total: 36 }, tees: [{ id: 'club', name: 'Club', total: holes.reduce((s, h) => s + h.lengths.club, 0) }], holes };
+  const at = h => -100 + h.number * 10;
+  const build = (mark, placement) => compileGridCourse({
+    groundId: 'g', slug: 'g-one', frame, card,
+    guideNotes: { schemaVersion: 1, holes: holes.map(h => ({ n: h.number, name: `Hole ${h.number}`, note: 'Synthetic unit test hole description.', basis: 'unit-test' })) },
+    routesGeoJson: { type: 'FeatureCollection', crs, features: holes.map(h => ({ type: 'Feature', id: `r${h.number}`, properties: { hole: h.number }, geometry: { type: 'LineString', coordinates: [[E(at(h)), N(-50)], [E(at(h)), N(100)]] } })) },
+    surfacesGeoJson: { type: 'FeatureCollection', crs, features: holes.flatMap(h => [
+      { type: 'Feature', id: `g${h.number}`, properties: { kind: 'green', hole: h.number }, geometry: { type: 'Polygon', coordinates: [rect(at(h) - 4, 90, at(h) + 4, 110)] } },
+      { type: 'Feature', id: `t${h.number}`, properties: { kind: 'tee', hole: h.number, teeIds: ['club'], teeMarks: { club: [E(at(h) + mark), N(-48)] } }, geometry: { type: 'Polygon', coordinates: [rect(at(h) - 4, -55, at(h) + 4, -45)] } },
+    ]) },
+    facilitiesGeoJson: { type: 'FeatureCollection', crs, features: [{ type: 'Feature', id: 'rf', properties: { kind: 'range_fairway' }, geometry: { type: 'Polygon', coordinates: [rect(20, 20, 60, 40)] } }] },
+    contextGeoJson: { type: 'FeatureCollection', crs, features: [
+      { type: 'Feature', id: 'b1', properties: { tags: { building: 'semidetached_house', 'building:levels': '2' } }, geometry: { type: 'Polygon', coordinates: [rect(70, 70, 80, 80)] } },
+      { type: 'Feature', id: 'p1', properties: { tags: { amenity: 'parking' } }, geometry: { type: 'Polygon', coordinates: [rect(90, 70, 110, 80)] } },
+      { type: 'Feature', id: 's1', properties: { tags: { highway: 'service' } }, geometry: { type: 'LineString', coordinates: [[E(0), N(120)], [E(40), N(120)]] } },
+    ] },
+    farBuildings: [[1500, -900, 12, 6, 0.4, 2, 9.6]], placement,
+    fineTerrain: { float32: new Float32Array(513 * 513).fill(12.5), side: 513, spacing: 1, x0: -256, z0: -256, sha256: 'a'.repeat(64) },
+  });
+  const { model } = build(1.5, { objectPlacement: null, vegetationPlacement: null, terrainPlacement: null });
+  assert.deepEqual(model.holes[2].tees.marks[0].c, [at(holes[2]) + 1.5, -48]);
+  assert.equal(model.holes[2].tees.marks[0].sourcePadId, 't3');
+  assert.equal(model.holes[2].tees.markerLayout, 'separate-reviewed-colours');
+  assert.equal('teeMarks' in model.holes[2].tees.pads[0], false);
+  assert.equal('objectPlacement' in model.infra, false);
+  assert.equal(model.infra.bridgePlacement, 'mapped-only');
+  assert.deepEqual(model.infra.farB, [[1500, -900, 12, 6, 0.4, 2, 9.6]]);
+  assert.deepEqual([model.infra.buildings[0].kind, model.infra.buildings[0].h], ['semidetached_house', 6.8]);
+  assert.equal('cars' in model.infra.parking[0], false);
+  assert.equal(model.infra.tracks[0].kind, 'service');
+  assert.equal(model.scenery.fairways.length, 1);
+  assert.throws(() => build(9, {}), /reviewed mark lies outside its platform/);
+  assert.equal(build(1.5, {}).model.infra.objectPlacement, 'mapped-only');
+});
