@@ -150,6 +150,18 @@ export function createPlayAudio({ enabled = true } = {}) {
       tone(t, { freq: 360, gain: .5, decay: .1 }); tone(t, { freq: 740, gain: .2, decay: .05 });
       hiss(t, { freq: 900, q: 3, gain: .35, decay: .07 });
     },
+    bulkhead(kind = 'timber', speed = 8) {
+      if (!ready()) return;
+      const t = ctx.currentTime + .003, v = Math.max(.12, Math.min(1, speed / 14));
+      if (kind === 'stone') {
+        tone(t, { freq: 1320, freqEnd: 980, gain: .42 * v, decay: .045 });
+        hiss(t, { freq: 3400, q: 1.8, gain: .48 * v, decay: .03 });
+      } else {
+        tone(t, { freq: 290, freqEnd: 210, gain: .55 * v, decay: .09 });
+        tone(t, { freq: 620, gain: .22 * v, decay: .04 });
+        hiss(t, { freq: 820, q: 2.5, gain: .32 * v, decay: .06 });
+      }
+    },
     leaves() {
       if (!ready()) return;
       const t = ctx.currentTime + .003;

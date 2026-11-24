@@ -257,6 +257,22 @@
         "reviewStatus": "pending",
         "notes": "Rechecked 2026-09-07. Public viewing and a dated service name do not establish spatial accuracy, image capture date or a reuse grant. Preserve exact URL, metadata and SHA-256 per acquired asset."
       }
+    },
+    {
+      "id": "bro-hof-club-media",
+      "provider": "Bro Hof Slott Golf Club / Caddee Golf (Hamilton Design AB)",
+      "product": "Official club pages, SGF slope PDFs, 2024 printed scorecards and Caddee hole diagrams",
+      "homepage": "https://www.brohofslott.se/banor/the-stadium-course",
+      "horizontalCrs": null,
+      "verticalCrs": null,
+      "licence": {
+        "id": "Exact primary permission unresolved",
+        "attribution": "Bro Hof Slott Golf Club / Caddee Golf",
+        "redistribution": "Raw source media remain in ignored local reference storage; no redistribution grant established.",
+        "derivatives": "Diagrams and photographs are routing/look-dev corroboration only; production geometry comes from Lantmäteriet national measurements.",
+        "reviewStatus": "pending",
+        "notes": "Harvested 2026-11-24 into ignored brohofbuild/cache/club-sources/ with SHA-256 ledger."
+      }
     }
   ]
 }

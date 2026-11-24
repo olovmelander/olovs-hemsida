@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "provider": "OpenStreetMap contributors",
+  "licence": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "retrievedAt": "2026-11-24T18:39:19.107Z",
+  "timestampOsmBase": "2026-11-24T18:37:23Z",
+  "bboxWgs84": [
+    17.595,
+    59.475,
+    17.665,
+    59.515
+  ],
+  "rawResponse": {
+    "bytes": 8892054,
+    "sha256": "de957912f7adcdfe494b51c6f1fc99f6c86ba8f44bc2d78deb97114a1f2e9e83",
+    "elementCount": 3596
+  },
+  "outputs": {
+    "golf": {
+      "file": "osm-golf-epsg3006.geojson",
+      "bytes": 905367,
+      "sha256": "853d16041108e16448dfe6870573acaa1bbb1113a073df02c0b8c2d7184faf1d"
+    },
+    "context": {
+      "file": "osm-context-epsg3006.geojson",
+      "bytes": 11774497,
+      "sha256": "f45b95be87d2149ee86e6c676b128eb67696f672adc5a5c4d91b16c45bb58c15"
+    }
+  },
+  "report": {
+    "targetBoundary": {
+      "type": "relation",
+      "id": 5509342,
+      "name": "Bro Hof Slott Golf Club",
+      "bboxEpsg3006": [
+        648135.418,
+        6597574.475,
+        650054.854,
+        6599361.803
+      ]
+    },
+    "neighbourBoundaries": [
+      {
+        "type": "way",
+        "id": 35935442,
+        "name": "Bro Bålsta GK"
+      }
+    ],
+    "excludedNeighbourGolfCount": 8,
+    "golfCounts": {
+      "tee": 117,
+      "pin": 1,
+      "water_hazard": 12,
+      "cartpath": 56,
+      "green": 26,
+      "bunker": 65,
+      "fairway": 24,
+      "rough": 1,
+      "hole": 17,
+      "golf_course": 1,
+      "driving_range": 1
+    },
+    "contextFeatureCount": 3267,
+    "expectedHoleCount": 18,
+    "mappedHoleCount": 17,
+    "missingHoleRefs": [
+      16
+    ]
+  }
+}

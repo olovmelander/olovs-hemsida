@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "horizontalCrs": "EPSG:3006",
+  "attribution": "\u00a9 Lantm\u00e4teriet (Ortofoto Nedladdning RGBI)",
+  "terms": "CC-BY-4.0 with Lantm\u00e4teriet special access / GDPR terms \u2014 offline measurement & review only; never published as runtime textures.",
+  "generatedAt": "2026-11-24T18:52:55.734913Z",
+  "windows": [
+    {
+      "id": "overview-2025",
+      "rasterFile": "overview-2025.tif",
+      "sha256": "e4ef98df120981ec85fd45cbd873785909123126d99ed6c614ab7ffd85f60ee2",
+      "bytes": 121742159,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        648050.0,
+        6597450.0,
+        650150.0,
+        6599550.0
+      ],
+      "width": 6562,
+      "height": 6562,
+      "geoTransform": [
+        648050.0,
+        0.32002438281011886,
+        0.0,
+        6599550.0,
+        0.0,
+        -0.32002438281011886
+      ],
+      "resolutionMetres": 0.32,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 48.84,
+        "solarAzimuthDeg": 139.57,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o65950_6500_25_mr25",
+          "capturedAt": "2025-06-14T08:58:32Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o65950_6475_25_mr25",
+          "capturedAt": "2025-06-14T08:58:24Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o65975_6500_25_mr25",
+          "capturedAt": "2025-06-14T08:58:16Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o65975_6475_25_mr25",
+          "capturedAt": "2025-06-14T08:58:08Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "stadium-sw-2025",
+      "rasterFile": "stadium-sw-2025.tif",
+      "sha256": "a7644c1de4e8c2c89e1217fcf728775fb92f91d46332c5ad0e74448b79796bc5",
+      "bytes": 107988681,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        648200.0,
+        6597450.0,
+        649250.0,
+        6598500.0
+      ],
+      "width": 6562,
+      "height": 6562,
+      "geoTransform": [
+        648200.0,
+        0.16001219140505943,
+        0.0,
+        6598500.0,
+        0.0,
+        -0.16001219140505943
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 48.83,
+        "solarAzimuthDeg": 139.51,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o65950_6475_25_mr25",
+          "capturedAt": "2025-06-14T08:58:24Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o65975_6475_25_mr25",
+          "capturedAt": "2025-06-14T08:58:08Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "stadium-ne-2025",
+      "rasterFile": "stadium-ne-2025.tif",
+      "sha256": "5ac0944c4e5e736b2300d26805567f89d11d238f0daf587c4dc17d56c27071cf",
+      "bytes": 143223415,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        649000.0,
+        6598000.0,
+        650150.0,
+        6599150.0
+      ],
+      "width": 7188,
+      "height": 7188,
+      "geoTransform": [
+        649000.0,
+        0.15998887033945464,
+        0.0,
+        6599150.0,
+        0.0,
+        -0.15998887033945464
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 48.82,
+        "solarAzimuthDeg": 139.49,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o65975_6500_25_mr25",
+          "capturedAt": "2025-06-14T08:58:16Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o65975_6475_25_mr25",
+          "capturedAt": "2025-06-14T08:58:08Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "castle-n-2025",
+      "rasterFile": "castle-n-2025.tif",
+      "sha256": "41208e267f4ea2b6111adbe50ad58244491c8cfe312d557013a0267a10a82842",
+      "bytes": 188357769,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        648100.0,
+        6598450.0,
+        649550.0,
+        6599550.0
+      ],
+      "width": 9062,
+      "height": 6875,
+      "geoTransform": [
+        648100.0,
+        0.16000882807327302,
+        0.0,
+        6599550.0,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 48.8,
+        "solarAzimuthDeg": 139.43,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o65975_6475_25_mr25",
+          "capturedAt": "2025-06-14T08:58:08Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    }
+  ]
+}

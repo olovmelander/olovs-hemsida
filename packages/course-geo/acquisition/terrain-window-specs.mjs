@@ -11,6 +11,18 @@ import { NORRFALLSVIKEN_GROUND_GRAPH_CONFIG } from '../../course-v2/norrfallsvik
 import { UPSALA_GROUND_GRAPH_CONFIG } from '../../course-v2/upsala-ground-graph.mjs';
 
 export const TERRAIN_WINDOW_SPECS = Object.freeze({
+  'bro-hof': Object.freeze({
+    // Shared 4,096 m LOD0 square enclosing both Stadium & Castle courses + Mälaren shore.
+    // Crosses E=650,000 and N=6,600,000 item seams across four full 10 km DTM COGs.
+    sourceItemIds: ['659_64', '659_65', '660_64', '660_65'],
+    sampleSpacingMetres: 1,
+    width: 4097,
+    height: 4097,
+    originEasting: 647046.5,
+    originNorthing: 6600616.5,
+    pixelEdgeWindow: { west: 647046, north: 6600617, east: 651143, south: 6596520 },
+    plausibleHeightRangeRH2000: { minimum: -5, maximum: 150 },
+  }),
   tortuna: Object.freeze({
     // A 4.096 km square covers both loops, facilities and a broad context margin.
     // Exact native sample centres; this does not approve the canonical origin.

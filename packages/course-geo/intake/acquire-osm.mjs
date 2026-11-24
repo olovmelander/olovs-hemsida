@@ -20,6 +20,7 @@ import { latLonToSweref99Tm } from '../chmv2/projection.mjs';
 export const PRIMARY_OVERPASS_ENDPOINTS = Object.freeze([
   'https://overpass-api.de/api/interpreter',
   'https://lz4.overpass-api.de/api/interpreter',
+  'https://z.overpass-api.de/api/interpreter',
 ]);
 
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');

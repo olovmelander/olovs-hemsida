@@ -1,0 +1,481 @@
+{
+  "kind": "ground-rings",
+  "groundId": "bro-hof",
+  "observedOn": "2026-11-24",
+  "provider": {
+    "name": "Lantmäteriet",
+    "collection": "dtm-cog",
+    "authenticated": true,
+    "credentialsSerialized": false,
+    "licence": "CC BY 4.0",
+    "attribution": "Markhöjdmodell Nedladdning, © Lantmäteriet, bearbetad, CC BY 4.0"
+  },
+  "tileSegments": 256,
+  "levels": [
+    {
+      "lod": 0,
+      "sampleSpacingMetres": 1,
+      "tilesPerSide": 16,
+      "extent": {
+        "minEasting": 647046.5,
+        "maxEasting": 651142.5,
+        "maxNorthing": 6600616.5,
+        "minNorthing": 6596520.5,
+        "spanMetres": 4096,
+        "size": 4097
+      },
+      "source": {
+        "kind": "published-and-dtm",
+        "factor": 1,
+        "subsample": 1
+      },
+      "items": [
+        "659_64",
+        "659_65",
+        "660_64",
+        "660_65"
+      ],
+      "samples": 16785409,
+      "finite": 16785409,
+      "minimumHeightRH2000": 0.5991178154945374,
+      "maximumHeightRH2000": 48.0666389465332,
+      "requests": 90,
+      "bytes": 41888399,
+      "elapsedSeconds": 10.669,
+      "rasterSha256": "f5a0fbd4dfa80f0227031e446a482557815c3e71c35c9511431d26f016c1de59",
+      "publishedAgreement": {
+        "mode": "initial-first-generation",
+        "note": "no previously published v2 tiles exist for bro-hof"
+      }
+    },
+    {
+      "lod": 1,
+      "sampleSpacingMetres": 2,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 647046.5,
+        "maxEasting": 651142.5,
+        "maxNorthing": 6600616.5,
+        "minNorthing": 6596520.5,
+        "spanMetres": 4096,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 1,
+        "subsample": 2
+      },
+      "items": [
+        "659_64",
+        "659_65",
+        "660_64",
+        "660_65"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 0.6337884068489075,
+      "maximumHeightRH2000": 48.004638671875,
+      "requests": 90,
+      "bytes": 41888399,
+      "elapsedSeconds": 6.595,
+      "rasterSha256": "178235466be16bc55926535fe3a66af8377234a3befaa1ca66d9944fc8dca4eb"
+    },
+    {
+      "lod": 2,
+      "sampleSpacingMetres": 4,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 644998.5,
+        "maxEasting": 653190.5,
+        "maxNorthing": 6602664.5,
+        "minNorthing": 6594472.5,
+        "spanMetres": 8192,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 4,
+        "subsample": 1
+      },
+      "items": [
+        "659_64",
+        "659_65",
+        "660_64",
+        "660_65"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 0.16904015839099884,
+      "maximumHeightRH2000": 60.627010345458984,
+      "requests": 25,
+      "bytes": 12618391,
+      "elapsedSeconds": 2.8,
+      "rasterSha256": "37b4906e364c7811de5e813c64a228853ccbfdd6e9af6e5c43df5155cd8abe06"
+    },
+    {
+      "lod": 3,
+      "sampleSpacingMetres": 8,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 640902.5,
+        "maxEasting": 657286.5,
+        "maxNorthing": 6606760.5,
+        "minNorthing": 6590376.5,
+        "spanMetres": 16384,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 8,
+        "subsample": 1
+      },
+      "items": [
+        "659_64",
+        "659_65",
+        "660_64",
+        "660_65"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 0.1321626901626587,
+      "maximumHeightRH2000": 80.40499877929688,
+      "requests": 30,
+      "bytes": 11184420,
+      "elapsedSeconds": 3.265,
+      "rasterSha256": "3ec7daa87c1132382f1aead0d6b9ea781f1a3793ff1d78397685e7300f754f11"
+    },
+    {
+      "lod": 4,
+      "sampleSpacingMetres": 16,
+      "tilesPerSide": 4,
+      "extent": {
+        "minEasting": 640902.5,
+        "maxEasting": 657286.5,
+        "maxNorthing": 6606760.5,
+        "minNorthing": 6590376.5,
+        "spanMetres": 16384,
+        "size": 1025
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 16,
+        "subsample": 1
+      },
+      "items": [
+        "659_64",
+        "659_65",
+        "660_64",
+        "660_65"
+      ],
+      "samples": 1050625,
+      "finite": 1050625,
+      "minimumHeightRH2000": 0.16393883526325226,
+      "maximumHeightRH2000": 79.78656005859375,
+      "requests": 12,
+      "bytes": 3043535,
+      "elapsedSeconds": 1.864,
+      "rasterSha256": "e242187201be923a3f2bf81af7569fca789fd3066b4f4b15907f68ff6fd72062"
+    },
+    {
+      "lod": 5,
+      "sampleSpacingMetres": 32,
+      "tilesPerSide": 2,
+      "extent": {
+        "minEasting": 640902.5,
+        "maxEasting": 657286.5,
+        "maxNorthing": 6606760.5,
+        "minNorthing": 6590376.5,
+        "spanMetres": 16384,
+        "size": 513
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 1
+      },
+      "items": [
+        "659_64",
+        "659_65",
+        "660_64",
+        "660_65"
+      ],
+      "samples": 263169,
+      "finite": 263169,
+      "minimumHeightRH2000": 0.3270460069179535,
+      "maximumHeightRH2000": 75.50630187988281,
+      "requests": 4,
+      "bytes": 935228,
+      "elapsedSeconds": 1.146,
+      "rasterSha256": "ab74018f4f7372bb56c05e699f9c985dbec7c9e652b7570270cd6bcfd8de0044"
+    },
+    {
+      "lod": 6,
+      "sampleSpacingMetres": 64,
+      "tilesPerSide": 1,
+      "extent": {
+        "minEasting": 640902.5,
+        "maxEasting": 657286.5,
+        "maxNorthing": 6606760.5,
+        "minNorthing": 6590376.5,
+        "spanMetres": 16384,
+        "size": 257
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 2
+      },
+      "items": [
+        "659_64",
+        "659_65",
+        "660_64",
+        "660_65"
+      ],
+      "samples": 66049,
+      "finite": 66049,
+      "minimumHeightRH2000": 0.3270460069179535,
+      "maximumHeightRH2000": 75.30071258544922,
+      "requests": 4,
+      "bytes": 935228,
+      "elapsedSeconds": 1.083,
+      "rasterSha256": "81e4d9b5134a50154c86339daa0ab702c7f27925e9cc1beefeeeb6e9161e1c48"
+    }
+  ],
+  "items": [
+    {
+      "id": "659_64",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_64.tif",
+      "etag": "\"4c9171606f491018e1b72953eb7b04a1\"",
+      "contentLength": 132775563,
+      "lastModified": "Mon, 14 Sep 2026 20:30:02 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 640000,
+        "maxNorthing": 6600000,
+        "maxEasting": 650000,
+        "minNorthing": 6590000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "659_65",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_65.tif",
+      "etag": "\"b4a1776231961daa1bd1265540243ba5\"",
+      "contentLength": 220128350,
+      "lastModified": "Mon, 14 Sep 2026 20:30:46 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 650000,
+        "maxNorthing": 6600000,
+        "maxEasting": 660000,
+        "minNorthing": 6590000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "660_64",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m660_64.tif",
+      "etag": "\"d9f9b639fab12f0c919c7506a325b3c5\"",
+      "contentLength": 285988676,
+      "lastModified": "Mon, 14 Sep 2026 20:40:56 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 640000,
+        "maxNorthing": 6610000,
+        "maxEasting": 650000,
+        "minNorthing": 6600000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "660_65",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m660_65.tif",
+      "etag": "\"dc9bc10cc39984c019c0063318eed8cf\"",
+      "contentLength": 266742281,
+      "lastModified": "Mon, 14 Sep 2026 20:40:29 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 650000,
+        "maxNorthing": 6610000,
+        "maxEasting": 660000,
+        "minNorthing": 6600000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    }
+  ],
+  "seaFillRule": "not declared for this ground; every sample comes from the height model",
+  "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
+  "elapsedSeconds": 27.431
+}

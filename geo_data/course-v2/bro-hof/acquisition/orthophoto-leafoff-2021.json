@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "horizontalCrs": "EPSG:3006",
+  "attribution": "\u00a9 Lantm\u00e4teriet (Ortofoto Nedladdning RGBI)",
+  "terms": "CC-BY-4.0 with Lantm\u00e4teriet special access / GDPR terms \u2014 offline measurement & review only; never published as runtime textures.",
+  "generatedAt": "2026-11-24T18:53:57.303724Z",
+  "windows": [
+    {
+      "id": "overview-2021",
+      "rasterFile": "overview-2021.tif",
+      "sha256": "7653481beb5078dab38d6e137f97c0d618b9a3f1e610a624898e9f75184f4315",
+      "bytes": 132938835,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        648050.0,
+        6597450.0,
+        650150.0,
+        6599550.0
+      ],
+      "width": 6562,
+      "height": 6562,
+      "geoTransform": [
+        648050.0,
+        0.32002438281011886,
+        0.0,
+        6599550.0,
+        0.0,
+        -0.32002438281011886
+      ],
+      "resolutionMetres": 0.32,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2021",
+      "leafState": "leaf-off",
+      "solar": {
+        "solarElevationDeg": 34.06,
+        "solarAzimuthDeg": 222.23,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o65950_6500_25_mr21",
+          "capturedAt": "2021-04-16T13:07:06Z",
+          "collection": "orto-o2-2021"
+        },
+        {
+          "id": "o65950_6475_25_mr21",
+          "capturedAt": "2021-04-16T12:50:04Z",
+          "collection": "orto-o2-2021"
+        },
+        {
+          "id": "o65975_6500_25_mr21",
+          "capturedAt": "2021-04-16T13:07:23Z",
+          "collection": "orto-o2-2021"
+        },
+        {
+          "id": "o65975_6475_25_mr21",
+          "capturedAt": "2021-04-16T12:49:38Z",
+          "collection": "orto-o2-2021"
+        }
+      ]
+    }
+  ]
+}

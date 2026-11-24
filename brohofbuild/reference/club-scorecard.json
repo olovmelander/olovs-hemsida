@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "slug": "bro-hof-stadium",
+  "courseName": "Bro Hof Slott GC – The Stadium Course",
+  "source": {
+    "primary": "https://www.brohofslott.se/media/miylwhrr/scorekort_bro-hof-stadium-insida.png",
+    "primaryEdition": "Caddee Golf 2024 printed scorecard (Hamilton Design AB, Täby)",
+    "secondary": "https://www.brohofslott.se/banor/the-stadium-course",
+    "slopeMenPdf": "https://www.brohofslott.se/media/bushlxv3/bro_hof_slott_gc_stadium_course_men.pdf",
+    "slopeWomenPdf": "https://www.brohofslott.se/media/dvnkzq1c/bro_hof_slott_gc_stadium_course_women.pdf",
+    "sgfRatedOn": "2017-05-05",
+    "retrievedOn": "2026-11-24",
+    "notes": "All 18 pars and all 90 tee distances agree 100% between the 2024 printed scorecard and club HTML. Printed 2024 scorecard lists Hole 12 Index 7 and Hole 13 Index 9 (club HTML swaps 9 and 7); printed 2024 scorecard is retained as primary."
+  },
+  "par": { "front": 36, "back": 36, "total": 72 },
+  "tees": [
+    { "id": "svart", "name": "Svart", "color": "#1a1a1a", "front": 3837, "back": 3457, "total": 7294, "ratingMen": null, "ratingWomen": null },
+    { "id": "vit", "name": "Vit", "color": "#f2f2f2", "front": 3516, "back": 3130, "total": 6646, "ratingMen": { "cr": 77.3, "slope": 140 }, "ratingWomen": null },
+    { "id": "gul", "name": "Gul", "color": "#f2c53d", "front": 3050, "back": 2694, "total": 5744, "ratingMen": { "cr": 73.1, "slope": 132 }, "ratingWomen": { "cr": 80.1, "slope": 139 } },
+    { "id": "bla", "name": "Blå", "color": "#2f92d0", "front": 2884, "back": 2657, "total": 5541, "ratingMen": { "cr": 72.0, "slope": 130 }, "ratingWomen": { "cr": 78.9, "slope": 137 } },
+    { "id": "rod", "name": "Röd", "color": "#d63333", "front": 2457, "back": 2253, "total": 4710, "ratingMen": { "cr": 67.9, "slope": 122 }, "ratingWomen": { "cr": 73.8, "slope": 126 } }
+  ],
+  "holes": [
+    { "number": 1,  "par": 5, "index": 8,  "lengths": { "svart": 578, "vit": 555, "gul": 527, "bla": 491, "rod": 438 } },
+    { "number": 2,  "par": 4, "index": 4,  "lengths": { "svart": 445, "vit": 425, "gul": 375, "bla": 375, "rod": 287 } },
+    { "number": 3,  "par": 4, "index": 18, "lengths": { "svart": 395, "vit": 351, "gul": 287, "bla": 287, "rod": 242 } },
+    { "number": 4,  "par": 3, "index": 16, "lengths": { "svart": 219, "vit": 188, "gul": 142, "bla": 142, "rod": 122 } },
+    { "number": 5,  "par": 4, "index": 2,  "lengths": { "svart": 468, "vit": 429, "gul": 366, "bla": 329, "rod": 288 } },
+    { "number": 6,  "par": 4, "index": 14, "lengths": { "svart": 472, "vit": 422, "gul": 355, "bla": 311, "rod": 287 } },
+    { "number": 7,  "par": 3, "index": 12, "lengths": { "svart": 228, "vit": 190, "gul": 138, "bla": 138, "rod": 98 } },
+    { "number": 8,  "par": 4, "index": 10, "lengths": { "svart": 451, "vit": 415, "gul": 358, "bla": 358, "rod": 300 } },
+    { "number": 9,  "par": 5, "index": 6,  "lengths": { "svart": 581, "vit": 541, "gul": 502, "bla": 453, "rod": 395 } },
+    { "number": 10, "par": 4, "index": 3,  "lengths": { "svart": 430, "vit": 394, "gul": 339, "bla": 339, "rod": 288 } },
+    { "number": 11, "par": 3, "index": 15, "lengths": { "svart": 191, "vit": 160, "gul": 130, "bla": 130, "rod": 93 } },
+    { "number": 12, "par": 5, "index": 7,  "lengths": { "svart": 525, "vit": 501, "gul": 419, "bla": 382, "rod": 357 } },
+    { "number": 13, "par": 5, "index": 9,  "lengths": { "svart": 565, "vit": 531, "gul": 475, "bla": 475, "rod": 421 } },
+    { "number": 14, "par": 4, "index": 17, "lengths": { "svart": 416, "vit": 383, "gul": 322, "bla": 322, "rod": 281 } },
+    { "number": 15, "par": 5, "index": 1,  "lengths": { "svart": 569, "vit": 503, "gul": 471, "bla": 471, "rod": 416 } },
+    { "number": 16, "par": 3, "index": 11, "lengths": { "svart": 238, "vit": 194, "gul": 162, "bla": 162, "rod": 116 } },
+    { "number": 17, "par": 3, "index": 5,  "lengths": { "svart": 150, "vit": 126, "gul": 100, "bla": 100, "rod": 70 } },
+    { "number": 18, "par": 4, "index": 13, "lengths": { "svart": 373, "vit": 338, "gul": 276, "bla": 276, "rod": 211 } }
+  ]
+}

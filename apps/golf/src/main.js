@@ -1,5 +1,6 @@
 import { createBagEditor } from './ui/bag-editor.mjs';
 import { bunkerRings, bunkerSignedDistance, pointInBunker } from './engine/bunker-geometry.mjs';
+import { buildBulkheadGeometry, bridgeOutlineFromLine } from './engine/water-bulkheads.mjs';
 
 /* ===========================================================================
    Ängsö Golfklubb — a course on a Mälaren peninsula at Stora Bodarna.
@@ -4748,16 +4749,21 @@ if (COASTAL_WATER?.indices.length) {
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
   const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
   for (const bridge of M.infra.bridges || []) {
-    const ring = bridge.ring, axis = bridge.line;
+    const axis = bridge.line;
+    const ring = bridge.ring || (axis ? bridgeOutlineFromLine(axis, bridge.w || 2.6) : null);
     if (!ring || ring.length < 3 || !axis || axis.length < 2) continue;
+    const isTimber = bridge.kind === 'timber_footbridge' || bridge.kind === 'cart_bridge';
+    const isStone = bridge.kind === 'stone_bridge';
+    const deckTop = isTimber ? L(0x7c6a54) : isStone ? L(0x908d85) : topColour;
+    const deckSide = isTimber ? L(0x554738) : isStone ? L(0x6d6a63) : sideColour;
     const a = axis[0], b = axis[axis.length - 1];
     const dx = b[0] - a[0], dz = b[1] - a[1], length2 = dx * dx + dz * dz;
     if (length2 < 0.01) continue;
     const length = Math.sqrt(length2), ux = dx / length, uz = dz / length;
     // Sample the visible deck ends and a short approach beyond each end, so a
     // water-carved centre cell cannot pull the deck down into the channel bed.
-    const ha = Math.max(meshH(...a), meshH(a[0] - ux * 0.8, a[1] - uz * 0.8)) + 0.10;
-    const hb = Math.max(meshH(...b), meshH(b[0] + ux * 0.8, b[1] + uz * 0.8)) + 0.10;
+    const ha = Math.max(meshH(...a), meshH(a[0] - ux * 0.8, a[1] - uz * 0.8)) + 0.12;
+    const hb = Math.max(meshH(...b), meshH(b[0] + ux * 0.8, b[1] + uz * 0.8)) + 0.12;
     if (!Number.isFinite(ha) || !Number.isFinite(hb)) continue;
     const point = ([x, z], drop = 0) => {
       const t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / length2));
@@ -4765,15 +4771,36 @@ if (COASTAL_WATER?.indices.length) {
     };
     const faces = triangulate(ring);
     if (!faces.length) continue;
-    for (const [i, j, k] of faces) tri(point(ring[i]), point(ring[k]), point(ring[j]), topColour);
+    for (const [i, j, k] of faces) tri(point(ring[i]), point(ring[k]), point(ring[j]), deckTop);
+    const skirtDrop = isStone ? 0.95 : 0.22;
     for (let i = 0; i < ring.length; i++) {
       const p = ring[i], q = ring[(i + 1) % ring.length];
-      quad(point(p, 0.18), point(q, 0.18), point(q), point(p), sideColour);
+      quad(point(p, skirtDrop), point(q, skirtDrop), point(q), point(p), deckSide);
     }
-    rendered.push({ id: bridge.id, railsObserved: bridge.railsObserved === true,
-      verticalDimensions: 'estimated', deckThicknessM: 0.18, approachLiftM: 0.10,
+    // Timber / stone low edge curb or side rail along the span edges
+    if (isTimber || isStone) {
+      const halfW = (bridge.w || 2.6) * 0.5;
+      const nx = -uz, nz = ux;
+      const railH = isStone ? 0.24 : 0.16;
+      const railT = isStone ? 0.22 : 0.12;
+      for (const sgn of [-1, 1]) {
+        const ax0 = a[0] + nx * sgn * (halfW - railT * 0.5), az0 = a[1] + nz * sgn * (halfW - railT * 0.5);
+        const bx0 = b[0] + nx * sgn * (halfW - railT * 0.5), bz0 = b[1] + nz * sgn * (halfW - railT * 0.5);
+        const pA0 = point([ax0 - nx * railT * 0.5, az0 - nz * railT * 0.5], 0);
+        const pB0 = point([bx0 - nx * railT * 0.5, bz0 - nz * railT * 0.5], 0);
+        const pA1 = point([ax0 + nx * railT * 0.5, az0 + nz * railT * 0.5], 0);
+        const pB1 = point([bx0 + nx * railT * 0.5, bz0 + nz * railT * 0.5], 0);
+        const qA0 = [pA0[0], pA0[1] + railH, pA0[2]], qB0 = [pB0[0], pB0[1] + railH, pB0[2]];
+        const qA1 = [pA1[0], pA1[1] + railH, pA1[2]], qB1 = [pB1[0], pB1[1] + railH, pB1[2]];
+        quad(pA0, pB0, qB0, qA0, deckSide);
+        quad(pB1, pA1, qA1, qB1, deckSide);
+        quad(qA0, qB0, qB1, qA1, deckTop);
+      }
+    }
+    rendered.push({ id: bridge.id, kind: bridge.kind || 'mapped', railsObserved: bridge.railsObserved === true,
+      verticalDimensions: 'estimated', deckThicknessM: skirtDrop, approachLiftM: 0.12,
       elevationSource: 'rendered terrain sampled at visible deck ends and approaches',
-      material: 'neutral rendering material; physical deck material unverified' });
+      material: isTimber ? 'weathered-timber' : isStone ? 'granite-masonry' : 'neutral rendering material' });
   }
   if (V.length) {
     const g = new THREE.BufferGeometry();
@@ -4783,13 +4810,32 @@ if (COASTAL_WATER?.indices.length) {
     const mesh = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
       vertexColors: true, roughness: 0.9, metalness: 0, flatShading: true, side: THREE.DoubleSide,
     }));
-    mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 7;
+    mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 0;
     mesh.userData = { tag: 'mapped-bridge-footprints', features: rendered };
     scene.add(mesh); stats.draws++;
     stats.verts += V.length / 3; stats.tris += V.length / 9;
   }
   stats.mappedBridges = rendered.length;
   stats.bridges = rendered.length;
+
+  // Water-hazard retaining bulkheads (timber sleeper walls & granite masonry edges)
+  if ((M.infra.bulkheads || []).length) {
+    const bh = buildBulkheadGeometry(M.infra.bulkheads, { waterList: M.water || [], heightAt: meshH, linear: L });
+    if (bh.positions.length) {
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(bh.positions, 3));
+      g.setAttribute('color', new THREE.Float32BufferAttribute(bh.colors, 3));
+      g.computeVertexNormals();
+      const mesh = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
+        vertexColors: true, roughness: 0.92, metalness: 0, flatShading: true, side: THREE.DoubleSide,
+      }));
+      mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 0;
+      mesh.userData = { tag: 'water-bulkheads', features: bh.rendered };
+      scene.add(mesh); stats.draws++;
+      stats.verts += bh.positions.length / 3; stats.tris += bh.positions.length / 9;
+      stats.bulkheads = bh.rendered.length;
+    }
+  }
 }
 
 /* the five wooden jetties OSM maps on the fjärd's shore: plank decks over water */
@@ -13589,6 +13635,8 @@ if (__GOLFER_LAB__ && new URLSearchParams(location.search).get('golfer') === '1'
         heightAt: renderedGroundH, lieAt: kikLie, classify,
         cups: () => FURN.cups,
         trees: () => ({ lists: trees, species: SPECIES.map(s => ({ height: s.templateHeight, radius: s.templateRadius })) }),
+        bulkheads: () => M.infra.bulkheads || [],
+        water: () => M.water || [],
         boundaries: () => [...(M.marking || []).filter(m => m.c === 'w').map(m => m.pts), ...(M.outOfBounds?.lines || []).map(l => l.line)],
         wind: () => ({ x: AIR.x, z: AIR.z, fromDeg: FLAG_WIND.fromDeg, ms: FLAG_WIND.ms }),
         bag: () => playerBag,

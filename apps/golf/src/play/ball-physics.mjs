@@ -215,6 +215,29 @@ export function simulateShot(world, shot, options = {}) {
           }
         }
       }
+      // Water-hazard timber/stone bulkheads: vertical retaining faces deflect low shots.
+      if (world.bulkheads) {
+        for (const seg of world.bulkheads.near(p[0], p[2], 1.2)) {
+          if (p[1] - BALL.radius > seg.yMax || p[1] + BALL.radius < seg.yMin) continue;
+          const proj = clamp(((p[0] - seg.ax) * seg.dx + (p[2] - seg.az) * seg.dz) / (seg.len * seg.len), 0, 1);
+          const cx = seg.ax + seg.dx * proj, cz = seg.az + seg.dz * proj;
+          const rx = p[0] - cx, rz = p[2] - cz;
+          const dist = Math.hypot(rx, rz);
+          const hitR = seg.halfThick + BALL.radius;
+          if (dist < hitR) {
+            const nx = dist > 1e-6 ? rx / dist : seg.nx;
+            const nz = dist > 1e-6 ? rz / dist : seg.nz;
+            const vn = vel[0] * nx + vel[2] * nz;
+            if (vn < 0) {
+              const restit = seg.kind === 'stone' ? 0.58 : 0.44;
+              vel = [vel[0] - (1 + restit) * vn * nx, vel[1] * 0.85, vel[2] - (1 + restit) * vn * nz];
+              p[0] = cx + nx * (hitR + 0.005);
+              p[2] = cz + nz * (hitR + 0.005);
+              events.push({ t, type: 'bulkhead', kind: seg.kind, speed: -vn });
+            }
+          }
+        }
+      }
       const ground = heightAt(p[0], p[2]);
       const kindHere = surfaceAt(p[0], p[2]);
       if (kindHere !== 'water') lastDry = [p[0], p[2]];

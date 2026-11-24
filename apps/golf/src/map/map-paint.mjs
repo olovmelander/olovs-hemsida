@@ -332,6 +332,8 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
     railways: f.railways.map(item => shape(item.line, linePath(item.line), 8)),
     piers: f.piers.map(item => shape(item.line, linePath(item.line), 4)),
     bridges: polygons(f.bridges, 2),
+    bridgeLines: (f.bridgeLines ?? []).map(item => ({ ...shape(item.line, linePath(item.line), 3), width: item.width ?? 2.6 })),
+    bulkheads: (f.bulkheads ?? []).map(item => ({ ...shape(item.line, linePath(item.line), 2), kind: item.kind })),
     barriers: f.barriers.map(item => ({ ...shape(item.line, linePath(item.line), 3), kind: item.kind })),
     powerLines: f.powerLines.map(item => shape(item.line, linePath(item.line), 3)),
     lifts: f.lifts.map(item => shape(item.line, linePath(item.line), 3)),
@@ -489,6 +491,9 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
       stroke(layers.cartParks, MAP_COLOURS.road, () => 3);
       stroke(layers.bridges, MAP_COLOURS.roadEdge, () => 0.7);
       fill(layers.bridges, MAP_COLOURS.bridge);
+      stroke(layers.bridgeLines, MAP_COLOURS.roadEdge, item => item.width + 0.8);
+      stroke(layers.bridgeLines, MAP_COLOURS.bridge, item => item.width);
+      stroke(layers.bulkheads, MAP_COLOURS.pier, () => 1.1);
 
       fill(layers.pistes, MAP_COLOURS.piste);
       for (const item of layers.pitches) if (touches(item)) { ctx.fillStyle = item.court ? MAP_COLOURS.court : MAP_COLOURS.pitch; ctx.fill(item.path, 'evenodd'); }

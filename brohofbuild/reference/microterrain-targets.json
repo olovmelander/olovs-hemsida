@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "targets": [
+    {
+      "id": "bro-hof-slott",
+      "kind": "landmark-building",
+      "boundsEpsg3006": [648570, 6598050, 648710, 6598220]
+    },
+    {
+      "id": "courtyard-proshop",
+      "kind": "facility-building",
+      "boundsEpsg3006": [648590, 6598190, 648730, 6598350]
+    },
+    {
+      "id": "driving-range",
+      "kind": "facility-building",
+      "boundsEpsg3006": [648560, 6598350, 648710, 6598510]
+    },
+    {
+      "id": "halfway-house-stadium",
+      "kind": "facility-building",
+      "boundsEpsg3006": [649170, 6598420, 649330, 6598580]
+    },
+    {
+      "id": "hole-17-island",
+      "kind": "signature-bulkhead",
+      "boundsEpsg3006": [648600, 6597720, 648830, 6597870]
+    },
+    {
+      "id": "hole-18-green-shore",
+      "kind": "signature-bulkhead",
+      "boundsEpsg3006": [648550, 6597850, 648720, 6598070]
+    }
+  ]
+}
