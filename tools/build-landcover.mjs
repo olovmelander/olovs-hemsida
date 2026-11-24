@@ -58,6 +58,8 @@ const num = (flag, d) => { const i = argv.indexOf('--' + flag); return i >= 0 ? 
 const HALF = num('half', 6400), CELL = num('cell', 12), PX = num('px', 4);
 const MIN_AGREE = num('min-agree', 0.75);
 const NO_FETCH = argv.includes('--no-fetch');
+/* a new ground's stands live in its staged public tree until it is promoted */
+const PUBLIC = path.resolve(ROOT, (() => { const i = argv.indexOf('--public'); return i >= 0 ? argv[i + 1] : 'apps/golf/public'; })());
 const DIR = path.join(ROOT, build);
 const model = JSON.parse(fs.readFileSync(path.join(DIR, 'course-model.json'), 'utf8'));
 const CACHE = path.join(DIR, 'cache', 'landcover');
@@ -175,14 +177,14 @@ const cellCentre = k => [X0 + ((k % N) + 0.5) * CELL, Z0 + (Math.floor(k / N) + 
 
 const label = new Uint8Array(N * N);   /* 0 none, 2 open, 3 trees, 1 water */
 function standFieldLabels() {
-  const index = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
+  const index = JSON.parse(fs.readFileSync(path.join(PUBLIC, 'courses/index.json'), 'utf8'));
   const slug = index.courses.find(c => c.build === build)?.slug;
   if (!slug) return null;
-  const v2 = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/v2-index.json'), 'utf8'));
+  const v2 = JSON.parse(fs.readFileSync(path.join(PUBLIC, 'courses/v2-index.json'), 'utf8'));
   const entry = v2.courses.find(c => c.slug === slug);
   if (!entry?.manifest?.url) return null;
-  const course = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public', entry.manifest.url), 'utf8'));
-  const ground = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public', course.groundManifest.url), 'utf8'));
+  const course = JSON.parse(fs.readFileSync(path.join(PUBLIC, entry.manifest.url), 'utf8'));
+  const ground = JSON.parse(fs.readFileSync(path.join(PUBLIC, course.groundManifest.url), 'utf8'));
   const oE = ground.frame?.origin?.easting ?? ground.frame?.originEasting, oN = ground.frame?.origin?.northing ?? ground.frame?.originNorthing;
   if (!Number.isFinite(oE) || !Number.isFinite(oN)) throw new Error(`${build}: the ground manifest's frame origin is not readable`);
   if (Math.abs(oE - +gridOrigin[1]) > 1e-6 || Math.abs(oN - +gridOrigin[2]) > 1e-6)
@@ -191,7 +193,7 @@ function standFieldLabels() {
   if (!tiles.length) return null;
   let closed = 0, open = 0;
   for (const tile of tiles) {
-    const chunk = readChunk(fs.readFileSync(path.join(ROOT, 'apps/golf/public', tile.layers.stands.url)));
+    const chunk = readChunk(fs.readFileSync(path.join(PUBLIC, tile.layers.stands.url)));
     const field = decodeStandField(chunk.payload, chunk.header.standField);
     const b = tile.bounds, cm = field.cellMetres;
     for (let r = 0; r < field.height; r++) for (let c = 0; c < field.width; c++) {

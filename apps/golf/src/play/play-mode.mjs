@@ -728,6 +728,7 @@ async function startPlay(h, query) {
   function playEvent(e) {
     if (e.type === 'bounce') audio.bounce(e.surface, e.speed);
     else if (e.type === 'trunk') audio.trunk();
+    else if (e.type === 'bulkhead') audio.bulkhead(e.kind, e.speed);
     else if (e.type === 'leaves') audio.leaves();
     else if (e.type === 'cup') audio.cup();
     else if (e.type === 'water') audio.splash();

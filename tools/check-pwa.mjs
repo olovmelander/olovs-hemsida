@@ -27,7 +27,8 @@ const DIST = process.argv[2] || path.join(ROOT, 'apps/golf/dist');
 const PORT = +(process.argv[3] || 8631);
 const BASE = `http://127.0.0.1:${PORT}`;
 const PROFILE = path.join(ROOT, 'apps/golf/.pwa-profile');
-const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const CHROME = process.env.BANVY_CHROME_PATH || process.env.BANVY_CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined);
 
 if (!fs.existsSync(path.join(DIST, 'sw.js'))) {
   console.error(`no service worker in ${DIST} -- run the build first`);
@@ -48,7 +49,7 @@ process.on('exit', stop);
 await new Promise(r => setTimeout(r, 1500));
 
 const launch = () => chromium.launchPersistentContext(PROFILE, {
-  executablePath: CHROME,
+  ...(CHROME ? { executablePath: CHROME } : {}),
   args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader'],
   viewport: { width: 800, height: 500 },
 });

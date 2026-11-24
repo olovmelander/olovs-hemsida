@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "kind": "inner-ring-tree-candidates",
+  "state": "candidate, not published",
+  "groundId": "bro-hof",
+  "innerWindowEpsg3006": [
+    648070.5,
+    6597544.5,
+    650118.5,
+    6599592.5
+  ],
+  "detectorLockSha256": {
+    "parameters": {
+      "type": {
+        "ndviThreshold": 0.12,
+        "coniferShare": 0.5,
+        "radiusBaseMetres": 1.5,
+        "radiusSlope": 0.15
+      },
+      "conifer": {
+        "smoothingSigmaMetres": 0.25,
+        "windowBaseMetres": 0.5,
+        "windowSlope": 0,
+        "windowMinimumMetres": 1.5,
+        "windowMaximumMetres": 2,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 0.5,
+        "prominenceFraction": 0,
+        "position": "apex"
+      },
+      "broadleaf": {
+        "smoothingSigmaMetres": 0.4,
+        "windowBaseMetres": 1,
+        "windowSlope": 0,
+        "windowMinimumMetres": 2,
+        "windowMaximumMetres": 3,
+        "minimumCandidateHeightMetres": 3,
+        "prominenceMetres": 0,
+        "prominenceFraction": 0.05,
+        "position": "centroid"
+      },
+      "shared": {
+        "seedFraction": 0.45,
+        "crownFraction": 0.55,
+        "maximumCrownRadiusMetres": 10,
+        "extentFraction": 0.15,
+        "minimumCrownAreaSquareMetres": 1
+      },
+      "split": {
+        "areaFactor": 1.5,
+        "allometryBaseMetres": 1,
+        "allometrySlope": 0.1,
+        "fineSigmaMetres": 0,
+        "windowMetres": 1.5,
+        "minimumSeparationMetres": 2.5,
+        "seedFraction": 0.85
+      }
+    },
+    "calibration": {
+      "f1": 0.882,
+      "precision": 0.871,
+      "recall": 0.894,
+      "iou": 0.644,
+      "offset": 0.74,
+      "tp": 135,
+      "missed": 16,
+      "extra": 20
+    }
+  },
+  "publishedGroundManifest": "grounds/bro-hof/ground-v2-bf788372d09ac6227c472486a2a6ac6df63500bc276ad512c7b43b911fc47012.json",
+  "today": {
+    "individualRecords": 823,
+    "standTreesHighQuality": 13579,
+    "total": 14402
+  },
+  "notPlacedOrRemovedByReview": {
+    "not-placed:felled after 2020/2021": 369,
+    "remove:felled after 2020/2021": 23
+  },
+  "candidates": {
+    "total": 17767,
+    "byDecision": {
+      "add": 14537,
+      "not-placed": 369,
+      "hold": 2079,
+      "adjust": 520,
+      "retain": 149,
+      "remove": 23,
+      "merge": 90
+    },
+    "placedTrees": 15206,
+    "placedByType": {
+      "unknown": 3039,
+      "broadleaf": 6281,
+      "conifer": 5886
+    },
+    "placedBySource": {
+      "detector": 15021,
+      "sparse-laser-recovery": 185
+    },
+    "holdByReason": {
+      "no June 2025 vegetation (unreviewed)": 1529,
+      "pole-like crown": 186,
+      "on a mapped building": 142,
+      "felling screen": 164,
+      "structure suspect": 8,
+      "on water, road or path": 36,
+      "crown over a played surface": 2,
+      "record without crown": 12
+    }
+  },
+  "fellingScreen": {
+    "screened": 178,
+    "byVerdict": {
+      "unreviewed": 178
+    }
+  },
+  "poleScreen": {
+    "rule": {
+      "maximumRadiusMetres": 1,
+      "minimumHeightMetres": 5
+    },
+    "screened": 204,
+    "byVerdict": {
+      "unreviewed": 204
+    }
+  },
+  "bank": {
+    "rule": {
+      "surfaces": [
+        "water",
+        "path",
+        "road",
+        "railway",
+        "green",
+        "tee",
+        "bunker",
+        "fairway",
+        "practice"
+      ],
+      "insetMetres": 0.5,
+      "reachMetres": 1.5,
+      "groundReturnsForLand": 2,
+      "minimumPresenceVegetatedShare": 0.15,
+      "note": "Johannesberg's bank rule (round 5): a crown centroid over mapped water, a path, a road or a played surface gets a stem on its own laser crown's land side, never on a building"
+    },
+    "banked": 122,
+    "bySurface": {
+      "path": 49,
+      "road": 2,
+      "water": 65,
+      "tee": 5,
+      "fairway": 1
+    },
+    "byWho": {
+      "rule": 122
+    },
+    "placed": 107
+  },
+  "holdScreen": {
+    "screened": 1737,
+    "byKind": {
+      "no-vegetation": 1594,
+      "building": 143
+    },
+    "byVerdict": {
+      "no-vegetation:unreviewed": 1594,
+      "building:unreviewed": 143
+    }
+  },
+  "playTypeDecision": {
+    "near|unknown": {
+      "add": 1706,
+      "adjust": 69,
+      "hold": 148,
+      "retain": 12,
+      "not-placed": 42,
+      "remove": 2,
+      "merge": 34
+    },
+    "near|broadleaf": {
+      "add": 2946,
+      "adjust": 121,
+      "hold": 98,
+      "retain": 42,
+      "not-placed": 66,
+      "remove": 6
+    },
+    "woodland|unknown": {
+      "not-placed": 10,
+      "add": 1172,
+      "hold": 755,
+      "adjust": 68,
+      "retain": 12,
+      "remove": 3,
+      "merge": 56
+    },
+    "woodland|broadleaf": {
+      "add": 2904,
+      "not-placed": 114,
+      "adjust": 190,
+      "hold": 113,
+      "retain": 78,
+      "remove": 7
+    },
+    "woodland|conifer": {
+      "hold": 712,
+      "add": 3246,
+      "not-placed": 29,
+      "adjust": 21,
+      "retain": 2
+    },
+    "near|conifer": {
+      "add": 2563,
+      "not-placed": 108,
+      "hold": 253,
+      "adjust": 51,
+      "retain": 3,
+      "remove": 5
+    }
+  },
+  "typeModel": {
+    "feature": "share of vegetated pixels ((NIR-red)/(NIR+red) > 0.12) in the April 2021 crown disc (crown radius + 0.3 h + 1 m)",
+    "fit": "logistic, round-1 calibration examples only",
+    "w0": -3.5272,
+    "w1": 8.1376,
+    "examples": 242,
+    "unknownBelowConfidence": 0.6,
+    "broadleafBelowAprilShare": 0.2,
+    "broadleafMinimumPresenceShare": 0.15,
+    "unknownTypeConfidence": null
+  },
+  "playZone": {
+    "rule": "near = within 90 m of any hole tee-to-green line of either routing (the app zone A) or of the driving range / practice greens; woodland otherwise",
+    "holeLines": 36,
+    "practiceRings": 22
+  },
+  "identity": {
+    "matchedWithin15m": 436,
+    "matchedWithin3m": 285,
+    "newIds": 16575,
+    "nextSequence": 20266,
+    "previousGenerationRecords": 0,
+    "previousGenerationLineageCarried": 0
+  },
+  "presence": {
+    "referenceFloor": 0.537,
+    "scale": {
+      "vegetatedShare": 0.9410243145369891,
+      "nirTexture": 6.6561142147734325,
+      "darkShare": 0.08088235294117647
+    }
+  },
+  "unresolved": {
+    "sparseLaserWithoutPhotoCrown": 70,
+    "photoOnlyCanopy": 26
+  },
+  "elapsedSeconds": 40.1,
+  "typeCheck": {
+    "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, evaluation was not",
+    "calibration": {
+      "matched": 269,
+      "typed": 244,
+      "correct": 236,
+      "accuracyOfTyped": 0.967,
+      "unknown": 25,
+      "confidence80": {
+        "n": 222,
+        "accuracy": 0.964
+      }
+    },
+    "evaluation": {
+      "matched": 294,
+      "typed": 212,
+      "correct": 207,
+      "accuracyOfTyped": 0.976,
+      "unknown": 82,
+      "confidence80": {
+        "n": 167,
+        "accuracy": 0.988
+      }
+    }
+  }
+}

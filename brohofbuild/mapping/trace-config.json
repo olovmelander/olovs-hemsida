@@ -1,0 +1,174 @@
+{
+ "schemaVersion": 1,
+ "groundId": "bro-hof",
+ "box": [
+  648160,
+  6597480,
+  650100,
+  6599400
+ ],
+ "imagery": {
+  "sourceId": "orto-o2-2025",
+  "captured": "2025-06-14",
+  "rasters": [
+   "brohofbuild/cache/ortho/2025/stadium-sw-2025.tif",
+   "brohofbuild/cache/ortho/2025/stadium-ne-2025.tif",
+   "brohofbuild/cache/ortho/2025/castle-n-2025.tif",
+   "brohofbuild/cache/ortho/2025/overview-2025.tif"
+  ]
+ },
+ "terrain": {
+  "path": "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l0.f32",
+  "sha256": "f5a0fbd4dfa80f0227031e446a482557815c3e71c35c9511431d26f016c1de59",
+  "side": 4097,
+  "firstEasting": 647046.5,
+  "firstNorthing": 6600616.5
+ },
+ "osm": "geo_data/course-v2/bro-hof/reference/osm-golf-epsg3006.geojson",
+ "water": "geo_data/course-v2/bro-hof/mapping/water-breakgeometry-epsg3006.geojson",
+ "sandDecisions": "brohofbuild/mapping/sand-decisions.json",
+ "fairwayExclude": [
+  [
+   [
+    648150,
+    6598100
+   ],
+   [
+    648380,
+    6598100
+   ],
+   [
+    648470,
+    6598180
+   ],
+   [
+    648425,
+    6598250
+   ],
+   [
+    648425,
+    6598440
+   ],
+   [
+    648150,
+    6598440
+   ],
+   [
+    648150,
+    6598100
+   ]
+  ],
+  [
+   [
+    648655,
+    6598130
+   ],
+   [
+    648690,
+    6598130
+   ],
+   [
+    648830,
+    6598075
+   ],
+   [
+    648830,
+    6598005
+   ],
+   [
+    648700,
+    6598000
+   ],
+   [
+    648655,
+    6598080
+   ],
+   [
+    648655,
+    6598130
+   ]
+  ],
+  [
+   [
+    648440,
+    6597690
+   ],
+   [
+    648540,
+    6597690
+   ],
+   [
+    648540,
+    6597860
+   ],
+   [
+    648440,
+    6597800
+   ],
+   [
+    648440,
+    6597690
+   ]
+  ],
+  [
+   [
+    648580,
+    6598095
+   ],
+   [
+    648655,
+    6598095
+   ],
+   [
+    648655,
+    6598150
+   ],
+   [
+    648580,
+    6598150
+   ],
+   [
+    648580,
+    6598095
+   ]
+  ],
+  [
+   [
+    648675,
+    6598180
+   ],
+   [
+    648715,
+    6598180
+   ],
+   [
+    648715,
+    6598220
+   ],
+   [
+    648675,
+    6598220
+   ],
+   [
+    648675,
+    6598180
+   ]
+  ]
+ ],
+ "courses": [
+  {
+   "slug": "bro-hof-stadium",
+   "prefix": "stadium",
+   "decisions": "brohofbuild/mapping/decisions.json",
+   "card": "brohofbuild/reference/club-scorecard.json",
+   "outDir": "brohofbuild/mapping"
+  },
+  {
+   "slug": "bro-hof-castle",
+   "prefix": "castle",
+   "decisions": "brohofcastlebuild/mapping/decisions.json",
+   "card": "brohofcastlebuild/reference/club-scorecard.json",
+   "outDir": "brohofcastlebuild/mapping"
+  }
+ ]
+}

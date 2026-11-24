@@ -37,6 +37,7 @@ import { growCrownsSimultaneous } from '../../packages/course-v2/vegetation/tree
 import { smoothChm } from '../../packages/course-v2/vegetation/pit-free-chm.mjs';
 import { Canvas, loadMosaic, loadNativeMosaic, loadRaster, openCampaignPacks, renderLayer, toPixel } from './panels.mjs';
 import { HELD_OUT_GATE } from './gate.mjs';
+import { laserParts } from './laser-parts.mjs';
 import { estimateDisplacement, medianCanopyHeight } from './relief.mjs';
 import { writeReceipt } from './receipts.mjs';
 
@@ -309,7 +310,7 @@ export function freezeReference(ctx, { note = null, interpreter = null } = {}) {
     history: [...(previous?.history || []), ...(previous ? [{ frozenAt: previous.frozenAt, reference: previous.hashes.reference, annotations: previous.hashes.annotations }] : [])],
     refreezeNote: note,
     interpreter: interpreter || 'agent-led interpretation (Claude), not a survey or human approval',
-    evidence: `pit-free CHM ${ctx.config.window.chmCellMetres} m (${ctx.config.laser.capturedOn} laser), ${ctx.presence.date} RGBI (CIR and natural colour), ${ctx.leafOff.date} RGBI (leaf-off natural colour); numbered over-segmentation candidates only save typing positions`,
+    evidence: `pit-free CHM ${ctx.config.window.chmCellMetres} m (${laserParts(ctx.config.laser).map(part => part.capturedOn).join(' and ')} laser), ${ctx.presence.date} RGBI (CIR and natural colour), ${ctx.leafOff.date} RGBI (leaf-off natural colour); numbered over-segmentation candidates only save typing positions`,
     matchingRule: windows.matchingRule,
     minimumScoredHeightMetres: windows.minimumScoredHeightMetres,
     counts,

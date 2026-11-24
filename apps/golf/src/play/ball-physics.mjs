@@ -32,6 +32,8 @@ export const SURFACES = Object.freeze({
   rough:   { e: .22, keep: .36, mu: .75, grip: .20, roll: .360 },
   forest:  { e: .20, keep: .30, mu: .85, grip: .15, roll: .450 },
   sand:    { e: .05, keep: .12, mu: 1.4, grip: .10, roll: .900 },
+  /* a waste area's firm unraked sand: the ball runs a little, never plugs */
+  waste:   { e: .14, keep: .32, mu: 1.0, grip: .15, roll: .520 },
   path:    { e: .58, keep: .82, mu: .35, grip: .30, roll: .035 },
   water:   { e: 0, keep: 0, mu: 1, grip: 0, roll: 1 },
 });
@@ -211,6 +213,29 @@ export function simulateShot(world, shot, options = {}) {
               const out = norm([rand() - .5, -.4 - rand() * .6, rand() - .5]);
               vel = mul(norm(add(mul(norm(vel), .35), out)), speed);
               spin = mul(spin, .3); treeHits++; events.push({ t, type: 'leaves' });
+            }
+          }
+        }
+      }
+      // Water-hazard timber/stone bulkheads: vertical retaining faces deflect low shots.
+      if (world.bulkheads) {
+        for (const seg of world.bulkheads.near(p[0], p[2], 1.2)) {
+          if (p[1] - BALL.radius > seg.yMax || p[1] + BALL.radius < seg.yMin) continue;
+          const proj = clamp(((p[0] - seg.ax) * seg.dx + (p[2] - seg.az) * seg.dz) / (seg.len * seg.len), 0, 1);
+          const cx = seg.ax + seg.dx * proj, cz = seg.az + seg.dz * proj;
+          const rx = p[0] - cx, rz = p[2] - cz;
+          const dist = Math.hypot(rx, rz);
+          const hitR = seg.halfThick + BALL.radius;
+          if (dist < hitR) {
+            const nx = dist > 1e-6 ? rx / dist : seg.nx;
+            const nz = dist > 1e-6 ? rz / dist : seg.nz;
+            const vn = vel[0] * nx + vel[2] * nz;
+            if (vn < 0) {
+              const restit = seg.kind === 'stone' ? 0.58 : 0.44;
+              vel = [vel[0] - (1 + restit) * vn * nx, vel[1] * 0.85, vel[2] - (1 + restit) * vn * nz];
+              p[0] = cx + nx * (hitR + 0.005);
+              p[2] = cz + nz * (hitR + 0.005);
+              events.push({ t, type: 'bulkhead', kind: seg.kind, speed: -vn });
             }
           }
         }

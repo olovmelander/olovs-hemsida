@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - name: Test setup, stages, candidate identity and release rejection
         run: node --test packages/course-workflow/workflow.node-test.mjs packages/course-workflow/production.node-test.mjs
       - uses: actions/setup-python@v5

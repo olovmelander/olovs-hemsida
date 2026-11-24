@@ -54,26 +54,53 @@ export function configuredWorkflow(ctx) {
   return assertWorkflow(w);
 }
 
+export function postPromotionBakePlan(ctx, { skipGpuBakes = false, allCourses = false } = {}) {
+  const onlyArg = allCourses ? [] : ['--only', ctx.config.courses.map(c => c.slug).join(',')];
+  return [
+    { id: 'emit-manifest', command: ['node', 'packages/course-pack/emit-manifest.mjs'] },
+    { id: 'startup-packs', command: ['node', 'tools/build-startup-packs.mjs'] },
+    { id: 'map-land', command: ['node', 'tools/bake-map-land.mjs'] },
+    { id: 'audit-water-levels', command: ['node', 'tools/audit-water-levels.mjs'] },
+    ...(skipGpuBakes ? [] : [
+      { id: 'ground-tints', command: ['node', 'tools/bake-ground-tints.mjs', ...onlyArg] },
+      { id: 'prepared-water', command: ['node', 'tools/bake-water.mjs', ...onlyArg] },
+      { id: 'prepared-vista', command: ['node', 'tools/bake-vista.mjs', ...onlyArg] }, // the far vista and the scatter
+    ]),
+  ];
+}
+
 export async function main(argv = process.argv.slice(2), root = ROOT) {
   if (argv.length === 1 && argv[0] === '--help') {
-    console.log('node packages/course-workflow/production.mjs --ground ID (--inspect | --prepare-review [--out PATH] | --configure | --check-config | --capture --built PATH --job ID)\nBuild stages through: pnpm course run --ground ID --through validate\nSee docs/course-production-integration.md for pinned inputs, acquisition and review commands.');
+    console.log('node packages/course-workflow/production.mjs --ground ID (--inspect | --prepare-review [--out PATH] | --configure | --check-config | --capture --built PATH --job ID | --bake-promoted [--dry-run] [--skip-gpu-bakes] [--all-courses])\nBuild stages through: pnpm course run --ground ID --through validate\nSee docs/course-production-integration.md for pinned inputs, acquisition and review commands.');
     return 0;
   }
   const options = {};
   for (let i = 0; i < argv.length; i++) {
     const name = argv[i];
-    assert(['--ground', '--stage', '--out', '--inspect', '--prepare-review', '--configure', '--check-config', '--capture', '--built', '--job'].includes(name), `unknown option ${name}`);
+    assert(['--ground', '--stage', '--out', '--inspect', '--prepare-review', '--configure', '--check-config', '--capture', '--built', '--job', '--bake-promoted', '--dry-run', '--skip-gpu-bakes', '--all-courses'].includes(name), `unknown option ${name}`);
     assert(!Object.hasOwn(options, name), `duplicate option ${name}`);
     if (['--ground', '--stage', '--out', '--built', '--job'].includes(name)) { assert(argv[i+1] && !argv[i+1].startsWith('--'), `${name} needs a value`); options[name] = argv[++i]; }
     else options[name] = true;
   }
   const ctx = loadProduction(root, options['--ground']);
-  const actions = ['--inspect', '--prepare-review', '--configure', '--check-config', '--stage', '--capture'].filter(k => options[k]);
-  assert.equal(actions.length, 1, 'choose exactly one action: --inspect, --prepare-review, --configure, --check-config or --stage');
+  const actions = ['--inspect', '--prepare-review', '--configure', '--check-config', '--stage', '--capture', '--bake-promoted'].filter(k => options[k]);
+  assert.equal(actions.length, 1, 'choose exactly one action: --inspect, --prepare-review, --configure, --check-config, --stage, --capture or --bake-promoted');
   if (options['--out']) assert(options['--out'].startsWith(`output/course-production/${ctx.groundId}/`), '--out must be in this ground’s review output directory');
   if (options['--built'] || options['--job']) assert(options['--capture'], '--built and --job require --capture');
+  if (options['--dry-run'] || options['--skip-gpu-bakes'] || options['--all-courses']) assert(options['--bake-promoted'], 'bake flags require --bake-promoted');
   let result;
-  if (options['--configure'] || options['--check-config']) {
+  if (options['--bake-promoted']) {
+    const steps = postPromotionBakePlan(ctx, { skipGpuBakes: !!options['--skip-gpu-bakes'], allCourses: !!options['--all-courses'] });
+    const executed = [];
+    if (!options['--dry-run']) {
+      for (const step of steps) {
+        const child = spawnSync(step.command[0], step.command.slice(1), { cwd: root, stdio: 'inherit' });
+        executed.push({ id: step.id, status: child.status });
+        assert.equal(child.status, 0, `post-promotion bake failed at ${step.id}`);
+      }
+    }
+    result = { groundId: ctx.groundId, action: 'bake-promoted', dryRun: !!options['--dry-run'], steps, executed };
+  } else if (options['--configure'] || options['--check-config']) {
     const w = configuredWorkflow(ctx);
     if (options['--check-config']) assert.deepEqual(ctx.workflow, w, 'workflow dependency lists are stale; run --configure and review the diff');
     else writeJson(root, `course-workflows/${ctx.groundId}/workflow.json`, w);

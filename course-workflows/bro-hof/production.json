@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "visualSetup": "v2-ghibli",
+  "frame": {
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "origin": {
+      "easting": 649094.5,
+      "heightRH2000": 4.76,
+      "northing": 6598568.5
+    },
+    "verticalCrs": "EPSG:5613",
+    "fingerprint": "c4b165ba2fa965cb58fcfe59c4bf410c48f03a00bc9cc5c9d23574b93bdc88d0"
+  },
+  "baselineGround": {
+    "path": "apps/golf/public/grounds/bro-hof/ground-v2-bf788372d09ac6227c472486a2a6ac6df63500bc276ad512c7b43b911fc47012.json",
+    "sha256": "bf788372d09ac6227c472486a2a6ac6df63500bc276ad512c7b43b911fc47012"
+  },
+  "terrain": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings",
+    "evidence": {
+      "path": "geo_data/course-v2/bro-hof/acquisition/ground-rings.json",
+      "sha256": "57ae4f9068adb83e40b0e5386b09761c6fcc2b33f9b6e6537158e138d2e3e5a6"
+    },
+    "maximumBaselineDifferenceMetres": 0.011
+  },
+  "vegetation": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/bro-hof-vegetation",
+    "campaigns": {
+      "path": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
+      "sha256": "ba2a5bca637a4eff58690c7c0a6eaa5057172f35a65e4a834cf4838c4610b9eb"
+    },
+    "evidence": {
+      "path": "geo_data/course-v2/bro-hof/vegetation/canopy-evidence.json",
+      "sha256": "1955b17de66127c6066716f0caffc4c5d403bdf7b7ad63506320ec3d9d2b3215"
+    },
+    "reviewMode": "reviewed-candidates-v1",
+    "observedOn": "2026-11-24",
+    "reviewNote": "Round r1 of review-2026-11-24, published on the owner answer of 24 November 2026 (\"Publish if better\"): the 90% held-out gate is MISSED (P 0.784 / R 0.807 / F1 0.795 on 166 unseen reference crowns), and the same crowns score P 0.662 / R 0.530 / F1 0.589 for the automatic first generation (machine-v1 records and stand trees as the app draws them). In park and building windows precision is lower than in the first generation (0.419 against 0.467, recall 0.867 against 0.467). 15,206 placed trees in the inner 2,048 m frontier, 2,079 held and unreviewed and not placed, 392 crowns the June 2025 photo does not show removed by a mechanical screen; tiles outside the frontier keep the 2026-11-24 machine-v1 generation. Owner look not done.",
+    "reviewed": {
+      "candidates": {
+        "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/candidates.csv",
+        "sha256": "105da8bc6705662f02379c19c59ba4557bd33b7ab591ec34f9edef577df184c1"
+      },
+      "residualChm": {
+        "path": "brohofbuild/cache/trees-2026-11-24/rasters/residual-chm-050.bin",
+        "sha256": "06cb244dbb387ece432377d8d23061e2a388929472670047272cbe369b965e5d"
+      },
+      "residualLabels": {
+        "path": "brohofbuild/cache/trees-2026-11-24/rasters/residual-labels-050.bin",
+        "sha256": "1ee0db39830c22af0f53aa3bc5da435f584d23245396f93e32466155bc2f9f75"
+      },
+      "scope": [
+        648070.5,
+        6597544.5,
+        650118.5,
+        6599592.5
+      ],
+      "review": "reviewed candidates, review-2026-11-24 round r1: the type-aware laser detector (20C028 of 2020-11-06 west of E 650000, 21C031 of 2021-03-23 east of it), tuned with a reduced search on the calibration windows only. The 90% held-out gate is MISSED: on 166 unseen reference crowns P 0.784 / R 0.807 / F1 0.795; the machine-v1 first generation (records and stand trees) scores P 0.662 / R 0.530 / F1 0.589 on the same sample. Agent-led reference interpretation (Claude), not a survey; mostly conifers and separate crowns, closed leafless broadleaf stands are not measured. Crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank); 392 crowns the June 2025 photo does not show removed by a mechanical screen spot-checked by the agent; every felling-screened, pole-like, no-vegetation and on-building crown is held, unreviewed, and not placed; broadleaf only where the April 2021 crown is leafless and the June 2025 crown in leaf, not spot-checked; no GPU photo detector and no human review"
+    }
+  },
+  "courses": [
+    {
+      "slug": "bro-hof-stadium",
+      "holes": 18,
+      "model": {
+        "path": "brohofbuild/course-model.json",
+        "sha256": "83c165a020729d89ad9813303025fa642927a1f3e682e05c8a62e28ebd8329df"
+      },
+      "heightfields": {
+        "path": "brohofbuild/heightfields.json",
+        "sha256": "c7926a0445039e08bb810d04551e19de4e81f6cadee30a5734be4b990be5795d"
+      },
+      "card": {
+        "path": "brohofbuild/card.json",
+        "sha256": "92a8f39d028c19147a9264dfd2e2e21dcae8a74cc155692b4dd1d9d359aa9cc2"
+      },
+      "cover": null,
+      "strokeIndexStatus": "verified",
+      "accuracyTier": "unrated",
+      "player": {
+        "slug": "bro-hof-stadium",
+        "name": "Bro Hof Stadium",
+        "club": "Bro Hof Slott Golf Club",
+        "title": "Bro Hof Slott GC — The Stadium Course i 3D",
+        "tag": "The Stadium Course",
+        "boot": "Bro · Mälaren",
+        "build": "brohofbuild",
+        "tees": {
+          "names": [
+            "Svart",
+            "Vit",
+            "Gul",
+            "Blå",
+            "Röd"
+          ],
+          "cols": [
+            1710618,
+            16053486,
+            15780154,
+            4886496,
+            14702410
+          ],
+          "hideFrom": 5,
+          "def": 2
+        }
+      },
+      "sidecars": {
+        "landcover": {
+          "path": "brohofbuild/landcover.json",
+          "sha256": "da0daae6aac5b63c2744b2bbd80bc0b9546a2b9f6d0e3da2bbcb8a09c457b1aa"
+        }
+      }
+    },
+    {
+      "slug": "bro-hof-castle",
+      "holes": 18,
+      "model": {
+        "path": "brohofcastlebuild/course-model.json",
+        "sha256": "fcb40f3dbae50a866d9e3b4a19aebc5e4083287d773b2ec367518f7aa2b417de"
+      },
+      "heightfields": {
+        "path": "brohofcastlebuild/heightfields.json",
+        "sha256": "c7926a0445039e08bb810d04551e19de4e81f6cadee30a5734be4b990be5795d"
+      },
+      "card": {
+        "path": "brohofcastlebuild/card.json",
+        "sha256": "c2c9d5a28b8681a534be7c21b09127276b9656112c9938bf863e9f1dd01637b7"
+      },
+      "cover": null,
+      "strokeIndexStatus": "verified",
+      "accuracyTier": "unrated",
+      "player": {
+        "slug": "bro-hof-castle",
+        "name": "Bro Hof Castle",
+        "club": "Bro Hof Slott Golf Club",
+        "title": "Bro Hof Slott GC — The Castle Course i 3D",
+        "tag": "The Castle Course",
+        "boot": "Bro · Mälaren",
+        "build": "brohofcastlebuild",
+        "tees": {
+          "names": [
+            "Vit",
+            "Gul",
+            "Blå",
+            "Röd"
+          ],
+          "cols": [
+            16053486,
+            15780154,
+            4886496,
+            14702410
+          ],
+          "hideFrom": 4,
+          "def": 1
+        }
+      },
+      "sidecars": {
+        "landcover": {
+          "path": "brohofcastlebuild/landcover.json",
+          "sha256": "da0daae6aac5b63c2744b2bbd80bc0b9546a2b9f6d0e3da2bbcb8a09c457b1aa"
+        }
+      }
+    }
+  ],
+  "mappingEvidence": [
+    {
+      "path": "brohofbuild/mapping/decisions.json",
+      "sha256": "feebe3eb507ae588281cb071dd49cadf9615490a6ca91e8d10644e4678d9d5a6"
+    },
+    {
+      "path": "brohofbuild/mapping/sand-decisions.json",
+      "sha256": "ed074d929b156bd0add9fe3b968d594c36b319965bdc266dffde8469afd73acf"
+    },
+    {
+      "path": "brohofbuild/mapping/layer-decisions.json",
+      "sha256": "78f145ecfe0e7546bfcc395bd131d214c894354f303c1c6bb7b644693185befa"
+    },
+    {
+      "path": "brohofbuild/mapping/trace-report.json",
+      "sha256": "ca58736d8b4b85969f5f249c19f50cf8591294fd636d32571e09c619528fbb55"
+    },
+    {
+      "path": "brohofcastlebuild/mapping/decisions.json",
+      "sha256": "1af6a067046c0692e4e9734258e6981be3888b8c319f0d0dae392ef884c57b35"
+    },
+    {
+      "path": "brohofcastlebuild/mapping/trace-report.json",
+      "sha256": "008f44b98ab4db2e80ce540ce9bacd3efa06dd4325411c42c256064a720e508c"
+    },
+    {
+      "path": "brohofbuild/reference/club-scorecard.json",
+      "sha256": "fbfd2159b885e951955aeed5413fb68a5a0d15636177f0838dc22905decf2f76"
+    },
+    {
+      "path": "brohofcastlebuild/reference/club-scorecard.json",
+      "sha256": "091b94a9289514f376b9f6245dffb5ea901f73c8935d87e6ca081fbf0ed1ae29"
+    }
+  ],
+  "review": {
+    "sourceDirectory": "brohofbuild/cache/ortho/2025",
+    "captureBackend": [
+      "webgpu",
+      "webgl2"
+    ],
+    "captureQuality": [
+      "hi",
+      "lo"
+    ],
+    "capturePresets": [
+      "noon",
+      "golden"
+    ],
+    "notes": "Imagery source pixels and captures stay local. Empty or unknown categories require review; counts never approve geography.",
+    "acquisition": {
+      "path": "geo_data/course-v2/bro-hof/acquisition/orthophoto-review.json",
+      "sha256": "9c6e751cde8cdfb1b6a33604b12e533c73df06b046d9f989a81da7dfc0854d43"
+    }
+  }
+}

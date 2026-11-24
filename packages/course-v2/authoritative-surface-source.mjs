@@ -23,6 +23,7 @@ export const AUTHORITATIVE_SURFACE_CLASS_IDS = Object.freeze({
   green: SURFACE.GREEN,
   tee: SURFACE.TEE,
   'bunker-sand': SURFACE.SAND,
+  'waste-sand': SURFACE.WASTE,
   path: SURFACE.PATH,
   'forest-floor': SURFACE.FOREST,
   heath: SURFACE.HEATH,

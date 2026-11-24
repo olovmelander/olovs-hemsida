@@ -1,0 +1,9193 @@
+{
+ "schemaVersion": 1,
+ "reviewId": "review-2026-11-24",
+ "interpreter": "agent-led interpretation (Claude, 2026-11-24) of the 0.5 m pit-free CHM (laser of 2020-11-06 west of E 650000 and 2021-03-23 east of it) and the 2025-06-14 and 2021-04-16 RGBI photos at their native 0.16 m (natural colour and colour infrared), each photo moved onto the canopy where its relief displacement could be measured; not a survey, not the club, not human approval.",
+ "protocol": [
+  "Every window was drafted by the written grouping rule of Johannesberg's round 3 (tools/tree-pipeline/photo/reference-draft.mjs: a numbered apex of an over-segmenting filter within 2 m of a taller kept one, or less than 0.6 m above the dip toward a taller kept one within 3 m, is part of that crown; 3.5 m for a crown leafless in April), then each window was looked at on four panels (CHM, June 2025 natural colour and colour infrared, April 2021 natural colour) before any detector under test ran.",
+  "Conifers: drafted tops closer than about 2.4 m on one laser lobe are joined into one crown (a 15-20 m pine or spruce has a crown 3-5 m wide); the rest are kept as drafted. Touching conifers in closed stands (C5, C18, H4, H8) match separate laser lobes and cannot be confirmed one by one in the photos, as on the earlier grounds.",
+  "Broadleaves: the draft rule splits a broad park crown into many tops, so crowns are placed by hand at the centre of each dome that the laser lobes and the June 2025 photo agree on; joined masses, shoulders and thickets where they do not are ambiguity boxes, scored for no one.",
+  "Roofs, hedges, stumps, boulders and posts the pit-free CHM keeps as canopy are rejected.",
+  "Trees of the laser that the June 2025 photo no longer shows (felled between 2020/21 and 2025) are ambiguity boxes: the sample measures finding trees that stand; felling is decided in the candidate review.",
+  "Type: from the April 2021 photo (leafless branches or evergreen needles) and the June 2025 colour infrared; a leafless crown over a green lawn reads as vegetated there, so park and planted trees are typed from their bare-branch shadows, not from the share.",
+  "Stratum: the census rule (share of CHM of at least 3 m in a 16 m square round the top) of the tallest drafted top of each crown; a single broad crown can therefore read as edge or closed.",
+  "Windows whose crowns no source separates were dropped before any detector ran, with the reason (reference-windows.json, dropped): they are mostly closed leafless broadleaf stands, which this sample therefore does not measure."
+ ],
+ "windows": [
+  {
+   "window": "C1-castle-park",
+   "crowns": [
+    {
+     "from": [
+      139,
+      143,
+      146,
+      148,
+      149,
+      153,
+      156,
+      157,
+      161,
+      163,
+      171
+     ],
+     "at": [
+      2,
+      23.5
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D61, D65, D68, D74 as one crown"
+    },
+    {
+     "from": [
+      117,
+      118,
+      124,
+      125,
+      126,
+      128,
+      132,
+      133,
+      134,
+      135,
+      141,
+      142,
+      150,
+      151,
+      154,
+      158
+     ],
+     "at": [
+      23,
+      26
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D54, D55, D58, D62, D67, D69 as one crown"
+    },
+    {
+     "from": [
+      129,
+      130,
+      131,
+      136,
+      137,
+      140,
+      144,
+      145,
+      147,
+      152,
+      155,
+      160,
+      164,
+      165,
+      166
+     ],
+     "at": [
+      35.5,
+      24.5
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D59, D63, D64, D66, D70, D72 as one crown"
+    },
+    {
+     "from": [
+      169,
+      173,
+      176,
+      177,
+      182,
+      193,
+      194
+     ],
+     "at": [
+      51,
+      13.5
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D76, D85 as one crown"
+    },
+    {
+     "from": [
+      203,
+      208,
+      210,
+      212,
+      216,
+      218,
+      219,
+      223,
+      225,
+      228,
+      233,
+      235
+     ],
+     "at": [
+      46,
+      2.5
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D92, D94, D97 as one crown"
+    },
+    {
+     "from": [
+      66
+     ],
+     "at": [
+      14.8,
+      44
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D32 as one crown"
+    },
+    {
+     "from": [
+      1,
+      2,
+      3,
+      14
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      7,
+      11
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      8,
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      12,
+      15
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      4,
+      13
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      17
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D8 (April 2021 share 0.05), margin"
+    },
+    {
+     "from": [
+      18
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D9 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      10,
+      16,
+      19,
+      23
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D10 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      20,
+      21
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D11 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      31,
+      39
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D17 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      32
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D18 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      34,
+      37
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D19 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      46
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D24 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      50,
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D25 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      61,
+      64,
+      75
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D30 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      84,
+      89
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D38 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      90,
+      104
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D41 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      110,
+      111
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D49 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      113
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D51 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      114
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D52 (April 2021 share 0.02), margin"
+    },
+    {
+     "from": [
+      116,
+      119,
+      122,
+      127
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D57 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      138
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D60 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      159,
+      162
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D71 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      167,
+      168,
+      170
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D73 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      178
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D77 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      174,
+      183,
+      186,
+      191,
+      195
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D79 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      198,
+      200
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D87 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      214
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D93 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      224,
+      227,
+      231
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D96 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      232
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D98 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      229,
+      236,
+      242
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D99 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      237,
+      241
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D100 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      230,
+      238,
+      245
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D101 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      239
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D102 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      240,
+      243
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D103 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      244
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D104 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      -1,
+      34.5,
+      13,
+      55
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      -1,
+      29.5,
+      6,
+      34.5
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      24,
+      30.3,
+      55,
+      55
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      9,
+      -1,
+      34,
+      15.5
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      34,
+      10,
+      43,
+      18
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      42,
+      8,
+      47.5,
+      12
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      48.5,
+      0,
+      55,
+      9
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      51.3,
+      28.3,
+      54.3,
+      31.3
+     ],
+     "reason": "a drafted top (24.64 m) neither photo decides (draft D56)"
+    }
+   ]
+  },
+  {
+   "window": "C2-c17-avenue",
+   "crowns": [
+    {
+     "from": [
+      3
+     ],
+     "at": [
+      30.8,
+      57.3
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D3 as one crown"
+    },
+    {
+     "from": [
+      4
+     ],
+     "at": [
+      26,
+      46.6
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D4 as one crown"
+    },
+    {
+     "from": [
+      6
+     ],
+     "at": [
+      21,
+      34.3
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D6 as one crown"
+    },
+    {
+     "from": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+     ],
+     "at": [
+      9.5,
+      6.8
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D10, D11, D12 as one crown"
+    },
+    {
+     "from": [
+      7
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D7 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      8
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D8 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D9 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      2
+     ],
+     "type": "unknown",
+     "stratum": "isolated",
+     "note": "draft D2 (April 2021 share 0.25), margin"
+    },
+    {
+     "from": [
+      18
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D14 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      19
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D15 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {
+    "5": "a cut stump (2.8 m; a white trunk with a thick short shadow in the April 2021 photo, no crown in 2025) (draft D5)"
+   },
+   "ambiguous": [
+    {
+     "box": [
+      16.3,
+      1.2999999999999998,
+      19.3,
+      4.3
+     ],
+     "reason": "a 6.7 m snag or pollard (a white trunk with a thick short shadow in April 2021): a tree or not, not decidable (draft D13)"
+    }
+   ]
+  },
+  {
+   "window": "C5-c13-edge",
+   "crowns": [
+    {
+     "from": [
+      31,
+      32,
+      36
+     ],
+     "at": [
+      19.8,
+      35.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D24, D25 as one crown"
+    },
+    {
+     "from": [
+      37,
+      43
+     ],
+     "at": [
+      26.6,
+      33.5
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D28, D32 as one crown"
+    },
+    {
+     "from": [
+      40,
+      45,
+      47
+     ],
+     "at": [
+      21.5,
+      32
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D34, D36 as one crown"
+    },
+    {
+     "from": [
+      50,
+      54
+     ],
+     "at": [
+      29.8,
+      29.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D38, D42 as one crown"
+    },
+    {
+     "from": [
+      66,
+      70,
+      75
+     ],
+     "at": [
+      23,
+      20.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D53, D58 as one crown"
+    },
+    {
+     "from": [
+      88,
+      94
+     ],
+     "at": [
+      24.5,
+      14.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D68, D72 as one crown"
+    },
+    {
+     "from": [
+      61,
+      65
+     ],
+     "at": [
+      4.8,
+      24.3
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "drafts D48, D51 as one crown"
+    },
+    {
+     "from": [
+      72,
+      76
+     ],
+     "at": [
+      8.8,
+      20.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D55, D59 as one crown"
+    },
+    {
+     "from": [
+      84,
+      85
+     ],
+     "at": [
+      10.8,
+      17
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "drafts D64, D65 as one crown"
+    },
+    {
+     "from": [
+      108,
+      111
+     ],
+     "at": [
+      29,
+      3.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D82, D84 as one crown"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D1 (April 2021 share 0.98), margin"
+    },
+    {
+     "from": [
+      2
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      4
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      5,
+      6
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      7,
+      8
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      10
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D8 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      11,
+      12
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D9 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      14
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D10 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      15
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D11 (April 2021 share 0.92), margin"
+    },
+    {
+     "from": [
+      16
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D12 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      17
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D13 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      13,
+      18
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D14 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      20
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D15 (April 2021 share 0.98), margin"
+    },
+    {
+     "from": [
+      19,
+      21
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D16 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      22
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D17 (April 2021 share 0.97), margin"
+    },
+    {
+     "from": [
+      23
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D18 (April 2021 share 0.88)"
+    },
+    {
+     "from": [
+      24
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D19 (April 2021 share 0.99)"
+    },
+    {
+     "from": [
+      25
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D20 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      26,
+      28
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D21 (April 2021 share 0.81)"
+    },
+    {
+     "from": [
+      30
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D23 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      33
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D26 (April 2021 share 0.99), margin"
+    },
+    {
+     "from": [
+      34
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D27 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      38
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D29 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      39
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D30 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      44
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D33 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      46
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D35 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      48
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D37 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      49,
+      51
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D39 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      52
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D40 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      53
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D41 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      55,
+      57
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D43 (April 2021 share 0.91)"
+    },
+    {
+     "from": [
+      56
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D44 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      58
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D45 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      59
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D46 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      60
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D47 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      62
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D49 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      63,
+      64
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D50 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      67
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D52 (April 2021 share 0.85)"
+    },
+    {
+     "from": [
+      71
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D54 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      73
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D56 (April 2021 share 0.98)"
+    },
+    {
+     "from": [
+      68,
+      69,
+      74,
+      78,
+      81,
+      82
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D57 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      77
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D60 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      79
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D61 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      80
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D62 (April 2021 share 0.86)"
+    },
+    {
+     "from": [
+      83
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D63 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      86
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D66 (April 2021 share 0.79)"
+    },
+    {
+     "from": [
+      87
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D67 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      90,
+      95
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D69 (April 2021 share 0.89)"
+    },
+    {
+     "from": [
+      89,
+      92
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D70 (April 2021 share 0.88)"
+    },
+    {
+     "from": [
+      93
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D71 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      98
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D74 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      97,
+      99
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D75 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      100
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D76 (April 2021 share 0.98)"
+    },
+    {
+     "from": [
+      101,
+      105
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D77 (April 2021 share 0.81)"
+    },
+    {
+     "from": [
+      103
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D79 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      104
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D80 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      106,
+      107
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D81 (April 2021 share 0.87)"
+    },
+    {
+     "from": [
+      109,
+      115
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D83 (April 2021 share 0.16), margin"
+    },
+    {
+     "from": [
+      110,
+      112,
+      114
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D85 (April 2021 share 0.04)"
+    },
+    {
+     "from": [
+      113
+     ],
+     "type": "conifer",
+     "stratum": "group",
+     "note": "draft D86 (April 2021 share 0.81)"
+    },
+    {
+     "from": [
+      117
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D87 (April 2021 share 0.24), margin"
+    },
+    {
+     "from": [
+      118
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D88 (April 2021 share 0.71), margin"
+    },
+    {
+     "from": [
+      116,
+      119
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D89 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      120
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D90 (April 2021 share 0.07), margin"
+    },
+    {
+     "from": [
+      123
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D91 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      121,
+      122,
+      124,
+      125,
+      131
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D92 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      127
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D93 (April 2021 share 0.6), margin"
+    },
+    {
+     "from": [
+      128,
+      129
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D94 (April 2021 share 0.44), margin"
+    },
+    {
+     "from": [
+      130
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D95 (April 2021 share 0.4), margin"
+    },
+    {
+     "from": [
+      126,
+      132,
+      133
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D96 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      35.5,
+      31,
+      40,
+      39.5
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      35,
+      8,
+      39.5,
+      15
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    }
+   ]
+  },
+  {
+   "window": "C6-s2-grove",
+   "crowns": [
+    {
+     "from": [
+      18,
+      21
+     ],
+     "at": [
+      41.8,
+      42
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D10 as one crown"
+    },
+    {
+     "from": [
+      31
+     ],
+     "at": [
+      32,
+      38.5
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D17 as one crown"
+    },
+    {
+     "from": [
+      39,
+      42,
+      45
+     ],
+     "at": [
+      37.5,
+      30.3
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D23 as one crown"
+    },
+    {
+     "from": [
+      59,
+      60,
+      66,
+      67,
+      74,
+      77,
+      78,
+      83
+     ],
+     "at": [
+      20.6,
+      19.4
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D31, D36, D38 as one crown"
+    },
+    {
+     "from": [
+      96,
+      103,
+      110,
+      116
+     ],
+     "at": [
+      11.5,
+      8.8
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D48 as one crown"
+    },
+    {
+     "from": [
+      48,
+      51,
+      56
+     ],
+     "at": [
+      1,
+      25.8
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D27 as one crown"
+    },
+    {
+     "from": [
+      17,
+      19,
+      20
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D9 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      22,
+      24,
+      25
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D11 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      26,
+      28
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D14 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      30,
+      33
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D16 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      34
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D18 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      35,
+      38
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D19 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      40,
+      43
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D21 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      44,
+      46
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D24 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D28 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      85,
+      91,
+      92,
+      97
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D43 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      98
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D44 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      93,
+      95,
+      100,
+      102,
+      104,
+      108,
+      114
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D47 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      106
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D50 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      113,
+      117,
+      121,
+      124
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D53 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      111,
+      115,
+      118,
+      122
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D54 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      2,
+      3
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      4,
+      5
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D3 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D4 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      7,
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D5 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      10
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      8,
+      11,
+      13,
+      16
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D7 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      12,
+      14,
+      15
+     ],
+     "type": "unknown",
+     "stratum": "isolated",
+     "note": "draft D8 (April 2021 share 0.24), margin"
+    },
+    {
+     "from": [
+      27
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D13 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      29,
+      32
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D15 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      36,
+      37
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D20 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      41
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D22 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      65,
+      69
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D32 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      73,
+      75,
+      80
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D35 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      81,
+      86,
+      87,
+      88
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D39 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      101
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D46 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      105
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D49 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      119
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D55 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      123,
+      125,
+      126,
+      130
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D56 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      128
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D57 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      127,
+      131,
+      140
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D58 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      135,
+      137,
+      143
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D59 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      132,
+      138,
+      145
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D60 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      129,
+      133,
+      134,
+      139
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D61 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      141
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D62 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      136,
+      142
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D63 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      144
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D64 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      146
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D65 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      35,
+      16.5,
+      44,
+      23.5
+     ],
+     "reason": "two tops 4.5 m apart (14 and 11 m) in one broad crown: one or two trees, not decidable"
+    },
+    {
+     "box": [
+      23,
+      22,
+      30,
+      26.2
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      0,
+      11.5,
+      9.5,
+      18
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      31.299999999999997,
+      39.8,
+      34.3,
+      42.8
+     ],
+     "reason": "a drafted top (7.43 m) neither photo decides (draft D12)"
+    },
+    {
+     "box": [
+      19.3,
+      25.8,
+      22.3,
+      28.8
+     ],
+     "reason": "a drafted top (4.69 m) neither photo decides (draft D25)"
+    },
+    {
+     "box": [
+      33.8,
+      24.8,
+      36.8,
+      27.8
+     ],
+     "reason": "a drafted top (5.96 m) neither photo decides (draft D26)"
+    },
+    {
+     "box": [
+      1.2999999999999998,
+      17.8,
+      4.3,
+      20.8
+     ],
+     "reason": "a drafted top (2.95 m) neither photo decides (draft D34)"
+    },
+    {
+     "box": [
+      16.3,
+      8.3,
+      19.3,
+      11.3
+     ],
+     "reason": "a drafted top (3.19 m) neither photo decides (draft D45)"
+    },
+    {
+     "box": [
+      -1.2,
+      5.3,
+      1.8,
+      8.3
+     ],
+     "reason": "a drafted top (8.88 m) neither photo decides (draft D51)"
+    },
+    {
+     "box": [
+      17.3,
+      4.8,
+      20.3,
+      7.8
+     ],
+     "reason": "a drafted top (2.78 m) neither photo decides (draft D52)"
+    }
+   ]
+  },
+  {
+   "window": "C7-c4-avenue",
+   "crowns": [
+    {
+     "from": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "at": [
+      54.5,
+      58.3
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D1 as one crown"
+    },
+    {
+     "from": [
+      6,
+      8
+     ],
+     "at": [
+      59.6,
+      53.6
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D2 as one crown"
+    },
+    {
+     "from": [
+      9
+     ],
+     "at": [
+      49,
+      50.8
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D4 as one crown"
+    },
+    {
+     "from": [
+      10,
+      11,
+      12
+     ],
+     "at": [
+      43,
+      44
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D5 as one crown"
+    },
+    {
+     "from": [
+      15,
+      18
+     ],
+     "at": [
+      26,
+      23.6
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D8 as one crown"
+    },
+    {
+     "from": [
+      20,
+      21
+     ],
+     "at": [
+      17,
+      17
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D12 as one crown; the colour infrared of 2025 shows two crowns of different red side by side"
+    },
+    {
+     "from": [
+      19
+     ],
+     "at": [
+      21.6,
+      18.8
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D11 as one crown"
+    },
+    {
+     "from": [
+      22,
+      23,
+      25
+     ],
+     "at": [
+      18.4,
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D13 as one crown"
+    },
+    {
+     "from": [
+      13
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D6 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      24,
+      26
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D14 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      17
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D10 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      27
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D15 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      28
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D16 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      29
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D17 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      30
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D18 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {
+    "7": "a single 4 m return beside the path with no crown in either photo (a post or sign) (draft D3)",
+    "14": "a boulder (2.8 m) (draft D7)",
+    "16": "a boulder (2.8 m) (draft D9)"
+   },
+   "ambiguous": []
+  },
+  {
+   "window": "C8-s5-planted",
+   "crowns": [
+    {
+     "from": [
+      1,
+      3
+     ],
+     "at": [
+      37.2,
+      32
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D1 as one crown"
+    },
+    {
+     "from": [
+      5,
+      6,
+      8
+     ],
+     "at": [
+      8.3,
+      28.4
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D4, D6 as one crown"
+    },
+    {
+     "from": [
+      9
+     ],
+     "at": [
+      26,
+      26.3
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D7 as one crown"
+    },
+    {
+     "from": [
+      10
+     ],
+     "at": [
+      15.1,
+      25.6
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D8 as one crown"
+    },
+    {
+     "from": [
+      11,
+      13
+     ],
+     "at": [
+      32.5,
+      23.2
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D10 as one crown"
+    },
+    {
+     "from": [
+      12
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D9 (April 2021 share 0.99); young planted tree: a thin leafless trunk shadow in April 2021, a full crown shadow in June 2025 (the April share reads the green grass under it)"
+    },
+    {
+     "from": [
+      14
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D11 (April 2021 share 1); young planted tree, as its neighbours"
+    },
+    {
+     "from": [
+      4
+     ],
+     "type": "conifer",
+     "stratum": "isolated",
+     "note": "draft D3 (April 2021 share 0.85), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      16.8,
+      29.8,
+      19.8,
+      32.8
+     ],
+     "reason": "a 3.7 m top with no crown shadow in June 2025: gone or a part of its neighbour, not decidable (draft D2)"
+    },
+    {
+     "box": [
+      1.7999999999999998,
+      25.8,
+      4.8,
+      28.8
+     ],
+     "reason": "a 4.2 m top with no clear crown shadow in June 2025, not decidable (draft D5)"
+    }
+   ]
+  },
+  {
+   "window": "C9-s8-grove",
+   "crowns": [
+    {
+     "from": [
+      17,
+      20,
+      21,
+      22
+     ],
+     "at": [
+      16.6,
+      19
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "drafts D14, D17, D18 as one crown"
+    },
+    {
+     "from": [
+      23,
+      25
+     ],
+     "at": [
+      5,
+      10.8
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "drafts D19, D21 as one crown"
+    },
+    {
+     "from": [
+      28,
+      30,
+      31,
+      34,
+      35,
+      36
+     ],
+     "at": [
+      9.6,
+      5.2
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D24, D25 as one crown"
+    },
+    {
+     "from": [
+      26,
+      27,
+      29,
+      32
+     ],
+     "at": [
+      22.1,
+      6.6
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "drafts D22, D23, D26 as one crown"
+    },
+    {
+     "from": [
+      13
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D11 (April 2021 share 0.2)"
+    },
+    {
+     "from": [
+      16
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D13 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      19
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D16 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      37
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D28 (April 2021 share 0.78)"
+    },
+    {
+     "from": [
+      1,
+      5
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D1 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      2,
+      8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D3 (April 2021 share 0.68), margin"
+    },
+    {
+     "from": [
+      4
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D5 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      7
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      9
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0.99), margin"
+    },
+    {
+     "from": [
+      10
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D8 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      11
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D9 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      12
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D10 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      14,
+      15
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D12 (April 2021 share 0.01), margin"
+    },
+    {
+     "from": [
+      18
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D15 (April 2021 share 0.11), margin"
+    },
+    {
+     "from": [
+      24
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D20 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      38,
+      41
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D30 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      42
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D31 (April 2021 share 0.54), margin"
+    },
+    {
+     "from": [
+      43
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D32 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      40,
+      44
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D33 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      45
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D34 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      46,
+      47
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D35 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      48
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D36 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      49
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D37 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      -0.19999999999999996,
+      2.8,
+      2.8,
+      5.8
+     ],
+     "reason": "a drafted top (11.77 m) neither photo decides (draft D27)"
+    },
+    {
+     "box": [
+      2.8,
+      -0.7,
+      5.8,
+      2.3
+     ],
+     "reason": "a drafted top (18.2 m) neither photo decides (draft D29)"
+    }
+   ]
+  },
+  {
+   "window": "C11-churchyard",
+   "crowns": [
+    {
+     "from": [
+      20,
+      24,
+      27,
+      31,
+      32,
+      33,
+      37,
+      42
+     ],
+     "at": [
+      9,
+      37.6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D10, D17 as one crown"
+    },
+    {
+     "from": [
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      63,
+      64,
+      73
+     ],
+     "at": [
+      2.5,
+      20.6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D24, D25, D26, D27, D29 as one crown"
+    },
+    {
+     "from": [
+      22,
+      23,
+      28,
+      34,
+      40,
+      49,
+      51
+     ],
+     "at": [
+      25,
+      37.4
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D11, D15, D21, D23 as one crown"
+    },
+    {
+     "from": [
+      21,
+      25,
+      30,
+      35,
+      41,
+      43,
+      44,
+      46,
+      47
+     ],
+     "at": [
+      41.2,
+      36.2
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D12, D18, D19 as one crown"
+    },
+    {
+     "from": [
+      19,
+      36,
+      45,
+      48
+     ],
+     "at": [
+      -1.5,
+      37
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D9, D16, D20 as one crown; centre outside the window"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0.06), margin"
+    },
+    {
+     "from": [
+      3,
+      4,
+      9,
+      10
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      2,
+      5
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D3 (April 2021 share 0.04), margin"
+    },
+    {
+     "from": [
+      7,
+      12
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      11,
+      15,
+      16
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      6,
+      8,
+      13,
+      14
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      17
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D7 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      18
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D8 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      26
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D13 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      62
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D28 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      65,
+      66,
+      71
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D30 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      67
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D31 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      72
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D35 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      76
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D37 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      75,
+      77
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D38 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      78
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D39 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      79
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D40 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      80
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D41 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      81,
+      82
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D42 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      83
+     ],
+     "type": "conifer",
+     "stratum": "group",
+     "note": "draft D43 (April 2021 share 0.65), margin"
+    }
+   ],
+   "rejected": {
+    "68": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos): the church (draft D32)",
+    "69": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos): the church (draft D33)",
+    "70": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos): the church (draft D34)",
+    "74": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos): the church porch (draft D36)"
+   },
+   "ambiguous": [
+    {
+     "box": [
+      14.3,
+      36.8,
+      17.3,
+      39.8
+     ],
+     "reason": "a 6.8 m bridge between two big crowns: a hedge tree or a branch, not decidable (draft D14)"
+    },
+    {
+     "box": [
+      0.30000000000000004,
+      28.8,
+      3.3,
+      31.8
+     ],
+     "reason": "a shoulder between two big crowns, not decidable (draft D22)"
+    }
+   ]
+  },
+  {
+   "window": "C14-c2-group",
+   "crowns": [
+    {
+     "from": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22
+     ],
+     "at": [
+      6.2,
+      32.8
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D9, D10, D11, D12, D13 as one crown"
+    },
+    {
+     "from": [
+      23,
+      24,
+      26,
+      28
+     ],
+     "at": [
+      16.6,
+      25.4
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D14, D15 as one crown"
+    },
+    {
+     "from": [
+      25,
+      29
+     ],
+     "at": [
+      22.8,
+      24.6
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D17 as one crown"
+    },
+    {
+     "from": [
+      31,
+      32,
+      33,
+      36,
+      39,
+      40,
+      43
+     ],
+     "at": [
+      15.2,
+      17
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D18, D22, D24 as one crown"
+    },
+    {
+     "from": [
+      42,
+      44,
+      49,
+      53
+     ],
+     "at": [
+      23,
+      12.5
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D23, D27 as one crown"
+    },
+    {
+     "from": [
+      41,
+      45
+     ],
+     "at": [
+      29.5,
+      13.4
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D25 as one crown"
+    },
+    {
+     "from": [
+      56,
+      58,
+      60,
+      64
+     ],
+     "at": [
+      33,
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D31, D32 as one crown"
+    },
+    {
+     "from": [
+      13,
+      14
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D8 (April 2021 share 0.1)"
+    },
+    {
+     "from": [
+      27,
+      30
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D16 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      34,
+      37
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D20 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      63,
+      65,
+      67
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D35 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0.8), margin"
+    },
+    {
+     "from": [
+      2
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 0.53), margin"
+    },
+    {
+     "from": [
+      4
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D3 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D4 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      3,
+      5,
+      7,
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D5 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      10,
+      11
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0.85), margin"
+    },
+    {
+     "from": [
+      8,
+      12
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0.4), margin"
+    },
+    {
+     "from": [
+      50,
+      51,
+      54,
+      57
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D29 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      59,
+      61
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D33 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      69,
+      71
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D36 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      70,
+      72
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D37 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      66,
+      68,
+      73,
+      76,
+      77,
+      78
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D38 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      74,
+      75
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D39 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      79,
+      80
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D40 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      81
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D41 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      82,
+      83
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D42 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      13,
+      7,
+      22.4,
+      12.3
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      27.5,
+      16,
+      32,
+      21
+     ],
+     "reason": "a 13 m shoulder of the crown beside it or a tree of its own, not decidable"
+    },
+    {
+     "box": [
+      17,
+      -1,
+      24,
+      5
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      34.8,
+      14.8,
+      37.8,
+      17.8
+     ],
+     "reason": "a drafted top (3.02 m) neither photo decides (draft D21)"
+    }
+   ]
+  },
+  {
+   "window": "C15-park-garden",
+   "crowns": [
+    {
+     "from": [
+      4,
+      5,
+      6,
+      13,
+      16
+     ],
+     "at": [
+      19.5,
+      37.5
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D3, D7 as one crown"
+    },
+    {
+     "from": [
+      9,
+      11,
+      14,
+      17,
+      20,
+      23,
+      25
+     ],
+     "at": [
+      26,
+      33
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D6, D8, D11, D14 as one crown"
+    },
+    {
+     "from": [
+      39,
+      40,
+      41,
+      42
+     ],
+     "at": [
+      17.5,
+      -2
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D21, D22 as one crown; centre outside the window"
+    },
+    {
+     "from": [
+      1,
+      2
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0.02), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      43,
+      44,
+      46
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D23 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      48,
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D24 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      50
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D25 (April 2021 share 0.61), margin"
+    },
+    {
+     "from": [
+      45,
+      47,
+      51
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D26 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      49,
+      52,
+      56
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D27 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      53
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D28 (April 2021 share 0.15), margin"
+    },
+    {
+     "from": [
+      55
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D29 (April 2021 share 0.24), margin"
+    }
+   ],
+   "rejected": {
+    "15": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D10)",
+    "19": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D10)",
+    "21": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D10)",
+    "26": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D15)",
+    "27": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D15)",
+    "28": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D15)",
+    "29": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D15)",
+    "30": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D15)",
+    "31": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D16)",
+    "32": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D17)",
+    "33": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D16)",
+    "34": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D18)",
+    "35": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D18)",
+    "36": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D19)",
+    "37": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D19)",
+    "38": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D20)"
+   },
+   "ambiguous": [
+    {
+     "box": [
+      7.5,
+      27,
+      17,
+      40
+     ],
+     "reason": "a crown of the 2020 laser the June 2025 photo does not show beside its neighbour: felled or hidden, not decidable"
+    },
+    {
+     "box": [
+      17,
+      26.5,
+      23,
+      31
+     ],
+     "reason": "the low edge of the crown beside it, not decidable"
+    }
+   ]
+  },
+  {
+   "window": "C17-se-row",
+   "crowns": [
+    {
+     "from": [
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39
+     ],
+     "at": [
+      18.8,
+      18.2
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D16, D17, D18, D19 as one crown"
+    },
+    {
+     "from": [
+      17,
+      18,
+      19,
+      22,
+      24,
+      25,
+      26,
+      27
+     ],
+     "at": [
+      16.5,
+      31.5
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D9, D12, D13 as one crown"
+    },
+    {
+     "from": [
+      9,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+     ],
+     "at": [
+      18.2,
+      39
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D6, D7, D8 as one crown"
+    },
+    {
+     "from": [
+      44,
+      45,
+      46
+     ],
+     "at": [
+      28,
+      0.9
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D22, D23, D24 as one crown"
+    },
+    {
+     "from": [
+      41,
+      42,
+      43
+     ],
+     "at": [
+      23.6,
+      7.5
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D21 as one crown"
+    },
+    {
+     "from": [
+      7,
+      8,
+      10
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D5 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      1,
+      2,
+      4
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D3 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      21,
+      23
+     ],
+     "type": "unknown",
+     "stratum": "group",
+     "note": "draft D11 (April 2021 share 0.4), margin"
+    },
+    {
+     "from": [
+      47,
+      48,
+      49,
+      50,
+      51,
+      53
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D25 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      52
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D26 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D27 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      55,
+      56
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D28 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      13,
+      23,
+      23,
+      28
+     ],
+     "reason": "two tops between two domes of the row: one of them or a tree of their own, not decidable"
+    },
+    {
+     "box": [
+      12.8,
+      42.3,
+      15.8,
+      45.3
+     ],
+     "reason": "a drafted top (2.7 m) neither photo decides (draft D4)"
+    },
+    {
+     "box": [
+      20.8,
+      31.299999999999997,
+      23.8,
+      34.3
+     ],
+     "reason": "a drafted top (4.9 m) neither photo decides (draft D10)"
+    },
+    {
+     "box": [
+      21.8,
+      11.3,
+      24.8,
+      14.3
+     ],
+     "reason": "a drafted top (3.95 m) neither photo decides (draft D20)"
+    }
+   ]
+  },
+  {
+   "window": "C18-s3-group",
+   "crowns": [
+    {
+     "from": [
+      10,
+      11
+     ],
+     "at": [
+      21.5,
+      35.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D10, D11 as one crown"
+    },
+    {
+     "from": [
+      26,
+      29
+     ],
+     "at": [
+      12.8,
+      22.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D23, D24 as one crown"
+    },
+    {
+     "from": [
+      49,
+      53
+     ],
+     "at": [
+      10.8,
+      11.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D36, D40 as one crown"
+    },
+    {
+     "from": [
+      48,
+      52,
+      54
+     ],
+     "at": [
+      21.5,
+      10.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D39, D41 as one crown"
+    },
+    {
+     "from": [
+      17,
+      21
+     ],
+     "at": [
+      26.3,
+      26.6
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D16, D19 as one crown"
+    },
+    {
+     "from": [
+      63,
+      67
+     ],
+     "at": [
+      27.8,
+      3.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D48, D52 as one crown"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      2
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 0.72), margin"
+    },
+    {
+     "from": [
+      4
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D4 (April 2021 share 0.57), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0.79), margin"
+    },
+    {
+     "from": [
+      7
+     ],
+     "type": "conifer",
+     "stratum": "group",
+     "note": "draft D7 (April 2021 share 0.93), margin"
+    },
+    {
+     "from": [
+      8
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D8 (April 2021 share 0.12)"
+    },
+    {
+     "from": [
+      9
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D9 (April 2021 share 0.9)"
+    },
+    {
+     "from": [
+      13
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D12 (April 2021 share 0.9)"
+    },
+    {
+     "from": [
+      12,
+      14
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D13 (April 2021 share 0.8)"
+    },
+    {
+     "from": [
+      15
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D14 (April 2021 share 0.64)"
+    },
+    {
+     "from": [
+      20
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D18 (April 2021 share 0.66)"
+    },
+    {
+     "from": [
+      24
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D22 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      33,
+      34
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D26 (April 2021 share 0.65)"
+    },
+    {
+     "from": [
+      37,
+      39
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D29 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      40
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D30 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      41
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D31 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      44
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D33 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      55,
+      57
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D42 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      59
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D45 (April 2021 share 0.93)"
+    },
+    {
+     "from": [
+      60,
+      62
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D46 (April 2021 share 0.92)"
+    },
+    {
+     "from": [
+      61
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D47 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      64
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D49 (April 2021 share 0.79)"
+    },
+    {
+     "from": [
+      65
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D50 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      66
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D51 (April 2021 share 0.56)"
+    },
+    {
+     "from": [
+      68
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D53 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      69
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D54 (April 2021 share 0.98)"
+    },
+    {
+     "from": [
+      71
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D55 (April 2021 share 0.23), margin"
+    },
+    {
+     "from": [
+      72
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D56 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      73
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D57 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      70,
+      74
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D58 (April 2021 share 0.98), margin"
+    },
+    {
+     "from": [
+      75,
+      77,
+      81
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D59 (April 2021 share 0.95), margin"
+    },
+    {
+     "from": [
+      76
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D60 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      79
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D61 (April 2021 share 0.46), margin"
+    },
+    {
+     "from": [
+      78,
+      80
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D62 (April 2021 share 0.95), margin"
+    },
+    {
+     "from": [
+      82
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D63 (April 2021 share 0.98), margin"
+    },
+    {
+     "from": [
+      83
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D64 (April 2021 share 0.99), margin"
+    },
+    {
+     "from": [
+      84
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D65 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      86
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D66 (April 2021 share 0.93), margin"
+    },
+    {
+     "from": [
+      87
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D67 (April 2021 share 0.73), margin"
+    },
+    {
+     "from": [
+      85,
+      88
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D68 (April 2021 share 1), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      15.5,
+      13.8,
+      31,
+      25.8
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      23.6,
+      6,
+      31.5,
+      13.8
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      14.3,
+      26.8,
+      17.3,
+      29.8
+     ],
+     "reason": "a 7.7 m top in a gap: understorey or a low branch, not decidable (draft D15)"
+    },
+    {
+     "box": [
+      2.8,
+      25.8,
+      5.8,
+      28.8
+     ],
+     "reason": "a 3.9 m shrub at the edge, not decidable (draft D17)"
+    }
+   ]
+  },
+  {
+   "window": "H2-avenue",
+   "crowns": [
+    {
+     "from": [
+      10
+     ],
+     "at": [
+      15.6,
+      57.6
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D5 as one crown"
+    },
+    {
+     "from": [
+      13,
+      14,
+      16
+     ],
+     "at": [
+      10.3,
+      50.3
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D7, D9 as one crown"
+    },
+    {
+     "from": [
+      25,
+      30
+     ],
+     "at": [
+      9.6,
+      40.2
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D14 as one crown"
+    },
+    {
+     "from": [
+      38,
+      39,
+      40
+     ],
+     "at": [
+      2.5,
+      33.4
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D20 as one crown"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      1,
+      2,
+      4,
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      5,
+      7
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      8,
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D4 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      33,
+      36
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D18 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      41,
+      43
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D21 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      44
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D22 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      46
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D23 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      42,
+      45,
+      47,
+      48
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D24 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      49,
+      50
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D25 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      51,
+      52,
+      53
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D26 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      54,
+      55
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D27 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      57
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D29 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {
+    "56": "a 2.8 m shrub (draft D28)"
+   },
+   "ambiguous": [
+    {
+     "box": [
+      42,
+      33,
+      60,
+      60
+     ],
+     "reason": "trees of the 2020 laser that the 2025 photo does not show: felled since, scored for no one (bare ground there in 2025), and the thicket round them"
+    },
+    {
+     "box": [
+      52,
+      4,
+      60,
+      33
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      -0.19999999999999996,
+      39.3,
+      2.8,
+      42.3
+     ],
+     "reason": "a drafted top (2.81 m) neither photo decides (draft D13)"
+    }
+   ]
+  },
+  {
+   "window": "H4-c15-closed",
+   "crowns": [
+    {
+     "from": [
+      46,
+      52,
+      57
+     ],
+     "at": [
+      2,
+      18
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D33, D38 as one crown"
+    },
+    {
+     "from": [
+      58,
+      65
+     ],
+     "at": [
+      12.8,
+      14.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D42, D48 as one crown"
+    },
+    {
+     "from": [
+      93,
+      100,
+      106
+     ],
+     "at": [
+      4,
+      3.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D72, D75 as one crown"
+    },
+    {
+     "from": [
+      78,
+      87
+     ],
+     "at": [
+      7.5,
+      9.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D56, D61 as one crown"
+    },
+    {
+     "from": [
+      89,
+      95,
+      102,
+      103
+     ],
+     "at": [
+      19,
+      6.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D63, D68 as one crown"
+    },
+    {
+     "from": [
+      97,
+      101,
+      107
+     ],
+     "at": [
+      22.8,
+      3.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D73, D76 as one crown"
+    },
+    {
+     "from": [
+      98,
+      104
+     ],
+     "at": [
+      26.8,
+      4.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D70, D74 as one crown"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D1 (April 2021 share 0.57), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 0.94), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 0.84), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 0.99), margin"
+    },
+    {
+     "from": [
+      7
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 0.69), margin"
+    },
+    {
+     "from": [
+      2,
+      8
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0.3), margin"
+    },
+    {
+     "from": [
+      4,
+      9
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0.92), margin"
+    },
+    {
+     "from": [
+      10
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D8 (April 2021 share 0.91), margin"
+    },
+    {
+     "from": [
+      11
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D9 (April 2021 share 0.45), margin"
+    },
+    {
+     "from": [
+      12,
+      15,
+      16
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D10 (April 2021 share 0.9), margin"
+    },
+    {
+     "from": [
+      13
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D11 (April 2021 share 0.56), margin"
+    },
+    {
+     "from": [
+      14
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D12 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      17
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D13 (April 2021 share 0.8), margin"
+    },
+    {
+     "from": [
+      19
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D14 (April 2021 share 0.7), margin"
+    },
+    {
+     "from": [
+      18,
+      20
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D15 (April 2021 share 0.63)"
+    },
+    {
+     "from": [
+      21
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D16 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      22
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D17 (April 2021 share 0.4)"
+    },
+    {
+     "from": [
+      23
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D18 (April 2021 share 0.41), margin"
+    },
+    {
+     "from": [
+      24
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D19 (April 2021 share 0.83)"
+    },
+    {
+     "from": [
+      25
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D20 (April 2021 share 0.64)"
+    },
+    {
+     "from": [
+      26
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D21 (April 2021 share 0.69)"
+    },
+    {
+     "from": [
+      27
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D22 (April 2021 share 0.81)"
+    },
+    {
+     "from": [
+      29
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D23 (April 2021 share 0.42)"
+    },
+    {
+     "from": [
+      31
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D24 (April 2021 share 0.7), margin"
+    },
+    {
+     "from": [
+      32,
+      36,
+      41
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D25 (April 2021 share 0.38)"
+    },
+    {
+     "from": [
+      33,
+      37
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D26 (April 2021 share 0.97)"
+    },
+    {
+     "from": [
+      28,
+      30,
+      34,
+      38
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D27 (April 2021 share 0.78), margin"
+    },
+    {
+     "from": [
+      35
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D28 (April 2021 share 0.55)"
+    },
+    {
+     "from": [
+      39
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D29 (April 2021 share 0.22), margin"
+    },
+    {
+     "from": [
+      40,
+      42,
+      45
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D30 (April 2021 share 0.69), margin"
+    },
+    {
+     "from": [
+      43
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D31 (April 2021 share 0.25)"
+    },
+    {
+     "from": [
+      44
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D32 (April 2021 share 0.44)"
+    },
+    {
+     "from": [
+      47
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D34 (April 2021 share 0.62)"
+    },
+    {
+     "from": [
+      49
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D35 (April 2021 share 0.91)"
+    },
+    {
+     "from": [
+      50
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D36 (April 2021 share 0.24), margin"
+    },
+    {
+     "from": [
+      51
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D37 (April 2021 share 0.47), margin"
+    },
+    {
+     "from": [
+      53,
+      61
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D39 (April 2021 share 0.5)"
+    },
+    {
+     "from": [
+      54,
+      56
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D40 (April 2021 share 0.21), margin"
+    },
+    {
+     "from": [
+      48,
+      55
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D41 (April 2021 share 0.98)"
+    },
+    {
+     "from": [
+      59
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D43 (April 2021 share 0.9)"
+    },
+    {
+     "from": [
+      60
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D44 (April 2021 share 0.47)"
+    },
+    {
+     "from": [
+      62
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D45 (April 2021 share 0.38), margin"
+    },
+    {
+     "from": [
+      63,
+      74
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D46 (April 2021 share 0.47)"
+    },
+    {
+     "from": [
+      64,
+      68
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D47 (April 2021 share 0.56), margin"
+    },
+    {
+     "from": [
+      67
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D49 (April 2021 share 0.3), margin"
+    },
+    {
+     "from": [
+      69
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D50 (April 2021 share 0.78)"
+    },
+    {
+     "from": [
+      71
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D51 (April 2021 share 0.38)"
+    },
+    {
+     "from": [
+      72,
+      77
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D52 (April 2021 share 0.37), margin"
+    },
+    {
+     "from": [
+      73
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D53 (April 2021 share 0.76)"
+    },
+    {
+     "from": [
+      75
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D54 (April 2021 share 0.81)"
+    },
+    {
+     "from": [
+      66,
+      76,
+      79,
+      82,
+      83
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D55 (April 2021 share 0.04), margin"
+    },
+    {
+     "from": [
+      70,
+      81
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D57 (April 2021 share 0.74)"
+    },
+    {
+     "from": [
+      84
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D58 (April 2021 share 0.67)"
+    },
+    {
+     "from": [
+      85
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D59 (April 2021 share 0.4)"
+    },
+    {
+     "from": [
+      80,
+      86
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D60 (April 2021 share 0.49), margin"
+    },
+    {
+     "from": [
+      88
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D62 (April 2021 share 0.84)"
+    },
+    {
+     "from": [
+      90
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D64 (April 2021 share 0.11), margin"
+    },
+    {
+     "from": [
+      91
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D65 (April 2021 share 0.47), margin"
+    },
+    {
+     "from": [
+      92
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D66 (April 2021 share 0.61)"
+    },
+    {
+     "from": [
+      94
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D67 (April 2021 share 0.68)"
+    },
+    {
+     "from": [
+      96
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D69 (April 2021 share 0.33), margin"
+    },
+    {
+     "from": [
+      99
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D71 (April 2021 share 0.5), margin"
+    },
+    {
+     "from": [
+      108
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D77 (April 2021 share 0.22)"
+    },
+    {
+     "from": [
+      105,
+      109
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D78 (April 2021 share 0.73)"
+    },
+    {
+     "from": [
+      110
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D79 (April 2021 share 0.32)"
+    },
+    {
+     "from": [
+      111
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D80 (April 2021 share 0.5), margin"
+    },
+    {
+     "from": [
+      112
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D81 (April 2021 share 0.88)"
+    },
+    {
+     "from": [
+      113
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D82 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      114
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D83 (April 2021 share 0.12), margin"
+    },
+    {
+     "from": [
+      115
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D84 (April 2021 share 0.62), margin"
+    },
+    {
+     "from": [
+      116
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D85 (April 2021 share 0.53), margin"
+    },
+    {
+     "from": [
+      117
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D86 (April 2021 share 0.85), margin"
+    },
+    {
+     "from": [
+      118
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D87 (April 2021 share 0.23), margin"
+    },
+    {
+     "from": [
+      119
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D88 (April 2021 share 0.58), margin"
+    },
+    {
+     "from": [
+      120,
+      121
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D89 (April 2021 share 0.96), margin"
+    },
+    {
+     "from": [
+      122
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D90 (April 2021 share 0.51), margin"
+    },
+    {
+     "from": [
+      123
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D91 (April 2021 share 0.66), margin"
+    },
+    {
+     "from": [
+      124
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D92 (April 2021 share 0.56), margin"
+    },
+    {
+     "from": [
+      125
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D93 (April 2021 share 0.37), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": []
+  },
+  {
+   "window": "H6-s9-shore",
+   "crowns": [
+    {
+     "from": [
+      6,
+      10,
+      11,
+      14,
+      19
+     ],
+     "at": [
+      27.5,
+      45
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D3, D5, D6, D9 as one crown"
+    },
+    {
+     "from": [
+      7,
+      8,
+      9,
+      12,
+      13,
+      15,
+      16,
+      17,
+      18,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+     ],
+     "at": [
+      47.5,
+      43
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D4, D7, D8, D10, D11, D12 as one crown"
+    },
+    {
+     "from": [
+      40,
+      41,
+      43,
+      44,
+      45,
+      47
+     ],
+     "at": [
+      36,
+      3.4
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D21 as one crown"
+    },
+    {
+     "from": [
+      46,
+      48,
+      50,
+      51
+     ],
+     "at": [
+      24.5,
+      0.4
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D23 as one crown"
+    },
+    {
+     "from": [
+      1,
+      2,
+      3
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      4,
+      5
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      49
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D24 (April 2021 share 0.06), margin"
+    },
+    {
+     "from": [
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D25 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      52,
+      53,
+      55
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D26 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      56
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D27 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      44,
+      3,
+      57,
+      25.5
+     ],
+     "reason": "trees of the 2020 laser that the 2025 photo does not show: felled since, scored for no one"
+    },
+    {
+     "box": [
+      5,
+      -1,
+      17.5,
+      13.5
+     ],
+     "reason": "two crowns of the 2020 laser that the June 2025 photo shows as lawn or hides in shadow: felled or hidden, not decidable"
+    }
+   ]
+  },
+  {
+   "window": "H8-c7-east",
+   "crowns": [
+    {
+     "from": [
+      14,
+      15,
+      17
+     ],
+     "at": [
+      14.5,
+      24.8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D10, D12 as one crown"
+    },
+    {
+     "from": [
+      20,
+      27,
+      31
+     ],
+     "at": [
+      2.5,
+      20.3
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "drafts D14, D20 as one crown"
+    },
+    {
+     "from": [
+      1,
+      2
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      3,
+      4,
+      6
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 0.85), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D3 (April 2021 share 0.66), margin"
+    },
+    {
+     "from": [
+      7
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D4 (April 2021 share 0.1), margin"
+    },
+    {
+     "from": [
+      8
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D5 (April 2021 share 0.46), margin"
+    },
+    {
+     "from": [
+      9
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D6 (April 2021 share 0.53)"
+    },
+    {
+     "from": [
+      10
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D7 (April 2021 share 0.94), margin"
+    },
+    {
+     "from": [
+      12
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D8 (April 2021 share 0.63)"
+    },
+    {
+     "from": [
+      11,
+      13
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D9 (April 2021 share 0.37)"
+    },
+    {
+     "from": [
+      16,
+      18
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D11 (April 2021 share 0.51)"
+    },
+    {
+     "from": [
+      19
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D13 (April 2021 share 0.86)"
+    },
+    {
+     "from": [
+      21
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D15 (April 2021 share 0.92)"
+    },
+    {
+     "from": [
+      22
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D16 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      24,
+      30
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D17 (April 2021 share 0.31)"
+    },
+    {
+     "from": [
+      25
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D18 (April 2021 share 0.67)"
+    },
+    {
+     "from": [
+      26
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D19 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      23,
+      28,
+      29,
+      32
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D21 (April 2021 share 0.5)"
+    },
+    {
+     "from": [
+      34
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D22 (April 2021 share 0.33)"
+    },
+    {
+     "from": [
+      35
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D23 (April 2021 share 0.44), margin"
+    },
+    {
+     "from": [
+      33,
+      37,
+      45
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D25 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      42
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D28 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      47
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D30 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      44,
+      48
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D31 (April 2021 share 0.92), margin"
+    },
+    {
+     "from": [
+      50
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D32 (April 2021 share 0.87)"
+    },
+    {
+     "from": [
+      51,
+      52
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D33 (April 2021 share 0.91)"
+    },
+    {
+     "from": [
+      53,
+      56,
+      58
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D34 (April 2021 share 0.11), margin"
+    },
+    {
+     "from": [
+      61
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D39 (April 2021 share 0.78)"
+    },
+    {
+     "from": [
+      62,
+      63
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D40 (April 2021 share 0.04), margin"
+    },
+    {
+     "from": [
+      65
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D42 (April 2021 share 0.46)"
+    },
+    {
+     "from": [
+      66
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D43 (April 2021 share 0.98), margin"
+    },
+    {
+     "from": [
+      68
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D44 (April 2021 share 0.93), margin"
+    },
+    {
+     "from": [
+      67,
+      70
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D45 (April 2021 share 0.46)"
+    },
+    {
+     "from": [
+      75
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D49 (April 2021 share 0.58), margin"
+    },
+    {
+     "from": [
+      76
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D50 (April 2021 share 0.87), margin"
+    },
+    {
+     "from": [
+      77
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D51 (April 2021 share 0.3), margin"
+    },
+    {
+     "from": [
+      78
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D52 (April 2021 share 0.17), margin"
+    },
+    {
+     "from": [
+      79
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D53 (April 2021 share 0.72), margin"
+    },
+    {
+     "from": [
+      80
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D54 (April 2021 share 0.89), margin"
+    },
+    {
+     "from": [
+      81
+     ],
+     "type": "conifer",
+     "stratum": "group",
+     "note": "draft D55 (April 2021 share 0.85), margin"
+    },
+    {
+     "from": [
+      82
+     ],
+     "type": "conifer",
+     "stratum": "group",
+     "note": "draft D56 (April 2021 share 0.6), margin"
+    },
+    {
+     "from": [
+      83
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D57 (April 2021 share 0.62), margin"
+    },
+    {
+     "from": [
+      84
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D58 (April 2021 share 0.27), margin"
+    },
+    {
+     "from": [
+      85
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D59 (April 2021 share 0.27), margin"
+    },
+    {
+     "from": [
+      86
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D60 (April 2021 share 0.84), margin"
+    },
+    {
+     "from": [
+      87
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D61 (April 2021 share 0.95), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      0,
+      0,
+      17.3,
+      18
+     ],
+     "reason": "trees of the 2020 laser that the 2025 photo does not show: felled since, scored for no one (a clearing by the Castle 7 tee in 2025)"
+    },
+    {
+     "box": [
+      20.3,
+      1.2999999999999998,
+      23.3,
+      4.3
+     ],
+     "reason": "a leafless top among the conifers, not decidable (draft D47)"
+    }
+   ]
+  },
+  {
+   "window": "H9-c7-east-edge",
+   "crowns": [
+    {
+     "from": [
+      36,
+      39,
+      41,
+      42,
+      45,
+      47,
+      48,
+      52
+     ],
+     "at": [
+      35.5,
+      27
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D23, D26, D27, D32 as one crown"
+    },
+    {
+     "from": [
+      40,
+      46,
+      51
+     ],
+     "at": [
+      2,
+      26.5
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D29 as one crown"
+    },
+    {
+     "from": [
+      66,
+      67,
+      69
+     ],
+     "at": [
+      5,
+      14
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D40 as one crown"
+    },
+    {
+     "from": [
+      65,
+      70,
+      71
+     ],
+     "at": [
+      15,
+      13.8
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D41 as one crown"
+    },
+    {
+     "from": [
+      21,
+      24
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D13 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      22,
+      26
+     ],
+     "type": "unknown",
+     "stratum": "group",
+     "note": "draft D14 (April 2021 share 0.2)"
+    },
+    {
+     "from": [
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D33 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      2,
+      3,
+      4
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 0.92), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 0.63), margin"
+    },
+    {
+     "from": [
+      7,
+      8,
+      9
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 0.93), margin"
+    },
+    {
+     "from": [
+      10
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      11
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0.57), margin"
+    },
+    {
+     "from": [
+      12
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D8 (April 2021 share 0.69), margin"
+    },
+    {
+     "from": [
+      13,
+      15
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D9 (April 2021 share 0.8), margin"
+    },
+    {
+     "from": [
+      14
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D10 (April 2021 share 0.89), margin"
+    },
+    {
+     "from": [
+      16,
+      17
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D11 (April 2021 share 0.49), margin"
+    },
+    {
+     "from": [
+      18
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D12 (April 2021 share 0.08), margin"
+    },
+    {
+     "from": [
+      27
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D17 (April 2021 share 0.01), margin"
+    },
+    {
+     "from": [
+      30
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D19 (April 2021 share 0.3), margin"
+    },
+    {
+     "from": [
+      34,
+      37,
+      44
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D24 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      43
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D28 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      50
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D31 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      57,
+      62
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D35 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      58
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D36 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      59,
+      61
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D37 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      56,
+      60,
+      64
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D39 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      72
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D42 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      80,
+      85
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D48 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      87,
+      89
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D53 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      88,
+      90,
+      91
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D54 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      92
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D55 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      93
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D56 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      20,
+      0,
+      33,
+      40
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      33,
+      32,
+      40,
+      40
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      33,
+      0,
+      40,
+      21.8
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      0,
+      5,
+      13,
+      12
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      8.5,
+      15,
+      13.5,
+      20
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      1.2999999999999998,
+      31.299999999999997,
+      4.3,
+      34.3
+     ],
+     "reason": "a drafted top (3.87 m) neither photo decides (draft D21)"
+    }
+   ]
+  },
+  {
+   "window": "H10-s3-grove",
+   "crowns": [
+    {
+     "from": [
+      16,
+      21,
+      23,
+      25,
+      26,
+      31,
+      33,
+      34
+     ],
+     "at": [
+      18,
+      26.8
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D12, D13 as one crown"
+    },
+    {
+     "from": [
+      36,
+      37,
+      45,
+      48
+     ],
+     "at": [
+      25.4,
+      21.2
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D18, D24, D25 as one crown"
+    },
+    {
+     "from": [
+      53,
+      54,
+      57
+     ],
+     "at": [
+      17.6,
+      16.6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D29 as one crown"
+    },
+    {
+     "from": [
+      62
+     ],
+     "at": [
+      13.2,
+      12
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D34 as one crown"
+    },
+    {
+     "from": [
+      73
+     ],
+     "at": [
+      16.8,
+      8.2
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D39 as one crown"
+    },
+    {
+     "from": [
+      66,
+      70,
+      72,
+      74
+     ],
+     "at": [
+      22.6,
+      8.4
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D40 as one crown"
+    },
+    {
+     "from": [
+      3,
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      4,
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      1,
+      2,
+      5,
+      11
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      7
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      8
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      10
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      12
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      13
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D8 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      14,
+      22,
+      24
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D9 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      28
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D15 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      38
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D19 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      40
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D20 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      51
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D27 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      52,
+      56
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D28 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      60
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D32 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      67
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D35 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      65,
+      69
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D37 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      64,
+      71,
+      75,
+      76
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D38 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      77,
+      81,
+      82
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D41 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      79,
+      80
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D43 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      85
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D45 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      91
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D50 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      93,
+      96
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D51 (April 2021 share 0.26), margin"
+    },
+    {
+     "from": [
+      94,
+      97
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D52 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      95,
+      99
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D53 (April 2021 share 0.03), margin"
+    },
+    {
+     "from": [
+      98,
+      100
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D54 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      101,
+      105
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D55 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      102
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D56 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      104
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D57 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      103,
+      106
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D58 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      107,
+      108,
+      109
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D59 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      110,
+      111
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D60 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      0,
+      12.5,
+      12,
+      30
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      0,
+      0,
+      30,
+      6
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      0,
+      6,
+      10,
+      12.5
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      22,
+      25,
+      30,
+      30
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      20.5,
+      11.5,
+      26,
+      15.5
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      27,
+      0,
+      30,
+      18
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    }
+   ]
+  },
+  {
+   "window": "H11-c6-ridge",
+   "crowns": [
+    {
+     "from": [
+      45,
+      47,
+      49,
+      51
+     ],
+     "at": [
+      15.6,
+      18.6
+     ],
+     "type": "conifer",
+     "stratum": "group",
+     "note": "drafts D24, D26, D28 as one crown"
+    },
+    {
+     "from": [
+      60
+     ],
+     "at": [
+      1.5,
+      12
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "drafts D33 as one crown"
+    },
+    {
+     "from": [
+      66,
+      68
+     ],
+     "at": [
+      18,
+      6
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "drafts D36, D38 as one crown"
+    },
+    {
+     "from": [
+      22
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D12 (April 2021 share 0.79); a young pine"
+    },
+    {
+     "from": [
+      23,
+      28
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D15 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      27,
+      31
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D18 (April 2021 share 0.81)"
+    },
+    {
+     "from": [
+      38,
+      44
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D21 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      69
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D39 (April 2021 share 0.87); a pine"
+    },
+    {
+     "from": [
+      70
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D40 (April 2021 share 0.3)"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      2,
+      11
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 0.09), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D3 (April 2021 share 0.82), margin"
+    },
+    {
+     "from": [
+      4,
+      5
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D5 (April 2021 share 0.17), margin"
+    },
+    {
+     "from": [
+      7,
+      8
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      9,
+      10
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0.73), margin"
+    },
+    {
+     "from": [
+      12,
+      13
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D8 (April 2021 share 0.65), margin"
+    },
+    {
+     "from": [
+      14,
+      15,
+      18
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D9 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      16,
+      19
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D10 (April 2021 share 0.76), margin"
+    },
+    {
+     "from": [
+      17,
+      21
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D11 (April 2021 share 0.01), margin"
+    },
+    {
+     "from": [
+      20,
+      25,
+      26
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D14 (April 2021 share 0.12), margin"
+    },
+    {
+     "from": [
+      30,
+      32,
+      33,
+      35
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D17 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      36,
+      37,
+      39
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D20 (April 2021 share 0.27), margin"
+    },
+    {
+     "from": [
+      41
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D22 (April 2021 share 0.7), margin"
+    },
+    {
+     "from": [
+      43,
+      46,
+      50,
+      53,
+      55
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D27 (April 2021 share 0.77), margin"
+    },
+    {
+     "from": [
+      52
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D29 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      57,
+      58
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D31 (April 2021 share 0.71), margin"
+    },
+    {
+     "from": [
+      62,
+      63,
+      65
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D35 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      71,
+      74
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D41 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      72,
+      73
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D42 (April 2021 share 0.35), margin"
+    },
+    {
+     "from": [
+      75
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D43 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      76
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D44 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      77
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D45 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      22.5,
+      4,
+      30,
+      26
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      28.3,
+      25.3,
+      31.3,
+      28.3
+     ],
+     "reason": "a 6 m top beside a young pine, not decidable (draft D16)"
+    },
+    {
+     "box": [
+      17.3,
+      9.8,
+      20.3,
+      12.8
+     ],
+     "reason": "a 3.6 m top under the pine beside it, not decidable (draft D34)"
+    },
+    {
+     "box": [
+      18.8,
+      27.3,
+      21.8,
+      30.3
+     ],
+     "reason": "a 2.6 m shrub (draft D13)"
+    }
+   ]
+  },
+  {
+   "window": "H12-park2",
+   "crowns": [
+    {
+     "from": [
+      15,
+      16,
+      18,
+      20,
+      21,
+      24,
+      29
+     ],
+     "at": [
+      24.5,
+      51.8
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D8, D9, D11, D14, D18 as one crown; leafless branches and a bare-branch shadow on green lawn in April 2021: the April share reads the lawn"
+    },
+    {
+     "from": [
+      22,
+      27,
+      28,
+      30,
+      31,
+      32,
+      35,
+      36
+     ],
+     "at": [
+      33,
+      45
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D12, D16, D17, D19, D21, D22 as one crown; as its neighbour"
+    },
+    {
+     "from": [
+      42,
+      44,
+      45,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61
+     ],
+     "at": [
+      6,
+      16
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D29, D30, D31, D32, D33, D34, D35, D36, D37, D38, D39 as one crown; one broad crown over lawn; a bare-branch shadow in April 2021"
+    },
+    {
+     "from": [
+      1,
+      3,
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D1 (April 2021 share 0.01), margin"
+    },
+    {
+     "from": [
+      2,
+      4
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D2 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      5,
+      7,
+      8
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 0.21), margin"
+    },
+    {
+     "from": [
+      9
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D4 (April 2021 share 0.99), margin"
+    },
+    {
+     "from": [
+      10
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D5 (April 2021 share 0.61), margin"
+    },
+    {
+     "from": [
+      11,
+      12,
+      13,
+      17
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0.54), margin"
+    },
+    {
+     "from": [
+      25,
+      26
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D15 (April 2021 share 0.47), margin"
+    },
+    {
+     "from": [
+      38
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D24 (April 2021 share 0.32), margin"
+    },
+    {
+     "from": [
+      41,
+      46
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D27 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      43
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D28 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      65,
+      66
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D42 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      67
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D43 (April 2021 share 0.04), margin"
+    },
+    {
+     "from": [
+      68
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D44 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      69,
+      70,
+      71
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D45 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {
+    "33": "a hedge corner (2.5 m) (draft D20)",
+    "34": "a hedge corner (2.5 m) (draft D20)",
+    "37": "a 3.5 m post at the road (nothing in either photo) (draft D23)",
+    "39": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos): the pavilion (draft D25)",
+    "40": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos): the pavilion (draft D26)",
+    "62": "a hedge (2.9 m) (draft D40)",
+    "63": "a hedge (2.9 m) (draft D40)",
+    "64": "a wall edge (2.1 m) (draft D41)"
+   },
+   "ambiguous": [
+    {
+     "box": [
+      44,
+      44,
+      55,
+      55
+     ],
+     "reason": "the edge of park trees whose crowns lie outside the window, not decidable"
+    }
+   ]
+  },
+  {
+   "window": "H13-c8-grove",
+   "crowns": [
+    {
+     "from": [
+      17,
+      18
+     ],
+     "at": [
+      31,
+      30.6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D13, D14 as one crown"
+    },
+    {
+     "from": [
+      12,
+      15,
+      16,
+      20,
+      22,
+      26
+     ],
+     "at": [
+      20.6,
+      28.8
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D12, D16 as one crown"
+    },
+    {
+     "from": [
+      36,
+      39,
+      45
+     ],
+     "at": [
+      27.6,
+      21
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D23 as one crown"
+    },
+    {
+     "from": [
+      44,
+      48,
+      49,
+      50,
+      53,
+      55
+     ],
+     "at": [
+      22.8,
+      17
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D28 as one crown"
+    },
+    {
+     "from": [
+      58,
+      61
+     ],
+     "at": [
+      34.7,
+      12
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D36 as one crown"
+    },
+    {
+     "from": [
+      77,
+      78,
+      84,
+      87,
+      89,
+      98
+     ],
+     "at": [
+      22.5,
+      2.4
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D46, D52 as one crown"
+    },
+    {
+     "from": [
+      63,
+      66,
+      69
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D37 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      71
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D40 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      86,
+      94
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D49 (April 2021 share 0.86)"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      2
+     ],
+     "type": "unknown",
+     "stratum": "group",
+     "note": "draft D2 (April 2021 share 0.21), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D3 (April 2021 share 0.48), margin"
+    },
+    {
+     "from": [
+      4
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D4 (April 2021 share 0.29), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      7,
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D7 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      8,
+      11
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D9 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      13
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D10 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      14,
+      19
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D11 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      24
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D18 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      32,
+      33,
+      38
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D20 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      30,
+      34,
+      37
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D21 (April 2021 share 0.48), margin"
+    },
+    {
+     "from": [
+      43
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D26 (April 2021 share 0.12), margin"
+    },
+    {
+     "from": [
+      46,
+      52
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D30 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D31 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      59,
+      62
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D34 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      65,
+      67,
+      70,
+      74
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D38 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      72
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D41 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      80
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D45 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      81,
+      83,
+      88,
+      92,
+      93,
+      95
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D47 (April 2021 share 0.01), margin"
+    },
+    {
+     "from": [
+      90,
+      96,
+      99,
+      102,
+      104
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D50 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      97
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D51 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      100
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D53 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      101,
+      103,
+      106,
+      107,
+      108,
+      115
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D54 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      105
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D55 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      109
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D56 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      110
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D57 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      111,
+      118
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D58 (April 2021 share 0.09), margin"
+    },
+    {
+     "from": [
+      113,
+      117
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D59 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      114
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D60 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      112,
+      116
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D61 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      119
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D62 (April 2021 share 0.06), margin"
+    },
+    {
+     "from": [
+      120,
+      121
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D63 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      23,
+      24,
+      40,
+      28.5
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      30,
+      14,
+      40,
+      25
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      25.5,
+      0,
+      34,
+      15
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      34,
+      0,
+      40,
+      9
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      0,
+      5,
+      11,
+      20.5
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      17,
+      32,
+      25,
+      37
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      20,
+      20.5,
+      25,
+      23.5
+     ],
+     "reason": "a joined broadleaf mass whose crowns neither the laser nor the photos separate"
+    }
+   ]
+  },
+  {
+   "window": "H14-s13-shore",
+   "crowns": [
+    {
+     "from": [
+      3,
+      4,
+      7,
+      8,
+      9,
+      10,
+      13,
+      15,
+      16,
+      17,
+      19,
+      23,
+      24,
+      27
+     ],
+     "at": [
+      14,
+      35
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D2, D4, D5, D8, D10, D11 as one crown"
+    },
+    {
+     "from": [
+      25,
+      26,
+      28,
+      29
+     ],
+     "at": [
+      6.2,
+      24.4
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D12, D13 as one crown"
+    },
+    {
+     "from": [
+      39,
+      40,
+      43
+     ],
+     "at": [
+      9,
+      13.6
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "drafts D19 as one crown"
+    },
+    {
+     "from": [
+      49,
+      50,
+      51,
+      53
+     ],
+     "at": [
+      13.7,
+      6.1
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "drafts D25 as one crown"
+    },
+    {
+     "from": [
+      1,
+      2
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      30
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D14 (April 2021 share 0.01), margin"
+    },
+    {
+     "from": [
+      44
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D21 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      48
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D24 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D27 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      55
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D28 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      56
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D29 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      -1,
+      28,
+      8,
+      40
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      18.5,
+      34,
+      28,
+      40
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      8,
+      15.5,
+      19,
+      20
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      0,
+      7.5,
+      7,
+      15.5
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      12.5,
+      9,
+      19,
+      15.5
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      7.300000000000001,
+      6.800000000000001,
+      10.3,
+      9.8
+     ],
+     "reason": "a drafted top (2.77 m) neither photo decides (draft D23)"
+    },
+    {
+     "box": [
+      10.8,
+      1.7999999999999998,
+      13.8,
+      4.8
+     ],
+     "reason": "a drafted top (3.05 m) neither photo decides (draft D26)"
+    }
+   ]
+  },
+  {
+   "window": "H16-s1-garden",
+   "crowns": [
+    {
+     "from": [
+      1,
+      2,
+      5
+     ],
+     "at": [
+      11.6,
+      39.3
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D1 as one crown"
+    },
+    {
+     "from": [
+      3,
+      6,
+      13,
+      17
+     ],
+     "at": [
+      21.4,
+      34.2
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D2, D6 as one crown"
+    },
+    {
+     "from": [
+      4,
+      7
+     ],
+     "at": [
+      33.6,
+      37.4
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D3 as one crown"
+    },
+    {
+     "from": [
+      8,
+      10,
+      11,
+      14,
+      15,
+      16
+     ],
+     "at": [
+      29.4,
+      34
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D5, D7 as one crown"
+    },
+    {
+     "from": [
+      12,
+      18,
+      19,
+      20,
+      21
+     ],
+     "at": [
+      35,
+      31
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D8, D9 as one crown"
+    },
+    {
+     "from": [
+      24,
+      28,
+      29,
+      31,
+      33,
+      34,
+      40,
+      43
+     ],
+     "at": [
+      32.8,
+      21.8
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D13, D14, D19 as one crown"
+    },
+    {
+     "from": [
+      36,
+      38,
+      41,
+      42,
+      44,
+      45,
+      46,
+      48,
+      50,
+      55
+     ],
+     "at": [
+      3.2,
+      17.4
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D16, D18, D20, D21 as one crown"
+    },
+    {
+     "from": [
+      9
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D4 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      22,
+      23,
+      26,
+      30
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D10 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      51
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D24 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D26 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      71
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D34 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      72
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D35 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {
+    "27": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D12)",
+    "32": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D17)",
+    "35": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D15)",
+    "37": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D17)",
+    "39": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D17)",
+    "47": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D22)",
+    "57": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D28)",
+    "61": "a roof the pit-free CHM keeps as canopy (a roof in the 2025 and 2021 photos) (draft D28)"
+   },
+   "ambiguous": [
+    {
+     "box": [
+      14,
+      2,
+      29,
+      16
+     ],
+     "reason": "trees of the 2020 laser that the 2025 photo does not show: felled since, scored for no one: a 13 m tree at the house corner, of which a small crown stands in 2025"
+    },
+    {
+     "box": [
+      25,
+      23,
+      30.5,
+      28
+     ],
+     "reason": "a shoulder between two crowns, not decidable"
+    },
+    {
+     "box": [
+      28,
+      9,
+      38,
+      15.5
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    }
+   ]
+  },
+  {
+   "window": "H17-c12-mixed",
+   "crowns": [
+    {
+     "from": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      25,
+      26,
+      27
+     ],
+     "at": [
+      19.6,
+      33.6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12 as one crown; one broad crown in the June 2025 photo"
+    },
+    {
+     "from": [
+      44,
+      46,
+      50,
+      53,
+      55,
+      56,
+      64
+     ],
+     "at": [
+      27.5,
+      10.6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D21, D24, D27 as one crown"
+    },
+    {
+     "from": [
+      68,
+      71,
+      74,
+      75
+     ],
+     "at": [
+      28,
+      3
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D35, D38 as one crown"
+    },
+    {
+     "from": [
+      30,
+      32,
+      35,
+      36
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D15 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      33,
+      37,
+      38
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D16 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      31,
+      34
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D17 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      39,
+      40
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D18 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      41
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D19 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      47,
+      49,
+      52,
+      54
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D26 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      66
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D32 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      73
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D37 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      24,
+      28
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D13 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      42,
+      48
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D23 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      62
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D30 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      57,
+      65,
+      70
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D31 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      72
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D36 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      76
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D39 (April 2021 share 0.1), margin"
+    },
+    {
+     "from": [
+      77
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D40 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      78
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D41 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      79,
+      81
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D42 (April 2021 share 0.14), margin"
+    },
+    {
+     "from": [
+      80,
+      83
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D43 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      82,
+      84
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D44 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      19.5,
+      4,
+      24,
+      8
+     ],
+     "reason": "a 14 m shoulder of the crown beside it or a tree of its own, not decidable"
+    },
+    {
+     "box": [
+      33,
+      5,
+      39,
+      15
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      0,
+      7.5,
+      5.2,
+      14
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      15.5,
+      5,
+      20,
+      9.5
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      15,
+      19.5,
+      20.5,
+      23.5
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      4.8,
+      3.3,
+      7.8,
+      6.3
+     ],
+     "reason": "a drafted top (2.56 m) neither photo decides (draft D34)"
+    }
+   ]
+  },
+  {
+   "window": "H19-c8-ridge",
+   "crowns": [
+    {
+     "from": [
+      18,
+      21
+     ],
+     "at": [
+      9.6,
+      38
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D10 as one crown"
+    },
+    {
+     "from": [
+      14,
+      16,
+      24
+     ],
+     "at": [
+      18.2,
+      37.6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "drafts D9, D13 as one crown"
+    },
+    {
+     "from": [
+      54
+     ],
+     "at": [
+      36.8,
+      10.6
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "drafts D33 as one crown"
+    },
+    {
+     "from": [
+      20,
+      25
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D14 (April 2021 share 0.89)"
+    },
+    {
+     "from": [
+      27,
+      28,
+      29
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D16 (April 2021 share 0.96)"
+    },
+    {
+     "from": [
+      30,
+      31,
+      32
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D17 (April 2021 share 0.02)"
+    },
+    {
+     "from": [
+      33,
+      36
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D18 (April 2021 share 0.91)"
+    },
+    {
+     "from": [
+      44
+     ],
+     "type": "conifer",
+     "stratum": "group",
+     "note": "draft D26 (April 2021 share 0.66)"
+    },
+    {
+     "from": [
+      47
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D28 (April 2021 share 0.94)"
+    },
+    {
+     "from": [
+      49
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D30 (April 2021 share 0.78)"
+    },
+    {
+     "from": [
+      50
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D31 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      1,
+      2
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D1 (April 2021 share 0.65), margin"
+    },
+    {
+     "from": [
+      3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 0.95), margin"
+    },
+    {
+     "from": [
+      4,
+      6
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D3 (April 2021 share 0.17), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D4 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      7,
+      8
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D5 (April 2021 share 0.97), margin"
+    },
+    {
+     "from": [
+      9,
+      10,
+      11,
+      15
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      12
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0.2), margin"
+    },
+    {
+     "from": [
+      13
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D8 (April 2021 share 0.95), margin"
+    },
+    {
+     "from": [
+      17,
+      23
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D12 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      22,
+      26
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D15 (April 2021 share 0.8), margin"
+    },
+    {
+     "from": [
+      35
+     ],
+     "type": "conifer",
+     "stratum": "isolated",
+     "note": "draft D20 (April 2021 share 0.62), margin"
+    },
+    {
+     "from": [
+      39
+     ],
+     "type": "conifer",
+     "stratum": "isolated",
+     "note": "draft D23 (April 2021 share 0.98), margin"
+    },
+    {
+     "from": [
+      40
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D24 (April 2021 share 0.05), margin"
+    },
+    {
+     "from": [
+      45,
+      46
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D27 (April 2021 share 0.86), margin"
+    },
+    {
+     "from": [
+      48
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D29 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      51,
+      52,
+      53
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D32 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      55,
+      56
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D34 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      59
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D36 (April 2021 share 0.17), margin"
+    },
+    {
+     "from": [
+      58,
+      60,
+      61
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D37 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      62
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D38 (April 2021 share 0.06), margin"
+    },
+    {
+     "from": [
+      63,
+      64
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D39 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      25,
+      28,
+      28.6,
+      31
+     ],
+     "reason": "a 7.6 m top beside a pine, not decidable"
+    },
+    {
+     "box": [
+      34.5,
+      26,
+      39,
+      30
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      20.3,
+      35.8,
+      23.3,
+      38.8
+     ],
+     "reason": "a drafted top (7.63 m) neither photo decides (draft D11)"
+    },
+    {
+     "box": [
+      19.3,
+      28.3,
+      22.3,
+      31.3
+     ],
+     "reason": "a drafted top (4.72 m) neither photo decides (draft D19)"
+    },
+    {
+     "box": [
+      28.8,
+      23.8,
+      31.8,
+      26.8
+     ],
+     "reason": "a drafted top (4.09 m) neither photo decides (draft D25)"
+    },
+    {
+     "box": [
+      13.3,
+      0.30000000000000004,
+      16.3,
+      3.3
+     ],
+     "reason": "a drafted top (3.61 m) neither photo decides (draft D35)"
+    }
+   ]
+  },
+  {
+   "window": "H21-c12-scatter",
+   "crowns": [
+    {
+     "from": [
+      29,
+      30,
+      34
+     ],
+     "at": [
+      19.3,
+      38.3
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "drafts D21, D24 as one crown"
+    },
+    {
+     "from": [
+      32,
+      37,
+      38,
+      42
+     ],
+     "at": [
+      43,
+      35.8
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "drafts D26, D29 as one crown"
+    },
+    {
+     "from": [
+      17,
+      23
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D14 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      25
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D18 (April 2021 share 0.14); not decidable in the April photo"
+    },
+    {
+     "from": [
+      26,
+      27
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D19 (April 2021 share 0.1)"
+    },
+    {
+     "from": [
+      31
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D22 (April 2021 share 0.63)"
+    },
+    {
+     "from": [
+      33
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D23 (April 2021 share 0.07)"
+    },
+    {
+     "from": [
+      35,
+      36
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D25 (April 2021 share 0.06); not decidable in the April photo"
+    },
+    {
+     "from": [
+      39
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D27 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      40
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D28 (April 2021 share 0.82)"
+    },
+    {
+     "from": [
+      43
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D30 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      44,
+      46,
+      47,
+      48
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D31 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      41,
+      45,
+      50
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D32 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      53
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D35 (April 2021 share 0.11)"
+    },
+    {
+     "from": [
+      56
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D37 (April 2021 share 0.98)"
+    },
+    {
+     "from": [
+      58
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D39 (April 2021 share 0.99)"
+    },
+    {
+     "from": [
+      64
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D42 (April 2021 share 0)"
+    },
+    {
+     "from": [
+      63,
+      67,
+      70
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D45 (April 2021 share 0.11)"
+    },
+    {
+     "from": [
+      71
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D47 (April 2021 share 0.74)"
+    },
+    {
+     "from": [
+      76,
+      79
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D50 (April 2021 share 0.86)"
+    },
+    {
+     "from": [
+      85
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D54 (April 2021 share 0.96)"
+    },
+    {
+     "from": [
+      86,
+      88
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D55 (April 2021 share 0.67)"
+    },
+    {
+     "from": [
+      92
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D57 (April 2021 share 0.88)"
+    },
+    {
+     "from": [
+      91,
+      93
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D58 (April 2021 share 0.93)"
+    },
+    {
+     "from": [
+      94
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D59 (April 2021 share 0.79)"
+    },
+    {
+     "from": [
+      95
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D60 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      98
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D61 (April 2021 share 1)"
+    },
+    {
+     "from": [
+      103
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D63 (April 2021 share 0.75)"
+    },
+    {
+     "from": [
+      108
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D68 (April 2021 share 0.9)"
+    },
+    {
+     "from": [
+      113
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D70 (April 2021 share 0.93)"
+    },
+    {
+     "from": [
+      115
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D71 (April 2021 share 0.61)"
+    },
+    {
+     "from": [
+      1
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D1 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      2
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D2 (April 2021 share 0.05), margin"
+    },
+    {
+     "from": [
+      3,
+      8
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D3 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      4
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D4 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      5
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D5 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      6
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D6 (April 2021 share 1), margin"
+    },
+    {
+     "from": [
+      7,
+      10
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D7 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      9,
+      11
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D8 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      12
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D9 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      13
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D10 (April 2021 share 0.88), margin"
+    },
+    {
+     "from": [
+      14
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D11 (April 2021 share 0.93), margin"
+    },
+    {
+     "from": [
+      15
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D12 (April 2021 share 0.38), margin"
+    },
+    {
+     "from": [
+      20
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D16 (April 2021 share 0.74), margin"
+    },
+    {
+     "from": [
+      18,
+      21,
+      22
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D17 (April 2021 share 0.27), margin"
+    },
+    {
+     "from": [
+      61
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D41 (April 2021 share 0.74), margin"
+    },
+    {
+     "from": [
+      65
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D43 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      68
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D46 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      72
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D48 (April 2021 share 0.8), margin"
+    },
+    {
+     "from": [
+      82,
+      87
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D52 (April 2021 share 0.77), margin"
+    },
+    {
+     "from": [
+      99
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D62 (April 2021 share 0.87), margin"
+    },
+    {
+     "from": [
+      100,
+      104
+     ],
+     "type": "conifer",
+     "stratum": "edge",
+     "note": "draft D64 (April 2021 share 0.94), margin"
+    },
+    {
+     "from": [
+      116,
+      118,
+      122
+     ],
+     "type": "unknown",
+     "stratum": "edge",
+     "note": "draft D73 (April 2021 share 0.28), margin"
+    },
+    {
+     "from": [
+      120,
+      121,
+      124
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D74 (April 2021 share 0.28), margin"
+    },
+    {
+     "from": [
+      123
+     ],
+     "type": "broadleaf",
+     "stratum": "isolated",
+     "note": "draft D75 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      119,
+      125
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D76 (April 2021 share 0.02), margin"
+    },
+    {
+     "from": [
+      127
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D77 (April 2021 share 0.59), margin"
+    },
+    {
+     "from": [
+      126,
+      128,
+      129,
+      130,
+      131
+     ],
+     "type": "broadleaf",
+     "stratum": "closed",
+     "note": "draft D78 (April 2021 share 0), margin"
+    },
+    {
+     "from": [
+      132
+     ],
+     "type": "broadleaf",
+     "stratum": "group",
+     "note": "draft D79 (April 2021 share 0.07), margin"
+    },
+    {
+     "from": [
+      133
+     ],
+     "type": "conifer",
+     "stratum": "closed",
+     "note": "draft D80 (April 2021 share 0.83), margin"
+    },
+    {
+     "from": [
+      134,
+      135
+     ],
+     "type": "unknown",
+     "stratum": "closed",
+     "note": "draft D81 (April 2021 share 0.32), margin"
+    },
+    {
+     "from": [
+      136
+     ],
+     "type": "broadleaf",
+     "stratum": "edge",
+     "note": "draft D82 (April 2021 share 0), margin"
+    }
+   ],
+   "rejected": {},
+   "ambiguous": [
+    {
+     "box": [
+      0,
+      0,
+      19.5,
+      29
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      0,
+      29,
+      6,
+      34
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      3,
+      43,
+      13,
+      45
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      10,
+      38,
+      13.8,
+      42
+     ],
+     "reason": "low or leafless thicket whose crowns neither the laser nor the photos separate"
+    },
+    {
+     "box": [
+      27,
+      28.6,
+      31,
+      32
+     ],
+     "reason": "an 8.7 m shoulder, not decidable"
+    }
+   ]
+  }
+ ]
+}

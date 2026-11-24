@@ -17,7 +17,7 @@ const MIGRATED = [
   SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN,
   SURFACE.TEE, SURFACE.SAND, SURFACE.PATH, SURFACE.ASPHALT,
   SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.MUD, SURFACE.ROCK,
-  SURFACE.WETLAND, SURFACE.SHORE,
+  SURFACE.WETLAND, SURFACE.SHORE, SURFACE.WASTE,
 ];
 const PREVIEW_NATURAL = [SURFACE.ROUGH, SURFACE.FOREST, SURFACE.HEATH];
 
@@ -58,7 +58,7 @@ const HARD_SURFACES = new Set([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SU
    a meadow does. With `hardGround` it is hard ground, as dirt beside it is, and
    all of it (paths, roads, gravel, soil, rock and mud) lies at ground level
    under the grass's contact line (CUT_HEIGHT_MM). ?hardground=0 is the before. */
-const HARD_GROUND = new Set([...HARD_SURFACES, SURFACE.MUD]);
+const HARD_GROUND = new Set([...HARD_SURFACES, SURFACE.MUD, SURFACE.WASTE]);
 const PAVED_SURFACES = [SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL];
 
 const pavedClassWeight = id => PAVED_SURFACES.reduce(
@@ -92,6 +92,7 @@ function classColours(C) {
     [SURFACE.GRAVEL]: C.gravel || C.hard, [SURFACE.DIRT]: C.soil,
     [SURFACE.MUD]: C.mud || C.wet.map(v => v * 0.72), [SURFACE.ROCK]: C.rock,
     [SURFACE.WETLAND]: C.wet, [SURFACE.SHORE]: C.shore,
+    [SURFACE.WASTE]: C.waste || C.shore || C.sand,
   };
 }
 
@@ -150,6 +151,7 @@ const SURFACE_DEBUG_COLOURS = {
   [SURFACE.GRAVEL]: [0.60, 0.40, 0.85],
   [SURFACE.DIRT]: [0.55, 0.35, 0.20],
   [SURFACE.MUD]: [0.30, 0.25, 0.20],
+  [SURFACE.WASTE]: [0.85, 0.75, 0.50],
 };
 
 export function surfaceDebugColour(surfaceId) {
@@ -525,7 +527,7 @@ const CUT_TONE = Object.freeze({
 const CUT_HEIGHT_MM = Object.freeze({
   [SURFACE.GREEN]: 4, [SURFACE.TEE]: 9, [SURFACE.FRINGE]: 10, [SURFACE.FAIRWAY]: 13, [SURFACE.SEMI]: 28,
   [SURFACE.ROUGH]: 50, [SURFACE.SAND]: -25, [SURFACE.FOREST]: 50, [SURFACE.HEATH]: 50, [SURFACE.WETLAND]: 50,
-  [SURFACE.SHORE]: 20,
+  [SURFACE.SHORE]: 20, [SURFACE.WASTE]: -10,
 });
 /* how high a class's ground stands under the contact line, in millimetres */
 export function groundStandsMillimetres(sid, { hardGround = false } = {}) {
@@ -564,7 +566,7 @@ const NEAR_TAP_TURN = Object.freeze([0.8, 0.6]);
    across (the far tap, about its channel's own mean) at about 8, 7 and 5% of
    display luminance either side, on top of the grain their SHADE bump gives
    them; their edges wander with the clumps (about 12 cm either side, up to 40) */
-const BARE_MOTTLE = Object.freeze({ [SURFACE.ROCK]: 0.55, [SURFACE.DIRT]: 0.5, [SURFACE.MUD]: 0.35 });
+const BARE_MOTTLE = Object.freeze({ [SURFACE.ROCK]: 0.55, [SURFACE.DIRT]: 0.5, [SURFACE.MUD]: 0.35, [SURFACE.WASTE]: 0.35 });
 const BARE_RAGGED_METRES = 0.6;
 /* the detail texture's clump channel (G) averages this, both variants within 0.001 (ground-detail-texture.mjs) */
 export const DETAIL_CLUMP_MEAN = 0.5136;

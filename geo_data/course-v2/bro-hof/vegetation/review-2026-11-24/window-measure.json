@@ -1,0 +1,1096 @@
+{
+ "schemaVersion": 1,
+ "kind": "reference-window-measure",
+ "groundId": "bro-hof",
+ "note": "detector-neutral measurements of the proposed windows (apexes of the reference panels' over-segmenting filter, not trees)",
+ "windows": [
+  {
+   "id": "C1-castle-park",
+   "role": "calibration",
+   "bbox": [
+    648670.5,
+    6598244.5,
+    648725.5,
+    6598299.5
+   ],
+   "size": [
+    55,
+    55
+   ],
+   "nearest": {
+    "d": 78,
+    "hole": "bro-hof-stadium/1"
+   },
+   "apexes": 174,
+   "isolated": 0,
+   "group": 2,
+   "edge": 48,
+   "closed": 124,
+   "conifer-like": 1,
+   "mixed": 12,
+   "leafless": 161,
+   "unknown": 0,
+   "near": 170,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 30,
+   "within15mOf": []
+  },
+  {
+   "id": "C2-c17-avenue",
+   "role": "calibration",
+   "bbox": [
+    648470.5,
+    6597799.5,
+    648530.5,
+    6597859.5
+   ],
+   "size": [
+    60,
+    60
+   ],
+   "nearest": {
+    "d": 72,
+    "hole": "bro-hof-stadium/18"
+   },
+   "apexes": 14,
+   "isolated": 6,
+   "group": 8,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "mixed": 1,
+   "leafless": 13,
+   "unknown": 0,
+   "near": 14,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 18,
+   "within15mOf": []
+  },
+  {
+   "id": "C3-s16-forest",
+   "role": "calibration",
+   "bbox": [
+    648720.5,
+    6597924.5,
+    648748.5,
+    6597952.5
+   ],
+   "size": [
+    28,
+    28
+   ],
+   "nearest": {
+    "d": 67,
+    "hole": "bro-hof-stadium/10"
+   },
+   "apexes": 62,
+   "isolated": 0,
+   "group": 0,
+   "edge": 11,
+   "closed": 51,
+   "conifer-like": 2,
+   "mixed": 1,
+   "leafless": 59,
+   "unknown": 0,
+   "near": 62,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 17,
+   "within15mOf": []
+  },
+  {
+   "id": "C4-c11-closed",
+   "role": "calibration",
+   "bbox": [
+    648710.5,
+    6599024.5,
+    648738.5,
+    6599052.5
+   ],
+   "size": [
+    28,
+    28
+   ],
+   "nearest": {
+    "d": 96,
+    "hole": "bro-hof-castle/11"
+   },
+   "apexes": 54,
+   "isolated": 0,
+   "group": 0,
+   "edge": 3,
+   "closed": 51,
+   "conifer-like": 13,
+   "mixed": 12,
+   "leafless": 29,
+   "unknown": 0,
+   "near": 16,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 26,
+   "within15mOf": []
+  },
+  {
+   "id": "C5-c13-edge",
+   "role": "calibration",
+   "bbox": [
+    648415.5,
+    6598734.5,
+    648455.5,
+    6598774.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 59,
+    "hole": "bro-hof-castle/15"
+   },
+   "apexes": 82,
+   "isolated": 0,
+   "group": 1,
+   "edge": 13,
+   "closed": 68,
+   "conifer-like": 60,
+   "mixed": 3,
+   "leafless": 19,
+   "unknown": 0,
+   "near": 82,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 23,
+   "within15mOf": []
+  },
+  {
+   "id": "C6-s2-grove",
+   "role": "calibration",
+   "bbox": [
+    648985.5,
+    6599044.5,
+    649030.5,
+    6599089.5
+   ],
+   "size": [
+    45,
+    45
+   ],
+   "nearest": {
+    "d": 47,
+    "hole": "bro-hof-castle/4"
+   },
+   "apexes": 91,
+   "isolated": 8,
+   "group": 22,
+   "edge": 59,
+   "closed": 2,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 91,
+   "unknown": 0,
+   "near": 91,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 14,
+   "within15mOf": []
+  },
+  {
+   "id": "C7-c4-avenue",
+   "role": "calibration",
+   "bbox": [
+    649160.5,
+    6599224.5,
+    649220.5,
+    6599284.5
+   ],
+   "size": [
+    60,
+    60
+   ],
+   "nearest": {
+    "d": 58,
+    "hole": "bro-hof-castle/4"
+   },
+   "apexes": 23,
+   "isolated": 11,
+   "group": 9,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 23,
+   "unknown": 0,
+   "near": 23,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 12,
+   "within15mOf": []
+  },
+  {
+   "id": "C8-s5-planted",
+   "role": "calibration",
+   "bbox": [
+    649570.5,
+    6598639.5,
+    649630.5,
+    6598679.5
+   ],
+   "size": [
+    60,
+    40
+   ],
+   "nearest": {
+    "d": 28,
+    "hole": "bro-hof-stadium/5"
+   },
+   "apexes": 14,
+   "isolated": 14,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 14,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 14,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 5,
+   "within15mOf": []
+  },
+  {
+   "id": "C9-s8-grove",
+   "role": "calibration",
+   "bbox": [
+    649310.5,
+    6598674.5,
+    649340.5,
+    6598704.5
+   ],
+   "size": [
+    30,
+    30
+   ],
+   "nearest": {
+    "d": 85,
+    "hole": "bro-hof-stadium/8"
+   },
+   "apexes": 30,
+   "isolated": 1,
+   "group": 0,
+   "edge": 16,
+   "closed": 13,
+   "conifer-like": 17,
+   "mixed": 4,
+   "leafless": 9,
+   "unknown": 0,
+   "near": 27,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 20,
+   "within15mOf": []
+  },
+  {
+   "id": "C11-churchyard",
+   "role": "calibration",
+   "bbox": [
+    648630.5,
+    6599324.5,
+    648675.5,
+    6599369.5
+   ],
+   "size": [
+    45,
+    45
+   ],
+   "nearest": {
+    "d": 287,
+    "hole": "bro-hof-castle/10"
+   },
+   "apexes": 55,
+   "isolated": 0,
+   "group": 1,
+   "edge": 23,
+   "closed": 31,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 55,
+   "unknown": 0,
+   "near": 0,
+   "byWater": 0,
+   "byBuilding": 5,
+   "tallest": 19,
+   "within15mOf": []
+  },
+  {
+   "id": "C12-c7-east",
+   "role": "calibration",
+   "bbox": [
+    650030.5,
+    6598854.5,
+    650060.5,
+    6598884.5
+   ],
+   "size": [
+    30,
+    30
+   ],
+   "nearest": {
+    "d": 46,
+    "hole": "bro-hof-castle/6"
+   },
+   "apexes": 61,
+   "isolated": 0,
+   "group": 0,
+   "edge": 5,
+   "closed": 56,
+   "conifer-like": 10,
+   "mixed": 18,
+   "leafless": 33,
+   "unknown": 0,
+   "near": 61,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 24,
+   "within15mOf": []
+  },
+  {
+   "id": "C13-se-east",
+   "role": "calibration",
+   "bbox": [
+    650005.5,
+    6597964.5,
+    650045.5,
+    6598004.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 355,
+    "hole": "bro-hof-stadium/13"
+   },
+   "apexes": 91,
+   "isolated": 0,
+   "group": 5,
+   "edge": 43,
+   "closed": 43,
+   "conifer-like": 4,
+   "mixed": 2,
+   "leafless": 85,
+   "unknown": 0,
+   "near": 0,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 12,
+   "within15mOf": []
+  },
+  {
+   "id": "C14-c2-group",
+   "role": "calibration",
+   "bbox": [
+    648812.5,
+    6598709.5,
+    648852.5,
+    6598749.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 36,
+    "hole": "bro-hof-castle/3"
+   },
+   "apexes": 51,
+   "isolated": 0,
+   "group": 5,
+   "edge": 25,
+   "closed": 21,
+   "conifer-like": 2,
+   "mixed": 3,
+   "leafless": 46,
+   "unknown": 0,
+   "near": 51,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 23,
+   "within15mOf": []
+  },
+  {
+   "id": "C15-park-garden",
+   "role": "calibration",
+   "bbox": [
+    648580.5,
+    6598304.5,
+    648620.5,
+    6598344.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 28,
+    "hole": "bro-hof-castle/1"
+   },
+   "apexes": 43,
+   "isolated": 0,
+   "group": 4,
+   "edge": 14,
+   "closed": 25,
+   "conifer-like": 2,
+   "mixed": 8,
+   "leafless": 33,
+   "unknown": 0,
+   "near": 43,
+   "byWater": 0,
+   "byBuilding": 29,
+   "tallest": 26,
+   "within15mOf": []
+  },
+  {
+   "id": "C16-s18-wood",
+   "role": "calibration",
+   "bbox": [
+    648450.5,
+    6597604.5,
+    648490.5,
+    6597644.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 176,
+    "hole": "bro-hof-stadium/18"
+   },
+   "apexes": 106,
+   "isolated": 0,
+   "group": 1,
+   "edge": 6,
+   "closed": 99,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 106,
+   "unknown": 0,
+   "near": 0,
+   "byWater": 0,
+   "byBuilding": 2,
+   "tallest": 22,
+   "within15mOf": []
+  },
+  {
+   "id": "C17-se-row",
+   "role": "calibration",
+   "bbox": [
+    650060.5,
+    6597874.5,
+    650105.5,
+    6597919.5
+   ],
+   "size": [
+    45,
+    45
+   ],
+   "nearest": {
+    "d": 457,
+    "hole": "bro-hof-stadium/13"
+   },
+   "apexes": 42,
+   "isolated": 0,
+   "group": 6,
+   "edge": 35,
+   "closed": 1,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 42,
+   "unknown": 0,
+   "near": 0,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 14,
+   "within15mOf": []
+  },
+  {
+   "id": "C18-s3-group",
+   "role": "calibration",
+   "bbox": [
+    649145.5,
+    6598834.5,
+    649185.5,
+    6598874.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 35,
+    "hole": "bro-hof-stadium/8"
+   },
+   "apexes": 64,
+   "isolated": 0,
+   "group": 0,
+   "edge": 24,
+   "closed": 40,
+   "conifer-like": 40,
+   "mixed": 12,
+   "leafless": 12,
+   "unknown": 0,
+   "near": 64,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 22,
+   "within15mOf": []
+  },
+  {
+   "id": "H1-farm",
+   "role": "evaluation",
+   "bbox": [
+    648570.5,
+    6598634.5,
+    648610.5,
+    6598674.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 86,
+    "hole": "bro-hof-castle/1"
+   },
+   "apexes": 100,
+   "isolated": 0,
+   "group": 5,
+   "edge": 26,
+   "closed": 69,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 100,
+   "unknown": 0,
+   "near": 81,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 17,
+   "within15mOf": []
+  },
+  {
+   "id": "H2-avenue",
+   "role": "evaluation",
+   "bbox": [
+    649275.5,
+    6599314.5,
+    649335.5,
+    6599374.5
+   ],
+   "size": [
+    60,
+    60
+   ],
+   "nearest": {
+    "d": 78,
+    "hole": "bro-hof-castle/5"
+   },
+   "apexes": 36,
+   "isolated": 1,
+   "group": 13,
+   "edge": 22,
+   "closed": 0,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 36,
+   "unknown": 0,
+   "near": 10,
+   "byWater": 15,
+   "byBuilding": 0,
+   "tallest": 11,
+   "within15mOf": []
+  },
+  {
+   "id": "H3-s14-wood",
+   "role": "evaluation",
+   "bbox": [
+    649590.5,
+    6598144.5,
+    649620.5,
+    6598174.5
+   ],
+   "size": [
+    30,
+    30
+   ],
+   "nearest": {
+    "d": 113,
+    "hole": "bro-hof-stadium/14"
+   },
+   "apexes": 67,
+   "isolated": 0,
+   "group": 2,
+   "edge": 25,
+   "closed": 40,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 67,
+   "unknown": 0,
+   "near": 0,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 16,
+   "within15mOf": []
+  },
+  {
+   "id": "H4-c15-closed",
+   "role": "evaluation",
+   "bbox": [
+    648305.5,
+    6598694.5,
+    648333.5,
+    6598722.5
+   ],
+   "size": [
+    28,
+    28
+   ],
+   "nearest": {
+    "d": 65,
+    "hole": "bro-hof-castle/15"
+   },
+   "apexes": 73,
+   "isolated": 0,
+   "group": 0,
+   "edge": 1,
+   "closed": 72,
+   "conifer-like": 47,
+   "mixed": 21,
+   "leafless": 5,
+   "unknown": 0,
+   "near": 73,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 19,
+   "within15mOf": []
+  },
+  {
+   "id": "H5-s14-group",
+   "role": "evaluation",
+   "bbox": [
+    649425.5,
+    6598464.5,
+    649465.5,
+    6598504.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 24,
+    "hole": "bro-hof-stadium/14"
+   },
+   "apexes": 116,
+   "isolated": 0,
+   "group": 4,
+   "edge": 48,
+   "closed": 64,
+   "conifer-like": 10,
+   "mixed": 13,
+   "leafless": 93,
+   "unknown": 0,
+   "near": 116,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 14,
+   "within15mOf": []
+  },
+  {
+   "id": "H6-s9-shore",
+   "role": "evaluation",
+   "bbox": [
+    648735.5,
+    6598144.5,
+    648795.5,
+    6598194.5
+   ],
+   "size": [
+    60,
+    50
+   ],
+   "nearest": {
+    "d": 22,
+    "hole": "bro-hof-stadium/1"
+   },
+   "apexes": 44,
+   "isolated": 0,
+   "group": 20,
+   "edge": 24,
+   "closed": 0,
+   "conifer-like": 4,
+   "mixed": 15,
+   "leafless": 25,
+   "unknown": 0,
+   "near": 44,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 18,
+   "within15mOf": []
+  },
+  {
+   "id": "H8-c7-east",
+   "role": "evaluation",
+   "bbox": [
+    650015.5,
+    6598774.5,
+    650045.5,
+    6598804.5
+   ],
+   "size": [
+    30,
+    30
+   ],
+   "nearest": {
+    "d": 15,
+    "hole": "bro-hof-castle/7"
+   },
+   "apexes": 55,
+   "isolated": 0,
+   "group": 0,
+   "edge": 4,
+   "closed": 51,
+   "conifer-like": 37,
+   "mixed": 13,
+   "leafless": 5,
+   "unknown": 0,
+   "near": 55,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 22,
+   "within15mOf": []
+  },
+  {
+   "id": "H9-c7-east-edge",
+   "role": "evaluation",
+   "bbox": [
+    650005.5,
+    6598704.5,
+    650045.5,
+    6598744.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 49,
+    "hole": "bro-hof-castle/7"
+   },
+   "apexes": 59,
+   "isolated": 2,
+   "group": 11,
+   "edge": 20,
+   "closed": 26,
+   "conifer-like": 2,
+   "mixed": 7,
+   "leafless": 50,
+   "unknown": 0,
+   "near": 59,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 20,
+   "within15mOf": []
+  },
+  {
+   "id": "H10-s3-grove",
+   "role": "evaluation",
+   "bbox": [
+    648970.5,
+    6598744.5,
+    649000.5,
+    6598774.5
+   ],
+   "size": [
+    30,
+    30
+   ],
+   "nearest": {
+    "d": 48,
+    "hole": "bro-hof-stadium/2"
+   },
+   "apexes": 62,
+   "isolated": 0,
+   "group": 0,
+   "edge": 0,
+   "closed": 62,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 62,
+   "unknown": 0,
+   "near": 62,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 26,
+   "within15mOf": []
+  },
+  {
+   "id": "H11-c6-ridge",
+   "role": "evaluation",
+   "bbox": [
+    649710.5,
+    6599104.5,
+    649740.5,
+    6599134.5
+   ],
+   "size": [
+    30,
+    30
+   ],
+   "nearest": {
+    "d": 40,
+    "hole": "bro-hof-castle/5"
+   },
+   "apexes": 34,
+   "isolated": 0,
+   "group": 9,
+   "edge": 23,
+   "closed": 2,
+   "conifer-like": 11,
+   "mixed": 7,
+   "leafless": 16,
+   "unknown": 0,
+   "near": 34,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 16,
+   "within15mOf": []
+  },
+  {
+   "id": "H12-park2",
+   "role": "evaluation",
+   "bbox": [
+    648590.5,
+    6598179.5,
+    648645.5,
+    6598234.5
+   ],
+   "size": [
+    55,
+    55
+   ],
+   "nearest": {
+    "d": 113,
+    "hole": "bro-hof-castle/1"
+   },
+   "apexes": 42,
+   "isolated": 0,
+   "group": 6,
+   "edge": 24,
+   "closed": 12,
+   "conifer-like": 27,
+   "mixed": 12,
+   "leafless": 3,
+   "unknown": 0,
+   "near": 42,
+   "byWater": 0,
+   "byBuilding": 3,
+   "tallest": 26,
+   "within15mOf": []
+  },
+  {
+   "id": "H13-c8-grove",
+   "role": "evaluation",
+   "bbox": [
+    649590.5,
+    6598844.5,
+    649630.5,
+    6598884.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 24,
+    "hole": "bro-hof-castle/9"
+   },
+   "apexes": 63,
+   "isolated": 4,
+   "group": 2,
+   "edge": 17,
+   "closed": 40,
+   "conifer-like": 2,
+   "mixed": 1,
+   "leafless": 60,
+   "unknown": 0,
+   "near": 63,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 18,
+   "within15mOf": []
+  },
+  {
+   "id": "H14-s13-shore",
+   "role": "evaluation",
+   "bbox": [
+    649685.5,
+    6598424.5,
+    649725.5,
+    6598464.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 90,
+    "hole": "bro-hof-stadium/12"
+   },
+   "apexes": 48,
+   "isolated": 15,
+   "group": 16,
+   "edge": 12,
+   "closed": 5,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 48,
+   "unknown": 0,
+   "near": 29,
+   "byWater": 12,
+   "byBuilding": 0,
+   "tallest": 16,
+   "within15mOf": []
+  },
+  {
+   "id": "H16-s1-garden",
+   "role": "evaluation",
+   "bbox": [
+    648755.5,
+    6598399.5,
+    648795.5,
+    6598439.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 67,
+    "hole": "bro-hof-stadium/1"
+   },
+   "apexes": 63,
+   "isolated": 0,
+   "group": 8,
+   "edge": 32,
+   "closed": 23,
+   "conifer-like": 0,
+   "mixed": 0,
+   "leafless": 63,
+   "unknown": 0,
+   "near": 63,
+   "byWater": 0,
+   "byBuilding": 24,
+   "tallest": 17,
+   "within15mOf": []
+  },
+  {
+   "id": "H17-c12-mixed",
+   "role": "evaluation",
+   "bbox": [
+    648525.5,
+    6598834.5,
+    648565.5,
+    6598874.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 31,
+    "hole": "bro-hof-castle/12"
+   },
+   "apexes": 69,
+   "isolated": 0,
+   "group": 18,
+   "edge": 39,
+   "closed": 12,
+   "conifer-like": 0,
+   "mixed": 1,
+   "leafless": 68,
+   "unknown": 0,
+   "near": 69,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 20,
+   "within15mOf": []
+  },
+  {
+   "id": "H19-c8-ridge",
+   "role": "evaluation",
+   "bbox": [
+    649720.5,
+    6598994.5,
+    649760.5,
+    6599034.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 79,
+    "hole": "bro-hof-castle/5"
+   },
+   "apexes": 37,
+   "isolated": 2,
+   "group": 3,
+   "edge": 15,
+   "closed": 17,
+   "conifer-like": 13,
+   "mixed": 8,
+   "leafless": 16,
+   "unknown": 0,
+   "near": 37,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 14,
+   "within15mOf": []
+  },
+  {
+   "id": "H21-c12-scatter",
+   "role": "evaluation",
+   "bbox": [
+    648435.5,
+    6599024.5,
+    648480.5,
+    6599069.5
+   ],
+   "size": [
+    45,
+    45
+   ],
+   "nearest": {
+    "d": 70,
+    "hole": "bro-hof-castle/13"
+   },
+   "apexes": 102,
+   "isolated": 11,
+   "group": 26,
+   "edge": 25,
+   "closed": 40,
+   "conifer-like": 33,
+   "mixed": 13,
+   "leafless": 56,
+   "unknown": 0,
+   "near": 97,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 16,
+   "within15mOf": []
+  }
+ ]
+}

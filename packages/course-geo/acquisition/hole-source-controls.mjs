@@ -6,6 +6,8 @@ export const DEFAULT_HOLE_PADDING_METRES = 48;
 export const DEFAULT_CONTROL_SPAN_METRES = 256;
 
 export const COURSE_MODEL_PATHS = Object.freeze({
+  'bro-hof-stadium': 'geo_data/course-v2/bro-hof/migration/course-model.epsg3006.json',
+  'bro-hof-castle': 'geo_data/course-v2/bro-hof/migration/castle-model.epsg3006.json',
   tortuna: 'geo_data/course-v2/tortuna/migration/course-model.epsg3006.json',
   visby: 'geo_data/course-v2/visby/migration/course-model.epsg3006.json',
   lidingo: 'geo_data/course-v2/lidingo/migration/course-model.epsg3006.json',
@@ -24,6 +26,8 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
+  'bro-hof-stadium': '1722d74b2887fb70ab7beb35c249347e4c188eebfa4db63642c0038ce0483f92',
+  'bro-hof-castle': '1dcdc32c823c0940526e83809fa06bc3b98592383c82e63ee9c4bed81abc816e',
   tortuna: 'de4db215cfb5a918566eb5cd7042b2b5376a3dd2061105d3a5b193585376cd2a',
   /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) four times. Hole
      16's fairway ring was re-synced from mapping/geometry.json, which the model

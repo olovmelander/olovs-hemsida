@@ -1,0 +1,53 @@
+{
+ "groundId": "bro-hof",
+ "slug": "bro-hof-castle",
+ "frame": {
+  "easting": 649094.5,
+  "northing": 6598568.5,
+  "latitude": 59.49897348570647,
+  "longitude": 17.633748664771936,
+  "text": "local metres from EPSG:3006; east +x, north -z; origin E649094.5 N6598568.5; heights RH 2000"
+ },
+ "seaLevel": 0,
+ "card": "../reference/club-scorecard.json",
+ "guideNotes": "../guide-notes.json",
+ "routes": "routes.geojson",
+ "surfaces": "playing-surfaces.geojson",
+ "siblingSurfaces": "../../brohofbuild/mapping/playing-surfaces.geojson",
+ "facilities": "../../brohofbuild/mapping/facilities.geojson",
+ "water": "../../brohofbuild/mapping/water.geojson",
+ "infrastructure": "../../brohofbuild/mapping/infrastructure.geojson",
+ "context": "../../brohofbuild/mapping/context.geojson",
+ "farBuildings": "../../brohofbuild/mapping/far-buildings.json",
+ "fineTerrain": {
+  "path": "../../packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l0.f32",
+  "sha256": "f5a0fbd4dfa80f0227031e446a482557815c3e71c35c9511431d26f016c1de59",
+  "side": 4097,
+  "spacing": 1,
+  "originEasting": 647046.5,
+  "originNorthing": 6600616.5
+ },
+ "vistaTerrain": {
+  "path": "../../packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings/l5.f32",
+  "sha256": "ab74018f4f7372bb56c05e699f9c985dbec7c9e652b7570270cd6bcfd8de0044",
+  "side": 513,
+  "spacing": 32,
+  "originEasting": 640902.5,
+  "originNorthing": 6606760.5
+ },
+ "hf0SpanMetres": 4096,
+ "defaultTeeIndex": 1,
+ "placement": {
+  "objectPlacement": null,
+  "vegetationPlacement": null,
+  "terrainPlacement": null,
+  "bridgePlacement": "mapped-only"
+ },
+ "evidence": {
+  "imagerySourceId": "orto-o2-2025",
+  "imageryCaptured": "2025-06-14",
+  "flagPositions": "virtual green targets",
+  "colouredTeePositions": "representative starts on named platforms at the card distance"
+ },
+ "outDir": ".."
+}

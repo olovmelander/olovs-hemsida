@@ -41,6 +41,9 @@ const REGISTRY = {
   'johannesberg-9': () => import('./johannesberg.js'),
   ribbingsfors: () => import('./ribbingsfors.js'),
   lidingo: () => import('./lidingo.js'),
+  /* two championship eighteens on one ground: one castle, one sand, one set of houses */
+  'bro-hof-stadium': () => import('./bro-hof.js'),
+  'bro-hof-castle': () => import('./bro-hof.js'),
   tortuna: () => import('./tortuna.js'),
   /* Visby carries a clubhouse spec, a species rule and one landmark: the 1936
      concrete tower of Skansudde fyr, which stands twenty metres from the 1st

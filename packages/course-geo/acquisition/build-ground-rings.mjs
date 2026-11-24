@@ -275,6 +275,7 @@ function fillSeaHoles(read, seaFill) {
 function publishedCourseTiles() {
   const root = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/v2-index.json'), 'utf8'));
   const entry = root.courses.find(course => course.groundId === groundId);
+  if (!entry) return null;
   const course = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public', entry.manifest.url), 'utf8'));
   const ground = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public', course.groundManifest.url), 'utf8'));
   return ground.tiles.filter(tile => tile.lod === 0).map(tile => {
@@ -284,7 +285,11 @@ function publishedCourseTiles() {
 }
 
 function compareWithPublished(level, read) {
-  return summarizeTerrainDifference({ level, read, tiles: publishedCourseTiles() });
+  const tiles = publishedCourseTiles();
+  if (!tiles) {
+    return { mode: 'initial-first-generation', note: `no previously published v2 tiles exist for ${groundId}` };
+  }
+  return summarizeTerrainDifference({ level, read, tiles });
 }
 
 const levelEvidence = [];

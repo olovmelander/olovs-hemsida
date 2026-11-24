@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-inventory",
+  "reviewId": "review-2026-11-24",
+  "groundId": "bro-hof",
+  "observedOn": "2026-11-24",
+  "frame": "EPSG:3006 horizontal, RH2000 (EPSG:5613) heights, compound EPSG:5845",
+  "windowEpsg3006": {
+    "inner": {
+      "minEasting": 648070.5,
+      "minNorthing": 6597544.5,
+      "maxEasting": 650118.5,
+      "maxNorthing": 6599592.5
+    },
+    "analysed": {
+      "minEasting": 648010.5,
+      "minNorthing": 6597484.5,
+      "maxEasting": 650178.5,
+      "maxNorthing": 6599652.5
+    }
+  },
+  "provider": "Lantmäteriet only (Skogsstyrelsen not used; the surface model matched from aerial photos not used)",
+  "sourcePolicy": {
+    "checked": "tools/tree-pipeline/source-policy.mjs",
+    "problems": []
+  },
+  "laser": {
+    "collection": "dsm-skoglig-copc",
+    "discovery": "https://api.lantmateriet.se/stac-hojd/v1/",
+    "campaign": "20C028",
+    "capturedOn": "2020-11-06",
+    "leafState": "leaf-off",
+    "label": "20C028 2020-11-06 and 21C031 2021-03-23, leaf-off",
+    "note": "Laserdata Nedladdning, skog (dsm-skoglig-copc), 2.5 km items; the newest campaign per area in the pinned inventory of 2026-11-24. Two campaigns meet in the window at E 650000 (laser.parts): 20C028, flown 2020-11-06 (late leaf fall: birch and aspen bare, some oak and alder may still hold leaves), and 21C031, flown 2021-03-23. The pin's two northern items (21C037, 21C038) lie north of N 6600000, outside the halo window (N 6599652.5), and are not read. No growing season lies between the two flights.",
+    "campaigns": [
+      {
+        "campaign": "20C028",
+        "capturedOn": "2020-11-06",
+        "leafState": "leaf-off",
+        "items": [
+          "20c028-65950_6475_25",
+          "20c028-65975_6475_25"
+        ],
+        "pointsInWindow": 12631118,
+        "innerSquareMetres": 3951616,
+        "allReturnsPerSquareMetre": 2.944,
+        "firstReturnsPerSquareMetre": 1.996,
+        "emptyCellFraction050": 0.5503,
+        "voidFractionAfterPitFree": 0.18547,
+        "groundCheck": {
+          "samples": 2937386,
+          "medianMetres": 0,
+          "p05Metres": -0.1,
+          "p95Metres": 0.085,
+          "absoluteMedianMetres": 0.02,
+          "absoluteP95Metres": 0.215,
+          "absoluteP99Metres": 1.72
+        }
+      },
+      {
+        "campaign": "21C031",
+        "capturedOn": "2021-03-23",
+        "leafState": "leaf-off",
+        "items": [
+          "21c031-65950_6500_25",
+          "21c031-65975_6500_25"
+        ],
+        "pointsInWindow": 1382485,
+        "innerSquareMetres": 242688,
+        "allReturnsPerSquareMetre": 3.908,
+        "firstReturnsPerSquareMetre": 2.618,
+        "emptyCellFraction050": 0.4239,
+        "voidFractionAfterPitFree": 0.02321,
+        "groundCheck": {
+          "samples": 229285,
+          "medianMetres": 0,
+          "p05Metres": -0.062,
+          "p95Metres": 0.058,
+          "absoluteMedianMetres": 0.017,
+          "absoluteP95Metres": 0.085,
+          "absoluteP99Metres": 0.15
+        }
+      }
+    ],
+    "pin": {
+      "file": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
+      "sha256": "ba2a5bca637a4eff58690c7c0a6eaa5057172f35a65e4a834cf4838c4610b9eb"
+    },
+    "items": [
+      {
+        "id": "21c031-65950_6500_25",
+        "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c031/y21c031-65950_6500_25.copc.laz",
+        "bytes": 69475186,
+        "sha256": "32e473324d1f6dda53cf2275eef0330dd163a5e70bd7ae50351565f8680f1568",
+        "projBbox": [
+          650000,
+          6595000,
+          652500,
+          6597500
+        ],
+        "pointCount": 11560144,
+        "allReturnDensityPerSquareMetre": 2.004,
+        "updatedAt": "2026-10-14T11:40:26Z"
+      },
+      {
+        "id": "21c031-65975_6500_25",
+        "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c031/y21c031-65975_6500_25.copc.laz",
+        "bytes": 116842153,
+        "sha256": "b19f5bb2b74e28fba7f1b8ab69f039ea560fd407ea936c3c48baac78b4c55fdd",
+        "projBbox": [
+          650000,
+          6597500,
+          652500,
+          6600000
+        ],
+        "pointCount": 20648414,
+        "allReturnDensityPerSquareMetre": 3.173,
+        "updatedAt": "2026-10-14T11:40:27Z"
+      },
+      {
+        "id": "20c028-65950_6475_25",
+        "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/20c028/y20c028-65950_6475_25.copc.laz",
+        "bytes": 23251083,
+        "sha256": "76e7c9600ded723f0c980c7d8ff148f8d30e057599677b0956afe120a7806266",
+        "projBbox": [
+          647500,
+          6595000,
+          650000,
+          6597500
+        ],
+        "pointCount": 3637117,
+        "allReturnDensityPerSquareMetre": 0.334,
+        "updatedAt": "2026-10-14T11:32:12Z"
+      },
+      {
+        "id": "20c028-65975_6475_25",
+        "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/20c028/y20c028-65975_6475_25.copc.laz",
+        "bytes": 130309010,
+        "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97",
+        "projBbox": [
+          647500,
+          6597500,
+          650000,
+          6600000
+        ],
+        "pointCount": 20601050,
+        "allReturnDensityPerSquareMetre": 3.241,
+        "updatedAt": "2026-10-14T11:32:13Z"
+      }
+    ],
+    "licence": {
+      "documentId": "LM2026/077164",
+      "version": "1.0",
+      "effectiveFrom": "2026-06-01",
+      "licence": "CC-BY-4.0",
+      "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0",
+      "url": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf",
+      "personalData": "the licensee is data controller for the raw cloud; a registry of tree positions, heights and radii carries no personal data and the raw cloud is never published"
+    },
+    "measured": {
+      "cells": 16777216,
+      "squareMetres": 4194304,
+      "allReturnsPerSquareMetre": 3,
+      "firstReturnsPerSquareMetre": 2.032,
+      "emptyCellFraction050": 0.543,
+      "voidFractionAfterPitFree": 0.17608,
+      "emptyCellFraction100": 0.2076
+    },
+    "groundCheck": {
+      "statement": "cloud ground (mean of class 2/9 returns per 1 m cell, measured cells only) minus the published RH2000 terrain the app draws, inner window, every measured cell",
+      "publishedGroundManifest": "grounds/bro-hof/ground-v2-9ba61580c946eab177678846c2310cb4e4a9851850458040c759882a66a0ac2c.json",
+      "samples": 3166671,
+      "medianMetres": 0,
+      "meanMetres": -0.016,
+      "p05Metres": -0.095,
+      "p95Metres": 0.082,
+      "absoluteMedianMetres": 0.02,
+      "absoluteP95Metres": 0.19,
+      "absoluteP99Metres": 1.625
+    }
+  },
+  "orthophotos": {
+    "2021": {
+      "collection": "orto-o2-2021",
+      "date": "2021-04-16",
+      "season": "leaf-off",
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near-infrared"
+      ],
+      "bandEvidence": "TIFF photometric RGB (2) with one unspecified extra sample (ExtraSamples 0, not alpha), 4 x 8 bit, pixel-interleaved",
+      "items": [
+        {
+          "id": "o65950_6475_25_mr21",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2021_O2/o65950_6475_25_mr21.tif",
+          "captureStart": "2021-04-16T12:49:47Z",
+          "captureEnd": "2021-04-16T13:07:06Z",
+          "sourceBytes": 594328431,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 25,
+          "tileHashDigest": "69669353635e6bb9852da5f9e13f8f008d3339f7b0a2f1f97b7190f059b7f329"
+        },
+        {
+          "id": "o65950_6500_25_mr21",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2021_O2/o65950_6500_25_mr21.tif",
+          "captureStart": "2021-04-16T12:49:56Z",
+          "captureEnd": "2021-04-16T13:07:14Z",
+          "sourceBytes": 677569146,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 3,
+          "tileHashDigest": "6a494fa5e6ec71c48420f4f107a4644aaefdee99cc2ff621e9f67fded6ec53bd"
+        },
+        {
+          "id": "o65975_6475_25_mr21",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2021_O2/o65975_6475_25_mr21.tif",
+          "captureStart": "2021-04-16T12:49:29Z",
+          "captureEnd": "2021-04-16T13:07:31Z",
+          "sourceBytes": 702098879,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 675,
+          "tileHashDigest": "e62e83bd5f03a9f4b9bb8dc3aaedddd2365f39709683e2a80d3b05a3a0a66143"
+        },
+        {
+          "id": "o65975_6500_25_mr21",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2021_O2/o65975_6500_25_mr21.tif",
+          "captureStart": "2021-04-16T12:49:29Z",
+          "captureEnd": "2021-04-16T13:07:31Z",
+          "sourceBytes": 748751957,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 81,
+          "tileHashDigest": "571c024b83ab83105d880afd954cd4ef8911eac68a5e748506e199b95d9eda65"
+        }
+      ],
+      "windowEpsg3006": [
+        648010.5,
+        6597484.5,
+        650178.5,
+        6599652.5
+      ],
+      "mosaic": {
+        "pixelMetres": 0.32,
+        "width": 6776,
+        "height": 6776,
+        "validFraction": 1,
+        "sha256": "79b5ea9dec463f07100fa11bd439ccc3728993a456010aee48f4104748d78bc1"
+      },
+      "registration": {
+        "dE": -0.1,
+        "dN": -0.154,
+        "via": "laser",
+        "patches": 46,
+        "residualMedian": 0.464,
+        "residualP90": 1.29,
+        "magnitude": 0.184
+      },
+      "applied": null
+    },
+    "2025": {
+      "collection": "orto-o2-2025",
+      "date": "2025-06-14",
+      "season": "leaf-on",
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near-infrared"
+      ],
+      "bandEvidence": "TIFF photometric RGB (2) with one unspecified extra sample (ExtraSamples 0, not alpha), 4 x 8 bit, pixel-interleaved",
+      "items": [
+        {
+          "id": "o65950_6475_25_mr25",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65950_6475_25_mr25.tif",
+          "captureStart": "2025-06-14T08:58:16Z",
+          "captureEnd": "2025-06-14T09:13:12Z",
+          "sourceBytes": 452426902,
+          "stacSha256": null,
+          "software": "Trimble Inpho 15.0.2-88efa91",
+          "tilesCached": 25,
+          "tileHashDigest": "a038c55aa7422f02aafaafaf8ee215b7388a38eda769e7c51538e5099504ee11"
+        },
+        {
+          "id": "o65950_6500_25_mr25",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65950_6500_25_mr25.tif",
+          "captureStart": "2025-06-14T08:58:16Z",
+          "captureEnd": "2025-06-14T08:58:40Z",
+          "sourceBytes": 562589853,
+          "stacSha256": null,
+          "software": "Trimble Inpho 15.0.2-88efa91",
+          "tilesCached": 3,
+          "tileHashDigest": "1c039878c135639cd07030f2329433df7a93c8631658b3f491529ddb8e872591"
+        },
+        {
+          "id": "o65975_6475_25_mr25",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65975_6475_25_mr25.tif",
+          "captureStart": "2025-06-14T08:58:00Z",
+          "captureEnd": "2025-06-14T08:58:24Z",
+          "sourceBytes": 625862697,
+          "stacSha256": null,
+          "software": "Trimble Inpho 15.0.2-88efa91",
+          "tilesCached": 675,
+          "tileHashDigest": "df4a9ef86a706713ed6c09556ac644c458e0ac876562b1afe8051cc3233f1ab8"
+        },
+        {
+          "id": "o65975_6500_25_mr25",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65975_6500_25_mr25.tif",
+          "captureStart": "2025-06-14T08:58:00Z",
+          "captureEnd": "2025-06-14T08:58:16Z",
+          "sourceBytes": 668496991,
+          "stacSha256": null,
+          "software": "Trimble Inpho 15.0.2-88efa91",
+          "tilesCached": 81,
+          "tileHashDigest": "eb9a56a521d07ef36f30981546c6de58fbddf20ee57d4eaf16e5e500440bc7db"
+        }
+      ],
+      "windowEpsg3006": [
+        648010.5,
+        6597484.5,
+        650178.5,
+        6599652.5
+      ],
+      "mosaic": {
+        "pixelMetres": 0.32,
+        "width": 6776,
+        "height": 6776,
+        "validFraction": 1,
+        "sha256": "c40a03c21beb523178f929ac7fb285dd3bcc10381275972feced7d80e70c44eb"
+      },
+      "registration": {
+        "dE": 0.311,
+        "dN": -0.476,
+        "via": "laser",
+        "patches": 46,
+        "residualMedian": 0.484,
+        "residualP90": 2.478,
+        "magnitude": 0.569
+      },
+      "applied": {
+        "dE": 0.311,
+        "dN": -0.476
+      }
+    }
+  },
+  "orthophotosAvailableNotFetched": {
+    "other years": "orto-o2-2021 (leaf-off) is the leaf-off campaign nearest both laser flights and orto-o2-2025 the newest leaf-on one; no other orthophoto year was fetched"
+  },
+  "terrain": {
+    "baselineGroundManifest": "grounds/bro-hof/ground-v2-9ba61580c946eab177678846c2310cb4e4a9851850458040c759882a66a0ac2c.json",
+    "note": "tree bases sample the published terrain the app draws (createGroundHeightLookup over the finest tiles)"
+  },
+  "rawCaches": {
+    "copc": "brohofbuild/cache/trees-2026-11-24/copc",
+    "ortho": "brohofbuild/cache/trees-2026-11-24/ortho",
+    "rasters": "brohofbuild/cache/trees-2026-11-24/rasters",
+    "note": "ignored by git; never committed"
+  }
+}

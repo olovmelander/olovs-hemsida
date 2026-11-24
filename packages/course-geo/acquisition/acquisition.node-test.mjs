@@ -323,10 +323,10 @@ test('automatic object candidates require both usable Laserdata and tree height'
 test('repository inventory plans Laserdata and tree-height controls for every hole on every course', () => {
   const plan = loadRepositoryHoleSourceControlPlan();
   assert.deepEqual(plan.summary, {
-    groundCount: 10,
-    courseCount: 13,
+    groundCount: 11,
+    courseCount: 15,
     pendingCourseSlugs: [],
-    holeCount: 198,
+    holeCount: 234,
     /* 194 until 2026-09-05, when two measurements landed the same day:
        Veckefjärden's water and ditches became laser readings (laser-water.mjs,
        the 4th's and 18th's ditches — the 12th's pond is two lobes and the 2 m
@@ -341,7 +341,8 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
        reaching w256-597760-6614784, a window no neighbour had. Attributed with
        tortunabuild/cache/attribute-windows.mjs against the preceding committed
        migration; nothing else moved a window. */
-    uniqueGroundWindowCount: 280,
+    // Bro Hof's two routings (36 holes, 24 November) add 54 windows and 199 references.
+    uniqueGroundWindowCount: 334,
     /* 702 until 2026-09-05, when the Johannesberg nine's 2nd, 7th and 8th greens
        became measured rings (trace-nine.mjs) and two of them reach a second
        256 m control window, and 709 when the Ribbingsfors pass measured its
@@ -378,7 +379,7 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
        hole by hole against the preceding committed migration: no other hole
        on any course moves, and uniqueGroundWindowCount stays 280 because the
        short course still reaches the column. */
-    requestedWindowReferences: 983,
+    requestedWindowReferences: 1182,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,

@@ -1,0 +1,167 @@
+{
+ "what": "decided candidates (placed records after holds, bank rule and hold review) on round r1's evaluation sample; secondary, decides nothing",
+ "total": {
+  "tp": 132,
+  "missed": 34,
+  "extra": 39,
+  "precision": 0.772,
+  "recall": 0.795,
+  "f1": 0.783
+ },
+ "windows": [
+  {
+   "window": "H2-avenue",
+   "tp": 4,
+   "missed": 0,
+   "extra": 1,
+   "r1-typed": {
+    "tp": 4,
+    "missed": 0,
+    "extra": 0
+   }
+  },
+  {
+   "window": "H4-c15-closed",
+   "tp": 32,
+   "missed": 8,
+   "extra": 6,
+   "r1-typed": {
+    "tp": 31,
+    "missed": 9,
+    "extra": 6
+   }
+  },
+  {
+   "window": "H6-s9-shore",
+   "tp": 4,
+   "missed": 0,
+   "extra": 3,
+   "r1-typed": {
+    "tp": 4,
+    "missed": 0,
+    "extra": 3
+   }
+  },
+  {
+   "window": "H8-c7-east",
+   "tp": 16,
+   "missed": 3,
+   "extra": 2,
+   "r1-typed": {
+    "tp": 17,
+    "missed": 2,
+    "extra": 1
+   }
+  },
+  {
+   "window": "H9-c7-east-edge",
+   "tp": 6,
+   "missed": 1,
+   "extra": 2,
+   "r1-typed": {
+    "tp": 6,
+    "missed": 1,
+    "extra": 1
+   }
+  },
+  {
+   "window": "H10-s3-grove",
+   "tp": 5,
+   "missed": 1,
+   "extra": 0,
+   "r1-typed": {
+    "tp": 5,
+    "missed": 1,
+    "extra": 0
+   }
+  },
+  {
+   "window": "H11-c6-ridge",
+   "tp": 8,
+   "missed": 1,
+   "extra": 0,
+   "r1-typed": {
+    "tp": 9,
+    "missed": 0,
+    "extra": 0
+   }
+  },
+  {
+   "window": "H12-park2",
+   "tp": 3,
+   "missed": 0,
+   "extra": 12,
+   "r1-typed": {
+    "tp": 3,
+    "missed": 0,
+    "extra": 13
+   }
+  },
+  {
+   "window": "H13-c8-grove",
+   "tp": 7,
+   "missed": 2,
+   "extra": 1,
+   "r1-typed": {
+    "tp": 7,
+    "missed": 2,
+    "extra": 1
+   }
+  },
+  {
+   "window": "H14-s13-shore",
+   "tp": 3,
+   "missed": 1,
+   "extra": 1,
+   "r1-typed": {
+    "tp": 4,
+    "missed": 0,
+    "extra": 0
+   }
+  },
+  {
+   "window": "H16-s1-garden",
+   "tp": 6,
+   "missed": 2,
+   "extra": 0,
+   "r1-typed": {
+    "tp": 6,
+    "missed": 2,
+    "extra": 2
+   }
+  },
+  {
+   "window": "H17-c12-mixed",
+   "tp": 7,
+   "missed": 4,
+   "extra": 2,
+   "r1-typed": {
+    "tp": 7,
+    "missed": 4,
+    "extra": 2
+   }
+  },
+  {
+   "window": "H19-c8-ridge",
+   "tp": 8,
+   "missed": 3,
+   "extra": 1,
+   "r1-typed": {
+    "tp": 8,
+    "missed": 3,
+    "extra": 1
+   }
+  },
+  {
+   "window": "H21-c12-scatter",
+   "tp": 23,
+   "missed": 8,
+   "extra": 8,
+   "r1-typed": {
+    "tp": 23,
+    "missed": 8,
+    "extra": 7
+   }
+  }
+ ]
+}

@@ -19,6 +19,7 @@ import { outlineOverLand } from './map-land.mjs';
 const TRACED_SURFACES = Object.freeze({
   practice_green: 'otherGreens', practice_bunker: 'otherBunkers', range_bunker: 'otherBunkers',
   mown_approach: 'otherFairways', range_tee_pad: 'otherTees', range_mat: 'mats', range_target_surface: 'grass',
+  waste_sand: 'openSand',
   paved_path: 'paved', terrace: 'paved', non_turf_island: 'bare', sports_court: 'courts',
   clubhouse_roof_section: 'roofs', roof_solar: 'solar',
 });
@@ -120,7 +121,7 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     forest: rings([...(veg.forest ?? []), ...(veg.wood ?? [])]),
     scrub: rings(veg.scrub),
     wetland: rings(veg.wetland),
-    openSand: rings(veg.sand),
+    openSand: rings([...(veg.sand ?? []), ...(traced.openSand ?? [])]),
     rock: rings(veg.rock),
     water: [...(vectors.water ?? []), ...(far?.water ?? []).filter(item => Number.isFinite(item.level))]
       .filter(item => validRing(item?.ring))
@@ -152,6 +153,8 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     shallows: ringOrRings(surround.shallows),
     basins: rings(infra.basins),
     bridges: rings(infra.bridges),
+    bridgeLines: lines((infra.bridges ?? []).filter(item => !validRing(item?.ring))),
+    bulkheads: lines(infra.bulkheads),
     drains: lines([...(infra.drainage ?? []), ...tracedLines]),
     railways: lines([...(infra.railway ?? []), ...(far?.railway ?? [])]),
     piers: lines([...(infra.piers ?? []), ...(far?.piers ?? [])]),
@@ -171,7 +174,7 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     roofs: rings(traced.roofs),
     solar: rings(traced.solar),
     nets: (scenery.rangeFacilities?.nets ?? []).filter(line => validRing(line, 2)).map(placeAll),
-    cartParks: scenery.cartPark && validRing(scenery.cartPark.line, 2) ? [placeAll(scenery.cartPark.line)] : [],
+    cartParks: [scenery.cartPark, ...(scenery.cartParks ?? [])].filter(row => row && validRing(row.line, 2)).map(row => placeAll(row.line)),
     /* Out of bounds and penalty areas, stake by stake as they stand. */
     stakes: (vectors.marking ?? []).flatMap(item => (item.pts ?? []).filter(isPoint).map(point => ({ point: place(point), colour: item.c }))),
     // Keep each run of stakes and the hole ownership of a local rule.

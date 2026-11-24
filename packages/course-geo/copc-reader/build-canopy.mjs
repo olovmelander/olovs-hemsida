@@ -9,6 +9,7 @@
             --out <dir> [--halo 32] [--tiles l0/0/0,l0/1/0] [--campaigns id,id]
             [--evidence geo_data/course-v2/<ground>/vegetation/canopy-evidence.json]
             [--tight-grid] (bound output to selected finest tiles, not scenery rings)
+            [--ground-document output/course-workflow/<ground>/bootstrap/ground.json] (a new ground)
 
    Rasters (raw Float32 + JSON sidecar, NaN = void) go to --out, which must be
    outside the repository's committed tree; the evidence file is small and is
@@ -50,12 +51,20 @@ const manifest = loadPilotManifest(groundId);
 const campaigns = readJson(path.join(dataDir, 'acquisition/laser-campaigns.json'));
 const censusPath = path.join(dataDir, 'acquisition/copc-hierarchy-census.json');
 const census = fs.existsSync(censusPath) ? readJson(censusPath) : null;
-const publicDir = path.join(ROOT, 'apps/golf/public');
-const graphRoot = readJson(path.join(publicDir, 'courses/v2-index.json'));
-const rootEntry = graphRoot.courses?.find(course => course.groundId === groundId);
-if (!rootEntry) throw new Error(`published v2 root has no ground ${groundId}`);
-const courseManifest = readJson(path.join(publicDir, rootEntry.manifest.url));
-const ground = readJson(path.join(publicDir, courseManifest.groundManifest.url));
+/* A new ground has no published generation yet: --ground-document names a staged one
+   (bootstrap-terrain.mjs), whose chunks lie beside it. */
+const stagedGround = flag('ground-document');
+const publicDir = stagedGround ? path.dirname(path.resolve(ROOT, stagedGround)) : path.join(ROOT, 'apps/golf/public');
+let groundManifestUrl = stagedGround ? path.relative(ROOT, path.resolve(ROOT, stagedGround)).split(path.sep).join('/') : null;
+const ground = (() => {
+  if (stagedGround) return readJson(path.resolve(ROOT, stagedGround));
+  const graphRoot = readJson(path.join(publicDir, 'courses/v2-index.json'));
+  const rootEntry = graphRoot.courses?.find(course => course.groundId === groundId);
+  if (!rootEntry) throw new Error(`published v2 root has no ground ${groundId}`);
+  const courseManifest = readJson(path.join(publicDir, rootEntry.manifest.url));
+  groundManifestUrl = courseManifest.groundManifest.url;
+  return readJson(path.join(publicDir, groundManifestUrl));
+})();
 if (ground.groundId !== groundId) throw new Error(`published root resolved ${ground.groundId}, not ${groundId}`);
 const readAsset = async url => fs.readFileSync(path.join(publicDir, url));
 const sampler = await createGroundSampler(ground, readAsset);
@@ -278,7 +287,7 @@ const evidence = {
   method: 'Node reader over authenticated range requests (copc + laz-perf); ground from the cloud\'s own class 2/9 returns, mean per 1 m cell, nearest-fill to 60 m, 3x3 mean; height above ground bilinear; CHM = highest non-noise return per cell, 0 where only ground returns exist, NaN where none; densities counted, never copied',
   haloMetres: halo,
   frameFingerprint: ground.frame.fingerprint,
-  groundManifest: courseManifest.groundManifest.url,
+  groundManifest: groundManifestUrl,
   campaignsSha256: sha256File(path.join(dataDir, 'acquisition/laser-campaigns.json')),
   censusSha256: fs.existsSync(censusPath) ? sha256File(censusPath) : null,
   rasterDirectory: path.relative(ROOT, path.resolve(outDir)).split(path.sep).join('/'),

@@ -14,6 +14,7 @@
    The per-course records stay in their own modules beside the evidence that
    produced them; this file only says which ones are live. */
 import { ANGSO_V2_CONFIGS } from './v2-angso-config.mjs';
+import { BRO_HOF_V2_CONFIGS } from './v2-bro-hof-config.mjs';
 import { JOHANNESBERG_V2_CONFIGS } from './v2-johannesberg-config.mjs';
 import { LIDINGO_V2_CONFIGS } from './v2-lidingo-config.mjs';
 import { NORRFALLSVIKEN_V2_CONFIGS } from './v2-norrfallsviken-config.mjs';
@@ -25,6 +26,7 @@ import { TORTUNA_V2_CONFIGS } from './v2-tortuna-config.mjs';
 
 export const V2_GRAPH_FRONTIER_CONFIGS = Object.freeze({
   ...ANGSO_V2_CONFIGS,
+  ...BRO_HOF_V2_CONFIGS,
   ...JOHANNESBERG_V2_CONFIGS,
   ...LIDINGO_V2_CONFIGS,
   ...NORRFALLSVIKEN_V2_CONFIGS,

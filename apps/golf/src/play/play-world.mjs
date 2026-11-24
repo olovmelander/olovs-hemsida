@@ -3,6 +3,7 @@
    the handle main.js gives the play mode (see the end of main.js). */
 import { LIE_SURFACE } from './shot-model.mjs';
 import { outTest } from './play-rules.mjs';
+import { createBulkheadCollider } from '../engine/water-bulkheads.mjs';
 
 const CELL = 16;
 
@@ -55,6 +56,9 @@ export function createPlayWorld(handle) {
     const h = handle.heightAt(x, z);
     return Number.isFinite(h) ? h : 0;
   };
+  const bulkheads = handle.bulkheads
+    ? createBulkheadCollider(handle.bulkheads(), { waterList: handle.water ? handle.water() : [], heightAt })
+    : null;
   /* The lie: the detailed course's own (kikLie), with the fringe told apart. */
   const surfaceAt = (x, z) => {
     const lie = handle.lieAt(x, z, heightAt(x, z));
@@ -78,7 +82,7 @@ export function createPlayWorld(handle) {
     setGround(next, plugChance = 0) { ground = next; plug = plugChance; },
     /** The world a stroke from `from` plays in (its out-of-bounds test looks from there). */
     forStroke(from, cup) {
-      return { heightAt, surfaceAt, trees, cup: cup ? [cup[0], cup[1]] : null, isOut: outTest({ lines: boundaries, from, inCourse }),
+      return { heightAt, surfaceAt, trees, bulkheads, cup: cup ? [cup[0], cup[1]] : null, isOut: outTest({ lines: boundaries, from, inCourse }),
         ...(ground ? { ground, plug } : {}) };
     },
   };

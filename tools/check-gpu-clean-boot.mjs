@@ -56,7 +56,8 @@ for (const backend of backends) {
     });
     const errors = [];
     page.on('pageerror', e => errors.push('pageerror: ' + String(e).split('\n')[0].slice(0, 300)));
-    page.on('console', m => { if (m.type() === 'error') errors.push(m.text().split('\n').slice(0, 2).join(' ').slice(0, 300)); });
+    /* tools/serve.mjs has no Worker behind it: the sign-in's health probe is a 404 there, on every course */
+    page.on('console', m => { if (m.type() === 'error' && !(m.location()?.url ?? '').endsWith('/api/health')) errors.push(m.text().split('\n').slice(0, 2).join(' ').slice(0, 300)); });
     const url = `${BASE}/?bana=${slug}&q=${QUALITY}&qualitylock=1&det=1&gl=${backend === 'webgl2' ? 1 : 0}${QUERY ? '&' + QUERY : ''}`;
     const row = { slug, backend, url, errors };
     const started = Date.now();

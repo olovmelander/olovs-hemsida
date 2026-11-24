@@ -3,14 +3,15 @@
 **[Banvy — svenska golfbanor i 3D](https://olovmelander.github.io/olovs-hemsida/)**
 
 Swedish golf courses rendered in real time from source terrain, mapped geometry,
-club material and imagery. The current v2 catalogue has 13 layouts on 10 grounds
+club material and imagery. The current v2 catalogue has 15 layouts on 11 grounds
 using the common 1 m terrain/ring contract; mapping and review maturity varies.
 The app is
 installable, and a course you have already opened works with no network at all.
 
 **Adding or upgrading a course?** Start with the
 [course production workflow](docs/course-production-workflow.md): `pnpm course
-init`, staged builds, all-hole evidence and the release check. Use `pnpm course
+init`, staged builds, all-hole evidence and the release check, and follow
+[pipeline v2](docs/pipeline-v2.md) from an empty ground to a promoted candidate. Use `pnpm course
 audit --check` to inspect the current catalogue. The older standalone builders
 below are historical implementations, not new-course templates.
 
@@ -85,7 +86,7 @@ The survey-grade terrain, surface and real-object rollout is tracked in
 The repeatable, course-by-course production workflow is in
 [`docs/course-production-workflow.md`](docs/course-production-workflow.md).
 Per-ground source and rights records live in [`docs/courses/`](docs/courses/).
-All 13 selectable layouts on 10 grounds require a published v2 graph and reviewed
+All 15 selectable layouts on 11 grounds require a published v2 graph and reviewed
 adapter. The player uses v2 terrain + Ghibli styling on WebGPU and WebGL2;
 the app pins Three.js in [`apps/golf/package.json`](apps/golf/package.json).
 New course publications still require the workflow's source, licence, per-hole,

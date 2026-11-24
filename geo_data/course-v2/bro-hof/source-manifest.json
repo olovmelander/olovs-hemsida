@@ -1,0 +1,397 @@
+{
+  "$schema": "../../../packages/course-geo/source-manifest.schema.json",
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "groundName": "Bro Hof Slott Golf Club",
+  "courseSlugs": [
+    "bro-hof-stadium",
+    "bro-hof-castle"
+  ],
+  "targetBboxWgs84": [
+    17.61,
+    59.485,
+    17.658,
+    59.512
+  ],
+  "legacyFrame": {
+    "buildDirectory": "brohofbuild",
+    "originWgs84": {
+      "latitude": 59.49897348570647,
+      "longitude": 17.633748664771936
+    },
+    "metresPerLatitude": 111320,
+    "metresPerLongitude": 56500.89,
+    "heightReference": "Absolute RH 2000 from Lantmäteriet native 1 m DTM; independent local controls pending",
+    "frame": "local metres from EPSG:3006; east +x, north -z; origin E649094.5 N6598568.5; heights RH 2000",
+    "projectedOriginEpsg3006": {
+      "easting": 649094.5,
+      "northing": 6598568.5,
+      "axisMapping": {
+        "worldX": "easting - originEasting",
+        "worldZ": "originNorthing - northing"
+      }
+    }
+  },
+  "canonicalFrame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "originStatus": "pending-control-approval",
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
+  },
+  "sources": [
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_64.tif",
+      "localPath": "geo_data/course-v2/bro-hof/acquisition/ground-rings.json",
+      "bboxWgs84": [
+        17.61,
+        59.485,
+        17.658,
+        59.512
+      ],
+      "acquiredAt": "2026-11-24",
+      "capturedAt": "2025-06-14",
+      "checksum": "57ae4f9068adb83e40b0e5386b09761c6fcc2b33f9b6e6537158e138d2e3e5a6",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Seven nested ring levels (LOD0 1 m over 4,096 m through LOD6 64 m over 16,384 m) acquired from Lantmäteriet dtm-cog items 659_64, 659_65, 660_64, 660_65. E=650,000 and N=6,600,000 seams verified (median |dH| 0.08–0.10 m). CC BY 4.0, © Lantmäteriet."
+    },
+    {
+      "id": "water-breaks-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "hydrology",
+        "topography"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/65_6/m659_64_brytgeometri.gpkg",
+      "localPath": "geo_data/course-v2/bro-hof/mapping/water-breakgeometry-epsg3006.geojson",
+      "bboxWgs84": [
+        17.61,
+        59.485,
+        17.658,
+        59.512
+      ],
+      "acquiredAt": "2026-11-24",
+      "capturedAt": "2025-06-14",
+      "checksum": "0d40d77e38faa5592be62825575f26b41804336b79d404948e82c5cef8a5c0f0",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "38 3D RH 2000 water polygons clipped from SHA-256 verified brytgeometri.gpkg files (659_64, 659_65, 660_64, 660_65), covering Lake Mälaren bays and all Stadium & Castle ponds with interior islands preserved."
+    },
+    {
+      "id": "imagery-lm-ortho-2025",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
+      "localPath": "geo_data/course-v2/bro-hof/acquisition/orthophoto-review.json",
+      "bboxWgs84": [
+        17.61,
+        59.485,
+        17.658,
+        59.512
+      ],
+      "acquiredAt": "2026-11-24",
+      "capturedAt": "2025-06-14",
+      "checksum": "9c6e751cde8cdfb1b6a33604b12e533c73df06b046d9f989a81da7dfc0854d43",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "orto-o2-2025 (2025-06-14T08:58:32Z, native 0.16 m 4-band RGBI). One 0.32 m estate overview plus three native 0.16 m tiles covering Stadium, Castle, Puttingbanan, range and Bro Hof Slott. Raw GeoTIFFs remain strictly in gitignored brohofbuild/cache/ortho/2025/."
+    },
+    {
+      "id": "imagery-lm-ortho-2021-leafoff",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
+      "localPath": "geo_data/course-v2/bro-hof/acquisition/orthophoto-leafoff-2021.json",
+      "bboxWgs84": [
+        17.61,
+        59.485,
+        17.658,
+        59.512
+      ],
+      "acquiredAt": "2026-11-24",
+      "capturedAt": "2021-04-16",
+      "checksum": "ac2adbedda6b4069d08803b0a1973262a7ce54bf88464862b7e895da009d6c28",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "orto-o2-2021 (2021-04-16T13:07:06Z, leaf-off spring RGBI, matching 2021 COPC LiDAR season) for bare-ground bunker, path, stone-wall and under-canopy trunk corroboration. Kept in gitignored brohofbuild/cache/ortho/2021/."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "canopy",
+        "object",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/20c028/y20c028-65975_6475_25.copc.laz",
+      "localPath": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
+      "bboxWgs84": [
+        17.61,
+        59.485,
+        17.658,
+        59.512
+      ],
+      "acquiredAt": "2026-11-24",
+      "capturedAt": "2021-03-23",
+      "checksum": "ba2a5bca637a4eff58690c7c0a6eaa5057172f35a65e4a834cf4838c4610b9eb",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Six COPC tiles (20c028, 21c031, 21c037, 21c038) covering 100% of Bro Hof at up to 3.24 returns/m². Six landmark microterrain targets streamed (319,707 pts) into gitignored brohofbuild/cache/microterrain/."
+    },
+    {
+      "id": "bro-hof-osm-2026-11-24",
+      "productId": "openstreetmap",
+      "roles": [
+        "routing",
+        "topography",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://overpass-api.de/api/interpreter",
+      "localPath": "geo_data/course-v2/bro-hof/reference/osm-golf-epsg3006.geojson",
+      "bboxWgs84": [
+        17.595,
+        59.475,
+        17.665,
+        59.515
+      ],
+      "acquiredAt": "2026-11-24",
+      "capturedAt": "2026-11-24",
+      "checksum": "853d16041108e16448dfe6870573acaa1bbb1113a073df02c0b8c2d7184faf1d",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Primary overpass-api.de snapshot isolating Bro Hof relation/5509342 from neighbouring Bro Bålsta GK (way/35935442). Captures 17 of 18 Stadium golf=hole ways (missing Hole 16), 26 greens, 117 tees, 65 bunkers, 24 fairways, 12 water hazards, 56 cartpaths, and driving range. ODbL-1.0."
+    },
+    {
+      "id": "bro-hof-club-2026-11-24",
+      "productId": "bro-hof-club-media",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.brohofslott.se/banor/the-stadium-course",
+      "localPath": "geo_data/course-v2/bro-hof/reference/club-source-ledger.json",
+      "bboxWgs84": [
+        17.61,
+        59.485,
+        17.658,
+        59.512
+      ],
+      "acquiredAt": "2026-11-24",
+      "capturedAt": null,
+      "checksum": "1d2f92f2fb421c9ef22cb60f579d2dbf4b5aaf1f455bbf3ca0b03d7a7c298900",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "29 official club/Caddee/SGF assets harvested into ignored brohofbuild/cache/club-sources/. Includes 2024 printed scorecards, SGF slope tables (rated 2017-05-05), overview diagrams, hole plates, and 2026 local rules for both Stadium & Castle."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "d2-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/bro-hof/acquisition/d2-discovery.json",
+      "sha256": "52970b934b94603ac708d17ea3ff49bbde7a4b42924811f2a291d028d5b88d14",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "laser-lm-skog",
+        "imagery-lm-ortho-2025"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Public Lantmäteriet STAC discovery confirming 100% DTM, LiDAR and Ortofoto coverage over Bro Hof."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/bro-hof/acquisition/ground-rings.json",
+      "sha256": "57ae4f9068adb83e40b0e5386b09761c6fcc2b33f9b6e6537158e138d2e3e5a6",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 7 standard resolution rings (1 m .. 64 m, 16,384 m root) read from Lantmäteriet dtm-cog items 659_64, 659_65, 660_64, 660_65."
+    },
+    {
+      "id": "laser-campaigns",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
+      "sha256": "ba2a5bca637a4eff58690c7c0a6eaa5057172f35a65e4a834cf4838c4610b9eb",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned Laserdata Skog COPC inventory across all 6 overlapping 2.5 km tiles."
+    },
+    {
+      "id": "microterrain-summary",
+      "kind": "control",
+      "path": "geo_data/course-v2/bro-hof/acquisition/microterrain-summary.json",
+      "sha256": "d2e2c9b3daee11f626fc5f23cb740a8462f5c479bec7c3be835b79046a34cf19",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Aggregate RH 2000 & 1064 nm intensity stats for 6 Bro Hof landmark & shoreline targets; raw point clouds stay in ignored cache."
+    },
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "brohofbuild/course-model.json",
+      "sha256": "83c165a020729d89ad9813303025fa642927a1f3e682e05c8a62e28ebd8329df",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Compiled from EPSG:3006 layers by compile-grid-course.mjs: exact projected local metres and RH 2000 heights. Survey gates remain open."
+    },
+    {
+      "id": "legacy-castle-model",
+      "kind": "composite",
+      "path": "brohofcastlebuild/course-model.json",
+      "sha256": "fcb40f3dbae50a866d9e3b4a19aebc5e4083287d773b2ec367518f7aa2b417de",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Compiled from EPSG:3006 layers by compile-grid-course.mjs: exact projected local metres and RH 2000 heights. Survey gates remain open."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/bro-hof/migration/course-model.epsg3006.json",
+      "sha256": "1722d74b2887fb70ab7beb35c249347e4c188eebfa4db63642c0038ce0483f92",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Exact translation back to EPSG:3006, preserving source coordinates and RH 2000 heights."
+    },
+    {
+      "id": "migration-castle-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/bro-hof/migration/castle-model.epsg3006.json",
+      "sha256": "1dcdc32c823c0940526e83809fa06bc3b98592383c82e63ee9c4bed81abc816e",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Exact translation back to EPSG:3006, preserving source coordinates and RH 2000 heights."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/bro-hof/migration/residual-report.json",
+      "sha256": "5e64603397c25fd7c9004c36a0ff4bbeb5bed332aef21b7819d9f7c0e7f9a804",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "laser-lm-skog",
+        "bro-hof-osm-2026-11-24",
+        "bro-hof-club-2026-11-24"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic frame translation audit, not independent survey controls."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "canonical-control-pending",
+      "severity": "release-blocking",
+      "description": "Independent horizontal and RH 2000 ground control points are not yet acquired.",
+      "exitGate": "Acquire independent controls and approve residuals."
+    },
+    {
+      "id": "surface-intake-pending",
+      "severity": "release-blocking",
+      "description": "Played surface polygons require 0.16 m RGBI orthophoto verification and paired overlay review across all 18 Stadium holes (including Hole 16 and post-2021 Hole 2) and 18 Castle holes.",
+      "exitGate": "Complete paired RGBI source-overlay review and owner acceptance."
+    },
+    {
+      "id": "media-rights-review",
+      "severity": "quality",
+      "description": "Official club/Caddee diagrams and photographs remain strictly in gitignored local reference cache.",
+      "exitGate": "Keep copyrighted club media out of committed assets and runtime bundles."
+    }
+  ]
+}

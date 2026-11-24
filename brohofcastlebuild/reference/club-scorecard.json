@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "slug": "bro-hof-castle",
+  "courseName": "Bro Hof Slott GC – The Castle Course",
+  "source": {
+    "primary": "https://www.brohofslott.se/media/rdrfutqj/scorekort_bro-hof-castle_insida.png",
+    "primaryEdition": "Caddee Golf 2024 printed scorecard (Hamilton Design AB, Täby)",
+    "secondary": "https://www.brohofslott.se/banor/the-castle-course",
+    "slopeMenPdf": "https://www.brohofslott.se/media/ifmdketu/bro_hof_slott_gc_castle_course_men.pdf",
+    "slopeWomenPdf": "https://www.brohofslott.se/media/bvqd444u/bro_hof_slott_gc_castle_course_women.pdf",
+    "sgfRatedOn": "2017-05-05",
+    "retrievedOn": "2026-11-24",
+    "notes": "100% cell-by-cell match across all 18 pars, 18 stroke indexes, and all 72 tee distances between printed 2024 Caddee scorecard and live brohofslott.se HTML."
+  },
+  "par": { "front": 36, "back": 36, "total": 72 },
+  "tees": [
+    { "id": "vit", "name": "Vit", "color": "#f2f2f2", "front": 3170, "back": 2963, "total": 6133, "ratingMen": { "cr": 74.2, "slope": 145 }, "ratingWomen": null },
+    { "id": "gul", "name": "Gul", "color": "#f2c53d", "front": 2855, "back": 2680, "total": 5535, "ratingMen": { "cr": 71.2, "slope": 139 }, "ratingWomen": { "cr": 77.6, "slope": 144 } },
+    { "id": "bla", "name": "Blå", "color": "#2f92d0", "front": 2543, "back": 2480, "total": 5023, "ratingMen": { "cr": 68.9, "slope": 133 }, "ratingWomen": { "cr": 74.7, "slope": 138 } },
+    { "id": "rod", "name": "Röd", "color": "#d63333", "front": 2111, "back": 2107, "total": 4218, "ratingMen": { "cr": 65.3, "slope": 127 }, "ratingWomen": { "cr": 70.1, "slope": 128 } }
+  ],
+  "holes": [
+    { "number": 1,  "par": 5, "index": 5,  "lengths": { "vit": 563, "gul": 518, "bla": 480, "rod": 386 } },
+    { "number": 2,  "par": 3, "index": 13, "lengths": { "vit": 154, "gul": 140, "bla": 140, "rod": 86 } },
+    { "number": 3,  "par": 4, "index": 11, "lengths": { "vit": 337, "gul": 298, "bla": 298, "rod": 250 } },
+    { "number": 4,  "par": 3, "index": 9,  "lengths": { "vit": 215, "gul": 176, "bla": 119, "rod": 101 } },
+    { "number": 5,  "par": 5, "index": 7,  "lengths": { "vit": 512, "gul": 469, "bla": 397, "rod": 360 } },
+    { "number": 6,  "par": 4, "index": 1,  "lengths": { "vit": 414, "gul": 345, "bla": 301, "rod": 260 } },
+    { "number": 7,  "par": 3, "index": 17, "lengths": { "vit": 128, "gul": 112, "bla": 112, "rod": 73 } },
+    { "number": 8,  "par": 4, "index": 15, "lengths": { "vit": 351, "gul": 336, "bla": 263, "rod": 245 } },
+    { "number": 9,  "par": 5, "index": 3,  "lengths": { "vit": 496, "gul": 461, "bla": 433, "rod": 350 } },
+    { "number": 10, "par": 5, "index": 4,  "lengths": { "vit": 545, "gul": 487, "bla": 444, "rod": 375 } },
+    { "number": 11, "par": 3, "index": 16, "lengths": { "vit": 166, "gul": 131, "bla": 116, "rod": 102 } },
+    { "number": 12, "par": 3, "index": 18, "lengths": { "vit": 144, "gul": 120, "bla": 120, "rod": 87 } },
+    { "number": 13, "par": 5, "index": 6,  "lengths": { "vit": 471, "gul": 440, "bla": 407, "rod": 362 } },
+    { "number": 14, "par": 4, "index": 14, "lengths": { "vit": 297, "gul": 288, "bla": 252, "rod": 232 } },
+    { "number": 15, "par": 5, "index": 2,  "lengths": { "vit": 471, "gul": 433, "bla": 400, "rod": 377 } },
+    { "number": 16, "par": 4, "index": 12, "lengths": { "vit": 322, "gul": 301, "bla": 301, "rod": 258 } },
+    { "number": 17, "par": 3, "index": 10, "lengths": { "vit": 166, "gul": 146, "bla": 124, "rod": 82 } },
+    { "number": 18, "par": 4, "index": 8,  "lengths": { "vit": 381, "gul": 334, "bla": 316, "rod": 232 } }
+  ]
+}

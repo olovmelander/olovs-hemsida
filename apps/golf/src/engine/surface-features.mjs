@@ -93,14 +93,19 @@ export function buildGroundSurfaceFeatures({
   rings(SURFACE.GREEN, scenery.greens);
   rings(SURFACE.TEE, scenery.tees);
   rings(SURFACE.SEMI, scenery.grass);
-  rings(SURFACE.SAND, [...(scenery.bunkers || []), ...(vegetation.sand || [])], { pad: sandPad });
+  const sceneryBunkers = scenery.bunkers || [];
+  rings(SURFACE.SAND, [...sceneryBunkers.filter(b => Array.isArray(b) || !b?.innerRings?.length).map(b => Array.isArray(b) ? b : b?.ring), ...(vegetation.sand || [])], { pad: sandPad });
+  for (const bunker of sceneryBunkers) if (!Array.isArray(bunker) && bunker?.innerRings?.length) {
+    features.push({ surface: SURFACE.SAND, polygons: [{ rings: [bunker.ring, ...bunker.innerRings] }] });
+  }
 
   // These are complete polygons, not independent outer rings: an interior island
-  // must remain excluded from the putting turf in the atlas and v2 compiler.
+  // must remain excluded from the putting turf or waste sand in the atlas and v2 compiler.
   for (const feature of scenery.mappedFeatures || []) {
     const surface = feature.kind === 'mown_approach' ? SURFACE.SEMI
       : feature.kind === 'practice_green' || isTurfRangeTarget(feature) ? SURFACE.GREEN
       : feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' ? SURFACE.SAND
+      : feature.kind === 'waste_sand' ? SURFACE.WASTE
         : feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface' ? SURFACE.TEE : null;
     if (surface !== null && validRings(feature.rings).length) {
       features.push({ surface, polygons: [{ rings: feature.rings }], sourceId: feature.id });

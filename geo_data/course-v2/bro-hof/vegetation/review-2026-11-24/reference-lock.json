@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "kind": "reference-lock",
+  "frozenAt": "2026-11-24T21:18:20.691Z",
+  "history": [
+    {
+      "frozenAt": "2026-11-24T21:08:35.869Z",
+      "reference": "2759416d0855be7c451a295dd40557eaf92478d98d687e405a9787630e13921a",
+      "annotations": "0941973b32872159109ef0aeb3320d89cbed91d3e6e31c4b244cddb5c35876fb"
+    }
+  ],
+  "refreezeNote": "re-frozen before any lock or score: the declared rounds changed (the v2 round dropped for time); windows and annotations are the same crowns",
+  "interpreter": "agent-led interpretation (Claude), not a survey or human approval",
+  "evidence": "pit-free CHM 0.5 m (2020-11-06 and 2021-03-23 laser), 2025-06-14 RGBI (CIR and natural colour), 2021-04-16 RGBI (leaf-off natural colour); numbered over-segmentation candidates only save typing positions",
+  "matchingRule": {
+    "kind": "one-to-one, closest pairs first",
+    "radiusMetres": 4,
+    "declaredBeforeScoring": true
+  },
+  "minimumScoredHeightMetres": 3,
+  "counts": {
+    "calibration": {
+      "scored": 151,
+      "window": 151,
+      "margin": 213,
+      "ambiguous": 0,
+      "smallUnder3m": 0
+    },
+    "evaluation": {
+      "scored": 166,
+      "window": 166,
+      "margin": 299,
+      "ambiguous": 0,
+      "smallUnder3m": 0
+    }
+  },
+  "hashes": {
+    "windows": "e257c64daf55554366f2b4ec7e74ff81972dd64aecb2a81ecf5a7bdcd59e1a18",
+    "annotations": "0941973b32872159109ef0aeb3320d89cbed91d3e6e31c4b244cddb5c35876fb",
+    "reference": "2759416d0855be7c451a295dd40557eaf92478d98d687e405a9787630e13921a",
+    "chm": "f59f6d480a1cc26cd48746e1c7384ef60d9f91aca31d8691ee99ee4a5b39985f",
+    "candidates": {
+      "C1-castle-park": "4c6b23d69e70a7fbc6b7201a4b1477f7c1a1e3601ca1d9f84164c2b13af559dd",
+      "C2-c17-avenue": "bfa82a93bf5ef84bfada1febd916a0edc74ffed6a7207b354016dcedb05420cd",
+      "C5-c13-edge": "79c6644327ff5da716d98e9676dc8eeed787559dd6e9d703dae9ae7a421f6014",
+      "C6-s2-grove": "1d6f15b1f1625db05c3d8055390a393af0c7bbc029f8b6c23111c0453dffecfc",
+      "C7-c4-avenue": "858c27d53f3f38b16331a667fae6058fcb7f266b604aeec519e1df6d6639a092",
+      "C8-s5-planted": "29d58698d7afa3f6eddbee3f0c691e7c956cc3c8172f840d1f7d6fe2fc7acc58",
+      "C9-s8-grove": "040415f0ae71d61266b9f6e996f6d279f3fb79066c398f581d42c238c3102632",
+      "C11-churchyard": "1b4c438f1947943c2696a9a7b32883350a1eb8d6720a067474c05936482779b9",
+      "C14-c2-group": "0c60668574cdb28576a3c110fcd2ec01ec91fdbf801a04e6fc9fb93238d5b955",
+      "C15-park-garden": "6bc321e6a673a2b18ce79d2658a678781428c6ecbe7eea043fd178738bb74f1e",
+      "C17-se-row": "252ea23807d57c126054004437138dc9941421c25a7e067e15d0357b80c29f07",
+      "C18-s3-group": "386af437584cd09675c65f584534db4f5c633f687a3eb15925590e39791c34b8",
+      "H2-avenue": "f2e444e0e6db422df6dc6f300b70c7ea007d47fc5f4023f9d968abcc360b9a15",
+      "H4-c15-closed": "03a6145190520fcaa5e6cccd49b01dd459e521e68f58da45aa0f5fe7eaeec6b7",
+      "H6-s9-shore": "79b6e822214f04b06e1b3b31f88200c00cfc013e06b5348f90494f9acbd974d5",
+      "H8-c7-east": "d32082a2ec1bec01cb256a59d4038292099d3ee520a229c7fb01fd1bdda2a496",
+      "H9-c7-east-edge": "20cddbcd57b3c6fda311727b1adf3027b258b5db9ec3e3b08e21b63d978370f0",
+      "H10-s3-grove": "738fdeb2de015295fdd9ba41da0bc263d2fdf27876244361058a7b4bdeca142a",
+      "H11-c6-ridge": "ba141b5c0328799791d5ebe36f5ee3a0bd5340a723bc24e1d5ffe0b0d87750b4",
+      "H12-park2": "001ba625e82079217b7a0a81b56fa9c2fa58d1b55274c25b443c20e3a4436077",
+      "H13-c8-grove": "3a642006ea11fa9c1276f2bee9a32b260eea8d7f722f6d150e2c92a5f0a90705",
+      "H14-s13-shore": "356eaef619276f177fd6cda89b8bf7884c9f5d74bcd2f16087d6df30ae45a149",
+      "H16-s1-garden": "84cce5328780caaa082978c7fe04ec40b9890b5522735b6bf3f218b25ccd3d3a",
+      "H17-c12-mixed": "8729b08664111bd0ae2ada8063198b7ed0f8844a13f3e4765f5a12aa13d33d8e",
+      "H19-c8-ridge": "4e9e202c89d4da56221e63e77dad0f3148bb80d60076c1a493ea66d0241176ab",
+      "H21-c12-scatter": "49c01d51e830afcbc802c53b3e5237d0c1a70a9d91b2561d7d9527b5d191dfd3"
+    }
+  }
+}

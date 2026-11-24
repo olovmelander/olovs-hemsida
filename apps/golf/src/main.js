@@ -1,5 +1,6 @@
 import { createBagEditor } from './ui/bag-editor.mjs';
 import { bunkerRings, bunkerSignedDistance, pointInBunker } from './engine/bunker-geometry.mjs';
+import { buildBulkheadGeometry, bridgeOutlineFromLine, isNearBulkhead } from './engine/water-bulkheads.mjs';
 
 /* ===========================================================================
    Ängsö Golfklubb — a course on a Mälaren peninsula at Stora Bodarna.
@@ -1544,7 +1545,7 @@ const C = {
      ground between the crowns is most of what a top-down view sees. Moss and
      bilberry are green; this keeps the measured luminance (98 against 100)
      and moves red down to 77% of green, where the rough's own ratio sits. */
-  heath:  L(0x6d8142), forest: L(0x526b3b), shore: L(0xb2a37e),
+  heath:  L(0x6d8142), forest: L(0x526b3b), shore: L(0xb2a37e), waste: L(0xb8a585),
   /* what a stand reads as from a kilometre off, where the cones stand one to a
      30 m cell and the ground between them is most of what the eye sees: the
      crowns' green, not the floor's brown -- spruce/pine dark, birch lighter */
@@ -1583,6 +1584,7 @@ const SHADE = {
   [SURFACE.WETLAND]: [0.72, 0.92, 0.10, 0], [SURFACE.ROCK]: [1.8, 0.48, 0.16, 0],
   [SURFACE.ASPHALT]: [3.4, 0.18, 0.34, 0], [SURFACE.GRAVEL]: [2.6, 0.46, 0.12, 0],
   [SURFACE.DIRT]: [1.9, 0.55, 0.08, 0], [SURFACE.MUD]: [1.2, 0.38, 0.30, 0],
+  [SURFACE.WASTE]: [2.0, 0.55, 0.12, 0],
 };
 
 /* the colour and the four shading channels at a point */
@@ -3918,6 +3920,7 @@ if (SCENERY?.loadFacilitiesBeforeSurfaces) await installFacilityArchitecture();
   const groups = new Map();
   for (const feature of M.scenery.mappedFeatures || []) {
     if (feature.kind === 'mown_approach') continue; // drawn at the semi-rough tier above
+    if (feature.kind === 'waste_sand') continue;    // the ground's own class (SURFACE.WASTE); a gravel sheet over it greyed with distance
     if (SCENERY?.customMappedKinds?.includes(feature.kind)) continue;
     if (!feature.rings?.[0]?.length) continue;
     const pathSurface = mappedPathSurface(feature);
@@ -4748,16 +4751,23 @@ if (COASTAL_WATER?.indices.length) {
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
   const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
   for (const bridge of M.infra.bridges || []) {
-    const ring = bridge.ring, axis = bridge.line;
+    const axis = bridge.line;
+    const ring = bridge.ring || (axis ? bridgeOutlineFromLine(axis, bridge.w || 2.6) : null);
     if (!ring || ring.length < 3 || !axis || axis.length < 2) continue;
+    const isTimber = bridge.kind === 'timber_footbridge' || bridge.kind === 'cart_bridge';
+    const isStone = bridge.kind === 'stone_bridge';
+    const deckTop = isTimber ? L(0x7c6a54) : isStone ? L(0x908d85) : topColour;
+    const deckSide = isTimber ? L(0x554738) : isStone ? L(0x6d6a63) : sideColour;
     const a = axis[0], b = axis[axis.length - 1];
     const dx = b[0] - a[0], dz = b[1] - a[1], length2 = dx * dx + dz * dz;
     if (length2 < 0.01) continue;
     const length = Math.sqrt(length2), ux = dx / length, uz = dz / length;
     // Sample the visible deck ends and a short approach beyond each end, so a
     // water-carved centre cell cannot pull the deck down into the channel bed.
-    const ha = Math.max(meshH(...a), meshH(a[0] - ux * 0.8, a[1] - uz * 0.8)) + 0.10;
-    const hb = Math.max(meshH(...b), meshH(b[0] + ux * 0.8, b[1] + uz * 0.8)) + 0.10;
+    // A deck without a stated kind keeps the dimensions every course shipped with.
+    const approachLift = isTimber || isStone ? 0.12 : 0.10;
+    const ha = Math.max(meshH(...a), meshH(a[0] - ux * 0.8, a[1] - uz * 0.8)) + approachLift;
+    const hb = Math.max(meshH(...b), meshH(b[0] + ux * 0.8, b[1] + uz * 0.8)) + approachLift;
     if (!Number.isFinite(ha) || !Number.isFinite(hb)) continue;
     const point = ([x, z], drop = 0) => {
       const t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / length2));
@@ -4765,15 +4775,33 @@ if (COASTAL_WATER?.indices.length) {
     };
     const faces = triangulate(ring);
     if (!faces.length) continue;
-    for (const [i, j, k] of faces) tri(point(ring[i]), point(ring[k]), point(ring[j]), topColour);
+    for (const [i, j, k] of faces) tri(point(ring[i]), point(ring[k]), point(ring[j]), deckTop);
+    const skirtDrop = isStone ? 0.95 : isTimber ? 0.22 : 0.18;
     for (let i = 0; i < ring.length; i++) {
       const p = ring[i], q = ring[(i + 1) % ring.length];
-      quad(point(p, 0.18), point(q, 0.18), point(q), point(p), sideColour);
+      quad(point(p, skirtDrop), point(q, skirtDrop), point(q), point(p), deckSide);
     }
-    rendered.push({ id: bridge.id, railsObserved: bridge.railsObserved === true,
-      verticalDimensions: 'estimated', deckThicknessM: 0.18, approachLiftM: 0.10,
+    // Timber / stone low edge curb or side rail along the span edges
+    if (isTimber || isStone) {
+      const halfW = (bridge.w || 2.6) * 0.5;
+      const railH = isStone ? 0.24 : 0.16;
+      const railT = isStone ? 0.22 : 0.12;
+      /* the curb follows the deck's own line: a causeway may bend */
+      const edges = [bridgeOutlineFromLine(axis, (halfW - railT) * 2), bridgeOutlineFromLine(axis, halfW * 2)];
+      const count = axis.length;
+      for (let side = 0; side < 2; side++) for (let i = 0; i + 1 < count; i++) {
+        const k0 = side ? 2 * count - 1 - i : i, k1 = side ? 2 * count - 2 - i : i + 1;
+        const [pA0, pB0, pA1, pB1] = [edges[0][k0], edges[0][k1], edges[1][k0], edges[1][k1]].map(p => point(p, 0));
+        const lift = p => [p[0], p[1] + railH, p[2]];
+        quad(pA0, pB0, lift(pB0), lift(pA0), deckSide);
+        quad(pB1, pA1, lift(pA1), lift(pB1), deckSide);
+        quad(lift(pA0), lift(pB0), lift(pB1), lift(pA1), deckTop);
+      }
+    }
+    rendered.push({ id: bridge.id, kind: bridge.kind || 'mapped', railsObserved: bridge.railsObserved === true,
+      verticalDimensions: 'estimated', deckThicknessM: skirtDrop, approachLiftM: approachLift,
       elevationSource: 'rendered terrain sampled at visible deck ends and approaches',
-      material: 'neutral rendering material; physical deck material unverified' });
+      material: isTimber ? 'weathered-timber' : isStone ? 'granite-masonry' : 'neutral rendering material' });
   }
   if (V.length) {
     const g = new THREE.BufferGeometry();
@@ -4790,6 +4818,25 @@ if (COASTAL_WATER?.indices.length) {
   }
   stats.mappedBridges = rendered.length;
   stats.bridges = rendered.length;
+
+  // Water-hazard retaining bulkheads (timber sleeper walls & granite masonry edges)
+  if ((M.infra.bulkheads || []).length) {
+    const bh = buildBulkheadGeometry(M.infra.bulkheads, { waterList: M.water || [], heightAt: meshH, linear: L });
+    if (bh.positions.length) {
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(bh.positions, 3));
+      g.setAttribute('color', new THREE.Float32BufferAttribute(bh.colors, 3));
+      g.computeVertexNormals();
+      const mesh = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
+        vertexColors: true, roughness: 0.92, metalness: 0, flatShading: true, side: THREE.DoubleSide,
+      }));
+      mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 0;
+      mesh.userData = { tag: 'water-bulkheads', features: bh.rendered };
+      scene.add(mesh); stats.draws++;
+      stats.verts += bh.positions.length / 3; stats.tris += bh.positions.length / 9;
+      stats.bulkheads = bh.rendered.length;
+    }
+  }
 }
 
 /* the five wooden jetties OSM maps on the fjärd's shore: plank decks over water */
@@ -5117,6 +5164,8 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       const shalBB = SHAL.some(sr => px > sr.bb.x0 && px < sr.bb.x1 && pz > sr.bb.z0 && pz < sr.bb.z1);
       if (!shalBB && SHORE(px, pz) > 7) return;
       if (LOWQ && hash2(i + 5, j + 5) < 0.5) return;
+      /* a wall or a boulder bank has no reed fringe */
+      if (M.infra.bulkheads?.length && isNearBulkhead(px, pz, M.infra.bulkheads, 2.5)) return;
       h = terrainH(px, pz);
       /* on the silt flats reeds gather into offshore islands -- the close aerial of
          the 14th shows whole beds standing in the shallow water -- while on firm
@@ -8402,7 +8451,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
    island) needs no modelling: it is real terrain in the vista heightfield. */
 /* the painted props (engine/golf-cart-prop.mjs); ?props=0 is the before, the boxes */
 const PROPS_ON = new URLSearchParams(location.search).get('props') !== '0';
-const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
+const CART_ROWS = [M.scenery?.cartPark, ...(M.scenery?.cartParks || [])].filter(row => row?.line?.length >= 2);
+const GOLF_CART_LOADING = PROPS_ON && CART_ROWS.length
   ? loadGolfCart({ baseUrl: import.meta.env.BASE_URL }).catch(error => { console.warn('golf cart:', error.message); return null; })
   : Promise.resolve(null);
 /* Swans on the lakes (engine/swans.mjs, the swan built in Blender): a pair or
@@ -8621,9 +8671,12 @@ if (new URLSearchParams(location.search).get('lilies') !== '0') {
   }
   /* The cart fleet, in a row on the gravel where the course puts it: a body,
      a roof on four posts, and a windscreen -- the shape a golf cart is from
-     twenty metres. White with a blue one, like the club's own photograph. */
-  const CP = M.scenery.cartPark;
-  if (CP && CP.line && CP.line.length >= 2) {
+     twenty metres. White with a blue one, like the club's own photograph; a fleet
+     the photo shows all white says so (`fleet: 'white'`), and a course may keep
+     several rows (`cartParks`). */
+  const CARTS = [];            /* every row's modelled carts, drawn together */
+  stats.carts = 0;
+  for (const CP of CART_ROWS) {
     const [a, b] = [CP.line[0], CP.line[CP.line.length - 1]];
     const n = Math.max(1, CP.count || 6);
     let ux = b[0] - a[0], uz = b[1] - a[1]; const ul = Math.hypot(ux, uz) || 1; ux /= ul; uz /= ul;
@@ -8643,21 +8696,18 @@ if (new URLSearchParams(location.search).get('lilies') !== '0') {
        ?props=0 asks for the before */
     const cartParts = await GOLF_CART_LOADING;
     if (cartParts) {
-      const carts = [];
       for (let k = 0; k < n; k++) {
         const t = n === 1 ? 0.5 : k / (n - 1);
         const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
-        carts.push({ x: cx, y: terrainH(cx, cz), z: cz, ax: nx, az: nz,
-          colour: new THREE.Color().setRGB(...(k === n - 1 ? L(0x2f5fa8) : L(0xe9e9e6))) });
+        CARTS.push({ x: cx, y: terrainH(cx, cz), z: cz, ax: nx, az: nz,
+          colour: new THREE.Color().setRGB(...(k === n - 1 && CP.fleet !== 'white' ? L(0x2f5fa8) : L(0xe9e9e6))) });
       }
-      scene.add(placeGolfCarts(cartParts, carts));
-      stats.draws += 2;
     }
     for (let k = 0; k < (cartParts ? 0 : n); k++) {
       const t = n === 1 ? 0.5 : k / (n - 1);
       const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
       const y = terrainH(cx, cz);
-      const body = k === n - 1 ? L(0x2f5fa8) : L(0xe9e9e6);
+      const body = k === n - 1 && CP.fleet !== 'white' ? L(0x2f5fa8) : L(0xe9e9e6);
       box(cx, y + 0.28, cz, 1.2, 0.55, 2.3, body);
       box(cx, y + 0.28, cz, 1.25, 0.35, 0.9, L(0x1a1a1a));           /* the seat block */
       quad([cx + ux * -0.62 + nx * -0.9, y + 0.83, cz + uz * -0.62 + nz * -0.9], [cx + ux * 0.62 + nx * -0.9, y + 0.83, cz + uz * 0.62 + nz * -0.9],
@@ -8668,7 +8718,11 @@ if (new URLSearchParams(location.search).get('lilies') !== '0') {
       for (const dn of [-0.85, 0.85]) for (const du of [-0.55, 0.55])
         box(cx + ux * du + nx * dn, y + 0.02, cz + uz * du + nz * dn, 0.2, 0.45, 0.45, L(0x1a1a1a));
     }
-    stats.carts = n;
+    stats.carts += n;
+  }
+  if (CARTS.length) {
+    scene.add(placeGolfCarts(await GOLF_CART_LOADING, CARTS));
+    stats.draws += 2;
   }
   /* Motorhomes on a lot that says so (the ställplats west of Puttom's
      clubhouse): white boxes with a dark cab and a window band, nose to the
@@ -11042,7 +11096,7 @@ function kikLie(x, z, y) {
   for (const w of WI.at(x, z)) if (!w.stream && ringSD(x, z, w.ring) < 0 && y < w.level + 0.3) over = true;
   if (over) return 'vatten';
   const c = classify(x, z);
-  return c.green > 0.5 ? 'green' : c.sand > 0.4 ? 'bunker' : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway'
+  return c.green > 0.5 ? 'green' : c.waste > 0.4 ? 'sandmark' : c.sand > 0.4 ? 'bunker' : c.tee > 0.5 ? 'tee' : c.fair > 0.4 ? 'fairway'
        : c.path > 0.4 ? 'stig' : c.forest > 0.5 ? 'skog' : 'ruff';
 }
 /* every number on the card, with no DOM in it, so the harness can ask for the
@@ -13589,6 +13643,8 @@ if (__GOLFER_LAB__ && new URLSearchParams(location.search).get('golfer') === '1'
         heightAt: renderedGroundH, lieAt: kikLie, classify,
         cups: () => FURN.cups,
         trees: () => ({ lists: trees, species: SPECIES.map(s => ({ height: s.templateHeight, radius: s.templateRadius })) }),
+        bulkheads: () => M.infra.bulkheads || [],
+        water: () => M.water || [],
         boundaries: () => [...(M.marking || []).filter(m => m.c === 'w').map(m => m.pts), ...(M.outOfBounds?.lines || []).map(l => l.line)],
         wind: () => ({ x: AIR.x, z: AIR.z, fromDeg: FLAG_WIND.fromDeg, ms: FLAG_WIND.ms }),
         bag: () => playerBag,

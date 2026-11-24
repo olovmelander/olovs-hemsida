@@ -90,6 +90,14 @@ const COURSES = [
     title: 'Tortuna Golfklubb — Banan i 3D', tag: 'Tortuna · Västerås', boot: 'Tortuna · Västmanland',
     overviewUrl: 'courses/tortuna/overview.svg',
     tees: { names: ['Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 4 } },
+  /* Two championship eighteens on one ground, each carrying the other as mown scenery. The club's
+     card lists the back tee first on both, and the yellow tee is third on Stadium, second on Castle. */
+  { slug: 'bro-hof-stadium', build: 'brohofbuild', name: 'Bro Hof Stadium', club: 'Bro Hof Slott Golf Club',
+    title: 'Bro Hof Slott GC — The Stadium Course i 3D', tag: 'The Stadium Course', boot: 'Bro · Mälaren',
+    tees: { names: ['Svart', 'Vit', 'Gul', 'Blå', 'Röd'], cols: [0x1a1a1a, 0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a], hideFrom: 5 } },
+  { slug: 'bro-hof-castle', build: 'brohofcastlebuild', name: 'Bro Hof Castle', club: 'Bro Hof Slott Golf Club',
+    title: 'Bro Hof Slott GC — The Castle Course i 3D', tag: 'The Castle Course', boot: 'Bro · Mälaren',
+    tees: { names: ['Vit', 'Gul', 'Blå', 'Röd'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a], hideFrom: 4 } },
   { slug: 'lidingo', build: 'lidingobuild', name: 'Lidingö GK', club: 'Lidingö Golfklubb',
     title: 'Lidingö Golfklubb — Banan i 3D', tag: 'Sticklinge · Lidingö', boot: 'Lidingö · Stockholm',
     overviewUrl: 'courses/lidingo/overview.svg',
@@ -193,12 +201,15 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
 });
 
 let manifest = { fmt: 1, courses: entries };
+/* The same pack keeps its startup package and its baked records: a new poster or a renamed tee must not lose them. */
+const keepBaked = (entry, before) => before.sha256 !== entry.sha256 ? entry
+  : { ...entry, ...Object.fromEntries(Object.entries(before).filter(([key]) => key === 'startup' || key.startsWith('prepared'))) };
 if (only) {
   const previous = JSON.parse(fs.readFileSync(OUT, 'utf8'));
   if (previous.fmt !== 1 || !Array.isArray(previous.courses) ||
       new Set(previous.courses.map(c => c.slug)).size !== previous.courses.length) throw new Error('Invalid existing course manifest');
   const found = previous.courses.some(c => c.slug === only);
-  manifest = { ...previous, courses: previous.courses.map(c => c.slug === only ? entries[0] : c) };
+  manifest = { ...previous, courses: previous.courses.map(c => c.slug === only ? keepBaked(entries[0], c) : c) };
   if (!found) manifest.courses.push(entries[0]);
 }
 fs.writeFileSync(OUT, JSON.stringify(manifest, null, 1) + '\n');

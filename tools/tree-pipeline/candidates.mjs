@@ -55,6 +55,8 @@ import { openCampaignPacks } from './panels.mjs';
 import { loadMosaic, loadRaster } from './panels.mjs';
 import { closedness, displacementAllowance, loadPointsFor, openGroundBrightness, photoDisc, photoEvidenceKey, photoLabel, shadowEvidenceKey, shadowProbe } from './crown-evidence.mjs';
 import { buildingMask, buildingRings, nearPlay, playGeometry } from './geometry.mjs';
+import { readCampaigns } from './acquire.mjs';
+import { partBoxes, partIndexAt } from './laser-parts.mjs';
 import { publishedGround, publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
 
@@ -151,7 +153,10 @@ export function buildCandidates(ctx) {
   const { geometry, holeLines, practiceRings } = playGeometry(ctx);
   const nearMetres = ctx.config.playZone.nearMetres;
   const playOf = (e, n) => nearPlay(e, n, holeLines, practiceRings, nearMetres) ? 'near' : 'woodland';
-  const laserYear = ctx.config.laser.capturedOn.slice(0, 4);
+  /* where campaigns meet (laser.parts), each crown names the campaign that measured it */
+  const parts = partBoxes(ctx.config.laser, readCampaigns(ctx));
+  const laserLabelAt = (e, n) => parts[partIndexAt(parts, e, n)]?.label ?? ctx.config.laser.label;
+  const laserYear = [...new Set(parts.map(part => part.capturedOn.slice(0, 4)))].join('/');
   const leafOffLabel = photoLabel(ctx.leafOff);
   const presenceLabel = photoLabel(ctx.presence);
   const typeRoundLabel = ctx.config.typeRule.round === 'r1' ? 'round-1' : `${ctx.config.typeRule.round}`;
@@ -237,7 +242,7 @@ export function buildCandidates(ctx) {
       areaSquareMetres: crown.areaSquareMetres,
       type: conifer === null ? 'unknown' : conifer ? 'conifer' : 'broadleaf',
       evidence: {
-        laser: { campaign: ctx.config.laser.label, returns: returns?.returns ?? 0, firstReturns: returns?.firstReturns ?? 0, firstCanopyShare: returns?.firstCanopyShare ?? null, groundShare: returns?.groundShare ?? null },
+        laser: { campaign: parts.length > 1 ? laserLabelAt(crown.apex.easting, crown.apex.northing) : ctx.config.laser.label, returns: returns?.returns ?? 0, firstReturns: returns?.firstReturns ?? 0, firstCanopyShare: returns?.firstCanopyShare ?? null, groundShare: returns?.groundShare ?? null },
         [leafOffKey]: april ? { contrastP90: round(april.contrastP90, 3), vegetatedShare: round(april.vegetatedShare, 3) } : null,
         [presenceKey]: june ? { vegetatedShare: round(june.vegetatedShare, 3), nirTexture: round(june.nirTexture, 1), darkShare: round(june.darkShare, 3), presence } : null,
         surface: surfaceAt(at.easting, at.northing),
@@ -305,7 +310,7 @@ export function buildCandidates(ctx) {
       crownId: null, easting: r.easting, northing: r.northing, apex: { easting: r.easting, northing: r.northing },
       heightMetres: r.heightMetres, radiusMetres: round(Math.max(1.5, Math.min(4, 0.25 * r.heightMetres + 0.5)), 2), areaSquareMetres: null,
       type: (r[leafOffKey]?.contrastP90 ?? 0) >= 0.2 ? 'conifer' : 'broadleaf',
-      evidence: { laser: { campaign: ctx.config.laser.label, tallReturns: r.tallReturns, note: 'sparse leaf-off returns: no crown on the CHM' }, [leafOffKey]: r[leafOffKey], [presenceKey]: r[presenceKey], surface: r.surface, structureSuspect: false },
+      evidence: { laser: { campaign: parts.length > 1 ? laserLabelAt(r.easting, r.northing) : ctx.config.laser.label, tallReturns: r.tallReturns, note: 'sparse leaf-off returns: no crown on the CHM' }, [leafOffKey]: r[leafOffKey], [presenceKey]: r[presenceKey], surface: r.surface, structureSuspect: false },
       source: 'sparse-laser-recovery',
     });
   }

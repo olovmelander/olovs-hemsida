@@ -1,0 +1,501 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "crs": "EPSG:5845",
+  "generatedAt": "2026-11-24T18:49:50.513Z",
+  "retainedPointCloudBytes": 0,
+  "note": "Raw COPC points and micro-grids stay in gitignored local cache; this ledger records aggregate RH 2000 & intensity measurements only.",
+  "targets": [
+    {
+      "id": "bro-hof-slott",
+      "kind": "landmark-building",
+      "boundsEpsg3006": [
+        648570,
+        6598050,
+        648710,
+        6598220
+      ],
+      "sources": [
+        {
+          "id": "20c028-65975_6475_25",
+          "capturedAt": "2020-11-06T00:00:00Z",
+          "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97",
+          "pointsInWindow": 38456
+        }
+      ],
+      "summary": {
+        "pointCount": 38456,
+        "pointDensityPerSquareMetre": 1.62,
+        "byClass": {
+          "1": 12428,
+          "2": 25994,
+          "7": 34
+        },
+        "allRH2000": {
+          "count": 38456,
+          "min": 7,
+          "p10": 10.17,
+          "median": 13.44,
+          "p90": 24.54,
+          "p98": 30.69,
+          "max": 39.09,
+          "mean": 15.162
+        },
+        "groundRH2000": {
+          "count": 25994,
+          "min": 7,
+          "p10": 9.34,
+          "median": 12.67,
+          "p90": 13.82,
+          "p98": 15.88,
+          "max": 17.32,
+          "mean": 12.261
+        },
+        "buildingRH2000": null,
+        "waterRH2000": null,
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": null,
+        "intensity1064nm": {
+          "ground": {
+            "count": 25994,
+            "min": 224,
+            "p10": 2327,
+            "median": 8938,
+            "p90": 12536,
+            "p98": 14471.84,
+            "max": 18569,
+            "mean": 7855.903
+          },
+          "building": null,
+          "water": null
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "bro-hof-slott.microgrid.json",
+        "pointsSha256": "a96149c8703bab769837c75ecddd48148b06d0e4f75823e4558f74eb0b34ca47"
+      }
+    },
+    {
+      "id": "courtyard-proshop",
+      "kind": "facility-building",
+      "boundsEpsg3006": [
+        648590,
+        6598190,
+        648730,
+        6598350
+      ],
+      "sources": [
+        {
+          "id": "20c028-65975_6475_25",
+          "capturedAt": "2020-11-06T00:00:00Z",
+          "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97",
+          "pointsInWindow": 57514
+        }
+      ],
+      "summary": {
+        "pointCount": 57514,
+        "pointDensityPerSquareMetre": 2.57,
+        "byClass": {
+          "1": 31024,
+          "2": 26454,
+          "7": 36
+        },
+        "allRH2000": {
+          "count": 57514,
+          "min": 4.94,
+          "p10": 6.88,
+          "median": 13.86,
+          "p90": 29.45,
+          "p98": 33.857,
+          "max": 39.76,
+          "mean": 17.102
+        },
+        "groundRH2000": {
+          "count": 26454,
+          "min": 4.94,
+          "p10": 5.89,
+          "median": 9.27,
+          "p90": 13.54,
+          "p98": 13.76,
+          "max": 14.05,
+          "mean": 9.626
+        },
+        "buildingRH2000": null,
+        "waterRH2000": null,
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": null,
+        "intensity1064nm": {
+          "ground": {
+            "count": 26454,
+            "min": 226,
+            "p10": 1890,
+            "median": 6756,
+            "p90": 11422.4,
+            "p98": 12986.88,
+            "max": 16799,
+            "mean": 6701.417
+          },
+          "building": null,
+          "water": null
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "courtyard-proshop.microgrid.json",
+        "pointsSha256": "df0097e04e1dbde494d212f4bf9a737d2a20308612bb11131bd7848b87ee3aac"
+      }
+    },
+    {
+      "id": "driving-range",
+      "kind": "facility-building",
+      "boundsEpsg3006": [
+        648560,
+        6598350,
+        648710,
+        6598510
+      ],
+      "sources": [
+        {
+          "id": "20c028-65975_6475_25",
+          "capturedAt": "2020-11-06T00:00:00Z",
+          "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97",
+          "pointsInWindow": 36404
+        }
+      ],
+      "summary": {
+        "pointCount": 36404,
+        "pointDensityPerSquareMetre": 1.52,
+        "byClass": {
+          "1": 8791,
+          "2": 27578,
+          "7": 35
+        },
+        "allRH2000": {
+          "count": 36404,
+          "min": 5.26,
+          "p10": 7.28,
+          "median": 8.84,
+          "p90": 19.75,
+          "p98": 26.89,
+          "max": 33.35,
+          "mean": 10.914
+        },
+        "groundRH2000": {
+          "count": 27578,
+          "min": 5.47,
+          "p10": 7.13,
+          "median": 8.36,
+          "p90": 10.17,
+          "p98": 11.345,
+          "max": 12.75,
+          "mean": 8.471
+        },
+        "buildingRH2000": null,
+        "waterRH2000": null,
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": null,
+        "intensity1064nm": {
+          "ground": {
+            "count": 27578,
+            "min": 228,
+            "p10": 3543.5,
+            "median": 7909,
+            "p90": 10388.6,
+            "p98": 12746.84,
+            "max": 18860,
+            "mean": 7536.88
+          },
+          "building": null,
+          "water": null
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "driving-range.microgrid.json",
+        "pointsSha256": "7982375ac5dea910b193d36ed3e05372465fc2b97fba728ab0ba9bfef4df993b"
+      }
+    },
+    {
+      "id": "halfway-house-stadium",
+      "kind": "facility-building",
+      "boundsEpsg3006": [
+        649170,
+        6598420,
+        649330,
+        6598580
+      ],
+      "sources": [
+        {
+          "id": "20c028-65975_6475_25",
+          "capturedAt": "2020-11-06T00:00:00Z",
+          "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97",
+          "pointsInWindow": 40784
+        }
+      ],
+      "summary": {
+        "pointCount": 40784,
+        "pointDensityPerSquareMetre": 1.59,
+        "byClass": {
+          "1": 966,
+          "2": 39784,
+          "7": 19,
+          "9": 10,
+          "18": 5
+        },
+        "allRH2000": {
+          "count": 40784,
+          "min": -5.33,
+          "p10": 3.06,
+          "median": 4.38,
+          "p90": 5.57,
+          "p98": 6.42,
+          "max": 32.59,
+          "mean": 4.386
+        },
+        "groundRH2000": {
+          "count": 39784,
+          "min": 1,
+          "p10": 3.06,
+          "median": 4.37,
+          "p90": 5.55,
+          "p98": 6.35,
+          "max": 6.89,
+          "mean": 4.367
+        },
+        "buildingRH2000": null,
+        "waterRH2000": {
+          "count": 10,
+          "min": 1.94,
+          "p10": 1.958,
+          "median": 2.085,
+          "p90": 2.901,
+          "p98": 2.908,
+          "max": 2.91,
+          "mean": 2.293
+        },
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": {
+          "waterLevelMedianRH2000": 2.085,
+          "bankCrestP90RH2000": 5.55,
+          "stepHeightMetres": 3.47
+        },
+        "intensity1064nm": {
+          "ground": {
+            "count": 39784,
+            "min": 224,
+            "p10": 6557,
+            "median": 9886,
+            "p90": 12591.1,
+            "p98": 14155,
+            "max": 17945,
+            "mean": 9477.594
+          },
+          "building": null,
+          "water": {
+            "count": 10,
+            "min": 226,
+            "p10": 247.6,
+            "median": 455,
+            "p90": 1773.6,
+            "p98": 1914.72,
+            "max": 1950,
+            "mean": 762.2
+          }
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "halfway-house-stadium.microgrid.json",
+        "pointsSha256": "ba17644e8f3455b2564496118ca28ca521bd7202ed08ca688a8a19eeb3299191"
+      }
+    },
+    {
+      "id": "hole-17-island",
+      "kind": "signature-bulkhead",
+      "boundsEpsg3006": [
+        648600,
+        6597720,
+        648830,
+        6597870
+      ],
+      "sources": [
+        {
+          "id": "20c028-65975_6475_25",
+          "capturedAt": "2020-11-06T00:00:00Z",
+          "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97",
+          "pointsInWindow": 83678
+        }
+      ],
+      "summary": {
+        "pointCount": 83678,
+        "pointDensityPerSquareMetre": 2.43,
+        "byClass": {
+          "1": 32726,
+          "2": 50798,
+          "7": 63,
+          "9": 88,
+          "18": 3
+        },
+        "allRH2000": {
+          "count": 83678,
+          "min": -8.27,
+          "p10": 2.67,
+          "median": 6.19,
+          "p90": 17.75,
+          "p98": 21.93,
+          "max": 26.02,
+          "mean": 8.331
+        },
+        "groundRH2000": {
+          "count": 50798,
+          "min": 1.82,
+          "p10": 2.42,
+          "median": 3.66,
+          "p90": 7.05,
+          "p98": 8.31,
+          "max": 9.07,
+          "mean": 4.305
+        },
+        "buildingRH2000": null,
+        "waterRH2000": {
+          "count": 88,
+          "min": 2.56,
+          "p10": 2.7,
+          "median": 2.8,
+          "p90": 2.916,
+          "p98": 3.003,
+          "max": 3.03,
+          "mean": 2.802
+        },
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": {
+          "waterLevelMedianRH2000": 2.8,
+          "bankCrestP90RH2000": 7.05,
+          "stepHeightMetres": 4.25
+        },
+        "intensity1064nm": {
+          "ground": {
+            "count": 50798,
+            "min": 224,
+            "p10": 2334,
+            "median": 8251,
+            "p90": 12267,
+            "p98": 14873.24,
+            "max": 20810,
+            "mean": 7950.483
+          },
+          "building": null,
+          "water": {
+            "count": 88,
+            "min": 226,
+            "p10": 252.9,
+            "median": 1153,
+            "p90": 6421.2,
+            "p98": 7634.3,
+            "max": 8964,
+            "mean": 2143.807
+          }
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "hole-17-island.microgrid.json",
+        "pointsSha256": "324d1378fd6a9a9ba0e663caec5f8c1e87dae1a242ce18a0bf32c5212db262be"
+      }
+    },
+    {
+      "id": "hole-18-green-shore",
+      "kind": "signature-bulkhead",
+      "boundsEpsg3006": [
+        648550,
+        6597850,
+        648720,
+        6598070
+      ],
+      "sources": [
+        {
+          "id": "20c028-65975_6475_25",
+          "capturedAt": "2020-11-06T00:00:00Z",
+          "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97",
+          "pointsInWindow": 62871
+        }
+      ],
+      "summary": {
+        "pointCount": 62871,
+        "pointDensityPerSquareMetre": 1.68,
+        "byClass": {
+          "1": 22630,
+          "2": 40151,
+          "7": 31,
+          "9": 59
+        },
+        "allRH2000": {
+          "count": 62871,
+          "min": 2.45,
+          "p10": 4.43,
+          "median": 10.06,
+          "p90": 22.86,
+          "p98": 27.27,
+          "max": 33.22,
+          "mean": 11.997
+        },
+        "groundRH2000": {
+          "count": 40151,
+          "min": 2.55,
+          "p10": 4.07,
+          "median": 6.44,
+          "p90": 13.1,
+          "p98": 15.17,
+          "max": 17.29,
+          "mean": 7.597
+        },
+        "buildingRH2000": null,
+        "waterRH2000": {
+          "count": 59,
+          "min": 2.57,
+          "p10": 2.688,
+          "median": 2.74,
+          "p90": 2.81,
+          "p98": 2.838,
+          "max": 2.85,
+          "mean": 2.746
+        },
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": {
+          "waterLevelMedianRH2000": 2.74,
+          "bankCrestP90RH2000": 13.1,
+          "stepHeightMetres": 10.36
+        },
+        "intensity1064nm": {
+          "ground": {
+            "count": 40151,
+            "min": 224,
+            "p10": 2334,
+            "median": 9193,
+            "p90": 12536,
+            "p98": 14933,
+            "max": 20897,
+            "mean": 8559.221
+          },
+          "building": null,
+          "water": {
+            "count": 59,
+            "min": 242,
+            "p10": 285.6,
+            "median": 757,
+            "p90": 1217.2,
+            "p98": 2172.56,
+            "max": 2332,
+            "mean": 776.831
+          }
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "hole-18-green-shore.microgrid.json",
+        "pointsSha256": "356399c924ad9aff153274aa0179530e6793c84a7fe29e74af738ca25962491d"
+      }
+    }
+  ]
+}

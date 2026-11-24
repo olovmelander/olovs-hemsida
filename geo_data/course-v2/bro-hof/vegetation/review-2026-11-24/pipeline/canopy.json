@@ -1,0 +1,158 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "canopy",
+ "groundId": "bro-hof",
+ "reviewId": "review-2026-11-24",
+ "round": null,
+ "ranAt": "2026-11-24T20:49:07.250Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/bro-hof/trees.json",
+  "bytes": 7610,
+  "sha256": "638efe33e9cdfc6a7f1dc2d2bb778f8787f14fa6f18f9a6e8cb43268c1d6a2e2"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "902b5b9274dc934bafaa26fcd20a3149d70552ea0a94dc79891b8abe721b69b5",
+  "tools/tree-pipeline/config.mjs": "0d4325b9401da1c814db9b5478d4416989052cd27afcd15717d4aff9ce3c1f2f",
+  "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "6d7adc7b9eae9686d4adbfc43887b9b8d74d479498508d0c8df34c5760aafe70",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "08471353d981e22d7a473c5797c0c1196bb14c97f1747bd1a2875992593a07a2",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "48bde1ad12e02fc3660753f35e058c29f939a23267367c4e2d7d9ff7c550eee2",
+  "tools/tree-pipeline/laser-parts.mjs": "b94cf5756aecd1c7cba6b37939db6221cea80315280b91d7dff8b0da7d8724bd",
+  "tools/tree-pipeline/detect.mjs": "84b123699d1f327ccadbdc6b07a83772abd7145f4ba7a4e53665adbc5935fa78",
+  "tools/tree-pipeline/verify.mjs": "b0e98daa5567ffd01407e5a0ad61e082133296885b54f9586776f7f5e5483a22",
+  "tools/tree-pipeline/reference.mjs": "5d097c318c4d6766d10aad7f7c247d9b270ad848e11d1afbde3b8d7e13afb72a",
+  "tools/tree-pipeline/benchmark.mjs": "fe6eacbbb3747b0ee0ab166eff9ced11b9ca84cd0d47325e30d2371d9dab0f42",
+  "tools/tree-pipeline/candidates.mjs": "88b52e54003b1a39bf92f47e9802d8326bc7bd75cfddc9655ab2f4412a108af7",
+  "tools/tree-pipeline/review.mjs": "9ec7d0288c7e77198e5b77dd7d1f08e7ad1dce817a2a6df4c7b191a8b46e014d",
+  "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
+  "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+  "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+  "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/bro-hof/acquisition/laser-campaigns.json",
+   "bytes": 29911,
+   "sha256": "ba2a5bca637a4eff58690c7c0a6eaa5057172f35a65e4a834cf4838c4610b9eb"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/copc/y20c028-65950_6475_25.copc.laz",
+   "bytes": 23251083,
+   "sha256": "76e7c9600ded723f0c980c7d8ff148f8d30e057599677b0956afe120a7806266"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/copc/y20c028-65975_6475_25.copc.laz",
+   "bytes": 130309010,
+   "sha256": "57f9bc3ecbbedd691f1a67156915b0711d779e3c18549d8db1d93c4d9a0fbd97"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/copc/y21c031-65950_6500_25.copc.laz",
+   "bytes": 69475186,
+   "sha256": "32e473324d1f6dda53cf2275eef0330dd163a5e70bd7ae50351565f8680f1568"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/copc/y21c031-65975_6500_25.copc.laz",
+   "bytes": 116842153,
+   "sha256": "b19f5bb2b74e28fba7f1b8ab69f039ea560fd407ea936c3c48baac78b4c55fdd"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/canopy-rasters.json",
+   "bytes": 10501,
+   "sha256": "f0a1683029687022fbbf03cd2226f001c70da6515b685245ea1df901c7adf945"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/chm-pitfree-050.bin",
+   "bytes": 75203584,
+   "sha256": "f59f6d480a1cc26cd48746e1c7384ef60d9f91aca31d8691ee99ee4a5b39985f"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/chm-highest-050.bin",
+   "bytes": 75203584,
+   "sha256": "fbb763a4f4da43cc0f0adf635834dc29aaafdfd1afb4097b4bf9f61e5775106a"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/returns-all-050.bin",
+   "bytes": 37601792,
+   "sha256": "90395063c600d26e3a74f47c24c4e1fcc22b0dac070b0ad5635413ba200a5fd3"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/returns-first-050.bin",
+   "bytes": 37601792,
+   "sha256": "109490d066740e88fde89a6e3a73c26a7941bc78807918d5e387acbad850fc37"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/returns-ground-050.bin",
+   "bytes": 37601792,
+   "sha256": "ee1d8ec3e583e6ff3b3d8d784421d35b626fea13dd43af1fa9db5edccd9bf538"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/empty-050.bin",
+   "bytes": 18800896,
+   "sha256": "3cde4529ffa58a6bb2b4079046a1254d1396128721c69f811ada66edd5194435"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/ground-cloud-100.bin",
+   "bytes": 18800896,
+   "sha256": "6af6e33ffd5e06ed892c7ac24dbd4bcd442ed4cd7c8e786a7b71615700177954"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/ground-fill-100.bin",
+   "bytes": 18800896,
+   "sha256": "948b7e0389a88be123fd2b589925624e2697281016d6b7c827c7803ea336e182"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/chm-legacy-100.bin",
+   "bytes": 18800896,
+   "sha256": "1499a80d1fea6176a178b92f1a3024d9efaeff5897e3da22e66fabeb3b85f406"
+  },
+  {
+   "path": "brohofbuild/cache/trees-2026-11-24/rasters/points.bin",
+   "bytes": 252244854,
+   "sha256": "5d0c753510831d991f21165d341592bbfad7bd7f63ad74680942be5b6666745d"
+  }
+ ],
+ "result": {
+  "innerDensity": {
+   "cells": 16777216,
+   "squareMetres": 4194304,
+   "allReturnsPerSquareMetre": 3,
+   "firstReturnsPerSquareMetre": 2.032,
+   "emptyCellFraction050": 0.543,
+   "voidFractionAfterPitFree": 0.17608,
+   "emptyCellFraction100": 0.2076
+  },
+  "groundCheck": {
+   "statement": "cloud ground (mean of class 2/9 returns per 1 m cell, measured cells only) minus the published RH2000 terrain the app draws, inner window, every measured cell",
+   "publishedGroundManifest": "grounds/bro-hof/ground-v2-9ba61580c946eab177678846c2310cb4e4a9851850458040c759882a66a0ac2c.json",
+   "samples": 3166671,
+   "medianMetres": 0,
+   "meanMetres": -0.016,
+   "p05Metres": -0.095,
+   "p95Metres": 0.082,
+   "absoluteMedianMetres": 0.02,
+   "absoluteP95Metres": 0.19,
+   "absoluteP99Metres": 1.625
+  },
+  "terrain": {
+   "stop": false,
+   "reason": null
+  }
+ }
+}

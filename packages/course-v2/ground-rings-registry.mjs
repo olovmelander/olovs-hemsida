@@ -12,6 +12,7 @@
    publication commands still have to be run, and each one gates its own
    evidence. */
 import { ANGSO_GROUND_RINGS } from './angso-ground-rings.mjs';
+import { BRO_HOF_GROUND_RINGS } from './bro-hof-ground-rings.mjs';
 import { JOHANNESBERG_GROUND_RINGS } from './johannesberg-ground-rings.mjs';
 import { LIDINGO_GROUND_RINGS } from './lidingo-ground-rings.mjs';
 import { NORRFALLSVIKEN_GROUND_RINGS } from './norrfallsviken-ground-rings.mjs';
@@ -25,6 +26,7 @@ import { STANDARD_RING_LEVELS } from './standard-ground-rings.mjs';
 
 export const GROUND_RINGS = Object.freeze({
   angso: ANGSO_GROUND_RINGS,
+  'bro-hof': BRO_HOF_GROUND_RINGS,
   johannesberg: JOHANNESBERG_GROUND_RINGS,
   lidingo: LIDINGO_GROUND_RINGS,
   norrfallsviken: NORRFALLSVIKEN_GROUND_RINGS,

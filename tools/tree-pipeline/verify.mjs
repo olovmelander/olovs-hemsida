@@ -22,6 +22,7 @@ import path from 'node:path';
 import { loadMosaic, loadRaster, mosaicAt } from './panels.mjs';
 import { smoothChm } from '../../packages/course-v2/vegetation/pit-free-chm.mjs';
 import { readCampaigns } from './acquire.mjs';
+import { laserParts, partBoxes, partOwners } from './laser-parts.mjs';
 import { laserPolicyProblems, orthoPolicyProblems } from './source-policy.mjs';
 import { sha256File, writeReceipt } from './receipts.mjs';
 import { displacementField } from './relief.mjs';
@@ -45,7 +46,8 @@ export function loadPoints(ctx) {
   return { meta, bytes, count: meta.count, record: meta.recordBytes };
 }
 
-function laserIntensityImage(ctx, grid) {
+/* with `owner`: one campaign's returns only (its own cells), so no blur reads across a campaign seam */
+function laserIntensityImage(ctx, grid, owner = null, part = 0) {
   const { bytes, count, record } = loadPoints(ctx);
   const size = grid.width * grid.height;
   const sum = new Float64Array(size);
@@ -59,6 +61,7 @@ function laserIntensityImage(ctx, grid) {
     const row = Math.floor(bytes.readFloatLE(o + 4) / s);
     if (column < 0 || row < 0 || column >= grid.width || row >= grid.height) continue;
     const index = row * grid.width + column;
+    if (owner && owner[index] !== part) continue;
     sum[index] += bytes.readUInt16LE(o + 16);
     n[index]++;
   }
@@ -158,11 +161,24 @@ export function register(ctx, pairs) {
      this sigma, so smooth brightness gradients cannot flatten the correlation or pull its peak to the
      search border; the structure test is then left to the acceptance rule, which is unchanged */
   const hp = ctx.config.registration.highPassMetres ?? null;
-  const intensity = laserIntensityImage(ctx, grid);
-  if (hp) {
-    const low = smoothChm(grid, intensity, hp);
-    for (let i = 0; i < intensity.length; i++) intensity[i] -= low[i];
-  }
+  const imageOf = (owner, part) => {
+    const image = laserIntensityImage(ctx, grid, owner, part);
+    if (hp) {
+      const low = smoothChm(grid, image, hp);
+      for (let i = 0; i < image.length; i++) image[i] -= low[i];
+    }
+    return image;
+  };
+  /* where laser campaigns meet, each campaign's intensity is its own image and a patch reads only its centre's campaign */
+  const parts = laserParts(ctx.config.laser).length > 1 ? partBoxes(ctx.config.laser, readCampaigns(ctx)) : null;
+  const owner = parts ? partOwners(grid, parts) : null;
+  let intensity = null;
+  if (!parts) intensity = imageOf(null, 0);
+  else parts.forEach((_, p) => {
+    const image = imageOf(owner, p);
+    if (!intensity) intensity = new Float32Array(image.length).fill(Number.NaN);
+    for (let i = 0; i < image.length; i++) if (owner[i] === p) intensity[i] = image[i];
+  });
   const inner = ctx.innerWindow;
   const patch = 50;
   const step = 0.25;
@@ -188,6 +204,7 @@ export function register(ctx, pairs) {
         const c0 = Math.round((e0 - grid.minEasting) / grid.sampleSpacingMetres);
         const r0 = Math.round((grid.maxNorthing - (n0 + patch)) / grid.sampleSpacingMetres);
         const w = Math.round(patch / grid.sampleSpacingMetres);
+        const ownerHere = owner && !refMosaic ? owner[(r0 + (w >> 1)) * grid.width + c0 + (w >> 1)] : null;
         const a = new Float32Array(w * w);
         const mask = new Uint8Array(w * w);
         let open = 0;
@@ -200,7 +217,7 @@ export function register(ctx, pairs) {
             mosaicAt(refMosaic, grid.minEasting + (c0 + x + 0.5) * grid.sampleSpacingMetres, grid.maxNorthing - (r0 + y + 0.5) * grid.sampleSpacingMetres, px);
             a[y * w + x] = refBand(px);
           } else a[y * w + x] = intensity[index];
-          if (h < 0.5) { mask[y * w + x] = 1; open++; }
+          if (h < 0.5 && (ownerHere === null || owner[index] === ownerHere)) { mask[y * w + x] = 1; open++; }
         }
         if (open < 0.85 * w * w) continue;
         /* structure: the intensity image must vary over the open cells */
@@ -250,7 +267,7 @@ export function register(ctx, pairs) {
     const magnitudes = accepted.map(p => Math.hypot(p.dE, p.dN)).sort((x, y) => x - y);
     result.pairs[pair.text] = {
       moving: { campaign: key, date: mosaic.date, band: pair.band },
-      reference: pair.refKey === 'laser' ? { source: `laser ${ctx.config.laser.capturedOn} near-ground intensity` } : { campaign: pair.refKey, date: refMosaic.date, band: pair.refBand },
+      reference: pair.refKey === 'laser' ? { source: `laser ${laserParts(ctx.config.laser).map(part => part.capturedOn).join(' and ')} near-ground intensity` } : { campaign: pair.refKey, date: refMosaic.date, band: pair.refBand },
       patchesTried: patches.length,
       patchesAccepted: accepted.length,
       medianShift: { dE: round(dE), dN: round(dN), magnitude: round(Math.hypot(dE, dN)) },
@@ -293,6 +310,7 @@ export function sourceInventory(ctx) {
       leafState: ctx.config.laser.leafState,
       label: ctx.config.laser.label,
       note: ctx.config.laser.note ?? null,
+      ...(canopy.campaigns ? { campaigns: canopy.campaigns } : {}),
       pin: { file: ctx.config.laser.campaigns, sha256: sha256File(campaignsPath) },
       items: campaigns.items.filter(i => ctx.config.laser.items.includes(i.id)).map(i => ({ id: i.id, href: i.assets.data.href, bytes: i.assets.data.bytes, sha256: i.assets.data.sha256, projBbox: i.projBbox, pointCount: i.statistics?.pointCount ?? null, allReturnDensityPerSquareMetre: i.statistics?.allReturnDensityPerSquareMetre ?? null, updatedAt: i.updatedAt ?? null })),
       licence: campaigns.terms,

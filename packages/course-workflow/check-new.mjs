@@ -3,8 +3,9 @@ import { execFileSync } from 'node:child_process';
 import { assertWorkflow } from './standard.mjs';
 import { readJson, safePath } from './io.mjs';
 import { releaseCheck } from './release.mjs';
+import { admitAccepted } from './acceptance.mjs';
 
-export function checkNewCourses(root, baseRef, { checkRelease = releaseCheck } = {}) {
+export function checkNewCourses(root, baseRef, { checkRelease = releaseCheck, checkAcceptance = admitAccepted } = {}) {
   if (!/^[a-f0-9]{40}$/.test(baseRef || '')) throw new Error('--base-ref must be a resolved full commit SHA');
   const baseRead = p => JSON.parse(execFileSync('git', ['show', `${baseRef}:${p}`], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 8 * 1024 * 1024 }));
   const previous = baseRead('apps/golf/public/courses/v2-index.json');
@@ -13,7 +14,7 @@ export function checkNewCourses(root, baseRef, { checkRelease = releaseCheck } =
   const currentPlayer = readJson(root, 'apps/golf/public/courses/index.json');
   const old = new Map(previous.courses.map(c => [c.slug, c.groundId]));
   const required = new Set(current.courses.filter(c => !old.has(c.slug) || old.get(c.slug) !== c.groundId).map(c => c.groundId));
-  const results = [];
+  const results = [], mandatory = new Set();
   const oldPlayerSlugs = new Set(previousPlayer.courses.map(c => c.slug));
   for (const c of currentPlayer.courses.filter(c => !oldPlayerSlugs.has(c.slug))) {
     const entry = current.courses.find(e => e.slug === c.slug);
@@ -25,7 +26,7 @@ export function checkNewCourses(root, baseRef, { checkRelease = releaseCheck } =
   for (const id of new Set(previous.courses.map(c => c.groundId))) {
     const p = `course-workflows/${id}/workflow.json`;
     const exists = execFileSync('git', ['ls-tree', '--name-only', baseRef, '--', p], { cwd: root, encoding: 'utf8' }).trim();
-    if (exists && baseRead(p).releasePolicy === 'required') required.add(id);
+    if (exists && baseRead(p).releasePolicy === 'required') { required.add(id); mandatory.add(id); }
   }
   for (const id of new Set(current.courses.map(c => c.groundId))) {
     const p = `course-workflows/${id}/workflow.json`;
@@ -34,7 +35,10 @@ export function checkNewCourses(root, baseRef, { checkRelease = releaseCheck } =
   for (const groundId of [...required].sort()) {
     try {
       const w = assertWorkflow(readJson(root, `course-workflows/${groundId}/workflow.json`));
-      if (w.groundId !== groundId || w.releasePolicy !== 'required') throw new Error('new or previously qualified courses require a matching mandatory workflow');
+      if (w.groundId !== groundId) throw new Error('new or previously qualified courses require a matching mandatory workflow');
+      // A ground that is new here, never one that was mandatory, may come in on the owner's recorded acceptance.
+      if (w.releasePolicy === 'advisory' && !mandatory.has(groundId)) { results.push(checkAcceptance(root, w, { publicRoot: 'apps/golf/public' })); continue; }
+      if (w.releasePolicy !== 'required') throw new Error('new or previously qualified courses require a matching mandatory workflow');
       results.push(checkRelease(root, w, { publicRoot: 'apps/golf/public' }));
     } catch (e) { results.push({ groundId, ready: false, errors: [e.message] }); }
   }

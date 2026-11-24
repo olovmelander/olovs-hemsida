@@ -18,11 +18,11 @@ import { clubKind } from '../engine/club-design.mjs';
 /* The detailed course's lies (kikLie) as the physics' surfaces. */
 export const LIE_SURFACE = Object.freeze({
   vatten: 'water', green: 'green', bunker: 'sand', tee: 'tee', fairway: 'fairway',
-  stig: 'path', skog: 'forest', ruff: 'rough', fringe: 'fringe',
+  stig: 'path', skog: 'forest', ruff: 'rough', fringe: 'fringe', sandmark: 'waste',
 });
 export const LIE_NAME = Object.freeze({
   water: 'Vatten', green: 'Green', sand: 'Bunker', tee: 'Tee', fairway: 'Fairway',
-  path: 'Stig', forest: 'Skog', rough: 'Ruff', fringe: 'Förgreen',
+  path: 'Stig', forest: 'Skog', rough: 'Ruff', fringe: 'Förgreen', waste: 'Sandmark',
 });
 
 /* What a lie does to a full swing. */
@@ -35,6 +35,8 @@ export const LIE_EFFECT = Object.freeze({
   rough:   { speed: .88, spin: .62, launch: 1.5, error: 1.35 },
   forest:  { speed: .76, spin: .5, launch: 2, error: 1.7 },
   sand:    { speed: .78, spin: .7, launch: 3, error: 1.5 },
+  /* firm, unraked sand with the club grounded: cleaner than a bunker, no lip */
+  waste:   { speed: .9, spin: .8, launch: 1, error: 1.2 },
 });
 
 /* Shot types scale a club's full launch: speed (at full power), launch angle,
@@ -96,7 +98,7 @@ export function setupForClub(setup, from, to) {
 export function lieQuality(surface, rand = Math.random, { plugged = false } = {}) {
   const base = LIE_EFFECT[surface] || LIE_EFFECT.fairway;
   let q = { label: 'Perfekt', speed: 1, spin: 1, launch: 0, error: 1 };
-  if (surface === 'fringe' || surface === 'path') q.label = 'Bra';
+  if (surface === 'fringe' || surface === 'path' || surface === 'waste') q.label = 'Bra';
   if (surface === 'rough') {
     const r = rand();
     q = r < .3 ? { label: 'Ligger uppe', speed: 1.06, spin: 1.15, launch: -.5, error: .85 }

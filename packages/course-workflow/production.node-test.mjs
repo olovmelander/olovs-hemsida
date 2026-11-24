@@ -8,9 +8,9 @@ import { deflateRawSync } from 'node:zlib';
 import { compilePack } from '../course-pack/compile-pack.mjs';
 import { writePack } from '../course-pack/lib.mjs';
 import { loadProduction, pinned, readPinned, stageOutput, writeBytes, validateCanopySidecar } from './production-inputs.mjs';
-import { configuredWorkflow, verifyCaptureCandidate } from './production.mjs';
+import { configuredWorkflow, postPromotionBakePlan, verifyCaptureCandidate } from './production.mjs';
 import { mappingReview, writeReview } from './production-mapping.mjs';
-import { readRingLevels, executeProductionStage } from './production-stages.mjs';
+import { compareFinest, readRingLevels, executeProductionStage } from './production-stages.mjs';
 import { emptyRepository, buildCandidateFixture } from './test-fixture.mjs';
 import { digest, readJson, writeJson, fileDigest } from './io.mjs';
 
@@ -193,4 +193,45 @@ test('real assembly and validation adapters emit one shared ground, verify bytes
   fs.appendFileSync(path.join(root, w.publicRoot, ref.url), 'corruption');
   assert.throws(() => verifyCaptureCandidate(ctx, built), /candidate changed since validation/);
   await assert.rejects(executeProductionStage(ctx, 'validate'));
+});
+
+test('first-generation production profile requires explicit policy and checks LOD0 directly against raw source', t => {
+  const root = temporary(t), real = loadProduction(REAL, 'puttom');
+  writeJson(root, 'course-workflows/puttom/workflow.json', real.workflow);
+  const missingPolicy = structuredClone(real.config);
+  missingPolicy.baselineGround = null;
+  writeJson(root, real.configPath, missingPolicy);
+  assert.throws(() => loadProduction(root, 'puttom'), /firstGenerationPolicy/);
+
+  const initial = structuredClone(real.config);
+  initial.baselineGround = null;
+  initial.firstGenerationPolicy = 'initial-source-compilation';
+  writeJson(root, real.configPath, initial);
+  const loaded = loadProduction(root, 'puttom');
+  assert.equal(loaded.config.baselineGround, null);
+  assert.equal(loaded.config.firstGenerationPolicy, 'initial-source-compilation');
+
+  const plan = postPromotionBakePlan(loaded, { skipGpuBakes: true });
+  assert.deepEqual(plan.map(s => s.id), ['emit-manifest', 'startup-packs', 'map-land', 'audit-water-levels']);
+  const fullPlan = postPromotionBakePlan(loaded, { allCourses: true });
+  assert.deepEqual(fullPlan.map(s => s.id), ['emit-manifest', 'startup-packs', 'map-land', 'audit-water-levels', 'ground-tints', 'prepared-water', 'prepared-vista']);
+  assert.equal(fullPlan.at(-1).command.includes('--only'), false);
+
+  // Verify initial-generation quantization check against raw Float32 LOD0 samples.
+  const fixtureRoot = emptyRepository();
+  t.after(() => fs.rmSync(fixtureRoot, { recursive: true, force: true }));
+  const fixture = buildCandidateFixture(fixtureRoot);
+  const ground = JSON.parse(Buffer.from(fixture.graph.resources.get(fixture.graph.references.ground.url)).toString('utf8'));
+  const l0Tiles = ground.tiles.filter(tile => tile.lod === 0);
+  const seg = 256, tilesPerSide = 16, side = tilesPerSide * seg + 1;
+  const originEasting = Math.min(...l0Tiles.map(tile => tile.bounds.minEasting));
+  const originNorthing = Math.max(...l0Tiles.map(tile => tile.bounds.maxNorthing));
+  const rawHeights = new Float32Array(side * side);
+  rawHeights.fill(20);
+  const report = compareFinest({
+    spec: { tileSegments: seg },
+    config: { baselineGround: null, firstGenerationPolicy: 'initial-source-compilation', terrain: { maximumBaselineDifferenceMetres: 0.011 } },
+  }, { tiles: l0Tiles, resources: fixture.graph.resources }, [{ lod: 0, tilesPerSide, sampleSpacingMetres: 1, originEasting, originNorthing, heights: rawHeights }]);
+  assert.equal(report.mode, 'initial-source-quantization-check');
+  assert(report.samples > 0 && report.maximumDifferenceMetres <= 0.0055);
 });

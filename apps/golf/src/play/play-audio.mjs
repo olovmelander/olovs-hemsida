@@ -105,7 +105,7 @@ export function createPlayAudio({ enabled = true } = {}) {
         hiss(t, { freq: 1900, q: 2, gain: .12 * p, decay: .02 });
         return;
       }
-      if (lie === 'sand') {
+      if (lie === 'sand' || lie === 'waste') {
         hiss(t, { freq: 1400, q: .6, gain: .75 * p, attack: .005, decay: .32, freqEnd: 700 });
         tone(t, { freq: 140, gain: .25 * p, decay: .1 });
         return;
@@ -134,7 +134,7 @@ export function createPlayAudio({ enabled = true } = {}) {
     bounce(surface, speed = 5) {
       if (!ready()) return;
       const t = ctx.currentTime + .003, v = Math.max(.06, Math.min(1, speed / 14));
-      if (surface === 'sand') { hiss(t, { freq: 1700, q: .8, gain: .5 * v, decay: .14 }); return; }
+      if (surface === 'sand' || surface === 'waste') { hiss(t, { freq: 1700, q: .8, gain: .5 * v, decay: .14 }); return; }
       if (surface === 'path') { tone(t, { freq: 950, gain: .3 * v, decay: .03 }); hiss(t, { freq: 3200, gain: .4 * v, decay: .02 }); return; }
       if (surface === 'rough' || surface === 'forest') {
         hiss(t, { type: 'lowpass', freq: 380, gain: .4 * v, decay: .08 });
@@ -149,6 +149,18 @@ export function createPlayAudio({ enabled = true } = {}) {
       const t = ctx.currentTime + .003;
       tone(t, { freq: 360, gain: .5, decay: .1 }); tone(t, { freq: 740, gain: .2, decay: .05 });
       hiss(t, { freq: 900, q: 3, gain: .35, decay: .07 });
+    },
+    bulkhead(kind = 'timber', speed = 8) {
+      if (!ready()) return;
+      const t = ctx.currentTime + .003, v = Math.max(.12, Math.min(1, speed / 14));
+      if (kind === 'stone') {
+        tone(t, { freq: 1320, freqEnd: 980, gain: .42 * v, decay: .045 });
+        hiss(t, { freq: 3400, q: 1.8, gain: .48 * v, decay: .03 });
+      } else {
+        tone(t, { freq: 290, freqEnd: 210, gain: .55 * v, decay: .09 });
+        tone(t, { freq: 620, gain: .22 * v, decay: .04 });
+        hiss(t, { freq: 820, q: 2.5, gain: .32 * v, decay: .06 });
+      }
     },
     leaves() {
       if (!ready()) return;

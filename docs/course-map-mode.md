@@ -260,7 +260,7 @@ which pull in three.js. The three species rules the map needs are copied into
 - **The hole follows the player** (`map-follow.mjs`, owner request, 5 November): it
   changes when the player stands on the next tee in order of play, within 14 m of any
   colour's tee for 20 s with a fresh confirming GPS sample. The clock alone cannot advance play.
-  `map.test.mjs` stands on every tee of every next hole on all 13 layouts. Nothing else
+  `map.test.mjs` stands on every tee of every next hole on every layout. Nothing else
   moves it, which ended the nearest line's jumps to a neighbouring fairway. It waits for a
   fix better than ±20 m, while the green being played is nearer than the tee (some tees
   touch the last green), and until the player has been off the tee of the hole being

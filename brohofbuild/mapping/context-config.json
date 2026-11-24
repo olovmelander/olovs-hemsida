@@ -1,0 +1,49 @@
+{
+ "schemaVersion": 1,
+ "groundId": "bro-hof",
+ "frame": {
+  "easting": 649094.5,
+  "northing": 6598568.5
+ },
+ "context": "geo_data/course-v2/bro-hof/reference/osm-context-epsg3006.geojson",
+ "water": "brohofbuild/mapping/water.geojson",
+ "innerHalfMetres": 1300,
+ "outerHalfMetres": 2040,
+ "dropIds": [],
+ "out": "brohofbuild/mapping/context.geojson",
+ "farOut": "brohofbuild/mapping/far-buildings.json",
+ "tagOverrides": {
+  "w319035128": {
+   "name": "Bro Hof Slott",
+   "amenity": "clubhouse"
+  }
+ },
+ "extraBuildings": [
+  {
+   "id": "ortho-halfway-house-castle",
+   "tags": {
+    "building": "yes",
+    "name": "Halfway House Castle"
+   },
+   "ring": [
+    [
+     649242,
+     6599263.4
+    ],
+    [
+     649252.4,
+     6599265.1
+    ],
+    [
+     649254.1,
+     6599255.1
+    ],
+    [
+     649244.1,
+     6599253.1
+    ]
+   ],
+   "source": "orto-o2-2025"
+  }
+ ]
+}
