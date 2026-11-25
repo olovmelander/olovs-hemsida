@@ -162,8 +162,9 @@ eleven look the same.
   (`pin-groups.mjs`):
   - pins closer than 44 px join a group, through any chain of them, and groups whose
     middles would touch merge;
-  - a tap or Enter flies in until the clubs part, and the keyboard lands on the
-    first club;
+  - a tap or Enter zooms in on the group's clubs, at least one step. The keyboard
+    lands on the first club, or on the smaller group still holding it, where Enter
+    goes on;
   - this only happens with more than twelve clubs on the map, so every club keeps
     its own pin today, as `check-chooser-ui` expects. Today's opening view already
     has pins 4–9 px apart at Örnsköldsvik and Västerås; grouping those too would
