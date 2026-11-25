@@ -579,7 +579,9 @@ await section('your own card on the course page', async () => {
   await page.keyboard.press('Escape');
   await page.waitForTimeout(300);
   await page.click('#stats [data-back]');
-  await page.waitForTimeout(600);
+  // The scorecard has its own history entry above the course's statistics.
+  await page.waitForURL(url => url.hash === '#statistik/' + course.slug);
+  await page.click('#stats [data-back]');
   await page.waitForSelector('#courseSheet[open]');
   gate((await page.evaluate(() => location.hash)).startsWith(`#karta/${course.slug}`), 'and Tillbaka returns to the exact course setup that opened Statistik');
   await page.keyboard.press('Escape');
