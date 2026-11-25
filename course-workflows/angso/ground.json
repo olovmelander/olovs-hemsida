@@ -1,0 +1,108 @@
+{
+ "schemaVersion": 1,
+ "groundId": "angso",
+ "club": {
+  "id": "angso",
+  "name": "Ängsö Golfklubb"
+ },
+ "boot": "Stora Bodarna · Mälaren",
+ "place": {
+  "lat": 59.5675,
+  "lng": 16.8684,
+  "region": "Mälardalen",
+  "regionTag": "Mälaren · Halvö",
+  "city": "Västerås",
+  "iconName": "wave",
+  "basis": "Carried over from the app's tables on 2026-11-25; how the position was chosen was not recorded there."
+ },
+ "search": {
+  "category": "kust",
+  "places": "Västerås Västmanland Mälardalen"
+ },
+ "routings": [
+  {
+   "slug": "angso",
+   "build": "angsobuild",
+   "name": "Ängsö GK",
+   "title": "Ängsö Golfklubb — Banan i 3D",
+   "tag": "Ängsö",
+   "tees": [
+    {
+     "name": "Vit",
+     "colour": "#f4f4ee"
+    },
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Blå",
+     "colour": "#4a8fe0"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    },
+    {
+     "name": "Ora",
+     "colour": "#e08b3a"
+    }
+   ],
+   "teesHiddenFrom": 5,
+   "searchLabel": "Mälaren · Halvö",
+   "line": "Mälarnära bana på halvön norr om Ängsön med fem tees, mäktiga ekar och strategisk bunkring.",
+   "posters": {
+    "holes": [
+     15,
+     2,
+     17
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 15,
+      "cam": "green",
+      "preset": "golden"
+     },
+     {
+      "hole": 17,
+      "cam": "green",
+      "preset": "mist"
+     },
+     {
+      "hole": 17,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "hole": 15,
+      "cam": "top",
+      "preset": "noon"
+     },
+     {
+      "clubhouse": true,
+      "turn": 55,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [
+    {
+     "hole": 3,
+     "vy": "green",
+     "ljus": "kvall"
+    },
+    {
+     "hole": 1,
+     "vy": "fritt",
+     "ljus": "dag"
+    }
+   ],
+   "mapGallery": [
+    {
+     "hole": 3
+    }
+   ]
+  }
+ ]
+}

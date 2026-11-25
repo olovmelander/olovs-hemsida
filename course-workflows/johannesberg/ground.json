@@ -1,0 +1,166 @@
+{
+ "schemaVersion": 1,
+ "groundId": "johannesberg",
+ "club": {
+  "id": "johannesberg",
+  "name": "Johannesberg Golf & Country Club"
+ },
+ "boot": "Gottröra · Uppland",
+ "place": {
+  "lat": 59.739,
+  "lng": 18.176,
+  "region": "Mälardalen",
+  "regionTag": "Gottröra · Slott",
+  "city": "Gottröra",
+  "iconName": "castle",
+  "basis": "Carried over from the app's tables on 2026-11-25; how the position was chosen was not recorded there."
+ },
+ "search": {
+  "category": "slott",
+  "places": "Uppland Roslagen"
+ },
+ "routings": [
+  {
+   "slug": "johannesberg",
+   "build": "johannesbergbuild",
+   "name": "Johannesberg",
+   "title": "Johannesberg Golf & CC — Banan i 3D",
+   "tag": "Gottröra",
+   "layoutLabel": "18-hålsbanan",
+   "tees": [
+    {
+     "name": "Vit",
+     "colour": "#f4f4ee"
+    },
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Blå",
+     "colour": "#4a8fe0"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    },
+    {
+     "name": "Orange",
+     "colour": "#e08b3a"
+    }
+   ],
+   "teesHiddenFrom": 5,
+   "searchLabel": "Gottröra · Slottsmiljö",
+   "line": "Slottsbana i rofylld herrgårdsmiljö med dammar, månghundraåriga ekar och ståtligt klubbhus.",
+   "posters": {
+    "holes": [
+     18,
+     11,
+     4
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 18,
+      "cam": "green",
+      "preset": "golden"
+     },
+     {
+      "hole": 4,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "hole": 18,
+      "cam": "top",
+      "preset": "noon"
+     },
+     {
+      "hole": 11,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "clubhouse": true,
+      "turn": 0,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [
+    {
+     "hole": 1,
+     "vy": "tee",
+     "ljus": "sommar"
+    }
+   ],
+   "mapGallery": [
+    {
+     "hole": 7
+    }
+   ]
+  },
+  {
+   "slug": "johannesberg-9",
+   "build": "johannesberg9build",
+   "name": "Johannesberg 9",
+   "title": "Johannesberg Golf & CC — Niohålsbanan i 3D",
+   "tag": "Niohålsbanan",
+   "layoutLabel": "Niohålsbanan",
+   "tees": [
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    }
+   ],
+   "teesHiddenFrom": 3,
+   "searchLabel": "Gottröra · Andra nio",
+   "line": "Johannesbergs andra nio, med en damm tvärs igenom och ett andrahål som faller drygt tolv meter ner mot vattnet.",
+   "posters": {
+    "holes": [
+     2,
+     7,
+     8
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 8,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 2,
+      "cam": "green",
+      "preset": "golden"
+     },
+     {
+      "hole": 2,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 7,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "clubhouse": true,
+      "turn": -55,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [],
+   "mapGallery": [
+    {
+     "hole": 1
+    }
+   ]
+  }
+ ]
+}

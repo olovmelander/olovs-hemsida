@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "groundId": "ribbingsfors",
+ "club": {
+  "id": "ribbingsfors",
+  "name": "Ribbingsfors Golf & Kultur"
+ },
+ "boot": "Gullspång · Skagern",
+ "place": {
+  "lat": 58.9649569,
+  "lng": 14.1212497,
+  "region": "Västra Götaland",
+  "regionTag": "Gullspång · Herrgård",
+  "city": "Gullspång",
+  "iconName": "tree",
+  "basis": "Carried over from the app's tables on 2026-11-25; how the position was chosen was not recorded there."
+ },
+ "search": {
+  "category": "skog",
+  "places": "Skagern Västra Götaland"
+ },
+ "routings": [
+  {
+   "slug": "ribbingsfors",
+   "build": "ribbingsforsbuild",
+   "name": "Ribbingsfors Golf & Kultur",
+   "title": "Ribbingsfors Golf & Kultur — Nio hål i 3D",
+   "tag": "Park & hagmark",
+   "tees": [
+    {
+     "name": "Vit",
+     "colour": "#f4f4ee"
+    },
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    }
+   ],
+   "teesHiddenFrom": 4,
+   "searchLabel": "Gullspång · Park & Hagmark",
+   "line": "Niohåls park- och hagmarksbana i herrgårdsmiljö vid sjön Skagern, ritad av Janne Lundvall och spelklar 1991.",
+   "posters": {
+    "holes": [
+     9,
+     5,
+     2
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 9,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 2,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "hole": 5,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 1,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "clubhouse": true,
+      "turn": 55,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [
+    {
+     "hole": 3,
+     "vy": "tee",
+     "ljus": "host"
+    }
+   ],
+   "mapGallery": [
+    {
+     "hole": 3
+    }
+   ]
+  }
+ ]
+}

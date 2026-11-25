@@ -3,12 +3,15 @@
 
     pixi run --manifest-path packages/course-geo/toolchain/pixi.toml -e mapping --frozen \
       python packages/course-geo/mapping/render-ring-sheets.py --config <build>/mapping/trace-config.json \
-        [--compare <older-photo.tif> ...] [--kinds tee,green,bunker] [--only <ring id>,...] [--out <dir>]
+        [--compare <older-photo.tif> ...] [--kinds tee,green,bunker] [--only <ring id>,...] [--out <dir>] [--blind]
 
 A contact sheet holds 40 rings; each ring is shown on the tracing photo and, with --compare, on an older one
 beside it (a deck rebuilt or a pond filled between the two shows at once). Tees and greens are ordered by
 their edge score from trace-report.json, lowest first. --only draws the named rings large, with a 5 m grid.
 The sheets are private (they are crops of the photo): they go under the build's cache, never into git.
+
+--blind is for a second reviewer who has not seen the tracing: the rings come in hole order, and no score, no
+source and no tee colour is printed, so nothing on the sheet says which rings the first look doubted.
 
 Look at every sheet, then record the look with `node packages/course-geo/mapping/ring-review.mjs`.
 A ring that is wrong is fixed in decisions.json and traced again, never here.
@@ -19,82 +22,25 @@ import math
 from pathlib import Path
 
 import numpy as np
-import rasterio
-from PIL import Image, ImageDraw, ImageFont
-from rasterio.enums import Resampling
-from rasterio.windows import from_bounds
+from PIL import Image, ImageDraw
 from shapely.geometry import shape
 
-ROOT = Path(__file__).resolve().parents[3]
+from photo_views import ROOT, Imagery, crop, draw_grid, font, largest, load_json, pixel
 
 
-class Imagery:
-    """The tracer's mosaic (turf_tracing.Imagery), best resolution first; kept apart so the look needs no scipy."""
-
-    def __init__(self, paths):
-        self.paths = [Path(p) for p in paths]
-
-    def read(self, e0, n0, e1, n1, res):
-        w, h = int(round((e1 - e0) / res)), int(round((n1 - n0) / res))
-        out, have = np.zeros((4, h, w), np.uint8), np.zeros((h, w), bool)
-        for p in self.paths:
-            if have.all():
-                break
-            with rasterio.open(p) as src:
-                b = src.bounds
-                if b.right <= e0 or b.left >= e1 or b.top <= n0 or b.bottom >= n1:
-                    continue
-                d = src.read([1, 2, 3, 4], window=from_bounds(e0, n0, e1, n1, src.transform), out_shape=(4, h, w), boundless=True,
-                             fill_value=0, resampling=Resampling.bilinear)
-                ok = d.any(axis=0) & ~have
-                out[:, ok] = d[:, ok]
-                have |= ok
-        return out, have
-
-
-def load_json(path):
-    return json.loads(Path(path).read_text(encoding='utf-8'))
-
-
-def largest(geom):
-    return max(geom.geoms, key=lambda g: g.area) if geom.geom_type == 'MultiPolygon' else geom
-
-
-def font(size):
-    try:
-        return ImageFont.truetype('arial.ttf', size)
-    except OSError:
-        return ImageFont.load_default()
-
-
-def crop(imagery, centre, half, size):
-    img, have = imagery.read(centre[0] - half, centre[1] - half, centre[0] + half, centre[1] + half, max(0.16, 2 * half / size))
-    rgb = img[:3].astype(np.float32)
-    if have.any():
-        lo, hi = np.percentile(rgb[:, have], [1, 99.3])
-        rgb = np.clip((rgb - lo) / max(1.0, hi - lo), 0, 1) ** 0.7 * 255
-    return Image.fromarray(np.transpose(rgb.astype(np.uint8), (1, 2, 0))).resize((size, size), Image.BICUBIC)
-
-
-def tile(ring, neighbours, sources, size, grid):
+def tile(ring, neighbours, sources, size, grid, blind=False):
     poly = ring['poly']
     b = poly.bounds
     half = max(14.0, math.hypot(b[2] - b[0], b[3] - b[1]) / 2 + 7)
     c = (poly.centroid.x, poly.centroid.y)
-    px = lambda p: ((p[0] - c[0] + half) * size / (2 * half), (c[1] + half - p[1]) * size / (2 * half))
+    box = (c[0] - half, c[1] - half, c[0] + half, c[1] + half)
+    px = lambda p: pixel(p, box, size)
     out = Image.new('RGB', (size * len(sources) + 2 * (len(sources) - 1), size + 18), (0, 0, 0))
     for k, imagery in enumerate(sources):
-        im = crop(imagery, c, half, size)
+        im = crop(imagery, box, size)
         d = ImageDraw.Draw(im)
         if grid:
-            for v in range(math.ceil((c[0] - half) / 5) * 5, int(c[0] + half) + 1, 5):
-                d.line([px((v, c[1] - half)), px((v, c[1] + half))], fill=(255, 255, 255) if v % 10 == 0 else (150, 150, 150))
-                if v % 10 == 0:
-                    d.text((px((v, 0))[0] + 2, 2), str(v), fill='yellow', font=font(12), stroke_width=2, stroke_fill='black')
-            for v in range(math.ceil((c[1] - half) / 5) * 5, int(c[1] + half) + 1, 5):
-                d.line([px((c[0] - half, v)), px((c[0] + half, v))], fill=(255, 255, 255) if v % 10 == 0 else (150, 150, 150))
-                if v % 10 == 0:
-                    d.text((2, px((0, v))[1] + 2), str(v), fill='yellow', font=font(12), stroke_width=2, stroke_fill='black')
+            draw_grid(d, box, size, 5)
         for other in neighbours:
             if other is not ring and other['poly'].distance(poly) < half:
                 d.line([px(p) for p in other['poly'].exterior.coords], fill=(120, 200, 255), width=1)
@@ -102,7 +48,7 @@ def tile(ring, neighbours, sources, size, grid):
         for interior in poly.interiors:
             d.line([px(p) for p in interior.coords], fill='white', width=1)
         out.paste(im, (k * (size + 2), 0))
-    label = f"{ring['id']} {'/'.join(ring['tees'])}  {ring['score']}  {2 * half:.0f} m"
+    label = f"{ring['id']}  {2 * half:.0f} m" if blind else f"{ring['id']} {'/'.join(ring['tees'])}  {ring['score']}  {2 * half:.0f} m"
     ImageDraw.Draw(out).text((3, size + 2), label, fill=(255, 235, 120), font=font(12))
     return out
 
@@ -123,10 +69,11 @@ def main():
     ap.add_argument('--kinds', default='tee,green,bunker')
     ap.add_argument('--only', default='')
     ap.add_argument('--out', type=Path)
+    ap.add_argument('--blind', action='store_true')
     args = ap.parse_args()
     cfg = load_json(args.config)
     sources = [Imagery([ROOT / p for p in cfg['imagery']['rasters']])] + ([Imagery(args.compare)] if args.compare else [])
-    out = args.out or ROOT / Path(cfg['courses'][0]['outDir']).parent / 'cache' / 'ring-sheets'
+    out = args.out.resolve() if args.out else ROOT / Path(cfg['courses'][0]['outDir']).parent / 'cache' / ('ring-sheets-blind' if args.blind else 'ring-sheets')
     out.mkdir(parents=True, exist_ok=True)
     only = [s for s in args.only.split(',') if s]
     written = []
@@ -149,9 +96,9 @@ def main():
                 written.append(sheet([tile(r, rings, sources, 440, True) for r in chosen], 2 if len(sources) == 1 else 1, out / f"{course['prefix']}-zoom.jpg"))
             continue
         for kind in args.kinds.split(','):
-            chosen = sorted((r for r in rings if r['kind'] == kind), key=lambda r: (r['order'], r['hole'], r['id']))
+            chosen = sorted((r for r in rings if r['kind'] == kind), key=lambda r: (r['hole'], r['id']) if args.blind else (r['order'], r['hole'], r['id']))
             for k in range(0, len(chosen), 40):
-                tiles = [tile(r, rings, sources, 190, False) for r in chosen[k:k + 40]]
+                tiles = [tile(r, rings, sources, 190, False, args.blind) for r in chosen[k:k + 40]]
                 written.append(sheet(tiles, 8 if len(sources) == 1 else 5, out / f"{course['prefix']}-{kind}-{k // 40 + 1}.jpg"))
     print(json.dumps(dict(sheets=[str(p.relative_to(ROOT)).replace('\\', '/') for p in written]), indent=1))
 

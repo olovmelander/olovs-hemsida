@@ -1,0 +1,104 @@
+{
+ "schemaVersion": 1,
+ "groundId": "puttom",
+ "club": {
+  "id": "puttom",
+  "name": "Örnsköldsviks Golfklubb"
+ },
+ "boot": "Arnäsvall · Örnsköldsvik",
+ "place": {
+  "lat": 63.341,
+  "lng": 18.79,
+  "region": "Höga Kusten",
+  "regionTag": "Örnsköldsvik · Skog & Sjö",
+  "city": "Arnäsvall",
+  "iconName": "tree",
+  "basis": "Carried over from the app's tables on 2026-11-25; how the position was chosen was not recorded there."
+ },
+ "search": {
+  "category": "skog",
+  "places": "Arnäsvall Ångermanland Höga Kusten"
+ },
+ "routings": [
+  {
+   "slug": "puttom",
+   "build": "puttombuild",
+   "name": "Puttom",
+   "title": "Örnsköldsviks GK Puttom — Skogsbana i 3D",
+   "tag": "Örnsköldsviks GK",
+   "tees": [
+    {
+     "name": "Vit",
+     "colour": "#f4f4ee"
+    },
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    },
+    {
+     "name": "Orange",
+     "colour": "#e08b3a"
+    }
+   ],
+   "teesHiddenFrom": 5,
+   "searchLabel": "Örnsköldsvik · Skog & Sjö",
+   "line": "Naturskön skogs- och parkbana som slingrar sig elegant mellan två glittrande sjöar.",
+   "posters": {
+    "holes": [
+     12,
+     9,
+     18
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 12,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 12,
+      "cam": "tee",
+      "preset": "golden"
+     },
+     {
+      "hole": 18,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "hole": 12,
+      "cam": "top",
+      "preset": "noon"
+     },
+     {
+      "clubhouse": true,
+      "turn": 0,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [
+    {
+     "hole": 1,
+     "vy": "tee",
+     "ljus": "kvall"
+    },
+    {
+     "hole": 5,
+     "vy": "green",
+     "ljus": "dag"
+    }
+   ],
+   "mapGallery": [
+    {
+     "hole": 5
+    }
+   ]
+  }
+ ]
+}

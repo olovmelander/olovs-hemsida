@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "slug": "bro-hof-stadium",
+ "surfacesSha256": "26683443202830c0366cd7c44c42edc77e1ccc7d12b5cae1d6d1cf290e87138c",
+ "terrainSha256": "f5a0fbd4dfa80f0227031e446a482557815c3e71c35c9511431d26f016c1de59",
+ "line": {
+  "slopePercent": 3,
+  "offPlaneMetres": 0.08
+ },
+ "decks": 84,
+ "measured": 84,
+ "tooSmall": [],
+ "level": 78,
+ "off": [
+  {
+   "id": "stadium-tee-05-5",
+   "hole": 5,
+   "tees": [
+    "rod"
+   ],
+   "cells": 19,
+   "slope": 7.9,
+   "offPlane": 0.03,
+   "aboveRim": 0.14
+  },
+  {
+   "id": "stadium-tee-09-3",
+   "hole": 9,
+   "tees": [
+    "gul"
+   ],
+   "cells": 35,
+   "slope": 8.2,
+   "offPlane": 0.1,
+   "aboveRim": 0.4
+  },
+  {
+   "id": "stadium-tee-10-1",
+   "hole": 10,
+   "tees": [
+    "svart"
+   ],
+   "cells": 9,
+   "slope": 10.7,
+   "offPlane": 0.03,
+   "aboveRim": -0.02
+  },
+  {
+   "id": "stadium-tee-10-3",
+   "hole": 10,
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "cells": 36,
+   "slope": 13.1,
+   "offPlane": 0.1,
+   "aboveRim": 0.04
+  },
+  {
+   "id": "stadium-tee-17-3",
+   "hole": 17,
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "cells": 191,
+   "slope": 1.1,
+   "offPlane": 0.51,
+   "aboveRim": 0.03
+  },
+  {
+   "id": "stadium-tee-18-5",
+   "hole": 18,
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "cells": 31,
+   "slope": 11.8,
+   "offPlane": 0.07,
+   "aboveRim": -0.02
+  }
+ ]
+}

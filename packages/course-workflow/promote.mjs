@@ -12,7 +12,16 @@
    - The previous generation stays on disk for rollback.
 
    Prepared tints, water, vista and posters are not part of a candidate: bake them
-   afterwards (production.mjs --bake-promoted). Nothing is deployed or pushed. */
+   afterwards (tools/gpu-pass.mjs). Nothing is deployed or pushed.
+
+   node packages/course-workflow/promote.mjs --ground <id> --prune [--apply]
+
+   A ground that is promoted more than once leaves files no published generation names. --prune lists them, and
+   with --apply removes them. It only ever touches files named by their own checksum, under this ground's and
+   its routings' folders, that neither catalogue, no course manifest and no ground manifest still on disk refers
+   to. Every generation whose ground manifest is still there is kept whole, so a rollback stays possible: remove
+   an old ground manifest first to let its files go. Posters, packs and anything not named by a checksum are
+   never touched. */
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -91,9 +100,68 @@ export function promote(root, groundId, { dryRun = false, publicRoot = 'apps/gol
   return { groundId, added: plan.add.length, same: plan.same.length, replaced: plan.replace, courses: merged.courses.length };
 }
 
+const HASH_NAMED = /(?:^|[-.])[a-f0-9]{64}\.[a-z0-9]+$/;
+
+/** Checksum-named files of one ground that nothing published refers to any more. */
+export function prunePlan(root, groundId, { publicRoot = 'apps/golf/public' } = {}) {
+  const read = relative => JSON.parse(fs.readFileSync(path.join(root, publicRoot, relative), 'utf8'));
+  const player = read('courses/index.json').courses, v2 = read('courses/v2-index.json').courses.filter(c => c.groundId === groundId);
+  assert(v2.length, `${groundId}: no published routing`);
+  const slugs = v2.map(c => c.slug), folders = [`grounds/${groundId}`, ...slugs.map(slug => `courses/${slug}`)];
+  const refs = new Set();
+  const walk = value => {
+    if (typeof value === 'string') { if (folders.some(folder => value.startsWith(`${folder}/`))) refs.add(value); }
+    else if (value && typeof value === 'object') Object.values(value).forEach(walk);
+  };
+  walk(player.filter(c => slugs.includes(c.slug)));
+  walk(v2);
+  const all = dir => (fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => (e.isDirectory() ? all(path.join(dir, e.name)) : [path.join(dir, e.name)])) : []);
+  const files = folders.flatMap(folder => all(path.join(root, publicRoot, folder))).map(file => path.relative(path.join(root, publicRoot), file).split(path.sep).join('/'));
+  for (const file of files) if (/^grounds\/[^/]+\/ground-v2-[a-f0-9]{64}\.json$/.test(file)) refs.add(file); // every generation still on disk is kept
+  for (const file of files) { // and so is each routing's manifest of such a generation
+    if (!/^courses\/[^/]+\/course-v2-[a-f0-9]{64}\.json$/.test(file)) continue;
+    const ground = JSON.parse(fs.readFileSync(path.join(root, publicRoot, file), 'utf8')).groundManifest?.url;
+    if (ground && refs.has(ground)) refs.add(file);
+  }
+  const seen = new Set();
+  for (let grew = true; grew;) {
+    grew = false;
+    for (const ref of [...refs]) {
+      if (seen.has(ref) || !ref.endsWith('.json')) continue;
+      seen.add(ref);
+      const file = path.join(root, publicRoot, ref);
+      if (!fs.existsSync(file)) continue;
+      const before = refs.size;
+      walk(JSON.parse(fs.readFileSync(file, 'utf8')));
+      if (refs.size > before) grew = true;
+    }
+  }
+  /* Only what the build and the bakes write. A ground folder is managed where a kept generation has files (terrain,
+     objects, stands, startup); a routing's folder holds its manifests, its routing chunks, its scorecard and its
+     baked records. Anything else named by a checksum may be loaded by name from code (Lidingö's measured water is),
+     so it is left alone. */
+  const managed = new Set([...refs].filter(ref => ref.startsWith('grounds/')).map(ref => path.posix.dirname(ref)));
+  const built = file => (file.startsWith('grounds/') ? managed.has(path.posix.dirname(file)) && !/\/ground-v2-[a-f0-9]{64}\.json$/.test(file)
+    : /^courses\/[^/]+\/(?:(?:course-v2|scorecard)-[a-f0-9]{64}\.json$|(?:prepared|routing)\/)/.test(file));
+  const orphans = files.filter(file => HASH_NAMED.test(path.basename(file)) && built(file) && !refs.has(file)).sort();
+  return { groundId, generations: files.filter(file => /ground-v2-[a-f0-9]{64}\.json$/.test(file)).length, kept: files.length - orphans.length, orphans,
+    bytes: orphans.reduce((n, file) => n + fs.statSync(path.join(root, publicRoot, file)).size, 0) };
+}
+
+export function prune(root, groundId, { publicRoot = 'apps/golf/public', apply = false } = {}) {
+  const plan = prunePlan(root, groundId, { publicRoot });
+  if (apply) for (const file of plan.orphans) fs.unlinkSync(path.join(root, publicRoot, file));
+  return { ...plan, applied: apply };
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const i = process.argv.indexOf('--ground');
-  assert(i > 0 && process.argv[i + 1], 'usage: promote.mjs --ground <id> [--dry-run]');
+  assert(i > 0 && process.argv[i + 1], 'usage: promote.mjs --ground <id> [--dry-run] | --prune [--apply]');
+  if (process.argv.includes('--prune')) {
+    const done = prune(ROOT, process.argv[i + 1], { apply: process.argv.includes('--apply') });
+    console.log(JSON.stringify({ ...done, orphans: done.orphans.length > 12 ? [...done.orphans.slice(0, 12), `and ${done.orphans.length - 12} more`] : done.orphans }, null, 1));
+    process.exit(0);
+  }
   const result = promote(ROOT, process.argv[i + 1], { dryRun: process.argv.includes('--dry-run') });
   if (result.dryRun) console.log(JSON.stringify({ ...result, add: result.add.length, same: result.same.length }, null, 1));
   else console.log(JSON.stringify(result, null, 1));

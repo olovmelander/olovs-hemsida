@@ -1,0 +1,325 @@
+{
+ "schemaVersion": 1,
+ "groundId": "bro-hof",
+ "imagery": {
+  "sourceId": "orto-o2-2025",
+  "captured": "2025-06-14"
+ },
+ "reachMetres": 80,
+ "lines": {
+  "sandShare": 0.6,
+  "sandOutsideM2": 4,
+  "sandOutsideShare": 0.02
+ },
+ "surfaces": {
+  "bro-hof-stadium": "26683443202830c0366cd7c44c42edc77e1ccc7d12b5cae1d6d1cf290e87138c",
+  "bro-hof-castle": "61f44582a2f3192ee029aafe913a687d60d9d61fd23382af8384acfc0287904a"
+ },
+ "modelled": {
+  "bunker": 110,
+  "waste_sand": 10
+ },
+ "rings": [
+  {
+   "id": "castle-bunker-10-2",
+   "kind": "bunker",
+   "slug": "bro-hof-castle",
+   "hole": 10,
+   "areaM2": 12.9,
+   "sandShare": 0,
+   "sandOutsideM2": 0,
+   "verdict": "Sand on both photos, duller than the tracer takes for sand in June 2025; drawn by hand on 24 November. The ring follows the pale patch. Stands."
+  },
+  {
+   "id": "castle-bunker-15-5",
+   "kind": "bunker",
+   "slug": "bro-hof-castle",
+   "hole": 15,
+   "areaM2": 18.6,
+   "sandShare": 0,
+   "sandOutsideM2": 0,
+   "verdict": "Sand on both photos beside the 15th green, below the tracer's brightness in June 2025; drawn by hand on 24 November. The ring follows it. Stands."
+  },
+  {
+   "id": "castle-waste-sand-15-1",
+   "kind": "waste_sand",
+   "slug": "bro-hof-castle",
+   "hole": 15,
+   "areaM2": 516.5,
+   "sandShare": 0,
+   "sandOutsideM2": 0,
+   "fault": "The June 2025 photo shows dark brown bare ground here, not tan sand (0% by the tracer's measure); it lies in shade on the 2021 photo. Drawn by hand on 24 November as a waste area, and the club's drawing does not settle it. Needs someone who has seen the hole to say what it is."
+  }
+ ],
+ "areas": [
+  {
+   "kind": "bunker",
+   "at": [
+    648659.1,
+    6598597.8
+   ],
+   "areaM2": 3422,
+   "slug": "bro-hof-castle",
+   "hole": 2,
+   "metresFromHole": 62.5,
+   "on": null,
+   "id": "sand-001",
+   "verdict": "The gravel yard between the maintenance buildings, 62 m from Castle 2: machines and heaps of material on both photos. Not sand in play. The yard is not mapped as hard ground."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    648183.3,
+    6599307.7
+   ],
+   "areaM2": 17.3,
+   "slug": "bro-hof-castle",
+   "hole": 14,
+   "metresFromHole": 62.6,
+   "on": null,
+   "id": "sand-002",
+   "verdict": "A small pale roof or cover beside a shed north-west of Castle 14, there on both photos. Not sand. The shed is not in the building map."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    648301.1,
+    6598008.1
+   ],
+   "areaM2": 6566.1,
+   "slug": "bro-hof-castle",
+   "hole": 18,
+   "metresFromHole": 75.1,
+   "on": null,
+   "id": "sand-003",
+   "verdict": "The building site west of Castle 18: bare gravel and fill, larger in 2025 than in 2021. Not sand in play. The terrain there is older than the works."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    649198.3,
+    6598969.7
+   ],
+   "areaM2": 334.6,
+   "slug": "bro-hof-stadium",
+   "hole": 8,
+   "metresFromHole": 5.2,
+   "on": null,
+   "id": "sand-004",
+   "verdict": "Bare bedrock and shore stones along the lake beside Stadium 8's back tee, the same on both photos; left out as bedrock on 24 November. Not sand. The model draws no rock there."
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    648674.2,
+    6598609.5
+   ],
+   "areaM2": 745,
+   "slug": "bro-hof-castle",
+   "hole": 2,
+   "metresFromHole": 61.2,
+   "on": null,
+   "id": "sand-005",
+   "verdict": "The same gravel yard as sand-001, seen as tan ground: the maintenance buildings' yard. Not sand in play."
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    649870,
+    6599163
+   ],
+   "areaM2": 4311.8,
+   "slug": "bro-hof-castle",
+   "hole": 6,
+   "metresFromHole": 41.4,
+   "on": null,
+   "id": "sand-006",
+   "verdict": "Dry bare heath with scattered young pines east of the cart path at Castle 6's tees, the same on both photos; left out as heath on 24 November. Beyond the path, not a waste area of the hole."
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    648447.8,
+    6598845.2
+   ],
+   "areaM2": 1211.8,
+   "slug": "bro-hof-castle",
+   "hole": 13,
+   "metresFromHole": 15.9,
+   "on": null,
+   "id": "sand-007",
+   "verdict": "Bare ground in the wood beside the path at Castle 13's tee: heaps of stone and timber on the 2021 photo, bare soil with wheel tracks in 2025. A works yard, not sand. Not modelled as bare ground."
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    648246.8,
+    6598054.8
+   ],
+   "areaM2": 4222.2,
+   "slug": "bro-hof-castle",
+   "hole": 18,
+   "metresFromHole": 69.6,
+   "on": null,
+   "id": "sand-008",
+   "verdict": "The same building site as sand-003, seen as tan ground, west of Castle 18. Not sand in play."
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    649199.2,
+    6598981.8
+   ],
+   "areaM2": 880,
+   "slug": "bro-hof-stadium",
+   "hole": 8,
+   "metresFromHole": 4.9,
+   "on": null,
+   "id": "sand-009",
+   "verdict": "The same bedrock shore as sand-004, seen as tan ground, beside Stadium 8's back tee. Not sand."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    648717.8,
+    6598637.1
+   ],
+   "areaM2": 64.3,
+   "slug": "bro-hof-castle",
+   "hole": 2,
+   "metresFromHole": 20.6,
+   "on": "a road or a path",
+   "id": "sand-010"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    648636.7,
+    6598834.1
+   ],
+   "areaM2": 145.5,
+   "slug": "bro-hof-castle",
+   "hole": 12,
+   "metresFromHole": 20.3,
+   "on": "a road or a path",
+   "id": "sand-011"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    648197.2,
+    6598993.5
+   ],
+   "areaM2": 91.5,
+   "slug": "bro-hof-castle",
+   "hole": 15,
+   "metresFromHole": 61.8,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-012"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    648276.5,
+    6598717.6
+   ],
+   "areaM2": 5132,
+   "slug": "bro-hof-castle",
+   "hole": 15,
+   "metresFromHole": 64.6,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-013"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    649261.2,
+    6598519.5
+   ],
+   "areaM2": 43,
+   "slug": "bro-hof-stadium",
+   "hole": 4,
+   "metresFromHole": 29.9,
+   "on": "a practice surface",
+   "id": "sand-014"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    649191.4,
+    6599003.7
+   ],
+   "areaM2": 57.1,
+   "slug": "bro-hof-stadium",
+   "hole": 8,
+   "metresFromHole": 20,
+   "on": "a shore",
+   "id": "sand-015"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    648950.1,
+    6598316.4
+   ],
+   "areaM2": 30.1,
+   "slug": "bro-hof-stadium",
+   "hole": 9,
+   "metresFromHole": 44.1,
+   "on": "a shore",
+   "id": "sand-016"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    648950.3,
+    6598307.3
+   ],
+   "areaM2": 59.3,
+   "slug": "bro-hof-stadium",
+   "hole": 9,
+   "metresFromHole": 49.2,
+   "on": "a shore",
+   "id": "sand-017"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    648644.8,
+    6598789.8
+   ],
+   "areaM2": 276.8,
+   "slug": "bro-hof-castle",
+   "hole": 1,
+   "metresFromHole": 41.1,
+   "on": "a building",
+   "id": "sand-018"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    648611.5,
+    6598552.8
+   ],
+   "areaM2": 425.5,
+   "slug": "bro-hof-castle",
+   "hole": 1,
+   "metresFromHole": 72.2,
+   "on": "a building",
+   "id": "sand-019"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    648618.8,
+    6598329.8
+   ],
+   "areaM2": 421.8,
+   "slug": "bro-hof-castle",
+   "hole": 1,
+   "metresFromHole": 31.4,
+   "on": "a building",
+   "id": "sand-020"
+  }
+ ]
+}

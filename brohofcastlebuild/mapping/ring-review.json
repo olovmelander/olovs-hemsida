@@ -28,5 +28,96 @@
   "castle-tee-11-1": "In deep crown shade in June 2025; the 2021 leaf-off photo shows mown ground beside the path here. Card residual 0.0 m.",
   "castle-tee-11-2": "A small deck no card colour uses, at the edge of crown shade; a pale mown strip on both photos.",
   "castle-tee-14-2": "An L-shaped deck partly under crowns; its outline follows the mown ground on the 2021 leaf-off photo. Card residual 0.0 m."
+ },
+ "second": {
+  "reviewer": "Claude Fable 5.2 (agent), blind second look",
+  "reviewedOn": "2026-11-25",
+  "sheets": [
+   "stadium-tee-1.jpg",
+   "stadium-tee-2.jpg",
+   "stadium-tee-3.jpg",
+   "stadium-green-1.jpg",
+   "stadium-bunker-1.jpg",
+   "stadium-bunker-2.jpg",
+   "castle-tee-1.jpg",
+   "castle-tee-2.jpg",
+   "castle-green-1.jpg",
+   "castle-bunker-1.jpg",
+   "castle-bunker-2.jpg"
+  ],
+  "looked": {
+   "stadium-tee-1.jpg": 40,
+   "stadium-tee-2.jpg": 40,
+   "stadium-tee-3.jpg": 4,
+   "stadium-green-1.jpg": 18,
+   "stadium-bunker-1.jpg": 40,
+   "stadium-bunker-2.jpg": 22,
+   "castle-tee-1.jpg": 40,
+   "castle-tee-2.jpg": 31,
+   "castle-green-1.jpg": 18,
+   "castle-bunker-1.jpg": 40,
+   "castle-bunker-2.jpg": 8
+  },
+  "surfacesSha256": "61f44582a2f3192ee029aafe913a687d60d9d61fd23382af8384acfc0287904a",
+  "doubts": {
+   "castle-tee-11-1": {
+    "reason": "Angular outline lying wholly on tree crowns in the summer photo; the leaf-off photo shows bare branches over it and only a small green patch at its south end, no mown deck filling the line.",
+    "resolution": null,
+    "fault": "The terrain has a flat deck 5 by 13 m at 23.5 m under the western two thirds of the ring (E 648716-648721, N 6598936-6598948). The OSM ring is 8 m wide and hangs 2-3 m over the east bank (9% slope inside it). To redraw as a laser platform at the next trace."
+   },
+   "castle-tee-18-3": {
+    "reason": "Narrow sharp-cornered rectangle on ordinary mid-green ground beside the trees, while the summer photo shows a bright mown rectangle about 8 m east of it, outside the line; no deck shows inside the line on either photo.",
+    "resolution": null,
+    "fault": "Right: the blue deck mown in June 2025 lies 8 m to the east, on ground that is water in the terrain (the pond corner was filled after it was flown). The ring was drawn on the level strip beside it (1.0% slope). Right again when the terrain is renewed."
+   },
+   "castle-tee-18-2": {
+    "reason": "A perfect sharp-cornered rectangle on turf of the same tone inside and out in the summer photo; I can see no deck edge that it follows, and the leaf-off photo shows only a vaguely darker patch there.",
+    "resolution": null,
+    "fault": "Right: the yellow deck mown in June 2025 lies about 12 m to the north-east. The pond corner was filled after the terrain was flown, so that ground is water in the model, and the ring was drawn on the level ground beside it (1.1% slope). Right again when the terrain is renewed."
+   },
+   "castle-tee-06-1": {
+    "reason": "Ragged outline that follows the gap between tree crowns rather than a deck edge; pale mown turf continues past its south-east end in the summer photo, and the leaf-off photo is in deep shadow.",
+    "resolution": "The terrain has a flat platform under the ring: 61 cells within 3 cm of a plane, sloping 0.7%, 0.19 m above the ground round it. Crowns hide its edge on both photos, so the ring is the platform's and not the photo's.",
+    "fault": null
+   },
+   "castle-bunker-07-1": {
+    "reason": "Years disagree: the line fits clean sand on the summer photo, but the leaf-off photo (washed out here) shows turf and no sand inside it.",
+    "resolution": "The outline follows the sand of June 2025, the tracing photo. The bunker is newer than the terrain: there is no bowl under it (its floor lies 0.06 m above its rim), so it is drawn as flat sand on a 6% slope. Listed in the walkthrough.",
+    "fault": null
+   },
+   "castle-bunker-07-4": {
+    "reason": "Years disagree: the line fits the summer sand, but on the leaf-off photo the sand is only a small patch in the middle of the line and the rest is dark ground.",
+    "resolution": "The outline follows the sand of June 2025. The bunker was enlarged after April 2021, and the terrain has the older, smaller bowl (the floor 0.55 m below the rim). Listed in the walkthrough.",
+    "fault": null
+   },
+   "castle-bunker-17-1": {
+    "reason": "Years disagree: the line fits sand on the summer photo, but on the leaf-off photo it encloses a dark hollow with no sand, while the neighbouring bunker shows sand on both.",
+    "resolution": "The outline follows the sand of June 2025. In April 2021 this was a grassed hollow, and the terrain has that hollow (the floor 0.72 m below the rim), so the sand lies in a bowl. Listed in the walkthrough.",
+    "fault": null
+   },
+   "castle-bunker-07-2": {
+    "reason": "Years disagree: the line fits the summer sand, but on the leaf-off photo sand shows only in its south half and the north half is dark.",
+    "resolution": "The outline follows the sand of June 2025. The bunker was enlarged after April 2021, and the terrain has the older, smaller bowl (the floor 0.30 m below the rim). Listed in the walkthrough.",
+    "fault": null
+   },
+   "castle-bunker-07-3": {
+    "reason": "Years disagree: one joined bunker on the summer photo, which the line follows, but two separate sand patches with a dark gap between them on the leaf-off photo.",
+    "resolution": "The outline follows the sand of June 2025, where the two bunkers of April 2021 were joined into one. The terrain has the older pair's bowls (the floor 0.74 m below the rim). Listed in the walkthrough.",
+    "fault": null
+   }
+  },
+  "cannotTell": {
+   "castle-tee-03-1": "Irregular outline whose south-west bulge lies under tree shade on the summer photo; the leaf-off photo is in deep shadow with a dark patch of about the same shape, which could be the deck or the shadow.",
+   "castle-tee-06-2": "Pear-shaped line on pale turf that looks the same inside and outside it on the summer photo; the leaf-off photo is in deep shadow.",
+   "castle-tee-07-1": "A circle about 5 m across (some 33 px on the sheet) on pale, partly bare ground; too small to see a deck edge on either photo.",
+   "castle-tee-07-3": "Its south end is under tree shade on the summer photo, and the neighbouring ring 07-2 touches or overlaps it on one worn platform; I cannot see where one deck ends and the other begins.",
+   "castle-tee-09-1": "Irregular outline half under tree shadow on the summer photo and under bare-branch shadows on the leaf-off photo; no deck edge visible.",
+   "castle-tee-09-3": "Almost wholly inside a tree's shadow on the summer photo and under a bare tree's shadow on the leaf-off photo.",
+   "castle-tee-11-2": "A strip about 3 m by 7 m beside a tree crown; a narrow mown strip may show on the summer photo, but the leaf-off photo shows only shadow and bare ground.",
+   "castle-tee-13-1": "Small circle on turf with no tonal edge I can see on the summer photo; the leaf-off photo is in a tree's shadow.",
+   "castle-tee-14-2": "Angular L-shaped line, its west part under tree shade on the summer photo; the leaf-off photo shows a dark patch of the same shape that could be a deck or a shadow.",
+   "castle-tee-18-1": "Small rounded square on pale turf with at most a faint tonal edge on the summer photo; the leaf-off photo is in shadow.",
+   "castle-green-04": "The summer photo shows one even surface that the line follows, but the leaf-off photo shows two tones inside it (a darker north band and a paler south wedge); I cannot tell whether that is shade or a different cut."
+  }
  }
 }

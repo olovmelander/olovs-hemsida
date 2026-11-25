@@ -1,0 +1,103 @@
+{
+ "schemaVersion": 1,
+ "groundId": "lidingo",
+ "club": {
+  "id": "lidingo",
+  "name": "Lidingö Golfklubb"
+ },
+ "boot": "Lidingö · Stockholm",
+ "place": {
+  "lat": 59.37927,
+  "lng": 18.12738,
+  "region": "Mälardalen",
+  "regionTag": "Lidingö · Parkbana",
+  "city": "Lidingö",
+  "iconName": "tree",
+  "basis": "Carried over from the app's tables on 2026-11-25; how the position was chosen was not recorded there."
+ },
+ "search": {
+  "category": "skog",
+  "places": "Stockholm Sticklinge"
+ },
+ "routings": [
+  {
+   "slug": "lidingo",
+   "build": "lidingobuild",
+   "name": "Lidingö GK",
+   "title": "Lidingö Golfklubb — Banan i 3D",
+   "tag": "Sticklinge · Lidingö",
+   "tees": [
+    {
+     "name": "Vit",
+     "colour": "#f4f4ee"
+    },
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Blå",
+     "colour": "#4a8fe0"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    },
+    {
+     "name": "Orange",
+     "colour": "#e08b3a"
+    }
+   ],
+   "teesHiddenFrom": 5,
+   "searchLabel": "Lidingö · Parkbana",
+   "line": "Sveriges första 18-hålsbana, spelklar 1927 på Sticklinge: en kuperad parkbana bland villor och skogsdungar, ombyggd av Peter Chamberlain 2006–2009 med hårda, ondulerade greener.",
+   "posters": {
+    "holes": [
+     2,
+     16,
+     18
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 16,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 2,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 18,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "hole": 2,
+      "cam": "top",
+      "preset": "noon"
+     },
+     {
+      "clubhouse": true,
+      "turn": -55,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [
+    {
+     "hole": 1,
+     "vy": "ovan",
+     "ljus": "dag"
+    }
+   ],
+   "mapGallery": [
+    {
+     "hole": 1
+    }
+   ]
+  }
+ ]
+}
