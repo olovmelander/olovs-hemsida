@@ -76,9 +76,12 @@ node tools/course-rebuild.mjs --ground <ground> [--from <step>] [--to <step>] [-
   `node packages/course-workflow/ground-card.mjs --ground <ground>` then lists every table the ground is missing
   from, and `--rows` prints the rows to paste.
 
-**Gate:** every line above. If a tool fails to load for a reason that is the machine's (on 25 November 2026
-Windows Smart App Control began blocking a NumPy library the tracer needs), stop and tell the owner. Do not work
-round a security control.
+**Gate:** every line above. If a tool fails to load for a reason that is the machine's, stop and tell the owner.
+Do not work round a security control. On 25 November 2026 Windows Smart App Control began refusing conda-forge's
+NumPy and SciPy extension modules, which stopped the tracer. The owner chose to try the official PyPI builds of
+the same versions, which it accepts, so on Windows the mapping environment now takes its Python libraries from
+PyPI (`packages/course-geo/toolchain/README.md`); the tracer reproduced the published outlines byte for byte.
+The first import after a fresh install can be refused once while the verdict arrives: run it again.
 
 ### 1. Sources
 
@@ -365,8 +368,11 @@ them, and the app's bundles may not import from the workflow. It is the one plac
 - **A heredoc with an apostrophe breaks in Git Bash.** Write scripts as files.
 - **A terrain model has many dates.** It is a mosaic, and its record's date is its newest patch. What tells the
   age of the ground under a hole is the ground itself: a deck that is not level, a bunker with no bowl.
-- **A redraw by eye under crowns is not a measurement.** Castle 7's decks were redrawn on the photo and still
-  missed; the terrain shows the platform. Draw a hidden deck as a laser platform.
+- **A deck that is not level in the terrain is off its deck or newer than the terrain, and the heights alone cannot
+  say which.** Castle 7's decks were first sorted as off their decks, because the terrain has level platforms
+  beside them. Both photo years showed the hole had been rebuilt, bunkers and all: the platforms were the old
+  decks. Look at both years, and at whether the hole's other features changed, before redrawing anything. Where
+  a hole was not rebuilt and a deck is hidden under crowns, draw it as the laser platform.
 - **Importing a tool runs it.** The gallery and poster tools start a browser at their top level, so a table in
   one is read from its text (`literalOf` in `ground-card.mjs`), never by importing the file.
 - **A relative output path is the tool's to resolve.** Blender resolves one against the drive, pathlib against

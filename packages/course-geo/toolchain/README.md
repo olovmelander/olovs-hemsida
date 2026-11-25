@@ -31,6 +31,31 @@ requires the exact SHA-256 and size recorded in `grid-source.json`. Subsequent
 runs reuse the verified local cache. PROJ network access is disabled while GIS
 commands run, so a missing grid cannot be silently substituted at build time.
 
+## The mapping environment on Windows
+
+`pixi run -e mapping` is the Python the intake, tracing and looking tools run in (NumPy, SciPy, rasterio, pyproj,
+Shapely, Pillow). On Linux and macOS these are conda-forge's builds. **On Windows they are the official PyPI
+builds of the same versions** (`[feature.mapping.target.win-64.pypi-dependencies]`).
+
+The reason is the build machine. On 25 November 2026 Windows Smart App Control, which admits a binary on its
+reputation, began refusing conda-forge's `numpy.random` and SciPy extension modules there. NumPy still imported,
+so the first sign was the tracer failing on `scipy.ndimage`. The control cannot be told to trust a file, and the
+owner chose not to turn it off. The official builds of the same versions are admitted, so the environment takes
+those on Windows. What was checked when it changed:
+
+- the default environment, which is all CI installs, is the same on every platform, package for package;
+- the mapping environment on Linux and macOS is the same, package for package;
+- on Windows the six libraries have the same versions as before;
+- the tracer reproduced Bro Hof's published outlines, routes and trace reports byte for byte.
+
+Keep the two lists in `pixi.toml` the same (a test holds them to it). After a fresh install the first import of a
+library can be refused once while its verdict arrives; run the command again. If the control starts refusing the
+official builds too, that is again the owner's to settle: `node tools/course-doctor.mjs --machine` says which
+libraries load.
+
+The PyPI build of rasterio carries its own GDAL (3.12 where conda-forge's is 3.13). The mapping tools only read
+windows of orthophotos and polygonise masks with it; the pinned GDAL above is still what the compiler tools use.
+
 ## Legacy migration
 
 ```sh

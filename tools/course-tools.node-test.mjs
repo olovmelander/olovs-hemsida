@@ -226,6 +226,22 @@ test('the acceptance record is drafted from what is open now, and cannot say les
   assert.throws(() => draftAcceptance(ROOT, w, { ...given, acceptedOn: 'yesterday' }), /the date the owner decided/);
 });
 
+test('the mapping environment asks for the same libraries on Windows as everywhere else, and the lock gives the same versions', () => {
+  const manifest = fs.readFileSync(path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml'), 'utf8').replace(/\r\n/g, '\n');
+  const section = name => { const start = manifest.indexOf(`[${name}]\n`); assert.ok(start >= 0, name); const body = manifest.slice(start + name.length + 3); return body.slice(0, body.search(/\n\[/)); };
+  const wants = text => Object.fromEntries(text.split('\n').filter(line => /^[a-z]/.test(line)).map(line => line.split(' = ')).map(([name, range]) => [name, range]));
+  const elsewhere = wants(section('feature.mapping.target.unix.dependencies')), windows = wants(section('feature.mapping.target.win-64.pypi-dependencies'));
+  delete elsewhere.libblas; // conda-forge's choice of BLAS; the official builds carry their own
+  assert.deepEqual(windows, elsewhere, 'change the two lists together');
+  assert.deepEqual(Object.keys(windows).sort(), ['numpy', 'pillow', 'pyproj', 'rasterio', 'scipy', 'shapely']);
+  const lock = fs.readFileSync(path.join(ROOT, 'packages/course-geo/toolchain/pixi.lock'), 'utf8');
+  for (const name of Object.keys(windows)) {
+    const official = new RegExp(`/${name}-(\\d[\\w.]*)-cp312-cp312-win_amd64\\.whl`).exec(lock)?.[1], conda = new RegExp(`/linux-64/${name}-(\\d[\\w.]*)-`).exec(lock)?.[1];
+    assert.ok(official && conda, `${name} is locked for both`);
+    assert.equal(official, conda, `${name}: Windows and Linux are locked to different versions; lock them together`);
+  }
+});
+
 test('the doctor reads a ground\'s records once and sorts what it finds, worst first', async () => {
   assert.ok(grounds().length >= 11 && grounds().includes('bro-hof'));
   const levels = ['broken', 'todo', 'owner', 'known', 'ok'];
