@@ -24,6 +24,23 @@ const TRACED_SURFACES = Object.freeze({
 });
 /* Ground with islands in it: its first ring is the outline, the rest are cut out. */
 const ISLANDED_SURFACES = Object.freeze({ waste_sand: 'wasteAreas', hardstanding: 'hardstandings' });
+/* WHAT THE MAP KNOWS OF A PACK. Nothing on the ground may be left off the map (owner rule, 4 November), and a pack
+   is where new ground arrives: Bro Hof's forecourt was a mapped kind this file did not know, and went unpainted
+   until it was seen on a phone. So every published pack is held to these lists (map.test.mjs): a mapped kind, or a
+   list under `infra` or `scenery`, that is not here fails the test until it is painted, or named under
+   `notDrawn` with the reason it is not ground. */
+export const MAP_KNOWS = Object.freeze({
+  mappedKinds: Object.freeze([...Object.keys(TRACED_SURFACES), ...Object.keys(ISLANDED_SURFACES), 'ditch']),
+  infra: Object.freeze(['paths', 'tracks', 'roads', 'buildings', 'farB', 'parking', 'piers', 'landuse', 'reserves', 'power', 'basins', 'pitches',
+    'railway', 'mappedPoints', 'barriers', 'bridges', 'drainage', 'bulkheads']),
+  scenery: Object.freeze(['range', 'greens', 'tees', 'fairways', 'bunkers', 'grass', 'practiceGreens', 'mappedFeatures', 'sourceFeatures',
+    'rangeFacilities', 'cartPark', 'cartParks', 'woodlandContext']),
+  notDrawn: Object.freeze({
+    'infra.preserveMappedBoundaries': 'a flag for the detailed course', 'infra.bridgePlacement': 'a placement policy', 'infra.objectPlacement': 'a placement policy',
+    'infra.vegetationPlacement': 'a placement policy', 'infra.terrainPlacement': 'a placement policy',
+    'scenery.retiredSourceFeatures': 'traces withdrawn by review', 'scenery.ownerRingHashes': 'checksums of the rings the owner approved',
+  }),
+});
 /* Norrfällsviken's source traces that reached no other list. */
 const TRACED_SOURCES = Object.freeze({
   'lm-practice-green': 'practice_green', 'lm-range-field': 'range_target_surface',

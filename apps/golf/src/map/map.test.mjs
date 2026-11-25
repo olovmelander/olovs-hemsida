@@ -18,7 +18,7 @@ import { createDetailTexture } from './map-detail.mjs';
 import { bakeHillShade, SHADE_SIZE, shadeKey, SHADOW_REACH } from './map-horizon.mjs';
 import { HOUSE_FLOATS, raiseHouses } from './map-houses.mjs';
 import { hitGreen, newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokeKeys, strokesReceived } from './map-score.mjs';
-import { buildMapCourse, validSurroundings } from './map-course.mjs';
+import { buildMapCourse, validSurroundings, MAP_KNOWS } from './map-course.mjs';
 import { createTeeWatch, nextHole, TEE_DWELL_MS } from './map-follow.mjs';
 import { buildGreenGrid, GRID_VERTEX_FLOATS, PULSE_FLOATS, slopeAt, slopeColor } from './map-greengrid.mjs';
 import { landRecord, outlineOverLand } from './map-land.mjs';
@@ -1395,5 +1395,18 @@ describe('ground with islands in it', () => {
     expect(features.hardstandings.some(rings => rings.length === 2)).toBe(true);   // the turning circle's lawn
     expect(features.openSand).toEqual([]);                                          // a waste area is not plain sand
     expect(courseFor('veckefjarden').features.wasteAreas).toEqual([]);
+  });
+});
+
+describe('nothing in a pack is left off the map', () => {
+  const present = value => (Array.isArray(value) ? value.length > 0 : value !== null && value !== undefined && value !== false);
+  it.each(packs.map(meta => meta.slug))('%s carries only kinds and lists the map knows', slug => {
+    const { vectors } = packFor(packs.find(meta => meta.slug === slug));
+    const unknown = [];
+    for (const feature of vectors.scenery?.mappedFeatures ?? []) if (!MAP_KNOWS.mappedKinds.includes(feature.kind)) unknown.push(`mapped kind ${feature.kind}`);
+    for (const group of ['infra', 'scenery']) for (const [key, value] of Object.entries(vectors[group] ?? {})) {
+      if (present(value) && !MAP_KNOWS[group].includes(key) && !MAP_KNOWS.notDrawn[`${group}.${key}`]) unknown.push(`${group}.${key}`);
+    }
+    expect([...new Set(unknown)], 'paint it in map-course.mjs and map-paint.mjs, or name it under MAP_KNOWS.notDrawn with its reason').toEqual([]);
   });
 });
