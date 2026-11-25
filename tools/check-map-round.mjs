@@ -18,9 +18,9 @@ const choices = page => page.evaluate(course => ({
 }), slug);
 const visited = [];
 
-async function phone() {
+async function phone({ serviceWorkers = 'allow' } = {}) {
   const context = await browser.newContext({
-    viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce',
+    serviceWorkers, viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce',
     permissions: ['geolocation'], geolocation: { latitude: 0, longitude: 0, accuracy: 4 },
   });
   await context.addInitScript(() => {
@@ -29,7 +29,7 @@ async function phone() {
   });
   const page = await context.newPage();
   page.setDefaultTimeout(45000);
-  page.on('pageerror', error => errors.push(error.message));
+  page.on('pageerror', error => errors.push({ url: page.url(), stack: error.stack ?? error.message }));
   page.on('request', request => {
     if (request.isNavigationRequest() && request.frame() === page.mainFrame()) {
       const params = new URL(request.url()).searchParams;
@@ -81,7 +81,16 @@ async function gpsAtTee(page, context, hole) {
 }
 
 try {
-  const first = await phone();
+  const first = await phone({ serviceWorkers: 'block' });
+  // Forest and surface pictures can arrive before the measured water image.
+  // Hold only the first water request until the terrain actually paints.
+  const water = Promise.withResolvers();
+  let waterIsWaiting = false;
+  await first.page.route('**/models/map-land/upsala-water-*.png', async route => {
+    waterIsWaiting = true;
+    await water.promise;
+    await route.continue();
+  }, { times: 1 });
   await courseCard(first.page);
   const initial = await choices(first.page);
   await first.page.getByRole('button', { name: 'Spara för offline' }).waitFor();
@@ -90,6 +99,18 @@ try {
   await tap(first.page, '#courseSheet label:has(input[name="cs-tee"][value="1"])');
   await first.page.locator('#courseSheet [data-hcp]').fill('17');
   await launch(first.page, '#courseSheet [data-look]', 'visa', '10');
+  await wait(first.page, () => V3DMap.stats().appearanceReady);
+  const frame = await first.page.evaluate(() => {
+    V3DMap.invalidate();
+    return V3DMap.stats().frames;
+  });
+  try {
+    await wait(first.page, frame => V3DMap.stats().frames > frame && V3DMap.stats().resident > 0, frame);
+    assert.ok(waterIsWaiting);
+    assert.deepEqual(errors, []);
+  } finally {
+    water.resolve();
+  }
   assert.equal(await first.page.evaluate(() => V3DMap.state.hole), 10);
   assert.equal(await first.page.evaluate(() => V3DMap.state.tee), 1);
   assert.ok(!(await round(first.page)).begunAt);
@@ -304,7 +325,7 @@ try {
   await page.locator('#home:visible').waitFor();
   const resume = page.locator('#home [data-resume]');
   await resume.waitFor();
-  assert.match(await resume.getAttribute('aria-label'), /Hål 10\b/);
+  assert.equal(await page.locator('#home').getByRole('button', { name: /Fortsätt GPS-rundan.*Hål 10\b/ }).count(), 1);
   await launch(page, '#home [data-resume]', 'fortsatt', null);
   await wait(page, () => V3DMap.state.hole === 10 && V3DMap.state.playing === 10);
   assert.equal((await round(page)).id, original.id);

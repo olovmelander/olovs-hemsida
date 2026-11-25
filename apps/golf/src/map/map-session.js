@@ -626,7 +626,8 @@ async function start() {
   }
   function refreshAppearance() {
     if (!visuals) return;
-    const land = (hydro?.land || visuals.forest) ? { ...landFiles, ...hydro?.land, ...visuals.forest } : null;
+    // Each layer can arrive on its own. Only decoded ground pictures are drawable.
+    const land = visuals.forest ? { ...visuals.forest, ...hydro?.land } : hydro?.land;
     const far = land?.forestBytes && !TREE_REACH_BEFORE && params.get('farforest') !== '0'
       ? { land, buildings: course.features.farBuildings, lines: [...course.features.roads, ...course.features.railways] } : null;
     try {

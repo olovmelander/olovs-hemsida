@@ -36,5 +36,5 @@ export async function loadWaterPicture(record, fetchFile) {
 export async function loadForestPicture(record, fetchFile) {
   if (!record) return null;
   const forestBytes = await fetchFile(record.forest.file);
-  return { forest: await decodePicture(forestBytes), forestBytes };
+  return { forest: await decodePicture(forestBytes), forestBytes, x0: record.x0, z0: record.z0, spacing: record.spacing };
 }
