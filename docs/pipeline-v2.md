@@ -10,6 +10,9 @@ process below exists so that the next course finds them at the stage that made t
 to one course: a new ground needs its own configuration and decision files, and no new compiler, tracer or
 loader.
 
+- **Starting any sitting:** `node tools/course-doctor.mjs --ground <ground>` reads every record of the ground and
+  sorts what it finds: broken, to do, the owner's, known faults, holding. Without `--ground` it lists every ground
+  in a line each, and `--machine` says whether this machine can run each part of the pipeline today.
 - **Building a new ground:** follow the stages in order.
 - **Improving a published ground:** start at [its walkthrough](#the-walkthrough), then use
   [the upgrade table](#improving-a-published-course).
@@ -53,12 +56,25 @@ upgrade. Never start the tree pipeline with a deadline in the same sitting.
 Commands run from the repository root. `PX` is
 `pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen`; Python steps add `-e mapping`.
 
+Stages 3 to 5 and the CPU half of stage 8 are one command, which runs the steps below in their one order, stops
+at the ring review until the look is recorded, and starts nothing on the GPU:
+
+```sh
+node tools/course-rebuild.mjs --ground <ground> --dry-run            # the steps and their commands
+node tools/course-rebuild.mjs --ground <ground> [--from <step>] [--to <step>] [--compare <leaf-off photo>]
+```
+
 ### 0. Preflight
 
-- The tools run: `node --version` (22 or later), `$PX -e mapping python -c "import scipy.ndimage, rasterio, shapely"`,
-  Blender in `--background`.
+- The tools run: `node tools/course-doctor.mjs --machine` (Node 22 or later; the Python libraries the looking
+  tools need, and separately the ones the tracer needs; Blender).
 - `node packages/course-workflow/cli.mjs check` passes, and `git status` is clean on a new branch.
 - The raw caches named in the ground's handover are on disk. They are never downloaded twice.
+- The ground's card is written: `course-workflows/<ground>/ground.json` holds every fact a person chooses for the
+  ground (club, place, tees and their colours, search words, poster holes, gallery views), once. Every published
+  ground has one.
+  `node packages/course-workflow/ground-card.mjs --ground <ground>` then lists every table the ground is missing
+  from, and `--rows` prints the rows to paste.
 
 **Gate:** every line above. If a tool fails to load for a reason that is the machine's (on 25 November 2026
 Windows Smart App Control began blocking a NumPy library the tracer needs), stop and tell the owner. Do not work
@@ -88,7 +104,9 @@ One frame per physical ground, and the standard 469-tile terrain.
 
 **Gate:** 469 tiles, edge difference 0, laser against terrain median 0.00 m. Write down the date of the laser
 and of the photo: where the ground was rebuilt between them (a filled pond, a new tee, a building site), the
-terrain is the older truth and the walkthrough has to say so.
+terrain is the older truth and the walkthrough has to say so. A terrain model is a mosaic of flights: the one
+date in its source record is its newest patch (Bro Hof's said June 2025; the ground under Castle 7 and 18 was
+flown in 2020-21). The walkthrough prints the flights' range from the discovery record; believe that.
 
 ### 3. Outlines
 
@@ -98,17 +116,49 @@ and `layer-decisions.json` (practice areas, walls, bridges, plates, cart rows). 
 
 | Do | Tool |
 | --- | --- |
+| Check that the decision files can be traced (every card tee has a deck, every OSM id exists, nothing leaves the box) | `node packages/course-geo/mapping/check-decisions.mjs --config <build>/mapping/trace-config.json` |
 | Trace | `$PX -e mapping python packages/course-geo/mapping/trace-course-surfaces.py --config <build>/mapping/trace-config.json --cache <build>/cache/mapping` |
+| Measure the terrain under every tee deck | `node packages/course-geo/mapping/deck-ground.mjs --config <build>/mapping/trace-config.json --record` (`--around <ring id>` prints the heights round one) |
+| Read the photo round every hole against the model's sand, both ways | `$PX -e mapping python packages/course-geo/mapping/audit-sand.py --config <build>/mapping/trace-config.json --compare <leaf-off photo>` |
+| Say what each thing it named is | `node packages/course-geo/mapping/sand-audit.mjs --build <build> --verdict id="what it is"` or `--fault id="what is wrong, and what will put it right"` |
 | Water, context, infrastructure | `mapping/prepare-osm-context.py`, `<build>/mapping/build-layers.py` |
 | Every ring on the photo, worst score first, both photo years | `$PX -e mapping python packages/course-geo/mapping/render-ring-sheets.py --config <build>/mapping/trace-config.json --compare <leaf-off photo>` |
 | Record the look | `node packages/course-geo/mapping/ring-review.mjs --build <build> --record --reviewer "<who, on what>"` |
+| The same rings blind, for a second reviewer | `render-ring-sheets.py ... --blind`, the `ring-reviewer` agent, then `ring-review.mjs --build <build> --second <verdicts.json>` |
+| Answer each of its doubts | redraw the ring, or `ring-review.mjs --resolve id="why it stands"`, or `--fault id="what is wrong, and what will put it right"` |
+| One place, large, with a grid and any layer drawn on it | `$PX -e mapping python packages/course-geo/mapping/render-photo-window.py --config <...> --at E N --span 80 --out <picture>` |
 | Each hole whole, on the photo | `packages/course-workflow/render-source-overlays.py` (the mapping stage prints its command) |
+| The owner's look, hole by hole | `node tools/course-review-page.mjs --ground <ground> --overlays <dir>`, then `--import <saved review> [--apply]` |
 
 **Gate, in numbers:** every tee mark more than 5 m from its card length is explained in the walkthrough, not
-warped away. **Gate, by eye:** every sheet has been looked at, the look is recorded against the exact outlines
-(`ring-review.json`), and every tee or green under the score line has a verdict in words.
-`ring-review.node-test.mjs` fails when an outline changes after the look. The score finds most doubtful rings
-and not all: four of Bro Hof's wrong decks scored well, so look at the whole sheet.
+warped away, and every deck `deck-ground.mjs` names has been looked at: a deck on its deck slopes under 2% in
+the terrain, and one that slopes 5% or more is either off its deck or newer than the terrain. **Gate, by eye:**
+every sheet has been looked at, the look is recorded against the exact outlines (`ring-review.json`), and every
+tee or green under the score line has a verdict in words. `ring-review.node-test.mjs` fails when an outline
+changes after the look. The score finds most doubtful rings and not all: four of Bro Hof's wrong decks scored
+well, so look at the whole sheet.
+
+**The second look.** Whoever traced sees what they meant to draw. A second reviewer is given the blind sheets
+only (hole order; no scores, no sources, no tee colours) and nothing else: not the decisions, not the first
+look. Its doubts are recorded and bind: each is answered by redrawing, by a reason the ring stands, or by
+keeping it as a fault that the walkthrough prints. At Bro Hof it found a tee 3 m over a bank that the first look
+had passed, found the two known offset tees again unprompted, and showed that five bunkers were newer than the
+terrain. What it cannot judge (shade, crowns) it lists; measure those against the terrain.
+
+**What has no line.** A look at every ring cannot see what was never drawn. `audit-sand.py` finds the bright sand
+round every hole with the tracer's own measure and compares it with the model both ways: sand that no bunker or
+waste area holds (each with what the map has there: a road, a roof, a shore, or nothing), and rings that hold
+little sand or have sand outside their line. Every ring it names and every area on nothing mapped needs a
+verdict from someone who looked at its sheet; a missed bunker or a ring on something that is not sand is kept
+as a fault. At Bro Hof no bunker was missing; the three rings it named were exactly the three drawn by hand,
+and one of those (a "waste area" on Castle 15) turned out to be dark bare ground. It shares the tracer's blind
+spots: sand in deep shade, and sand that is not bright.
+
+**The owner's look.** The review page is a local file with every hole's photo and model side by side, what the
+checks flag, links into the app and seven verdicts a hole. It keeps its place in the browser and saves one
+JSON file; `--import` checks it against what is published and keeps it as evidence, and `--apply` writes its
+verdicts as the per-hole rows of the release review. A hole marked wrong stays open with the owner's words.
+The page holds crops of the photo, so it lives in the build's private cache and is never published.
 
 A guide plate or a club drawing names things and gives their order. It never places them: check each claim on
 the photo.
@@ -130,9 +180,11 @@ With automatic trees, so that everything else can be looked at.
 | Do | Tool |
 | --- | --- |
 | Terrain before anything is published, then canopy | `course-workflow/bootstrap-terrain.mjs`, `course-v2/vegetation/build-canopy.mjs --ground-document` |
-| Pin the inputs, run the six stages, promote | `production.mjs --ground <ground> --configure`, `$PX node packages/course-workflow/cli.mjs run --ground <ground> --through validate`, `promote.mjs` |
-| Register the ground | see [what a ground writes by hand](#what-a-ground-writes-by-hand); `node tools/sync-course-registries.mjs --check` |
+| Pin the inputs, run the six stages, promote | `pin-production.mjs --ground <ground>` (the checksums in `production.json`), `production.mjs --ground <ground> --configure`, `$PX node packages/course-workflow/cli.mjs run --ground <ground> --through validate`, `promote.mjs` |
+| Register the ground | paste the card's rows (`ground-card.mjs --ground <ground> --rows`), then `ground-card.mjs --ground <ground> --check` and `node tools/sync-course-registries.mjs --check` |
 | Scenery: roofs, sand, buildings, species, water, campus | `geobuild/facilities/roof-colours.py`, `<build>/facilities/build_campus.py`, `tools/facility-pipeline/*` |
+| A building's own axes, eaves and roof levels from the laser, before modelling it | `node tools/facility-pipeline/measure-building.mjs --points <points.json> --context <context.geojson> --building <id>` |
+| The campus model as pictures, on the CPU | `blender --background --factory-startup --python tools/facility-pipeline/preview-facility-glb.py -- --manifest <facilities-v1.json> --out <dir>` |
 | The map's pictures | `node tools/bake-map-land.mjs` |
 
 Do not edit a watched file while the six stages run: the runner refuses a build whose inputs moved under it.
@@ -171,12 +223,13 @@ written into it. An unseen sample can be used once.
 
 | Do | Tool |
 | --- | --- |
-| Final six stages and promotion; prune files no published generation names | `cli.mjs run`, `promote.mjs` |
+| Final six stages and promotion | `cli.mjs run`, `promote.mjs` |
+| Files no published generation names | `promote.mjs --ground <ground> --prune` lists them; `--apply` removes them. The generation before stays whole, as the rollback. |
 | Map pictures, roof colours | `tools/bake-map-land.mjs`, `roof-colours.py` |
 | Every course's prepared water, tints, vista and scatter, then the boots | `BANVY_GPU=1 node tools/gpu-pass.mjs` (one sitting; `--dry-run` shows the order) |
 | Posters, then the catalogue row and scorecard | `tools/make-posters.mjs --candidates` then `--write`; `packages/course-pack/emit-manifest.mjs --only=<slug>` |
 | The walkthrough | `node tools/course-walkthrough.mjs --ground <ground>`, then write its hand parts |
-| Release | `cli.mjs release`, or the owner's recorded acceptance (`course-workflow/acceptance.mjs`) |
+| Release | `cli.mjs release`, or the owner's recorded acceptance: `acceptance.mjs --ground <ground>` prints what is open, and `--record --accepted-on <date> --basis "<what the owner was asked and answered>" --reasons <file>` writes the record, refusing one that leaves an open item out |
 
 **Gate:** the rehearsal. In a clean worktree of the commit to be pushed (`git worktree add ../rehearsal HEAD`),
 with no private caches, run what CI runs: `node packages/course-workflow/cli.mjs check-new --base-ref $(git
@@ -189,8 +242,9 @@ and the GPU pass have finished.
 
 Sync with main first; if the engine moved there, bake again before merging. Merge when CI is green, watch the
 four pipelines on main (course production, course geo, pages, cloudflare), then look at the live site: both
-modes on each new routing and on one old course, with no console errors. Then update the walkthrough and the
-memory.
+modes on each new routing and on one old course, with no console errors. `tools/check-live-course.mjs --base
+<url> --ground <ground>` is written to do that walk (it opens a browser, so ask first); it has not yet been run
+against a live site. Then update the walkthrough and the memory.
 
 ## The walkthrough
 
@@ -240,6 +294,13 @@ Each row is a fault that happened, and what stands in its way now.
 | --- | --- | --- |
 | An outline off the photo (an old OSM sketch, a deck since rebuilt) | ring sheets and the recorded review | 3 |
 | A tee far from its card length | the card column of the walkthrough and the trace report | 3 |
+| A decision file that cannot be traced (a card tee without a deck, an OSM id that is gone) | `check-decisions.mjs` | 3 |
+| A tee ring off its deck under crowns, where neither photo shows the edge | `deck-ground.mjs`: the terrain under it is not level | 3 |
+| A deck or bunker built after the terrain was flown | `deck-ground.mjs` for decks; for bunkers the second look's two photo years only | 3 |
+| What the person who traced cannot see in their own work | the blind second look, whose doubts bind | 3 |
+| A bunker that was never drawn; a ring drawn by hand on ground that is not sand | `audit-sand.py`: each area and ring it names needs a verdict | 3 |
+| Nobody knowing which of a dozen records is behind | `course-doctor.mjs`: every record of a ground, read once | always |
+| A table that does not name a new ground, or names it differently | `ground-card.mjs --check` and its test | 0, 5 |
 | A tee or green in water, a tee on ground at a water's own level | the build's tests; `check-course-quality.mjs` | 4, 5 |
 | Ground in a pack that the phone map does not paint | `MAP_KNOWS` and its test on every pack | 5 |
 | Tables that must agree and do not (frames, grounds, roofs) | `sync-course-registries.mjs --check` | 5 |
@@ -257,13 +318,15 @@ The three rows marked "a picture only" are the gaps. Until a check exists for ea
 
 ## What a ground writes by hand
 
+- its card, first: `course-workflows/<ground>/ground.json`. The rows marked (card) below are printed from it and
+  held to it by a test; write the fact in the card and paste the row;
 - its frame and ring spec (`packages/course-v2/<ground>-ground-{graph,rings}.mjs`, a row in
   `ground-rings-registry.mjs`), its entry in `EXPECTED_GROUNDS` (`packages/course-geo/manifest.mjs`), and its
   runtime contract (`apps/golf/src/engine/v2-<ground>-config.mjs`, `v2-frontier-configs.mjs`,
   `v2-terrain-select.mjs`);
 - `decisions.json` per routing, `sand-decisions.json`, `layer-decisions.json` and `<build>/mapping/build-layers.py`;
-- its rows in `packages/course-pack/emit-manifest.mjs` (name, club, tees and their colours);
-- a scenery module (`apps/golf/src/engine/scenery/<ground>.js`, registered in `scenery/index.js`). Go through
+- its rows in `packages/course-pack/emit-manifest.mjs` (name, club, tees and their colours) (card);
+- a scenery module (`apps/golf/src/engine/scenery/<ground>.js`, registered in `scenery/index.js` (card)). Go through
   this list for every ground:
   - `houseKit` and `roofColours`;
   - the sand's colour, if measured on the photo;
@@ -272,13 +335,15 @@ The three rows marked "a picture only" are the gaps. Until a check exists for ea
   - `deferWaterBedToWorld`, when the ground was flown with its ponds full;
   - the campus, if it has one;
 - `course-workflows/<ground>/trees.json` for the tree pipeline;
-- the start menu's rows: `shell/course-places.mjs` (place, and `HOST_CLUB` for a second routing),
+- the start menu's rows (card): `shell/course-places.mjs` (place, and `HOST_CLUB` for a second routing),
   `shell/course-clubs.mjs` (the club and each layout's label), `shell/club-picker.js` (signature hole and its
-  poster), `shell/rail.js` (label, search words, description);
+  poster), `shell/club-search.mjs` (label, search words, the describing line);
 - `tools/make-posters.mjs` (which holes, which framings), and a view or two in `tools/gfx-gallery.mjs` and
-  `tools/map-gallery.mjs`.
+  `tools/map-gallery.mjs` (card).
 
-`sync-course-registries.mjs --check` writes or checks the tables that only repeat the frontier registry.
+`sync-course-registries.mjs --check` writes or checks the tables that only repeat the frontier registry, and
+`ground-card.mjs --check` the ones a person fills in. The card does not generate the tables: other work edits
+them, and the app's bundles may not import from the workflow. It is the one place a fact is written first.
 
 ## Lessons kept
 
@@ -298,6 +363,14 @@ The three rows marked "a picture only" are the gaps. Until a check exists for ea
   then a photograph for the order of the façade, and a list of what was estimated.
 - **Rewriting one catalogue row must keep its baked records** (`emit-manifest.mjs --only`).
 - **A heredoc with an apostrophe breaks in Git Bash.** Write scripts as files.
+- **A terrain model has many dates.** It is a mosaic, and its record's date is its newest patch. What tells the
+  age of the ground under a hole is the ground itself: a deck that is not level, a bunker with no bowl.
+- **A redraw by eye under crowns is not a measurement.** Castle 7's decks were redrawn on the photo and still
+  missed; the terrain shows the platform. Draw a hidden deck as a laser platform.
+- **Importing a tool runs it.** The gallery and poster tools start a browser at their top level, so a table in
+  one is read from its text (`literalOf` in `ground-card.mjs`), never by importing the file.
+- **A relative output path is the tool's to resolve.** Blender resolves one against the drive, pathlib against
+  nothing: resolve `--out` before using it.
 
 ## Where every ground stands
 
@@ -327,6 +400,22 @@ the best place to start improving it.
 
 - A CPU check for water standing inside its outline, and one for a surface drawn twice.
 - The tracer does not stop on a low score by itself; the recorded review is what holds it.
+- The deck check names a deck that is not on level ground; it cannot tell a ring off its deck from a deck newer
+  than the terrain, and nothing measures a bunker against its bowl. No check dates the ground under a hole.
+- Every ground has a card and a test holds each to its tables, but the tables do not read the cards yet: a fact
+  is still written twice. The ten older grounds' cards were derived from the tables (`ground-card.mjs --derive`),
+  so they say that the reason for a position or a poster hole was not recorded.
+- The two checks above (water inside its outline, a surface drawn twice) need the engine's own rules moved into
+  a module a check can read, which is an engine edit and so a bake of every course. `tools/audit-water-levels.mjs`
+  measures every water body on the CPU already, but no line for it has been proven against pictures.
+- The tracer writes `start: "extracted-sand"` on a sand ring that was drawn by hand; the sand audit is what finds
+  those today. The sand audit does not see sand in shade, and nothing measures a bunker against its bowl.
+- Five older grounds fail the quality gate on white campus materials brighter than the glow's ceiling (Lidingö 4,
+  Veckefjärden 2, Puttom, Ribbingsfors and Visby 1 each). Dimming a white is a change the owner has to see.
+- The owner's review page has not been used by the owner, and `check-live-course.mjs` has not been run: both
+  open a browser.
+- The second look has been taken once, by an agent. Its "no doubt" on bunkers is weak: a white line on white
+  sand hides a line drawn a metre inside the edge.
 - No ground has been looked at on a real phone as part of this process, and none has passed the full release
   review: Bro Hof came in on the owner's recorded acceptance.
 - `tools/check-map-field.mjs` and two start-menu checks failed on 24 November for reasons older than Bro Hof;

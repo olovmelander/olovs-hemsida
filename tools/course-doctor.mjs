@@ -1,0 +1,187 @@
+#!/usr/bin/env node
+/* WHERE DOES A GROUND STAND, AND WHAT IS THE NEXT THING TO DO?
+
+   node tools/course-doctor.mjs --ground <id>        every record of one ground, read once, with what is open
+   node tools/course-doctor.mjs                      every ground, one line each
+   node tools/course-doctor.mjs --machine            whether this machine can run the pipeline today
+   node tools/course-doctor.mjs --ground <id> --check   as the first, and fails when something is broken
+
+   The pipeline keeps a record for every step (the card, the decisions, the ring review and its second look, the
+   deck and sand measurements, the quality gate, the walkthrough, the pins, the release). Each has its own tool and
+   its own test, and after a week nobody remembers which to run. This reads them all and sorts what it finds:
+
+     broken   a gate fails: fix it before anything else
+     todo     work that needs no owner: a step to run, a record that is missing
+     owner    only the owner can move it: a decision, the GPU, a look with their own eyes
+     known    a fault that is written down and kept on purpose
+     ok       holds
+
+   It starts no browser and no heavy job, and changes nothing. It is the place to begin a sitting. */
+import fs from 'node:fs';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { PIXI, MAPPING_ENVIRONMENT } from '../packages/course-geo/toolchain/mapping-environment.mjs';
+import { groundFacts, blocks, merge } from './course-walkthrough.mjs';
+import { groundCardErrors, groundCardPath, registration } from '../packages/course-workflow/ground-card.mjs';
+import { decisionErrors, loadDecisionFiles } from '../packages/course-geo/mapping/check-decisions.mjs';
+import { reviewErrors as ringReviewErrors } from '../packages/course-geo/mapping/ring-review.mjs';
+import { deckGroundErrors } from '../packages/course-geo/mapping/deck-ground.mjs';
+import { sandAuditOf } from '../packages/course-geo/mapping/sand-audit.mjs';
+import { pinProduction } from '../packages/course-workflow/pin-production.mjs';
+import { prunePlan } from '../packages/course-workflow/promote.mjs';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const exists = file => fs.existsSync(path.join(ROOT, file));
+const json = file => JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
+const LEVELS = ['broken', 'todo', 'owner', 'known', 'ok'];
+const megabytes = bytes => `${(bytes / 1048576).toFixed(1)} MB`;
+
+/** Every published ground id, in the catalogue's order. */
+export function grounds() {
+  return [...new Set(json('apps/golf/public/courses/v2-index.json').courses.map(course => course.groundId))];
+}
+
+/** One ground's findings: [{ level, about, text, run? }]. Pure reading; `facts` is groundFacts(groundId). */
+export async function examine(groundId, facts = groundFacts(groundId)) {
+  const out = [], say = (level, about, text, run) => out.push({ level, about, text, ...(run ? { run } : {}) });
+  const builds = facts.routings.map(x => x.build), home = builds.find(build => exists(`${build}/mapping/trace-config.json`)) ?? null;
+
+  // the card and the tables
+  if (!exists(groundCardPath(groundId))) say('todo', 'card', 'no ground card: its facts live only in the tables', `write ${groundCardPath(groundId)} (copy bro-hof's), then node packages/course-workflow/ground-card.mjs --ground ${groundId}`);
+  else {
+    const card = json(groundCardPath(groundId)), errors = groundCardErrors(card);
+    if (errors.length) say('broken', 'card', errors.join('; '));
+    else {
+      const off = (await registration(card)).filter(row => row.state !== 'agrees');
+      if (off.length) say('broken', 'card', `${off.length} tables do not agree with the card: ${off.slice(0, 4).map(row => `${row.slug} ${row.file} (${row.state})`).join('; ')}`, `node packages/course-workflow/ground-card.mjs --ground ${groundId} --rows`);
+      else say('ok', 'card', 'every table that names the ground agrees with its card');
+    }
+  }
+
+  // outlines: decisions, the looks, the measurements
+  if (!home) say('known', 'outlines', 'built with its own older builder: no decision files, no ring sheets, no deck or sand measurement');
+  else {
+    const { config, files } = loadDecisionFiles(`${home}/mapping/trace-config.json`), errors = decisionErrors(config, files);
+    say(errors.length ? 'broken' : 'ok', 'decisions', errors.length ? errors.slice(0, 3).join('; ') : 'the decision files can be traced');
+    for (const x of facts.routings) {
+      const ring = ringReviewErrors(x.build);
+      if (ring.length) say('broken', 'ring review', ring.slice(0, 3).join('; '), `node packages/course-geo/mapping/ring-review.mjs --build ${x.build}`);
+      else say('ok', 'ring review', `${x.slug}: every ring looked at on ${x.review.reviewedOn}`);
+      if (!x.second) say('todo', 'second look', `${x.slug}: nobody but the tracer has looked at its rings`, 'render-ring-sheets.py --blind, the ring-reviewer agent, ring-review.mjs --second');
+      else for (const fault of x.second.faults) say('known', 'second look', `${fault.id}: ${fault.fault}`);
+      const decks = deckGroundErrors(x.build);
+      if (decks.length) say('broken', 'tee decks', decks.join('; '), `node packages/course-geo/mapping/deck-ground.mjs --config ${home}/mapping/trace-config.json --record`);
+      else if (x.deckGround.off.length) say('known', 'tee decks', `${x.slug}: ${x.deckGround.off.length} of ${x.deckGround.measured} decks are not on level ground in the terrain (${x.deckGround.off.slice(0, 6).map(d => d.id).join(', ')}${x.deckGround.off.length > 6 ? ', ...' : ''})`);
+      else say('ok', 'tee decks', `${x.slug}: all ${x.deckGround.measured} measured decks are on level ground`);
+    }
+    const sand = sandAuditOf(home);
+    if (sand.errors.length) say('broken', 'sand', sand.errors.slice(0, 3).join('; '), `audit-sand.py --config ${home}/mapping/trace-config.json, then node packages/course-geo/mapping/sand-audit.mjs --build ${home}`);
+    else {
+      say('ok', 'sand', `${facts.sand.modelled} bunkers and waste areas measured against the photo; ${facts.sand.areas} bright areas outside the model, each explained`);
+      for (const fault of facts.sand.faults) say('known', 'sand', `${fault.id}: ${fault.fault}`);
+    }
+  }
+
+  // the model against its own checks
+  if (facts.quality.errors) say('broken', 'quality gate', `${facts.quality.errors} errors`, `node tools/check-course-quality.mjs --ground ${groundId}`);
+  else say('ok', 'quality gate', `no errors, ${facts.quality.warnings} warnings`);
+  for (const x of facts.routings) {
+    if (x.card && x.card.marks - x.card.within) say('known', 'card', `${x.slug}: ${x.card.marks - x.card.within} of ${x.card.marks} tee marks are more than 5 m from their card length (worst ${Math.abs(x.card.worst.metres)} m, hole ${x.card.worst.hole})`);
+    if (x.prepared < 4) say('owner', 'prepared data', `${x.slug}: ${x.prepared} of 4 baked records; the bake is a GPU sitting`, 'BANVY_GPU=1 node tools/gpu-pass.mjs --only ' + x.slug);
+    if (!x.posters) say('owner', 'posters', `${x.slug}: no posters; they are taken on the GPU`, 'node tools/make-posters.mjs');
+    const tests = `${x.build}/course.node-test.mjs`;
+    if (exists(tests) && !json('package.json').scripts.test.includes(tests)) say('broken', 'tests', `${tests} is not in the suite`, 'add it to package.json scripts.test');
+  }
+  if (facts.trees?.gate === false) say('owner', 'trees', `placed one by one, but below the gate (precision ${facts.trees.score.precision.toFixed(3)}, recall ${facts.trees.score.recall.toFixed(3)}); a new round needs a new unseen sample and the owner at its gates`);
+  else if (!facts.trees) say('todo', 'trees', 'automatic trees; the tree pipeline has not been run here', 'see docs/tree-placement-workflow.md (its own sitting)');
+  else say('ok', 'trees', `${facts.trees.placed ?? ''} placed one by one, gate met`.trim());
+
+  // the walkthrough
+  const page = `docs/courses/${groundId}-walkthrough.md`;
+  if (!exists(page)) say('todo', 'walkthrough', 'none: nothing says what is known not to be right here', `node tools/course-walkthrough.mjs --ground ${groundId}, then write its hand parts`);
+  else {
+    const text = fs.readFileSync(path.join(ROOT, page), 'utf8');
+    if (merge(text, blocks(facts)) !== text) say('broken', 'walkthrough', 'its generated parts are behind the records', `node tools/course-walkthrough.mjs --ground ${groundId}`);
+    else say('ok', 'walkthrough', 'current');
+  }
+
+  // production: pins, old files, release
+  const production = `course-workflows/${groundId}/production.json`;
+  if (exists(production)) {
+    const { moved, missing } = pinProduction(json(production), { root: ROOT });
+    if (moved.length) say('todo', 'production', `${moved.length} pinned inputs changed since they were pinned (${moved.slice(0, 3).map(m => m.path).join(', ')})`, `node packages/course-workflow/pin-production.mjs --ground ${groundId}, then the six stages`);
+    else say('ok', 'production', 'every pinned input is as pinned');
+    if (missing.length) say('known', 'production', `${missing.length} pinned inputs are not on this machine (private caches stay where they were fetched)`);
+  }
+  try {
+    const plan = prunePlan(ROOT, groundId, { publicRoot: 'apps/golf/public' });
+    if (plan.orphans.length) say('owner', 'old files', `${plan.orphans.length} built files (${megabytes(plan.bytes ?? 0)}) are named by no published generation`, `node packages/course-workflow/promote.mjs --ground ${groundId} --prune   (lists; --apply removes)`);
+  } catch (error) { say('known', 'old files', `not checked: ${error.message}`); }
+  const a = facts.release.acceptance;
+  if (a) say('owner', 'release', `on the owner's acceptance of ${a.acceptedOn}, with ${Object.keys(a.open).length} items open (${Object.keys(a.open).join(', ')})`);
+  else say('owner', 'release', `policy ${facts.release.policy ?? 'none'}, frame ${facts.release.frame}${facts.release.blockers.length ? `; open: ${facts.release.blockers.map(b => b.id).join(', ')}` : ''}`);
+  const review = `course-workflows/${groundId}/review.json`;
+  if (exists(review)) {
+    const rows = json(review).holes.flatMap(hole => Object.values(hole.categories)), looked = rows.filter(row => row.status !== 'unknown').length;
+    if (looked < rows.length) say('owner', 'the owner\'s look', `${looked} of ${rows.length} hole-by-hole verdicts given`, home ? `node tools/course-review-page.mjs --ground ${groundId} --overlays <dir>   (a local page to click through)` : undefined);
+  }
+  return out.sort((p, q) => LEVELS.indexOf(p.level) - LEVELS.indexOf(q.level));
+}
+
+/** Whether this machine can run each part of the pipeline: [{ level, about, text }]. Starts nothing heavy. */
+export function machine() {
+  const out = [], say = (level, about, text) => out.push({ level, about, text });
+  const major = Number(process.versions.node.split('.')[0]);
+  say(major >= 22 ? 'ok' : 'broken', 'node', `${process.version}${major >= 22 ? '' : ': 22 or later is needed'}`);
+  if (!MAPPING_ENVIRONMENT) say('todo', 'python', 'the Pixi mapping environment is not installed: no tracing, no photo tools');
+  else {
+    const probe = 'import importlib, json\nout = {}\nfor name in ["numpy", "rasterio", "shapely", "PIL", "scipy.ndimage", "pyproj"]:\n    try:\n        importlib.import_module(name); out[name] = "ok"\n    except Exception as error:\n        out[name] = str(error).splitlines()[0][:120]\nprint(json.dumps(out))';
+    const run = spawnSync(PIXI, ['run', '--manifest-path', 'packages/course-geo/toolchain/pixi.toml', '-e', 'mapping', '--frozen', 'python', '-c', probe], { cwd: ROOT, encoding: 'utf8', timeout: 120000 });
+    let loaded = null;
+    try { loaded = JSON.parse(run.stdout.trim().split('\n').at(-1)); } catch { /* the environment did not start */ }
+    if (!loaded) say('broken', 'python', `the mapping environment does not start: ${(run.stderr || run.error?.message || '').split('\n')[0].slice(0, 160)}`);
+    else {
+      const looking = ['numpy', 'rasterio', 'shapely', 'PIL'].filter(name => loaded[name] !== 'ok'), tracing = ['scipy.ndimage', 'pyproj'].filter(name => loaded[name] !== 'ok');
+      say(looking.length ? 'broken' : 'ok', 'python: looking', looking.length ? `cannot load ${looking.join(', ')}: no ring sheets, photo windows or sand audit` : 'ring sheets, photo windows and the sand audit can run');
+      say(tracing.length ? 'owner' : 'ok', 'python: tracing', tracing.length
+        ? `cannot load ${tracing.join(', ')} (${loaded[tracing[0]]}): no tracing, no layers, no photo acquisition on this machine. If the reason is the machine's security policy, it is the owner's to settle; do not work round it.`
+        : 'the tracer, the layers and the acquisition can run');
+    }
+  }
+  const blender = [process.env.BLENDER, ...(process.platform === 'win32' && fs.existsSync('C:/Program Files/Blender Foundation')
+    ? fs.readdirSync('C:/Program Files/Blender Foundation').sort().reverse().map(dir => `C:/Program Files/Blender Foundation/${dir}/blender.exe`) : []), 'blender'].filter(Boolean)
+    .find(candidate => candidate === 'blender' ? spawnSync('blender', ['--version'], { encoding: 'utf8', timeout: 20000 }).status === 0 : fs.existsSync(candidate));
+  say(blender ? 'ok' : 'todo', 'blender', blender ? `found (${blender}): campus models and props can be built` : 'not found (set BLENDER): no campus models, no previews');
+  const git = (...args) => spawnSync('git', args, { cwd: ROOT, encoding: 'utf8' }).stdout.trim();
+  const dirty = git('status', '--porcelain').split('\n').filter(Boolean).length;
+  say('ok', 'git', `on ${git('rev-parse', '--abbrev-ref', 'HEAD')}, ${dirty} files changed or new${git('config', 'core.autocrlf') === 'false' ? '' : '; core.autocrlf is not false, so checksums of text files will not hold'}`);
+  return out;
+}
+
+function print(title, findings) {
+  console.log(`\n${title}`);
+  for (const finding of findings) console.log(`  ${finding.level.padEnd(7)} ${finding.about.padEnd(18)} ${finding.text}${finding.run ? `\n${' '.repeat(29)}> ${finding.run}` : ''}`);
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const argv = process.argv.slice(2), flag = name => { const i = argv.indexOf(`--${name}`); return i < 0 ? null : argv[i + 1]; };
+  const groundId = flag('ground');
+  if (argv.includes('--machine')) print('This machine', machine());
+  else if (groundId) {
+    const findings = await examine(groundId);
+    print(`${groundId}`, findings);
+    const count = level => findings.filter(finding => finding.level === level).length;
+    console.log(`\n${count('broken')} broken, ${count('todo')} to do, ${count('owner')} for the owner, ${count('known')} known faults, ${count('ok')} hold.`);
+    const next = findings.find(finding => finding.level === 'broken' || finding.level === 'todo');
+    if (next) console.log(`Next: ${next.about}: ${next.text}${next.run ? `\n      > ${next.run}` : ''}`);
+    if (argv.includes('--check') && count('broken')) process.exitCode = 1;
+  } else {
+    console.log('ground           broken  todo  owner  known  first thing open');
+    for (const id of grounds()) {
+      const findings = await examine(id), count = level => String(findings.filter(finding => finding.level === level).length);
+      const first = findings.find(finding => finding.level === 'broken' || finding.level === 'todo');
+      console.log(`${id.padEnd(16)} ${count('broken').padStart(6)} ${count('todo').padStart(5)} ${count('owner').padStart(6)} ${count('known').padStart(6)}  ${first ? `${first.about}: ${first.text}`.slice(0, 110) : 'nothing that needs no owner'}`);
+    }
+  }
+}

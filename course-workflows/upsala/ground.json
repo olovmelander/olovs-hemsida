@@ -1,0 +1,182 @@
+{
+ "schemaVersion": 1,
+ "groundId": "upsala",
+ "club": {
+  "id": "upsala",
+  "name": "Upsala Golfklubb"
+ },
+ "boot": "Håmö gård · Läby",
+ "place": {
+  "lat": 59.8415076,
+  "lng": 17.4955179,
+  "region": "Mälardalen",
+  "regionTag": "Uppsala · Parkbana",
+  "city": "Uppsala",
+  "iconName": "tree",
+  "basis": "Carried over from the app's tables on 2026-11-25; how the position was chosen was not recorded there."
+ },
+ "search": {
+  "category": "skog",
+  "places": "Håmö Uppland"
+ },
+ "routings": [
+  {
+   "slug": "upsala",
+   "build": "upsalabuild",
+   "name": "Upsala GK",
+   "title": "Upsala Golfklubb — Banan i 3D",
+   "tag": "Stora banan",
+   "layoutLabel": "Stora banan",
+   "tees": [
+    {
+     "name": "62",
+     "colour": "#1a1a1a"
+    },
+    {
+     "name": "59",
+     "colour": "#f4f4ee"
+    },
+    {
+     "name": "56",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "51",
+     "colour": "#4a8fe0"
+    },
+    {
+     "name": "47",
+     "colour": "#e0574a"
+    },
+    {
+     "name": "42",
+     "colour": "#e08b3a"
+    }
+   ],
+   "teesHiddenFrom": 5,
+   "searchLabel": "Uppsala · Parkbana",
+   "line": "Klassisk svensk mästerskapsparkbana på historiska Håmö gårds böljande marker väster om Uppsala.",
+   "posters": {
+    "holes": [
+     3,
+     9,
+     12
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 3,
+      "cam": "green",
+      "preset": "golden"
+     },
+     {
+      "hole": 12,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "hole": 3,
+      "cam": "top",
+      "preset": "noon"
+     },
+     {
+      "hole": 9,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "clubhouse": true,
+      "turn": 0,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [
+    {
+     "hole": 4,
+     "vy": "tee",
+     "ljus": "gryning"
+    }
+   ],
+   "mapGallery": [
+    {
+     "hole": 4
+    }
+   ]
+  },
+  {
+   "slug": "upsala-mellanbanan",
+   "build": "upsalamellanbuild",
+   "name": "Mellanbanan",
+   "title": "Upsala GK Mellanbanan — Nio hål i 3D",
+   "tag": "Mellanbanan",
+   "layoutLabel": "Mellanbanan",
+   "tees": [
+    {
+     "name": "Vit",
+     "colour": "#f4f4ee"
+    },
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Blå",
+     "colour": "#4a8fe0"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    },
+    {
+     "name": "Orange",
+     "colour": "#e08b3a"
+    }
+   ],
+   "teesHiddenFrom": 5,
+   "searchLabel": "Uppsala · Andra nio",
+   "line": "Upsala GK:s andra nio, där åttans tee blickar ut över stora banan och fyrans green ligger tjugo meter från dammen.",
+   "posters": {
+    "holes": [
+     8,
+     4,
+     6
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 8,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 4,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 1,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 6,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "clubhouse": true,
+      "turn": 0,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [],
+   "mapGallery": [
+    {
+     "hole": 2
+    }
+   ]
+  }
+ ]
+}

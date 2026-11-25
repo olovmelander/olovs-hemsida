@@ -9,10 +9,13 @@
    release check this computes no candidate fingerprint: the ground manifest's own hash says what is admitted.
    A ground that has been mandatory can never be admitted this way, so it is no way to downgrade one. */
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { inspectGround, loadGround } from './audit.mjs';
 import { reviewErrors, verifyCandidateBytes } from './release.mjs';
 import { exactKeys, nonempty, SHA } from './standard.mjs';
 import { readJson, safePath } from './io.mjs';
+import { assertWorkflow } from './standard.mjs';
 
 export const acceptancePath = groundId => `course-workflows/${groundId}/owner-acceptance.json`;
 const KEYS = ['schemaVersion', 'groundId', 'courses', 'groundManifestSha256', 'decision', 'acceptedBy', 'acceptedOn', 'basis', 'open'];
@@ -54,4 +57,34 @@ export function admitAccepted(root, w, { publicRoot = 'apps/golf/public' } = {})
     if (!errors.length) byteVerification = verifyCandidateBytes(root, w, graph, publicRoot);
   } catch (e) { errors.push(e.message); }
   return { groundId: w.groundId, admittedBy: 'owner-acceptance', acceptance, byteVerification, ready: errors.length === 0, errors };
+}
+
+/** The acceptance record for what is published now. `reasons` gives, for every open item, why it is open; an item
+ * without one, or a reason for an item that is not open, is refused, so the record cannot say less than the truth. */
+export function draftAcceptance(root, w, { acceptedOn, basis, reasons, publicRoot = 'apps/golf/public' }) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(acceptedOn || '')) throw new Error('--accepted-on needs the date the owner decided (YYYY-MM-DD)');
+  if (!nonempty(basis) || basis.length < 30) throw new Error('--basis needs what the owner was asked and what they answered, in a sentence');
+  const graph = loadGround(root, w.groundId, publicRoot), { items } = openItems(root, w, { publicRoot });
+  for (const id of items) if (!nonempty(reasons?.[id])) throw new Error(`no reason given for open item ${id}`);
+  for (const id of Object.keys(reasons ?? {})) if (!items.includes(id)) throw new Error(`${id} is not open; remove its reason`);
+  return { schemaVersion: 1, groundId: w.groundId, courses: graph.courses.map(c => c.slug).sort(), groundManifestSha256: graph.courses[0].groundManifest.sha256,
+    decision: 'admit-as-advisory', acceptedBy: 'owner', acceptedOn, basis, open: Object.fromEntries(items.map(id => [id, reasons[id]])) };
+}
+
+/* node packages/course-workflow/acceptance.mjs --ground <id>                                   what is open, and whether the record holds
+   node packages/course-workflow/acceptance.mjs --ground <id> --record --accepted-on <date> --basis "<the owner's decision>" --reasons <file.json>
+   The record is the owner's decision. Write it only after they have made it, in their words. */
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+  const argv = process.argv.slice(2), flag = name => { const i = argv.indexOf(`--${name}`); return i < 0 ? null : argv[i + 1]; };
+  const groundId = flag('ground');
+  if (!groundId) throw new Error('usage: acceptance.mjs --ground <id> [--record --accepted-on <date> --basis "<decision>" --reasons <file.json>]');
+  const w = assertWorkflow(readJson(root, `course-workflows/${groundId}/workflow.json`));
+  if (argv.includes('--record')) {
+    const record = draftAcceptance(root, w, { acceptedOn: flag('accepted-on'), basis: flag('basis'), reasons: JSON.parse(fs.readFileSync(flag('reasons'), 'utf8')) });
+    fs.writeFileSync(safePath(root, acceptancePath(groundId)), `${JSON.stringify(record, null, 2)}\n`);
+  }
+  const result = admitAccepted(root, w), open = openItems(root, w, { publicRoot: 'apps/golf/public' }).items;
+  console.log(JSON.stringify({ groundId, releasePolicy: w.releasePolicy, open, ready: result.ready, errors: result.errors }, null, 1));
+  process.exitCode = result.ready ? 0 : 1;
 }

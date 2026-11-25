@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "groundId": "bro-hof",
+  "club": { "id": "bro-hof", "name": "Bro Hof Slott Golf Club" },
+  "boot": "Bro · Mälaren",
+  "place": {
+    "lat": 59.49534, "lng": 17.62562, "region": "Mälardalen", "regionTag": "Bro · Slott vid Mälaren", "city": "Bro", "iconName": "castle",
+    "basis": "Navigation marker at the castle (OSM way 319035128), not a survey control."
+  },
+  "search": { "category": "slott", "places": "Upplands-Bro Stockholm Kungsängen Mälaren" },
+  "routings": [
+    {
+      "slug": "bro-hof-stadium", "build": "brohofbuild", "name": "Bro Hof Stadium",
+      "title": "Bro Hof Slott GC — The Stadium Course i 3D", "tag": "The Stadium Course", "layoutLabel": "The Stadium Course",
+      "tees": [
+        { "name": "Svart", "colour": "#1a1a1a" }, { "name": "Vit", "colour": "#f4f4ee" }, { "name": "Gul", "colour": "#f0c93a" },
+        { "name": "Blå", "colour": "#4a8fe0" }, { "name": "Röd", "colour": "#e0574a" }
+      ],
+      "teesHiddenFrom": 5,
+      "searchLabel": "Bro · Slott vid Mälaren",
+      "line": "Robert Trent Jones Jr:s mästerskapsbana vid Mälaren: breda fairways, stora vita bunkrar, ö-greenen på 17 och hemgång mot slottet.",
+      "signature": { "poster": 1, "description": "Ö-green på hål 17" },
+      "posters": {
+        "holes": [17, 18, 15],
+        "why": "The island 17th, the home hole below the castle, the lake along 15.",
+        "framings": [
+          { "hole": 17, "cam": "orbit", "preset": "golden" }, { "hole": 18, "cam": "orbit", "preset": "golden" }, { "hole": 15, "cam": "orbit", "preset": "golden" },
+          { "hole": 17, "cam": "top", "preset": "noon" }, { "clubhouse": true, "turn": 0, "preset": "golden" }
+        ]
+      },
+      "gallery": [ { "hole": 18, "vy": "green", "ljus": "dag" }, { "hole": 17, "vy": "tee", "ljus": "kvall" } ],
+      "mapGallery": [ { "hole": 17 }, { "course": true } ]
+    },
+    {
+      "slug": "bro-hof-castle", "build": "brohofcastlebuild", "name": "Bro Hof Castle",
+      "title": "Bro Hof Slott GC — The Castle Course i 3D", "tag": "The Castle Course", "layoutLabel": "The Castle Course",
+      "tees": [
+        { "name": "Vit", "colour": "#f4f4ee" }, { "name": "Gul", "colour": "#f0c93a" }, { "name": "Blå", "colour": "#4a8fe0" }, { "name": "Röd", "colour": "#e0574a" }
+      ],
+      "teesHiddenFrom": 4,
+      "searchLabel": "Bro · Andra arton",
+      "line": "Bro Hofs andra arton, också ritad av Robert Trent Jones Jr: sex par 3, sex par 4 och sex par 5 genom park och skog, med små bunkrar och stora sandmarker.",
+      "signature": { "poster": 2, "description": "Sandmarkerna på hål 4" },
+      "posters": {
+        "holes": [10, 4, 18],
+        "why": "The largest sand (10), the waste carry on 4 and the home hole round its pond.",
+        "framings": [
+          { "hole": 10, "cam": "orbit", "preset": "golden" }, { "hole": 4, "cam": "orbit", "preset": "golden" }, { "hole": 18, "cam": "orbit", "preset": "host" },
+          { "hole": 8, "cam": "top", "preset": "noon" }, { "clubhouse": true, "turn": 55, "preset": "golden" }
+        ]
+      },
+      "gallery": [ { "hole": 9, "vy": "ovan", "ljus": "sommar" } ],
+      "mapGallery": [ { "hole": 5 } ]
+    }
+  ]
+}

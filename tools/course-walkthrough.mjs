@@ -18,6 +18,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inspectGround, loadGround } from '../packages/course-workflow/audit.mjs';
 import { checkGroundQuality } from './check-course-quality.mjs';
+import { secondLookSummary } from '../packages/course-geo/mapping/ring-review.mjs';
+import { DECK_OFF_PLANE_LINE } from '../packages/course-geo/mapping/deck-ground.mjs';
+import { sandAuditSummary } from '../packages/course-geo/mapping/sand-audit.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://olovmelander.github.io/olovs-hemsida/';
@@ -73,6 +76,9 @@ function routingFacts(row, quality) {
   const trace = maybe(`${row.build}/mapping/trace-report.json`);
   const surfaces = maybe(`${row.build}/mapping/playing-surfaces.geojson`);
   const review = maybe(`${row.build}/mapping/ring-review.json`);
+  const deckGround = maybe(`${row.build}/mapping/deck-ground.json`);
+  const second = secondLookSummary(review?.second);
+  const holeOf = id => { const m = /-(?:tee|bunker)-(\d+)-\d+$|-green-(\d+)$/.exec(id); return m ? Number(m[1] ?? m[2]) : null; };
   const routes = new Map((trace?.rows ?? []).filter(r => r.kind === 'route').map(r => [r.hole, r.cardResidual]));
   const lakes = (model.water ?? []).filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ points: w.ring, box: box(w.ring) }));
   const creeks = [...(model.streams ?? []), ...(model.water ?? []).filter(w => w.stream)].filter(s => s.line?.length >= 2)
@@ -87,6 +93,9 @@ function routingFacts(row, quality) {
     const flags = [
       ...(worst && Math.abs(worst[1]) > CARD_FLAG_METRES ? [`${worst[0]} tee ${worst[1] > 0 ? '+' : ''}${worst[1]} m against the card`] : []),
       ...quality.filter(line => line.startsWith(`${row.slug} h${hole.n}:`)).map(line => line.slice(line.indexOf(':') + 2)),
+      ...(deckGround?.off ?? []).filter(deck => deck.hole === hole.n)
+        .map(deck => `${deck.tees.join('/') || 'unused'} deck not on level ground in the terrain (${deck.slope}% slope${deck.offPlane > DECK_OFF_PLANE_LINE ? `, ${deck.offPlane} m off a plane` : ''})`),
+      ...(second?.faults ?? []).filter(fault => holeOf(fault.id) === hole.n).map(fault => `second look: \`${fault.id}\` is a fault`),
     ];
     return {
       n: hole.n, name: hole.name ?? '', par: hole.par, index: hole.idx ?? null, back: hole.t?.[0] ?? null,
@@ -111,7 +120,7 @@ function routingFacts(row, quality) {
     wasteAreas: waste.length, wasteIslands: sum(waste.map(f => Math.max(0, f.geometry.coordinates.length - 1))),
     card: abs.length ? { marks: abs.length, median: abs[abs.length >> 1], within: abs.filter(v => v <= CARD_FLAG_METRES).length, worst: worstMark } : null,
     traced: trace ? { on: trace.provenance?.imagery?.captured ?? trace.provenance?.captured ?? null } : null,
-    review, holes, model,
+    review, second, deckGround, holes, model,
   };
 }
 
@@ -135,23 +144,31 @@ export function groundFacts(groundId) {
   const routings = graph.courses.map(c => index.find(row => row.slug === c.slug)).sort((a, b) => index.indexOf(a) - index.indexOf(b))
     .map(row => routingFacts(row, quality));
   const model = routings[0].model;
+  // The sand audit is the ground's, kept in the build that holds its trace configuration; its faults go on their holes.
+  const sandBuild = routings.map(x => x.build).find(build => exists(`${build}/mapping/sand-audit.json`));
+  const sand = sandBuild ? sandAuditSummary(json(`${sandBuild}/mapping/sand-audit.json`)) : null;
+  for (const fault of sand?.faults ?? []) routings.find(x => x.slug === fault.slug)?.holes.find(h => h.n === fault.hole)?.flags.push(`sand audit: \`${fault.id}\` is a fault`);
   const workflow = maybe(`course-workflows/${groundId}/workflow.json`), acceptance = maybe(`course-workflows/${groundId}/owner-acceptance.json`);
   const facilities = maybe(`apps/golf/public/models/${groundId}/facilities-v1.json`);
   const roofs = maybe(`geobuild/facilities/roof-colours/${groundId}.json`);
   const source = name => audit.sources.find(s => s.roles.includes(name) && s.capturedAt)?.capturedAt ?? null;
+  // A terrain model is a mosaic: its one date is its newest patch, and the ground under a given hole may be years older.
+  const flown = (maybe(`geo_data/course-v2/${groundId}/acquisition/d2-discovery.json`)?.terrain?.items ?? []).filter(item => item.captureStart && item.captureEnd);
+  const day = (list, pick) => list.map(text => text.slice(0, 10)).sort().at(pick);
   const kinds = {};
   for (const b of model.infra?.bulkheads ?? []) kinds[b.kind] = (kinds[b.kind] ?? 0) + 1;
   return {
     groundId, club: routings[0] && index.find(row => row.slug === routings[0].slug).club, routings,
     generation: graph.courses[0].groundManifest.sha256, tiles: graph.ground.tiles.length, layers: audit.layers,
-    captured: { terrain: source('terrain'), imagery: source('imagery'), canopy: source('canopy') },
+    captured: { terrain: source('terrain'), imagery: source('imagery'), canopy: source('canopy'),
+      terrainFlights: flown.length ? [day(flown.map(item => item.captureStart), 0), day(flown.map(item => item.captureEnd), -1)] : null },
     lakes: (model.water ?? []).filter(w => !w.stream).length, streams: (model.streams ?? []).length,
     bridges: (model.infra?.bridges ?? []).length, bulkheads: kinds, buildings: (model.infra?.buildings ?? []).length,
     cartRows: (model.scenery?.cartParks ?? []).length + (model.scenery?.cartPark ? 1 : 0),
     carts: sum([model.scenery?.cartPark, ...(model.scenery?.cartParks ?? [])].filter(Boolean).map(row => row.count ?? 0)),
     roofs: roofs ? { measured: roofs.buildings.filter(b => b.roof).length } : null,
     facilities: facilities ? { parts: facilities.facilities.map(f => f.id), triangles: sum(facilities.facilities.map(f => f.triangles ?? 0)), bytes: facilities.asset.bytes } : null,
-    trees: treeFacts(groundId), quality: { errors: report.errors.length, warnings: report.warnings.length, unplaced: quality.filter(line => !/ h\d+:/.test(line)) },
+    sand, trees: treeFacts(groundId), quality: { errors: report.errors.length, warnings: report.warnings.length, unplaced: quality.filter(line => !/ h\d+:/.test(line)) },
     release: { policy: workflow?.releasePolicy ?? null, acceptance, blockers: audit.blockers.filter(b => b.severity === 'release-blocking'), frame: audit.frameStatus },
     walkthrough: exists(`docs/courses/${groundId}-walkthrough.md`),
   };
@@ -173,12 +190,16 @@ function summaryBlock(f) {
       ? `${x.card.marks} marks, median ${metres(x.card.median)}, ${x.card.within} within ${CARD_FLAG_METRES} m, worst ${metres(Math.abs(x.card.worst.metres))} (hole ${x.card.worst.hole}, ${x.card.worst.tee})`
       : 'not measured'))],
     ['Outlines looked at ring by ring', ...each(x => (x.review ? `${x.review.reviewedOn}: ${number(sum(Object.values(x.review.rings)))} rings, ${x.review.redrawn.length} redrawn` : 'no record'))],
+    ['A second, blind look at them', ...each(x => (x.second
+      ? `${x.second.reviewedOn}: ${x.second.doubts} doubts, ${x.second.stand.length} stand, ${x.second.faults.length} kept as faults; ${x.second.cannotTell} it could not judge`
+      : 'none'))],
+    ['Tee decks on level ground in the terrain', ...each(x => (x.deckGround ? `${x.deckGround.level} of ${x.deckGround.measured} measured` : 'not measured'))],
     ['Posters, prepared data, scorecard', ...each(x => `${x.posters}, ${x.prepared} of 4, ${x.scorecard ? 'yes' : 'no'}`)],
   ];
   const walls = Object.entries(f.bulkheads).map(([kind, n]) => `${n} ${kind}`).join(' and ');
   const t = f.trees, a = f.release.acceptance;
   const lines = [
-    `- **Ground:** ${f.tiles} terrain tiles (terrain ${f.captured.terrain ?? 'undated'}, photo ${f.captured.imagery ?? 'undated'}, laser ${f.captured.canopy ?? 'undated'}), `
+    `- **Ground:** ${f.tiles} terrain tiles (terrain ${f.captured.terrainFlights ? `a mosaic of flights from ${f.captured.terrainFlights[0]} to ${f.captured.terrainFlights[1]}` : f.captured.terrain ?? 'undated'}, photo ${f.captured.imagery ?? 'undated'}, laser ${f.captured.canopy ?? 'undated'}), `
       + `${f.lakes} lakes and ponds, ${f.streams} creeks and ditches, ${f.bridges} bridges${walls ? `, water edges: ${walls}` : ''}. Generation \`${f.generation.slice(0, 12)}\`.`,
     t ? `- **Trees:** ${t.placed != null ? `${number(t.placed)} placed one by one` : 'placed one by one'} (${t.reviewId})`
       + (t.score ? `; on unseen trees precision ${t.score.precision.toFixed(3)}, recall ${t.score.recall.toFixed(3)}, F1 ${t.score.f1.toFixed(3)}: the ${TREE_GATE * 100}% gate is ${t.gate ? 'met' : '**missed**'}` : '')
@@ -193,6 +214,13 @@ function summaryBlock(f) {
     a ? `- **Release:** on the owner's acceptance of ${a.acceptedOn}, with ${Object.keys(a.open).length} items open:\n${Object.entries(a.open).map(([id, why]) => `  - \`${id}\`: ${why}`).join('\n')}`
       : `- **Release:** policy \`${f.release.policy ?? 'none'}\`, frame \`${f.release.frame}\`${f.release.blockers.length ? `, open: ${f.release.blockers.map(b => `\`${b.id}\``).join(', ')}` : ''}.`,
   ];
+  if (f.sand) {
+    lines.splice(1, 0, `- **Sand:** the ${f.sand.captured ?? 'tracing'} photo was read round every hole against the model's ${number(f.sand.modelled)} bunkers and waste areas: `
+      + `${f.sand.ringsNamed} of them hold little sand or have sand outside their line, and ${f.sand.areas} areas of bright sand are not in the model, ${f.sand.onNothingMapped} of those on nothing the map holds. `
+      + (f.sand.open.length ? `**${f.sand.open.length} have no verdict yet.**` : `Each has a verdict; ${f.sand.faults.length} ${f.sand.faults.length === 1 ? 'is' : 'are'} kept as a fault.`));
+  }
+  const faults = [...r.flatMap(x => x.second?.faults ?? []), ...(f.sand?.faults ?? [])].map(fault => `  - \`${fault.id}\`: ${fault.fault}`);
+  if (faults.length) lines.push(`- **Faults the second look and the sand audit found, kept until they can be put right:**\n${faults.join('\n')}`);
   return `## What is there\n\n${table(['', ...each(x => x.label)], rows)}\n\n${lines.join('\n')}`;
 }
 

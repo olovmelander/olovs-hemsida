@@ -1,0 +1,101 @@
+{
+ "schemaVersion": 1,
+ "groundId": "norrfallsviken",
+ "club": {
+  "id": "norrfallsviken",
+  "name": "Norrfällsvikens Golfklubb"
+ },
+ "boot": "Mjällom · Höga Kusten",
+ "place": {
+  "lat": 62.964,
+  "lng": 18.283,
+  "region": "Höga Kusten",
+  "regionTag": "Höga Kusten · Seaside",
+  "city": "Mjällom",
+  "iconName": "wave",
+  "basis": "Carried over from the app's tables on 2026-11-25; how the position was chosen was not recorded there."
+ },
+ "search": {
+  "category": "kust",
+  "places": "Mjällom Nordingrå Kramfors Ångermanland"
+ },
+ "routings": [
+  {
+   "slug": "norrfallsviken",
+   "build": "nvgkbuild",
+   "name": "Norrfällsvikens GK",
+   "title": "Norrfällsvikens GK — Seaside i Höga Kusten, i 3D",
+   "tag": "Seaside",
+   "tees": [
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    },
+    {
+     "name": "Orange",
+     "colour": "#e08b3a"
+    }
+   ],
+   "teesHiddenFrom": 4,
+   "searchLabel": "Höga Kusten · Seaside",
+   "line": "Dramatisk skogs- och linkskaraktär på Mjällomlandet med klippor direkt mot Bottenhavet.",
+   "posters": {
+    "holes": [
+     12,
+     7,
+     5
+    ],
+    "why": "Carried over from the app's tables on 2026-11-25; why these holes was not recorded there.",
+    "framings": [
+     {
+      "hole": 6,
+      "cam": "orbit",
+      "preset": "golden"
+     },
+     {
+      "hole": 12,
+      "cam": "green",
+      "preset": "golden"
+     },
+     {
+      "hole": 12,
+      "cam": "top",
+      "preset": "noon"
+     },
+     {
+      "hole": 5,
+      "cam": "orbit",
+      "preset": "host"
+     },
+     {
+      "clubhouse": true,
+      "turn": 0,
+      "rise": 1.8,
+      "preset": "golden"
+     }
+    ]
+   },
+   "gallery": [
+    {
+     "hole": 2,
+     "vy": "fritt",
+     "ljus": "dag"
+    },
+    {
+     "hole": 1,
+     "vy": "tee",
+     "ljus": "kvall"
+    }
+   ],
+   "mapGallery": [
+    {
+     "hole": 2
+    }
+   ]
+  }
+ ]
+}
