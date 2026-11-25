@@ -1,10 +1,85 @@
 /* Exercise the shared production UI. Pass [baseUrl] [--setup-only] to run the
-   club search, lean setup, scorecard recovery and cached-layout checks alone. */
+   chooser header, club search, setup, scorecard recovery and cached-layout checks alone. */
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright-core';
 import { browserArgs, browserExecutable } from './browser-args.mjs';
 
 const base = process.argv.slice(2).find(arg => /^https?:\/\//.test(arg)) || 'http://127.0.0.1:8711/';
+
+async function checkChooserHeader(browser) {
+  for (const [width, mode] of [[360, '3d'], [320, 'karta'], [390, 'spela'], [1366, '3d']]) {
+    const phone = width < 600;
+    const page = await browser.newPage({
+      viewport: { width, height: phone ? 740 : 768 }, hasTouch: phone, isMobile: phone,
+      reducedMotion: 'reduce', serviceWorkers: 'block',
+    });
+    try {
+      await page.goto(new URL('#' + mode, base).href);
+      await page.locator('#chooser .card').first().waitFor();
+      await page.evaluate(() => document.fonts.ready);
+      const bar = page.locator('.chooser-top-bar');
+      const cards = bar.getByRole('button', { name: phone ? 'Kort' : 'Kortvy', exact: true });
+      const map = bar.getByRole('button', { name: phone ? 'Karta' : 'Sverigekarta', exact: true });
+      if (width === 320) {
+        const fontSize = () => map.evaluate(el => parseFloat(getComputedStyle(el).fontSize));
+        const normal = await fontSize();
+        await page.addStyleTag({ content: 'html { font-size: 200% !important }' });
+        assert.ok(await fontSize() >= normal * 1.95, 'the phone view labels follow the enlarged root text size');
+        const search = page.locator('#courseSearchInput');
+        await search.fill('Bro Hof');
+        assert.ok(await search.evaluate(input => input.scrollWidth <= input.clientWidth + 1),
+          'Bro Hof fits in the enlarged search field without horizontal scrolling');
+        await search.fill('');
+        const modes = page.locator('#chooserModeToggle');
+        await modes.tap();
+        const modeNames = page.locator('#chooserModes [role=radio] b');
+        assert.equal(await modeNames.count(), 3);
+        assert.ok(await modeNames.evaluateAll(labels => labels.every(label => {
+          const bounds = label.closest('button').getBoundingClientRect();
+          const range = document.createRange();
+          range.selectNodeContents(label);
+          const text = range.getBoundingClientRect();
+          return text.width > 0 && text.left >= bounds.left && text.right <= bounds.right;
+        })), 'each enlarged mode name fits inside its own button');
+        await modes.tap();
+      }
+      const issues = await bar.evaluate((header, phone) => {
+        const issues = [];
+        const items = [...header.querySelectorAll('.wordmark, button')].filter(el => el.getClientRects().length);
+        for (const [i, item] of items.entries()) {
+          const r = item.getBoundingClientRect();
+          if (r.left < 0 || r.right > innerWidth || r.bottom > innerHeight) issues.push(item.id + ' outside viewport');
+          if (phone && item.matches('button') && (r.width < 44 || r.height < 44)) issues.push(item.id + ' small target');
+          for (const other of items.slice(i + 1)) {
+            const s = other.getBoundingClientRect();
+            if (r.left < s.right && s.left < r.right && r.top < s.bottom && s.top < r.bottom) {
+              issues.push((item.id || item.textContent) + ' overlaps ' + other.id);
+            }
+          }
+          for (const text of item.querySelectorAll('.cv-long, .cv-short')) {
+            if (!text.getClientRects().length) continue;
+            const range = document.createRange();
+            range.selectNodeContents(text);
+            const s = range.getBoundingClientRect();
+            if (s.left < r.left || s.right > r.right || s.top < r.top || s.bottom > r.bottom) {
+              issues.push(text.textContent + ' outside its button');
+            }
+          }
+        }
+        return issues;
+      }, phone);
+      assert.deepEqual(issues, [], width + 'px chooser header');
+      for (const [active, inactive, view] of [[map, cards, '#mapViewWrap'], [cards, map, '#cardsViewWrap']]) {
+        if (phone) await active.tap(); else await active.click();
+        await page.locator(view).waitFor();
+        assert.equal(await active.getAttribute('aria-pressed'), 'true');
+        assert.equal(await inactive.getAttribute('aria-pressed'), 'false');
+      }
+    } finally { await page.close(); }
+  }
+  console.log('PASS · chooser controls and labels fit and switch views on phones, with enlarged text, and on desktop');
+}
+
 // The published Castle scorecard has four measured tees. Keep this independent
 // of the setup payload so an accidental Stadium payload cannot satisfy the test.
 async function checkLayoutSetup(browser) {
@@ -365,6 +440,7 @@ async function checkHubHistory(browser) {
 
 const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
 try {
+  await checkChooserHeader(browser);
   await checkLayoutSetup(browser);
   await checkCachedLayout(browser);
   if (!process.argv.includes('--setup-only')) await checkHubHistory(browser);

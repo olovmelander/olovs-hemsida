@@ -143,18 +143,18 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
           </div>
         </div>
 
-        <div class="chooser-top-actions">
-          <div class="chooser-view-toggle" id="chooserViewToggle" role="group" aria-label="Visa som">
-            <button class="c-view-btn active" type="button" data-view="grid" id="viewGridBtn" title="Visa som kort" aria-pressed="true">
-              ${ICONS.gridCards(15)}
-              <span class="cv-long">Kortvy</span><span class="cv-short">Kort</span>
-            </button>
-            <button class="c-view-btn" type="button" data-view="map" id="viewMapBtn" title="Visa på Sverigekarta" aria-pressed="false">
-              ${ICONS.map(15)}
-              <span class="cv-long">Sverigekarta</span><span class="cv-short">Karta</span>
-            </button>
-          </div>
+        <div class="chooser-view-toggle" id="chooserViewToggle" role="group" aria-label="Klubbvisning">
+          <button class="c-view-btn active" type="button" data-view="grid" id="viewGridBtn" title="Visa som kort" aria-controls="cardsViewWrap" aria-pressed="true">
+            ${ICONS.gridCards(15)}
+            <span class="cv-long">Kortvy</span><span class="cv-short">Kort</span>
+          </button>
+          <button class="c-view-btn" type="button" data-view="map" id="viewMapBtn" title="Visa på Sverigekarta" aria-controls="mapViewWrap" aria-pressed="false">
+            ${ICONS.map(15)}
+            <span class="cv-long">Sverigekarta</span><span class="cv-short">Karta</span>
+          </button>
+        </div>
 
+        <div class="chooser-top-actions">
           ${context === 'hub' ? `
             <button class="chooser-settings" type="button" id="chooserSettings" aria-label="Inställningar" title="Inställningar">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>
@@ -187,8 +187,8 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
       <div class="chooser-controls" id="chooserControls">
         <div class="chooser-search-box">
           ${ICONS.search(16)}
-          <input type="search" id="courseSearchInput" placeholder="Sök klubb, bana, ort eller par…"
-                 aria-label="Sök klubb, bana, ort eller par" autocomplete="off" autocapitalize="off"
+          <input type="search" id="courseSearchInput" placeholder="Sök klubbar"
+                 aria-label="Sök klubbar efter namn, bana, ort eller par" autocomplete="off" autocapitalize="off"
                  spellcheck="false" enterkeyhint="search" />
           <kbd class="search-key" aria-hidden="true">/</kbd>
           <button class="search-clear" type="button" id="courseSearchClear" aria-label="Rensa sökningen" hidden>${ICONS.close(14)}</button>

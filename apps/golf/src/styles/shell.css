@@ -80,16 +80,17 @@
   padding-top: 18px;
   min-height: 58px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
 }
 
 .chooser-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 0;
+  flex: none;
+  margin-inline-end: auto;
 }
 
 .brand-crest {
@@ -576,8 +577,7 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
    touch sizes, whatever the width -- a tablet is wide AND touched. */
 @media (pointer: coarse) {
   #chooser { --search-h: 44px; --chip-h: 40px; }
-  .c-view-btn { min-height: 40px; }
-  .chooser-resume-btn { min-height: 42px; }
+  .c-view-btn, .chooser-resume-btn { min-height: 44px; }
 }
 .no-courses-msg {
   text-align: center;
@@ -1433,33 +1433,60 @@ a.drawer-main-btn { text-decoration: none; }
     --ctl-gap: 8px;
     --ctl-pad: 8px;
   }
-  .chooser-top-bar { padding-top: 10px; min-height: 52px; }
-  .chooser-brand { gap: 10px; }
-  .wordmark { font-size: 23px; }
+  .chooser-top-bar {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    gap: 8px;
+    padding-top: 10px;
+  }
+  .chooser-brand .brand-crest { display: none; }
+  .chooser-view-toggle {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-self: center;
+    width: 100%;
+    max-width: 16rem;
+  }
   .cv-long, .cf-long { display: none; }
   .cv-short, .cf-short { display: inline; }
-  .c-view-btn { min-height: 44px; padding: 0 12px; font-size: 12.5px; }
-  .chooser-top-actions { gap: 8px; }
+  .c-view-btn {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 2px 6px;
+    min-height: 44px;
+    padding: 4px;
+    font-size: .875rem;
+    line-height: 1.2;
+  }
   /* the course's name is on the card under it; here the button is its cross */
   .chooser-resume-btn { width: 44px; min-height: 44px; padding: 0; justify-content: center; border-radius: 50%; }
   .chooser-resume-btn span { display: none; }
   .chooser-head { padding: 8px 0 2px; }
   .chooser-head-row { margin-bottom: 6px; }
-  .chooser-modes { flex: 1 1 100%; }
+  .chooser-modes { flex: 1 1 100%; flex-wrap: wrap; min-width: 0; }
   .c-mode-btn { flex: 1 1 0; min-width: 0; min-height: 46px; padding: 0 10px 0 6px; gap: 8px; }
-  /* three ways to play on a narrow phone: the names alone, side by side */
-  .chooser-modes:has(.c-mode-btn:nth-child(3)) .c-mode-btn { padding: 0 6px; gap: 6px; }
+  .chooser-modes:has(.c-mode-btn:nth-child(3)) .c-mode-btn {
+    flex: 1 0 max-content;
+    max-width: 100%;
+    padding: 0 6px;
+    gap: 6px;
+  }
   .cm-icon { width: 30px; height: 30px; border-radius: 9px; }
-  .cm-text b { font-size: 14px; }
+  .cm-text b { font-size: .875rem; }
   .cm-text small { display: none; }
   .chooser-subtitle { font-size: 12.5px; line-height: 1.4; }
+  .chooser-controls { display: flex; flex-wrap: wrap; }
+  .chooser-search-box { flex: 1 0 min(7rem, 100%); }
+  .chooser-sort { max-width: 100%; }
+  .chooser-sort select { font-size: 1rem; height: max(var(--search-h), 2.75em); padding-top: .85em; }
   /* without their icons the names centre in their thirds, as a segmented control's do */
-  @media (max-width: 400px) { .chooser-modes:has(.c-mode-btn:nth-child(3)) .cm-icon { display: none; } .chooser-modes:has(.c-mode-btn:nth-child(3)) .c-mode-btn { justify-content: center; } .cm-text b { font-size: 13.5px; } }
+  @media (max-width: 400px) { .chooser-modes:has(.c-mode-btn:nth-child(3)) .cm-icon { display: none; } .chooser-modes:has(.c-mode-btn:nth-child(3)) .c-mode-btn { justify-content: center; } }
   /* 16 px, not 13: below it iOS Safari zooms the whole page into the field on
      focus and leaves the visitor to pinch their way back out */
-  .chooser-search-box input { font-size: 16px; padding-left: 40px; }
+  .chooser-search-box input { font-size: max(16px, 1rem); padding-left: 40px; }
   .search-clear { width: 44px; height: 44px; right: 0; }
-  .chooser-filters { gap: 6px; }
+  .chooser-filters { gap: 6px; flex-basis: 100%; order: 2; }
   /* four chips share the row, so none of them is ever off the edge */
   .c-filter-btn { flex: 1 0 auto; justify-content: center; padding: 0 9px; font-size: 12.5px; }
 
@@ -1467,13 +1494,10 @@ a.drawer-main-btn { text-decoration: none; }
   .no-courses-msg { padding: 44px 16px; }
 }
 
-/* The smallest phones still in use (320 px): the chips give up their icons so
-   that all four stay on the row, and the bar its wordmark so the way back, the
-   view switch and the settings still fit beside each other. */
+/* Keep all four filters reachable on the smallest phones. */
 @media (max-width: 350px) {
   .c-filter-btn svg { display: none; }
   .c-filter-btn { padding: 0 6px; }
-  .chooser-brand .brand-crest { display: none; }
   .cm-icon { display: none; }
   .c-mode-btn { justify-content: center; }
 }
