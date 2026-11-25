@@ -802,6 +802,8 @@ if (PLAYER) {
     gate(opened.slug === slug && opened.badge?.includes('Aktiv bana'), `the currently open course remains identified in the sorted grid: ${opened.slug}, "${opened.badge}"`);
     gate(opened.close >= 40, `and the way back is a ${Math.round(opened.close)} px button, not a sentence`);
     gate(opened.remembered === slug, 'the player records the course for recents in the hub');
+    await page.selectOption('#chooserSort', 'recent');
+    gate(await page.locator('#coursesCardList .card-item').first().getAttribute('data-slug') === slug, 'the in-course recent order puts the open club first');
     const before = await page.evaluate(() => ({ hole: document.getElementById('cno').textContent, clean: document.body.classList.contains('clean'), sky: window.V3D.skyState() }));
     await page.click('#courseSearchInput');
     await page.keyboard.type('npm h', { delay: 30 });
