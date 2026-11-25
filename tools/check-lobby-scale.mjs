@@ -208,18 +208,20 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
     const first = largest.ids[0];
     /* At the map's edge on purpose: focusing a marker there pans the map into view, and
        stopping that pan for the zoom once took the keyboard's place away (25 November,
-       the first deploy of this check). Dragging keeps the zoom, so the groups stand. */
+       the first deploy of this check). The map's own arrow keys pan it, 80 px a press,
+       the same on every runner (a mouse drag did not move it on the deploy's desktop);
+       panning keeps the zoom, so the groups stand. */
     const map = await page.locator('.map-canvas-wrap').boundingBox();
-    const start = [map.x + map.width / 2, map.y + map.height / 2];
-    const shift = map.x + map.width - 8 - largest.x;
-    await page.mouse.move(...start);
-    await page.mouse.down();
-    await page.mouse.move(start[0] + shift / 2, start[1], { steps: 4 });
-    await page.mouse.move(start[0] + shift, start[1], { steps: 4 });
-    await page.mouse.up();
-    await page.waitForTimeout(400);
-    const atEdge = await page.locator(`.golf-map-group[data-group-ids="${largest.ids.join(' ')}"]`).boundingBox();
-    assert.ok(atEdge && atEdge.x + atEdge.width > map.x + map.width, `${label}: the group stands at the map's edge, half out of view`);
+    const groupBox = () => page.locator(`.golf-map-group[data-group-ids="${largest.ids.join(' ')}"]`).boundingBox();
+    const outside = box => Boolean(box) && box.x + box.width > map.x + map.width;
+    await page.locator('.map-canvas-wrap').focus();
+    let atEdge = await groupBox();
+    for (let press = 0; press < 40 && !outside(atEdge); press++) {
+      await page.keyboard.press('ArrowLeft');
+      await page.waitForTimeout(350);
+      atEdge = await groupBox();
+    }
+    assert.ok(outside(atEdge), `${label}: the group stands at the map's edge, half out of view (group ${JSON.stringify(atEdge)}, map ${JSON.stringify(map)})`);
     await page.locator(`.golf-map-group[data-group-ids="${largest.ids.join(' ')}"]`).locator('..').focus();
     /* focus on the marker itself: the body holds every pin, so asking it proves nothing */
     const holding = () => page.evaluate(id => {
