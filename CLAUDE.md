@@ -5,9 +5,14 @@
 For every new course or upgrade, read the
 [course production workflow](docs/course-production-workflow.md). Use its shared
 initializer, staged adapters, source and per-hole reviews, and release checks.
-A new ground follows [pipeline v2](docs/pipeline-v2.md) step by step: one tracer,
-one compiler, one campus loader, and the ground's own judgement in decision files
-(Bro Hof, 24 November, is the first built that way).
+A new ground, and any improvement of a published one, follows [pipeline v2](docs/pipeline-v2.md):
+stages that each end at a gate, the ground's own judgement in decision files, a look at
+every traced ring that is recorded (`ring-review.mjs`), the first pictures before any bake,
+and a rehearsal of CI in a clean worktree before the pull request. Each ground has a
+walkthrough (`node tools/course-walkthrough.mjs --ground <id>`): its numbers are generated,
+its known faults are written by hand, and a test fails when it is stale. Start an upgrade
+there. Bro Hof (24 November) is the first ground built this way; see
+[its walkthrough](docs/courses/bro-hof-walkthrough.md).
 The catalogue currently has 15 layouts on 11 grounds using the common 469-tile
 terrain/ring contract. Historical course builders are evidence, not templates
 for new courses.
@@ -153,7 +158,8 @@ there (it brings three.js), and keep its work out of the folders the source revi
 hashes. Wider than a phone (760 px), its hole bar, dock and sheets keep to one centred
 640 px column. Run `tools/check-map-field.mjs` on more than one course. Nothing that is supposed to be
 on the ground may be left off the map (owner request, 4 November): a new feature in a pack
-needs painting too. The map's water and forest beyond the outlines are one picture each per
+needs painting too, and `MAP_KNOWS` (`map-course.mjs`) holds every published pack to it: a
+mapped kind or list the map does not know fails `map.test.mjs`. The map's water and forest beyond the outlines are one picture each per
 ground, and its lakes reach their ground's shores from the same bake (`map-shores.mjs`);
 rerun `tools/bake-map-land.mjs` when terrain, stands or a pack are republished or
 `water-reach.mjs`/`water-plate-level.mjs` change (`map-shores.test.mjs` says so), and paint
