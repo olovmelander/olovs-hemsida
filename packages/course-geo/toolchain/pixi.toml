@@ -12,7 +12,21 @@ libpdal-core = "==2.10.2"
 
 [feature.mapping.dependencies]
 python = ">=3.12,<3.13"
+
+# The mapping tools' libraries. Linux and macOS take conda-forge's builds.
+[feature.mapping.target.unix.dependencies]
 libblas = { version = "*", build = "*openblas" }
+pillow = ">=12.3.0,<14"
+numpy = ">=2.3,<3"
+rasterio = ">=1.4.3,<2"
+pyproj = ">=3.7,<4"
+shapely = ">=2.1,<3"
+scipy = ">=1.15,<2"
+
+# Windows takes the official PyPI builds of the same versions. On 25 November 2026 Windows Smart App Control began
+# refusing conda-forge's numpy.random and scipy extension modules on the build machine, which stopped the tracer;
+# it accepts the official builds. Keep the two lists the same. See README.md.
+[feature.mapping.target.win-64.pypi-dependencies]
 pillow = ">=12.3.0,<14"
 numpy = ">=2.3,<3"
 rasterio = ">=1.4.3,<2"

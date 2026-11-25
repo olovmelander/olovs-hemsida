@@ -57,16 +57,22 @@ build's own records, and a test fails when they fall behind. Everything else is 
   record carries (14 June 2025) is its newest patch, and under the spots below it is the ground of 2020-21.
 - **Eighteen tee decks are not on level ground in the terrain** (6 on Stadium, 12 on Castle; each is named on its
   hole below). A deck that is on its deck slopes under 2%; these slope 5-25% or step. Each was looked at on both
-  photo years and against the terrain's heights (`deck-ground.mjs --around`):
-  - **Twelve are newer than the terrain, and their outlines are right.** The April 2021 photo shows bare soil, a
-    square pad or uncut wood where June 2025 has a mown deck: Stadium 5 red, 9 yellow, 10 black, 10 and 17 and 18
-    yellow/blue, Castle 1, 2, 5, 6, 10 and 18 red. They are drawn on the older slope.
-  - **Four are off their deck.** The terrain has a level platform beside each, and the ring hangs over its edge:
-    Castle 7 white (3 m north-east of a platform at 14.1 m), Castle 7's unused deck (its north half down the
-    slope), Castle 7 red (its southern third down the slope) and Castle 11 white (2-3 m over the east bank).
-    Castle 7's were redrawn by eye under crowns on 24 November. They want redrawing as laser platforms.
-  - **Two are not settled:** Castle 7 yellow/blue lies 9 cm off a plane, on the platform it shares with the
-    unused deck; Castle 18 white is on a slope with level ground 5 m south of it, and the 2021 photo is in shade.
+  photo years, against the terrain's heights (`deck-ground.mjs --around`) and against the terrain's own platforms:
+  - **Fifteen are newer than the terrain, and their outlines are right.** The April 2021 photo shows bare soil, a
+    square pad, uncut wood or another layout where June 2025 has a mown deck: Stadium 5 red, 9 yellow, 10 black,
+    10 and 17 and 18 yellow/blue, Castle 1, 2, 5, 6, 10 and 18 red, and three on Castle 7 (yellow/blue, red and
+    the unused deck). Castle 7 was rebuilt between the two photos, its four bunkers with it: the red deck now
+    reaches 4 m further south than the terrain's platform, and the upper decks follow the 2025 mowing. They are
+    drawn on the older ground.
+  - **One is off its deck:** Castle 11 white. Hole 11 was not rebuilt; the terrain has a level platform of 6 by
+    10 m under the ring's west side, and the OpenStreetMap outline is 8 m wide and hangs 2-3 m over the east
+    bank. It wants one decision changed to the laser platform, and a trace.
+  - **Two are not settled:** Castle 7 white is a 5 m circle drawn by eye on bare ground 122 m from the green,
+    where the card says 128 m and neither photo shows a deck; Castle 18 white is on a slope with level ground
+    5 m south of it, and the 2021 photo is in shade. Both want someone who has stood on the tee.
+
+  On 25 November three of Castle 7's decks were first sorted as off their decks, from the heights alone. The two
+  photo years showed that to be wrong: the terrain under a rebuilt hole shows the old decks.
 - **Five Castle bunkers are newer than the terrain:** hole 7's four and hole 17's first were built or reshaped
   between April 2021 and June 2025. Their outlines follow the 2025 sand. Bunker 1 on hole 7 has no bowl in the
   terrain and is flat sand on a slope; the other four lie in the older, smaller bowls.
@@ -171,7 +177,7 @@ is a check that did not exist; the last column says whether it exists now.
 | This page's numbers were stale the night it was written | reading it the next day | after release | the generated parts, and the test that holds them |
 | The tree gate missed | its own benchmark | trees | working as meant; the owner's rule decided |
 | Castle 11's white tee 3 m over its bank; Castle 18's two offset tees, found again unprompted; five bunkers newer than the terrain | a second reviewer who had seen only blind sheets: no decisions, no scores | the day after release | the second look (`ring-review.mjs --second`): each doubt is answered, or kept as a fault this page prints |
-| 18 tee decks on ground that is not a deck in the terrain, 4 of them redrawn by eye and still off | measuring the terrain under every deck, after the second look doubted one | the day after release | `deck-ground.mjs`: a record tied to the outlines, each deck named on its hole |
+| 18 tee decks on ground that is not a deck in the terrain: 15 newer than it, 1 off its deck, 2 unsettled | measuring the terrain under every deck, after the second look doubted one | the day after release | `deck-ground.mjs`: a record tied to the outlines, each deck named on its hole |
 | A hand-drawn waste area with no sand in it (Castle 15); bare rock and works ground the model does not draw | reading the photo round every hole against the model's sand, both ways | the day after release | `audit-sand.py` and its record: every ring it names and every area on nothing mapped has a verdict or is a fault this page prints |
 | The terrain's one date was its newest patch, four years newer than the ground under Castle 7 and 18 | the two finds above | the day after release | this page prints the flights' range; no check dates the ground under a hole yet |
 

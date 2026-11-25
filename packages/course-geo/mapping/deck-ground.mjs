@@ -6,11 +6,13 @@
    clear of them, with almost nothing between. Those 18 were exactly the two kinds of fault a photo hides:
 
    - a ring off its deck: under crowns, where neither photo shows the edge (Castle 11's white tee hung 3 m over a
-     bank and had passed the first look, and Castle 7's decks had been redrawn by eye and still missed);
-   - a deck newer than the terrain: mown on today's photo, but ground that was a bank, a hollow or water when the
-     terrain was flown. The outline is right and the model's ground under it is not.
+     bank and had passed the first look);
+   - a deck newer than the terrain: mown on today's photo, but ground that was a bank, a hollow, water or an
+     older deck when the terrain was flown. The outline is right and the model's ground under it is not.
 
-   The check cannot tell the two apart, and says so: it names the decks, and a person looks. It reads the terrain
+   The check cannot tell the two apart, and says so: it names the decks, and a person looks at both photo years.
+   The heights alone mislead: Castle 7 has level platforms beside its rings, and they are the decks of the hole
+   as it was before it was rebuilt. It reads the terrain
    the tracer reads (trace-config.json `terrain`), which is a private cache, so it runs where the tracing runs and
    its result is kept beside the outlines, tied to them by their checksum:
 
