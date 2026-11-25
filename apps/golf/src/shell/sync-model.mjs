@@ -176,7 +176,7 @@ export function markRestoredDataDirty(storage, at = Date.now(), keys = null, pre
 }
 
 const personalKeys = new Set([MAP_KEYS.rounds, MAP_KEYS.shots, MAP_KEYS.handicap, BAG_KEY, SYNC_META_KEY, 'banvy-map-diary-v1', 'banvy-play-rounds-v1']);
-const personalPrefixes = [`${ROUND_KEY}:`, `${HOLE_KEY}:`, 'banvy-map-gps-v1:', 'banvy-live-owner-v1:', 'banvy-play-checkpoint-v1:'];
+const personalPrefixes = [`${ROUND_KEY}:`, `${HOLE_KEY}:`, 'banvy-map-gps-v1:', 'banvy-live-owner-v1:', 'banvy-play-checkpoint-v1:', 'banvy_sim_pending_v1:'];
 const isPersonalKey = key => personalKeys.has(key) || personalPrefixes.some(prefix => key?.startsWith(prefix));
 const accountCacheKey = userId => 'banvy_sync_cache_v1:' + (userId ? 'user:' + encodeURIComponent(userId) : 'guest');
 

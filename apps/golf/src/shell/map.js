@@ -1,32 +1,10 @@
-/* ===========================================================================
-   Banvy Sweden OpenStreetMap (OSM) Interactive Map
-   Interactive dark luxury cartography of Sweden showing all golf courses,
-   with pulsing emerald beacons, regional filters, and rich preview cards.
-   =========================================================================== */
-
+/* Swedish club locations. Pins open the same selection used by the catalogue. */
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ICONS } from './icons.js';
-import { COURSE_LOCATIONS, HOST_CLUB } from './course-places.mjs';
+import { COURSE_LOCATIONS } from './course-places.mjs';
 
 export { COURSE_LOCATIONS };
-
-const LINES = {
-  'bro-hof-stadium': 'Robert Trent Jones Jr:s mästerskapsbana vid Mälaren: breda fairways, stora vita bunkrar, ö-greenen på 17 och hemgång mot slottet.',
-  'bro-hof-castle': 'Bro Hofs andra arton, också ritad av Robert Trent Jones Jr: sex par 3, sex par 4 och sex par 5 genom park och skog, med små bunkrar och stora sandmarker.',
-  tortuna: '18 hål i Tortuna utanför Västerås, med dammar, parkmark och skog.',
-  veckefjarden: 'Mästerskapsbanan vid fjärden, känd för sin ikoniska ö-green och utmanande vattenhinder.',
-  norrfallsviken: 'Dramatisk skogs- och linkskaraktär på Mjällomlandet med klippor direkt mot Bottenhavet.',
-  puttom: 'Naturskön skogs- och parkbana som slingrar sig elegant mellan två glittrande sjöar.',
-  angso: 'Mälarnära bana på halvön norr om Ängsön med fem tees, mäktiga ekar och strategisk bunkring.',
-  upsala: 'Klassisk svensk mästerskapsparkbana på historiska Håmö gårds böljande marker väster om Uppsala.',
-  johannesberg: 'Slottsbana i rofylld herrgårdsmiljö med dammar, månghundraåriga ekar och ståtligt klubbhus.',
-  ribbingsfors: 'Niohåls park- och hagmarksbana i herrgårdsmiljö vid sjön Skagern, ritad av Janne Lundvall och spelklar 1991.',
-  'upsala-mellanbanan': 'Upsala GK:s andra nio, där åttans tee blickar ut över stora banan och fyrans green ligger tjugo meter från dammen.',
-  'johannesberg-9': 'Johannesbergs andra nio, med en damm tvärs igenom och ett andrahål som faller drygt tolv meter ner mot vattnet.',
-  'veckefjarden-korthalsbanan': 'Veckefjärdens korthålsbana: nio korta hål i tallskogen, med fjärden i sikte från tredje tee.',
-  visby: 'Links på Kronholmen vid Västergarn där Östersjön ligger några tiotal meter från de flesta greenerna; ritad av Pierre Fulke och Adam Mednickson.',
-};
 
 const MAP_REGIONS = [
   { id: 'gotland', label: 'Gotland', regions: ['Gotland'] },
@@ -35,7 +13,7 @@ const MAP_REGIONS = [
   { id: 'vastragotaland', label: 'Västra Götaland', regions: ['Västra Götaland'] },
 ];
 
-export function createSwedenMap({ container, courses, current, lead = null, onPickCourse, ctaFor = null }) {
+export function createSwedenMap({ container, groups, current, lead = null, onPickClub }) {
   const mapEl = document.createElement('div');
   mapEl.id = 'swedenMap';
   mapEl.className = 'sweden-map-container';
@@ -43,21 +21,14 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
   // Map Controls Bar
   const controls = document.createElement('div');
   controls.className = 'map-region-bar';
-  const mappedCourses = courses.filter(course => COURSE_LOCATIONS[course.slug]);
-  const layouts = new Map();
-  for (const course of mappedCourses) {
-    const club = HOST_CLUB[course.slug] ?? course.slug;
-    if (!layouts.has(club)) layouts.set(club, []);
-    layouts.get(club).push(course);
-  }
-  const regionCourses = region => mappedCourses.filter(course =>
-    region.regions.includes(COURSE_LOCATIONS[course.slug].region));
+  const mapped = groups.filter(group => COURSE_LOCATIONS[group.cover.slug]);
+  const regionClubs = region => mapped.filter(group => region.regions.includes(COURSE_LOCATIONS[group.cover.slug].region));
   controls.innerHTML = `
     <div class="mrb-label">Fokusera region:</div>
     <div class="mrb-btns">
-      <button class="mrb-btn active" data-region="sweden">Hela Sverige (${mappedCourses.length})</button>
+      <button class="mrb-btn active" data-region="sweden">Hela Sverige (${mapped.length})</button>
       ${MAP_REGIONS.map(region => {
-        const count = regionCourses(region).length;
+        const count = regionClubs(region).length;
         return count ? `<button class="mrb-btn" data-region="${region.id}">${region.label} (${count})</button>` : '';
       }).join('')}
     </div>
@@ -67,12 +38,6 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
   const canvasWrap = document.createElement('div');
   canvasWrap.className = 'map-canvas-wrap';
   mapEl.append(canvasWrap);
-
-  // Floating Course Preview Panel on map
-  const previewPanel = document.createElement('div');
-  previewPanel.className = 'map-preview-panel';
-  previewPanel.id = 'mapPreviewPanel';
-  mapEl.append(previewPanel);
 
   container.append(mapEl);
 
@@ -84,8 +49,11 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
     minZoom: 5,
     maxZoom: 14,
     zoomControl: false,
-    attributionControl: false,
+    attributionControl: true,
   });
+
+  map.attributionControl.setPrefix(false);
+  L.control.zoom({ position: 'bottomleft', zoomInTitle: 'Zooma in', zoomOutTitle: 'Zooma ut' }).addTo(map);
 
   /* OpenStreetMap's own tile servers. Fine while this is a handful of people
      looking at a handful of pins, but they are donated infrastructure and
@@ -101,77 +69,22 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
   const markers = {};
   const latLngs = [];
 
-  function showPreview(course) {
-    const loc = COURSE_LOCATIONS[course.slug] || { city: 'Sverige', regionTag: course.tag, iconName: 'flag' };
-    const iconSvg = ICONS[loc.iconName] ? ICONS[loc.iconName](13) : ICONS.flag(13);
-    const isCurrent = course.slug === current;
-    const siblings = layouts.get(HOST_CLUB[course.slug] ?? course.slug) ?? [course];
-
-    previewPanel.innerHTML = `
-      <div class="mpp-card">
-        <button class="mpp-close-btn" id="mppCloseBtn" type="button" aria-label="Stäng förhandsvisningen">${ICONS.close(14)}</button>
-        <div class="mpp-shot" ${course.photos || course.overviewUrl ? `style="background-image: url('${import.meta.env.BASE_URL}${course.photos ? `courses/${course.slug}/hero-1.webp` : course.overviewUrl}')"` : ''}>
-          <div class="mpp-badges">
-            <span class="cat-badge">${iconSvg}<span class="cat-text">${esc(loc.regionTag)}</span></span>
-            ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}
-          </div>
-        </div>
-        <div class="mpp-titles">
-          <div class="mpp-city">${esc(loc.city)}</div>
-          <h3>${esc(course.name)}</h3>
-          ${siblings.length > 1 ? `<label class="mpp-layout-label">Bana <select data-map-layout>${siblings.map(s => `<option value="${esc(s.slug)}"${s.slug === course.slug ? ' selected' : ''}>${esc(s.name)}</option>`).join('')}</select></label>` : ''}
-        </div>
-        <div class="mpp-body">
-          <p class="mpp-line">${esc(course.description || LINES[course.slug] || course.club)}</p>
-          <div class="mpp-facts">
-            <span>Par <b>${course.par}</b></span>
-            <span><b>${course.holes}</b> hål</span>
-            <span><b>${course.tees.names.length}</b> tees</span>
-            ${course.status === 'mapping' ? '<span class="mpp-tag">Under kartläggning</span>' : ''}
-          </div>
-          <button class="mpp-play-btn" id="mppPlayBtn">
-            <span>${esc(ctaFor ? ctaFor(course) : course.status === 'mapping' ? 'Visa bankarta' : isCurrent ? 'Fortsätt spela' : 'Starta banan i 3D')}</span>
-            <span class="mpp-arrow">→</span>
-          </button>
-        </div>
-      </div>
-    `;
-
-    previewPanel.classList.add('visible');
-    const select = previewPanel.querySelector('[data-map-layout]');
-    if (select) select.onchange = () => {
-      showPreview(siblings.find(c => c.slug === select.value));
-      previewPanel.querySelector('[data-map-layout]').focus();
-    };
-
-    previewPanel.querySelector('#mppCloseBtn').onclick = () => {
-      previewPanel.classList.remove('visible');
-    };
-
-    previewPanel.querySelector('#mppPlayBtn').onclick = () => {
-      onPickCourse(course.slug);
-    };
-  }
-
-  // Create custom pulsing emerald pins for all courses
-  layouts.forEach(group => {
-    const c = group.find(course => course.slug === current || course.slug === lead) ?? group[0];
-    const loc = COURSE_LOCATIONS[c.slug];
-    if (!loc) return;
+  for (const group of mapped) {
+    const loc = COURSE_LOCATIONS[group.cover.slug];
 
     latLngs.push([loc.lat, loc.lng]);
-    const isCurrent = c.slug === current;
+    const isCurrent = group.id === current;
     const pinIconSvg = ICONS[loc.iconName] ? ICONS[loc.iconName](14) : ICONS.flag(14);
 
     const iconHtml = `
-      <div class="golf-map-pin ${isCurrent ? 'is-current' : ''}">
+      <div data-club-id="${esc(group.id)}" class="golf-map-pin ${isCurrent ? 'is-current' : ''}">
         <div class="pin-pulse"></div>
         <div class="pin-head">
           <span class="pin-icon">${pinIconSvg}</span>
         </div>
         <div class="pin-label">
-          <span class="pin-name">${esc(c.name)}</span>
-          <span class="pin-sub">Par ${c.par}</span>
+          <span class="pin-name">${esc(group.name)}</span>
+          <span class="pin-sub">${group.courses.length} ${group.courses.length === 1 ? 'bana' : 'banor'}</span>
         </div>
       </div>
     `;
@@ -183,13 +96,17 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
       iconAnchor: [18, 18],
     });
 
-    const marker = L.marker([loc.lat, loc.lng], { icon: customIcon }).addTo(map);
-    markers[c.slug] = marker;
-
-    marker.on('click', () => {
-      map.flyTo([loc.lat, loc.lng], Math.max(map.getZoom(), 9), { duration: 0.8 });
-      showPreview(c);
+    const marker = L.marker([loc.lat, loc.lng], { icon: customIcon, title: group.name, alt: group.name }).addTo(map);
+    const markerButton = marker.getElement();
+    markerButton.setAttribute('aria-label', group.name);
+    markerButton.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      event.stopPropagation();
+      onPickClub(group.id);
     });
+    markers[group.id] = marker;
+    marker.on('click', () => onPickClub(group.id));
 
     /* `hovered` belongs on the pin, which is what the stylesheet selects -- it
        was set on Leaflet's wrapper, where nothing looked for it. Lifted above
@@ -205,7 +122,7 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
       pinEl()?.classList.remove('hovered');
       marker.setZIndexOffset(0);
     });
-  });
+  }
 
   /* Labels that would land on each other are not drawn. At the zoom that shows
      all of Sweden five clubs stand inside eighty pixels of Mälardalen and three
@@ -231,17 +148,15 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
   map.on('zoomend moveend resize', () => requestAnimationFrame(declutter));
   document.fonts?.ready.then(declutter);
 
-  /* What a fit has to stay clear of. The region bar lies across the top of the
-     map and, on a phone, the preview row across the bottom of it -- a fit to the
-     bare bounds put Gotland under the preview and cut Puttom's name plate off
-     at the right edge, where there is no room for a plate to the right of its
-     pin. Read at the moment of the fit, so a rotation is a different answer. */
+  // Leave room for the region controls and the marker labels on a narrow map.
   const fitPadding = () => (window.matchMedia('(max-width: 600px)').matches
-    ? { paddingTopLeft: [16, 96], paddingBottomRight: [112, 164] }
+    ? { paddingTopLeft: [16, 96], paddingBottomRight: [100, 30] }
     : { paddingTopLeft: [24, 90], paddingBottomRight: [140, 30] });
 
   // Region filtering and zoom buttons
   const regionBtns = controls.querySelectorAll('.mrb-btn');
+  const motion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const move = { duration: 0.6, animate: motion };
   regionBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       regionBtns.forEach(b => b.classList.remove('active'));
@@ -249,15 +164,15 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
       const reg = btn.dataset.region;
 
       if (reg === 'sweden') {
-        map.flyToBounds(L.latLngBounds(latLngs), { duration: 1, ...fitPadding() });
+        map.flyToBounds(L.latLngBounds(latLngs), { ...move, ...fitPadding() });
       } else {
         const region = MAP_REGIONS.find(item => item.id === reg);
-        const points = region ? regionCourses(region).map(course => {
-          const loc = COURSE_LOCATIONS[course.slug];
+        const points = region ? regionClubs(region).map(group => {
+          const loc = COURSE_LOCATIONS[group.cover.slug];
           return [loc.lat, loc.lng];
         }) : [];
-        if (points.length === 1) map.flyTo(points[0], 9, { duration: 1 });
-        else if (points.length > 1) map.flyToBounds(L.latLngBounds(points), { duration: 1, ...fitPadding() });
+        if (points.length === 1) map.flyTo(points[0], 9, move);
+        else if (points.length > 1) map.flyToBounds(L.latLngBounds(points), { ...move, ...fitPadding() });
       }
     });
   });
@@ -265,35 +180,25 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
   // Fit initially to show all courses cleanly
   if (latLngs.length) map.fitBounds(L.latLngBounds(latLngs), fitPadding());
 
-  /* Open on the course the visitor has a reason to see: the running one, or the
-     last one they opened. Without either, a wide screen shows the first course
-     as a hint that pins open something; a phone shows the MAP, because there a
-     preview nobody asked for is a panel over the pins they came to look at. */
-  const narrow = window.matchMedia('(max-width: 600px)').matches;
-  const bySlug = slug => (slug ? courses.find(c => c.slug === slug) : null);
-  const initialCourse = bySlug(current) || bySlug(lead) || (narrow ? null : courses[0]);
-  if (initialCourse) {
-    showPreview(initialCourse);
-  }
-
   return {
     el: mapEl,
     map,
-    invalidateSize: () => {
-      setTimeout(() => {
-        map.invalidateSize();
-        if (latLngs.length) map.fitBounds(L.latLngBounds(latLngs), fitPadding());
-        declutter();
-      }, 100);
+    invalidateSize: () => requestAnimationFrame(() => { map.invalidateSize({ pan: false }); declutter(); }),
+    snapshot: () => {
+      const { lat, lng } = map.getCenter();
+      return { lat, lng, zoom: map.getZoom(), region: controls.querySelector('.active')?.dataset.region };
     },
-    focusCourse: (slug) => {
-      const loc = COURSE_LOCATIONS[slug];
-      const course = courses.find(c => c.slug === slug);
-      if (loc && course) {
-        map.flyTo([loc.lat, loc.lng], 9.5, { duration: 0.8 });
-        showPreview(course);
-      }
-    }
+    restore: ({ lat, lng, zoom, region }) => {
+      if (![lat, lng, zoom].every(Number.isFinite)) return;
+      map.setView([lat, lng], zoom, { animate: false });
+      regionBtns.forEach(b => b.classList.toggle('active', b.dataset.region === region));
+    },
+    focusClub: (id, center = false) => {
+      const marker = markers[id];
+      if (!marker) return;
+      if (center) map.setView(marker.getLatLng(), 9);
+      marker.getElement()?.focus({ preventScroll: true });
+    },
   };
 }
 

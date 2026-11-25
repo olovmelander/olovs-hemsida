@@ -13,6 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { publishScorecard } from './publish-scorecard.mjs';
 import { readPack, sha256, readCard } from './lib.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -186,6 +187,7 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
        pipeline built a course is part of that contract. */
     build: c.build,
     par, holes: cardHoles.length, tees: { ...c.tees, def }, photos,
+    scorecard: publishScorecard({ ...c, par, holes: cardHoles.length }, buf, dir),
     ...(c.overviewUrl ? { overviewUrl: c.overviewUrl } : {}),
     ...(c.status ? { status: c.status } : {}),
     ...(c.cardStatus ? { cardStatus: c.cardStatus } : {}),

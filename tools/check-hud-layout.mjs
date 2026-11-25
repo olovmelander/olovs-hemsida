@@ -13,7 +13,7 @@
           node tools/check-hud-layout.mjs [http://127.0.0.1:8631] */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, GPU } from './browser-args.mjs';
 
 const BASE = process.argv[2]?.startsWith('http') ? process.argv[2] : 'http://127.0.0.1:8631';
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
@@ -29,7 +29,9 @@ const browser = await chromium.launch({
   ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
   args: browserArgs(),
 });
-const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+// On software graphics, confirm a real first frame at a small size. Each
+// layout below still uses its full viewport and the live course controls.
+const context = await browser.newContext({ viewport: GPU ? { width: 1440, height: 900 } : { width: 480, height: 320 } });
 const page = await context.newPage();
 page.setDefaultTimeout(180_000);
 const errors = [];
@@ -40,15 +42,24 @@ const gate = (ok, message) => {
   if (!ok) process.exitCode = 1;
 };
 
-await page.goto(`${BASE}/?bana=veckefjarden&hal=12&vy=tee&det=1`, { waitUntil: 'load', timeout: 180_000 });
-await page.waitForSelector('#boot.done', { timeout: 600_000 });
+await page.goto(`${BASE}/?bana=veckefjarden&karta=0&hal=12&vy=tee&det=1${GPU ? '' : '&q=lo'}`, { waitUntil: 'load', timeout: 180_000 });
+await page.waitForFunction(() => document.querySelector('#boot.done')
+  || !document.querySelector('#bootRecovery').hidden, null, { timeout: 600_000 });
+if (!await page.locator('#boot.done').count()) {
+  const message = await page.locator('#bmsg').innerText();
+  await browser.close();
+  throw new Error('Course could not render its first frame: ' + message);
+}
 await page.waitForTimeout(1200);
+// The panels are live DOM over the finished course. Pause expensive draws while
+// measuring the same HUD at multiple window sizes, particularly on SwiftShader.
+await page.evaluate(() => V3D.harness().renderer.setAnimationLoop(null));
 
 for (const [width, height] of SIZES) {
   await page.setViewportSize({ width, height });
   await page.waitForTimeout(500);
   const state = await page.evaluate(() => {
-    const ids = ['card', 'rail', 'mini', 'note', 'holes', 'courseNav', 'kikGreen', 'brand'];
+    const ids = ['card', 'rail', 'mini', 'note', 'holes', 'courseNav', 'kikGreen', 'strategyReadout', 'brand'];
     const panels = [];
     for (const id of ids) {
       const el = document.getElementById(id);
@@ -102,6 +113,51 @@ for (const [width, height] of SIZES) {
 }
 
 gate(errors.length === 0, `no page errors${errors.length ? `: ${errors[0]}` : ''}`);
+await page.setViewportSize({ width: 981, height: 760 });
+await page.locator('#holes .hb').last().click();
+await page.locator('#holeNextBtn').click();
+await page.waitForFunction(() => {
+  const row = document.querySelector('#holes').getBoundingClientRect();
+  const active = document.querySelector('#holes .hb.on');
+  return active?.textContent === '1' && active.getBoundingClientRect().left >= row.left;
+});
+gate(true, 'the end of the laptop hole strip and the arrow back to hole one are reachable');
+await page.setViewportSize({ width: 390, height: 844 });
+await page.evaluate(() => { V3D.goHole(1, true, true); V3D.setCam('tee', true); });
+const target = page.locator('#strategyReadout');
+await target.waitFor({ state: 'visible' });
+gate(await target.evaluate(el => {
+  const zone = V3D.caddie().strategy.zones[0];
+  return el.textContent.includes(Math.round(zone.distance) + ' m') && (!zone.club || el.textContent.includes(zone.club.name))
+    && parseFloat(getComputedStyle(el.querySelector('span')).fontSize) >= 13;
+}), 'the selected landing target and club stay readable from the tee');
+await page.evaluate(() => document.querySelector('#strategyBtn').click());
+await target.waitFor({ state: 'hidden' });
+await page.evaluate(() => document.querySelector('#strategyBtn').click());
+await target.waitFor({ state: 'visible' });
+// Veckefjärden's holes all have measurable rise. Exercise the same rounded
+// elevation as Bro Hof Stadium 17 in the already loaded renderer.
+const levelHidden = await page.evaluate(async () => {
+  const original = V3D.HOLES[0].elev.rise;
+  try {
+    V3D.HOLES[0].elev.rise = -0.3;
+    V3D.goHole(1, false, true);
+    await Promise.resolve();
+    return document.querySelector('#railHoleSub').hidden;
+  } finally {
+    V3D.HOLES[0].elev.rise = original;
+    V3D.goHole(1, false, true);
+  }
+});
+gate(levelHidden, 'a level hole has no zero-metre uphill or downhill callout');
+await page.evaluate(() => V3D.goHole(12, true, true));
+await page.locator('#menuToggle').click();
+await page.getByRole('tab', { name: 'Utforska' }).click();
+const handoff = new URL(await page.locator('#dMapBtn').getAttribute('href'), BASE);
+const tee = await page.locator('#tees .tee.on').evaluate(el => [...el.parentElement.children].indexOf(el) + 1);
+gate(handoff.searchParams.get('hal') === '12' && handoff.searchParams.get('tee') === String(tee)
+  && handoff.searchParams.get('runda') === 'visa', 'Lätt 3D previews the displayed hole and tee');
+await page.locator('#drawerCloseBtn').click();
 for (const [width, height] of [[568, 320], [667, 375], [390, 844]]) {
   await page.setViewportSize({ width, height });
   const toggle = page.locator('#mobileMiniToggle'), close = page.locator('#miniCloseBtn');
@@ -115,5 +171,26 @@ for (const [width, height] of [[568, 320], [667, 375], [390, 844]]) {
   await close.click();
   gate(await toggle.evaluate(el => el === document.activeElement && el.getAttribute('aria-expanded') === 'false'),
     'closing the overview restores its launcher');
+}
+await page.setViewportSize({ width: 1366, height: 768 });
+const fold = page.locator('#railFoldBtn');
+if (await fold.getAttribute('aria-expanded') === 'true') await fold.click();
+const button = await fold.boundingBox();
+gate(button.height >= 44 && button.width >= 150, 'the folded tools header is a full-width touch target');
+await fold.getByText('Vy · ljus · verktyg').click();
+gate(await fold.getAttribute('aria-expanded') === 'true', 'the header words open the toolbar');
+await fold.focus();
+await page.keyboard.press('Enter');
+gate(await fold.getAttribute('aria-expanded') === 'false', 'keyboard activation folds the toolbar');
+await page.locator('#menuToggle').click();
+await page.getByRole('tab', { name: 'Utforska' }).click();
+for (const [tile, control] of [['#dStrategyBtn', '#strategyBtn'], ['#dGridBtn', '#gridBtn']]) {
+  const toggle = page.locator(tile);
+  const before = await toggle.getAttribute('aria-pressed');
+  await toggle.click();
+  gate(await page.locator('#navDrawer[open]').isVisible()
+    && await toggle.getAttribute('aria-pressed') === String(before !== 'true'), 'switching ' + tile + ' preserves the drawer and reports the new state');
+  await page.locator(control).evaluate(el => el.click());
+  await page.waitForFunction(({ tile, before }) => document.querySelector(tile).getAttribute('aria-pressed') === before, { tile, before });
 }
 await browser.close();

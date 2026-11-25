@@ -2,7 +2,7 @@
    key, and the shapes that must NOT be treated as legacy links. These are the
    links this project was shared with, so the mapping is a contract. */
 import { describe, it, expect } from 'vitest';
-import { legacyTarget, LEGACY_PAGES, VIEW_KEYS, courseUrl, parentHubRoute, previousCourseEntry } from './router.js';
+import { legacyTarget, LEGACY_PAGES, VIEW_KEYS, courseUrl, detailedUrl, mapUrl, playUrl, parentHubRoute, previousCourseEntry } from './router.js';
 
 const q = url => Object.fromEntries(new URLSearchParams(url.split('?')[1]));
 
@@ -55,6 +55,14 @@ describe('legacyTarget', () => {
 });
 
 describe('courseUrl', () => {
+  it('hands a layout, hole and tee between viewers without starting a real or simulated round', () => {
+    const slug = 'bro-hof-castle', context = { hole: 8, tee: '3', preview: true };
+    expect(q(detailedUrl(slug, context))).toEqual({ bana: slug, karta: '0', hal: '8', tee: '3' });
+    expect(q(mapUrl(slug, context))).toEqual({ bana: slug, karta: '1', hal: '8', tee: '3', runda: 'visa' });
+    expect(q(mapUrl(slug, { hole: 0, tee: null }))).toEqual({ bana: slug, karta: '1' });
+    expect(q(playUrl(slug))).toEqual({ bana: slug, karta: '0', spela: '1' });
+  });
+
   it('switches course while preserving quality settings and discarding retired modes', () => {
     expect(courseUrl('puttom', '?bana=angso&ghibli=1&hero=1')).toBe('?bana=puttom&hero=1');
     expect(courseUrl('puttom', '?bana=angso&ghibli=0')).toBe('?bana=puttom');
@@ -75,8 +83,12 @@ describe('hub returns', () => {
   it('walks shared round links and filter dialogs one level at a time', () => {
     expect(parentHubRoute('#statistik/upsala/42?filter=1')).toBe('statistik/upsala/42');
     expect(parentHubRoute('#statistik/upsala/42')).toBe('statistik/upsala');
+    expect(parentHubRoute('#statistik/angso/1015?exempel=1')).toBe('statistik/angso?exempel=1');
+    expect(parentHubRoute('#statistik/angso?exempel=1')).toBe('statistik?exempel=1');
+    expect(parentHubRoute('#statistik?exempel=1')).toBe('');
     expect(parentHubRoute('#statistik/upsala')).toBe('statistik');
     expect(parentHubRoute('#/karta/upsala?hal=10&tee=2')).toBe('karta');
+    expect(parentHubRoute('#karta/klubb/bro-hof')).toBe('karta');
     expect(parentHubRoute('#installningar/bag')).toBe('installningar');
     expect(parentHubRoute('#statistik')).toBe('');
   });

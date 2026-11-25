@@ -655,10 +655,9 @@ await note(page, 'overview shot');
 /* ---- the light ---- */
 const lightState = () => page.evaluate(() => ({ key: V3DMap.state.lightKey, light: V3DMap.state.light.key, sun: V3DMap.state.light.sun, autumn: V3DMap.state.light.autumn, pressed: document.querySelector('[data-now]').getAttribute('aria-pressed') }));
 await page.click('[data-menu]');
-await page.click('[data-menu-tab="karta"]');
-await page.locator('[data-light]').scrollIntoViewIfNeeded();
-await page.click('[data-light]');
-expect(await page.isVisible('[data-light-sheet]'), 'Ljus lives in the menu and opens its picker');
+await page.click('[data-menu-tab="visning"]');
+await page.locator('[data-lights]').scrollIntoViewIfNeeded();
+expect(await page.isVisible('[data-lights]'), 'Visning shows the light choices');
 expect(await page.locator('[data-lights] button').count() === 11, 'with Nu, the simulator\'s nine lights and a winter');
 await page.click('[data-lights] [data-key="host"]');
 await page.waitForTimeout(250);
@@ -671,8 +670,7 @@ expect(sunNow.key === 'nu' && sunNow.pressed === 'true', `Nu takes the sun of th
 await page.click('[data-now]');
 await page.waitForTimeout(250);
 expect((await lightState()).pressed === 'false', 'and lets it go again');
-await page.click('[data-light-back]');
-await page.click('[data-menu-tab="spel"]');
+await page.click('[data-menu-tab="runda"]');
 await page.click('[data-clubs-open]');
 expect(await page.isVisible('[data-clubs-sheet]') && await page.locator('[data-clubs] li').count() > 5, 'Mina klubbor lists the bag');
 await page.click('[data-clubs-back]');
@@ -750,7 +748,7 @@ expect(!(await isMap(phone)), 'a link that asks for the player still gets it on 
    own, in place of a "3D" chip on every card. */
 await phone.goto(BASE, { waitUntil: 'domcontentloaded' });
 await phone.waitForSelector('#home .mode-card[data-mode="detailed"]', { timeout: 60000 });
-expect(await phone.evaluate(() => Boolean(document.querySelector('#home .mode-card[data-mode="map"] .mc-badge'))), 'the start menu offers a phone the detailed course, and marks the map as its best');
+expect(await phone.locator('#home .mode-card').first().getAttribute('data-mode') === 'map', 'the phone start menu presents Lätt 3D first');
 await phone.close();
 /* ---- a round, from the first tap to the last ---- */
 const roundContext = await browser.newContext({
@@ -767,7 +765,8 @@ await golfer.goto(BASE, { waitUntil: 'domcontentloaded' });
 await golfer.waitForSelector('#home [data-near]', { timeout: 20000 });
 expect(await golfer.evaluate(() => document.querySelector('#home [data-near]').dataset.slug) === 'angso', 'with the position allowed, the start menu offers the round on the course under the player');
 await golfer.goto(`${BASE}#karta`, { waitUntil: 'domcontentloaded' });
-await golfer.waitForSelector('.current-badge.is-near', { timeout: 20000, state: 'attached' });
+await golfer.locator('#coursesCardList .card-item').first().locator('.club-place .is-near').waitFor({ timeout: 20000 });
+expect(await golfer.locator('#chooserSort').inputValue() === 'distance', 'the visible distances match the active proximity sort');
 expect(await golfer.evaluate(() => document.querySelector('.card-item').dataset.slug) === 'angso', 'and the map\'s list leads with it');
 await golfer.goto(`${BASE}?bana=${SLUG}`, { waitUntil: 'domcontentloaded' });
 await golfer.waitForFunction(() => globalThis.V3DMap, null, { timeout: 60000 });
@@ -835,9 +834,10 @@ await settled(golfer);
 expect(!(await golfer.isVisible('[data-start-sheet]')), 'Bara titta is taken at its word');
 
 /* A preview must start a round before any score can be written. */
-await golfer.click('[data-score]');
+expect(!await golfer.isVisible('[data-score]'), 'the browsing dock leaves room for the start action');
+await golfer.click('[data-wheel-lock]');
 await golfer.waitForSelector('[data-start-sheet]:not([hidden])');
-expect(await golfer.evaluate(() => !V3DMap.round().begunAt && !Object.keys(V3DMap.round().scores).length), 'opening Score from a preview leaves the card untouched');
+expect(await golfer.evaluate(() => !V3DMap.round().begunAt && !Object.keys(V3DMap.round().scores).length), 'opening round setup from a preview leaves the card untouched');
 await golfer.click('[data-start-go]');
 await golfer.waitForSelector('[data-start-sheet]', { state: 'hidden' });
 await golfer.click('[data-score]');
@@ -885,7 +885,7 @@ await golfer.click('[data-rounds-back]');
 
 /* The display, for the sun, the hand and the eyes. */
 const panel = () => golfer.evaluate(() => { const { backgroundColor, color } = getComputedStyle(document.querySelector('.map-green')); return { backgroundColor, color, left: document.querySelector('.map-side').getBoundingClientRect().left, classes: document.querySelector('#courseMap').className }; });
-await golfer.click('[data-menu-tab="karta"]');
+await golfer.click('[data-menu-tab="visning"]');
 await golfer.locator('[data-sun]').click();
 await golfer.waitForTimeout(350);
 const sunny = await panel();
@@ -900,7 +900,7 @@ await settled(golfer);
 const remembered = await panel();
 expect(/is-sun/.test(remembered.classes) && /is-left/.test(remembered.classes) && /is-large/.test(remembered.classes), 'and all three are kept');
 await golfer.click('[data-menu]');
-await golfer.click('[data-menu-tab="karta"]');
+await golfer.click('[data-menu-tab="visning"]');
 for (const name of ['sun', 'large', 'left']) await golfer.locator(`[data-${name}]`).click();
 const sheetOpened = await golfer.evaluate(() => document.activeElement?.getAttribute('aria-label'));
 await golfer.click('[data-menu-sheet] [data-close]');
@@ -944,9 +944,8 @@ await desktop.goto(BASE, { waitUntil: 'domcontentloaded' });
 await desktop.waitForSelector('#home .mode-card[data-mode="map"]', { timeout: 60000 });
 await desktop.goto(`${BASE}#karta`, { waitUntil: 'domcontentloaded' });
 await desktop.waitForSelector('#chooser:not([hidden]) .card', { timeout: 60000 });
-/* the course just visited leads with "Fortsätt"; the others say what they open */
-const ctas = await desktop.$$eval('#chooser .card-item .sha-text', each => each.map(el => el.textContent));
-expect(ctas.filter(text => /kartan/.test(text)).length >= ctas.length - 1, `and its start menu offers the map: Lätt 3D, whose cards open it (${ctas.slice(0, 2).join(', ')})`);
+expect(await desktop.locator('#chooserModeToggle [data-mode-name]').innerText() === 'Lätt 3D',
+  'the catalogue keeps the selected mode visible while choosing a club');
 await desktopContext.close();
 
 await finishRun();

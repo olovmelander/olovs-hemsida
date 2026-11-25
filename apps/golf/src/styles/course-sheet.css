@@ -48,10 +48,9 @@
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transform: scale(1.03);
-  transition: opacity 0.9s ease, transform 6s ease-out;
+  transition: opacity .25s ease;
 }
-.cs-slides i.is-on { opacity: 1; transform: scale(1.08); }
+.cs-slides i.is-on { opacity: 1; }
 .cs-media-shade {
   position: absolute;
   inset: 0;
@@ -77,7 +76,7 @@
 .cs-dots i { width: 6px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.45); transition: width 0.3s var(--ease), background-color 0.3s; }
 .cs-dots i.is-on { width: 18px; background: var(--turf); }
 .cs-media-text { position: absolute; left: 28px; right: 28px; bottom: 26px; }
-.cs-where { font: 700 12px/1.3 Outfit, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: var(--turf); }
+.cs-where { font: 700 12px/1.3 Outfit, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: #c4f7ce; text-shadow: 0 1px 3px #092010; }
 .cs-title { margin-top: 6px; font: 800 clamp(30px, 3.2vw, 46px)/1 Outfit, sans-serif; letter-spacing: -0.04em; color: #fff; text-wrap: balance; }
 .cs-facts { display: flex; gap: 22px; margin: 16px 0 0; }
 .cs-facts div { display: flex; flex-direction: column-reverse; gap: 5px; padding-left: 12px; border-left: 2px solid rgba(95, 208, 122, 0.55); }
@@ -85,7 +84,7 @@
 .cs-facts dt { font: 700 10px/1 Outfit, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
 
 /* ---------------------------------------------------------------- form */
-.cs-form { display: flex; flex-direction: column; min-height: 0; }
+.cs-form { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
 .cs-scroll {
   flex: 1 1 auto;
   min-height: 0;
@@ -94,17 +93,12 @@
   padding: 30px 30px 10px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 14px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
 }
 /* a scrolling column: its children keep their height (a clamped line has none of its own) */
 .cs-scroll > * { flex-shrink: 0; }
-/* the close button floats over this column's top: scrolled content fades out under it */
-.cs-scroll.is-scrolled {
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 68px);
-  mask-image: linear-gradient(180deg, transparent 0, #000 68px);
-}
 .cs-line { font: 400 14.5px/1.55 Outfit, sans-serif; color: var(--cs-ink-2); padding-right: 40px; }
 /* the weather on the course now: one quiet line */
 .cs-weather {
@@ -156,6 +150,48 @@
 .cs-field legend, .cs-legend { padding: 0; margin-bottom: 10px; font: 700 11px/1 Outfit, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cs-ink-3); }
 .cs-facts dd.is-wait { color: rgba(255, 255, 255, 0.3); }
 
+/* The chosen activity has a compact switch. Secondary setup and course reading
+   use native disclosures so they work with keyboard and touch alike. */
+.cs-collapse { border: 1px solid #35493d; border-radius: 12px; padding: 0 13px; }
+.cs-collapse[hidden] { display: none; }
+.cs-collapse > summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  cursor: pointer;
+  list-style: none;
+  font: 650 15px/1.25 Outfit, sans-serif;
+  color: #edf4ee;
+}
+.cs-collapse > summary::-webkit-details-marker { display: none; }
+.cs-collapse > summary::after {
+  content: '';
+  margin: 0 3px 3px auto;
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border: solid #b3c9bb;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.cs-collapse[open] > summary::after { transform: rotate(225deg); margin-bottom: -4px; }
+.cs-collapse > summary > span { margin-left: auto; font-size: 13px; color: #b8d2c1; }
+.cs-collapse > summary:has(> span)::after { margin-left: 0; }
+.cs-collapse > summary:focus-visible { outline: 2px solid #abedba; outline-offset: 3px; border-radius: 6px; }
+.cs-collapse[open] > :last-child { margin-bottom: 12px; }
+.cs-choose-mode { background: #11271b; border-color: #496d52; }
+.cs-choose-mode > summary { min-height: 48px; }
+.cs-section-body { display: grid; gap: 14px; }
+.cs-collapse > summary + .cs-guide-head { justify-content: flex-end; }
+.cs-form .cs-field legend, .cs-form .cs-legend {
+  margin-bottom: 8px;
+  color: #bfd0c4;
+  font: 600 14px/1.3 Outfit, sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 /* the scorecard: a nine a table, the chosen tee's lengths in its own colour */
 .cs-card { display: grid; gap: 8px; }
 .cs-card-load { width: 100%; }
@@ -200,7 +236,7 @@
 .cs-guide-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
 .cs-guide-head .cs-legend { margin-bottom: 0; }
 .cs-guide-nav { display: flex; gap: 8px; }
-.cs-guide-nav .cs-round-btn { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.14); }
+.cs-guide-nav .cs-round-btn { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.14); }
 .cs-guide {
   position: relative;
   display: grid;
@@ -269,16 +305,17 @@
 
 /* an even grid: six tees stand in one row on a computer, where the wrapped row
    left the last tee alone on a line of its own */
-.cs-tees { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; }
+.cs-tees { display: grid; grid-template-columns: repeat(auto-fit, minmax(65px, 1fr)); gap: 8px; }
 .cs-tee { position: relative; }
-.cs-tee span {
-  display: inline-flex;
+.cs-tee-option {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 9px;
+  gap: 5px;
   justify-content: center;
   width: 100%;
   min-height: 46px;
-  padding: 0 10px;
+  padding: 5px 4px;
   border-radius: 13px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.03);
@@ -287,13 +324,17 @@
   pointer-events: none;
   transition: border-color 0.2s, background-color 0.2s, color 0.2s;
 }
-.cs-tee i { width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25); }
+.cs-tee-option b { display: flex; align-items: center; gap: 6px; font: inherit; }
+.cs-tee-option small { font: 500 12px/1.25 Outfit,sans-serif; color: var(--cs-ink-2); }
+.cs-tee-option small:empty { display: none; }
+.cs-tee i { flex: none; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25); }
 .cs-tee:has(input:checked) span { border-color: var(--turf); background: rgba(95, 208, 122, 0.12); color: #fff; box-shadow: 0 0 0 1px var(--turf); }
 .cs-tee:has(input:focus-visible) span { outline: 2px solid #fff; outline-offset: 2px; }
 
 .cs-seg { display: flex; width: 100%; }
 .cs-seg .seg-opt { flex: 1 1 0; }
 .cs-seg .seg-opt span { flex: 1 1 auto; }
+.cs-seg .seg-opt input:checked + span { background: #20462e; color: #f1fbf3; box-shadow: inset 0 0 0 1px #83c993; }
 
 .cs-hcp { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 18px; }
 .cs-note { flex: 1 1 200px; font: 400 12.5px/1.45 Outfit, sans-serif; color: var(--cs-ink-3); }
@@ -317,8 +358,10 @@
   border-top: 1px solid var(--cs-line);
   background: var(--cs-surface);
 }
-.cs-map-actions { display: flex; gap: 8px; }
-.cs-map-actions .cs-ghost { flex: 1; min-width: 0; }
+.cs-offline-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-block: 12px; border-top: 1px solid var(--cs-line); }
+.cs-offline-tools .cs-hint { text-align: start; }
+.cs-offline-tools .cs-ghost { min-width: 44px; padding-inline: 12px; }
+.cs .cs-offline-tools[hidden], .cs-offline-tools [hidden] { display: none; }
 .cs-actions [hidden] { display: none; }
 .cs-go {
   display: flex;
@@ -333,7 +376,7 @@
   font: 800 17px/1 Outfit, sans-serif;
   letter-spacing: -0.01em;
   cursor: pointer;
-  box-shadow: 0 14px 34px rgba(95, 208, 122, 0.3);
+  box-shadow: 0 3px 12px rgba(32, 80, 43, 0.25);
   transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 .cs-ghost {
@@ -345,12 +388,13 @@
   font: 600 14.5px/1 Outfit, sans-serif;
   cursor: pointer;
 }
+.cs-hint:empty { display: none; }
 .cs-hint { font: 400 12px/1.4 Outfit, sans-serif; color: var(--cs-ink-3); text-align: center; }
 .cs-go:focus-visible, .cs-ghost:focus-visible, .cs-round-btn:focus-visible, .cs-close:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 .cs-go:active { transform: scale(0.985); }
 
 @media (hover: hover) and (pointer: fine) {
-  .cs-go:hover { filter: brightness(1.06); box-shadow: 0 18px 40px rgba(95, 208, 122, 0.4); }
+  .cs-go:hover { filter: brightness(1.06); box-shadow: 0 4px 14px rgba(32, 80, 43, 0.3); }
   .cs-ghost:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
   .cs-mode:not(:has(input:checked)):hover, .cs-tee:not(:has(input:checked)):hover span { border-color: rgba(255, 255, 255, 0.24); background: rgba(255, 255, 255, 0.06); }
   .cs-light:not(:has(input:checked)):hover .cs-light-sky { box-shadow: 0 0 0 2px var(--cs-surface), 0 0 0 4px rgba(255, 255, 255, 0.35); }
@@ -370,18 +414,7 @@
   .cs-facts { gap: 16px; margin-top: 6px; }
   .cs-facts dd { font-size: 19px; }
   .cs-scroll { padding: 10px 16px 8px; gap: 10px; }
-  /* here the button sits on the posters, not on the choices */
-  .cs-scroll.is-scrolled { -webkit-mask-image: none; mask-image: none; }
-  /* the choices come first on a phone: the story keeps two lines */
-  .cs-line {
-    padding-right: 0;
-    font-size: 13.5px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
-  }
+  .cs-line { padding-right: 0; font-size: 14px; }
   .cs-past { gap: 6px; }
   .cs-past div { padding: 9px 10px; gap: 3px; }
   .cs-past b { font-size: 18px; }
@@ -397,26 +430,21 @@
   .cs-sc { font-size: 11.5px; }
   .cs-sc th[scope="row"] { width: 50px; padding-left: 8px; letter-spacing: 0.02em; }
   .cs-sc .cs-sc-sum { width: 40px; }
-  /* a finger swipes the guide */
-  .cs-guide-nav { display: none; }
-  .cs-actions { gap: 6px; padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
-  .cs-go { min-height: 54px; }
+  .cs-guide-nav { display: flex; }
+  .cs-actions { gap: 4px; padding: 6px 16px calc(8px + env(safe-area-inset-bottom, 0px)); }
+  .cs-go { min-height: 48px; }
   .cs-ghost { min-height: 44px; }
-  .cs-hint { display: none; }
+  .cs-hint { font-size: 12px; }
 }
 /* a phone on its side: posters beside the choices again */
 @media (max-height: 520px) and (min-width: 600px) {
   .cs-shell { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); grid-template-rows: none; }
-  .cs-line, .cs-hint { display: none; }
-  .cs-scroll.is-scrolled {
-    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 60px);
-    mask-image: linear-gradient(180deg, transparent 0, #000 60px);
-  }
+  .cs-hint { font-size: 12px; }
 }
 @media (max-width: 350px) {
   .cs-lights { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .cs[open], .cs[open]::backdrop { animation: none; }
-  .cs-slides i { transition: none; transform: none; }
+  .cs-slides i { transition: none; }
 }

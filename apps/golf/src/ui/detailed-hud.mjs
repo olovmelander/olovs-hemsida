@@ -1,6 +1,36 @@
 /** The detailed viewer owns opening its panels. Mirror that actual state for
     assistive technology, including when a shortcut or another tool closes one. */
 export function installDetailedHud() {
+  // The renderer publishes its selected target when the first frame is ready.
+  // Read the same plan on hole, tee, bag and strategy changes, never per frame.
+  const target = document.getElementById('strategyReadout');
+  function syncTarget() {
+    const caddie = window.V3D?.caddie();
+    const zone = caddie?.strategyOn && caddie.strategy?.status === 'playable' && caddie.strategy.zones[0];
+    target.hidden = !zone;
+    if (!zone) return;
+    const green = zone.kind === 'green';
+    target.querySelector('b').textContent = `${green ? 'Green' : 'Sikta här'} · ${Math.round(zone.distance)} m`;
+    target.querySelector('span').textContent = [zone.club?.name, green ? 'till mitten' : `${Math.round(zone.remain)} m kvar`].filter(Boolean).join(' · ');
+  }
+  const targetObserver = new MutationObserver(syncTarget);
+  targetObserver.observe(document.getElementById('boot'), { attributes: true, attributeFilter: ['class'] });
+  targetObserver.observe(document.getElementById('strategyStatus'), { childList: true });
+  syncTarget();
+
+  const lights = document.getElementById('railLights');
+  const lightName = document.getElementById('railLightName');
+  const syncLight = () => { lightName.textContent = lights.querySelector('[data-preset].on')?.textContent.trim() || ''; };
+  new MutationObserver(syncLight).observe(lights, { attributes: true, attributeFilter: ['class'], subtree: true });
+  syncLight();
+
+  for (const id of ['railHoleSub', 'tourElev']) {
+    const elevation = document.getElementById(id);
+    const sync = () => { elevation.hidden = !elevation.textContent.trim() || /\b0 m (uppför|nedför)\b/.test(elevation.textContent); };
+    new MutationObserver(sync).observe(elevation, { childList: true, subtree: true });
+    sync();
+  }
+
   const panels = [
     ['mini', 'mobileMiniToggle', 'miniCloseBtn'],
     ['note', 'mobileNoteToggle', 'noteCloseBtn'],

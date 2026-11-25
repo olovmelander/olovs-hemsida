@@ -125,6 +125,10 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   -webkit-touch-callout: none;
 }
 .map-wheel.is-away { visibility: hidden; }
+/* Browsing a hole keeps the club picker available when measuring a shot. */
+#courseMap.is-map-preview:not(.is-desktop):not(.has-map-target) .map-wheel { visibility: hidden; }
+#courseMap.is-map-preview:not(.is-desktop) .map-tools { grid-template-columns: 1.4fr 1fr 1fr; }
+#courseMap.is-map-preview:not(.is-desktop) .map-tools [data-score] { display: none; }
 .map-log-shot, .map-shot-actions button {
   min-height: 44px;
   padding: 4px 7px;
@@ -234,6 +238,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-green.is-green { box-shadow: inset 0 0 0 2px var(--accent), var(--panel-shadow); }
 .map-green[hidden] { display: none; }
 .map-green.is-on .map-green-row:not(.map-green-mid), .map-green.is-on i, .map-green.is-on small, .map-green.is-on .map-unit { display: none; }
+.map-green.is-on small.is-rough { display: block; }
 .map-green.is-on:not([hidden]) { display: grid; place-items: center; gap: 4px; min-height: 60px; padding: 6px 4px; }
 .map-green.is-on .map-green-mid b { font-size: 16px; line-height: 1.15; }
 .map-green-row { display: block; padding: 2px 0; line-height: 1; }
@@ -495,6 +500,19 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-mark-you { color: #2e86ff; }
 .map-mark-aim { color: var(--accent); }
 .map-tools { position: relative; z-index: 11; display: grid; grid-template-columns: 1.38fr .9fr 1.12fr .9fr; gap: 5px; }
+.map-pending {
+  margin: 0;
+  padding: 8px 12px;
+  color: var(--ink);
+  background: var(--panel-solid);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
 .map-tool {
   min-width: 0;
   height: 54px;
@@ -624,7 +642,7 @@ button.map-shot:focus-visible, .map-tool:focus-visible, .map-hole button:focus-v
 }
 .map-menu-tabs {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px;
   margin: 2px 0 8px;
   padding: 4px;
@@ -832,9 +850,17 @@ a.map-row-next { text-decoration: none; }
 .map-action[hidden] { display: none; }
 .map-action:disabled { opacity: .7; }
 .map-action-quiet { background: none; color: var(--over); }
+.map-download { width: 100%; }
+
+#boot.map-load-failed :is(.boot-logo, #bar, .status-pulse) { display: none; }
+#boot.map-load-failed .boot-status { justify-content: center; }
+#boot.map-load-failed #bmsg { font-size: 15px; color: #dce7df; }
 .map-action-next { width: 100%; margin-top: 9px; background: var(--fill-on); color: var(--ink-on); }
 .map-action.is-confirming { background: #a33a00; color: #fff; font-weight: 700; }
 .map-score-undo {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -842,7 +868,8 @@ a.map-row-next { text-decoration: none; }
   margin: 6px 0 2px;
   padding: 4px 6px 4px 12px;
   border-radius: 12px;
-  background: var(--fill);
+  background: var(--panel-solid);
+  box-shadow: inset 0 0 0 1px var(--panel-border), var(--panel-shadow);
   font-size: 13.5px;
   font-weight: 600;
 }
@@ -1148,6 +1175,8 @@ a.map-row-next { text-decoration: none; }
 
 /* ---- Större text: crisp typographic scaling without CSS zoom distortion ---- */
 .is-large .map-hole-text b { font-size: 21px; }
+.is-large .map-green :is(i, small) { font-size: 13px; line-height: 1.15; overflow-wrap: anywhere; }
+.is-large .map-pending { font-size: 16px; }
 .is-large .map-hole-text span { font-size: 14px; }
 .is-large .map-tool { font-size: 14.5px; gap: 4px; }
 .is-large .map-reading { font-size: 15px; }

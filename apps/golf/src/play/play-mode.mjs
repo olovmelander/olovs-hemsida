@@ -36,8 +36,9 @@ import {
   playBag, launchFor, puttRangeFor, planPower, LIE_NAME, DIFFICULTY, SHOT_TYPES, SHAPES, HEIGHTS, SPINS, STOCK_SETUP,
   shotTypesFor, shapeable, swingFor, fitSetup, lieQuality, slopeLie, slopeWords, suggestShot, puttPlaysLike, clubReach, setupForClub,
 } from './shot-model.mjs';
-import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, playHoleReaction, savePlayedRound, dropPoint, PLAY_KEYS,
-  receivedOn, pointsOn, roundStats, readPlayCheckpoint, savePlayCheckpoint, clearPlayCheckpoint } from './play-rules.mjs';
+import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, playHoleReaction, dropPoint, PLAY_KEYS,
+  receivedOn, pointsOn, roundStats, getPlayStorage, readPlayCheckpoint } from './play-rules.mjs';
+import { createPlayPersistence, recoverPlayWrites } from './play-persistence.mjs';
 import { conditionsFor, groundWith, strokeWind } from './conditions.mjs';
 import { createHoleMap } from './hole-map.mjs';
 import { createPlayWorld } from './play-world.mjs';
@@ -63,20 +64,20 @@ export async function mountPlay(handle) {
 const ON_OFF = Object.freeze({ on: 'På', off: 'Av' });
 /* The player's handicap where the course page and the map keep it (read, never written here). */
 function mapHandicap() {
-  const text = readText(globalThis.localStorage, MAP_KEYS.handicap, '');
+  const text = readText(getPlayStorage(), MAP_KEYS.handicap, '');
   return text !== '' && Number.isFinite(Number(text)) ? Number(text) : null;
 }
 function readSettings() {
   let s = {};
-  try { s = JSON.parse(localStorage.getItem(PLAY_KEYS.settings) || '{}') || {}; } catch { s = {}; }
+  try { s = JSON.parse(getPlayStorage()?.getItem(PLAY_KEYS.settings) || '{}') || {}; } catch { s = {}; }
   return { difficulty: DIFFICULTY[s.difficulty] ? s.difficulty : 'normal', method: SWING_METHODS[s.method] ? s.method : 'drag',
     sound: s.sound !== false, flyover: s.flyover !== false, bigMap: s.bigMap };
 }
 function saveSettings({ difficulty, method, sound, flyover, bigMap }) {
-  try { localStorage.setItem(PLAY_KEYS.settings, JSON.stringify({ difficulty, method, sound, flyover, bigMap })); } catch {}
+  try { getPlayStorage()?.setItem(PLAY_KEYS.settings, JSON.stringify({ difficulty, method, sound, flyover, bigMap })); } catch {}
 }
 
-const KEY_HELP = 'Sikta ← → · Klubba ↑ ↓ · Slag T · Form Q E · Höjd W S · Spinn Z C · Repris R · Kamera V · Ljus L · Guide G · Karta M';
+const KEY_HELP = 'Trycksving: mellanslag · Sikta ← → · Klubba ↑ ↓ · Slag T · Form Q E · Höjd W S · Spinn Z C · Repris R · Kamera V · Ljus L · Guide G · Karta M';
 const PAD_HELP = 'Vänster spak siktar · höger spak svingar · LB RB klubba · X slag · ←→ form · ↑↓ höjd · LT RT spinn · Y kamera · Back repris';
 /* The lights, as the course's drawer shows them: Nu first, each as its own sky. */
 const NOW_SKY = 'conic-gradient(from 200deg, #294885, #8295ba, #d3b89a, #568bc6, #294885)';
@@ -110,10 +111,13 @@ async function startPlay(h, query) {
   }, { signal: abort.signal });
   const settings = readSettings();
   const intent = query.get('sim');
-  const saved = intent === 'ny' ? null : readPlayCheckpoint(localStorage, h.slug, h.holes.length);
+  const ownsAccount = () => !detached;
+  await recoverPlayWrites(h.slug, { ownsAccount });
+  const initialCheckpoint = readPlayCheckpoint(getPlayStorage(), h.slug, h.holes.length);
+  const saved = intent === 'ny' ? null : initialCheckpoint;
   let directPractice = intent === 'traning';
-  let revision = intent === 'ny' ? undefined : saved?.revision ?? null;
-  let saveWarning = false;
+  const persistence = createPlayPersistence({ revision: initialCheckpoint?.revision, ownsAccount });
+  let leaving = false, savingExit = false, saveWarning = false, inputSave = 0;
   const wanted = saved?.round.character || query.get('golfare');
   const characterId = Object.hasOwn(GOLFER_CHARACTERS, wanted) ? wanted : 'female';
   if (saved && DIFFICULTY[saved.round.difficulty]) settings.difficulty = saved.round.difficulty;
@@ -135,6 +139,7 @@ async function startPlay(h, query) {
     onView: () => cycleView(),
     onSetup: (key, value) => changeSetup(key, value),
     onReplay: () => startReplay(),
+    onSkip: () => { if (state === 'flyover') endFlyover(); else if (state === 'replay') endReplay(); },
     onClearTarget: () => clearTarget(),
   });
   hud.root.classList.add('is-loading');
@@ -217,6 +222,7 @@ async function startPlay(h, query) {
 
   const pad = createSwingPad({
     parent: hud.root, method: settings.method,
+    onMethod: value => { settings.method = value; saveSettings(settings); },
     onBack: (power, source) => {
       if (state !== 'address') return;
       hud.toggleSetup(false);
@@ -310,7 +316,7 @@ async function startPlay(h, query) {
   function clearTarget() {
     if (targetDist == null) return;
     targetDist = null;
-    if (state === 'address') { plan(); showHud(); preview(); }
+    if (state === 'address') { plan(); showHud(); preview(); scheduleInputSave(); }
   }
 
   /* -- the camera's views (the course's Tee, Green, Fri) ------------------------------ */
@@ -471,16 +477,20 @@ async function startPlay(h, query) {
     return { phase: 'address', ball: [ball.x, ball.z], plugged: pluggedLie,
       club: club().id, setup: { ...setup }, yaw, targetDist };
   }
-  function checkpoint(next = position()) {
-    if (detached || practice || initializingPractice) return false;
-    const nextRevision = savePlayCheckpoint(localStorage, round, next, revision);
-    if (nextRevision) { revision = nextRevision; saveWarning = false; return true; }
+  async function checkpoint(next = position(), options) {
+    clearTimeout(inputSave);
+    if (leaving || practice || initializingPractice) return;
+    const result = await persistence.save(round, next, options);
+    if (result === 'saved') { saveWarning = false; return; }
     if (!saveWarning) hud.banner('Rundan kunde inte sparas', 'Kontrollera lagringen och om rundan är öppen i en annan flik.', '', 4500);
     saveWarning = true;
-    return false;
   }
-  function settled(phase = 'address') {
-    return checkpoint({ phase, ball: [ball.x, ball.z], plugged: nextPlugged });
+  function scheduleInputSave() {
+    clearTimeout(inputSave);
+    if (!practice) inputSave = setTimeout(() => { if (state === 'address') checkpoint(); }, 250);
+  }
+  function settled(phase = 'address', options) {
+    return checkpoint({ phase, ball: [ball.x, ball.z], plugged: nextPlugged }, options);
   }
   function address(snap = false, savedPosition = null) {
     refreshConditions();
@@ -538,7 +548,7 @@ async function startPlay(h, query) {
     readSlope();
     stand();
     frameView();
-    plan(); showHud(); preview(); showGreenRead();
+    plan(); showHud(); preview(); showGreenRead(); scheduleInputSave();
   }
   /** Another club, with the set-up it starts with (setupForClub). */
   function changeClub(d, from = club()) {
@@ -570,7 +580,7 @@ async function startPlay(h, query) {
     standAtBall(golfer, ball, yaw, swingName(), heightAt);
     readSlope();
     frameView();
-    plan(); showHud(); preview();
+    plan(); showHud(); preview(); scheduleInputSave();
   }
   function aimPoint() {
     const reach = targetDist ?? (putting() ? Math.min(toCup(), puttRange) : Math.min(toCup() + 5, reachOf()));
@@ -764,7 +774,7 @@ async function startPlay(h, query) {
         ? [strokeFrom[0] + Math.sin(last.yaw) * target, strokeFrom[1] + Math.cos(last.yaw) * target] : cup;
       const miss = Math.hypot(restXZ[0] - aim[0], restXZ[1] - aim[1]);
       const outcome = { water: 'Vatten', out: 'Out of bounds', holed: 'I hål' }[shot.outcome] || `${metres(miss)} m från målet`;
-      showStats();
+      showStats(`Försök ${practice.count} · ${outcome}`);
       hud.banner(`Försök ${practice.count} · ${outcome}`, `Carry ${metres(shot.carry)} m · totalt ${metres(shot.total)} m`, '', 3200);
       setBall(...practice.attempt.ball);
       tracer.reset();
@@ -773,6 +783,7 @@ async function startPlay(h, query) {
       return;
     }
     nextPlugged = Boolean(shot.plugged);
+    showStats();
     if (shot.outcome === 'holed') {
       ballMesh.visible = false;
       return finishHole(true);
@@ -793,7 +804,6 @@ async function startPlay(h, query) {
     }
     setBall(restXZ[0], restXZ[1]);
     updateMap({ flight: flightMarks });
-    showStats();
     const surface = shot.surface || world.surfaceAt(ball.x, ball.z);
     const putt = putting();
     const left = toCup();
@@ -816,7 +826,7 @@ async function startPlay(h, query) {
     pause(1.9, nextShot);
   }
   /** The last shot's numbers and the swing's verdict. */
-  function showStats() {
+  function showStats(practiceOutcome = '') {
     if (!last) return;
     const { L, input, shot: s } = last;
     const tempo = input.tempo;
@@ -827,16 +837,18 @@ async function startPlay(h, query) {
     const faceWord = Math.abs(faceTotal) < .12 ? 'rak' : faceTotal > 0 ? 'öppen' : 'stängd';
     const pathWord = Math.abs(pathTotal) < .12 ? 'neutral' : pathTotal > 0 ? 'utifrån-in' : 'inifrån-ut';
     const graded = tempo && tempo.grade !== 'none';
-    const title = graded ? `${tempo.label} · ${tempo.ratio.toFixed(1).replace('.', ',')}:1` : 'Slagdata';
-    const tone = !graded ? '' : tempo.grade === 'perfect' || tempo.grade === 'good' ? 'good' : 'bad';
+    const title = graded ? `${tempo.label} · ${tempo.ratio.toFixed(1).replace('.', ',')}:1` : '';
     const rows = last.putt
       ? [['Längd', `${metres(s.total)} m`], ['Bollfart', `${(L.speed * 3.6).toFixed(1).replace('.', ',')} km/h`], ['Spelades', `${metres(last.plays.total)} m`], ['Sida', side]]
       : [['Carry', `${Math.round(s.carry)} m`], ['Totalt', `${Math.round(s.total)} m`], ['Bollfart', `${Math.round(L.speed * 3.6)} km/h`],
         ['Utgång', `${L.launchDeg.toFixed(1).replace('.', ',')}°`], ['Spinn', `${Math.round(L.spinRpm / 50) * 50} rpm`],
         ['Höjd', `${Math.round(s.apex)} m`], ['Sida', side],
         ...(s.windMs > .5 ? [[s.gust > 1 ? 'Vind (by)' : 'Vind', `${s.windMs.toFixed(1).replace('.', ',')} m/s`]] : [])];
-    hud.stats({ title, tone, note: `${last.club.name}${last.putt ? '' : ` · ${TYPE_LABELS[last.setup.type]}`} · kraft ${Math.round(input.power * 100)} % · träff ${faceWord} · bana ${pathWord}`, rows },
-      narrow() ? 4500 : 0);
+    const surface = s.surface || world.surfaceAt(s.rest[0], s.rest[2]);
+    const outcome = practiceOutcome || { water: 'Vatten · pliktslag', out: 'Out of bounds · pliktslag', holed: 'I hål' }[s.outcome]
+      || (s.plugged ? 'Pluggad i bunkern' : LIE_NAME[surface] || surface);
+    const summary = last.putt ? `Längd ${metres(s.total)} m` : `Carry ${Math.round(s.carry)} m · Totalt ${Math.round(s.total)} m`;
+    hud.stats({ title, outcome, summary, note: `${last.club.name}${last.putt ? '' : ` · ${TYPE_LABELS[last.setup.type]}`} · kraft ${Math.round(input.power * 100)} % · träff ${faceWord} · bana ${pathWord}`, rows });
   }
   function pause(seconds, then) { state = 'rest'; waitFor = seconds; after = then; cam.rest(ball, new THREE.Vector3(cup[0], cup[2], cup[1])); }
   function nextShot() {
@@ -851,7 +863,7 @@ async function startPlay(h, query) {
   /* -- the instant replay ----------------------------------------------------- */
   function startReplay(then = null) {
     if (!last || (state !== 'address' && state !== 'holed')) return;
-    hud.toggleSetup(false); hud.stats(null); hud.replay(false); hud.power('');
+    hud.toggleSetup(false); hud.replay(false); hud.power('');
     hideAids(); pad.setEnabled(false);
     replay = { then, phase: 'address', wait: .7 };
     state = 'replay';
@@ -916,8 +928,9 @@ async function startPlay(h, query) {
   function finishHole(holed) {
     const card = holeCard(round, round.current), par = hole().par;
     if (holed) card.holed = true;
-    if (settled('holed')) savePlayedRound(localStorage, round);
+    settled('holed', { publish: true });
     state = 'holed';
+    hud.finishResults();
     hud.replay(false); hideAids();
     if (holed) {
       const name = scoreName(card.strokes, par);
@@ -945,26 +958,84 @@ async function startPlay(h, query) {
           ${stats.fairwaysTried ? tile('Fairwayträffar', `${stats.fairways}/${stats.fairwaysTried}`) : ''}${stats.greensTried ? tile('Greenträffar', `${stats.greens}/${stats.greensTried}`) : ''}
           ${stats.greensTried ? tile('Puttar', stats.putts) : ''}</div>
         ${scorecardHtml(round, h.holes, n => pointsOn(round, h.holes, n))}
+        ${hud.scorecardResult()}
       </section>
       <div class="pl-actions">${next ? `<button class="pl-btn pl-primary" data-next type="button">Nästa hål · ${next}</button>` : ''}
       ${last && card.holed ? `<button class="pl-btn pl-ghost" data-replay-last type="button">${'Se sista slaget igen'}</button>` : ''}
-      <button class="pl-btn ${next ? 'pl-ghost' : 'pl-primary'}" data-end type="button">${next ? 'Avsluta rundan' : 'Klar · tillbaka'}</button></div>`);
+      ${next ? '<button class="pl-btn pl-ghost" data-leave type="button">Spara och lämna</button>' : ''}
+      <button class="pl-btn ${next ? 'pl-ghost' : 'pl-primary'}" data-end type="button">Avsluta rundan</button>
+      <p class="pl-save-error" role="alert" data-save-error></p></div>`);
     box.querySelector('[data-next]')?.addEventListener('click', () => { hud.closeSheet(); startHole(next); });
     box.querySelector('[data-replay-last]')?.addEventListener('click', () => {
       hud.closeSheet();
       startReplay(() => { ballMesh.visible = false; state = 'holed'; holeSheet(); });
     });
-    box.querySelector('[data-end]').addEventListener('click', endRound);
+    wireRoundActions(box);
     (box.querySelector('[data-next]') || box.querySelector('[data-end]')).focus();
   }
-  function endRound() {
-    if (practice || detached) return;
-    const active = readPlayCheckpoint(localStorage, round.slug);
-    round.endedAt = Date.now();
-    if (active ? active.revision === revision : revision == null) {
-      if (savePlayedRound(localStorage, round)) clearPlayCheckpoint(localStorage, round, revision);
+  function explainSaveError(box, reason) {
+    const message = reason === 'conflict' ? 'Rundan har ändrats i en annan flik. Dina ändringar här kunde inte sparas.'
+      : reason === 'account' ? 'Kontot har bytts. Öppna Simulator från rätt konto för att fortsätta.'
+      : 'Rundan kunde inte sparas. Kontrollera webbläsarens lagring och försök igen.';
+    const status = box.querySelector('[data-save-error]');
+    status.textContent = message;
+    if (reason === 'conflict' || reason === 'account') {
+      const latest = reason === 'conflict' && readPlayCheckpoint(getPlayStorage(), round.slug, h.holes.length);
+      const action = document.createElement('button');
+      action.type = 'button'; action.className = 'pl-btn pl-ghost';
+      action.textContent = latest ? 'Öppna senast sparade rundan' : 'Till banans inställningar';
+      action.onclick = () => {
+        if (!latest) { leaveToSetup(); return; }
+        const url = new URL(location.href);
+        url.searchParams.set('sim', 'fortsatt');
+        leaving = true;
+        location.replace(url.href);
+      };
+      status.append(document.createElement('br'), action);
     }
-    location.assign(`${import.meta.env.BASE_URL}#spela`);
+  }
+  function leaveToSetup() {
+    leaving = true;
+    location.replace(`${import.meta.env.BASE_URL}#spela/${encodeURIComponent(round.slug)}`);
+  }
+  async function saveAndExit(box, finish) {
+    if (leaving || savingExit || practice) return;
+    clearTimeout(inputSave);
+    savingExit = true;
+    box.inert = true;
+    const next = state === 'holed' ? { phase: 'holed', ball: [ball.x, ball.z], plugged: nextPlugged } : position();
+    const result = await (finish ? persistence.finish(round, next) : persistence.save(round, next));
+    savingExit = false;
+    box.inert = false;
+    if ((result === 'saved' || result === 'finished') && !detached) leaveToSetup();
+    else {
+      explainSaveError(box, detached ? 'account' : result);
+      box.querySelector('[data-save-error] button, [data-confirm-end], [data-leave]')?.focus();
+    }
+  }
+  function wireRoundActions(box) {
+    box.querySelector('[data-leave]')?.addEventListener('click', () => saveAndExit(box, false));
+    box.querySelector('[data-end]').addEventListener('click', () => {
+      if (leaving || practice) return;
+      const confirm = hud.openSheet(`<header class="pl-hero"><span class="pl-k">Simulator · hål ${round.current}</span>
+        <h2>Avsluta rundan?</h2><p>Ditt resultat sparas. Efteråt kan du inte fortsätta spela den här rundan.</p></header>
+        <div class="pl-actions"><button type="button" class="pl-btn pl-primary" data-cancel-end>Tillbaka</button>
+        <button type="button" class="pl-btn pl-ghost" data-confirm-end>Avsluta rundan</button>
+        <p class="pl-save-error" role="alert" data-save-error></p></div>`);
+      const cancel = confirm.querySelector('[data-cancel-end]');
+      cancel.addEventListener('click', () => {
+        if (state === 'holed') holeSheet(); else openMenu();
+        hud.sheet.querySelector('[data-end]').focus();
+      });
+      confirm.querySelector('[data-confirm-end]').addEventListener('click', () => saveAndExit(confirm, true));
+      cancel.focus();
+    });
+  }
+  function backFromSheet() {
+    if (savingExit) return;
+    const cancel = hud.sheet.querySelector('[data-cancel-end]');
+    if (cancel) cancel.click();
+    else if (state !== 'holed') hud.closeSheet();
   }
   const practiceExitLabel = () => directPractice && !saved ? 'Avsluta träningen' : 'Till rundan';
   function startPractice() {
@@ -992,6 +1063,7 @@ async function startPlay(h, query) {
     else {
       setBall(...origin.ball);
       address(true, origin);
+      if (last) showStats();
       checkpoint();
     }
     if (directPractice) {
@@ -1039,7 +1111,7 @@ async function startPlay(h, query) {
       `<button type="button" data-v="${id}" aria-pressed="${id === current}">${o.label || o}</button>`).join('')}</div>`;
     const tab = menuTab;
     const box = hud.openSheet(`
-      <header class="pl-hero"><span class="pl-k">Spela · hål ${round.current}</span><h2>${h.courseName}</h2></header>
+      <header class="pl-hero"><span class="pl-k">Simulator · hål ${round.current}</span><h2>${h.courseName}</h2></header>
       <div class="pl-tabs" role="tablist" aria-label="Menyns delar">
         <button type="button" role="tab" id="pl-tab-game" aria-controls="pl-panel-game" tabindex="${tab === 'game' ? '0' : '-1'}" data-tab="game" aria-selected="${tab === 'game'}">Spelet</button>
         <button type="button" role="tab" id="pl-tab-light" aria-controls="pl-panel-light" tabindex="${tab === 'light' ? '0' : '-1'}" data-tab="light" aria-selected="${tab === 'light'}">Ljus</button>
@@ -1064,8 +1136,10 @@ async function startPlay(h, query) {
       <section class="pl-menu" id="pl-panel-card" role="tabpanel" aria-labelledby="pl-tab-card" data-panel="card" ${tab === 'card' ? '' : 'hidden'}>
         ${scorecardHtml(round, h.holes, n => pointsOn(round, h.holes, n))}
       </section>
-      <div class="pl-actions"><button class="pl-btn pl-primary" data-resume type="button">Fortsätt</button>
-      <button class="pl-btn pl-ghost" data-end type="button" ${practice || state !== 'address' ? 'disabled' : ''}>Avsluta rundan</button></div>`);
+      <div class="pl-actions"><button class="pl-btn pl-primary" data-resume type="button">Fortsätt spela</button>
+      <button class="pl-btn pl-ghost" data-leave type="button" ${practice || state !== 'address' ? 'disabled' : ''}>Spara och lämna</button>
+      <button class="pl-btn pl-ghost" data-end type="button" ${practice || state !== 'address' ? 'disabled' : ''}>Avsluta rundan</button>
+      <p class="pl-save-error" role="alert" data-save-error></p></div>`);
     for (const group of box.querySelectorAll('[data-seg]')) {
       group.addEventListener('click', e => {
         const b = e.target.closest('button'); if (!b) return;
@@ -1103,7 +1177,7 @@ async function startPlay(h, query) {
     box.querySelector('[data-practice]').addEventListener('click', () => practice ? endPractice() : startPractice());
     box.querySelector('[data-clean]').addEventListener('click', () => { hud.closeSheet(); setClean(true); });
     box.querySelector('[data-resume]').addEventListener('click', () => hud.closeSheet());
-    box.querySelector('[data-end]').addEventListener('click', endRound);
+    wireRoundActions(box);
     // Open at the top (the lights), with the way back ready under the keyboard.
     box.querySelector('[data-resume]').focus({ preventScroll: true });
     box.scrollTop = 0;
@@ -1120,7 +1194,7 @@ async function startPlay(h, query) {
     const key = e.key, lower = key.length === 1 ? key.toLowerCase() : key;
     if (hud.sheetOpen) {
       hud.trapTab(e);
-      if (key === 'Escape' && state !== 'holed') { hud.closeSheet(); e.preventDefault(); }
+      if (key === 'Escape') { backFromSheet(); e.preventDefault(); }
       if (e.target.matches?.('[data-tab]') && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key)) {
         const tabs = [...hud.sheet.querySelectorAll('[data-tab]')];
         const i = tabs.indexOf(e.target) + (key === 'ArrowLeft' ? -1 : 1);
@@ -1132,6 +1206,7 @@ async function startPlay(h, query) {
     if (state === 'flyover') { if (key === ' ' || key === 'Enter' || key === 'Escape') { e.preventDefault(); endFlyover(); } return; }
     if (state === 'replay') { if (key === ' ' || key === 'Enter' || key === 'Escape' || lower === 'r') { e.preventDefault(); endReplay(); } return; }
     if (clean) { if (key === 'Escape' || lower === 'h') { setClean(false); e.preventDefault(); } return; }
+    if (e.repeat && (key === ' ' || key === 'Enter') && (e.target.closest?.('.pl-swing') || (state === 'address' && key === ' '))) { e.preventDefault(); return; }
     if ((key === ' ' || key === 'Enter') && e.target.closest?.('button,a')) return;
     if (key === 'Escape' && hud.setupOpen) { hud.toggleSetup(false); e.preventDefault(); return; }
     if (key === 'Escape' && hud.guideOpen) { hud.toggleGuide(false); e.preventDefault(); return; }
@@ -1189,7 +1264,7 @@ async function startPlay(h, query) {
   canvas.addEventListener('pointercancel', stopAim, { signal: abort.signal });
 
   function moveFocus(d) {
-    const buttons = [...hud.sheet.querySelectorAll('button:enabled')].filter(b => b.getClientRects().length);
+    const buttons = [...hud.sheet.querySelectorAll('button:enabled,summary')].filter(b => b.getClientRects().length);
     if (!buttons.length) return;
     const i = buttons.indexOf(document.activeElement);
     buttons[(i + d + buttons.length) % buttons.length].focus();
@@ -1199,7 +1274,7 @@ async function startPlay(h, query) {
     if (p.size) wake();
     if (hud.sheetOpen) {
       if (p.has('a')) document.activeElement?.click?.();
-      if (p.has('b') && state !== 'holed') hud.closeSheet();
+      if (p.has('b')) backFromSheet();
       if (p.has('left') || p.has('up')) moveFocus(-1);
       if (p.has('right') || p.has('down')) moveFocus(1);
       return;
@@ -1238,7 +1313,15 @@ async function startPlay(h, query) {
   if (intent === 'ny') {
     const url = new URL(location.href); url.searchParams.set('sim', 'fortsatt'); history.replaceState(null, '', url);
   }
-  addEventListener('pagehide', () => { if (state === 'address' && !round.endedAt) checkpoint(); }, { signal: abort.signal });
+  function preserveOnHide() {
+    if (leaving || detached) return;
+    if (!savingExit && state === 'address' && !round.endedAt) checkpoint();
+    persistence.preservePending();
+  }
+  addEventListener('pagehide', preserveOnHide, { signal: abort.signal });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') preserveOnHide();
+  }, { signal: abort.signal });
 
   const controller = {
     /** The free view hands the camera to the course's own orbit controls. */
@@ -1334,6 +1417,7 @@ async function startPlay(h, query) {
     look(eye, target) { cam.frame(new THREE.Vector3(...eye), new THREE.Vector3(...target)); cam.snap(); },
     club(id) { const i = bag.findIndex(c => c.id === id); if (i >= 0 && state === 'address') { const from = club(); clubIndex = i; changeClub(0, from); } },
     dispose() {
+      clearTimeout(inputSave);
       abort.abort(); pad.dispose(); holeMap.dispose(); hud.dispose(); golfer.dispose(); audio.dispose(); tracer.dispose(); greenRead.dispose();
       glow.dispose();
       for (const o of [ballMesh, marker, dots, halo, spreadFill, spreadEdge, runDots, restMark]) { o.parent?.remove(o); o.geometry.dispose(); o.material.dispose(); }

@@ -163,31 +163,53 @@ export function tapMeter({ rise = 1.05, fall = 1.4 } = {}) {
  * callbacks: onBack(power, source) while pulling back (source: drag, stick or tap),
  * onStrike({ power, face, path, tempo }), onCancel().
  */
-export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCancel }) {
+export function createSwingPad({ parent, method = 'drag', onMethod, onBack, onStrike, onCancel }) {
   const el = document.createElement('div');
   el.className = 'pl-swing';
-  el.innerHTML = `<div class="pl-pad" role="slider" aria-label="Sving: dra ned för kraft, för upp rakt för att slå" aria-valuemin="0" aria-valuemax="110" aria-valuenow="0" tabindex="0">
+  el.innerHTML = `<div class="pl-method" role="group" aria-label="Svingmetod">
+      <button type="button" data-swing-method="drag">Dra</button><button type="button" data-swing-method="tap">Tryck</button></div>
+    <div class="pl-pad" aria-hidden="true">
       <div class="pl-pad-fill"></div><i class="pl-mark" style="--at:.5"></i><i class="pl-mark" style="--at:.75"></i><i class="pl-mark full" style="--at:1"></i>
       <i class="pl-target"></i><div class="pl-knob"></div><div class="pl-line"></div></div>
     <div class="pl-meter" aria-hidden="true"><div class="pl-meter-fill"></div><i class="pl-meter-sweet"></i><i class="pl-meter-target"></i><i class="pl-meter-marker"></i></div>
-    <button class="pl-tap" type="button">Slå</button>
-    <span class="pl-swing-hint"></span>`;
+    <button class="pl-tap" type="button" aria-describedby="pl-swing-hint">Starta sving</button>
+    <span class="pl-swing-hint" id="pl-swing-hint" aria-live="polite" aria-atomic="true"></span>`;
   parent.append(el);
   const pad = el.querySelector('.pl-pad'), fill = el.querySelector('.pl-pad-fill'), knob = el.querySelector('.pl-knob');
   const meter = el.querySelector('.pl-meter'), meterFill = el.querySelector('.pl-meter-fill'), marker = el.querySelector('.pl-meter-marker');
   const tapButton = el.querySelector('.pl-tap'), hint = el.querySelector('.pl-swing-hint');
-  let drag = null, meterState = tapMeter(), enabled = true, pointer = null;
+  const methods = [...el.querySelectorAll('[data-swing-method]')];
+  const meterState = tapMeter();
+  let drag = null, enabled = true, pointer = null;
   const stick = stickSwing();
   const showPower = p => {
     fill.style.setProperty('--p', Math.min(1.1, p).toFixed(3));
     knob.style.setProperty('--p', Math.min(1.1, p).toFixed(3));
-    pad.setAttribute('aria-valuenow', String(Math.round(p * 100)));
     el.classList.toggle('over', p > 1);
   };
-  const setMethod = m => {
-    method = m; el.dataset.method = m; meterState.cancel(); drag = null; showPower(0); meterFill.style.setProperty('--p', 0);
-    hint.textContent = m === 'drag' ? 'Dra ned · för upp rakt' : 'Tryck: start · kraft · träff';
+  const describe = () => {
+    const stage = meterState.state;
+    el.dataset.stage = stage;
+    tapButton.textContent = stage === 'power' ? 'Lås kraft' : stage === 'accuracy' ? 'Träffa' : 'Starta sving';
+    hint.textContent = method === 'drag' ? 'Dra ned · för upp'
+      : stage === 'power' ? 'Lås vid önskad kraft' : stage === 'accuracy' ? 'Träffa när markören går tillbaka till strecket' : 'Tre tryck · start, kraft, träff';
   };
+  const setMethod = m => {
+    if (drag || meterState.state !== 'idle') onCancel?.();
+    method = m; el.dataset.method = m; meterState.cancel(); stick.cancel(); drag = null;
+    el.classList.remove('active');
+    showPower(0); meterFill.style.setProperty('--p', 0); marker.style.setProperty('--m', 0);
+    for (const button of methods) button.setAttribute('aria-pressed', String(button.dataset.swingMethod === m));
+    describe();
+  };
+  const chooseMethod = m => {
+    if (method !== m) { setMethod(m); onMethod?.(m); }
+  };
+  for (const button of methods) button.addEventListener('click', () => {
+    if (!enabled) return;
+    chooseMethod(button.dataset.swingMethod);
+    if (method === 'tap') tapButton.focus({ preventScroll: true });
+  });
   setMethod(method);
   pad.addEventListener('pointerdown', e => {
     if (!enabled || method !== 'drag') return;
@@ -213,6 +235,7 @@ export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCa
   const tap = () => {
     if (!enabled || method !== 'tap') return;
     const out = meterState.tap();
+    describe();
     if (out?.phase === 'start') el.classList.add('active');
     if (out?.phase === 'power') onBack?.(out.power, 'tap');
     if (out?.phase === 'strike') { el.classList.remove('active'); onStrike(out); }
@@ -222,11 +245,16 @@ export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCa
     el,
     get method() { return method; },
     setMethod,
-    /** Space: the meter's tap, or nothing for the drag swing. */
-    key() { if (method === 'tap') { tap(); return true; } return false; },
+    /** Space or the controller's A button can start the three-press swing directly. */
+    key() {
+      if (!enabled) return false;
+      chooseMethod('tap');
+      tap(); return true;
+    },
     step(dt) {
       if (method !== 'tap') return;
       const out = meterState.step(dt);
+      if (out?.phase === 'cancel' || out?.phase === 'strike') describe();
       const m = meterState.marker;
       meterFill.style.setProperty('--p', Math.max(0, meterState.state === 'accuracy' ? meterState.power : m).toFixed(3));
       marker.style.setProperty('--m', m.toFixed(3));
@@ -249,7 +277,10 @@ export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCa
       el.classList.toggle('has-target', power != null);
       el.style.setProperty('--target', power == null ? 0 : Math.min(1.1, power).toFixed(3));
     },
-    setEnabled(on) { enabled = on; el.classList.toggle('off', !on); if (!on) { meterState.cancel(); drag = null; showPower(0); } },
+    setEnabled(on) {
+      enabled = on; el.classList.toggle('off', !on); el.inert = !on;
+      if (!on) { meterState.cancel(); drag = null; el.classList.remove('active'); showPower(0); describe(); }
+    },
     dispose() { el.remove(); },
   };
 }

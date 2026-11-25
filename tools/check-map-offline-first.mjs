@@ -7,12 +7,17 @@ import { chromium } from 'playwright-core';
 import { browserArgs, browserExecutable } from './browser-args.mjs';
 
 const upstream = new URL(process.argv[2] || 'http://127.0.0.1:8620/');
-let releaseInstall, disconnected = false;
+let releaseInstall, disconnected = false, brokenIndex = false;
 const installing = new Promise(resolve => { releaseInstall = resolve; });
 const proxy = http.createServer(async (request, response) => {
   const url = new URL(request.url, upstream);
   if (url.pathname.endsWith('/sw.js')) await installing;
   if (disconnected) { request.socket.destroy(); return; }
+  if (brokenIndex && url.pathname.endsWith('/courses/index.json') && url.searchParams.get('layout') === 'visby') {
+    response.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+    response.end(JSON.stringify({ courses: [] }));
+    return;
+  }
   const forward = http.get(url, { headers: request.headers }, source => {
     response.writeHead(source.statusCode, source.headers);
     source.pipe(response);
@@ -42,7 +47,7 @@ try {
   await wait(() => ['Sparad', 'Försök spara offline igen'].includes(document.querySelector('[data-download]').textContent));
   assert.ok(await page.evaluate(ready), await page.locator('[data-status]').textContent());
   const savedRow = page.locator('[data-offline-course="visby"]');
-  const openSettings = () => page.goto(new URL('#installningar', base).href, { waitUntil: 'domcontentloaded' });
+  const openSettings = () => page.goto(new URL('#installningar/offline', base).href, { waitUntil: 'domcontentloaded' });
   await openSettings();
   await savedRow.getByText('Redo för spel offline').waitFor();
   const count = await page.evaluate(async () => {
@@ -78,11 +83,22 @@ try {
   await page.evaluate(() => caches.delete('banvy-map-offline-v1'));
   await page.locator('[data-menu-sheet] [data-close]').click();
   await page.locator('[data-menu]').click();
-  await page.locator('[data-menu-tab="visning"]').click();
+  await page.locator('[data-menu-tab="bana"]').click();
   await wait(() => document.querySelector('[data-download]').textContent === 'Reparera offlinebanan');
   await page.locator('[data-download]').click();
   await wait(ready);
   console.log('A deleted course cache is detected and rebuilt within the same session.');
+
+  // A bad live index must not prevent opening the previous verified publication.
+  brokenIndex = true;
+  await page.goto(new URL('?bana=visby&karta=1&runda=visa&hal=9&tee=2', base).href, { waitUntil: 'domcontentloaded' });
+  await page.getByRole('link', { name: 'Öppna sparad karta' }).click();
+  await wait(() => globalThis.V3DMap?.state.hole === 9 && V3DMap.state.previewOnly);
+  assert.equal(await page.evaluate(() => V3DMap.state.tee), 1);
+  assert.equal(await page.locator('[data-gps]').getAttribute('aria-pressed'), 'false');
+  assert.ok(await page.locator('[data-score]').isHidden());
+  brokenIndex = false;
+  console.log('A broken online index recovers to the verified saved layout, in preview at the original hole and tee.');
 
   // Remove every incidental runtime copy, including the shared graph loader's
   // last root. Only the explicitly saved course and installed shell survive.
@@ -107,7 +123,7 @@ try {
   await wait(() => V3DMap.stats().metreTiles > 0 && V3DMap.state.guidance?.source === 'gps' &&
     V3DMap.state.guidance?.status === 'playable');
   await page.locator('[data-menu]').click();
-  await page.locator('[data-menu-tab="visning"]').click();
+  await page.locator('[data-menu-tab="bana"]').click();
   await wait(ready);
   assert.deepEqual(errors, []);
   console.log('Hard-disconnected cold navigation to hole 9 displays 1 m terrain, playable GPS guidance and verified offline status.');

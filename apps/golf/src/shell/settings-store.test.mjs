@@ -12,11 +12,12 @@ import { DEFAULT_LIGHT, MAP_LIGHTS } from '../map/map-light.mjs';
 import { storeHistory } from '../map/map-shots.mjs';
 import { DISPLAY_KEY } from '../map/map-display.mjs';
 import { opensMap } from './map-default.mjs';
+import { createRound, holeCard, PLAY_KEYS } from '../play/play-rules.mjs';
 import {
   DEV_OVERLAY_KEY, FRAME_CAP_CHOICES, FRAME_CAP_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_KEYS, MODES, NOW_LIGHT,
   PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, exportBackup, readBackup, restoreBackup, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
   readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
-  OFFLINE_PREFIX, offlineCourses, hasBackupUndo, undoBackup, writeText, replaceStoredValues,
+  OFFLINE_PREFIX, offlineCourses, hasBackupUndo, undoBackup, writeText, replaceStoredValues, courseSessions,
 } from './settings-store.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -305,6 +306,13 @@ describe('a round under way', () => {
     });
     expect(liveRound(st, courses, NOW)).toMatchObject({ course: courses[0], hole: 4, holes: 3, strokes: 9 });
   });
+  it('shows the same next hole as the map for an older card with an expired preview', () => {
+    const st = memory({
+      [`${ROUND_KEY}:visby`]: round({ touchedAt: NOW, scores: { 5: { strokes: 4 } } }),
+      [`${HOLE_KEY}:visby`]: JSON.stringify({ value: 16, at: NOW - 7 * 3600e3 }),
+    });
+    expect(liveRound(st, courses, NOW)?.hole).toBe(6);
+  });
   it('leaves out an ended round, a stale one, and a card never begun', () => {
     expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 600e3, endedAt: NOW - 60e3 }) }), courses, NOW)).toBeNull();
     expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 7 * 3600e3 }) }), courses, NOW)).toBeNull();
@@ -336,6 +344,20 @@ describe('a round under way', () => {
     expect(source('../map/map-session.js')).toContain(`const HOLE_KEY = '${HOLE_KEY}'`);
     expect(source('../map/map-session.js')).toContain('const RESUME_MS = 6 * 60 * 60 * 1000');
   });
+});
+
+it('resumes the most recently played Simulator course, including legacy checkpoints', () => {
+  const store = memory();
+  const courses = [{ slug: 'bro-hof-castle', holes: 1 }, { slug: 'bro-hof-stadium', holes: 1 }];
+  for (const [i, course] of courses.entries()) {
+    const round = createRound({ slug: course.slug, holes: [{ n: 1, par: 4 }], now: 100 + i });
+    holeCard(round, 1);
+    const checkpoint = { version: 1, revision: 'r1', position: { phase: 'address', ball: [0, 0] }, round };
+    if (i === 0) checkpoint.savedAt = 120;
+    store.setItem(PLAY_KEYS.checkpoint + course.slug, JSON.stringify(checkpoint));
+  }
+  expect(courseSessions(store, courses).map(session => [session.course.slug, session.touched]))
+    .toEqual([['bro-hof-castle', 120], ['bro-hof-stadium', 101]]);
 });
 
 describe('routes', () => {

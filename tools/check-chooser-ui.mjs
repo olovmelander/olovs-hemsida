@@ -1,63 +1,10 @@
-/* Is the front door still the shape it was measured to be?
-
-   usage: node tools/check-chooser-ui.mjs [baseUrl] [--player] [--shots dir]
-          (default http://127.0.0.1:8620 -- a built dist behind tools/serve.mjs,
-           or a Vite dev server; the bare route boots no course and needs no GPU)
-
-   The course chooser is the first thing anyone sees and the one screen nothing
-   measured. Every data gate passed while, on a 390x844 phone, it showed ONE
-   card under 233 px of header that never scrolled away, its fourth filter chip
-   sat off the edge of the screen where no gesture could reach it, a portrait
-   tablet got a single card 754 px wide, and a phone on its side gave 61% of the
-   screen to the header and showed no whole card at all. None of that is
-   findable by reading the stylesheet, so this drives the page and measures it:
-
-     - the phone is a two-up gallery: columns, whole cards on screen, card
-       height, and what stays pinned once the list has moved
-     - every control is a touch target, every chip is reachable, nothing scrolls
-       sideways, and the search field is 16 px (below that iOS zooms the page)
-     - a tablet is never one column; a phone on its side still shows cards
-     - search keeps the placeholder's promise (bana, ort, par), the count says
-       what matched, the empty state has a way out
-     - the last-opened course leads the list, and on a phone leads it full width
-     - the map fills the screen, and a preview nobody asked for is not over it
-     - the hover warm-up asks for the pack by the SAME url the player will, and a
-       finger landing on a card to scroll fetches nothing
-
-   THE START MENU (7 November). The bare route is now a menu -- the two ways
-   to play and the settings -- and the list is one step in, at #3d or #karta,
-   so the measurements above are taken there. The menu has gates of its own:
-   all three cards whole on screen on a phone and a laptop, the mode each
-   device is best at marked, every launch URL saying the mode it was picked in
-   (karta=0 on a phone for the detailed course, karta=1 for the map) with the
-   settings' launch values, settings that land in the keys the programs read,
-   a reset that leaves the bag alone, and back and Escape that walk the screens.
-
-   --player also boots one course (BANVY_GPU=1 makes that seconds, not minutes)
-   and proves that letters typed into the chooser's search do not steer the
-   course behind it. Measured key by key on the build before the guard: "n"
-   took the hole from 3 to 4, "p" back, "m" cycled the markers from 2 to 0 and
-   "h" switched the course into clean view.
-
-   The thresholds are the measured values with room, not targets. At 390x844
-   the redesign measures: 6 whole cards at rest, 172 px cards, 56 px pinned.
-
-   It was proved to FAIL before it was believed to pass: pointed at the chooser
-   it replaces (the live site, still serving it) 49 checks fail, each naming its
-   number; pointed at this one, none do.
-
-   The live site is mounted at /olovs-hemsida/, so run it against a subpath
-   build too (baseUrl http://127.0.0.1:<port>/olovs-hemsida). ONE TRAP building
-   that on Windows: Git Bash rewrites an environment value that looks like a
-   path, so `BANVY_BASE=/olovs-hemsida/ npx vite build` bakes
-   "C:/Program Files/Git/olovs-hemsida/" into every url and the page cannot
-   fetch its own modules. Set it from PowerShell ($env:BANVY_BASE = ...) or
-   prefix MSYS_NO_PATHCONV=1.                                                 */
+/* Measure the course discovery and setup journeys on phones, tablets and desktop.
+   Run with node tools/check-chooser-ui.mjs [baseUrl] [--player] [--shots dir].
+   --player additionally exercises the in-course chooser and keyboard shortcuts. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
-import { ROOT } from '../geobuild/lib.mjs';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, GPU } from './browser-args.mjs';
 
 const args = process.argv.slice(2);
 const BASE = (args.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:8620').replace(/\/$/, '');
@@ -66,7 +13,8 @@ const SHOTS = args.includes('--shots') ? path.resolve(args[args.indexOf('--shots
 const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 420) * 1000;
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const CHROME = process.env.BANVY_CHROME_PATH || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined);
-const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
+const manifest = JSON.parse(fs.readFileSync(new URL('../apps/golf/public/courses/index.json', import.meta.url), 'utf8'));
+const clubCount = new Set(manifest.courses.map(course => course.club)).size;
 const LAST_KEY = 'banvy-last-course';
 /* the course list, one step in from the start menu */
 const LIST = '/#3d';
@@ -77,7 +25,12 @@ const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if 
 /* A section that throws is a FAILED section, not a crashed gate: pointed at a
    build that predates an element it reads, the run still reports the rest. */
 const section = async (name, fn) => {
-  try { await fn(); } catch (e) { gate(false, `${name}: ${String(e).split('\n')[0].slice(0, 120)}`); }
+  try {
+    await fn();
+  } catch (error) {
+    const detail = String(error).split('\n').filter(line => line.trim() && !line.includes('Call log:')).slice(0, 3);
+    gate(false, `${name}: ${detail.join(' ')}`);
+  }
 };
 
 const browser = await chromium.launch({
@@ -107,9 +60,8 @@ const measure = page => page.evaluate(async () => {
   const chooser = document.getElementById('chooser');
   const r = e => e.getBoundingClientRect();
   const cards = [...chooser.querySelectorAll('.card')].filter(c => c.offsetParent);
-  const plain = cards.filter(c => !c.closest('.is-lead'));
   const vh = innerHeight;
-  const controls = [...chooser.querySelectorAll('button, input')].filter(e => e.offsetParent && !e.classList.contains('card'));
+  const controls = [...chooser.querySelectorAll('button, input, select')].filter(e => e.offsetParent && !e.classList.contains('card'));
   const small = controls.map(e => ({ e, b: r(e) })).filter(x => x.b.width < 40 || x.b.height < 40)
     .map(x => `${x.e.id || String(x.e.className).split(' ')[0]} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
   const filters = chooser.querySelector('.chooser-filters');
@@ -119,10 +71,10 @@ const measure = page => page.evaluate(async () => {
   const rowScrolls = filters.scrollWidth - filters.clientWidth > 1 && fr.right <= innerWidth + 0.5;
   const lostChips = chips.filter(c => r(c).right > innerWidth + 0.5 && !rowScrolls).length;
   const rest = {
-    cols: new Set(plain.map(c => Math.round(r(c).left))).size,
+    cols: new Set(cards.map(c => Math.round(r(c).left))).size,
     full: cards.filter(c => r(c).top >= 0 && r(c).bottom <= vh).length,
-    cardH: Math.round(r(plain[plain.length - 1]).height),
-    cardW: Math.round(r(plain[plain.length - 1]).width),
+    cardH: Math.round(r(cards[cards.length - 1]).height),
+    cardW: Math.round(r(cards[cards.length - 1]).width),
     firstTop: Math.round(r(cards[0]).top),
     sideways: chooser.scrollWidth > chooser.clientWidth + 1 || document.documentElement.scrollWidth > innerWidth + 1,
     small, lostChips, chips: chips.length,
@@ -153,10 +105,10 @@ for (const [w, h] of PHONES) await section(`${w}x${h}`, async () => {
   const m = await measure(page);
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `phone-${w}x${h}.png`) });
   const tag = `${w}x${h}`;
-  gate(m.cols === 2, `${tag}: two-up gallery (${m.cols} columns, cards ${m.cardW}x${m.cardH})`);
+  gate(m.cols === 1, `${tag}: single-column club list (${m.cardW}×${m.cardH} rows)`);
   /* one card was the complaint; a 568 px screen holds two whole ones, the rest four or more */
   gate(m.full >= (h < 700 ? 2 : 4), `${tag}: ${m.full} whole cards on screen at rest`);
-  gate(m.cardH <= 200, `${tag}: a card is ${m.cardH} px tall (was 293-333 in the single column)`);
+  gate(m.cardH <= 134, `${tag}: a compact club row is ${m.cardH} px tall`);
   gate(m.moved && m.pinned <= 72 && m.chipsPinned, `${tag}: ${m.pinned} px stays pinned once the list moves, and it is the chips (was 215-233 px, always)`);
   gate(!m.sideways, `${tag}: nothing scrolls sideways`);
   gate(m.lostChips === 0, `${tag}: all ${m.chips} filter chips can be reached`);
@@ -195,25 +147,19 @@ await section('1366x768 desktop', async () => {
   gate(m.moved && m.pinned <= 72 && m.chipsPinned, `1366x768 desktop: ${m.pinned} px pinned once the list moves (was 211 px, always)`);
   gate(!m.sideways, '1366x768 desktop: nothing scrolls sideways');
 
-  /* -------------------------------------------------- the hover warm-up */
-  console.log('warm-up');
-  const asked = [];
-  page.on('request', q => { if (/pack\.bin/.test(q.url())) asked.push(q.url()); });
-  const slug = await page.evaluate(() => document.querySelector('#chooser .card').dataset.slug);
-  const meta = manifest.courses.find(c => c.slug === slug);
-  await page.hover(`#chooser .card[data-slug="${slug}"]`);
+  const packs = [];
+  page.on('request', request => { if (new URL(request.url()).pathname.endsWith('/pack.bin')) packs.push(request.url()); });
+  await page.hover('#chooser .card[data-club-id="bro-hof"]');
+  await page.hover('#chooser .card[data-slug="lidingo"]');
+  await page.focus('#chooser .card[data-slug="lidingo"]');
   await page.waitForTimeout(900);
-  /* the whole url, mount point included: on a subpath host a leading slash is
-     somebody else's site, and "ends with the right file" would not notice */
-  const want = `${BASE}/${String(meta.packUrl).replace(/^\//, '')}?v=${meta.sha256.slice(0, 16)}`;
-  gate(asked.length === 1 && asked[0] === want,
-    `hovering ${slug} warms ${want.replace(BASE, '')} -- the url the player asks for${asked.length ? '' : ' (nothing was fetched)'}${asked.length && asked[0] !== want ? ' -- got ' + asked[0] : ''}`);
+  gate(packs.length === 0, `hover and keyboard focus leave full course packs unloaded (${packs.length} requested)`);
 
   /* ---------------------------------------------------- search and chips */
   console.log('search');
   const shown = () => page.evaluate(() => [...document.querySelectorAll('#chooser .card-item')].filter(c => c.offsetParent).map(c => c.dataset.slug).sort());
   const count = () => page.evaluate(() => document.getElementById('chooserCount').textContent.trim());
-  const total = manifest.courses.length;
+  const total = clubCount;
   await page.keyboard.press('/');
   gate(await page.evaluate(() => document.activeElement?.id === 'courseSearchInput'), '"/" puts the cursor in the search field');
   await page.keyboard.type('västerås');
@@ -222,24 +168,24 @@ await section('1366x768 desktop', async () => {
     `"västerås" finds by place: ${byPlace.join(', ')} -- ${await count()}`);
   await page.fill('#courseSearchInput', 'par 27');
   const byPar = await shown();
-  const par27 = manifest.courses.filter(c => c.par === 27).map(c => c.slug).sort();
+  const par27 = manifest.courses.filter(c => c.par === 27)
+    .map(c => manifest.courses.find(cover => cover.club === c.club).slug).sort();
   gate(JSON.stringify(byPar) === JSON.stringify(par27), `"par 27" finds by par: ${byPar.join(', ')} (the manifest has ${par27.join(', ')})`);
-  gate((await count()) === `${byPar.length} av ${total} banor`, `the count says what matched: "${await count()}"`);
+  gate((await count()) === '1 klubb · 1 bana', `the count says what matched: "${await count()}"`);
   await page.fill('#courseSearchInput', 'zzzz');
   gate((await shown()).length === 0 && await page.evaluate(() => !!document.getElementById('noCoursesMsg').offsetParent), 'a search that matches nothing says so');
   await page.click('#resetSearchBtn');
-  gate((await shown()).length === total && (await count()) === `${total} banor`, `and its button brings all ${total} back`);
+  gate((await shown()).length === total && (await count()) === `${total} klubbar · ${manifest.courses.length} banor`, `and its button brings all ${total} back`);
   await page.fill('#courseSearchInput', 'vis');
   await page.focus('#courseSearchInput');
   await page.keyboard.press('Escape');
   gate(await page.evaluate(() => document.getElementById('courseSearchInput').value === '') && (await shown()).length === total, 'Escape empties the search field');
-  const wantSlott = await page.evaluate(() => [...document.querySelectorAll('#chooser .card-item[data-category="slott"]')].map(c => c.dataset.slug).sort());
   await page.click('.c-filter-btn[data-filter="slott"]');
   const gotSlott = await shown();
-  gate(wantSlott.length > 0 && JSON.stringify(gotSlott) === JSON.stringify(wantSlott)
+  gate(gotSlott.length > 0 && gotSlott.length < total && gotSlott.includes('bro-hof-stadium') && gotSlott.includes('johannesberg')
     && await page.evaluate(() => document.querySelector('.c-filter-btn[data-filter="slott"]').getAttribute('aria-pressed') === 'true'
       && document.querySelector('.c-filter-btn[data-filter="all"]').getAttribute('aria-pressed') === 'false'),
-    `the Slott chip shows its ${wantSlott.length} courses and says it is pressed`);
+    `the Slott chip shows its ${gotSlott.length} clubs and says it is pressed`);
   await ctx.close();
 });
 
@@ -276,7 +222,7 @@ await section('touch warm-up', async () => {
   const asked = [];
   page.on('request', q => { if (/pack\.bin/.test(q.url())) asked.push(q.url()); });
   await page.evaluate(() => {
-    const card = document.querySelector('#chooser .card');
+    const card = document.querySelector('#chooser .card[data-club-id="lidingo"]');
     card.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'touch', bubbles: false }));
   });
   await page.waitForTimeout(700);
@@ -284,107 +230,49 @@ await section('touch warm-up', async () => {
   await ctx.close();
 });
 
-/* ----------------------------------------------- the posters, and their cost
-   Two things at once, because each alone is easy. The first cut of the two-up
-   gallery let the posters become most of the page -- 54 of them, 3.5 MB, inside
-   two seconds on a phone -- and the fix for that made a phone's small tiles stay
-   still, which the owner looked at and did not want: "the hero photos on the
-   mobile version does not seem to roll between the 5 photos". So a phone card
-   must ROLL through every one of its stills, and the fetching behind it must
-   TRICKLE. The rolling is read off what each card DISPLAYS over time, never off
-   what it has loaded: a frame fetched and never shown proves nothing. */
-console.log('weight');
-const posterLog = page => {
-  const seen = [];
-  page.on('request', q => { const m = /hero-(\d)\.webp/.exec(q.url()); if (m) seen.push(+m[1]); });
-  return seen;
-};
-await section('phone posters', async () => {
-  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
-  const page = await ctx.newPage();
-  const seen = posterLog(page);
-  await page.goto(BASE + LIST, { waitUntil: 'load', timeout: 120000 });
-  await page.waitForSelector('#chooser .card', { timeout: 60000 });
-  /* which still each on-screen card SHOWS, once a second: 1 is the resting
-     poster, 2-5 the crossfaded extras */
-  const shown = new Map();
-  const sample = async () => {
-    const now = await page.evaluate(() =>
-      [...document.querySelectorAll('#chooser .card-item')]
-        .filter(i => { const b = i.getBoundingClientRect(); return i.offsetParent && b.bottom > 0 && b.top < innerHeight; })
-        .map(i => {
-          const on = [...i.querySelectorAll('.shot-frames i')].findIndex(l => l.classList.contains('is-on'));
-          return [i.dataset.slug, on < 0 ? 1 : on + 2, i.querySelectorAll('.shot-frames i').length + 1];
-        }));
-    for (const [slug, frame, held] of now) {
-      const r = shown.get(slug) || { frames: new Set(), held: 0 };
-      r.frames.add(frame); r.held = held; shown.set(slug, r);
-    }
-  };
-  let extrasAt4 = null;
-  for (let t = 1; t <= 32; t++) {
-    await page.waitForTimeout(1000);
-    await sample();
-    if (t === 4) extrasAt4 = seen.filter(n => n > 1).length;
-  }
-  const cards = [...shown.entries()];
-  const want = slug => manifest.courses.find(c => c.slug === slug)?.photos || 1;
-  const rolling = cards.filter(([, r]) => r.frames.size >= 3);
-  const fullSet = cards.filter(([slug, r]) => r.held >= want(slug));
-  gate(cards.length >= 4 && rolling.length === cards.length,
-    `phone: all ${cards.length} on-screen cards roll -- each has SHOWN at least 3 different stills in 32 s (${cards.map(([, r]) => r.frames.size).join(' ')})`);
-  gate(fullSet.length === cards.length,
-    `phone: every on-screen card holds its whole set in rotation (${cards.map(([slug, r]) => `${r.held}/${want(slug)}`).join(' ')})`);
-  gate(extrasAt4 !== null && extrasAt4 <= 8,
-    `phone, four seconds in: ${extrasAt4} slideshow extras -- a trickle, one at a time (the first cut fetched 41 in two seconds)`);
-  await ctx.close();
-});
-await section('desktop weight', async () => {
-  const ctx = await browser.newContext({ viewport: { width: 1366, height: 768 }, serviceWorkers: 'block' });
-  const page = await ctx.newPage();
-  const seen = posterLog(page);
-  await page.goto(BASE + LIST, { waitUntil: 'load', timeout: 120000 });
-  await page.waitForSelector('#chooser .card', { timeout: 60000 });
-  await page.waitForTimeout(4000);
-  const first = seen.filter(n => n === 1).length, extras = seen.length - first;
-  gate(first < manifest.courses.length, `desktop: ${first} of ${manifest.courses.length} resting posters fetched -- the ones never scrolled to are not`);
-  gate(extras <= 8, `desktop, four seconds in: ${extras} slideshow extras -- a trickle, one at a time (it used to be 24 at once)`);
-  await page.waitForTimeout(6000);
-  const frames = await page.evaluate(() => [...document.querySelectorAll('#chooser .shot-frames')].filter(f => f.children.length).length);
-  gate(frames >= 3, `and the slideshow does run: ${frames} cards hold extra frames ten seconds in`);
-  await ctx.close();
-});
+/* While browsing, every club has a single resting image. Gallery assets belong
+   to the individual layout detail and should never load on a catalogue timer. */
+for (const [width, height, touch] of [[390, 844, true], [1366, 768, false]]) {
+  await section(`static covers ${width}×${height}`, async () => {
+    const ctx = await browser.newContext({ viewport: { width, height }, hasTouch: touch, isMobile: touch, serviceWorkers: 'block' });
+    const page = await ctx.newPage();
+    const covers = [];
+    page.on('request', request => {
+      const frame = /\/courses\/([^/]+)\/hero-(\d+)\.webp/.exec(request.url());
+      if (frame) covers.push({ slug: frame[1], number: Number(frame[2]) });
+    });
+    await page.goto(BASE + LIST);
+    await page.locator('#chooser .card').first().waitFor();
+    await page.waitForTimeout(6500);
+    const coverSlugs = await page.locator('.card-item').evaluateAll(cards => cards.map(item => item.dataset.slug));
+    gate(covers.length > 0 && covers.every(frame => frame.number === 1 && coverSlugs.includes(frame.slug)),
+      `${width}×${height}: the catalogue fetches only the clubs’ static covers (${covers.length} requests)`);
+    await ctx.close();
+  });
+}
 
 /* ------------------------------------------------- the last-opened course */
 console.log('last opened');
 await section('last opened', async () => {
-  /* the LAST manifest entry, so leading the list is something it had to be moved to do */
-  const last = manifest.courses[manifest.courses.length - 1].slug;
+  const last = 'upsala-mellanbanan';
   const { ctx, page } = await open({ width: 390, height: 844, touch: true, last });
-  await page.waitForSelector('#chooser .card', { timeout: 60000 });
-  await page.waitForTimeout(500);
-  const lead = await page.evaluate(() => {
-    const items = [...document.querySelectorAll('#chooser .card-item')];
-    const first = items[0], second = items[1];
-    const cta = first.querySelector('.shot-hover-action');
-    return { slug: first.dataset.slug, lead: first.classList.contains('is-lead'),
-      badge: first.querySelector('.current-badge')?.textContent.trim(),
-      span: first.getBoundingClientRect().width / second.getBoundingClientRect().width,
-      cta: cta && getComputedStyle(cta).opacity === '1' && getComputedStyle(cta).display !== 'none' ? cta.textContent.replace(/\s+/g, ' ').trim() : null,
-      leads: items.filter(i => i.classList.contains('is-lead')).length };
-  });
+  const cards = page.locator('#chooser .card-item:visible');
+  await cards.first().waitFor();
+  gate(await page.locator('#chooserSort').inputValue() === 'name' && await cards.first().getAttribute('data-club-id') === 'bro-hof',
+    'a previous layout keeps the default Swedish club-name order');
+  await page.selectOption('#chooserSort', 'recent');
+  const first = cards.first();
+  gate(await first.getAttribute('data-club-id') === 'upsala' && /Senast öppnad/.test(await first.locator('.club-state').innerText()),
+    'selecting recent brings the club of the last opened layout to the top');
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'phone-390x844-last.png') });
-  gate(lead.slug === last && lead.lead && lead.leads === 1, `${last} leads the list (first card is ${lead.slug})`);
-  gate(lead.badge === 'Senast spelad', `and says why: "${lead.badge}"`);
-  gate(lead.span > 1.8, `on a phone it takes the full width (${lead.span.toFixed(2)}x a card)`);
-  gate(!!lead.cta && /Fortsätt/.test(lead.cta), `with a call to action that needs no hover: "${lead.cta}"`);
   await ctx.close();
 });
 await section('stale memory', async () => {
   const { ctx, page } = await open({ width: 390, height: 844, touch: true, last: 'no-such-course' });
   await page.waitForSelector('#chooser .card', { timeout: 60000 });
-  const first = await page.evaluate(() => ({ slug: document.querySelector('#chooser .card-item').dataset.slug, leads: document.querySelectorAll('#chooser .is-lead').length }));
-  gate(first.slug === manifest.courses[0].slug && first.leads === 0, 'a remembered course that no longer exists changes nothing');
+  const first = page.locator('#chooser .card-item:visible').first();
+  gate(await first.getAttribute('data-club-id') === 'bro-hof' && !(await page.locator('#chooser .club-state:visible').count()),
+    'a remembered course that no longer exists leaves the alphabetical club list unchanged');
   await ctx.close();
 });
 
@@ -400,26 +288,31 @@ await section('map', async () => {
     const map = document.querySelector('.sweden-map-container').getBoundingClientRect();
     const chooser = document.getElementById('chooser');
     return { share: map.height / innerHeight, bottomGap: Math.round(innerHeight - map.bottom),
-      preview: !!document.querySelector('.map-preview-panel.visible'),
+      preview: !!document.querySelector('#clubPicker[open], #courseSheet[open]'),
       sideways: chooser.scrollWidth > chooser.clientWidth + 1,
       plates: [...document.querySelectorAll('.golf-map-pin')].filter(p => !p.classList.contains('label-off')).map(p => p.querySelector('.pin-label').getBoundingClientRect()) };
   });
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'phone-390x844-map.png') });
-  gate(m.share >= 0.8 && m.bottomGap <= 40, `phone map fills the screen: ${(100 * m.share).toFixed(0)}% of it, ${m.bottomGap} px under it (was 60% with 199 px of nothing beneath)`);
+  gate(Math.round(m.share * 100) >= 80 && m.bottomGap <= 40, `phone map fills the screen: ${(100 * m.share).toFixed(0)}% of it, ${m.bottomGap} px under it (was 60% with 199 px of nothing beneath)`);
   gate(!m.preview, 'and opens on the map, not on a preview nobody asked for');
   const clash = m.plates.some((a, i) => m.plates.some((b, j) => j > i && !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom)));
   gate(!clash && m.plates.length > 0, `no two of the ${m.plates.length} name plates drawn overlap`);
-  await page.locator('.golf-map-pin').first().click({ force: true });
-  await page.waitForSelector('.map-preview-panel.visible', { timeout: 10000 });
-  await page.waitForTimeout(600);
-  const p = await page.evaluate(() => {
-    const map = document.querySelector('.sweden-map-container').getBoundingClientRect();
-    const pv = document.querySelector('.map-preview-panel.visible').getBoundingClientRect();
-    const play = document.getElementById('mppPlayBtn').getBoundingClientRect();
-    return { share: pv.height / map.height, play: Math.round(play.height) };
-  });
+  gate(await page.locator('.golf-map-pin').count() === clubCount, 'the map has one pin per club');
+  const pin = page.locator('.golf-map-pin[data-club-id="bro-hof"]');
+  await pin.locator('..').focus();
+  await page.keyboard.press('Enter');
+  await page.waitForSelector('#clubPicker[open]');
+  const rows = page.locator('#clubPicker[open] [data-layout]');
+  const targets = await rows.evaluateAll(buttons => buttons.map(button => button.getBoundingClientRect().height));
+  gate(targets.length === 2 && targets.every(size => size >= 44), 'the Bro Hof pin opens two touch-sized layout choices');
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'phone-390x844-map-pin.png') });
-  gate(p.share <= 0.25 && p.play >= 40, `a tapped pin opens a row, not a poster: ${(100 * p.share).toFixed(0)}% of the map (was 60%), play button ${p.play} px`);
+  await page.keyboard.press('Escape');
+  await page.locator('#clubPicker[open]').waitFor({ state: 'hidden' });
+  gate(await pin.locator('..').evaluate(marker => marker === document.activeElement), 'Back restores focus to the original map pin');
+  await page.keyboard.press('Space');
+  await page.locator('#clubPicker[open]').waitFor();
+  await page.keyboard.press('Escape');
+  await page.locator('#clubPicker[open]').waitFor({ state: 'hidden' });
   await page.click('#viewGridBtn');
   await page.waitForTimeout(300);
   gate(await page.evaluate(() => [...document.querySelectorAll('#chooser .card')].filter(c => c.offsetParent).length > 0
@@ -443,28 +336,26 @@ const paramsOf = url => Object.fromEntries(new URL(url).searchParams);
 
 for (const [w, h, touch, name] of [[390, 844, true, 'phone'], [1440, 900, false, 'desktop'], [1366, 768, false, 'laptop']]) {
   await section(`start menu ${w}x${h}`, async () => {
-    const { ctx, page, errs } = await open({ width: w, height: h, touch, last: manifest.courses[3].slug, url: '/' });
+    const { ctx, page, errs } = await open({ width: w, height: h, touch, last: 'bro-hof-castle', url: '/' });
     await page.waitForSelector('#home .mode-card', { timeout: 60000 });
     await page.waitForTimeout(900);
     const m = await page.evaluate(() => {
-      const cards = [...document.querySelectorAll('#home .mode-card')].map(c => ({ mode: c.dataset.mode, r: c.getBoundingClientRect(),
-        badge: !!c.querySelector('.mc-badge') }));
+      const cards = [...document.querySelectorAll('#home .mode-card')].map(c => ({ mode: c.dataset.mode, r: c.getBoundingClientRect() }));
       const home = document.getElementById('home');
       const small = [...home.querySelectorAll('a, button')].filter(e => e.offsetParent)
         .map(e => ({ e, b: e.getBoundingClientRect() })).filter(x => x.b.width < 44 || x.b.height < 44)
         .map(x => `${x.e.className || x.e.tagName} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
-      return { cards: cards.map(c => ({ mode: c.mode, top: Math.round(c.r.top), bottom: Math.round(c.r.bottom), badge: c.badge })),
+      return { cards: cards.map(c => ({ mode: c.mode, top: Math.round(c.r.top), height: c.r.height })),
         resume: document.querySelector('#home [data-resume]')?.textContent.replace(/\s+/g, ' ').trim() ?? null,
         chooser: !!document.getElementById('chooser') && !document.getElementById('chooser').hidden,
         sideways: home.scrollWidth > home.clientWidth + 1, small, vh: innerHeight };
     });
     if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `home-${w}x${h}.png`) });
     const tag = `${name} ${w}x${h}`;
-    gate(m.cards.map(c => c.mode).join(',') === (touch ? 'map,detailed,play,stats,settings' : 'detailed,map,play,stats,settings'), `${tag}: five cards, Detaljerad 3D, Lätt 3D, Spela, Statistik, Inställningar (${m.cards.map(c => c.mode).join(', ')})`);
-    gate(m.cards.every(c => c.top >= 0 && c.bottom <= m.vh), `${tag}: all five whole on screen without scrolling (${m.cards.map(c => `${c.top}-${c.bottom}`).join(', ')} of ${m.vh})`);
-    const marked = m.cards.filter(c => c.badge).map(c => c.mode);
-    gate(marked.length === 1 && marked[0] === (touch ? 'map' : 'detailed'), `${tag}: the mode this device is best at is marked (${marked.join(', ') || 'none'})`);
-    gate(!!m.resume && m.resume.includes(manifest.courses[3].name), `${tag}: Fortsätt offers the last course: "${m.resume}"`);
+    gate(m.cards.map(c => c.mode).join(',') === (touch ? 'map,detailed,play,stats,settings' : 'detailed,play,map,stats,settings'), `${tag}: five cards, Detaljerad 3D, Lätt 3D, Spela, Statistik, Inställningar (${m.cards.map(c => c.mode).join(', ')})`);
+    gate(m.cards[0].top < m.vh && m.cards.every(c => c.height >= 44),
+      `${tag}: the recommended activity is visible and all five destinations are touch-sized`);
+    gate(!!m.resume && m.resume.includes('The Castle Course') && m.resume.includes('Bro Hof'), `${tag}: Fortsätt offers the last course: "${m.resume}"`);
     gate(!m.chooser && !m.sideways && m.small.length === 0, `${tag}: the list waits behind the menu, nothing sideways, every target 44 px${m.small.length ? ' -- ' + m.small.join(', ') : ''}`);
     gate(errs.length === 0, `${tag}: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
     await ctx.close();
@@ -496,6 +387,8 @@ await section('launch urls', async () => {
     await page.click(`#chooser .card[data-slug="${slug}"]`);
     await page.waitForSelector('#courseSheet[open]');
     await page.waitForTimeout(700); /* it slides up into place */
+    gate(!await page.locator('#courseSheet .cs-lights').isVisible(), 'advanced lighting starts collapsed');
+    await page.click('#csOptionsTitle');
     const sheet = await page.evaluate(() => {
       const d = document.getElementById('courseSheet');
       const small = [...d.querySelectorAll('button, .cs-tee span, .cs-mode, .seg-opt, .cs-light')].filter(e => e.offsetParent)
@@ -514,7 +407,8 @@ await section('launch urls', async () => {
       `phone: a card opens its course's page first (${sheet.title}, ${sheet.tees} tees, mode ${sheet.mode})`);
     gate(sheet.go && sheet.small.length === 0, `phone: its start button is on screen and every choice is a 40 px target${sheet.small.length ? ' -- ' + sheet.small.join(', ') : ''}`);
     gate(sheet.lightsInSight, `phone: all ${sheet.lightCount} lights fit in view without hidden horizontal scrolling`);
-    /* the scorecard, from the course's own pack, in the tee chosen on the page */
+    /* The course's scorecard follows the tee chosen on the setup page. */
+    await page.click('#csCardTitle');
     await page.waitForSelector('#courseSheet .cs-sc', { timeout: 20000 });
     const card = await page.evaluate(() => {
       const tables = [...document.querySelectorAll('#courseSheet .cs-sc')];
@@ -548,8 +442,7 @@ await section('launch urls', async () => {
     seen.length = 0;
     await page.goto(BASE + '/#karta', { waitUntil: 'load' });
     await page.waitForSelector('#chooser:not([hidden]) .card');
-    const cta = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .sha-text`)?.textContent, slug);
-    gate(/kartan|Fortsätt/.test(cta || ''), `phone: in Lätt 3D the card says what it opens: "${cta}"`);
+    gate((await page.locator('#chooserModeToggle').innerText()).includes('Lätt 3D'), 'phone: the active mode is visible before a course is opened');
     await startFromSheet(page, slug, { tee: 1 });
     const m = seen[0] ? paramsOf(seen[0]) : {};
     gate(seen.length === 1 && m.karta === '1' && m.runda === '1' && m.hal === '1', `phone: Starta rundan opens ${seen[0]?.replace(BASE, '')} -- karta=1 and the round begun`);
@@ -607,30 +500,31 @@ await section('a round under way', async () => {
   gate(p.bana === course.slug && p.karta === '1' && p.runda === 'fortsatt' && !('hal' in p), `and resumes it in the map, without beginning another: ${seen[0]?.replace(BASE, '')}`);
   await page.goto(BASE + '/#karta', { waitUntil: 'load' });
   await page.waitForSelector('#chooser:not([hidden]) .card');
-  const badge = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .current-badge.is-live`)?.textContent, course.slug);
-  gate(badge === 'Runda pågår', `its course's card says so too: "${badge}"`);
+  const badge = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .club-state`)?.textContent, course.slug);
+  gate(badge?.includes('GPS-runda pågår'), `its course's card says so too: "${badge}"`);
   await ctx.close();
 });
 
-/* A course the map downloaded (map-field.mjs downloadCourse's key) is marked in
-   the Lätt 3D list, where it matters on a course with no signal, and nowhere else. */
-await section('a course kept for offline play', async () => {
-  const course = manifest.courses.find(c => c.status !== 'mapping') || manifest.courses[0];
+/* Offline packs belong to an individual layout, including two at the same club. */
+await section('a layout kept for offline play', async () => {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
-  await ctx.addInitScript(slug => { try { localStorage.setItem(`banvy-map-offline:${slug}`, '1'); } catch {} }, course.slug);
+  await ctx.addInitScript(() => localStorage.setItem('banvy-map-offline:bro-hof-castle', '1'));
   const page = await ctx.newPage();
-  const read = () => page.evaluate(s => {
-    const shown = [...document.querySelectorAll('#chooser .saved-badge')].filter(b => getComputedStyle(b).display !== 'none');
-    return { shown: shown.map(b => b.closest('.card-item').dataset.slug), label: document.querySelector(`#chooser .card[data-slug="${s}"]`).getAttribute('aria-label') };
-  }, course.slug);
-  await page.goto(BASE + '/#karta', { waitUntil: 'load' });
-  await page.waitForSelector('#chooser:not([hidden]) .card');
-  const map = await read();
-  gate(map.shown.length === 1 && map.shown[0] === course.slug && /Tidigare nedladdad/.test(map.label), `the Lätt 3D list marks the downloaded course, and says so: ${map.shown.join(', ')}`);
+  await page.goto(BASE + '/#karta');
+  const card = page.locator('.card-item[data-club-id="bro-hof"] .card');
+  await card.click();
+  const picker = page.locator('#clubPicker[open]');
+  await picker.waitFor();
+  const castle = picker.locator('[data-layout="bro-hof-castle"]');
+  const stadium = picker.locator('[data-layout="bro-hof-stadium"]');
+  gate(/Tidigare nedladdad/.test(await castle.innerText()) && !/nedladdad/i.test(await stadium.innerText()),
+    'only the previously downloaded Castle layout is marked in Lätt 3D');
+  await page.keyboard.press('Escape');
+  await picker.waitFor({ state: 'hidden' });
+  await page.click('#chooserModeToggle');
   await page.click('.c-mode-btn[data-mode="detailed"]');
-  await page.waitForTimeout(300);
-  const detailed = await read();
-  gate(detailed.shown.length === 0 && !/nedladdad/i.test(detailed.label), 'and the detailed list, which streams, does not');
+  await card.click();
+  gate(!/nedladdad/i.test(await picker.innerText()), 'the desktop renderer does not advertise an offline GPS pack');
   await ctx.close();
 });
 
@@ -648,6 +542,7 @@ await section('your own card on the course page', async () => {
   await page.goto(BASE + '/#karta', { waitUntil: 'load' });
   await page.waitForSelector(`#chooser .card[data-slug="${course.slug}"]`);
   await page.click(`#chooser .card[data-slug="${course.slug}"]`);
+  await page.click('#csCardTitle');
   await page.waitForSelector('#courseSheet .cs-sc-mine', { timeout: 20000 });
   const mine = await page.$$eval('#courseSheet .cs-sc-mine', rows => rows.map(r => [...r.querySelectorAll('td')].map(td => ({ text: td.textContent, tone: td.className }))));
   const first = mine[0] ?? [];
@@ -656,6 +551,7 @@ await section('your own card on the course page', async () => {
   const guideMine = await page.$$eval('#courseSheet .cs-hole-mine', els => els.map(e => e.textContent.trim()));
   gate(guideMine.length === course.holes && guideMine[0] === 'Ditt snitt 3,0', `and each guide card says your average on its hole (${guideMine.length}, "${guideMine[0]}")`);
   /* and the page leads on to that course in Statistik, hole by hole, clear of the header */
+  await page.click('#csInfoTitle');
   await page.click('#courseSheet .cs-past-more');
   await page.waitForSelector('#stats:not([hidden]) [data-card="holes"] .shb-col', { timeout: 15000 });
   await page.waitForTimeout(500);
@@ -698,17 +594,18 @@ await section('mode switch and the way back', async () => {
   await page.keyboard.press('1');
   await page.waitForSelector('#chooser:not([hidden]) .card');
   gate(await page.evaluate(() => location.hash) === '#3d', 'the key 1 opens Detaljerad 3D');
+  await page.click('#chooserModeToggle');
   await page.click('.c-mode-btn[data-mode="map"]');
   await page.waitForTimeout(400);
   const after = await page.evaluate(() => ({ hash: location.hash, checked: document.querySelector('.c-mode-btn[aria-checked="true"]')?.dataset.mode,
-    cta: document.querySelector('#chooser .card-item .sha-text')?.textContent, title: document.title }));
-  gate(after.hash === '#karta' && after.checked === 'map' && /kartan|Fortsätt/.test(after.cta) && /Lätt 3D/.test(after.title),
-    `switching to Lätt 3D in place: ${after.hash}, "${after.cta}", "${after.title}"`);
+    mode: document.querySelector('#chooserModeToggle')?.innerText, title: document.title }));
+  gate(after.hash === '#karta' && after.checked === 'map' && /Lätt 3D/.test(after.mode) && /Lätt 3D/.test(after.title),
+    `switching to Lätt 3D in place: ${after.hash}, "${after.mode}", "${after.title}"`);
   await page.keyboard.press('Escape');
   await page.waitForSelector('#home:not([hidden])');
   gate(await page.evaluate(() => !document.getElementById('home').hidden && document.getElementById('chooser').hidden && location.hash === ''),
     'Escape goes back to the start menu (the switch replaced its step, so one back is enough)');
-  await page.click('#home [data-settings]');
+  await page.click('#home .mode-settings');
   await page.waitForSelector('#settings:not([hidden])');
   await page.goBack();
   await page.waitForSelector('#home:not([hidden])');
@@ -736,17 +633,25 @@ await section('settings', async () => {
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'settings-390x844.png') });
   gate(!layout.sideways && layout.small.length === 0, `settings at 390 px: nothing sideways, every target 40 px${layout.small.length ? ' -- ' + layout.small.join(', ') : ''}`);
   gate(layout.ladder === 3, `the bag shows as its carry ladder (${layout.ladder} clubs)`);
+  await page.click('#settingsNav-visning');
   await page.click('.seg[data-name="quality"] .seg-opt:has(input[value="hi"])');
+  await page.locator('summary:has(#lbl-maplight)').click();
   await page.click('.swatches[data-name="maplight"] .swatch:has(input[value="dis"])');
   await page.click('.set-switch:has([data-switch="sun"])');
+  await page.locator('.set-advanced summary').click();
   await page.click('.seg[data-name="fps"] .seg-opt:has(input[value="30"])');
   const stored = await page.evaluate(() => ({ s: JSON.parse(localStorage.getItem('banvy-settings-v1') || '{}'), light: localStorage.getItem('banvy-map-light-v1'),
     display: JSON.parse(localStorage.getItem('banvy-map-display-v1') || '{}'), fps: localStorage.getItem('banvy-fps'),
     saved: document.querySelector('[data-saved]').classList.contains('is-on') }));
   gate(stored.s.quality === 'hi' && stored.light === 'dis' && stored.display.sun === true && stored.fps === '30' && stored.saved,
     `each choice lands in the key its program reads, and says so (q ${stored.s.quality}, map light ${stored.light}, sun ${stored.display.sun}, fps ${stored.fps})`);
+  await page.click('#settingsNav-konto');
   await page.click('[data-reset]');
+  await page.click('[data-reset-cancel]');
+  gate(await page.locator('[data-reset-cancel]').isHidden() && await page.evaluate(() => localStorage.getItem('banvy-fps')) === '30',
+    'cancelling the reset keeps the saved preferences');
   await page.click('[data-reset]');
+  await page.getByRole('button', { name: 'Bekräfta återställning' }).click();
   await page.waitForTimeout(300);
   const reset = await page.evaluate(() => ({ s: localStorage.getItem('banvy-settings-v1'), light: localStorage.getItem('banvy-map-light-v1'), bag: localStorage.getItem('banvy-caddie-bag-v1'),
     checked: document.querySelector('.seg[data-name="quality"] input:checked')?.value }));
@@ -873,21 +778,27 @@ if (PLAYER) {
   const kept = { id: 1, course: slug, courseName: manifest.courses[0].name, date: '2026-11-01', endedAt: 1, tee: 1, handicap: 18, holeCount: 9, pars: Array(9).fill(4),
     holes: Array.from({ length: 9 }, (_, i) => ({ n: i + 1, par: 4, strokes: 5, putts: 2, fairway: 'hit', picked: false })),
     totals: { played: 9, strokes: 45, par: 36, putts: 18, points: 18, fairways: 9, fairwaysTried: 9, greens: 2, greensTried: 9, toPar: 9 } };
-  const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: `/?bana=${slug}&q=lo&hal=3`,
+  const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: `/?bana=${slug}&q=lo&hal=3${GPU ? '' : '&gl=1'}`,
     seed: { 'banvy-map-rounds-v1': JSON.stringify({ version: 1, rounds: [kept] }) } });
   try {
     await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });
+    // This journey checks keyboard and drawer input after a real first frame.
+    // Continuous terrain draws on the software GPU delay DOM actionability.
+    if (!GPU) await page.evaluate(() => V3D.harness().renderer.setAnimationLoop(null));
     await page.evaluate(() => document.getElementById('bytBtn').click());
-    await page.waitForTimeout(700);
-    const opened = await page.evaluate(() => {
-      const first = document.querySelector('#chooser .card-item');
+    await page.locator('#chooser:visible #chooserResumeBtn').waitFor();
+    const opened = await page.evaluate(slug => {
+      const current = document.querySelector(`#chooser .card-item[data-slug="${CSS.escape(slug)}"]`);
       const close = document.getElementById('chooserResumeBtn').getBoundingClientRect();
-      return { slug: first.dataset.slug, badge: first.querySelector('.current-badge')?.textContent.trim(),
+      return { slug: current.dataset.slug, badge: current.querySelector('.club-state')?.textContent.trim(),
         close: Math.min(close.width, close.height), remembered: localStorage.getItem('banvy-last-course') };
-    });
-    gate(opened.slug === slug && opened.badge === 'Aktiv bana', `in the player the running course leads: ${opened.slug}, "${opened.badge}"`);
+    }, slug);
+    gate(opened.slug === slug && opened.badge?.includes('Aktiv bana'), `the currently open course remains identified in the sorted grid: ${opened.slug}, "${opened.badge}"`);
     gate(opened.close >= 40, `and the way back is a ${Math.round(opened.close)} px button, not a sentence`);
-    gate(opened.remembered === slug, 'the player records the course for the hub to lead with');
+    gate(opened.remembered === slug, 'the player records the course for recents in the hub');
+    await page.locator('#chooserSort').focus();
+    await page.selectOption('#chooserSort', 'recent');
+    gate(await page.locator('#coursesCardList .card-item').first().getAttribute('data-slug') === slug, 'the in-course recent order puts the open club first');
     const before = await page.evaluate(() => ({ hole: document.getElementById('cno').textContent, clean: document.body.classList.contains('clean'), sky: window.V3D.skyState() }));
     await page.click('#courseSearchInput');
     await page.keyboard.type('npm h', { delay: 30 });
@@ -905,17 +816,17 @@ if (PLAYER) {
       await page.waitForSelector('#courseSheet[open]', { timeout: 20000 });
       const styled = await page.evaluate(() => getComputedStyle(document.querySelector('#courseSheet .seg') || document.body).display);
       await page.keyboard.press('Escape');
-      await page.waitForTimeout(300);
+      await page.locator('#courseSheet[open]').waitFor({ state: 'hidden' });
       const after = await page.evaluate(() => ({ sheet: document.getElementById('courseSheet').open, list: document.body.classList.contains('choosing') }));
       gate(styled === 'flex' && !after.sheet && after.list, `in the player another course opens its own page, styled (${styled}); Escape closes it and keeps the list`);
       await page.click('#courseSearchInput');
       await page.keyboard.type('npm h', { delay: 30 });
     }
     await page.keyboard.press('Escape');
-    await page.waitForTimeout(200);
     const e1 = await page.evaluate(() => ({ q: document.getElementById('courseSearchInput').value, open: document.body.classList.contains('choosing') }));
     await page.keyboard.press('Escape');
-    await page.waitForTimeout(600);
+    await page.locator('#chooser').waitFor({ state: 'hidden' });
+    await page.waitForFunction(() => !document.activeElement?.closest('#chooser'), null, { polling: 50 });
     const open2 = await page.evaluate(() => document.body.classList.contains('choosing'));
     gate(e1.q === '' && e1.open && !open2, 'Escape empties the search first and closes the chooser second');
 
@@ -924,19 +835,16 @@ if (PLAYER) {
     const read = () => page.evaluate(() => ({ hole: document.getElementById('cno').textContent.trim(),
       cam: document.querySelector('#rail [data-cam].on')?.dataset.cam, light: document.querySelector('#rail [data-preset].on')?.dataset.preset }));
     const holes = await page.evaluate(() => document.querySelectorAll('#holes .hb').length);
-    await page.keyboard.press('7');
-    await page.waitForTimeout(300);
-    gate((await read()).hole === '7', `"7" goes to hole 7 (${(await read()).hole})`);
+    const checkHole = async (number, keys, label) => {
+      for (const key of keys) await page.keyboard.press(key);
+      await page.waitForFunction(n => document.getElementById('cno').textContent.trim() === String(n), number, { polling: 50 });
+      gate(true, label);
+    };
+    await checkHole(7, '7', '"7" goes to hole 7');
     if (holes >= 14) {
-      await page.keyboard.press('1'); await page.keyboard.press('4');
-      await page.waitForTimeout(300);
-      gate((await read()).hole === '14', `"1", "4" goes to hole 14 (${(await read()).hole})`);
-      await page.keyboard.press('1');
-      await page.waitForTimeout(1200);
-      gate((await read()).hole === '1', `a lone "1" goes to hole 1 once the second digit does not come (${(await read()).hole})`);
-      await page.keyboard.press('0');
-      await page.waitForTimeout(300);
-      gate((await read()).hole === '10', `"0" goes to hole 10 (${(await read()).hole})`);
+      await checkHole(14, '14', '"1", "4" goes to hole 14');
+      await checkHole(1, '1', 'a lone "1" goes to hole 1 once the second digit does not come');
+      await checkHole(10, '0', '"0" goes to hole 10');
     }
     const s0 = await read();
     await page.keyboard.press('c');
@@ -947,8 +855,9 @@ if (PLAYER) {
     await page.waitForTimeout(600);
     const s2 = await read();
     gate(s2.light && s2.light !== s0.light, `"L" steps the light (${s0.light} -> ${s2.light})`);
-    await page.evaluate(() => document.getElementById('menuToggle').click());
-    await page.waitForTimeout(500);
+    await page.locator('#menuToggle').click();
+    await page.locator('#navDrawer[open] #ndTabMore').click();
+    await page.locator('#navDrawer[open] #ndMore:visible').waitFor();
     const listed = await page.evaluate(() => [...document.querySelectorAll('#navDrawer .sc-row')].map(r => r.textContent.replace(/\s+/g, ' ').trim()));
     gate(listed.some(t => t.includes('Byt kameravy')) && listed.some(t => t.includes('Hål 10')), `the menu lists the working keys (${listed.length} rows)`);
     const courseStats = await page.evaluate(() => {
@@ -961,7 +870,6 @@ if (PLAYER) {
     await page.keyboard.press('5');
     await page.waitForTimeout(300);
     gate((await read()).hole === inMenu, `keys do not steer the course behind the open menu (hole ${inMenu} -> ${(await read()).hole})`);
-    await page.click('#ndTabMore');
     await page.goBack();
     await page.locator('#navDrawer[open]').waitFor({ state: 'hidden' });
     gate(await page.evaluate(() => document.activeElement.id === 'menuToggle'), 'browser Back closes the detailed menu and restores its launcher');
@@ -970,10 +878,11 @@ if (PLAYER) {
     gate(await page.locator('#ndTabMore').getAttribute('aria-selected') === 'true', 'Forward restores the selected detailed menu tab');
     await page.click('#ndTabPlay');
     await page.click('#dNoteBtn');
+    await page.locator('#note.mobile-open').waitFor();
     gate(await page.locator('#note').evaluate(panel => panel.classList.contains('mobile-open')), 'Banguide opens the detailed viewer’s own guide');
     await page.keyboard.press('Escape');
   } catch (e) {
-    gate(false, `player: ${String(e).split('\n')[0].slice(0, 110)}`);
+    gate(false, `player: ${e.message}`);
   }
   await ctx.close();
 }

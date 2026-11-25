@@ -205,7 +205,9 @@ async function checkManualCard() {
             boxes.some(box => box.left < rect.left - 1 || box.right > rect.right + 1 || box.top < rect.top - 1 || box.bottom > rect.bottom + 1 ||
               actions.some(action => box.left < action.right && box.right > action.left && box.top < action.bottom && box.bottom > action.top));
         });
-        const controls = document.querySelectorAll('.map-shot-actions button:not([hidden]), [data-wheel-list], [data-wheel-lock], [data-view-toggle], .map-tools button');
+        // This journey opened a preview. Scoring becomes available after starting a round.
+        const previewScoreHidden = !document.querySelector('.map-tools [data-score]').getClientRects().length;
+        const controls = document.querySelectorAll('.map-shot-actions button:not([hidden]), [data-wheel-list], [data-wheel-lock], [data-view-toggle], .map-tools button:not([data-score])');
         const covered = [...controls].filter(button => {
           const box = button.getBoundingClientRect();
           return Math.min(box.width, box.height) < 40 || !button.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
@@ -216,7 +218,7 @@ async function checkManualCard() {
             return Math.min(rect.right, box.right) - Math.max(rect.left, box.left) > 1 &&
               Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top) > 1;
           });
-        return { width: rect.width, height: rect.height, dockWidth: dock.width,
+        return { width: rect.width, height: rect.height, dockWidth: dock.width, previewScoreHidden,
           inlineAction: actions.length === 1 && actions[0].top < primary.bottom,
           inset: Math.max(Math.abs(rect.left - dock.left), Math.abs(rect.right - dock.right)), unreadable, covered, overlaps };
       });
@@ -224,6 +226,7 @@ async function checkManualCard() {
       assert.ok(layout.inset <= 1, `${label}: pinned card spans ${layout.width}px of the ${layout.dockWidth}px dock`);
       assert.deepEqual(layout.unreadable, [], label + ': manual reading fields fit inside their card');
       assert.deepEqual(layout.overlaps, [], label + ': card clears the rail and controls');
+      assert.ok(layout.previewScoreHidden, label + ': a preview shows one start action and keeps score entry closed');
       assert.deepEqual(layout.covered, [], label + ': all controls are touch-sized and their centres accept touch');
       if (width === 360) assert.ok(layout.inlineAction, 'Rensa fits beside the main shot reading at the browser-bar height');
       assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pinned, label + ': resize keeps the chosen point');

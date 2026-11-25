@@ -49,14 +49,23 @@ export function courseUrl(slug, search = (typeof location !== 'undefined' ? loca
   return '?' + to.toString();
 }
 
-/* The light 3D map for a real round, beside the detailed course. */
-export function mapUrl(slug) {
-  return `?bana=${encodeURIComponent(slug)}&karta=1`;
+/* Camera handoffs within the same layout use the public, one-based hole and tee. */
+function viewerUrl(slug, map, { hole, tee, preview } = {}) {
+  const params = new URLSearchParams({ bana: slug, karta: map ? '1' : '0' });
+  for (const [key, value] of [['hal', hole], ['tee', tee]]) {
+    if (/^[1-9]\d*$/.test(String(value)) && Number.isSafeInteger(Number(value))) params.set(key, value);
+  }
+  if (map && preview) params.set('runda', 'visa');
+  return '?' + params.toString();
+}
+
+export function mapUrl(slug, context) {
+  return viewerUrl(slug, true, context);
 }
 
 /* The detailed course, on a device that would open the map by default. */
-export function detailedUrl(slug) {
-  return `?bana=${encodeURIComponent(slug)}&karta=0`;
+export function detailedUrl(slug, context) {
+  return viewerUrl(slug, false, context);
 }
 
 /* Spela: the detailed course as a game (apps/golf/src/play) */
@@ -92,8 +101,10 @@ export function parentHubRoute(hash) {
     return path + (query.size ? '?' + query : '');
   }
   const parts = path.split('/').filter(Boolean);
+  if (parts[1] === 'klubb' && parts.length === 3) return parts[0];
   parts.pop();
-  return parts.join('/');
+  const parent = parts.join('/');
+  return parts[0] === 'statistik' && query.get('exempel') === '1' ? parent + '?exempel=1' : parent;
 }
 
 /* Only offer browser Back across documents for a course within this app's

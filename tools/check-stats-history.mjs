@@ -114,6 +114,76 @@ async function closeFilters(page, escape = false) {
   assert.equal(new URL(page.url()).hash, '#statistik', 'closing filters stays in statistics');
 }
 
+async function checkRoundExports(browser, phone) {
+  const ctx = await browser.newContext({ viewport: phone ? { width: 390, height: 844 } : { width: 1280, height: 800 },
+    hasTouch: phone, isMobile: phone, reducedMotion: 'reduce' });
+  try {
+    await ctx.addInitScript(() => {
+      window.cardWords = [];
+      const fillText = CanvasRenderingContext2D.prototype.fillText;
+      CanvasRenderingContext2D.prototype.fillText = function(text, ...args) {
+        if (this.canvas.width === 1080 && this.canvas.height === 1350) window.cardWords.push(text);
+        return fillText.call(this, text, ...args);
+      };
+      Object.defineProperty(navigator, 'canShare', { value: () => !window.downloadOnly });
+      Object.defineProperty(navigator, 'share', { value: async ({ title, text, files }) => {
+        const [file] = files;
+        window.sharedRound = { title, text, name: file.name, type: file.type,
+          signature: Array.from(new Uint8Array(await file.slice(0, 8).arrayBuffer())) };
+      } });
+    });
+    const page = await ctx.newPage();
+    await page.goto(base + '/#statistik');
+    await page.locator('#stats [data-example]').click();
+    const latest = page.locator('#stats .st-latest');
+    const exampleCourse = await latest.locator('.sl-course').innerText();
+    const action = latest.locator('[data-jump-round]');
+    const [slug, id] = (await action.getAttribute('data-jump-round')).split('|');
+    await action.click();
+    await page.waitForURL(url => url.hash === `#statistik/${slug}/${id}?exempel=1`);
+    await page.reload();
+    const opened = page.locator(`#stats details[data-round-key="${slug}|${id}"][open]`);
+    await opened.locator('[data-share-round]').click();
+    await page.waitForFunction(() => window.sharedRound);
+    const example = await page.evaluate(() => ({ ...window.sharedRound, words: window.cardWords }));
+    assert.match(example.name, /^banvy-exempel-.*\.png$/);
+    assert.equal(example.type, 'image/png');
+    assert.deepEqual(example.signature, [137, 80, 78, 71, 13, 10, 26, 10]);
+    assert.ok(example.title.includes('Exempelrunda') && example.title.includes(exampleCourse));
+    assert.ok(example.text.includes('Exempelrunda') && example.text.includes(exampleCourse));
+    assert.ok(example.words.includes('EXEMPELRUNDA'));
+    assert.ok(exampleCourse.split(' · ').every(name => example.words.includes(name)));
+    await page.evaluate(() => { window.downloadOnly = true; });
+    const downloading = page.waitForEvent('download');
+    await opened.locator('[data-share-round]').click();
+    assert.equal((await downloading).suggestedFilename(), example.name);
+    assert.equal(await page.evaluate(() => localStorage.getItem('banvy-map-rounds-v1')), null);
+    await page.locator('[data-hide-example]').click();
+    await page.waitForURL(url => url.hash === '#statistik');
+    await page.locator('[data-example]').waitFor();
+
+    // A legacy record may have been saved with just a club name. Its slug still identifies the layout.
+    const castle = courses.find(c => c.slug === 'bro-hof-castle');
+    const real = roundRecord({ id: 88, startedAt: '2026-11-10', scores: { 1: { strokes: 7, putts: 2 } } },
+      { ...layout, slug: castle.slug, name: castle.club });
+    const stored = storeRounds([real]);
+    await page.evaluate(value => localStorage.setItem('banvy-map-rounds-v1', value), stored);
+    await page.goto(base + '/#statistik/' + castle.slug + '/88');
+    await page.reload();
+    const realCard = page.locator('#stats details[data-round-key="bro-hof-castle|88"][open]');
+    await realCard.locator('[data-share-round]').click();
+    await page.waitForFunction(() => window.sharedRound);
+    const personal = await page.evaluate(() => ({ ...window.sharedRound, words: window.cardWords }));
+    assert.match(personal.name, /^banvy-bro-hof-slott-golf-club-the-castle-course-2026-11-10\.png$/);
+    assert.equal(personal.title, castle.club + ' · The Castle Course');
+    assert.ok(personal.text.includes(personal.title));
+    assert.doesNotMatch(personal.name + personal.text + personal.title + personal.words.join(' '), /exempel/i);
+    assert.ok([castle.club, 'The Castle Course', '7', '+3'].every(word => personal.words.includes(word)));
+    assert.equal(await page.evaluate(() => localStorage.getItem('banvy-map-rounds-v1')), stored);
+    console.log(`${phone ? 'Phone' : 'Desktop'} · example watermark, share text, actual PNG/download, and real Castle layout and score`);
+  } finally { await ctx.close(); }
+}
+
 const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
 try {
   for (const [width, height] of [[390, 844], [1280, 800]]) {
@@ -143,10 +213,42 @@ try {
       assert.match(await detail(1).locator('summary').innerText(), /Puttar ej förda/);
       assert.match(await detail(2).locator('summary').innerText(), /2 puttar på 1 av 9 hål/);
       assert.match(await detail(3).locator('summary').innerText(), /0 puttar/);
-      await latest.locator('[data-jump-round]').click();
+      const latestAction = latest.locator('[data-jump-round]');
+      await latestAction.scrollIntoViewIfNeeded();
+      const origin = await dashboard.evaluate(el => el.scrollTop);
+      await latestAction.click();
+      await page.waitForURL(url => url.hash === `#statistik/${course.slug}/4`);
+      await page.waitForFunction(() => document.activeElement?.closest('details')?.dataset.roundKey?.endsWith('|4'));
       assert.equal(await detail(4).getAttribute('open'), '');
       assert.match(await detail(4).innerText(), /Eget mål 145 m/);
       assert.match(await detail(4).innerText(), /Återupplev i 3D/);
+      await page.goBack();
+      await page.waitForFunction(() => document.activeElement?.matches('[data-jump-round]'));
+      assert.equal(new URL(page.url()).hash, '#statistik');
+      assert.ok(Math.abs(await dashboard.evaluate(el => el.scrollTop) - origin) <= 2, 'Back restores the overview position');
+      assert.equal(await detail(4).getAttribute('open'), null);
+      const chart = dashboard.locator('#statsTrendChart');
+      await chart.scrollIntoViewIfNeeded();
+      await chart.focus();
+      await chart.press('ArrowLeft');
+      const selectedPoint = await chart.locator('.st-dot').evaluateAll(dots => dots.findIndex(dot => dot.classList.contains('is-on')));
+      await chart.press('Enter');
+      await page.waitForURL(url => url.hash === `#statistik/${course.slug}/1`);
+      await dashboard.locator(`[data-round-key="${course.slug}|1"][open]`).waitFor();
+      await page.goBack();
+      await page.waitForFunction(() => document.activeElement?.id === 'statsTrendChart');
+      assert.equal(await chart.locator('.st-dot').evaluateAll(dots => dots.findIndex(dot => dot.classList.contains('is-on'))), selectedPoint);
+      if (width === 390) {
+        const position = await chart.locator('.st-dot').first().evaluate(dot =>
+          ({ x: Number(dot.getAttribute('cx')), y: Number(dot.getAttribute('cy')) }));
+        await chart.tap({ position });
+        assert.equal(new URL(page.url()).hash, '#statistik');
+        await dashboard.getByText('Tryck igen för scorekort').waitFor();
+        await chart.tap({ position });
+        await page.waitForURL(url => url.hash === `#statistik/${course.slug}/1`);
+        await page.goBack();
+        await page.waitForFunction(() => document.activeElement?.id === 'statsTrendChart');
+      }
       await dashboard.locator('[data-view="clubs"]').click();
       const iron = dashboard.locator('#st-clubs tr').filter({hasText: 'Järn 7'});
       assert.match(await iron.innerText(), /175 m/);
@@ -189,6 +291,17 @@ try {
         const top = document.querySelector('#st-rounds').getBoundingClientRect().top;
         return top >= document.querySelector('#stats .st-top').getBoundingClientRect().bottom - 1 && top < innerHeight;
       });
+      const guestSummary = dashboard.locator(`[data-round-key="${guest.slug}|5"] summary`);
+      await guestSummary.scrollIntoViewIfNeeded();
+      const filteredY = await dashboard.evaluate(el => el.scrollTop);
+      await guestSummary.click();
+      await page.waitForURL(url => url.hash === `#statistik/${guest.slug}/5`);
+      await dashboard.locator(`[data-round-key="${guest.slug}|5"][open]`).waitFor();
+      await page.goBack();
+      await page.waitForFunction(id => document.activeElement?.id === id, await guestSummary.getAttribute('id'));
+      assert.equal(await dashboard.locator('[data-course]').inputValue(), guest.slug);
+      assert.ok(await dashboard.locator('input[name="st-period"][value="90"]').isChecked());
+      assert.ok(Math.abs(await dashboard.evaluate(el => el.scrollTop) - filteredY) <= 2, 'returning to a filtered list restores its scroll');
       await page.goto(base + '/#statistik/' + course.slug + '/2');
       await detail(2).locator('summary').waitFor();
       await page.waitForFunction(() => document.activeElement?.closest('details')?.dataset.roundKey?.endsWith('|2'));
@@ -289,6 +402,16 @@ try {
   const returned = await sparsePage.locator('#stats').evaluate(el => ({ y: el.scrollTop, expanded: Boolean(el.querySelector('.st-round[open]')) }));
   assert.ok(Math.abs(returned.y - beforeBag) <= 2 && returned.expanded, 'Back from Min bag restores the same place and expanded scorecard');
   await sparsePage.goto(base + '/#installningar');
+  const settingsIndex = sparsePage.locator('#settings .set-nav button');
+  await settingsIndex.first().waitFor();
+  const indexInView = await settingsIndex.evaluateAll(buttons => buttons.length === 4 && buttons.every(button => {
+    const rect = button.getBoundingClientRect();
+    return rect.left >= 0 && rect.right <= innerWidth && rect.top >= 0 && rect.bottom <= innerHeight && rect.height >= 44;
+  }));
+  assert.ok(indexInView, 'all four Settings sections fit the phone without scrolling');
+  assert.equal(await sparsePage.locator('#settings .set-section:visible').count(), 1);
+  // An evicted Stadium download needs repair while Castle is still unsaved.
+  await sparsePage.evaluate(() => localStorage.setItem('banvy-map-offline:bro-hof-stadium', 'evicted-download'));
   await sparsePage.locator('[data-jump="set-offline"]').click();
   await sparsePage.waitForURL('**/#installningar/offline');
   await sparsePage.reload();
@@ -297,10 +420,22 @@ try {
     const heading = document.getElementById('set-offline-h').getBoundingClientRect();
     return heading.top >= document.querySelector('#settings .set-nav').getBoundingClientRect().bottom - 1 && heading.top < innerHeight;
   });
-  assert.ok(headingClear, 'the reloaded section heading stays visible under both sticky header rows');
+  assert.ok(headingClear, 'the reloaded section heading stays visible below the index');
+  const bro = sparsePage.locator('[data-offline-club="bro-hof"]');
+  await bro.locator('[data-offline-course="bro-hof-castle"] a:visible').waitFor();
+  assert.equal(await bro.locator('[data-offline-course]').count(), 2);
+  assert.equal(await bro.locator('[data-offline-course="bro-hof-stadium"] a').innerText(), 'Reparera');
+  assert.equal(await bro.locator('[data-offline-course="bro-hof-castle"] a').innerText(), 'Spara offline');
+  assert.match(await bro.locator('[data-offline-course="bro-hof-stadium"] a').getAttribute('href'), /bana=bro-hof-stadium/);
+  assert.match(await bro.locator('[data-offline-course="bro-hof-castle"] a').getAttribute('href'), /bana=bro-hof-castle/);
   await sparsePage.locator('[data-jump="set-account"]').click();
   await sparsePage.waitForURL('**/#installningar/konto');
   await sparsePage.waitForFunction(() => document.activeElement?.id === 'set-account-h');
+  await sparsePage.goBack();
+  await sparsePage.locator('#set-offline:visible').waitFor();
+  assert.equal(await sparsePage.locator('.set-nav [aria-current="page"]').getAttribute('data-jump'), 'set-offline');
+  await sparsePage.goForward();
+  await sparsePage.locator('#set-account:visible').waitFor();
   // A fresh catalogue can finish after history has restored the Konto heading.
   await sparsePage.evaluate(() => localStorage.removeItem('banvy-hub-catalogue-v1'));
   let releaseCatalogue;
@@ -317,4 +452,6 @@ try {
   assert.match(await sparsePage.locator('[data-stats-summary]').innerText(), /1 hål med score · 4 slag · [Pp]ar/);
   await small.close();
   console.log('A single recorded hole preserves score coverage and Stableford points. Back from Min bag restores the scorecard; section reloads keep Offlinebanor and Konto visible.');
+  await checkRoundExports(browser, true);
+  await checkRoundExports(browser, false);
 } finally { await browser.close(); }

@@ -13,8 +13,11 @@
   --ink:#eaf3ec; --dim:#9db3a5; --faint:#6d8579;
   --glass:rgba(9,18,14,.78); --edge:rgba(150,220,175,.18);
   --turf:#5fd07a; --amber:#f0a23a; --sand:#e2cf9a; --water:#4bb4d8;
+  --touch-target:44px; --focus-ring:#dafbe3;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+:where(button,a[href],input,select,summary,[tabindex="0"]):focus-visible{
+  outline:2px solid var(--focus-ring);outline-offset:2px;box-shadow:0 0 0 4px #13261b}
 html,body{height:100%;overflow:hidden;background:#070d10;color:var(--ink);
   font-family:Outfit,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 canvas{display:block;position:fixed;inset:0}
@@ -25,6 +28,15 @@ canvas{display:block;position:fixed;inset:0}
   background:radial-gradient(130% 100% at 50% 15%,#122822 0%,#07100c 55%,#030705 100%);
   transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)}
 #boot.done{opacity:0;transform:scale(1.03);pointer-events:none}
+#boot .boot-recovery{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+#bootRecovery:not([hidden]){display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#boot .boot-recovery [hidden],#boot.done .boot-recovery,#boot .boot-recovery:has(>#bootRecovery[hidden]):has(>#bootReturn[hidden]){display:none}
+#bootMode{color:var(--turf);font:650 14px/1.4 Outfit,sans-serif;margin-bottom:5px}
+#bootStage{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
+.boot-recovery :is(a,button){display:inline-flex;align-items:center;justify-content:center;min-height:var(--touch-target);
+  border:1px solid var(--edge);border-radius:12px;background:#14291e;color:var(--ink);font:600 15px Outfit,sans-serif;
+  padding:8px 16px;text-decoration:none;cursor:pointer}
+.boot-recovery button{background:var(--turf);color:#092314}
 /* THE COURSE BEHIND THE LOADING (2 November): eight to eleven seconds of a dark
    screen became the course's own picture, the chooser's poster, laid in dim and
    drifting slowly, with the progress in front of it. Still under reduced motion. */
@@ -36,7 +48,10 @@ canvas{display:block;position:fixed;inset:0}
   background:radial-gradient(70% 60% at 50% 52%,rgba(3,7,5,.55) 0%,rgba(3,7,5,.2) 60%,rgba(3,7,5,.65) 100%)}
 #boot .inner{position:relative;z-index:1}
 @keyframes boot-drift{from{transform:scale(1.02) translate3d(-1%,0,0)}to{transform:scale(1.08) translate3d(1.2%,-.8%,0)}}
-@media(prefers-reduced-motion:reduce){#boot .boot-poster{animation:none}}
+@media(prefers-reduced-motion:reduce){
+  #boot,#boot.done{transform:none;transition:none}
+  #boot .boot-poster,#boot .boot-ring,#boot .boot-ring::before,#boot .boot-ring::after,#boot .status-pulse{animation:none}
+}
 #boot .inner{width:min(440px,85vw);text-align:center;display:flex;flex-direction:column;align-items:center}
 .boot-logo{position:relative;margin-bottom:18px;display:flex;align-items:center;justify-content:center;width:76px;height:76px}
 .boot-ring{position:absolute;inset:0;margin:auto;width:68px;height:68px;border-radius:50%;
@@ -143,6 +158,11 @@ canvas{display:block;position:fixed;inset:0}
 /* four light names in one row on the desktop rail: less side padding leaves
    Sommar room to fit (the short-window tiers below restate the rail's padding) */
 @media(min-width:769px){#rail .grp.tight .btn{padding-left:2px;padding-right:2px}}
+.rail-lights{padding:0 2px}
+.rail-lights summary{padding:7px 0;font-size:12px;font-weight:650;color:var(--ink);cursor:pointer}
+.rail-lights summary span{float:right;margin-left:6px;color:var(--turf)}
+.rail-lights .grp{margin:5px 0}
+@media(pointer:coarse){.rail-lights summary{min-height:44px;padding:13px 0}}
 .lbl{font-size:8.5px;color:var(--faint);letter-spacing:.15em;text-transform:uppercase;margin:2px 0 -1px}
 #facts{font-size:10px;color:var(--dim);line-height:1.55;padding-top:4px;border-top:1px solid rgba(255,255,255,.06)}
 #facts b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600}
@@ -151,7 +171,7 @@ canvas{display:block;position:fixed;inset:0}
 /* THE PANEL FOLDS (2 November): on a desktop the rail folds to its hole summary
    behind a chevron, and the hole note to its title a few seconds after a hole
    change (hover, focus or a click opens it), so the course is the picture. */
-.rail-fold-btn{display:none}
+.rail-fold-btn,.rail-fold-label{display:none}
 @media(min-width:769px){
   .rail-hole-summary{position:relative;padding-right:24px}
   .rail-fold-btn{display:flex;align-items:center;justify-content:center;position:absolute;top:0;right:0;width:22px;height:22px;
@@ -160,13 +180,14 @@ canvas{display:block;position:fixed;inset:0}
   .rail-fold-btn:hover{background:rgba(95,208,122,.18)}
   .rail-fold-btn:focus-visible{outline:2px solid rgba(95,208,122,.8);outline-offset:2px}
   body.rail-folded #rail>:not(.rail-hole-summary){display:none}
-  body.rail-folded #rail .rail-hole-summary{margin:0;border:0;padding-bottom:0}
-  body.rail-folded .rail-fold-btn{transform:rotate(180deg)}
-/* Folded, the panel names what it holds: the hole card above already says the
-   hole, its par, length and index, and saying it twice was clutter (8 November).
-   What only the panel says -- how the hole plays, up or down -- stays. */
-body.rail-folded #rail .rhs-main{display:none}
-body.rail-folded #rail .rail-hole-summary::before{content:'Vy · ljus · verktyg';display:block;font:700 11.5px/1.2 Outfit,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--turf)}
+  body.rail-folded #rail .rail-hole-summary{display:flex;flex-direction:column;margin:0;padding:0;border:0}
+  body.rail-folded #rail .rhs-main{display:none}
+  body.rail-folded .rail-fold-btn{position:static;order:-1;justify-content:space-between;gap:8px;width:100%;
+    min-height:44px;padding:4px;border:0;border-radius:8px;background:transparent;text-align:left}
+  body.rail-folded .rail-fold-btn::after{content:'';position:absolute;inset:0}
+  body.rail-folded .rail-fold-btn:hover{background:rgba(95,208,122,.12)}
+  body.rail-folded .rail-fold-label{display:block;font:700 11.5px/1.2 Outfit,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--turf)}
+  body.rail-folded .rail-fold-btn svg{transform:rotate(180deg)}
   #note.folded #ntx{display:none}
   #note.folded .panel-head-bar{margin-bottom:0}
   #note.folded{cursor:pointer}
@@ -181,6 +202,10 @@ body.rail-folded #rail .rail-hole-summary::before{content:'Vy · ljus · verktyg
 #leftStack{position:fixed;z-index:20;left:14px;bottom:76px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
   max-height:calc(100dvh - 160px)}
 #leftStack #note,#leftStack #kikOut,#leftStack #kikGreen{position:relative;left:auto;top:auto;bottom:auto;flex:0 0 auto}
+#strategyReadout{position:relative;max-width:22rem;padding:8px 12px;pointer-events:none;font-size:14px;line-height:1.3}
+#strategyReadout b,#strategyReadout span{display:block}
+#strategyReadout span{color:var(--ink);font-size:13px;margin-top:2px}
+#strategyReadout[hidden],#tourElev[hidden],#railHoleSub[hidden]{display:none}
 
 /* panel head bar & close buttons */
 .panel-head-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
@@ -230,6 +255,15 @@ body.rail-folded #rail .rail-hole-summary::before{content:'Vy · ljus · verktyg
   display:grid;place-items:center;cursor:pointer;transition:all .15s}
 .hole-step-btn:hover{background:rgba(95,208,122,.2);color:var(--turf);border-color:rgba(95,208,122,.4)}
 
+/* Leave the minimap its corner, including after a touch-sized boot has
+   produced wider hole buttons. The arrows stay outside the scrollable row. */
+@media(min-width:981px){
+  .holes-wrap{max-width:calc(100vw - var(--mini-size) - 36px);
+    transform:translateX(min(-50%,calc(50vw - var(--mini-size) - 22px - 100%)))}
+  #holes{min-width:0;overflow-x:auto;scrollbar-width:none}
+  #holes .hb,.hole-step-btn{flex:none}
+}
+
 /* minimap */
 /* The size comes from :root, never from a rule on #mini: the rail reads the
    same value and a custom property reaches it by INHERITANCE, the two panels
@@ -275,7 +309,7 @@ body.rail-folded #rail .rail-hole-summary::before{content:'Vy · ljus · verktyg
    screens (the start menu, the chooser and the settings), the bag editor the
    settings open, the boot cover and the toast, so no placeholder HUD shows
    through the glass or takes keyboard focus behind it. */
-body.hub>:not(#home):not(#chooser):not(#settings):not(#stats):not(#courseSheet):not(#bagDialog):not(#boot):not(#toast):not(script){display:none!important}
+body.hub>:not(#home):not(#chooser):not(#settings):not(#stats):not(#courseSheet):not(#clubPicker):not(#bagDialog):not(#boot):not(#toast):not(script){display:none!important}
 
 /* ren vy: everything fades, the landscape stays. The ghost button brings it back. */
 .panel,#hint,#uiToggle,#courseNav,.holes-wrap,.mobile-hud-cluster,#gpsStatus{transition:opacity .35s}
@@ -496,6 +530,8 @@ body.gps-on #v2TerrainBadge{top:118px}
 
 @media(max-width:980px){
   #leftStack{position:static;max-height:none}
+  #strategyReadout{position:fixed;top:calc(62px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left));max-width:calc(100vw - 130px)}
+  body.gps-on #strategyReadout{top:calc(109px + env(safe-area-inset-top))}
   /* the sheet: one row at rest above the quick actions, the rest on a tap */
   #leftStack #kikOut{position:fixed;z-index:23;top:auto;left:calc(8px + env(safe-area-inset-left));
     right:calc(8px + env(safe-area-inset-right));bottom:calc(108px + env(safe-area-inset-bottom));width:auto;
@@ -621,6 +657,9 @@ body.gps-on #v2TerrainBadge{top:118px}
   .mobile-hud-cluster{left:8px;right:8px;justify-content:space-between;border-radius:16px}
   .m-hud-btn{padding:8px 9px;flex:1;justify-content:center}
 }
+@media(max-width:380px){
+  .m-hud-btn{flex-direction:column;gap:3px;padding:5px 3px}
+}
 </style>
 </head>
 <body>
@@ -630,12 +669,21 @@ body.gps-on #v2TerrainBadge{top:118px}
     <div class="boot-ring"></div>
     <div class="mark">Ban<i>v</i>y</div>
   </div>
+  <p id="bootMode" hidden></p>
   <h1 id="bootTitle">Banvy 3D</h1>
   <p class="sub" id="bootSub">Svenska golfbanor i realtid</p>
-  <div id="bar"><i></i></div>
+  <div id="bar" role="progressbar" aria-label="Laddar Banvy"><i></i></div>
+  <span id="bootStage" role="status"></span>
   <div class="boot-status">
     <span class="status-pulse"></span>
     <span id="bmsg">startar</span>
+  </div>
+  <div class="boot-recovery">
+    <span id="bootRecovery" hidden>
+      <button type="button" id="bootRetry">Försök igen</button>
+      <a id="bootSaved" hidden>Öppna sparad karta</a>
+    </span>
+    <a id="bootReturn" href="./" hidden>Till startmenyn</a>
   </div>
 </div></div>
 
@@ -651,6 +699,33 @@ body.gps-on #v2TerrainBadge{top:118px}
     if (onlyIdle && m.textContent !== 'startar') return;
     m.textContent = msg;
   };
+  var params = new URLSearchParams(location.search);
+  var slug = params.get('bana');
+  var link = document.getElementById('bootReturn');
+  if (slug) {
+    var mode = params.get('spela') === '1' ? 'spela' : params.get('karta') === '1' ? 'karta' : '3d';
+    var setup = new URLSearchParams();
+    ['hal', 'tee'].forEach(function (key) {
+      if (/^[1-9]\d*$/.test(params.get(key))) setup.set(key, params.get(key));
+    });
+    link.href = './#' + mode + '/' + encodeURIComponent(slug) + (setup.toString() ? '?' + setup : '');
+    link.textContent = 'Till banans inställningar';
+    link.hidden = false;
+  }
+  // This also works if the application entry module itself fails to load.
+  var failed = function (msg) {
+    if (!booting()) return;
+    document.getElementById('bmsg').setAttribute('role', 'alert');
+    say(msg);
+    var actions = document.getElementById('bootRecovery');
+    if (!actions.hidden) return;
+    var title = document.getElementById('bootTitle');
+    if (slug && title.textContent === 'Banvy 3D') title.textContent = slug.replace(/-/g, ' ');
+    link.hidden = false;
+    document.getElementById('bootRetry').onclick = function () { location.reload(); };
+    actions.hidden = false;
+    window.dispatchEvent(new Event('banvy-boot-failed'));
+  };
   if (!(window.HTMLScriptElement && HTMLScriptElement.supports &&
         HTMLScriptElement.supports('importmap')) ||
       typeof DecompressionStream === 'undefined') {
@@ -658,7 +733,7 @@ body.gps-on #v2TerrainBadge{top:118px}
     return;
   }
   var t = setTimeout(function () {
-    say('tar ovanligt länge — sidan hämtar ~1,5 MB grafik första gången; kontrollera anslutningen', true);
+    say('Starten tar längre tid än vanligt. Kontrollera anslutningen.', true);
   }, 12000);
   /* Banvy is installable, so being offline is a normal state rather than an
      error state -- a course already opened runs with no network at all. What a
@@ -666,32 +741,28 @@ body.gps-on #v2TerrainBadge{top:118px}
      its 400 KB pack was never fetched to be cached. That is a sentence, not a
      TypeError: "Failed to fetch" tells someone standing on a tee with no signal
      nothing they can act on. */
-  /* The loader already phrases its own failures in words a person can act on
-     (see src/loader/pack.js), because it is the only thing that knows which
-     fetch died. Anything already written for a reader is shown as-is; only the
-     genuinely internal errors get the "fel vid start" prefix. Do NOT reach for
-     navigator.onLine here -- it says whether a network interface exists, not
-     whether anything answers, and it stays true on a dead cell. */
+  /* Keep the loader's specific connectivity advice. Raw graphics/compiler
+     diagnostics belong in the browser console. */
   var explain = function (msg) {
     msg = String(msg || 'okänt fel')
       .replace(/^Uncaught(?: \(in promise\))?(?: [A-Za-z]*Error)?:\s*/, '');
-    /* a message the loader wrote for a reader starts lower-case and has spaces
-       in it; anything else is an internal fault and says so */
-    return /^[a-zåäö]/.test(msg) && msg.indexOf(' ') > 0 ? msg : 'fel vid start: ' + msg;
+    if (/^(banan är inte nedladdad|kunde inte nå servern|banans träd kunde inte läsas)/i.test(msg)) return msg;
+    if (/banans v2-|WebGPU|WebGL|shader/i.test(msg)) return 'Kunde inte rita banan i 3D.';
+    return 'Kunde inte öppna Banvy. Försök igen.';
   };
   window.addEventListener('error', function (e) {
     if (e && e.target && e.target.tagName === 'SCRIPT') {
       clearTimeout(t);
-      say('kunde inte hämta moduler — kontrollera anslutningen och ladda om');
+      failed('Kunde inte hämta appen. Kontrollera anslutningen och försök igen.');
     } else if (e && e.message) {
       clearTimeout(t);
-      say(explain(e.message));
+      failed(explain(e.message));
     }
   }, true);
   window.addEventListener('unhandledrejection', function (e) {
     clearTimeout(t);
     var r = e && e.reason;
-    say(explain(r && r.message ? r.message : String(r)));
+    failed(explain(r && r.message ? r.message : String(r)));
   });
 }());
 </script>
@@ -733,9 +804,10 @@ body.gps-on #v2TerrainBadge{top:118px}
       <span class="rhs-dot" id="railHoleIndexDot">·</span>
       <span class="rhs-index" id="railHoleIndex">INDEX 10</span>
     </div>
-    <div class="rhs-sub" id="railHoleSub">Spelas 6 m nedför</div>
+    <div class="rhs-sub" id="railHoleSub" hidden></div>
     <button class="panel-close-btn" id="railCloseBtn" aria-label="Stäng meny" title="Stäng">×</button>
-    <button class="rail-fold-btn" id="railFoldBtn" aria-expanded="true" aria-controls="rail" title="Fäll ihop panelen">
+    <button type="button" class="rail-fold-btn" id="railFoldBtn" aria-expanded="true" aria-controls="rail" title="Fäll ihop panelen">
+      <span class="rail-fold-label">Vy · ljus · verktyg</span>
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>
     </button>
   </div>
@@ -745,26 +817,6 @@ body.gps-on #v2TerrainBadge{top:118px}
     <button class="btn" data-cam="green">Green</button>
     <button class="btn on" data-cam="orbit">Fri</button>
     <button class="btn" data-cam="top">Ovanifrån</button>
-  </div>
-  <div class="lbl" title="Växla ljus med L">Ljus & Atmosfär</div>
-  <div class="grp tight">
-    <button class="btn on" data-preset="golden">Kväll</button>
-    <button class="btn" data-preset="noon">Dag</button>
-    <button class="btn" data-preset="summer" title="Sommar: klarblå himmel utan moln och högt sommarljus">Sommar</button>
-    <button class="btn" data-preset="dawn">Gryning</button>
-  </div>
-  <div class="grp">
-    <button class="btn" data-preset="midnight" title="Midnattssol: låg arktisk sol och gyllene rodnad">Midnattssol</button>
-    <button class="btn" data-preset="bluehour" title="Blå timmen: djupblå skymningstur">Blå timmen</button>
-  </div>
-  <div class="grp">
-    <button class="btn" data-preset="storm" title="Oväder: tunga skiffermoln, kallt regndis och dämpat ljus">Oväder</button>
-    <button class="btn" data-preset="mist" title="Dis: morgonfukt och sval dimma">Dis</button>
-    <button class="btn" data-preset="host" title="Höst: gyllene löv och skarp luft">Höst</button>
-  </div>
-  <div class="grp">
-    <button class="btn" data-preset="nu" title="Nu: solen där den står just nu över banan, årstiden och vädret">Nu</button>
-    <button class="btn" data-preset="winter" title="Vinter: låg januarisol, snö över banan, kala lövträd och frusna sjöar">Vinter</button>
   </div>
   <div class="lbl">Guidade turer</div>
   <div class="grp">
@@ -785,6 +837,28 @@ body.gps-on #v2TerrainBadge{top:118px}
   </div>
   <div class="tool-hint" id="strategyStatus" role="status" hidden></div>
   <div class="tool-hint" id="toolHint">Tryck på banan för att mäta med Kikaren</div>
+  <details class="rail-lights" id="railLights">
+    <summary>Ljus och atmosfär <span id="railLightName"></span></summary>
+    <div class="grp tight">
+      <button class="btn on" data-preset="golden">Kväll</button>
+      <button class="btn" data-preset="noon">Dag</button>
+      <button class="btn" data-preset="summer" title="Sommar: klarblå himmel utan moln och högt sommarljus">Sommar</button>
+      <button class="btn" data-preset="dawn">Gryning</button>
+    </div>
+    <div class="grp">
+      <button class="btn" data-preset="midnight" title="Midnattssol: låg arktisk sol och gyllene rodnad">Midnattssol</button>
+      <button class="btn" data-preset="bluehour" title="Blå timmen: djupblå skymningstur">Blå timmen</button>
+    </div>
+    <div class="grp">
+      <button class="btn" data-preset="storm" title="Oväder: tunga skiffermoln, kallt regndis och dämpat ljus">Oväder</button>
+      <button class="btn" data-preset="mist" title="Dis: morgonfukt och sval dimma">Dis</button>
+      <button class="btn" data-preset="host" title="Höst: gyllene löv och skarp luft">Höst</button>
+    </div>
+    <div class="grp">
+      <button class="btn" data-preset="nu" title="Nu: solen där den står just nu över banan, årstiden och vädret">Nu</button>
+      <button class="btn" data-preset="winter" title="Vinter: låg januarisol, snö över banan, kala lövträd och frusna sjöar">Vinter</button>
+    </div>
+  </details>
   <div class="lbl">Visning & Bana</div>
   <div class="grp">
     <button class="btn btn-toggle on" id="skyltBtn" title="Skyltar: av, hål, faciliteter (M)" aria-keyshortcuts="M"><span class="btn-toggle-dot"></span> Skyltar</button>
@@ -794,6 +868,7 @@ body.gps-on #v2TerrainBadge{top:118px}
 </div>
 
 <div id="leftStack">
+  <div class="panel" id="strategyReadout" role="group" aria-label="Spellinje" hidden><b></b><span></span></div>
   <div class="panel" id="kikGreen" aria-label="Avstånd till green"></div>
   <div class="panel" id="kikOut"></div>
   <div class="panel" id="note">
@@ -813,8 +888,8 @@ body.gps-on #v2TerrainBadge{top:118px}
 
 <div class="panel" id="mini">
   <div class="panel-head-bar mini-head">
-    <span class="mini-title">Banguide 2D</span>
-    <button class="panel-close-btn" id="miniCloseBtn" aria-label="Stäng karta" title="Stäng">×</button>
+    <span class="mini-title">Banöversikt</span>
+    <button class="panel-close-btn" id="miniCloseBtn" aria-label="Stäng banöversikten" title="Stäng">×</button>
   </div>
   <canvas id="minic" width="360" height="360"></canvas>
 </div>
@@ -825,12 +900,11 @@ body.gps-on #v2TerrainBadge{top:118px}
 <div id="mobileHudBar" class="mobile-hud-cluster">
   <button id="mobileNoteToggle" class="m-hud-btn" aria-expanded="false" aria-controls="note" aria-label="Visa banguide">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-    <span>Guide</span>
+    <span>Banguide</span>
   </button>
-  <!-- "Översikt", not "Karta": Karta is the light map mode's word (8 November) -->
   <button id="mobileMiniToggle" class="m-hud-btn" aria-expanded="false" aria-controls="mini" aria-label="Visa banöversikten i 2D">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
-    <span>Översikt</span>
+    <span>Banöversikt</span>
   </button>
   <button id="mobileGpsToggle" class="m-hud-btn" aria-label="Starta GPS-läge">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>
