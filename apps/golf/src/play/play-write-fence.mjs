@@ -2,6 +2,7 @@
    localStorage cache. IndexedDB holds only the last commit token. A matching
    token in this renderer proves it received the preceding storage mutations. */
 const MARK = 'banvy_sim_write_fence_v1';
+const observed = new WeakMap();
 let opening;
 function database() {
   if (!opening) {
@@ -33,9 +34,15 @@ function mirror(store) {
   try { return JSON.parse(raw); } catch { return { token: raw }; }
 }
 function received(store, previous) {
-  const arrived = current => !previous || (previous.pending
-    ? current?.token === previous.pending && current.parent === previous.token
-    : (current?.token ?? null) === previous.token);
+  function arrived(current) {
+    if (!previous) return true;
+    const known = observed.get(store);
+    // This same document saw the last token. Its subsequent absence proves a
+    // clear, unlike an isolated renderer that is still waiting for a storage event.
+    if (!current && known && (known === previous.token || known === previous.pending)) return true;
+    return previous.pending ? current?.token === previous.pending && current.parent === previous.token
+      : (current?.token ?? null) === previous.token;
+  }
   const first = mirror(store);
   if (arrived(first)) return first;
   return new Promise(resolve => {
@@ -83,6 +90,7 @@ export async function fencedPlayWrite(store, action, records = null) {
   const result = action();
   // Both successful and interrupted actions can change storage.
   store.setItem(MARK, JSON.stringify({ token: next.token, parent }));
+  observed.set(store, next.token);
   await records(next);
   return result;
 }

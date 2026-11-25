@@ -103,6 +103,8 @@ describe('serialized Simulator storage', () => {
     expect(readPlayedRounds(store)).toEqual(committed);
     expect(last.pending).toBeUndefined();
     expect(await fencedPlayWrite(store, () => 'next writer', records)).toBe('next writer');
+    while (store.length) store.removeItem(store.key(0));
+    expect(await fencedPlayWrite(store, () => 'fresh storage in the same document', records)).toBe('fresh storage in the same document');
   });
 
   it('applies recovery only in its player cache and removes damaged or expired pending writes', async () => {
