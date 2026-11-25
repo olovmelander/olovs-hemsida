@@ -185,7 +185,7 @@ body.pl-on canvas{touch-action:none}
 .pl-stats{display:grid;gap:4px;max-width:100%;min-height:44px;padding:8px 12px;border-radius:12px;
   text-align:left;color:var(--ink);font-size:13px;line-height:1.25;cursor:pointer}
 .pl-stats b{font-size:14px}
-.pl-stats span{color:var(--dim);font-variant-numeric:tabular-nums}
+.pl-stats span{color:var(--ink);font-variant-numeric:tabular-nums}
 .pl-stats em{color:var(--turf-hi);font-weight:650;font-style:normal}
 .pl-stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px 16px;margin:16px 0}
 .pl-stats-grid dt{color:var(--dim);font-size:13px}
