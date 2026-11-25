@@ -125,6 +125,10 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   -webkit-touch-callout: none;
 }
 .map-wheel.is-away { visibility: hidden; }
+/* Browsing a hole keeps the club picker available when measuring a shot. */
+#courseMap.is-map-preview:not(.is-desktop):not(.has-map-target) .map-wheel { visibility: hidden; }
+#courseMap.is-map-preview:not(.is-desktop) .map-tools { grid-template-columns: 1.4fr 1fr 1fr; }
+#courseMap.is-map-preview:not(.is-desktop) .map-tools [data-score] { display: none; }
 .map-log-shot, .map-shot-actions button {
   min-height: 44px;
   padding: 4px 7px;
@@ -624,7 +628,7 @@ button.map-shot:focus-visible, .map-tool:focus-visible, .map-hole button:focus-v
 }
 .map-menu-tabs {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px;
   margin: 2px 0 8px;
   padding: 4px;
@@ -832,6 +836,11 @@ a.map-row-next { text-decoration: none; }
 .map-action[hidden] { display: none; }
 .map-action:disabled { opacity: .7; }
 .map-action-quiet { background: none; color: var(--over); }
+.map-download { width: 100%; }
+
+#boot.map-load-failed :is(.boot-logo, #bar, .status-pulse) { display: none; }
+#boot.map-load-failed .boot-status { justify-content: center; }
+#boot.map-load-failed #bmsg { font-size: 15px; color: #dce7df; }
 .map-action-next { width: 100%; margin-top: 9px; background: var(--fill-on); color: var(--ink-on); }
 .map-action.is-confirming { background: #a33a00; color: #fff; font-weight: 700; }
 .map-score-undo {

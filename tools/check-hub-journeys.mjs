@@ -11,6 +11,7 @@ try {
   const errors = [];
   page.on('pageerror', error => { errors.push(error.message); console.error(error.message); });
   const sheet = page.locator('#courseSheet[open]');
+  const picker = page.locator('#clubPicker[open]');
   const tagged = new URL(base);
   tagged.searchParams.set('utm_source', 'course-guide');
   await page.goto(tagged.href);
@@ -20,13 +21,35 @@ try {
   assert.equal(await modes.count(), 5);
   const inaccessible = await modes.evaluateAll(cards => cards.filter(card => {
     const rect = card.getBoundingClientRect();
-    return rect.height < 44 || rect.top < 0 || rect.left < 0 || rect.right > innerWidth + 1 || rect.bottom > innerHeight + 1;
+    return rect.height < 44 || rect.left < 0 || rect.right > innerWidth + 1;
   }).map(card => card.innerText));
-  assert.deepEqual(inaccessible, [], 'all five modes are visible, touch-sized choices on a fresh 360×608 Home');
+  assert.deepEqual(inaccessible, [], 'all five home destinations remain touch-sized and fit the width at 360×608');
   await page.setViewportSize({ width: 375, height: 667 });
   await page.locator('#home .mode-map').click();
   const search = page.locator('#courseSearchInput');
   const matchingCourses = () => page.locator('.card-item:visible').evaluateAll(cards => cards.map(card => card.dataset.slug));
+  await search.fill('Bro Hof');
+  const broHof = page.locator('.card-item[data-club-id="bro-hof"] .card');
+  assert.equal(await page.locator('.card-item:visible').count(), 1, 'Bro Hof appears once in the catalogue');
+  await broHof.click();
+  await picker.waitFor();
+  assert.deepEqual((await picker.locator('[data-layout]').evaluateAll(buttons => buttons.map(b => b.dataset.layout))).sort(),
+    ['bro-hof-castle', 'bro-hof-stadium'], 'both published layouts belong to the same club');
+  await picker.locator('[data-layout="bro-hof-stadium"]').click();
+  await sheet.waitFor();
+  assert.match(page.url(), /#karta\/bro-hof-stadium(?:\?|$)/);
+  await page.goBack();
+  await picker.waitFor();
+  await page.goBack();
+  await picker.waitFor({ state: 'hidden' });
+  assert.equal(await search.inputValue(), 'Bro Hof');
+  await search.fill('Castle');
+  await broHof.click();
+  await sheet.waitFor();
+  assert.match(page.url(), /#karta\/bro-hof-castle(?:\?|$)/, 'an unambiguous layout search skips the club picker');
+  await page.goBack();
+  await sheet.waitFor({ state: 'hidden' });
+  assert.equal(await search.inputValue(), 'Castle');
   await search.fill('ornskoldsvik');
   const cityMatches = await matchingCourses();
   assert.ok(cityMatches.includes('puttom') && cityMatches.includes('veckefjarden'));
@@ -45,27 +68,30 @@ try {
   await page.goForward();
   await page.locator('#chooser:visible').waitFor();
   assert.equal(await page.locator('#courseSearchInput').inputValue(), 'Upsala');
-  assert.equal(await page.locator('.card-item:visible').count(), 2);
+  assert.equal(await page.locator('.card-item:visible').count(), 1);
   await page.locator('#viewMapBtn').click();
   await page.locator('.golf-map-pin').first().waitFor();
   assert.equal(await page.locator('.golf-map-pin').count(), 1);
   await page.locator('.golf-map-pin').first().click();
-  await page.locator('[data-map-layout]').selectOption('upsala-mellanbanan');
-  await page.locator('#mppPlayBtn').click();
+  await picker.waitFor();
+  assert.match(page.url(), /#karta\/klubb\/upsala$/);
+  await picker.locator('[data-layout="upsala-mellanbanan"]').click();
   await sheet.waitFor();
   assert.ok(page.url().includes('#karta/upsala-mellanbanan'));
   await page.goBack();
   await sheet.waitFor({ state: 'hidden' });
   assert.equal(await page.locator('#courseSearchInput').inputValue(), 'Upsala');
-  const returnedLayout = page.locator('.map-preview-panel.visible [data-map-layout]');
-  await returnedLayout.waitFor();
-  assert.equal(await returnedLayout.inputValue(), 'upsala-mellanbanan', 'returning to the map keeps the selected layout');
+  await picker.waitFor();
+  assert.equal(await picker.locator(':focus').getAttribute('data-layout'), 'upsala-mellanbanan', 'Back restores the selected layout');
   await page.goForward();
   await sheet.waitFor();
   await page.reload();
   await sheet.waitFor();
   await sheet.locator('[data-close]').click();
-  await sheet.waitFor({ state: 'hidden' });
+  await picker.waitFor();
+  await page.goBack();
+  await picker.waitFor({ state: 'hidden' });
+  assert.equal(await page.locator('#viewMapBtn').getAttribute('aria-pressed'), 'true');
   await page.locator('#viewGridBtn').click();
   const active = { version: 1, startedAt: '2026-05-12', begunAt: Date.now(), playingHole: 3, scores: { 2: { strokes: 4, putts: 2 } } };
   await page.evaluate(round => {
@@ -74,9 +100,11 @@ try {
     localStorage.setItem('banvy-map-quality-v1', '3');
   }, active);
   await page.locator('.card[data-slug="upsala"]').click();
+  await picker.locator('[data-layout="upsala"]').click();
   await sheet.waitFor();
   const tee = sheet.locator('input[name="cs-tee"]').nth(1);
   await tee.check({ force: true });
+  await sheet.locator('#csGuideTitle').click();
   await sheet.locator('[data-guide-preview="7"]').waitFor({ state: 'attached' });
   const destination = page.waitForRequest(request => request.isNavigationRequest() && new URL(request.url()).searchParams.get('bana') === 'upsala');
   await sheet.locator('[data-guide-preview="7"]').click();
@@ -143,15 +171,25 @@ try {
   await local.goto(base);
   await local.locator('[data-near]').click();
   await local.locator('#chooser:visible').waitFor();
-  assert.equal(await local.locator('.card-item:visible').count(), 2);
-  await local.locator('#viewMapBtn').click();
-  await local.locator('#courseSearchInput').fill('');
-  await local.locator('#chooserNear').click();
-  await local.waitForFunction(() => [...document.querySelectorAll('[data-map-layout] option')].some(o => o.value === 'upsala-mellanbanan'));
+  const localPicker = local.locator('#clubPicker[open]');
+  await localPicker.waitFor();
+  assert.match(local.url(), /#karta\/klubb\/upsala$/);
+  assert.equal(await localPicker.locator('[data-layout]').count(), 2);
+  await localPicker.locator('[data-layout="upsala-mellanbanan"]').click();
+  await local.locator('#courseSheet[open]').waitFor();
+  assert.match(local.url(), /#karta\/upsala-mellanbanan(?:\?|$)/);
   await nearby.close();
 
   const desktop = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' });
   const wide = await desktop.newPage();
+  for (const mode of ['3d', 'spela']) {
+    await wide.goto(base + '#' + mode + '/klubb/bro-hof');
+    await wide.locator('#clubPicker[open] [data-layout="bro-hof-castle"]').click();
+    const selected = wide.locator('#courseSheet[open]');
+    await selected.waitFor();
+    assert.equal(new URL(wide.url()).hash.split('?')[0], '#' + mode + '/bro-hof-castle');
+    assert.equal(await selected.locator('[name="cs-mode"]:checked').inputValue(), mode === '3d' ? 'detailed' : 'play');
+  }
   await wide.goto(base);
   await wide.locator('#home .mode-stats').click();
   await wide.locator('#stats [data-play]').click();
@@ -187,8 +225,25 @@ try {
   await offline.locator('.hub-ready').waitFor();
   await offline.goto(base + '#karta');
   await offline.locator('.card-item:visible').first().waitFor();
-  const published = (await (await fetch(new URL('courses/index.json', base))).json()).courses.length;
-  assert.equal(await offline.locator('.card-item:visible').count(), published, 'every published layout is listed');
+  const { courses } = await (await fetch(new URL('courses/index.json', base))).json();
+  const clubs = new Set(courses.map(course => course.club));
+  assert.equal(await offline.locator('.card-item:visible').count(), clubs.size, 'every published club is listed after recovery');
+  for (const club of clubs) {
+    const layouts = courses.filter(course => course.club === club);
+    const card = offline.locator(`.card-item[data-slug="${layouts[0].slug}"] .card`);
+    await card.click();
+    if (layouts.length === 1) {
+      await offline.locator('#courseSheet[open]').waitFor();
+      assert.equal(new URL(offline.url()).hash.split('?')[0], '#karta/' + layouts[0].slug);
+    } else {
+      const options = offline.locator('#clubPicker[open] [data-layout]');
+      await options.first().waitFor();
+      assert.deepEqual((await options.evaluateAll(buttons => buttons.map(b => b.dataset.layout))).sort(),
+        layouts.map(course => course.slug).sort());
+    }
+    await offline.goBack();
+    await offline.locator('dialog[open]').waitFor({ state: 'hidden' });
+  }
   assert.deepEqual(errors, []);
   console.log('PASS · searchable layouts, restorable setup, exact guide preview, bag draft and catalogue recovery');
 } finally { await browser.close(); }

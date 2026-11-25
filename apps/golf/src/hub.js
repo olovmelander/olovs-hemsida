@@ -12,6 +12,8 @@
    this route still never loads the 3D engine. A course opens as a navigation
    with everything the visit needs in its URL (settings-store.mjs launchUrl). */
 import { buildRail, lastCourse, COURSE_LINES } from './shell/rail.js';
+import { createClubPicker } from './shell/club-picker.js';
+import { groupCourses, layoutLabel } from './shell/course-clubs.mjs';
 import { buildHome } from './shell/home.js';
 import { createCourseSheet } from './shell/course-sheet.js';
 import { isPhone } from './shell/map-default.mjs';
@@ -32,11 +34,11 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const TITLES = {
   home: 'Banvy 3D — Svenska golfbanor i realtid',
-  detailed: 'Detaljerad 3D — välj bana · Banvy',
-  map: 'Lätt 3D med GPS — välj bana · Banvy',
+  detailed: 'Detaljerad 3D — välj klubb · Banvy',
+  map: 'Lätt 3D med GPS — välj klubb · Banvy',
   settings: 'Inställningar · Banvy',
   stats: 'Statistik · Banvy',
-  play: 'Simulator — välj bana · Banvy',
+  play: 'Simulator — välj klubb · Banvy',
 };
 
 try {
@@ -129,6 +131,13 @@ try {
     history.pushState({ hubFrom: from, ...extra }, '', routeUrl(route));
     show();
   }
+  const openClub = (id, mode) => go(`${MODES[mode].route}/klubb/${encodeURIComponent(id)}`, {
+    chooser: chooser?.snapshot(), returnCourse: id,
+  });
+  const clubPicker = createClubPicker({ onSelect: slug => {
+    patchHistory({ focusLayout: slug });
+    openCourse(slug, chooser.getMode());
+  }, onDismiss: back });
   const openCourse = (slug, mode) => go(`${MODES[mode].route}/${encodeURIComponent(slug)}`, {
     chooser: chooser?.snapshot(), returnCourse: slug,
   });
@@ -155,7 +164,7 @@ try {
       onStats: () => go('statistik'),
       /* at a course: its own page, in the map */
       onPlan: openCourse,
-      onNearby: club => go(MODES.map.route, { chooser: { query: club } }),
+      onNearby: id => openClub(id, 'map'),
       /* back on the tee last chosen there; the map reads it from its own key */
       onResume: (slug, mode, plan = null) => {
         const course = courses.find(c => c.slug === slug);
@@ -177,6 +186,7 @@ try {
       context: 'hub',
       mode,
       onPick: openCourse,
+      onPickClub: openClub,
       /* switching mode in place is not a new step back */
       onModeChange: next => {
         history.replaceState(history.state, '', `#${MODES[next].route}`);
@@ -285,6 +295,7 @@ try {
     }
     if (!toBag && cleanBag) { cleanBag = false; patchHistory({ bagDraft: null }); }
     if (sheet.isOpen()) sheet.close();
+    if (clubPicker.isOpen()) clubPicker.close();
     if (mode) await catalogueReady;
     if (version !== sequence) return;
     const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats() : mode ? getChooser(mode) : getHome();
@@ -295,6 +306,7 @@ try {
       if (course && !statsView) screen.showCourse(course, roundId || null);
       else screen.restore(statsView ?? null);
     } else if (!mode) screen.refresh?.();
+    if (key === 'settings') screen.selectSection(toBag ? 'spelare' : detail);
     const swap = () => {
       if (version !== sequence) return;
       for (const other of [home, chooser, settings, stats]) if (other && other !== screen) other.hidden = true;
@@ -318,13 +330,25 @@ try {
     if (mode) await chooser.restore(entry.chooser ?? {});
     else if (Number.isFinite(entry.scroll) && !toBag) screen.scrollTop = entry.scroll;
     if (version !== sequence) return;
-    if (mode && detail && courses.some(c => c.slug === detail)) {
+    const club = mode && detail === 'klubb' && groupCourses(courses).find(group => group.id === roundId);
+    if (club) {
+      const layouts = club.courses.filter(c => mode === 'detailed' || c.status !== 'mapping');
+      if (layouts.length === 1) {
+        const target = `#${MODES[mode].route}/${encodeURIComponent(layouts[0].slug)}`;
+        history.replaceState(entry, '', target);
+        return show();
+      }
+      if (layouts.length) {
+        clubPicker.open({ ...club, courses: layouts }, mode, entry.focusLayout);
+        document.title = `${club.name} · ${TITLES[key]}`;
+      }
+    } else if (mode && detail && courses.some(c => c.slug === detail)) {
       sheet.open(detail, mode, { ...entry.setup, mode,
         hole: query.has('hal') ? Number(query.get('hal')) : entry.setup?.hole,
         guideHole: query.has('guide') ? Number(query.get('guide')) : entry.setup?.guideHole,
         tee: query.has('tee') ? Number(query.get('tee')) - 1 : entry.setup?.tee,
       });
-      document.title = `${courses.find(c => c.slug === detail).name} · ${TITLES[key]}`;
+      document.title = `${layoutLabel(courses.find(c => c.slug === detail))} · ${TITLES[key]}`;
     } else if (toBag) {
       screen.focusSection?.('set-player');
       await settings.openBag(entry.bagOwner === (getCloudState().user?.id ?? null) ? entry.bagDraft : null);

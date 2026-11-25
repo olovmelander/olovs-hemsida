@@ -21,6 +21,7 @@ import {
 } from './settings-store.mjs';
 import { restoredSyncEntries } from './sync-model.mjs';
 import { prepareLiveBackup } from './live-rounds.mjs';
+import { groupCourses, layoutLabel } from './course-clubs.mjs';
 import { savedCourseStatus } from '../map/map-offline-status.mjs';
 import { displayChoices, systemDisplay } from '../map/map-display.mjs';
 import { MAX_HANDICAP, MIN_HANDICAP } from '../map/map-score.mjs';
@@ -100,7 +101,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
     <div class="set-inner">
       <div class="set-layout">
         <nav class="set-nav" aria-label="Avsnitt">
-          ${SECTIONS.map(sec => `<button type="button" id="settingsNav-${sec.route}" data-jump="${sec.id}"><span class="sn-icon" aria-hidden="true">${sec.icon}</span>${sec.label}</button>`).join('')}
+          ${SECTIONS.map(sec => `<button type="button" id="settingsNav-${sec.route}" data-jump="${sec.id}" aria-controls="${sec.id}"><span class="sn-icon" aria-hidden="true">${sec.icon}</span>${sec.label}</button>`).join('')}
         </nav>
         <div class="set-main">
 
@@ -115,9 +116,14 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
                   <button type="button" data-hcp-step="1" aria-label="Höj spelhandicap">+</button>
                 </div>`, { id: 'lbl-hcp' })}
               <div class="set-row is-stacked set-bag">
-                <div class="set-label"><b>Min bag</b><small data-bag-summary></small></div>
-                <ol class="bag-ladder" data-bag-ladder aria-label="Carry per klubba"></ol>
-                <button class="set-primary" type="button" id="settingsBag" data-bag-edit>Redigera bagen</button>
+                <div class="set-bag-head">
+                  <div class="set-label"><b>Min bag</b><small data-bag-summary></small></div>
+                  <button class="set-primary" type="button" id="settingsBag" data-bag-edit>Redigera bagen</button>
+                </div>
+                <details class="set-disclosure">
+                  <summary>Visa klubblängder</summary>
+                  <ol class="bag-ladder" data-bag-ladder aria-label="Carry per klubba"></ol>
+                </details>
               </div>
             </div>
           </section>
@@ -128,18 +134,27 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
             <h3 class="set-subhead" id="set-3d" tabindex="-1">Detaljerad 3D</h3>
             <div class="set-panel">
               ${row('Grafikkvalitet', 'Auto väljer låg kvalitet på mobiler och enklare datorer, och höjer igen när bildfrekvensen räcker.', seg('quality', QUALITY, s.quality, 'lbl-quality'), { id: 'lbl-quality' })}
+              <details class="set-disclosure set-preference">
+                <summary><span id="lbl-light">Ljus när banan öppnas</span><span class="set-choice" data-light-choice="light"></span></summary>
+                ${swatches('light', 'player', s.light, PLAYER_DEFAULT_LIGHT, 'lbl-light')}
+              </details>
+              ${row('Kameravy vid start', '', seg('view', START_VIEWS, s.view, 'lbl-view'), { id: 'lbl-view' })}
+              <details class="set-disclosure set-advanced">
+                <summary>Avancerad grafik</summary>
               ${row('Grafikmotor', webgpu ? 'Din webbläsare har WebGPU, som Auto använder. WebGL2 är reserven om något ser fel ut.' : 'WebGPU saknas i den här webbläsaren, så banan använder WebGL2 oavsett val.', seg('renderer', RENDERERS, s.renderer, 'lbl-renderer'), { id: 'lbl-renderer' })}
               ${row('Bildfrekvens', 'Ett tak ger en svalare och tystare dator och längre batteritid. Bilden blir inte sämre.', seg('fps', FRAME_CAP_CHOICES.map(c => ({ ...c, label: c.value ? `${c.label} bilder/s` : c.label })), readFrameCap(storage()), 'lbl-fps'), { id: 'lbl-fps' })}
-              ${row('Ljus när banan öppnas', 'Ljuset går alltid att byta under Ljus på banan.', swatches('light', 'player', s.light, PLAYER_DEFAULT_LIGHT, 'lbl-light'), { stack: true, id: 'lbl-light' })}
-              ${row('Kameravy vid start', '', seg('view', START_VIEWS, s.view, 'lbl-view'), { id: 'lbl-view' })}
               ${switchRow('dev', 'Utvecklarläge', 'Visar terrängpanelen: marknivå, antal tiles och grafikmotor.', readText(storage(), DEV_OVERLAY_KEY) === '1')}
+              </details>
             </div>
             <h3 class="set-subhead" id="set-map" tabindex="-1">Lätt 3D</h3>
             <div class="set-panel">
-              ${row('Kartans ljus', '', swatches('maplight', 'map', mapLight(storage()), MAP_DEFAULT_LIGHT, 'lbl-maplight'), { stack: true, id: 'lbl-maplight' })}
               ${switchRow('sun', 'Solläge', 'Ljusa paneler som syns i starkt solljus.', display.sun)}
               ${switchRow('large', 'Större text', '', display.large)}
               ${switchRow('left', 'Klubbhjulet till vänster', 'För dig som håller telefonen i vänster hand.', display.left)}
+              <details class="set-disclosure set-preference">
+                <summary><span id="lbl-maplight">Kartans ljus</span><span class="set-choice" data-light-choice="maplight"></span></summary>
+                ${swatches('maplight', 'map', mapLight(storage()), MAP_DEFAULT_LIGHT, 'lbl-maplight')}
+              </details>
               ${switchRow('hazards', 'Hinderavstånd', 'Avstånd till bunkrar och vatten framåt på hålet.', mapSwitch(storage(), MAP_KEYS.hazards))}
               ${switchRow('rings', 'Avståndscirklar', 'Bågar vid 100, 150, 200 och 250 m på kartan.', mapSwitch(storage(), MAP_KEYS.rings, '0'))}
               ${switchRow('contours', 'Höjdkurvor', '', mapSwitch(storage(), MAP_KEYS.contours))}
@@ -150,7 +165,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
           <section class="set-section" id="set-offline" aria-labelledby="set-offline-h">
             <header class="set-head"><span class="sh-icon" aria-hidden="true">${SECTIONS[2].icon}</span>
               <div><h2 id="set-offline-h" tabindex="-1">Offlinebanor</h2><p data-offline-names role="status">Kontrollerar filer på den här enheten…</p></div></header>
-            <div class="set-panel" data-offline-list></div>
+            <div class="set-offline-list" data-offline-list></div>
           </section>
 
           <section class="set-section" id="set-account" aria-labelledby="set-account-h">
@@ -174,7 +189,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
                 </div>
               </div>
               <div class="set-row"><div class="set-label"><b>Återställ inställningar</b><small>Ställer tillbaka alla val på den här sidan. Bagen, handicapet och rundorna påverkas inte.</small></div>
-                <div class="set-control"><button class="set-danger" type="button" data-reset>Återställ</button></div></div>
+                <div class="set-control set-inline"><button class="set-danger" type="button" data-reset>Återställ</button><button class="set-link" type="button" data-reset-cancel hidden>Avbryt</button></div></div>
             </div>
           </section>
 
@@ -194,6 +209,11 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
   };
 
   /* ---------------------------------------------------------- radio groups */
+  const showLightChoice = name => {
+    const chosen = el.querySelector(`input[name="${name}"]:checked`);
+    const caption = chosen?.closest('label')?.querySelector('.sw-name')?.textContent;
+    el.querySelector(`[data-light-choice="${name}"]`).textContent = caption || '';
+  };
   const onRadio = {
     quality: v => writeSettings(storage(), { quality: v }),
     renderer: v => writeSettings(storage(), { renderer: v }),
@@ -207,8 +227,10 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
     const input = e.target;
     const persist = input.type === 'radio' ? onRadio[input.name] : onSwitch[input.dataset.switch];
     if (!persist) return;
-    if (persist(input.type === 'radio' ? input.value : input.checked)) saved();
-    else { sync(); saved('Valet kunde inte sparas', false); }
+    if (persist(input.type === 'radio' ? input.value : input.checked)) {
+      if (input.name === 'light' || input.name === 'maplight') showLightChoice(input.name);
+      saved();
+    } else { sync(); saved('Valet kunde inte sparas', false); }
   });
 
   /* ------------------------------------------------------------- switches */
@@ -304,50 +326,55 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
 
   /* ----------------------------------------------------------------- data */
   let offlineCheck = 0;
-  function keepAccountPosition(update) {
-    // The offline inventory sits immediately above Konto. It can arrive
-    // after a cold deep link or a reload has already positioned that section.
-    const account = $('#set-account');
-    const before = account.getBoundingClientRect().top;
-    const visible = !el.hidden && el.scrollTop > 0 && before < el.getBoundingClientRect().bottom &&
-      (account.contains(document.activeElement) || before <= $('.set-top').getBoundingClientRect().bottom);
-    update();
-    if (visible) el.scrollTop += account.getBoundingClientRect().top - before;
-  }
+  let offlineMenu = '';
   async function checkOfflineCourses() {
     const check = ++offlineCheck;
     const available = courses.filter(course => course.status !== 'mapping');
+    const clubs = groupCourses(available);
     const list = $('[data-offline-list]');
     const status = $('[data-offline-names]');
-    status.textContent = 'Kontrollerar filer på den här enheten…';
-    if (available.length !== list.children.length || available.some((course, i) => list.children[i].dataset.offlineCourse !== course.slug)) {
-      keepAccountPosition(() => {
-        list.innerHTML = available.map(course => {
-          const url = launchUrl(course.slug, 'map', { plan: { round: false, offline: true } });
-          return `<div class="set-row" data-offline-course="${esc(course.slug)}"><div class="set-label"><b>${esc(course.name)}</b><small>Kontrollerar…</small></div>
-            <a hidden class="set-link" id="settingsOffline-${esc(course.slug)}" href="${esc(url)}"></a></div>`;
-        }).join('');
-      });
+    const menu = clubs.map(club => {
+      const multiple = club.courses.length > 1;
+      const rows = club.courses.map(course => {
+        const url = launchUrl(course.slug, 'map', { plan: { round: false, offline: true } });
+        const name = multiple ? layoutLabel(course) : club.name;
+        return `<div class="set-row" data-offline-course="${esc(course.slug)}"><div class="set-label"><b>${esc(name)}</b><small>Kontrollerar…</small></div>
+          <a hidden class="set-link" id="settingsOffline-${esc(course.slug)}" href="${esc(url)}"></a></div>`;
+      }).join('');
+      return `<div class="set-panel" data-offline-club="${esc(club.id)}" role="group" aria-label="${esc(club.name)}">
+        ${multiple ? `<h3 class="set-club-name">${esc(club.name)}</h3>` : ''}${rows}</div>`;
+    }).join('');
+    // Keep focus on a layout's action when cache verification reruns.
+    if (menu !== offlineMenu) {
+      offlineMenu = menu;
+      list.innerHTML = menu;
     }
+    if ($('#set-offline').hidden) return;
     const statuses = await Promise.all(available.map(course => savedCourseStatus(course.slug, { catalogue: course })));
     if (check !== offlineCheck) return;
     const ready = statuses.filter(value => value === 'ready').length;
-    status.textContent = `${ready} av ${available.length} ${available.length === 1 ? 'bana' : 'banor'} redo för spel utan täckning.`;
+    status.textContent = available.length
+      ? `${ready} av ${available.length} ${available.length === 1 ? 'bana' : 'banor'} redo för spel utan täckning.`
+      : 'Ingen banlista tillgänglig.';
     const labels = {
       ready: ['Redo för spel offline', ''],
       repair: ['Filer saknas eller behöver uppdateras', 'Reparera'],
       unsaved: ['Finns inte på enheten', 'Spara offline'],
       unavailable: ['Kunde inte kontrollera filerna', 'Kontrollera'],
     };
-    keepAccountPosition(() => {
-      available.forEach((course, i) => {
-        const row = list.children[i], link = row.querySelector('a');
-        const [message, action] = labels[statuses[i]] ?? labels.unavailable;
-        row.querySelector('small').textContent = message;
-        link.hidden = !action;
-        link.textContent = action;
-        if (action) link.setAttribute('aria-label', action + ' · ' + course.name);
-      });
+    available.forEach((course, i) => {
+      const row = list.querySelector(`[data-offline-course="${CSS.escape(course.slug)}"]`);
+      const link = row.querySelector('a');
+      const [message, action] = labels[statuses[i]] ?? labels.unavailable;
+      row.dataset.state = statuses[i];
+      row.querySelector('small').textContent = message;
+      link.hidden = !action;
+      link.textContent = action;
+      if (action) {
+        const groupName = row.closest('[data-offline-club]').getAttribute('aria-label');
+        const name = row.querySelector('b').textContent;
+        link.setAttribute('aria-label', `${action} · ${name === groupName ? name : groupName + ' · ' + name}`);
+      }
     });
   }
   window.addEventListener('pageshow', () => { if (!el.hidden) checkOfflineCourses(); });
@@ -441,20 +468,25 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
     } catch (error) { backupProblem(error.message); }
   });
 
-  /* Two steps, because it cannot be undone: the first press asks, the second
-     within four seconds does it. */
   const resetBtn = $('[data-reset]');
-  let armed = 0;
-  resetBtn.addEventListener('click', () => {
-    if (!armed) {
-      resetBtn.textContent = 'Tryck igen för att återställa';
-      resetBtn.classList.add('is-armed');
-      armed = setTimeout(() => { armed = 0; resetBtn.textContent = 'Återställ'; resetBtn.classList.remove('is-armed'); }, 4000);
-      return;
-    }
-    clearTimeout(armed); armed = 0;
+  const resetCancel = $('[data-reset-cancel]');
+  const clearReset = () => {
     resetBtn.textContent = 'Återställ';
     resetBtn.classList.remove('is-armed');
+    resetCancel.hidden = true;
+  };
+  resetCancel.addEventListener('click', () => {
+    clearReset();
+    resetBtn.focus();
+  });
+  resetBtn.addEventListener('click', () => {
+    if (resetCancel.hidden) {
+      resetBtn.textContent = 'Bekräfta återställning';
+      resetBtn.classList.add('is-armed');
+      resetCancel.hidden = false;
+      return;
+    }
+    clearReset();
     try {
       replaceStoredValues(storage(), PREFERENCE_KEYS.map(key => [key, null]));
       saved('Återställt');
@@ -475,6 +507,8 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
     for (const [name, value] of Object.entries(values)) {
       for (const input of el.querySelectorAll(`input[name="${name}"]`)) input.checked = input.value === String(value);
     }
+    showLightChoice('light');
+    showLightChoice('maplight');
     const switches = { dev: readText(storage(), DEV_OVERLAY_KEY) === '1', sun: display.sun, large: display.large, left: display.left,
       hazards: mapSwitch(storage(), MAP_KEYS.hazards), rings: mapSwitch(storage(), MAP_KEYS.rings, '0'), contours: mapSwitch(storage(), MAP_KEYS.contours) };
     for (const [name, on] of Object.entries(switches)) { const input = el.querySelector(`[data-switch="${name}"]`); if (input) input.checked = on; }
@@ -581,39 +615,32 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
   addEventListener('banvy-sync-changed', () => sync());
 
   /* ----------------------------------------------------- nav and the way back */
-  const scroller = el;
-  const navBtns = [...el.querySelectorAll('[data-jump]')];
-  const jumpTo = id => {
-    const section = SECTIONS.find(item => item.id === id || item.route === id);
-    const target = section && el.querySelector('#' + section.id);
-    if (!target || target.hidden) return;
-    const header = el.querySelector('.set-top');
-    const nav = el.querySelector('.set-nav');
-    const navStyle = getComputedStyle(nav);
-    const edge = navStyle.flexDirection === 'row'
-      ? Math.max(header.getBoundingClientRect().bottom, scroller.getBoundingClientRect().top + (parseFloat(navStyle.top) || 0) + nav.offsetHeight)
-      : header.getBoundingClientRect().bottom;
-    const top = scroller.scrollTop + target.getBoundingClientRect().top - edge - 12;
-    scroller.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
-    const heading = target.querySelector('h2') || target;
-    heading.tabIndex = -1;
-    heading.focus({ preventScroll: true });
+  const navBtns = [...el.querySelectorAll('.set-nav [data-jump]')];
+  // Apply the route before the hub restores a history entry's scroll and focus.
+  el.selectSection = id => {
+    clearReset();
+    const section = SECTIONS.find(item => item.id === id || item.route === id) ?? SECTIONS[0];
+    const openingOffline = section.id === 'set-offline' && $('#set-offline').hidden;
+    for (const btn of navBtns) {
+      const active = btn.dataset.jump === section.id;
+      $('#' + btn.dataset.jump).hidden = !active;
+      if (active) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
+    }
+    if (openingOffline) checkOfflineCourses();
+    return $('#' + section.id);
   };
-  navBtns.forEach(btn => btn.addEventListener('click', () => {
+  el.focusSection = id => {
+    const section = el.selectSection(id);
+    el.scrollTop = 0;
+    section.querySelector('h2').focus({ preventScroll: true });
+  };
+  for (const btn of navBtns) btn.addEventListener('click', () => {
     const section = SECTIONS.find(item => item.id === btn.dataset.jump);
     if (onSection) onSection(section.route);
-    else jumpTo(section.id);
-  }));
-  el.focusSection = jumpTo;
-  /* the section in view is the one the nav marks */
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(entries => {
-      for (const entry of entries) if (entry.isIntersecting) {
-        navBtns.forEach(b => b.setAttribute('aria-current', String(b.dataset.jump === entry.target.id)));
-      }
-    }, { root: scroller, rootMargin: '-30% 0px -60% 0px' });
-    for (const sec of el.querySelectorAll('.set-section')) io.observe(sec);
-  }
+    else el.focusSection(section.id);
+  });
+  el.selectSection('spelare');
   $('[data-back]').addEventListener('click', () => onBack());
 
   sync();

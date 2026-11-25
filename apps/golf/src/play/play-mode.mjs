@@ -135,6 +135,7 @@ async function startPlay(h, query) {
     onView: () => cycleView(),
     onSetup: (key, value) => changeSetup(key, value),
     onReplay: () => startReplay(),
+    onSkip: () => { if (state === 'flyover') endFlyover(); else if (state === 'replay') endReplay(); },
     onClearTarget: () => clearTarget(),
   });
   hud.root.classList.add('is-loading');
@@ -764,7 +765,7 @@ async function startPlay(h, query) {
         ? [strokeFrom[0] + Math.sin(last.yaw) * target, strokeFrom[1] + Math.cos(last.yaw) * target] : cup;
       const miss = Math.hypot(restXZ[0] - aim[0], restXZ[1] - aim[1]);
       const outcome = { water: 'Vatten', out: 'Out of bounds', holed: 'I hål' }[shot.outcome] || `${metres(miss)} m från målet`;
-      showStats();
+      showStats(`Försök ${practice.count} · ${outcome}`);
       hud.banner(`Försök ${practice.count} · ${outcome}`, `Carry ${metres(shot.carry)} m · totalt ${metres(shot.total)} m`, '', 3200);
       setBall(...practice.attempt.ball);
       tracer.reset();
@@ -773,6 +774,7 @@ async function startPlay(h, query) {
       return;
     }
     nextPlugged = Boolean(shot.plugged);
+    showStats();
     if (shot.outcome === 'holed') {
       ballMesh.visible = false;
       return finishHole(true);
@@ -793,7 +795,6 @@ async function startPlay(h, query) {
     }
     setBall(restXZ[0], restXZ[1]);
     updateMap({ flight: flightMarks });
-    showStats();
     const surface = shot.surface || world.surfaceAt(ball.x, ball.z);
     const putt = putting();
     const left = toCup();
@@ -816,7 +817,7 @@ async function startPlay(h, query) {
     pause(1.9, nextShot);
   }
   /** The last shot's numbers and the swing's verdict. */
-  function showStats() {
+  function showStats(practiceOutcome = '') {
     if (!last) return;
     const { L, input, shot: s } = last;
     const tempo = input.tempo;
@@ -827,16 +828,18 @@ async function startPlay(h, query) {
     const faceWord = Math.abs(faceTotal) < .12 ? 'rak' : faceTotal > 0 ? 'öppen' : 'stängd';
     const pathWord = Math.abs(pathTotal) < .12 ? 'neutral' : pathTotal > 0 ? 'utifrån-in' : 'inifrån-ut';
     const graded = tempo && tempo.grade !== 'none';
-    const title = graded ? `${tempo.label} · ${tempo.ratio.toFixed(1).replace('.', ',')}:1` : 'Slagdata';
-    const tone = !graded ? '' : tempo.grade === 'perfect' || tempo.grade === 'good' ? 'good' : 'bad';
+    const title = graded ? `${tempo.label} · ${tempo.ratio.toFixed(1).replace('.', ',')}:1` : '';
     const rows = last.putt
       ? [['Längd', `${metres(s.total)} m`], ['Bollfart', `${(L.speed * 3.6).toFixed(1).replace('.', ',')} km/h`], ['Spelades', `${metres(last.plays.total)} m`], ['Sida', side]]
       : [['Carry', `${Math.round(s.carry)} m`], ['Totalt', `${Math.round(s.total)} m`], ['Bollfart', `${Math.round(L.speed * 3.6)} km/h`],
         ['Utgång', `${L.launchDeg.toFixed(1).replace('.', ',')}°`], ['Spinn', `${Math.round(L.spinRpm / 50) * 50} rpm`],
         ['Höjd', `${Math.round(s.apex)} m`], ['Sida', side],
         ...(s.windMs > .5 ? [[s.gust > 1 ? 'Vind (by)' : 'Vind', `${s.windMs.toFixed(1).replace('.', ',')} m/s`]] : [])];
-    hud.stats({ title, tone, note: `${last.club.name}${last.putt ? '' : ` · ${TYPE_LABELS[last.setup.type]}`} · kraft ${Math.round(input.power * 100)} % · träff ${faceWord} · bana ${pathWord}`, rows },
-      narrow() ? 4500 : 0);
+    const surface = s.surface || world.surfaceAt(s.rest[0], s.rest[2]);
+    const outcome = practiceOutcome || { water: 'Vatten · pliktslag', out: 'Out of bounds · pliktslag', holed: 'I hål' }[s.outcome]
+      || (s.plugged ? 'Pluggad i bunkern' : LIE_NAME[surface] || surface);
+    const summary = last.putt ? `Längd ${metres(s.total)} m` : `Carry ${Math.round(s.carry)} m · Totalt ${Math.round(s.total)} m`;
+    hud.stats({ title, outcome, summary, note: `${last.club.name}${last.putt ? '' : ` · ${TYPE_LABELS[last.setup.type]}`} · kraft ${Math.round(input.power * 100)} % · träff ${faceWord} · bana ${pathWord}`, rows });
   }
   function pause(seconds, then) { state = 'rest'; waitFor = seconds; after = then; cam.rest(ball, new THREE.Vector3(cup[0], cup[2], cup[1])); }
   function nextShot() {
@@ -851,7 +854,7 @@ async function startPlay(h, query) {
   /* -- the instant replay ----------------------------------------------------- */
   function startReplay(then = null) {
     if (!last || (state !== 'address' && state !== 'holed')) return;
-    hud.toggleSetup(false); hud.stats(null); hud.replay(false); hud.power('');
+    hud.toggleSetup(false); hud.replay(false); hud.power('');
     hideAids(); pad.setEnabled(false);
     replay = { then, phase: 'address', wait: .7 };
     state = 'replay';
@@ -918,6 +921,7 @@ async function startPlay(h, query) {
     if (holed) card.holed = true;
     if (settled('holed')) savePlayedRound(localStorage, round);
     state = 'holed';
+    hud.finishResults();
     hud.replay(false); hideAids();
     if (holed) {
       const name = scoreName(card.strokes, par);
@@ -945,6 +949,7 @@ async function startPlay(h, query) {
           ${stats.fairwaysTried ? tile('Fairwayträffar', `${stats.fairways}/${stats.fairwaysTried}`) : ''}${stats.greensTried ? tile('Greenträffar', `${stats.greens}/${stats.greensTried}`) : ''}
           ${stats.greensTried ? tile('Puttar', stats.putts) : ''}</div>
         ${scorecardHtml(round, h.holes, n => pointsOn(round, h.holes, n))}
+        ${hud.scorecardResult()}
       </section>
       <div class="pl-actions">${next ? `<button class="pl-btn pl-primary" data-next type="button">Nästa hål · ${next}</button>` : ''}
       ${last && card.holed ? `<button class="pl-btn pl-ghost" data-replay-last type="button">${'Se sista slaget igen'}</button>` : ''}
@@ -992,6 +997,7 @@ async function startPlay(h, query) {
     else {
       setBall(...origin.ball);
       address(true, origin);
+      if (last) showStats();
       checkpoint();
     }
     if (directPractice) {
@@ -1039,7 +1045,7 @@ async function startPlay(h, query) {
       `<button type="button" data-v="${id}" aria-pressed="${id === current}">${o.label || o}</button>`).join('')}</div>`;
     const tab = menuTab;
     const box = hud.openSheet(`
-      <header class="pl-hero"><span class="pl-k">Spela · hål ${round.current}</span><h2>${h.courseName}</h2></header>
+      <header class="pl-hero"><span class="pl-k">Simulator · hål ${round.current}</span><h2>${h.courseName}</h2></header>
       <div class="pl-tabs" role="tablist" aria-label="Menyns delar">
         <button type="button" role="tab" id="pl-tab-game" aria-controls="pl-panel-game" tabindex="${tab === 'game' ? '0' : '-1'}" data-tab="game" aria-selected="${tab === 'game'}">Spelet</button>
         <button type="button" role="tab" id="pl-tab-light" aria-controls="pl-panel-light" tabindex="${tab === 'light' ? '0' : '-1'}" data-tab="light" aria-selected="${tab === 'light'}">Ljus</button>
@@ -1189,7 +1195,7 @@ async function startPlay(h, query) {
   canvas.addEventListener('pointercancel', stopAim, { signal: abort.signal });
 
   function moveFocus(d) {
-    const buttons = [...hud.sheet.querySelectorAll('button:enabled')].filter(b => b.getClientRects().length);
+    const buttons = [...hud.sheet.querySelectorAll('button:enabled,summary')].filter(b => b.getClientRects().length);
     if (!buttons.length) return;
     const i = buttons.indexOf(document.activeElement);
     buttons[(i + d + buttons.length) % buttons.length].focus();

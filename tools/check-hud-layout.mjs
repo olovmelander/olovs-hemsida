@@ -40,15 +40,18 @@ const gate = (ok, message) => {
   if (!ok) process.exitCode = 1;
 };
 
-await page.goto(`${BASE}/?bana=veckefjarden&hal=12&vy=tee&det=1`, { waitUntil: 'load', timeout: 180_000 });
+await page.goto(`${BASE}/?bana=veckefjarden&karta=0&hal=12&vy=tee&det=1`, { waitUntil: 'load', timeout: 180_000 });
 await page.waitForSelector('#boot.done', { timeout: 600_000 });
 await page.waitForTimeout(1200);
+// The panels are live DOM over the finished course. Pause expensive draws while
+// measuring the same HUD at multiple window sizes, particularly on SwiftShader.
+await page.evaluate(() => V3D.harness().renderer.setAnimationLoop(null));
 
 for (const [width, height] of SIZES) {
   await page.setViewportSize({ width, height });
   await page.waitForTimeout(500);
   const state = await page.evaluate(() => {
-    const ids = ['card', 'rail', 'mini', 'note', 'holes', 'courseNav', 'kikGreen', 'brand'];
+    const ids = ['card', 'rail', 'mini', 'note', 'holes', 'courseNav', 'kikGreen', 'strategyReadout', 'brand'];
     const panels = [];
     for (const id of ids) {
       const el = document.getElementById(id);
@@ -102,6 +105,41 @@ for (const [width, height] of SIZES) {
 }
 
 gate(errors.length === 0, `no page errors${errors.length ? `: ${errors[0]}` : ''}`);
+await page.evaluate(() => { V3D.goHole(1, true, true); V3D.setCam('tee', true); });
+const target = page.locator('#strategyReadout');
+await target.waitFor({ state: 'visible' });
+gate(await target.evaluate(el => {
+  const zone = V3D.caddie().strategy.zones[0];
+  return el.textContent.includes(Math.round(zone.distance) + ' m') && (!zone.club || el.textContent.includes(zone.club.name))
+    && parseFloat(getComputedStyle(el.querySelector('span')).fontSize) >= 13;
+}), 'the selected landing target and club stay readable from the tee');
+await page.evaluate(() => document.querySelector('#strategyBtn').click());
+await target.waitFor({ state: 'hidden' });
+await page.evaluate(() => document.querySelector('#strategyBtn').click());
+await target.waitFor({ state: 'visible' });
+// Veckefjärden's holes all have measurable rise. Exercise the same rounded
+// elevation as Bro Hof Stadium 17 in the already loaded renderer.
+const levelHidden = await page.evaluate(async () => {
+  const original = V3D.HOLES[0].elev.rise;
+  try {
+    V3D.HOLES[0].elev.rise = -0.3;
+    V3D.goHole(1, false, true);
+    await Promise.resolve();
+    return document.querySelector('#railHoleSub').hidden;
+  } finally {
+    V3D.HOLES[0].elev.rise = original;
+    V3D.goHole(1, false, true);
+  }
+});
+gate(levelHidden, 'a level hole has no zero-metre uphill or downhill callout');
+await page.evaluate(() => V3D.goHole(12, true, true));
+await page.locator('#menuToggle').click();
+await page.getByRole('tab', { name: 'Utforska' }).click();
+const handoff = new URL(await page.locator('#dMapBtn').getAttribute('href'), BASE);
+const tee = await page.locator('#tees .tee.on').evaluate(el => [...el.parentElement.children].indexOf(el) + 1);
+gate(handoff.searchParams.get('hal') === '12' && handoff.searchParams.get('tee') === String(tee)
+  && handoff.searchParams.get('runda') === 'visa', 'Lätt 3D previews the displayed hole and tee');
+await page.locator('#drawerCloseBtn').click();
 for (const [width, height] of [[568, 320], [667, 375], [390, 844]]) {
   await page.setViewportSize({ width, height });
   const toggle = page.locator('#mobileMiniToggle'), close = page.locator('#miniCloseBtn');

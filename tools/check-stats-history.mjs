@@ -289,6 +289,16 @@ try {
   const returned = await sparsePage.locator('#stats').evaluate(el => ({ y: el.scrollTop, expanded: Boolean(el.querySelector('.st-round[open]')) }));
   assert.ok(Math.abs(returned.y - beforeBag) <= 2 && returned.expanded, 'Back from Min bag restores the same place and expanded scorecard');
   await sparsePage.goto(base + '/#installningar');
+  const settingsIndex = sparsePage.locator('#settings .set-nav button');
+  await settingsIndex.first().waitFor();
+  const indexInView = await settingsIndex.evaluateAll(buttons => buttons.length === 4 && buttons.every(button => {
+    const rect = button.getBoundingClientRect();
+    return rect.left >= 0 && rect.right <= innerWidth && rect.top >= 0 && rect.bottom <= innerHeight && rect.height >= 44;
+  }));
+  assert.ok(indexInView, 'all four Settings sections fit the phone without scrolling');
+  assert.equal(await sparsePage.locator('#settings .set-section:visible').count(), 1);
+  // An evicted Stadium download needs repair while Castle is still unsaved.
+  await sparsePage.evaluate(() => localStorage.setItem('banvy-map-offline:bro-hof-stadium', 'evicted-download'));
   await sparsePage.locator('[data-jump="set-offline"]').click();
   await sparsePage.waitForURL('**/#installningar/offline');
   await sparsePage.reload();
@@ -297,10 +307,22 @@ try {
     const heading = document.getElementById('set-offline-h').getBoundingClientRect();
     return heading.top >= document.querySelector('#settings .set-nav').getBoundingClientRect().bottom - 1 && heading.top < innerHeight;
   });
-  assert.ok(headingClear, 'the reloaded section heading stays visible under both sticky header rows');
+  assert.ok(headingClear, 'the reloaded section heading stays visible below the index');
+  const bro = sparsePage.locator('[data-offline-club="bro-hof"]');
+  await bro.locator('[data-offline-course="bro-hof-castle"] a:visible').waitFor();
+  assert.equal(await bro.locator('[data-offline-course]').count(), 2);
+  assert.equal(await bro.locator('[data-offline-course="bro-hof-stadium"] a').innerText(), 'Reparera');
+  assert.equal(await bro.locator('[data-offline-course="bro-hof-castle"] a').innerText(), 'Spara offline');
+  assert.match(await bro.locator('[data-offline-course="bro-hof-stadium"] a').getAttribute('href'), /bana=bro-hof-stadium/);
+  assert.match(await bro.locator('[data-offline-course="bro-hof-castle"] a').getAttribute('href'), /bana=bro-hof-castle/);
   await sparsePage.locator('[data-jump="set-account"]').click();
   await sparsePage.waitForURL('**/#installningar/konto');
   await sparsePage.waitForFunction(() => document.activeElement?.id === 'set-account-h');
+  await sparsePage.goBack();
+  await sparsePage.locator('#set-offline:visible').waitFor();
+  assert.equal(await sparsePage.locator('.set-nav [aria-current="page"]').getAttribute('data-jump'), 'set-offline');
+  await sparsePage.goForward();
+  await sparsePage.locator('#set-account:visible').waitFor();
   // A fresh catalogue can finish after history has restored the Konto heading.
   await sparsePage.evaluate(() => localStorage.removeItem('banvy-hub-catalogue-v1'));
   let releaseCatalogue;

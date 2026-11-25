@@ -1,7 +1,7 @@
 /* Keep the bare course chooser off the 3D engine's critical path. Deep links and
    historical URLs still enter the player directly. */
 import { isPhone, navigationParams, opensMap } from './shell/map-default.mjs';
-import { legacyTarget } from './shell/router.js';
+import { legacyTarget, mapUrl } from './shell/router.js';
 import { coursePreview } from './course-previews.mjs';
 import { supportedVisualSearch } from './engine/look-mode.mjs';
 
@@ -33,5 +33,18 @@ if (legacy) {
      three.js before the chooser ran. */
   await import('./hub.js');
 } else {
+  // A failed graphics boot can still open the GPS map this golfer downloaded.
+  addEventListener('banvy-boot-failed', async () => {
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('bana');
+    if (!slug) return;
+    try {
+      const { savedCourseStatus } = await import('./map/map-offline-status.mjs');
+      if (await savedCourseStatus(slug) !== 'ready') return;
+      const link = document.getElementById('bootSaved');
+      link.href = mapUrl(slug, { hole: params.get('hal'), tee: params.get('tee'), preview: true }) + '&kopia=1';
+      link.hidden = false;
+    } catch { /* Reload and course setup work even if modules are unavailable. */ }
+  }, { once: true });
   await Promise.all([import('./main.js'), import('./ui/detailed-hud.mjs').then(({ installDetailedHud }) => installDetailedHud())]);
 }

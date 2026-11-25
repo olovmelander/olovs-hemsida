@@ -93,13 +93,19 @@ gate(!up, 'the server is stopped -- anything below comes from the cache');
     const p = await ctx.newPage();
     p.setDefaultTimeout(200000);
     await p.goto(`${BASE}/?bana=${slug}`, { waitUntil: 'load', timeout: 60000 }).catch(() => {});
-    let ok = false;
-    try { await p.waitForSelector('#boot.done', { timeout: 150000 }); ok = true; } catch {}
+    await p.waitForSelector('#boot.done, #bootRecovery:not([hidden])', { timeout: 150000 }).catch(() => {});
+    const ok = await p.locator('#boot.done').count() > 0;
     const info = ok ? await p.evaluate(() => ({
       slug: window.V3D.course().slug, holes: window.V3D.HOLES.length,
       par: window.V3D.HOLES.reduce((a, h) => a + h.par, 0), draws: window.V3D.stats.draws })) : null;
     const say = await p.evaluate(() =>
       document.getElementById('bmsg')?.textContent?.trim() || '');
+    if (slug === MISSING) {
+      gate(await p.getByRole('button', { name: 'Försök igen' }).isVisible(), 'failed boot offers retry');
+      gate(await p.locator('#bootReturn').getAttribute('href') === './#3d/' + slug,
+        'failure returns to setup for the same layout');
+      gate(!await p.locator('#bootSaved').isVisible(), 'a missing download is never offered as a saved map');
+    }
     await p.close();
     return { ok, info, say };
   };

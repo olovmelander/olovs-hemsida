@@ -12,6 +12,7 @@
    a round finished on the course is here the moment the page opens (and syncs
    across devices through Cloudflare D1 when signed in).
    =========================================================================== */
+import { groupCourses, layoutLabel } from './course-clubs.mjs';
 import '../styles/hub.css';
 import '../styles/stats.css';
 import { parseBag } from '../engine/caddie.js';
@@ -577,15 +578,22 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
       playerStats({ ...data, courses, filter: { period: state.period, course: state.course } });
     const sub = el.querySelector('[data-sub]');
     const period = PERIODS.find(p => p.key === state.period);
+    const siblingNames = new Map();
+    for (const club of groupCourses(courses)) {
+      if (club.courses.length > 1) {
+        for (const layout of club.courses) siblingNames.set(layout.slug, `${club.name} · ${layoutLabel(layout)}`);
+      }
+    }
+    const courseLabel = (slug, fallback) => siblingNames.get(slug) || fallback || slug;
     const selectedCourse = all.playedCourses.find(c => c.slug === state.course);
-    const applied = [state.period !== 'all' && period?.label, state.course !== 'all' && (selectedCourse?.name || state.course)].filter(Boolean);
+    const applied = [state.period !== 'all' && period?.label, state.course !== 'all' && courseLabel(state.course, selectedCourse?.name)].filter(Boolean);
     const historyLabel = `${all.history.length} ${all.history.length === 1 ? 'sparad runda' : 'sparade rundor'} · ${all.playedCourses.length} ${all.playedCourses.length === 1 ? 'bana' : 'banor'}`;
     sub.textContent = [state.example && 'Exempel', ...applied].filter(Boolean).join(' · ') || historyLabel;
     sub.title = sub.textContent;
     sub.classList.toggle('is-example', state.example);
     const options = [...all.playedCourses];
     if (state.course !== 'all' && !selectedCourse) options.push({ slug: state.course, name: state.course });
-    const optionMarkup = '<option value="all">Alla banor</option>' + options.map(c => `<option value="${esc(c.slug)}">${esc(c.name)}</option>`).join('');
+    const optionMarkup = '<option value="all">Alla banor</option>' + options.map(c => `<option value="${esc(c.slug)}">${esc(courseLabel(c.slug, c.name))}</option>`).join('');
     if (optionMarkup !== lastOptions) { courseSelect.innerHTML = optionMarkup; lastOptions = optionMarkup; }
     courseSelect.value = state.course;
     for (const input of filters.querySelectorAll('input')) input.checked = input.value === state.period;
@@ -665,7 +673,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
     const overviewInsights = shortCard ? stat.insights.filter(item => item.key !== 'coverage') : stat.insights;
     const showTrend = trendRows.length >= 2;
     const showDistribution = kindsTotal >= 2;
-    const courseNameOf = record => record.courseName || all.playedCourses.find(c => c.slug === record.course)?.name || record.course;
+    const courseNameOf = record => courseLabel(record.course, record.courseName || all.playedCourses.find(c => c.slug === record.course)?.name);
     const insightCard = item => `<article class="st-insight is-${item.tone}"><div class="si-head"><span class="si-icon" aria-hidden="true">${TONE_ICON[item.tone]}</span><h3>${esc(item.title)}</h3></div><p>${esc(item.text)}</p></article>`;
     const jumps = JUMP_SECTIONS.filter(s => stat.rounds || s.id === 'st-overview' || s.id === 'st-clubs' || (s.id === 'st-rounds' && stat.sessions.length));
 
@@ -678,7 +686,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
         ${latest ? `<article class="st-card st-latest${lastHole ? ' is-single-hole' : ''}" aria-label="Senaste rundan">
           <div class="sl-main"><span class="sl-thumb" style="${poster(latest.record.course) ? `background-image:url('${poster(latest.record.course)}')` : ''}" aria-hidden="true"></span>
             <div class="sl-info"><span class="sl-kicker">Senaste rundan · ${esc(dateText(latest.record.date, true))}</span>
-              <h2 class="sl-course">${esc(latest.record.courseName || latest.record.course)}</h2>
+              <h2 class="sl-course">${esc(courseNameOf(latest.record))}</h2>
               <p class="sl-meta">${lastHole ? `Hål ${esc(lastHole.n)}${Number.isFinite(lastHole.par) ? ` · par ${lastHole.par}` : ''}<br>` : ''}${latestRow ? esc(scoreMeta(latestRow)) : `Ingen hålscore · ${shotCountText(latest.shots)}`}</p></div></div>
           ${lastHole ? `<div class="sl-facts" role="group" aria-label="Resultat för hål ${esc(lastHole.n)}">
             <div class="sl-fact sl-strokes"><p class="sl-reading"><b>${latestRow.strokes}</b> slag</p><p class="sl-fact-label">${esc(holeResult ?? 'Par saknas')}</p></div>
@@ -686,7 +694,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
           </div>` : latestRow ? `<div class="sl-score"><b>${latestRow.strokes}</b><div class="sl-score-sub"><span>${latestRow.toPar == null ? 'slag · par saknas' : `slag · ${signedInt(latestRow.toPar)} mot par`}</span>
               ${latestRow.points !== null ? `<span class="sl-points">${latestRow.points} poäng · Stableford</span>` : ''}
               ${versusPrevious != null ? `<em class="sl-cmp">${Math.abs(versusPrevious) < 0.3 ? 'I nivå med tidigare snitt' : `${dec(Math.abs(versusPrevious))} slag ${versusPrevious < 0 ? 'bättre' : 'över snittet'} per 18 hål`}</em>` : ''}</div></div>` : ''}
-          <div class="sl-actions"><button type="button" class="st-view" data-jump-round="${esc(`${latest.record.course}|${latest.record.id}`)}">${latestRow ? 'Scorekort' : 'Visa rundan'}</button>
+          <div class="sl-actions"><button type="button" class="st-view" data-jump-round="${esc(`${latest.record.course}|${latest.record.id}`)}">${latestRow ? 'Öppna scorekort' : 'Öppna rundan'}</button>
             <button type="button" class="st-view" data-share-round="${esc(`${latest.record.course}|${latest.record.id}`)}">Dela bild</button>${replayLink(latest, 'latest')}</div>
         </article>` : `<article class="st-card st-latest"><div class="sl-info"><h2 class="sl-course">Dina loggade slag</h2><p class="sl-meta">${stat.shotCount} loggade · ${stat.shotsMeasured} GPS-uppmätta</p></div></article>`}
         ${overviewInsights.length ? `<section class="st-insights" aria-labelledby="stHowH"><h2 class="st-h2" id="stHowH">Så spelar du</h2>${insightCard(overviewInsights[0])}</section>` : ''}
@@ -786,7 +794,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
 
       ${stat.rounds ? `<section class="st-card st-holes" id="st-holes" data-card="holes" aria-labelledby="stHolesH">
         <header class="st-card-head"><div><h2 id="stHolesH">Hål för hål</h2><p>${stat.byHoleNumber ? `Ditt snitt mot par på varje hål, ${esc(all.playedCourses.find(c => c.slug === state.course)?.name ?? '')}` : 'Välj en bana för att se vilka hål som kostar mest'}</p></div>${stat.byHoleNumber ? tableToggle('holes') : ''}</header>
-        ${!stat.byHoleNumber ? `<div class="st-pick">${all.playedCourses.map(c => `<button type="button" class="st-ghost" data-pick-course="${esc(c.slug)}">${esc(c.name)}</button>`).join('')}</div>`
+        ${!stat.byHoleNumber ? `<div class="st-pick">${all.playedCourses.map(c => `<button type="button" class="st-ghost" data-pick-course="${esc(c.slug)}">${esc(courseLabel(c.slug, c.name))}</button>`).join('')}</div>`
           : showTable('holes') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Hål</th><th>Par</th><th>Snitt</th><th>Mot par</th><th>Bästa</th><th>Puttar</th><th>Fairway</th><th>Rundor</th></tr></thead><tbody>
             ${stat.byHoleNumber.map(h => `<tr><td>${h.n}</td><td>${h.par}</td><td>${dec(h.average, 2)}</td><td>${signed(h.toPar, 2)}</td><td>${h.best}</td><td>${h.putts !== null ? dec(h.putts, 1) : '–'}</td><td>${h.fairway !== null ? `${Math.round(h.fairway * 100)}\u00a0%` : '–'}</td><td>${h.rounds}</td></tr>`).join('')}</tbody></table></div>`
           : holeChart(stat.byHoleNumber)}
@@ -800,9 +808,9 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
         <div class="st-card">
           <header class="st-card-head"><div><h2>Banor</h2><p>Där du har spelat</p></div></header>
           <ul class="st-courses">${stat.courses.map(c => `<li>
-            ${state.course === 'all' ? `<button type="button" class="sc-pick" data-pick-course="${esc(c.slug)}" aria-label="Visa statistik för ${esc(c.name)}"></button>` : ''}
+            ${state.course === 'all' ? `<button type="button" class="sc-pick" data-pick-course="${esc(c.slug)}" aria-label="Visa statistik för ${esc(courseLabel(c.slug, c.name))}"></button>` : ''}
             <span class="sc-thumb" style="${poster(c.slug) ? `background-image:url('${poster(c.slug)}')` : ''}" aria-hidden="true"></span>
-            <span class="sc-name"><b>${esc(c.name)}</b><small>${c.rounds ? `${c.rounds} ${c.rounds === 1 ? 'sparad runda' : 'sparade rundor'}` : 'Endast slaglogg'} · senast ${esc(dateText(c.last))}</small>${c.best ? `<small>Bästa · ${c.best.strokes} slag på ${c.best.holes} hål · ${signed(c.best.perEighteen)} per 18</small>` : ''}</span>
+            <span class="sc-name"><b>${esc(courseLabel(c.slug, c.name))}</b><small>${c.rounds ? `${c.rounds} ${c.rounds === 1 ? 'sparad runda' : 'sparade rundor'}` : 'Endast slaglogg'} · senast ${esc(dateText(c.last))}</small>${c.best ? `<small>Bästa · ${c.best.strokes} slag på ${c.best.holes} hål · ${signed(c.best.perEighteen)} per 18</small>` : ''}</span>
             <span class="sc-num"><small>Snitt / 18</small><b>${c.average !== null ? signed(c.average) : '–'}</b></span>
           </li>`).join('')}</ul>
         </div>

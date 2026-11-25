@@ -6,7 +6,7 @@
    rebaked, so the map cannot drift from the course the simulator draws, and a
    republished course reaches the map by itself. */
 import { mappedWaterShapes } from './map-hazard-geometry.mjs';
-import { packIdentity } from './map-offline-status.mjs';
+import { MAP_OFFLINE_CACHE, packIdentity, savedCourseStatus } from './map-offline-status.mjs';
 import { inflate } from '../engine/codec.js';
 import { decodeLandcover } from '../engine/landcover.mjs';
 import { resolvePublishedGraph } from '../engine/v2-graph-source.mjs';
@@ -227,23 +227,41 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
   };
 }
 
-export async function loadMapCourse(slug, { deferAppearance = false } = {}) {
+export async function loadMapCourse(slug, { deferAppearance = false, savedCopy = false } = {}) {
   const base = import.meta.env.BASE_URL;
   // A saved layout has its own pair of mutable roots; saving another course
   // from a newer publication cannot redirect it to unsaved geometry offline.
   const scopeRoot = url => `${url}?layout=${encodeURIComponent(slug)}`;
   const packIndex = scopeRoot(`${base}courses/index.json`);
-  const response = await fetch(packIndex);
+  if (savedCopy && await savedCourseStatus(slug) !== 'ready') throw new Error('den sparade kartan behöver repareras');
+  const saved = savedCopy ? await caches.open(MAP_OFFLINE_CACHE) : null;
+  // Read both indexes from the same verified download. An online index can
+  // already refer to a newer publication than the copy kept on this phone.
+  const fetchCourseData = async (url, options) => {
+    if (!saved) return fetch(url, options);
+    const response = await saved.match(url);
+    if (!response) throw new Error('den sparade kartan behöver repareras');
+    return response;
+  };
+  const response = await fetchCourseData(packIndex);
   if (!response.ok) throw new Error(`banlistan kunde inte hämtas (${response.status})`);
   const manifest = await response.json();
   const meta = manifest.courses.find(entry => entry.slug === slug);
   if (!meta) throw new Error(`banan ${slug} finns inte`);
+  // Reuse the pack/sidecar loaders' format and digest checks for saved bytes.
+  const readAsset = async (url, sha, read) => {
+    if (!saved) return read(url, sha);
+    const response = await fetchCourseData(url);
+    const localUrl = URL.createObjectURL(await response.blob());
+    try { return await read(localUrl, sha); }
+    finally { URL.revokeObjectURL(localUrl); }
+  };
   /* Land cover is an appearance record: without it the forest falls back to its
      mapped outlines and the course still opens. */
   const sidecar = async (record, read, what) => {
     if (!record?.url) return null;
     try {
-      return await read(`${import.meta.env.BASE_URL}${record.url}?v=${record.sha256.slice(0, 16)}`, record.sha256);
+      return await readAsset(`${base}${record.url}?v=${record.sha256.slice(0, 16)}`, record.sha256, read);
     } catch (error) {
       console.warn(`${what}:`, error.message);
       return null;
@@ -253,9 +271,9 @@ export async function loadMapCourse(slug, { deferAppearance = false } = {}) {
   const appearance = Promise.all([raster(meta.landcover), raster(meta.mownSurface)])
     .then(([landcover, mown]) => ({ landcover, mown }));
   const [pack, graph, surroundings] = await Promise.all([
-    fetchPack(packRequestUrl(meta), meta.sha256),
+    readAsset(packRequestUrl(meta), meta.sha256, fetchPack),
     resolvePublishedGraph({ slug, packMeta: meta, fetchImpl: (url, options) =>
-      fetch(String(url).endsWith('/courses/v2-index.json') ? scopeRoot(url) : url, options) }),
+      fetchCourseData(String(url).endsWith('/courses/v2-index.json') ? scopeRoot(url) : url, options) }),
     sidecar(meta.surroundings, (url, sha) => fetchSidecar(url, sha, 'surroundings'), 'surroundings'),
   ]);
   const vectors = JSON.parse(new TextDecoder().decode(await inflate(pack.sv)));

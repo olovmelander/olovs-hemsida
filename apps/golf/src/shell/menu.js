@@ -10,7 +10,7 @@
      - the course on top, in its own poster, with its two ways out: switch
        course, or the start menu;
      - three tabs, so nothing is more than one tap and no tab scrolls far:
-         Spela    the tools, as tiles that show whether they are on;
+         Utforska the tools, as tiles that show whether they are on;
          Visning  the camera, the lights as their own skies, clean view,
                   frame cap and the developer overlay;
          Mer      the start menu's pages and the keyboard shortcuts;
@@ -108,7 +108,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
       </header>
 
       <div class="nd-tabs" role="tablist" aria-label="Menyns delar">
-        <button type="button" role="tab" id="ndTabPlay" aria-controls="ndPlay" data-tab="play" aria-selected="true">Spela</button>
+        <button type="button" role="tab" id="ndTabPlay" aria-controls="ndPlay" data-tab="play" aria-selected="true">Utforska</button>
         <button type="button" role="tab" id="ndTabView" aria-controls="ndView" data-tab="view" aria-selected="false">Visning</button>
         <button type="button" role="tab" id="ndTabMore" aria-controls="ndMore" data-tab="more" aria-selected="false">Mer</button>
       </div>
@@ -127,7 +127,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
             ${tile('dGridBtn', 'grid', 'Greengrid', 'Greenens lutning')}
             ${tile('dGpsBtn', 'gps', 'GPS-läge', 'Följ din boll')}
             ${tile('dNoteBtn', 'note', 'Banguide', 'Klubbens råd')}
-            ${tile('dMiniBtn', 'mini', 'Minikarta', 'Hela banan i 2D')}
+            ${tile('dMiniBtn', 'mini', 'Banöversikt', 'Hela banan i 2D')}
             ${tile('dBagBtn', 'bag', 'Min bag', 'Dina carry-längder')}
             <a class="nd-tile" id="dMapBtn" href="${mapUrl(current)}" data-tool="map">
               <span class="nd-tile-icon">${TOOL_ICONS.map}</span>
@@ -205,6 +205,13 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
       }
       return;
     }
+    const selectedTee = document.querySelector('#tees .tee.on');
+    const params = new URLSearchParams(location.search);
+    $('#dMapBtn').href = mapUrl(current, {
+      hole: Number(params.get('hal')) || undefined,
+      tee: Number(params.get('tee')) || (selectedTee ? [...selectedTee.parentElement.children].indexOf(selectedTee) + 1 : undefined),
+      preview: true,
+    });
     if (!drawer.open && drawer.isConnected) drawer.showModal();
     syncTiles();
     selectTab(panel.tab || 'play', true);

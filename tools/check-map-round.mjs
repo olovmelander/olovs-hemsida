@@ -42,6 +42,7 @@ async function phone() {
 async function courseCard(page) {
   await page.goto(new URL('#karta', base).href, { waitUntil: 'domcontentloaded' });
   await tap(page, `#chooser .card[data-slug="${slug}"]`);
+  await tap(page, `#clubPicker [data-layout="${slug}"]`);
   await page.locator(sheet + '[open]').waitFor();
 }
 
@@ -135,13 +136,16 @@ try {
   const untouched = await storedRound(preview.page);
   const originalChoices = await choices(preview.page);
   const scoreTool = preview.page.locator('[data-score]');
-  await scoreTool.tap();
+  assert.ok(await scoreTool.isHidden());
+  assert.ok(await preview.page.locator('[data-wheel-list]').isHidden());
+  assert.equal(new URL(await preview.page.locator('[data-full]').getAttribute('href'), base).searchParams.get('hal'), '18');
+  await railAction.tap();
   await startSheet.waitFor();
   assert.equal(await startSheet.locator('[data-start-hole="18"]').getAttribute('aria-pressed'), 'true');
   assert.ok(await preview.page.locator('[data-score-sheet]').isHidden());
   await preview.page.goBack();
   await startSheet.waitFor({ state: 'hidden' });
-  assert.ok(await scoreTool.evaluate(button => button === document.activeElement));
+  assert.ok(await railAction.evaluate(button => button === document.activeElement));
   assert.deepEqual(await storedRound(preview.page), untouched);
   assert.equal(await preview.page.locator('[data-gps]').getAttribute('aria-pressed'), 'false');
   await railAction.tap();
@@ -168,6 +172,8 @@ try {
   await startSheet.locator('[data-start-go]').tap();
   await wait(preview.page, () => V3DMap.round().begunAt && V3DMap.round().playingHole === 18 && V3DMap.state.hole === 18);
   assert.match(await railAction.innerText(), /^Logga\b/);
+  assert.ok(await scoreTool.isVisible());
+  assert.ok(await preview.page.locator('[data-wheel-list]').isVisible());
   assert.match(await railAction.getAttribute('aria-label'), /^Logga slag\b/);
   assert.equal(await preview.page.evaluate(() => V3DMap.shots().length), 0);
   // A guide link previews hole 7 while the player's existing card is on 18.
@@ -293,6 +299,7 @@ try {
   console.log('A stale same-location confirmation leaves both shots and score intact.');
 
   await tap(page, '[data-menu]');
+  await tap(page, '[data-menu-tab="bana"]');
   await tap(page, '[data-menu-sheet] [data-home]');
   await page.locator('#home:visible').waitFor();
   const resume = page.locator('#home [data-resume]');

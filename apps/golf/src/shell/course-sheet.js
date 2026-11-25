@@ -37,6 +37,7 @@ import { bestScorecard, perEighteen, perHole } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { loadScorecard } from './course-scorecard.mjs';
 import { hubUrl } from './router.js';
+import { layoutLabel } from './course-clubs.mjs';
 import { courseWeather, weatherLine } from './course-weather.mjs';
 
 const BASE = import.meta.env.BASE_URL;
@@ -67,7 +68,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
   document.body.append(dialog);
 
   let restoreScroll = 0, restoreFocus = '';
-  let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false, mine = null, activeRound = null, checkpoint = null, guideHole = 1;
+  let expanded = [];
+  let course = null, plan = null, card = null, guideShown = false, mine = null, activeRound = null, checkpoint = null, guideHole = 1;
 
   function history(slug) {
     const rounds = parseRounds(readText(storage(), MAP_KEYS.rounds, null)).filter(r => r.course === slug);
@@ -88,6 +90,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     const place = COURSE_LOCATIONS[c.slug];
     const tees = c.tees?.names ?? [];
     const photos = Math.max(1, c.photos || 1);
+    const startingHoles = [...new Set([1, ...(c.holes >= 18 ? [10] : []), plan.hole])].sort((a, b) => a - b);
+    const openIf = name => expanded.includes(name) ? ' open' : '';
     const past = history(c.slug);
     mine = past?.holes?.length ? { holes: new Map(past.holes.map(h => [h.n, h])), rounds: past.rounds } : null;
     const settings = readSettings(storage());
@@ -95,7 +99,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     if (plan.handicap === undefined) plan.handicap = hcpText !== '' && Number.isFinite(Number(hcpText)) ? Number(hcpText) : null;
     plan.light = plan.light ?? settings.light;
     const lightTile = (key, label, sky) => `<label class="cs-light${key === NOW_LIGHT.player ? ' is-now' : ''}">
-      <input type="radio" name="cs-light" value="${key}"${plan.light === key ? ' checked' : ''}>
+      <input type="radio" id="csLight-${key}" name="cs-light" value="${key}"${plan.light === key ? ' checked' : ''}>
       <span class="cs-light-sky" aria-hidden="true"${sky ? ` style="--z:${sky[0]};--h:${sky[1]};--g:${sky[2]}"` : ''}></span><span>${label}</span></label>`;
 
     dialog.innerHTML = `
@@ -106,110 +110,124 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
           <div class="cs-media-shade" aria-hidden="true"></div>
           ${photos > 1 ? `<div class="cs-slide-nav">
             <button type="button" class="cs-round-btn" data-slide="-1" aria-label="Föregående bild">${PREV}</button>
+            <span class="cs-sr" aria-live="polite" data-photo-count>Bild 1 av ${photos}</span>
             <span class="cs-dots" aria-hidden="true">${Array.from({ length: photos }, (_, i) => `<i class="${i === 0 ? 'is-on' : ''}"></i>`).join('')}</span>
             <button type="button" class="cs-round-btn" data-slide="1" aria-label="Nästa bild">${NEXT}</button>
           </div>` : ''}
           <div class="cs-media-text">
             <p class="cs-where">${esc(c.club)}${place?.city ? ` · ${esc(place.city)}` : ''}</p>
-            <h2 class="cs-title" id="csTitle">${esc(c.name)}</h2>
+            <h2 class="cs-title" id="csTitle">${esc(layoutLabel(c))}</h2>
             <dl class="cs-facts">
               <div><dt>Par</dt><dd>${c.par}</dd></div>
               <div><dt>Hål</dt><dd>${c.holes}</dd></div>
               <div><dt>Meter</dt><dd class="is-wait" data-length>····</dd></div>
             </dl>
           </div>
+          <button type="button" class="cs-close" data-close aria-label="Stäng">${CLOSE}</button>
         </div>
-        <button type="button" class="cs-close" data-close aria-label="Stäng">${CLOSE}</button>
 
         <div class="cs-form">
           <div class="cs-scroll">
-            ${lines[c.slug] || c.description ? `<p class="cs-line">${esc(c.description || lines[c.slug])}</p>` : ''}
-            <p class="cs-weather" data-weather hidden></p>
-            ${past ? `<div class="cs-past" aria-label="Dina rundor här">
-              <div><span>Rundor här</span><b>${past.rounds}</b></div>
-              <div><span>Bästa per 18 hål</span><b>${past.best ? signed(past.best.perEighteen) : '–'}</b>${past.best ? `<small>${past.best.strokes} slag på ${past.best.holes} hål</small>` : ''}</div>
-              <div><span>Snitt per 18</span><b>${past.average !== null ? signed(past.average) : '–'}</b></div>
-              <a id="csPastStats" class="cs-past-more" href="${hubUrl(`statistik/${encodeURIComponent(c.slug)}`)}">Hål för hål i Statistik<span aria-hidden="true">→</span></a>
-            </div>` : ''}
-
-            <fieldset class="cs-field">
-              <legend>Spela i</legend>
-              <div class="cs-modes">${Object.entries(MODES).map(([key, m]) => `
-                <label class="cs-mode"><input type="radio" name="cs-mode" value="${key}"${plan.mode === key ? ' checked' : ''}>
+            <details class="cs-collapse cs-choose-mode" data-disclosure="mode"${openIf('mode')}>
+              <summary id="csModeTitle"><b data-mode-label></b><span>Byt läge</span></summary>
+              <fieldset class="cs-field">
+                <legend class="cs-sr">Välj läge</legend>
+                <div class="cs-modes">${Object.entries(MODES).map(([key, m]) => `
+                <label class="cs-mode"><input type="radio" id="csMode-${key}" name="cs-mode" value="${key}"${plan.mode === key ? ' checked' : ''}>
                   <span class="cs-mode-icon">${ICON[key]}</span><span class="cs-mode-text"><b>${m.label}</b><small>${SUB[key]}</small></span></label>`).join('')}
               </div>
-            </fieldset>
+              </fieldset>
+            </details>
 
-            ${tees.length > 1 ? `<fieldset class="cs-field">
+            ${tees.length ? `<fieldset class="cs-field">
               <legend data-tee-legend>Tee</legend>
               <div class="cs-tees">${tees.map((name, i) => `
-                <label class="cs-tee"><input type="radio" name="cs-tee" value="${i}"${plan.tee === i ? ' checked' : ''}>
+                <label class="cs-tee"><input type="radio" id="csTee-${i}" name="cs-tee" value="${i}"${plan.tee === i ? ' checked' : ''}>
                   <span><i style="background:${teeColour(c.tees.cols?.[i])}"></i>${esc(name)}</span></label>`).join('')}
               </div>
             </fieldset>` : ''}
 
-            ${c.holes >= 18 ? `<fieldset class="cs-field" data-round-setup>
+            <fieldset class="cs-field" data-round-setup>
               <legend>Starta på</legend>
-              <div class="seg cs-seg">${[1, 10].map(n => `<label class="seg-opt"><input type="radio" name="cs-hole" value="${n}"${plan.hole === n ? ' checked' : ''}><span>Hål ${n}</span></label>`).join('')}</div>
-            </fieldset>` : ''}
+              <div class="seg cs-seg">${startingHoles.map(n => `<label class="seg-opt"><input type="radio" id="csStart-${n}" name="cs-hole" value="${n}"${plan.hole === n ? ' checked' : ''}><span>Hål ${n}</span></label>`).join('')}</div>
+            </fieldset>
 
             <fieldset class="cs-field" data-round-setup data-only="map play">
               <legend>Spelhandicap</legend>
               <div class="cs-hcp">
                 <div class="stepper" role="group" aria-label="Spelhandicap">
                   <button type="button" data-hcp-step="-1" aria-label="Sänk spelhandicap">−</button>
-                  <input type="number" inputmode="numeric" min="${MIN_HANDICAP}" max="${MAX_HANDICAP}" step="1" data-hcp aria-label="Spelhandicap" placeholder="–" value="${plan.handicap ?? ''}">
+                  <input type="number" id="csHandicap" inputmode="numeric" min="${MIN_HANDICAP}" max="${MAX_HANDICAP}" step="1" data-hcp aria-label="Spelhandicap" placeholder="–" value="${plan.handicap ?? ''}">
                   <button type="button" data-hcp-step="1" aria-label="Höj spelhandicap">+</button>
                 </div>
                 <p class="cs-note">Ger slag per hål och poäng på scorekortet. Utan handicap räknas slagen.</p>
               </div>
             </fieldset>
 
-            <fieldset class="cs-field" data-only="play">
-              <legend>Golfare</legend>
-              <div class="seg cs-seg">${PLAY_CHARACTERS.map(c => `<label class="seg-opt"><input type="radio" name="cs-character" value="${c.id}"${plan.character === c.id ? ' checked' : ''}><span>${c.label}</span></label>`).join('')}</div>
-            </fieldset>
+            <details class="cs-collapse" data-disclosure="options" data-only="detailed play"${openIf('options')}>
+              <summary id="csOptionsTitle"><b data-options-label></b><span data-light-label></span></summary>
+              <div class="cs-section-body">
+                <fieldset class="cs-field" data-only="play">
+                  <legend>Golfare</legend>
+                  <div class="seg cs-seg">${PLAY_CHARACTERS.map(c => `<label class="seg-opt"><input type="radio" id="csGolfer-${c.id}" name="cs-character" value="${c.id}"${plan.character === c.id ? ' checked' : ''}><span>${c.label}</span></label>`).join('')}</div>
+                </fieldset>
 
-            <fieldset class="cs-field" data-only="detailed play">
-              <legend>Ljus</legend>
-              <div class="cs-lights">
-                ${lightTile(NOW_LIGHT.player, 'Nu', null)}
-                ${LIGHTS.map(light => lightTile(light.player, light.label, light.sky)).join('')}
+                <fieldset class="cs-field" data-only="detailed play">
+                  <legend>Ljus</legend>
+                  <div class="cs-lights">
+                    ${lightTile(NOW_LIGHT.player, 'Nu', null)}
+                    ${LIGHTS.map(light => lightTile(light.player, light.label, light.sky)).join('')}
+                  </div>
+                </fieldset>
               </div>
-            </fieldset>
+            </details>
 
-            <section class="cs-field" aria-labelledby="csCardTitle">
-              <h3 class="cs-legend" id="csCardTitle">Scorekort</h3>
+            <details class="cs-collapse" data-disclosure="info"${openIf('info')}>
+              <summary id="csInfoTitle">Om banan</summary>
+              <div class="cs-section-body">
+                ${lines[c.slug] || c.description || c.boot ? `<p class="cs-line">${esc(c.description || lines[c.slug] || c.boot)}</p>` : ''}
+                <p class="cs-weather" data-weather hidden></p>
+                ${past ? `<div class="cs-past" aria-label="Dina rundor här">
+                  <div><span>Rundor här</span><b>${past.rounds}</b></div>
+                  <div><span>Bästa per 18 hål</span><b>${past.best ? signed(past.best.perEighteen) : '–'}</b>${past.best ? `<small>${past.best.strokes} slag på ${past.best.holes} hål</small>` : ''}</div>
+                  <div><span>Snitt per 18</span><b>${past.average !== null ? signed(past.average) : '–'}</b></div>
+                  <a id="csPastStats" class="cs-past-more" href="${hubUrl(`statistik/${encodeURIComponent(c.slug)}`)}">Hål för hål i Statistik<span aria-hidden="true">→</span></a>
+                </div>` : ''}
+              </div>
+            </details>
+
+            <details class="cs-collapse" data-disclosure="card"${openIf('card')}>
+              <summary id="csCardTitle">Scorekort</summary>
               <div class="cs-card" data-card><p class="cs-card-note">Hämtar scorekortet …</p></div>
-            </section>
+            </details>
 
-            <section class="cs-field" aria-labelledby="csGuideTitle" data-guide-wrap hidden>
-              <div class="cs-guide-head">
-                <h3 class="cs-legend" id="csGuideTitle">Banguide</h3>
-                <div class="cs-guide-nav">
+            <details class="cs-collapse" data-disclosure="guide" data-guide-wrap hidden${openIf('guide')}>
+              <summary id="csGuideTitle">Banguide</summary>
+              <div class="cs-guide-head"><div class="cs-guide-nav">
                   <button type="button" class="cs-round-btn" data-guide-step="-1" aria-label="Föregående hål">${PREV}</button>
                   <button type="button" class="cs-round-btn" data-guide-step="1" aria-label="Nästa hål">${NEXT}</button>
                 </div>
               </div>
               <ol class="cs-guide" data-guide tabindex="0" aria-label="Hålen ett i taget"></ol>
-            </section>
+            </details>
           </div>
 
           <div class="cs-actions">
-            <button type="button" class="cs-go" data-go></button>
-            <button type="button" class="cs-ghost" data-new-sim hidden>Starta ny simulering</button>
-            <button type="button" class="cs-ghost" data-practice data-only="play">Träna slag</button>
+            <button type="button" class="cs-go" id="csLaunch" data-go></button>
+            <button type="button" class="cs-ghost" id="csNewSimulator" data-new-sim hidden>Starta ny simulering</button>
+            <button type="button" class="cs-ghost" id="csPractice" data-practice data-only="play">Träna slag</button>
             <div class="cs-map-actions" data-only="map">
-              <button type="button" class="cs-ghost" data-look>Bara titta på banan</button>
-              <button type="button" class="cs-ghost" data-offline-action>Kontrollera offlinebanan</button>
+              <button type="button" class="cs-ghost" id="csPreview" data-look>Bara titta på banan</button>
+              <button type="button" class="cs-ghost" id="csOffline" data-offline-action>Kontrollera offlinebanan</button>
             </div>
             <p class="cs-hint" role="status" data-offline-status data-only="map"></p>
-            <p class="cs-hint" data-hint></p>
+            <p class="cs-hint" role="status" data-hint></p>
           </div>
         </div>
       </form>`;
 
-    /* the posters, loaded as they come up, and rolled slowly */
+    /* A golfer advances the gallery deliberately. Only the displayed poster is requested. */
+    let slide = 0;
     const slides = [...dialog.querySelectorAll('.cs-slides i')];
     const dots = [...dialog.querySelectorAll('.cs-dots i')];
     const paint = i => { const s = slides[i]; if (s?.dataset.src) { s.style.backgroundImage = `url('${s.dataset.src}')`; delete s.dataset.src; } };
@@ -217,17 +235,22 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     const show = i => {
       slide = (i + slides.length) % slides.length;
       paint(slide);
-      paint((slide + 1) % slides.length);
       slides.forEach((s, k) => s.classList.toggle('is-on', k === slide));
       dots.forEach((d, k) => d.classList.toggle('is-on', k === slide));
+      const count = dialog.querySelector('[data-photo-count]');
+      if (count) count.textContent = `Bild ${slide + 1} av ${photos}`;
     };
-    for (const btn of dialog.querySelectorAll('[data-slide]')) btn.addEventListener('click', () => { show(slide + Number(btn.dataset.slide)); restartRoll(); });
-    const restartRoll = () => {
-      clearInterval(slideTimer);
-      if (!REDUCED && slides.length > 1) slideTimer = setInterval(() => show(slide + 1), 5200);
-    };
-    restartRoll();
-    if (slides.length > 1) setTimeout(() => paint(1), 400);
+    for (const btn of dialog.querySelectorAll('[data-slide]')) {
+      btn.addEventListener('click', () => show(slide + Number(btn.dataset.slide)));
+    }
+
+    for (const disclosure of dialog.querySelectorAll('[data-disclosure]')) {
+      disclosure.addEventListener('toggle', () => {
+        if (!dialog.open) return;
+        if (disclosure.open && disclosure.dataset.disclosure === 'guide') showHole(guideHole, false);
+        onEdit?.();
+      });
+    }
 
     /* the choices */
     const hcp = dialog.querySelector('[data-hcp]');
@@ -238,12 +261,21 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
       onEdit?.();
     });
     hcp.addEventListener('change', () => { plan.handicap = hcp.value.trim() === '' ? null : clampHcp(Number(hcp.value)); hcp.value = plan.handicap ?? ''; });
+    dialog.querySelector('form').addEventListener('submit', e => e.preventDefault());
     dialog.querySelector('form').addEventListener('change', e => {
       const { name, value } = e.target;
-      if (name === 'cs-mode') { plan.mode = value; reflect(); paintCard(); }
+      if (name === 'cs-mode') {
+        plan.mode = value;
+        reflect();
+        paintCard();
+        if (!e.target.matches(':focus-visible')) {
+          dialog.querySelector('[data-disclosure="mode"]').open = false;
+          dialog.querySelector('#csModeTitle').focus({ preventScroll: true });
+        }
+      }
       if (name === 'cs-tee') { plan.tee = Number(value); paintCard(); }
       if (name === 'cs-hole') { plan.hole = Number(value); showHole(plan.hole); }
-      if (name === 'cs-light') plan.light = value;
+      if (name === 'cs-light') { plan.light = value; updateLightLabel(); }
       if (name === 'cs-character') plan.character = value;
       onEdit?.();
     });
@@ -260,9 +292,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     };
     dialog.querySelector('[data-look]').addEventListener('click', () => launch(false));
     dialog.querySelector('[data-offline-action]').addEventListener('click', () => launch(false, true));
-    /* scrolled, the column's top fades under the close button (course-sheet.css) */
     const scroller = dialog.querySelector('.cs-scroll');
-    scroller.addEventListener('scroll', () => scroller.classList.toggle('is-scrolled', scroller.scrollTop > 6), { passive: true });
     scroller.addEventListener('scrollend', () => { if (dialog.open) onEdit?.(); });
     for (const btn of dialog.querySelectorAll('[data-guide-step]')) btn.addEventListener('click', () => {
       const list = dialog.querySelector('[data-guide]');
@@ -296,6 +326,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     guideShown = false;
     if (globalThis.navigator?.connection?.saveData) {
       const kb = Math.max(1, Math.round((c.bytes || 0) / 1024));
+      dialog.querySelector('#csCardTitle').textContent = 'Scorekort och banguide';
       dialog.querySelector('[data-card]').innerHTML = `<button type="button" class="cs-ghost cs-card-load" data-card-load>Hämta scorekort och banguide · ${kb} kB</button>`;
       const length = dialog.querySelector('[data-length]');
       length.textContent = '–';
@@ -309,10 +340,16 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
 
   function fetchCard(c) {
     loadScorecard(c).then(
-      loaded => { if (course === c) { card = loaded; paintCard(); } },
+      loaded => {
+        if (course !== c) return;
+        dialog.querySelector('#csCardTitle').textContent = 'Scorekort';
+        card = loaded;
+        paintCard();
+      },
       () => {
         if (course !== c) return;
-        dialog.querySelector('[data-card]').innerHTML = '<p class="cs-card-note">Scorekortet kunde inte hämtas just nu.</p>';
+        dialog.querySelector('[data-card]').innerHTML = '<p class="cs-card-note">Scorekortet kunde inte hämtas just nu.</p><button type="button" class="cs-ghost" data-card-retry>Försök igen</button>';
+        dialog.querySelector('[data-card-retry]').onclick = () => fetchCard(c);
         const length = dialog.querySelector('[data-length]');
         length.textContent = '–';
         length.classList.remove('is-wait');
@@ -401,8 +438,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
   function showHole(n, smooth = true) {
     const list = dialog.querySelector('[data-guide]');
     const item = list?.querySelector(`[data-hole="${n}"]`);
-    if (!item) return;
     guideHole = n;
+    if (!item || !dialog.querySelector('[data-guide-wrap]').open || !list.clientWidth) return;
     onEdit?.();
     list.scrollTo({ left: item.offsetLeft, behavior: smooth && !REDUCED ? 'smooth' : 'auto' });
   }
@@ -413,7 +450,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     if (plan?.mode !== 'map') return;
     const status = dialog.querySelector('[data-offline-status]');
     const button = dialog.querySelector('[data-offline-action]');
-    status.textContent = 'Kontrollerar banans offlinefiler…';
+    status.textContent = 'Kontrollerar offlinefiler …';
+    button.hidden = true;
     const saved = await savedCourseStatus(course.slug, { catalogue: course }).catch(() => 'unavailable');
     if (current !== offlineCheck) return;
     const labels = {
@@ -431,8 +469,16 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
   document.addEventListener('visibilitychange', () => { if (!document.hidden && dialog.open) checkOffline(); });
 
   /* what changes with the mode: the choices that belong to it, and the button's words */
+  function updateLightLabel() {
+    const light = plan.light === NOW_LIGHT.player ? 'Nu' : LIGHTS.find(item => item.player === plan.light)?.label;
+    dialog.querySelector('[data-light-label]').textContent = light || '';
+  }
+
   function reflect() {
     dialog.dataset.mode = plan.mode;
+    dialog.querySelector('[data-mode-label]').textContent = MODES[plan.mode].label;
+    dialog.querySelector('[data-options-label]').textContent = plan.mode === 'play' ? 'Ljus och golfare' : 'Ljus';
+    updateLightLabel();
     const resume = plan.mode === 'map' && Boolean(activeRound);
     const teeLegend = dialog.querySelector('[data-tee-legend]');
     if (teeLegend) teeLegend.textContent = resume ? 'Tee för förhandsvisning' : 'Tee';
@@ -448,11 +494,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
       : plan.mode === 'play' ? `${ICON.play}<span>${checkpoint ? `Fortsätt simuleringen · hål ${checkpoint.round.current}` : 'Starta simuleringen'}</span>`
       : `${ICON.detailed}<span>Utforska i 3D</span>`;
     dialog.querySelector('[data-hint]').textContent = resume
-      ? `Rundan pågår${activeRound.hole ? ` på hål ${activeRound.hole}` : ''}.`
-      : plan.mode === 'map'
-      ? 'Rundan startar direkt och GPS:en slås på. Du kan avsluta den när som helst.'
-      : plan.mode === 'play' ? 'Du står på tee med din egen bag. Spelade rundor hålls isär från dina riktiga.'
-      : 'Banan laddas i full grafik. Tee och ljus går att byta på banan.';
+      ? `GPS-rundan pågår${activeRound.hole ? ` på hål ${activeRound.hole}` : ''}.`
+      : plan.mode === 'map' ? 'GPS används när du startar rundan.' : '';
   }
 
   function launch(round, offline = false) {
@@ -476,10 +519,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
 
   function dismiss() { if (onDismiss) onDismiss(); else close(); }
   function close() {
-    clearInterval(slideTimer);
     if (dialog.open) dialog.close();
   }
-  dialog.addEventListener('close', () => clearInterval(slideTimer));
   /* a press that starts and ends on the backdrop closes, as on any sheet */
   let downOutside = false;
   const outside = e => e.target === dialog;
@@ -492,7 +533,9 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
 
   dialog.addEventListener('cancel', e => { e.preventDefault(); dismiss(); });
   return {
-    snapshot: () => ({ ...plan, slug: course?.slug, guideHole, scroll: dialog.querySelector('.cs-scroll')?.scrollTop ?? 0,
+    snapshot: () => ({ ...plan, slug: course?.slug, guideHole,
+      expanded: [...dialog.querySelectorAll('[data-disclosure][open]')].map(item => item.dataset.disclosure),
+      scroll: dialog.querySelector('.cs-scroll')?.scrollTop ?? 0,
       focusId: dialog.contains(document.activeElement) ? document.activeElement.id : null }),
     open(slug, mode = 'detailed', draft = {}) {
       course = courses.find(c => c.slug === slug);
@@ -513,6 +556,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
       guideHole = validHole(draft.guideHole) ? draft.guideHole : plan.hole;
       restoreScroll = Math.max(0, Number(draft.scroll) || 0);
       restoreFocus = draft.focusId || '';
+      expanded = Array.isArray(draft.expanded) ? draft.expanded : draft.guideHole ? ['guide'] : [];
       render();
       dialog.showModal();
       const opener = draft.focusId ? dialog.querySelector('#' + CSS.escape(draft.focusId)) : null;

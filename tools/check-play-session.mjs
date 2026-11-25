@@ -98,6 +98,23 @@ try {
     console.log('Practice attempt', i);
     assert.deepEqual(scored(after), beforeClean);
     assert.match(await page.locator('[data-stats]').innerText(), /Carry|Längd/i);
+    if (i === 1) {
+      for (const [width, height] of [[568,320], [390,844], [1366,768]]) {
+        await page.setViewportSize({ width, height });
+        const result = page.getByRole('button', { name: /Försök 1.*Slagdata/ });
+        if (width >= 1000) { await result.focus(); await page.keyboard.press('Enter'); }
+        else await result.tap();
+        const dialog = page.getByRole('dialog', { name: 'Slagdata' });
+        assert.ok(await dialog.isVisible());
+        await dialog.getByText('Bollfart', { exact: true }).scrollIntoViewIfNeeded();
+        await dialog.getByText('Sida', { exact: true }).scrollIntoViewIfNeeded();
+        if (width < 1000) await dialog.getByRole('button', { name: 'Stäng' }).tap();
+        else await page.keyboard.press('Escape');
+        assert.ok(await result.evaluate(el => el === document.activeElement));
+        assert.deepEqual(await model(), after);
+      }
+      await page.setViewportSize({ width: 390, height: 844 });
+    }
   }
   await page.locator('[data-practice-exit]').tap();
   assert.deepEqual(await model(), beforeClean);
@@ -105,6 +122,12 @@ try {
   const settled = await model();
   assert.ok(settled.strokes > beforeClean.strokes);
   assert.notDeepEqual(settled.ball, beforeClean.ball);
+  assert.match(await page.locator('[data-stats]').innerText(), /Carry .*Totalt/s);
+  await page.locator('[data-replay]').tap();
+  await page.getByRole('button', { name: 'Avsluta reprisen' }).tap();
+  await ready();
+  assert.deepEqual(await model(), settled);
+  assert.ok(await page.locator('[data-stats]').isVisible());
   console.log('Scored stroke settled. Reloading.');
   await page.reload({ waitUntil: 'domcontentloaded' }); await ready();
   assert.deepEqual(await model(), settled);

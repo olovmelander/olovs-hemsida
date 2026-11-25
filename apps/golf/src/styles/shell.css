@@ -514,10 +514,7 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   overflow: hidden;
 }
 
-/* Hover belongs to things that can hover. On a touch screen :hover sticks to
-   the last thing tapped, so a card would stay lifted and zoomed after the
-   visitor came back to the list -- and the call to action it reveals could
-   never be seen at all, which is what .fact-go is for. */
+/* Keep hover effects off touch pointers after navigation. */
 @media (hover: hover) and (pointer: fine) {
   .c-view-btn:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
   .c-view-btn.active:hover { color: var(--turf); background: rgba(95, 208, 122, 0.26); }
@@ -531,7 +528,6 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
     box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(95, 208, 122, 0.18);
   }
   .card:hover .shot { transform: scale(1.03); }
-  .card:hover .shot-hover-action { opacity: 1; transform: translateX(0); }
 }
 .c-view-btn:focus-visible,
 .c-filter-btn:focus-visible,
@@ -542,244 +538,6 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   outline-offset: 2px;
 }
 
-/* The extra posters live above the .shot background and below its gradient --
-   which is why they are the FIRST child and the gradient is ::after: both sit at
-   z-index auto, so paint order is DOM order, and the badges stay on top at 2. */
-.shot-frames {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.shot-frames i {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 0.9s ease;
-}
-.shot-frames i.is-on {
-  opacity: 1;
-}
-@media (prefers-reduced-motion: reduce) {
-  .shot-frames i { transition: none; }
-}
-
-.card .shot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(4, 9, 7, 0.95) 0%, rgba(4, 9, 7, 0.4) 50%, rgba(4, 9, 7, 0.15) 100%);
-}
-
-.shot-badges {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  z-index: 2;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px 8px;
-}
-
-.cat-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  min-width: 0;
-  max-width: 100%;
-  padding: 5px 9px;
-  border-radius: 8px;
-  background: rgba(7, 13, 10, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  font: 600 10.5px/1.15 Outfit, sans-serif;
-  color: var(--ink);
-  letter-spacing: 0.04em;
-}
-.cat-badge svg { flex: 0 0 auto; }
-.cat-text {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.current-badge {
-  padding: 5px 9px;
-  border-radius: 8px;
-  background: rgba(95, 208, 122, 0.9);
-  color: #04140a;
-  font: 800 10.5px/1 Outfit, sans-serif;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.current-badge.is-near { background: rgba(7, 13, 10, 0.78); color: #fff; text-transform: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-/* The distance takes the card's one free corner beside the 3D button. */
-.shot-badges:has(.is-near) .cat-badge { display: none; }
-.current-badge.is-live { background: #ff6a4d; color: #fff; }
-/* "Senast spelad" is a memory, not a state: quieter than "Aktiv bana". */
-.current-badge.is-last {
-  background: rgba(7, 13, 10, 0.78);
-  border: 1px solid rgba(95, 208, 122, 0.55);
-  color: var(--turf);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-/* A course the map has kept for play without a signal, marked in the map's list
-   only: the detailed course streams and has no such copy. It joins the right
-   corner, after any state badge. */
-.saved-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-left: auto;
-  padding: 4px 8px;
-  border-radius: 8px;
-  background: rgba(7, 13, 10, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--turf);
-  font: 700 10.5px/1 Outfit, sans-serif;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-.saved-badge span { color: #fff; }
-.shot-badges:has(.saved-badge) .current-badge { margin-left: auto; }
-.current-badge + .saved-badge { margin-left: 0; }
-#chooser:not([data-mode="map"]) .saved-badge { display: none; }
-
-.card .shot .on-shot {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 14px;
-  z-index: 2;
-}
-
-.card h2 {
-  font: 700 21px/1.2 Outfit, sans-serif;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  text-wrap: balance;
-}
-
-.card .where {
-  font: 600 11px/1.15 Outfit, sans-serif;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--turf);
-  margin-bottom: 4px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.shot-hover-action {
-  position: absolute;
-  right: 16px;
-  bottom: 14px;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: var(--turf);
-  color: #04140a;
-  font: 700 11.5px/1 Outfit, sans-serif;
-  opacity: 0;
-  transform: translateX(10px);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.card:focus-visible .shot-hover-action {
-  opacity: 1;
-  transform: translateX(0);
-}
-.sha-arrow {
-  font-size: 13px;
-}
-
-.card .body {
-  padding: 14px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex: 1 1 auto;
-  justify-content: space-between;
-}
-
-.card .line {
-  font: 400 13px/1.5 Outfit, sans-serif;
-  color: var(--dim);
-  min-height: 2.8em;
-  /* Two blurbs here run to four lines and made their whole grid row taller;
-     the card is a teaser, the course is one click away. */
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
-}
-
-.card .facts {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font: 600 11.5px/1 'JetBrains Mono', monospace;
-  color: var(--faint);
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.fact-item {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  white-space: nowrap;
-}
-.f-lbl {
-  font-size: 9.5px;
-  color: var(--faint);
-  text-transform: uppercase;
-  font-family: Outfit, sans-serif;
-}
-.f-val {
-  color: var(--ink);
-}
-.fact-tag {
-  margin-left: auto;
-  padding: 3px 6px;
-  border-radius: 4px;
-  background: rgba(95, 208, 122, 0.1);
-  color: var(--turf);
-  font-size: 10px;
-}
-/* What a touch screen gets instead of the hover call to action: a standing
-   sign that the card goes somewhere. */
-.fact-go {
-  display: none;
-  flex: 0 0 auto;
-  width: 24px;
-  height: 24px;
-  margin-left: 8px;
-  border-radius: 50%;
-  place-items: center;
-  background: rgba(95, 208, 122, 0.14);
-  color: var(--turf);
-}
-@media (hover: none) {
-  .fact-go { display: grid; margin-left: auto; }
-  /* every course here is 3D; the arrow says more in the same corner */
-  .fact-tag { display: none; }
-}
 /* A finger is not a cursor: wherever the pointer is coarse the controls take
    touch sizes, whatever the width -- a tablet is wide AND touched. */
 @media (pointer: coarse) {
@@ -787,21 +545,6 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   .c-view-btn { min-height: 40px; }
   .chooser-resume-btn { min-height: 42px; }
 }
-/* The card's own width decides what its facts row can hold, not the window's:
-   the same 250 px card appears on a phone on its side and in a narrow desktop
-   window, and "UTSLAG 5 tees" is the first thing that does not fit. */
-.card-item { container-type: inline-size; }
-@container (max-width: 300px) {
-  .fact-tees { display: none; }
-}
-/* The lead card -- the running course, or the last one opened -- shows its call
-   to action without waiting for a hover, wherever the card is wide enough to
-   hold it beside the name; the name gives it the room. */
-@container (min-width: 320px) {
-  .card-item.is-lead .shot-hover-action { opacity: 1; transform: translateX(0); }
-  .card-item.is-lead .on-shot { right: 132px; }
-}
-
 .no-courses-msg {
   text-align: center;
   padding: 60px 20px;
@@ -841,8 +584,6 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   padding-bottom: calc(clamp(12px, 2.4vh, 28px) + env(safe-area-inset-bottom, 0px));
 }
 #chooser.map-mode .chooser-controls { position: static; }
-.mpp-layout-label { display: flex; align-items: center; gap: .5rem; }
-.mpp-layout-label select { min-height: 40px; max-width: 100%; font: inherit; }
 #chooser.map-mode .chooser-scroll {
   flex: 1 1 auto;
   min-height: 0;
@@ -1047,158 +788,6 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   font: 600 9.5px/1.2 'JetBrains Mono', monospace;
   color: var(--turf);
 }
-
-/* Floating Preview Card on Map */
-.map-preview-panel {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  z-index: 600;
-  width: min(340px, calc(100% - 40px));
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(16px);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.map-preview-panel.visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.mpp-card {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(9, 18, 14, 0.94);
-  backdrop-filter: blur(24px) saturate(1.2);
-  border: 1px solid rgba(95, 208, 122, 0.4);
-  box-shadow: 0 20px 46px rgba(0, 0, 0, 0.7);
-}
-
-.mpp-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--dim);
-  font-size: 15px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.mpp-close-btn:hover {
-  color: #fff;
-  background: rgba(0, 0, 0, 0.85);
-}
-
-.mpp-shot {
-  grid-area: 1 / 1;
-  position: relative;
-  aspect-ratio: 16 / 9;
-  background-size: cover;
-  background-position: center;
-}
-.mpp-shot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(9, 18, 14, 0.98) 0%, rgba(9, 18, 14, 0.3) 60%, transparent 100%);
-}
-
-.mpp-badges {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 2;
-  display: flex;
-  gap: 6px;
-}
-
-/* Over the poster's foot on a desktop, beside the poster on a phone: a grid
-   cell of its own rather than a child of the shot, so it can be either. */
-.mpp-titles {
-  grid-area: 1 / 1;
-  align-self: end;
-  z-index: 2;
-  min-width: 0;
-  padding: 0 14px 8px;
-}
-.mpp-city {
-  font: 600 10px/1 Outfit, sans-serif;
-  color: var(--turf);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-.mpp-titles h3 {
-  font: 700 18px/1.15 Outfit, sans-serif;
-  color: #ffffff;
-  letter-spacing: -0.01em;
-}
-
-.mpp-body {
-  grid-area: 2 / 1;
-  min-width: 0;
-  padding: 10px 14px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.mpp-line {
-  font: 400 12px/1.4 Outfit, sans-serif;
-  color: var(--dim);
-}
-
-.mpp-facts {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font: 500 11px/1 'JetBrains Mono', monospace;
-  color: var(--faint);
-  padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-.mpp-facts b { color: var(--ink); }
-.mpp-tag {
-  margin-left: auto;
-  padding: 2px 5px;
-  border-radius: 4px;
-  background: rgba(95, 208, 122, 0.1);
-  color: var(--turf);
-  font-size: 9.5px;
-}
-
-.mpp-play-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #2f9f63, var(--turf));
-  border: none;
-  color: #04140a;
-  font: 700 12.5px/1 Outfit, sans-serif;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(95, 208, 122, 0.35);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.mpp-play-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(95, 208, 122, 0.5);
-  filter: brightness(1.05);
-}
-.mpp-arrow { font-size: 14px; }
 
 /* ---- In-Game Top-Left Header Menu Trigger ---- */
 #courseNav {
@@ -1745,10 +1334,7 @@ a.drawer-main-btn { text-decoration: none; }
   .map-region-bar::-webkit-scrollbar { display: none; }
   .mrb-btns { flex: 0 0 auto; display: flex; gap: 5px; }
   .mrb-btn { white-space: nowrap; flex: 0 0 auto; padding: 5px 8px; font-size: 10.5px; }
-  .map-preview-panel {
-    left: 10px; right: 10px; bottom: 10px;
-    width: auto; max-width: none;
-  }
+
 }
 
 @media (max-width: 768px) {
@@ -1813,10 +1399,6 @@ a.drawer-main-btn { text-decoration: none; }
   .chooser-resume-btn { width: 44px; min-height: 44px; padding: 0; justify-content: center; border-radius: 50%; }
   .chooser-resume-btn span { display: none; }
   .chooser-head { padding: 8px 0 2px; }
-  /* the switch IS the title on a phone: two halves of the width, said once */
-  .chooser-main-title {
-    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
-  }
   .chooser-head-row { margin-bottom: 6px; }
   .chooser-modes { flex: 1 1 100%; }
   .c-mode-btn { flex: 1 1 0; min-width: 0; min-height: 46px; padding: 0 10px 0 6px; gap: 8px; }
@@ -1837,35 +1419,6 @@ a.drawer-main-btn { text-decoration: none; }
   .c-filter-btn { flex: 1 0 auto; justify-content: center; padding: 0 9px; font-size: 12.5px; }
 
   .chooser-scroll { padding-top: 2px; }
-  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .card { border-radius: 14px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); }
-  .card .shot { aspect-ratio: 4 / 3; }
-  .card .where, .card .line, .cat-kind, .fact-tees, .fact-tag, .shot-hover-action { display: none; }
-  .shot-badges { top: 8px; left: 8px; right: 8px; gap: 4px; }
-  .cat-badge { padding: 4px 7px; font-size: 9.5px; border-radius: 7px; }
-  .current-badge { padding: 4px 6px; font-size: 8.5px; border-radius: 6px; }
-  /* a narrow poster keeps the mark and lets the word go (the card's label says it) */
-  .saved-badge { padding: 3px 5px; border-radius: 6px; }
-  .saved-badge span { display: none; }
-  .card .shot .on-shot { left: 10px; right: 10px; bottom: 8px; }
-  .card h2 { font-size: 14.5px; line-height: 1.18; }
-  .card .body { padding: 8px 10px 9px; gap: 0; }
-  .card .facts { border-top: 0; padding-top: 0; gap: 9px; font-size: 11px; }
-  .fact-go { width: 22px; height: 22px; margin-left: auto; }
-
-  /* The lead card -- the running course, or the last one opened -- is the one a
-     returning golfer is here for, so it alone keeps the full width, its club
-     line and a call to action that does not wait for a hover. */
-  .card-item.is-lead { grid-column: 1 / -1; }
-  .card-item.is-lead .shot { aspect-ratio: 5 / 2; }
-  .card-item.is-lead .where { display: block; font-size: 10px; }
-  .card-item.is-lead .cat-kind { display: inline; }
-  .card-item.is-lead .fact-tees { display: flex; }
-  .card-item.is-lead h2 { font-size: 19px; }
-  .card-item.is-lead .on-shot { left: 12px; right: 118px; bottom: 10px; }
-  .card-item.is-lead .shot-hover-action { display: flex; opacity: 1; transform: none; right: 10px; bottom: 10px; padding: 8px 11px; }
-  .card-item.is-lead .fact-go { display: none; }
-
   .no-courses-msg { padding: 44px 16px; }
 }
 
@@ -1882,25 +1435,13 @@ a.drawer-main-btn { text-decoration: none; }
 
 @media (max-width: 600px) {
 
-  /* Map mode: the title gives its room to the map, and the preview is a row,
-     not a poster -- at full size it covered 60% of the map and every pin under
-     it the moment the map opened. */
   #chooser.map-mode .chooser-head { display: none; }
   #chooser.map-mode .chooser-controls { padding: 2px 0; gap: 4px; }
   #chooser.map-mode .chooser-inner { padding-bottom: max(8px, env(safe-area-inset-bottom, 0px)); }
   #chooser.map-mode .chooser-scroll { padding-top: 4px; }
   .mrb-label { display: none; }
-  .mrb-btn { min-height: 32px; padding: 0 10px; font-size: 11.5px; }
-  .mpp-card { grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto 1fr; }
-  .mpp-shot { grid-area: 1 / 1 / 3 / 2; aspect-ratio: auto; min-height: 100%; }
-  .mpp-shot::after { background: linear-gradient(to right, transparent 55%, rgba(9, 18, 14, 0.9) 100%); }
-  .mpp-badges, .mpp-line, .mpp-tag { display: none; }
-  .mpp-titles { grid-area: 1 / 2; align-self: start; padding: 10px 40px 0 12px; }
-  .mpp-titles h3 { font-size: 16px; }
-  .mpp-body { grid-area: 2 / 2; padding: 6px 12px 10px; gap: 8px; }
-  .mpp-facts { border-top: 0; padding-top: 0; }
-  .mpp-play-btn { min-height: 44px; padding: 0 10px; }
-  .mpp-close-btn { top: 4px; right: 4px; width: 44px; height: 44px; }
+  .mrb-btn { min-height: 44px; padding: 0 10px; font-size: 12px; }
+
 }
 
 /* A phone on its side, or a very short window: height is what is scarce, so
@@ -1924,10 +1465,6 @@ a.drawer-main-btn { text-decoration: none; }
   .cm-icon { width: 28px; height: 28px; }
   .cm-text small { display: none; }
   .chooser-subtitle { display: none; }
-  .card .line { display: none; }
-  .card .body { padding: 9px 12px 10px; gap: 0; }
-  .card .facts { border-top: 0; padding-top: 0; }
-  .card h2 { font-size: 17px; }
   #chooser.map-mode .chooser-head { display: none; }
 }
 
@@ -1950,3 +1487,78 @@ body.choosing #toast,
 body.choosing .holes-wrap,
 body.choosing .mobile-hud-cluster { opacity: 0; pointer-events: none; transition: opacity .22s ease; }
 
+
+/* The catalogue represents clubs. Course-specific facts belong on their rows
+   in the layout picker, where each tee and round has an unambiguous owner. */
+#chooser {
+  background: #101b15;
+  --pad-x: max(clamp(16px, 4vw, 56px), calc((100vw - 1460px) / 2));
+}
+.chooser-head-row { flex-wrap: wrap; justify-content: space-between; }
+#chooserModeToggle {
+  display: inline-flex; align-items: center; gap: 12px; min-height: 44px;
+  border-radius: 999px; padding: 0 14px; font: 600 14px/1.3 Outfit,sans-serif;
+  background: #16271e; color: #f1f4e9; border: 1px solid #496452; cursor: pointer;
+}
+#chooserModeToggle span:last-child { color: #abe6b6; }
+#chooserModes { flex: 1 1 100%; width: fit-content; }
+.club-card { box-shadow: 0 2px 8px #060d092b; border-color: #344c3d; background: #17271f; }
+.club-card .shot { width: 100%; aspect-ratio: 2.22; background-color: #294133; }
+@media (prefers-reduced-motion: reduce) {
+  #chooser .club-card:hover .shot { transform: none; }
+}
+.club-info { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; min-width: 0; flex: 1; }
+.club-place, .club-layouts, .club-foot, .club-layout-copy>span { font: 450 14px/1.4 Outfit,sans-serif; color: #ccdbce; }
+.club-place { margin: 0; display: flex; align-items: baseline; gap: 9px; color: #aec6b6; }
+.club-place .is-near { color: #b6eabf; font-weight: 600; white-space: nowrap; }
+.club-name { color: #f7f5eb; font: 650 clamp(19px,1.6vw,26px)/1.16 Outfit,sans-serif; overflow-wrap: anywhere; }
+.club-layouts { overflow-wrap: anywhere; }
+.club-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px; color: #b5dfbd; }
+.club-arrow { display: grid; place-items: center; }
+.club-state { font: 600 12px/1.4 Outfit,sans-serif; color: #b8ecbf; }
+#clubPicker {
+  width: min(480px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 32px); padding: 0;
+  border: 1px solid #4e6656; border-radius: 18px; background: #16251d; color: #f6f6ed;
+  margin: auto; overflow-y: auto; overscroll-behavior: contain; box-shadow: 0 18px 70px #0008;
+}
+#clubPicker::backdrop { background: #020a05be; }
+.club-picker-panel { padding: 24px; }
+.club-picker-panel header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.club-picker-panel h2 { font: 600 clamp(24px,4vw,32px)/1.1 Outfit,sans-serif; margin: 4px 0 0; color: inherit; }
+.club-picker-panel h3 { font: 600 16px/1.35 Outfit,sans-serif; margin: 22px 0 10px; }
+.club-picker-panel ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.club-picker-panel button { font: inherit; color: inherit; background: #1d3125; border: 1px solid #45624e; cursor: pointer; }
+.club-picker-panel .club-close { min-width: 44px; min-height: 44px; border-radius: 50%; display: grid; place-items: center; }
+.club-picker-panel [data-layout] { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 72px; border-radius: 12px; padding: 8px 12px 8px 8px; text-align: left; }
+.club-picker-panel img { display: block; flex: none; width: 72px; height: 58px; object-fit: cover; border-radius: 7px; }
+.club-layout-copy { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.club-layout-copy strong { font: 650 17px/1.2 Outfit,sans-serif; }
+.club-layout-copy small { color: #b7e8c0; }
+.club-picker-panel button:focus-visible, #chooserModeToggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+@media (min-width: 901px) {
+  #chooser .cards { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (max-width: 600px), (max-height: 520px) and (pointer: coarse) {
+  .chooser-head-row { align-items: center; gap: 6px; }
+  #chooser .chooser-main-title { font-size: clamp(22px,6vw,30px); }
+  #chooser .cards { grid-template-columns: minmax(0,1fr); gap: 8px; }
+  #chooser .club-card { display: grid; grid-template-columns: clamp(64px,20vw,102px) minmax(0,1fr); align-items: stretch; border-radius: 12px; }
+  #chooser .club-card .shot { aspect-ratio: auto; height: 100%; min-height: 80px; }
+  .club-info { position: relative; gap: 1px; padding: 8px 24px 8px 10px; }
+  .club-place, .club-layouts, .club-foot { font-size: 13px; line-height: 1.3; }
+  .club-name { font-size: 17px; }
+  .club-foot { margin-top: 0; padding-top: 2px; }
+  .club-arrow { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); }
+  #clubPicker { width: min(100%,480px); max-height: calc(100dvh - max(16px,env(safe-area-inset-top))); margin: auto auto 0; border-radius: 18px 18px 0 0; }
+  .club-picker-panel { padding: 18px max(16px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left)); }
+}
+@media (max-width: 600px), (max-height: 520px) and (pointer: coarse) {
+  #chooser.map-mode .chooser-head {
+    display: block; position: fixed; right: var(--pad-r); bottom: max(30px,env(safe-area-inset-bottom));
+    max-width: calc(100% - var(--pad-l) - var(--pad-r)); z-index: 5; padding: 0;
+  }
+  #chooser.map-mode .chooser-head-row { justify-content: flex-end; margin: 0; }
+  #chooser.map-mode .chooser-main-title { display: none; }
+  #chooser.map-mode #chooserModes { order: -1; background: #15281d; border: 1px solid #46624e; }
+  #chooser .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; }
+}
