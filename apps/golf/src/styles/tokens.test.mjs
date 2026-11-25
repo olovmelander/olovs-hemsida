@@ -38,8 +38,10 @@ export function rawValues(css) {
   const text = withoutComments(css);
   const values = [...text.matchAll(/:([^;{}]*)/g)].map(match => match[1]);
   const colours = new Set(values.flatMap(value => [...value.matchAll(/#[0-9a-f]{3,8}\b/gi)].map(match => hexOf(match[0]))));
+  /* a radius read wholly from the roles (var(--bv-radius-*), with zeros) writes nothing raw */
   const radii = new Set([...text.matchAll(/border(?:-(?:top|bottom)-(?:left|right))?-radius\s*:\s*([^;}]+)/g)]
-    .map(match => match[1].trim().replace(/\s+/g, ' ').toLowerCase()));
+    .map(match => match[1].trim().replace(/\s+/g, ' ').toLowerCase())
+    .filter(value => /[1-9]/.test(value.replace(/var\(--bv-[a-z0-9-]+\)/g, ''))));
   const sizes = new Set([
     ...[...text.matchAll(/font-size\s*:\s*(\d*\.?\d+(?:px|rem|em))/g)].map(match => match[1]),
     ...[...text.matchAll(/(?<![-\w])font\s*:\s*([^;}]+)/g)].map(match => match[1].match(/(\d*\.?\d+(?:px|rem))/)?.[1]).filter(Boolean),
@@ -48,10 +50,11 @@ export function rawValues(css) {
 }
 
 /* The counts when the tokens arrived (25 November; colours were 333 the day before).
-   They may only fall. */
+   They may only fall. Radii were 38 until a radius read from the roles stopped
+   counting as raw (the lobby, the same day). */
 const RATCHET = {
   colours: 320,
-  radii: 38,
+  radii: 36,
   sizes: 47,
 };
 

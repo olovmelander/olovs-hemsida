@@ -1145,8 +1145,40 @@ Left for the next step:
 - **Gates:** `check-hub-journeys`, `check-club-sorting`, `check-session-navigation`,
   `check-map-round` and `check-chooser-ui` now walk the club page instead of the
   picker, and `check-hud-layout` checks the Simulator handoff.
-- **Left in Phase 2:** the lobby in place of *Välj aktivitet*, search hits at
-  layout level, and layout chips on the club cards.
+- **Left in Phase 2:** the lobby in place of *Välj aktivitet* (begun the same day,
+  below), search hits at layout level, and layout chips on the club cards.
+
+**Progress (25 November, the lobby).**
+- **Done:**
+  - **The start menu leads with the clubs** under *Var spelar du?*: every club by
+    Swedish name. Each row shows the club's picture, town, layouts (host first) or
+    holes and par, and any game under way.
+  - **A row opens the club page over the lobby,** in the mode last launched, else the
+    device's own. Back returns to the row.
+  - ***Sök, sortera och karta*** opens the full list.
+  - **The three modes follow as a compact row,** then Statistik and Inställningar.
+- **Where it differs from D1:**
+  - The lobby is the start menu, grown, not a new screen. It keeps the modes under
+    the clubs, so a golfer who starts from a mode (or keys 1 to 5) still can.
+  - Search, sort, the filter and the map toggle stay one tap away in the list, until
+    the lobby gets its own.
+  - Layouts are named in the row's text, not as chips.
+  - No tab bar yet.
+- **Gates:**
+  - `check-chooser-ui`: every club listed and the first row whole on the first screen
+    at 390 × 844, 1440 × 900 and 1366 × 768; the five destinations touch-sized.
+  - A lobby journey in `check-hub-journeys` (phone and desktop).
+  - The token ratchet no longer counts a radius read from the roles as raw (radii
+    36).
+- **Found on the way:** `check-map-field` stops on `main` too, since 72d05a7e
+  removed the map's *Bakom* view and showed the shot card only for a detail or a
+  walked shot. The gate still clicks `[data-view="behind"]` and expects the card
+  before the first tap. Its start menu steps were run on their own, and pass.
+- **Left in Phase 2:**
+  - the lobby's own search, sort, filter and map toggle;
+  - the tab bar and the desktop header links;
+  - search hits at layout level;
+  - layout chips on the club cards.
 
 ### Phase 3: responsive HUDs and the navigation shell
 

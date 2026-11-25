@@ -2,9 +2,9 @@ import '../styles/hub.css';
 import { isPhone } from './map-default.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import { parseHistory } from '../map/map-shots.mjs';
-import { MAP_KEYS, MODES, courseSessions, lastLaunch, sessionPosition, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
+import { LAST_MODE_KEY, MAP_KEYS, MODES, courseSessions, lastLaunch, sessionBadge, sessionPosition, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
 import { perEighteen, playedHoles, scoreToPar } from './stats-model.mjs';
-import { clubIdFor, groupCourses, layoutLabel } from './course-clubs.mjs';
+import { clubIdFor, clubLayouts, groupCourses, layoutLabel } from './course-clubs.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
 import { subscribeCloud } from './cloud.mjs';
@@ -35,7 +35,7 @@ const GOLFER = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stro
 const PIN = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>';
 const USER_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1-3.8 3.6-5.6 7-5.6s6 1.8 7 5.6"/></svg>';
 
-export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null, onNearby = null }) {
+export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null, onNearby = null, onClub = null }) {
   const phone = isPhone();
   let playable = [];
 
@@ -75,12 +75,20 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       </div>
 
       <section class="home-hero">
-        <h1 class="home-title" id="homeTitle" tabindex="-1">Välj aktivitet</h1>
+        <h1 class="home-title" id="homeTitle" tabindex="-1">Var spelar du?</h1>
         <p class="home-lead"></p>
       </section>
       <div class="home-resume-slot"></div>
       <section class="home-live-transfer" data-live-rounds aria-label="Rundor mellan enheter" hidden></section>
-      <nav class="home-modes" aria-label="Aktiviteter">
+      <section class="home-clubs" aria-labelledby="homeClubsTitle" data-home-clubs hidden>
+        <div class="home-clubs-head">
+          <h2 id="homeClubsTitle">Klubbar</h2>
+          <a class="home-clubs-all" href="#" data-all-clubs>Sök, sortera och karta${ARROW}</a>
+        </div>
+        <ul class="home-club-list" data-club-list></ul>
+      </section>
+      <h2 class="home-modes-title" id="homeModesTitle">Eller börja med ett sätt att spela</h2>
+      <nav class="home-modes" aria-labelledby="homeModesTitle">
         ${(phone ? ['map', 'detailed', 'play'] : ['detailed', 'play', 'map']).map(activityCard).join('')}
       </nav>
       <nav class="home-side" aria-label="Dina sidor">
@@ -146,6 +154,52 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     tryUrl([backdrop(slug), poster(slug)]);
   }
 
+  /* A club tapped here opens its own page in the way this golfer last played, or
+     the device's own: the map on a phone, the detailed course on a computer. The
+     page shows the mode and changes it in one tap (docs/ui-redesign-2026-11-25.md B1). */
+  const preferredMode = () => {
+    const last = readText(storage(), LAST_MODE_KEY, null);
+    return MODES[last] ? last : phone ? 'map' : 'detailed';
+  };
+  const clubsSection = el.querySelector('[data-home-clubs]');
+  const clubList = el.querySelector('[data-club-list]');
+  const allClubs = el.querySelector('[data-all-clubs]');
+  allClubs.addEventListener('click', e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    e.preventDefault();
+    onMode(preferredMode());
+  });
+  let shownClubs = '';
+  /* The lobby: every club, by name, each with its layouts and any game under way. */
+  function renderClubs(clubs, sessions) {
+    if (!onClub || !clubs.length) { clubsSection.hidden = true; return; }
+    allClubs.href = `#${MODES[preferredMode()].route}`;
+    const rows = [...clubs].sort((a, b) => a.name.localeCompare(b.name, 'sv')).map(club => {
+      const cover = club.cover;
+      const live = sessions.find(session => club.courses.some(course => course.slug === session.course.slug));
+      /* in the club page's order, the host's own course first */
+      const layouts = club.courses.length > 1 ? clubLayouts(club.courses, cover.slug).map(layoutLabel).join(' · ') : `${cover.holes} hål · Par ${cover.par}`;
+      const place = COURSE_LOCATIONS[cover.slug]?.city;
+      const picture = cover.photos ? poster(cover.slug) : cover.overviewUrl ? `${BASE}${cover.overviewUrl}` : '';
+      return { id: club.id, html: `<li><button type="button" class="home-club" id="homeClub-${esc(club.id)}" data-club="${esc(club.id)}">
+        ${picture ? `<img class="hc-thumb" src="${esc(picture)}" alt="" width="56" height="56" loading="lazy" decoding="async">` : '<span class="hc-thumb" aria-hidden="true"></span>'}
+        <span class="hc-text"><strong>${esc(club.name)}</strong><small>${esc([place, layouts].filter(Boolean).join(' · '))}</small>
+          ${live ? `<span class="hc-live">${esc([sessionBadge(live), club.courses.length > 1 ? layoutLabel(live.course) : ''].filter(Boolean).join(' · '))}</span>` : ''}</span>
+        <span class="hc-go" aria-hidden="true">${ARROW}</span></button></li>` };
+    });
+    const key = rows.map(row => row.html).join('');
+    clubsSection.hidden = false;
+    if (key === shownClubs) return;
+    const focusId = clubList.contains(document.activeElement) ? document.activeElement.id : null;
+    shownClubs = key;
+    clubList.innerHTML = key;
+    if (focusId) clubList.querySelector('#' + CSS.escape(focusId))?.focus({ preventScroll: true });
+  }
+  clubList.addEventListener('click', e => {
+    const row = e.target.closest('[data-club]');
+    if (row) onClub?.(row.dataset.club, preferredMode());
+  });
+
   function refresh() {
     playable = courses.filter(c => c.status !== 'mapping');
     const clubs = groupCourses(playable);
@@ -155,6 +209,7 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     requestAnimationFrame(() => transfers.refresh());
     const last = lastLaunch(storage(), playable);
     const sessions = courseSessions(storage(), playable);
+    renderClubs(clubs, sessions);
     const featured = (phone ? ['map', 'play'] : ['play', 'map']).map(mode => sessions.find(s => s.mode === mode)).filter(Boolean);
     const courseCaption = course => {
       const title = layoutLabel(course);

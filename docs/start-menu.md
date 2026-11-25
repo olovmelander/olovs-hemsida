@@ -40,6 +40,7 @@ still loads no 3D engine.
   played, one tap), and four cards: the two modes (the one the device is best at is
   marked), Statistik and Inställningar. The small cards state what they hold: the
   round count and scoring average, and what a launch will use. Keys 1 to 4 open them.
+  Since 25 November it leads with the clubs (*The lobby*, below).
 - **Course list.** The mode is a two-way switch at the top and changes every card in
   place (`setMode`, a replaced history step, so one back reaches the menu). Every
   call to action says what it opens. In the player the same list keeps its glass
@@ -94,6 +95,31 @@ carries on. **Bara titta på banan** opens the map without a round, and **Spela 
 3D** opens the detailed course with `tee=` and `hal=`. Escape, the close button,
 the backdrop or any change of screen closes the page. On a phone it fills the
 screen, posters on top and the button under the thumb.
+
+## The lobby (25 November)
+
+The redesign's first recommendation ([the UI redesign](ui-redesign-2026-11-25.md),
+B1 and G#1, adopted by the owner) asks *where* before *how*. The start menu now leads
+with the clubs (`home.js` `renderClubs`):
+
+- **Var spelar du?** is the title, over the course count. *Fortsätt* and *Nära dig*
+  keep their place above the clubs.
+- **Klubbar** lists every club by Swedish name. Each row has the course's picture,
+  the club's name, its town and its layouts in the club page's order (*The Stadium
+  Course · The Castle Course*), or a single course's holes and par. A game under way
+  is named in green. *Sök, sortera och karta* opens the list, with its search, sort
+  and Sverigekarta, in the mode a row would use.
+- **A row opens the club page** in the mode last launched (`banvy-last-mode`), else
+  in the device's own: Lätt 3D on a phone, Detaljerad 3D on a computer. The page shows
+  the mode and changes it in one tap. It lies over the lobby rather than over the list
+  (`overHome` in the history entry), so one Back returns to the lobby with the row in
+  focus. The same address from the list, or from a link, keeps the list behind it.
+- **Eller börja med ett sätt att spela:** the three modes follow, compact (one line
+  of 64 px each at 900 px and narrower, three cards of 112 px wider), then Statistik
+  and Inställningar. Keys 1 to 5 still open them.
+
+The lobby's own search bar, filter and map toggle, the phone's tab bar and layout
+chips on the list's club cards are still to come (the redesign's Phase 2 and 3).
 
 ## One page per club (25 November)
 
@@ -201,8 +227,9 @@ left edge. That is a renderer artifact, not a capture one.
 
 `tools/check-chooser-ui.mjs` now opens the list at `#3d` for its measurements and
 adds:
-- the start menu at 390x844, 1440x900 and 1366x768: four cards whole on screen,
-  the recommended mode, Fortsätt, 44 px targets;
+- the start menu at 390x844, 1440x900 and 1366x768: since 25 November every club
+  listed and the first row whole on the first screen, then the five destinations,
+  touch-sized; Fortsätt; 44 px targets;
 - launch URLs per mode and device, with settings;
 - the mode switch, Escape and the browser's back;
 - settings landing in the right keys, and a reset that leaves the bag alone;
@@ -211,6 +238,10 @@ adds:
   card following the tee, the guide, your Snitt row and averages), the link from
   it to `#statistik/<course>` and back, Banor rows and Spela, a round under way,
   a course kept offline, and the backup round trip.
+
+`tools/check-hub-journeys.mjs` walks the lobby on a phone and a desktop (25 November):
+the clubs by name, Bro Hof's layouts with the host course first, a row opening its
+club page over the lobby in the last mode or the device's, and Back to the row.
 
 `tools/check-map-field.mjs` checks the start menu's mode cards and the near-course
 card, the round started from a plain link, and a finished round's Se statistik.

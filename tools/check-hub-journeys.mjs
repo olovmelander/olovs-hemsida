@@ -195,6 +195,45 @@ async function checkCachedLayout(browser) {
   } finally { await context.close(); }
 }
 
+/* The lobby (25 November): the start menu leads with the clubs, by Swedish name, each
+   row naming its layouts in the club page's order. A row opens the club's page over the
+   lobby, in the golfer's last mode or else the device's own, and Back returns to the
+   lobby with that row in focus. */
+async function checkLobby(browser) {
+  for (const { label, options, lastMode, mode, route } of [
+    { label: 'phone', options: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }, lastMode: null, mode: 'map', route: 'karta' },
+    { label: 'desktop', options: { viewport: { width: 1440, height: 900 } }, lastMode: 'play', mode: 'play', route: 'spela' },
+  ]) {
+    const context = await browser.newContext({ ...options, reducedMotion: 'reduce', serviceWorkers: 'block' });
+    try {
+      if (lastMode) await context.addInitScript(value => localStorage.setItem('banvy-last-mode', value), lastMode);
+      const page = await context.newPage();
+      const errors = [];
+      page.on('pageerror', error => errors.push(error.message));
+      await page.goto(base);
+      const rows = page.locator('#home .home-club');
+      await rows.first().waitFor();
+      const names = await rows.locator('strong').allInnerTexts();
+      assert.ok(names.length > 1, `${label}: the lobby lists the clubs`);
+      assert.deepEqual(names, [...names].sort((a, b) => a.localeCompare(b, 'sv')), `${label}: by Swedish name`);
+      const broHof = page.locator('#homeClub-bro-hof');
+      assert.match(await broHof.locator('small').innerText(), /Stadium.*Castle/, `${label}: Bro Hof's row names both layouts, the host course first`);
+      await broHof.click();
+      const sheet = page.locator('#courseSheet[open]');
+      await sheet.waitFor();
+      assert.match(page.url(), new RegExp(`#${route}/bro-hof-stadium(?:\\?|$)`), `${label}: a club with no history opens on its host course, in ${mode}`);
+      assert.equal(await sheet.locator('[name="cs-mode"]:checked').inputValue(), mode, `${label}: the club page shows the mode it opened in`);
+      assert.ok(await page.locator('#home').isVisible() && !(await page.locator('#chooser').isVisible()), `${label}: the club page lies over the lobby, not the list`);
+      await page.goBack();
+      await sheet.waitFor({ state: 'hidden' });
+      await page.waitForFunction(() => document.activeElement?.id === 'homeClub-bro-hof');
+      assert.ok(await page.locator('#home').isVisible(), `${label}: one Back returns to the lobby`);
+      assert.deepEqual(errors, [], `${label}: no page errors`);
+    } finally { await context.close(); }
+  }
+  console.log('PASS · the lobby lists the clubs by name, opens a club page over itself in the last or the device\'s mode, and Back returns to the row');
+}
+
 async function checkHubHistory(browser) {
   const context = await browser.newContext({ viewport: { width: 360, height: 608 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce', serviceWorkers: 'block' });
   const page = await context.newPage();
@@ -440,5 +479,6 @@ try {
   await checkChooserHeader(browser);
   await checkLayoutSetup(browser);
   await checkCachedLayout(browser);
+  await checkLobby(browser);
   if (!process.argv.includes('--setup-only')) await checkHubHistory(browser);
 } finally { await browser.close(); }

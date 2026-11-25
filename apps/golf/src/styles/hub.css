@@ -289,6 +289,58 @@
   .home-tool { min-height: 48px; }
 }
 
+/* ==================================================================== LOBBY
+   The start menu leads with the clubs (docs/ui-redesign-2026-11-25.md, B1 and D1).
+   A club opens its own page, where the mode is one tap. The three ways to play follow
+   as a compact row, for a golfer who starts from one. */
+.home-inner:has(.home-clubs:not([hidden])) .home-hero { margin-top: 0; padding-bottom: 14px; }
+.home-inner:has(.home-clubs:not([hidden])) .home-title { font-size: clamp(30px, 3.2vw, 48px); }
+.home-clubs { margin-top: 2px; }
+.home-clubs-head { display: flex; align-items: center; justify-content: space-between; gap: var(--bv-space-3); margin-bottom: var(--bv-space-2); }
+.home-clubs-head h2, .home-modes-title { color: var(--bv-ink-1); font: 700 var(--bv-type-title3)/1.2 var(--bv-font); }
+.home-modes-title { margin: var(--bv-space-6) 0 var(--bv-space-3); color: var(--bv-ink-2); font-size: var(--bv-type-headline); }
+.home-inner:not(:has(.home-clubs:not([hidden]))) .home-modes-title { display: none; }
+.home-clubs-all { display: inline-flex; align-items: center; gap: 6px; min-height: var(--bv-hit); color: var(--bv-turf-hi); font: 600 var(--bv-type-body)/1.2 var(--bv-font); text-decoration: none; }
+.home-clubs-all svg { width: 16px; height: 16px; }
+.home-club-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: var(--bv-space-2); margin: 0; padding: 0; list-style: none; }
+.home-club {
+  display: flex;
+  align-items: center;
+  gap: var(--bv-space-3);
+  width: 100%;
+  min-height: 72px;
+  padding: var(--bv-space-2) var(--bv-space-3) var(--bv-space-2) var(--bv-space-2);
+  border: 1px solid #405448;
+  border-radius: var(--bv-radius-control-touch);
+  background: #14241c;
+  color: var(--bv-ink-1);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.hc-thumb { flex: none; width: 56px; height: 56px; border-radius: var(--bv-radius-control); object-fit: cover; background: #1b3326; }
+.hc-text { display: grid; gap: 3px; flex: auto; min-width: 0; }
+.hc-text strong { font: 650 var(--bv-type-headline)/1.2 var(--bv-font); }
+/* a club's layouts are named in full: two lines on a phone before any is cut */
+.hc-text small { display: -webkit-box; overflow: hidden; color: var(--bv-ink-2); font: 450 var(--bv-type-footnote)/1.35 var(--bv-font); -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+.hc-live { color: var(--bv-turf); font: 600 var(--bv-type-footnote)/1.3 var(--bv-font); }
+.hc-go { display: grid; flex: none; place-items: center; color: #acd4b7; }
+.hc-go svg { width: 18px; height: 18px; }
+.home-club:focus-visible { outline: 3px solid var(--bv-focus); outline-offset: 3px; }
+@media (hover: hover) { .home-club:hover { border-color: #a6deb6; background-color: #213a2c; } }
+/* the ways to play, compact under the clubs: three in a row, one line each on a phone */
+.home-inner:has(.home-clubs:not([hidden])) .home-modes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.home-inner:has(.home-clubs:not([hidden])) .home-modes .mode-card { min-height: 112px; padding: 14px 16px; justify-content: flex-end; }
+.home-inner:has(.home-clubs:not([hidden])) .home-modes .mc-body { margin: 6px 40px 0 0; }
+.home-inner:has(.home-clubs:not([hidden])) .home-modes .mc-title { font-size: clamp(17px, 1.4vw, 21px); }
+.home-inner:has(.home-clubs:not([hidden])) .home-modes .mc-text { display: none; }
+@media (max-width: 900px) {
+  .home-inner:has(.home-clubs:not([hidden])) .home-modes { grid-template-columns: 1fr; gap: 8px; }
+  .home-inner:has(.home-clubs:not([hidden])) .home-modes .mode-card,
+  .home-inner:has(.home-clubs:not([hidden])) .home-modes .mode-card:first-child { min-height: 64px; padding: 10px 14px; justify-content: center; }
+  .home-inner:has(.home-clubs:not([hidden])) .home-modes .mc-body { margin: 2px 40px 0 0; }
+}
+
 /* ================================================================= SETTINGS */
 #settings {
   background:

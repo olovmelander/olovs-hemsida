@@ -166,6 +166,8 @@ try {
       /* at a course: its own page, in the map */
       onPlan: openCourse,
       onNearby: id => openClub(id, 'map'),
+      /* the lobby: a club's page opens over the lobby, which Back returns to */
+      onClub: (id, mode) => go(`${MODES[mode].route}/klubb/${encodeURIComponent(id)}`, { overHome: true }),
       /* back on the tee last chosen there; the map reads it from its own key */
       onResume: (slug, mode, plan = null) => {
         const course = courses.find(c => c.slug === slug);
@@ -293,9 +295,11 @@ try {
     if (sheet.isOpen()) sheet.close();
     if (mode || (key === 'stats' && query.get('exempel') === '1')) await catalogueReady;
     if (version !== sequence) return;
-    const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats() : mode ? getChooser(mode) : getHome();
+    const overHome = Boolean(mode && detail && entry.overHome);
+    const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats()
+      : mode && !overHome ? getChooser(mode) : getHome();
     if (version !== sequence) return;
-    if (mode && screen.getMode() !== mode) screen.setMode(mode);
+    if (mode && !overHome && screen.getMode() !== mode) screen.setMode(mode);
     const course = key === 'stats' && detail ? detail : null;
     if (key === 'stats') {
       const example = query.get('exempel') === '1';
@@ -323,7 +327,7 @@ try {
     document.documentElement.classList.add('hub-ready');
     /* where a keyboard and a screen reader land: the screen's own heading */
     if (!first) (screen.querySelector('h1[tabindex]') || screen.querySelector('h1'))?.focus({ preventScroll: true });
-    if (mode) await chooser.restore(entry.chooser ?? {});
+    if (mode && !overHome) await chooser.restore(entry.chooser ?? {});
     else if (Number.isFinite(entry.scroll) && !toBag) screen.scrollTop = entry.scroll;
     if (version !== sequence) return;
     /* A club opens its own page on one layout, the others a switch away inside it: the

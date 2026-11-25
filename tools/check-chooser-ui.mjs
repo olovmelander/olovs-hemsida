@@ -345,7 +345,9 @@ for (const [w, h, touch, name] of [[390, 844, true, 'phone'], [1440, 900, false,
       const small = [...home.querySelectorAll('a, button')].filter(e => e.offsetParent)
         .map(e => ({ e, b: e.getBoundingClientRect() })).filter(x => x.b.width < 44 || x.b.height < 44)
         .map(x => `${x.e.className || x.e.tagName} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
+      const clubs = [...document.querySelectorAll('#home .home-club')].map(c => c.getBoundingClientRect());
       return { cards: cards.map(c => ({ mode: c.mode, top: Math.round(c.r.top), height: c.r.height })),
+        clubs: clubs.length, firstClub: clubs[0] ? Math.round(clubs[0].bottom) : null,
         resume: document.querySelector('#home [data-resume]')?.textContent.replace(/\s+/g, ' ').trim() ?? null,
         chooser: !!document.getElementById('chooser') && !document.getElementById('chooser').hidden,
         sideways: home.scrollWidth > home.clientWidth + 1, small, vh: innerHeight };
@@ -353,8 +355,11 @@ for (const [w, h, touch, name] of [[390, 844, true, 'phone'], [1440, 900, false,
     if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `home-${w}x${h}.png`) });
     const tag = `${name} ${w}x${h}`;
     gate(m.cards.map(c => c.mode).join(',') === (touch ? 'map,detailed,play,stats,settings' : 'detailed,play,map,stats,settings'), `${tag}: five cards, Detaljerad 3D, Lätt 3D, Spela, Statistik, Inställningar (${m.cards.map(c => c.mode).join(', ')})`);
-    gate(m.cards[0].top < m.vh && m.cards.every(c => c.height >= 44),
-      `${tag}: the recommended activity is visible and all five destinations are touch-sized`);
+    /* the start menu leads with the clubs (docs/ui-redesign-2026-11-25.md B1): every
+       club listed, the first whole on the first screen; the five destinations follow */
+    gate(m.clubs === clubCount && m.firstClub !== null && m.firstClub <= m.vh,
+      `${tag}: the clubs lead, all ${m.clubs} listed and the first whole on screen (its foot at ${m.firstClub} of ${m.vh} px)`);
+    gate(m.cards.every(c => c.height >= 44), `${tag}: all five destinations are touch-sized`);
     gate(!!m.resume && m.resume.includes('The Castle Course') && m.resume.includes('Bro Hof'), `${tag}: Fortsätt offers the last course: "${m.resume}"`);
     gate(!m.chooser && !m.sideways && m.small.length === 0, `${tag}: the list waits behind the menu, nothing sideways, every target 44 px${m.small.length ? ' -- ' + m.small.join(', ') : ''}`);
     gate(errs.length === 0, `${tag}: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
