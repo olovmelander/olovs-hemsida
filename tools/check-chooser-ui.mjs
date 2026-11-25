@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, GPU } from './browser-args.mjs';
 
 const args = process.argv.slice(2);
 const BASE = (args.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:8620').replace(/\/$/, '');
@@ -787,12 +787,15 @@ if (PLAYER) {
   const kept = { id: 1, course: slug, courseName: manifest.courses[0].name, date: '2026-11-01', endedAt: 1, tee: 1, handicap: 18, holeCount: 9, pars: Array(9).fill(4),
     holes: Array.from({ length: 9 }, (_, i) => ({ n: i + 1, par: 4, strokes: 5, putts: 2, fairway: 'hit', picked: false })),
     totals: { played: 9, strokes: 45, par: 36, putts: 18, points: 18, fairways: 9, fairwaysTried: 9, greens: 2, greensTried: 9, toPar: 9 } };
-  const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: `/?bana=${slug}&q=lo&hal=3`,
+  const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: `/?bana=${slug}&q=lo&hal=3${GPU ? '' : '&gl=1'}`,
     seed: { 'banvy-map-rounds-v1': JSON.stringify({ version: 1, rounds: [kept] }) } });
   try {
     await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });
+    // This journey checks keyboard and drawer input after a real first frame.
+    // Continuous terrain draws on the software GPU delay DOM actionability.
+    if (!GPU) await page.evaluate(() => V3D.harness().renderer.setAnimationLoop(null));
     await page.evaluate(() => document.getElementById('bytBtn').click());
-    await page.waitForTimeout(700);
+    await page.locator('#chooser:visible #chooserResumeBtn').waitFor();
     const opened = await page.evaluate(slug => {
       const current = document.querySelector(`#chooser .card-item[data-slug="${CSS.escape(slug)}"]`);
       const close = document.getElementById('chooserResumeBtn').getBoundingClientRect();
@@ -802,6 +805,7 @@ if (PLAYER) {
     gate(opened.slug === slug && opened.badge?.includes('Aktiv bana'), `the currently open course remains identified in the sorted grid: ${opened.slug}, "${opened.badge}"`);
     gate(opened.close >= 40, `and the way back is a ${Math.round(opened.close)} px button, not a sentence`);
     gate(opened.remembered === slug, 'the player records the course for recents in the hub');
+    await page.locator('#chooserSort').focus();
     await page.selectOption('#chooserSort', 'recent');
     gate(await page.locator('#coursesCardList .card-item').first().getAttribute('data-slug') === slug, 'the in-course recent order puts the open club first');
     const before = await page.evaluate(() => ({ hole: document.getElementById('cno').textContent, clean: document.body.classList.contains('clean'), sky: window.V3D.skyState() }));
@@ -821,17 +825,17 @@ if (PLAYER) {
       await page.waitForSelector('#courseSheet[open]', { timeout: 20000 });
       const styled = await page.evaluate(() => getComputedStyle(document.querySelector('#courseSheet .seg') || document.body).display);
       await page.keyboard.press('Escape');
-      await page.waitForTimeout(300);
+      await page.locator('#courseSheet[open]').waitFor({ state: 'hidden' });
       const after = await page.evaluate(() => ({ sheet: document.getElementById('courseSheet').open, list: document.body.classList.contains('choosing') }));
       gate(styled === 'flex' && !after.sheet && after.list, `in the player another course opens its own page, styled (${styled}); Escape closes it and keeps the list`);
       await page.click('#courseSearchInput');
       await page.keyboard.type('npm h', { delay: 30 });
     }
     await page.keyboard.press('Escape');
-    await page.waitForTimeout(200);
     const e1 = await page.evaluate(() => ({ q: document.getElementById('courseSearchInput').value, open: document.body.classList.contains('choosing') }));
     await page.keyboard.press('Escape');
-    await page.waitForTimeout(600);
+    await page.locator('#chooser').waitFor({ state: 'hidden' });
+    await page.waitForFunction(() => !document.activeElement?.closest('#chooser'), null, { polling: 50 });
     const open2 = await page.evaluate(() => document.body.classList.contains('choosing'));
     gate(e1.q === '' && e1.open && !open2, 'Escape empties the search first and closes the chooser second');
 
@@ -840,19 +844,16 @@ if (PLAYER) {
     const read = () => page.evaluate(() => ({ hole: document.getElementById('cno').textContent.trim(),
       cam: document.querySelector('#rail [data-cam].on')?.dataset.cam, light: document.querySelector('#rail [data-preset].on')?.dataset.preset }));
     const holes = await page.evaluate(() => document.querySelectorAll('#holes .hb').length);
-    await page.keyboard.press('7');
-    await page.waitForTimeout(300);
-    gate((await read()).hole === '7', `"7" goes to hole 7 (${(await read()).hole})`);
+    const checkHole = async (number, keys, label) => {
+      for (const key of keys) await page.keyboard.press(key);
+      await page.waitForFunction(n => document.getElementById('cno').textContent.trim() === String(n), number, { polling: 50 });
+      gate(true, label);
+    };
+    await checkHole(7, '7', '"7" goes to hole 7');
     if (holes >= 14) {
-      await page.keyboard.press('1'); await page.keyboard.press('4');
-      await page.waitForTimeout(300);
-      gate((await read()).hole === '14', `"1", "4" goes to hole 14 (${(await read()).hole})`);
-      await page.keyboard.press('1');
-      await page.waitForTimeout(1200);
-      gate((await read()).hole === '1', `a lone "1" goes to hole 1 once the second digit does not come (${(await read()).hole})`);
-      await page.keyboard.press('0');
-      await page.waitForTimeout(300);
-      gate((await read()).hole === '10', `"0" goes to hole 10 (${(await read()).hole})`);
+      await checkHole(14, '14', '"1", "4" goes to hole 14');
+      await checkHole(1, '1', 'a lone "1" goes to hole 1 once the second digit does not come');
+      await checkHole(10, '0', '"0" goes to hole 10');
     }
     const s0 = await read();
     await page.keyboard.press('c');
@@ -863,8 +864,9 @@ if (PLAYER) {
     await page.waitForTimeout(600);
     const s2 = await read();
     gate(s2.light && s2.light !== s0.light, `"L" steps the light (${s0.light} -> ${s2.light})`);
-    await page.evaluate(() => document.getElementById('menuToggle').click());
-    await page.waitForTimeout(500);
+    await page.locator('#menuToggle').click();
+    await page.locator('#navDrawer[open] #ndTabMore').click();
+    await page.locator('#navDrawer[open] #ndMore:visible').waitFor();
     const listed = await page.evaluate(() => [...document.querySelectorAll('#navDrawer .sc-row')].map(r => r.textContent.replace(/\s+/g, ' ').trim()));
     gate(listed.some(t => t.includes('Byt kameravy')) && listed.some(t => t.includes('Hål 10')), `the menu lists the working keys (${listed.length} rows)`);
     const courseStats = await page.evaluate(() => {
@@ -877,7 +879,6 @@ if (PLAYER) {
     await page.keyboard.press('5');
     await page.waitForTimeout(300);
     gate((await read()).hole === inMenu, `keys do not steer the course behind the open menu (hole ${inMenu} -> ${(await read()).hole})`);
-    await page.click('#ndTabMore');
     await page.goBack();
     await page.locator('#navDrawer[open]').waitFor({ state: 'hidden' });
     gate(await page.evaluate(() => document.activeElement.id === 'menuToggle'), 'browser Back closes the detailed menu and restores its launcher');
@@ -886,10 +887,11 @@ if (PLAYER) {
     gate(await page.locator('#ndTabMore').getAttribute('aria-selected') === 'true', 'Forward restores the selected detailed menu tab');
     await page.click('#ndTabPlay');
     await page.click('#dNoteBtn');
+    await page.locator('#note.mobile-open').waitFor();
     gate(await page.locator('#note').evaluate(panel => panel.classList.contains('mobile-open')), 'Banguide opens the detailed viewer’s own guide');
     await page.keyboard.press('Escape');
   } catch (e) {
-    gate(false, `player: ${String(e).split('\n')[0].slice(0, 110)}`);
+    gate(false, `player: ${e.message}`);
   }
   await ctx.close();
 }
