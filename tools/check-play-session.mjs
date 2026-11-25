@@ -5,10 +5,13 @@ import { chromium } from 'playwright-core';
 import { browserArgs, browserExecutable, GPU } from './browser-args.mjs';
 
 const base = process.argv[2] || 'http://127.0.0.1:5173';
+// Both course launches submit a real frame. Keep that work small on CI's
+// software adapter, then exercise the full phone and desktop sizes below.
+const bootViewport = { width: 390, height: GPU ? 844 : 320 };
 const browser = await chromium.launch({ ...browserExecutable(),
   args: browserArgs() });
 try {
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1,
+  const page = await browser.newPage({ viewport: bootViewport, deviceScaleFactor: 1,
     hasTouch: true, reducedMotion: 'reduce' });
   page.setDefaultTimeout(120_000);
   const errors = [];
@@ -195,8 +198,9 @@ try {
   const resume = page.getByRole('button', { name: /Fortsätt simuleringen.*hål 1/ });
   await resume.waitFor();
   assert.equal(await page.evaluate(() => localStorage.getItem('banvy-play-rounds-v1')), null);
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize(bootViewport);
   await resume.click(); await ready(); await stopSoftwareDrawing();
+  await page.setViewportSize({ width: 390, height: 844 });
   assert.deepEqual(await model(), settled);
   await page.locator('[data-menu]').click();
   await page.locator('[data-end]').click();
