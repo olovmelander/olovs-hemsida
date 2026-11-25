@@ -12,8 +12,9 @@ import { decisionErrors, loadDecisionFiles, traceConfigs } from '../packages/cou
 import { rebuildPlan } from './course-rebuild.mjs';
 import { buildingFrame, measureBuilding, roofLevels } from './facility-pipeline/measure-building.mjs';
 import { reviewMeta, reviewPage } from './course-review-page.mjs';
-import { examine, grounds } from './course-doctor.mjs';
+import { examine, grounds, privateData } from './course-doctor.mjs';
 import { WATER_LINE, waterOffTheLine } from './water-line.mjs';
+import { EVIDENCE, roundsCoverage, roundsEvidence } from './rounds-evidence.mjs';
 import { applyOwnerReview, ownerReviewErrors, ownerReviewSummary, reviewDocument } from '../packages/course-workflow/owner-review.mjs';
 import { draftAcceptance } from '../packages/course-workflow/acceptance.mjs';
 import { reviewErrors as releaseReviewErrors } from '../packages/course-workflow/release.mjs';
@@ -257,6 +258,57 @@ test('a pond that stands unlike every accepted pond is named once, by the routin
   assert.match(off[2].why, /stands at the height of its bank \(0\.00 m below it\)/);
   assert.deepEqual([WATER_LINE.belowOutline, WATER_LINE.aboveOutline, WATER_LINE.freeboard, WATER_LINE.reachMetres], [-0.1, 0.35, 0.05, 100], 'the lines every accepted pond keeps; move them only with the audit of every layout in hand');
   assert.deepEqual(waterOffTheLine([{ slug: 'dry', ground: 'dry', bodies: [] }]), []);
+});
+
+test('the private data a ground was built from is listed with its size, and its checksummed inputs counted', t => {
+  const root = temporary(t);
+  put(root, 'apps/golf/public/courses/index.json', JSON.stringify({ courses: [{ slug: 'demo-main', build: 'demobuild' }, { slug: 'demo-9', build: 'demoninebuild' }, { slug: 'other', build: 'otherbuild' }] }));
+  put(root, 'apps/golf/public/courses/v2-index.json', JSON.stringify({ courses: [{ slug: 'demo-main', groundId: 'demo' }, { slug: 'demo-9', groundId: 'demo' }, { slug: 'other', groundId: 'other' }] }));
+  put(root, 'demobuild/cache/ortho/photo.tif', 'x'.repeat(1000));
+  put(root, 'demobuild/cache/laser/points.laz', 'y'.repeat(500));
+  put(root, 'demobuild/course-model.json', '{}');                                              // tracked, not private
+  put(root, 'packages/course-geo/toolchain/.cache/acquisition/demo-ground-rings/l0.f32', 'z'.repeat(300));
+  put(root, 'packages/course-geo/toolchain/.cache/acquisition/demolition/l0.f32', 'another ground whose name begins the same');
+  put(root, 'course-workflows/demo/production.json', JSON.stringify({ inputs: [{ path: 'demobuild/cache/ortho/photo.tif', sha256: sha('x') }, { path: 'demobuild/cache/gone.tif', sha256: sha('g') },
+    { path: 'demobuild/course-model.json', sha256: sha('{}') }] }));
+  const found = privateData('demo', root);
+  assert.deepEqual(found.directories.map(d => [d.directory, d.files, d.bytes]), [['demobuild/cache', 2, 1500], ['packages/course-geo/toolchain/.cache/acquisition/demo-ground-rings', 1, 300]]);
+  assert.deepEqual([found.files, found.bytes, found.pinned, found.pinnedHere], [3, 1800, 2, 1], 'two inputs are checksummed in the private folders, and one of them is on this machine');
+  assert.deepEqual(privateData('other', root), { groundId: 'other', directories: [], files: 0, bytes: 0, pinned: 0, pinnedHere: 0 }, 'a ground with no private data here says so');
+});
+
+test('real rounds name a place only where enough good shots agree, and say how little they had', () => {
+  const square = (x, z, half) => [[x - half, z - half], [x + half, z - half], [x + half, z + half], [x - half, z + half]];
+  const model = { holes: [
+    { n: 1, tees: { pads: [{ id: 'x-tee-01-1', ring: square(0, 0, 4) }, { ring: square(0, 30, 4) }] }, green: { ring: square(0, 300, 12) } },
+    { n: 2, tees: { pads: [{ id: 'x-tee-02-1', ring: square(100, 0, 4) }] }, green: { ring: square(100, 150, 10) } },
+  ] };
+  const shot = (hole, kind, x, z, accuracy = 4) => ({ courseSlug: 'x', hole, kind, x, z, accuracy });
+  const shots = [
+    // hole 1: three golfers on the deck, five a dozen metres behind it where the model has none, one stray
+    shot(1, 'tee', 1, -1), shot(1, 'tee', -2, 2), shot(1, 'tee', 0, 31),
+    shot(1, 'tee', 1, -17), shot(1, 'tee', -1, -18), shot(1, 'tee', 2, -16), shot(1, 'tee', 0, -19), shot(1, 'tee', -2, -17),
+    shot(1, 'tee', 60, 60),
+    // a fix too poor to use, however many
+    ...Array.from({ length: 6 }, () => shot(1, 'tee', 40, -40, 25)),
+    // hole 1's green: nine putts on it; hole 2's green: most putts start beside the outline
+    ...Array.from({ length: 9 }, (_, i) => shot(1, 'putt', i - 4, 300)),
+    ...Array.from({ length: 3 }, (_, i) => shot(2, 'putt', 100 + i, 150)), ...Array.from({ length: 7 }, (_, i) => shot(2, 'putt', 118 + i, 150)),
+    // hole 2: only three tee shots, all off the deck: too few to say
+    shot(2, 'tee', 100, -20), shot(2, 'tee', 101, -21), shot(2, 'tee', 99, -19),
+  ];
+  const found = roundsEvidence(model, shots);
+  assert.deepEqual(found.map(f => [f.hole, f.about, f.shots]), [[1, 'tee', 5], [2, 'green', 10]]);
+  assert.match(found[0].text, /^5 of 9 tee shots start round \(0, -17\), 13 m from the nearest deck \(x-tee-01-1\)/);
+  assert.match(found[1].text, /^7 of 10 putts start more than 3 m outside the green's outline/);
+  assert.deepEqual(roundsCoverage(model, shots), [{ hole: 1, teeShots: 9, putts: 9 }, { hole: 2, teeShots: 3, putts: 10 }]);
+  assert.deepEqual(roundsEvidence(model, []), [], 'no rounds, nothing said');
+  assert.ok(EVIDENCE.fewestTeeShots >= 4 && EVIDENCE.accuracyMetres <= 10, 'one shot, or a poor fix, proves nothing');
+  const tool = fs.readFileSync(path.join(ROOT, 'tools/rounds-evidence.mjs'), 'utf8');
+  const query = tool.slice(tool.indexOf('SELECT course_slug'), tool.indexOf('No user, no round'));
+  assert.ok(query.includes('PARTITION BY user_id'), 'the first shot of a hole is found a round at a time');
+  const columns = query.slice(0, query.indexOf('FROM (')); // what the extract hands over; the inner query may read more to find a hole's first shot
+  assert.ok(columns.length > 80 && !/user_id|round_id|played_date|club|\bat\b|record_json/i.test(columns), 'the extract names no player, round, time or club');
 });
 
 test('the doctor reads a ground\'s records once and sorts what it finds, worst first', async () => {

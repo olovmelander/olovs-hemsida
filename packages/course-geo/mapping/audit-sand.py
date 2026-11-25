@@ -12,12 +12,18 @@ round every hole and measures both ways:
 
     pixi run --manifest-path packages/course-geo/toolchain/pixi.toml -e mapping --frozen python \
         packages/course-geo/mapping/audit-sand.py --config <build>/mapping/trace-config.json \
-        [--compare <older-photo.tif> ...] [--reach 80] [--sheets <dir>]
+        [--compare <older-photo.tif> ...] [--compare-captured YYYY-MM-DD] [--reach 80] [--sheets <dir>]
 
 It writes <build>/mapping/sand-audit.json, which is kept in git: numbers and positions, no pixels. What a person
 said of an area or a ring (`node packages/course-geo/mapping/sand-audit.mjs --verdict` or `--fault`) is carried
 over to the next run when the area is still there. The contact sheets of what needs a verdict are crops of the photo: they go under the
 build's cache and never into git.
+
+With an older photo (--compare) it also reads every bunker of the model on that photo: how much of it was sand
+then, how much was grass, how much lay in shade. A bunker that was grass has been built or reshaped since, and
+the terrain, which is older still, cannot hold its bowl: that dates the ground under a hole, which the terrain's
+own record does not. The older photo has another exposure, so its sand and turf levels are read from the bunkers
+and their surroundings on that photo itself (most bunkers did not change, so the medians are its own).
 
 It uses the tracer's own definition of sand, so it shares the tracer's blind spots (sand in deep shade, sand that
 is not bright): it checks what was decided about the sand the tracer could see, and that the lines hold it.
@@ -50,6 +56,9 @@ SAND_SHARE_LINE = 0.6   # a ring with less sand inside it than this is named
 SPILL_LINE_M2 = 4.0     # and so is one with this much sand joined to it outside its line,
 SPILL_LINE_SHARE = 0.02 # or this share of its own area, whichever is more (a waste area is thousands of square metres)
 MODEL_REACH = 30.0      # the ground round the model's own sand counts as the course too (practice bunkers)
+WAS_SAND_LINE = 0.85    # a bunker with this share of sand on the older photo was there then, as it is now
+WAS_GRASS_LINE = 0.10   # with this share of grass it has been built or reshaped since
+SHADE_LINE = 0.30       # and with this share dark and bare the older photo cannot say (shade, wet sand, soil)
 EXPLAINED_SHARE = 0.5   # an area is "on" a mapped thing when this much of it lies on it
 
 
@@ -118,6 +127,38 @@ def find_sand(imagery, area, kind):
     return [p.simplify(res / 2, preserve_topology=True) for p in parts if not p.is_empty and p.area >= spec['min_m2'] and p.intersects(area)]
 
 
+def before_shares(imagery, bunkers, res=0.32):
+    """What each modelled bunker was on an older photo: the shares of it that were sand, grass, and neither.
+
+    Levels are that photo's own: sand from inside the rings, turf from the ground 3 to 8 m outside them."""
+    seen = []
+    for m in bunkers:
+        b = m['poly'].bounds
+        e0, n0, e1, n1 = b[0] - 10, b[1] - 10, b[2] + 10, b[3] + 10
+        img, have = imagery.read(e0, n0, e1, n1, res)
+        transform = rasterio.transform.from_origin(e0, n1, res, res)
+        inside = features.rasterize([(m['poly'].buffer(-0.5), 1)], out_shape=have.shape, transform=transform, fill=0).astype(bool) & have
+        band = features.rasterize([(m['poly'].buffer(8).difference(m['poly'].buffer(3)), 1)], out_shape=have.shape, transform=transform, fill=0).astype(bool) & have
+        if inside.sum() < 12 or band.sum() < 30:
+            continue
+        r, g, bl, nir = (img[i].astype(np.float32) for i in range(4))
+        seen.append(dict(m=m, br=((r + g + bl) / 3)[inside], nd=((nir - r) / (nir + r + 1e-3))[inside],
+                         band_br=float(np.median(((r + g + bl) / 3)[band])), band_nd=float(np.median(((nir - r) / (nir + r + 1e-3))[band]))))
+    if len(seen) < 8:
+        return None
+    sand_br, turf_br = float(np.median([np.percentile(x['br'], 60) for x in seen])), float(np.median([x['band_br'] for x in seen]))
+    sand_nd, turf_nd = float(np.median([np.percentile(x['nd'], 40) for x in seen])), float(np.median([x['band_nd'] for x in seen]))
+    if sand_br - turf_br < 30:
+        return None  # sand and turf cannot be told apart on this photo
+    mid_br, mid_nd, dark = (sand_br + turf_br) / 2, (sand_nd + turf_nd) / 2, turf_br * 0.75
+    rows = []
+    for x in seen:
+        was_sand = float(((x['br'] > mid_br) & (x['nd'] < mid_nd)).mean())
+        was_grass = float(((x['nd'] >= mid_nd) & (x['br'] > dark)).mean())
+        rows.append(dict(id=x['m']['id'], slug=x['m']['slug'], hole=x['m']['hole'], wasSand=round(was_sand, 2), wasGrass=round(was_grass, 2)))
+    return dict(levels=dict(sandBrightness=round(sand_br), turfBrightness=round(turf_br), sandNdvi=round(sand_nd, 2), turfNdvi=round(turf_nd, 2)), rows=rows)
+
+
 def mapped_ground(cfg, builds):
     """What the map holds that explains bright ground, as one geometry a kind."""
     kinds = {'a building': [], 'a road or a path': [], 'a shore': [], 'a practice surface': [], 'a yard, a building site or bare rock': []}
@@ -172,6 +213,7 @@ def main():
     ap.add_argument('--compare', type=Path, nargs='*', default=[])
     ap.add_argument('--reach', type=float, default=80.0, help='metres from a hole line that count as the course')
     ap.add_argument('--sheets', type=Path)
+    ap.add_argument('--compare-captured', help='the day the first --compare photo was taken (YYYY-MM-DD)')
     args = ap.parse_args()
     cfg = load_json(args.config)
     home = Path(cfg['courses'][0]['outDir']).parent
@@ -252,10 +294,18 @@ def main():
                   reachMetres=args.reach, lines=dict(sandShare=SAND_SHARE_LINE, sandOutsideM2=SPILL_LINE_M2, sandOutsideShare=SPILL_LINE_SHARE), surfaces=surfaces_sha,
                   modelled={kind: sum(1 for m in model if m['kind'] == kind) for kind in SAND}, rings=rings,
                   areas=[{k: v for k, v in a.items() if k != 'poly'} for a in areas])
+    if args.compare:
+        then = before_shares(sources[1], [m for m in model if m['kind'] == 'bunker'])
+        if then:
+            changed = [row for row in then['rows'] if row['wasSand'] < WAS_SAND_LINE and row['wasGrass'] >= WAS_GRASS_LINE]
+            shaded = [row for row in then['rows'] if row['wasSand'] < WAS_SAND_LINE and row['wasGrass'] < WAS_GRASS_LINE and 1 - row['wasSand'] - row['wasGrass'] >= SHADE_LINE]
+            record['before'] = dict(captured=args.compare_captured, levels=then['levels'], lines=dict(wasSand=WAS_SAND_LINE, wasGrass=WAS_GRASS_LINE, shade=SHADE_LINE),
+                                    bunkers=len(then['rows']), wasSand=sum(1 for row in then['rows'] if row['wasSand'] >= WAS_SAND_LINE), changed=changed, shaded=shaded)
     (ROOT / home / 'mapping' / 'sand-audit.json').write_text(json.dumps(tidy(record), indent=1, ensure_ascii=False) + '\n', encoding='utf-8', newline='\n')
     unexplained = [a for a in areas if a['on'] is None]
     print(json.dumps(dict(record=str(home / 'mapping' / 'sand-audit.json').replace('\\', '/'), modelled=record['modelled'], ringsOffTheLine=len(rings),
                           areasNotInTheModel=len(areas), ofThemOnNothingMapped=len(unexplained), needAVerdict=sum(1 for x in rings + unexplained if not (x.get('verdict') or x.get('fault'))),
+                          sinceTheOlderPhoto=dict(changed=[row['id'] for row in record['before']['changed']], shaded=[row['id'] for row in record['before']['shaded']]) if 'before' in record else None,
                           sheets=[str(p.relative_to(ROOT)).replace('\\', '/') for p in written]), indent=1))
 
 

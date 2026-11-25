@@ -4,6 +4,7 @@
    node tools/course-doctor.mjs --ground <id>        every record of one ground, read once, with what is open
    node tools/course-doctor.mjs                      every ground, one line each
    node tools/course-doctor.mjs --machine            whether this machine can run the pipeline today
+   node tools/course-doctor.mjs --private            the private data every ground depends on, which only this machine holds
    node tools/course-doctor.mjs --ground <id> --check   as the first, and fails when something is broken
 
    The pipeline keeps a record for every step (the card, the decisions, the ring review and its second look, the
@@ -29,7 +30,7 @@ import { decisionErrors, loadDecisionFiles } from '../packages/course-geo/mappin
 import { reviewErrors as ringReviewErrors } from '../packages/course-geo/mapping/ring-review.mjs';
 import { deckGroundErrors } from '../packages/course-geo/mapping/deck-ground.mjs';
 import { sandAuditOf } from '../packages/course-geo/mapping/sand-audit.mjs';
-import { pinProduction } from '../packages/course-workflow/pin-production.mjs';
+import { pinProduction, pinnedFiles } from '../packages/course-workflow/pin-production.mjs';
 import { prunePlan } from '../packages/course-workflow/promote.mjs';
 import { waterOffTheLine } from './water-line.mjs';
 
@@ -91,6 +92,8 @@ export async function examine(groundId, facts = groundFacts(groundId), { water =
       if (decks.length) say('broken', 'tee decks', decks.join('; '), `node packages/course-geo/mapping/deck-ground.mjs --config ${home}/mapping/trace-config.json --record`);
       else if (x.deckGround.off.length) say('known', 'tee decks', `${x.slug}: ${x.deckGround.off.length} of ${x.deckGround.measured} decks are not on level ground in the terrain (${x.deckGround.off.slice(0, 6).map(d => d.id).join(', ')}${x.deckGround.off.length > 6 ? ', ...' : ''})`);
       else say('ok', 'tee decks', `${x.slug}: all ${x.deckGround.measured} measured decks are on level ground`);
+      const flat = x.deckGround?.bunkers?.flat ?? [], changed = (facts.sand?.before?.changed ?? []).filter(bunker => bunker.slug === x.slug);
+      if (flat.length || changed.length) say('known', 'ground age', `${x.slug}: ${changed.length} bunkers built or reshaped since the ${facts.sand?.before?.captured ?? 'older'} photo, ${flat.length} without a bowl in the terrain: the terrain under them is older than the course`);
     }
     const sand = sandAuditOf(home);
     if (sand.errors.length) say('broken', 'sand', sand.errors.slice(0, 3).join('; '), `audit-sand.py --config ${home}/mapping/trace-config.json, then node packages/course-geo/mapping/sand-audit.mjs --build ${home}`);
@@ -148,6 +151,30 @@ export async function examine(groundId, facts = groundFacts(groundId), { water =
   return out.sort((p, q) => LEVELS.indexOf(p.level) - LEVELS.indexOf(q.level));
 }
 
+/** The private data a ground was built from: raw photos, laser and club material in the caches git ignores. They are
+ * on the machine that fetched them and nowhere else, so this is the list to back up. `pinned` counts the inputs
+ * whose checksum the production profile records: those can be proven whole after a restore; the rest cannot. */
+export function privateData(groundId, root = ROOT) {
+  const index = JSON.parse(fs.readFileSync(path.join(root, 'apps/golf/public/courses/index.json'), 'utf8')).courses;
+  const slugs = JSON.parse(fs.readFileSync(path.join(root, 'apps/golf/public/courses/v2-index.json'), 'utf8')).courses.filter(course => course.groundId === groundId).map(course => course.slug);
+  const builds = [...new Set(index.filter(course => slugs.includes(course.slug)).map(course => course.build))];
+  const acquisition = 'packages/course-geo/toolchain/.cache/acquisition';
+  const directories = [...builds.map(build => `${build}/cache`),
+    ...(fs.existsSync(path.join(root, acquisition)) ? fs.readdirSync(path.join(root, acquisition)).filter(name => name === groundId || name.startsWith(`${groundId}-`)).map(name => `${acquisition}/${name}`) : [])]
+    .filter(directory => fs.existsSync(path.join(root, directory)));
+  const measure = directory => {
+    let files = 0, bytes = 0;
+    const walk = at => { for (const entry of fs.readdirSync(at, { withFileTypes: true })) { const next = path.join(at, entry.name); if (entry.isDirectory()) walk(next); else { files += 1; bytes += fs.statSync(next).size; } } };
+    walk(path.join(root, directory));
+    return { directory, files, bytes };
+  };
+  const found = directories.map(measure);
+  const production = path.join(root, `course-workflows/${groundId}/production.json`);
+  const pins = fs.existsSync(production) ? pinnedFiles(JSON.parse(fs.readFileSync(production, 'utf8'))).map(pin => pin.ref).filter(pin => directories.some(directory => pin.path.startsWith(`${directory}/`))) : [];
+  return { groundId, directories: found, files: found.reduce((sum, d) => sum + d.files, 0), bytes: found.reduce((sum, d) => sum + d.bytes, 0),
+    pinned: pins.length, pinnedHere: pins.filter(pin => fs.existsSync(path.join(root, pin.path))).length };
+}
+
 /** Whether this machine can run each part of the pipeline: [{ level, about, text }]. Starts nothing heavy. */
 export function machine() {
   const out = [], say = (level, about, text) => out.push({ level, about, text });
@@ -186,7 +213,16 @@ function print(title, findings) {
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const argv = process.argv.slice(2), flag = name => { const i = argv.indexOf(`--${name}`); return i < 0 ? null : argv[i + 1]; };
   const groundId = flag('ground');
-  if (argv.includes('--machine')) print('This machine', machine());
+  if (argv.includes('--private')) {
+    const all = (groundId ? [groundId] : grounds()).map(id => privateData(id));
+    console.log('Private data each ground was built from. It is in the caches git ignores, on this machine only: back these directories up.\n');
+    for (const ground of all) {
+      console.log(`${ground.groundId.padEnd(16)} ${megabytes(ground.bytes).padStart(10)}  ${String(ground.files).padStart(6)} files${ground.pinned ? `  ${ground.pinnedHere} of ${ground.pinned} checksummed inputs here` : ''}`);
+      for (const d of ground.directories) console.log(`${' '.repeat(17)}${megabytes(d.bytes).padStart(10)}  ${d.directory}`);
+    }
+    const bytes = all.reduce((sum, ground) => sum + ground.bytes, 0);
+    console.log(`\n${megabytes(bytes)} in all. A ground with nothing listed keeps no private data here: it cannot be rebuilt from its sources on this machine.`);
+  } else if (argv.includes('--machine')) print('This machine', machine());
   else if (groundId) {
     const findings = await examine(groundId, undefined, { water: true });
     print(`${groundId}`, findings);

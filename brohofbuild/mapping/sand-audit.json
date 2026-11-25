@@ -321,5 +321,102 @@
    "on": "a building",
    "id": "sand-020"
   }
- ]
+ ],
+ "before": {
+  "captured": "2021-04-16",
+  "levels": {
+   "sandBrightness": 221,
+   "turfBrightness": 96,
+   "sandNdvi": -0.03,
+   "turfNdvi": 0.23
+  },
+  "lines": {
+   "wasSand": 0.85,
+   "wasGrass": 0.1,
+   "shade": 0.3
+  },
+  "bunkers": 110,
+  "wasSand": 99,
+  "changed": [
+   {
+    "id": "castle-bunker-07-1",
+    "slug": "bro-hof-castle",
+    "hole": 7,
+    "wasSand": 0,
+    "wasGrass": 1
+   },
+   {
+    "id": "castle-bunker-07-2",
+    "slug": "bro-hof-castle",
+    "hole": 7,
+    "wasSand": 0.34,
+    "wasGrass": 0.54
+   },
+   {
+    "id": "castle-bunker-07-3",
+    "slug": "bro-hof-castle",
+    "hole": 7,
+    "wasSand": 0.76,
+    "wasGrass": 0.15
+   },
+   {
+    "id": "castle-bunker-07-4",
+    "slug": "bro-hof-castle",
+    "hole": 7,
+    "wasSand": 0.39,
+    "wasGrass": 0.24
+   },
+   {
+    "id": "castle-bunker-16-1",
+    "slug": "bro-hof-castle",
+    "hole": 16,
+    "wasSand": 0.68,
+    "wasGrass": 0.12
+   },
+   {
+    "id": "castle-bunker-16-2",
+    "slug": "bro-hof-castle",
+    "hole": 16,
+    "wasSand": 0.38,
+    "wasGrass": 0.39
+   },
+   {
+    "id": "castle-bunker-17-1",
+    "slug": "bro-hof-castle",
+    "hole": 17,
+    "wasSand": 0,
+    "wasGrass": 0.97
+   }
+  ],
+  "shaded": [
+   {
+    "id": "castle-bunker-15-1",
+    "slug": "bro-hof-castle",
+    "hole": 15,
+    "wasSand": 0.6,
+    "wasGrass": 0
+   },
+   {
+    "id": "castle-bunker-15-2",
+    "slug": "bro-hof-castle",
+    "hole": 15,
+    "wasSand": 0.67,
+    "wasGrass": 0
+   },
+   {
+    "id": "castle-bunker-15-5",
+    "slug": "bro-hof-castle",
+    "hole": 15,
+    "wasSand": 0.15,
+    "wasGrass": 0
+   },
+   {
+    "id": "castle-bunker-17-2",
+    "slug": "bro-hof-castle",
+    "hole": 17,
+    "wasSand": 0.64,
+    "wasGrass": 0
+   }
+  ]
+ }
 }

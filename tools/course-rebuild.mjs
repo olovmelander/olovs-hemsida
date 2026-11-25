@@ -3,7 +3,7 @@
 
    node tools/course-rebuild.mjs --ground <id> --dry-run                    the steps and their commands
    node tools/course-rebuild.mjs --ground <id> --from compile --to quality  run a part of it
-   node tools/course-rebuild.mjs --ground <id> [--compare <older-photo.tif>]
+   node tools/course-rebuild.mjs --ground <id> [--compare <older-photo.tif> --compare-captured <YYYY-MM-DD>]
 
    card  decisions  trace  decks  sand  sheets  review  layers  compile  tests  inventory  pin  configure  stages  promote
    prune  quality  map-land  walkthrough
@@ -30,7 +30,7 @@ const TOOLCHAIN = ['run', '--manifest-path', 'packages/course-geo/toolchain/pixi
 const exists = file => fs.existsSync(path.join(ROOT, file));
 
 /** The ordered steps for one ground. Steps a ground has no files for (no tracer, no layer builder) are left out. */
-export function rebuildPlan(groundId, { from = null, to = null, compare = [], root = ROOT } = {}) {
+export function rebuildPlan(groundId, { from = null, to = null, compare = [], compareCaptured = null, root = ROOT } = {}) {
   const has = file => fs.existsSync(path.join(root, file));
   const profile = JSON.parse(fs.readFileSync(path.join(root, `course-workflows/${groundId}/production.json`), 'utf8'));
   const builds = profile.courses.map(c => path.posix.dirname(c.model.path));
@@ -45,7 +45,7 @@ export function rebuildPlan(groundId, { from = null, to = null, compare = [], ro
       step('decisions', 'the decision files can be traced', [node('packages/course-geo/mapping/check-decisions.mjs', '--config', config)]),
       step('trace', 'greens, tees, fairways, bunkers and waste areas from the photo', [python('packages/course-geo/mapping/trace-course-surfaces.py', '--config', config, '--cache', `${path.posix.dirname(path.posix.dirname(config))}/cache/mapping`)]),
       step('decks', 'every tee deck against the terrain under it', [node('packages/course-geo/mapping/deck-ground.mjs', '--config', config, '--record')]),
-      step('sand', 'the sand on the photo against the model, both ways', [python('packages/course-geo/mapping/audit-sand.py', '--config', config, ...(compare.length ? ['--compare', ...compare] : []))]),
+      step('sand', 'the sand on the photo against the model, both ways', [python('packages/course-geo/mapping/audit-sand.py', '--config', config, ...(compare.length ? ['--compare', ...compare] : []), ...(compare.length && compareCaptured ? ['--compare-captured', compareCaptured] : []))]),
       step('sheets', 'every ring on the photo, worst score first, and again blind for a second reviewer', [false, true].map(blind =>
         python('packages/course-geo/mapping/render-ring-sheets.py', '--config', config, ...(compare.length ? ['--compare', ...compare] : []), ...(blind ? ['--blind'] : [])))),
       step('review', 'the look at every ring is recorded for these outlines', [...builds.filter(b => has(`${b}/mapping/trace-report.json`) || config).map(b => node('packages/course-geo/mapping/ring-review.mjs', '--build', b)),
@@ -92,8 +92,8 @@ function run(command, log) {
 async function main() {
   const argv = process.argv.slice(2), flag = name => { const i = argv.indexOf(`--${name}`); return i < 0 ? null : argv[i + 1]; };
   const groundId = flag('ground');
-  if (!groundId || !exists(`course-workflows/${groundId}/production.json`)) throw new Error('usage: course-rebuild.mjs --ground <id> [--from <step>] [--to <step>] [--compare <older-photo.tif>] [--dry-run]');
-  const plan = rebuildPlan(groundId, { from: flag('from'), to: flag('to'), compare: flag('compare') ? [flag('compare')] : [] });
+  if (!groundId || !exists(`course-workflows/${groundId}/production.json`)) throw new Error('usage: course-rebuild.mjs --ground <id> [--from <step>] [--to <step>] [--compare <older-photo.tif> --compare-captured <YYYY-MM-DD>] [--dry-run]');
+  const plan = rebuildPlan(groundId, { from: flag('from'), to: flag('to'), compare: flag('compare') ? [flag('compare')] : [], compareCaptured: flag('compare-captured') });
   if (argv.includes('--dry-run')) {
     for (const step of plan) console.log(`${step.id.padEnd(12)}${step.what}\n${step.commands.map(c => `            ${shown(c)}`).join('\n')}`);
     return;
