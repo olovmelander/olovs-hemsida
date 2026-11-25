@@ -12,13 +12,12 @@
    this route still never loads the 3D engine. A course opens as a navigation
    with everything the visit needs in its URL (settings-store.mjs launchUrl). */
 import { buildRail, lastCourse, COURSE_LINES } from './shell/rail.js';
-import { createClubPicker } from './shell/club-picker.js';
-import { groupCourses, layoutLabel } from './shell/course-clubs.mjs';
+import { CLUB_LAYOUT_KEY, clubIdFor, clubLayouts, groupCourses, layoutLabel, preferredLayout } from './shell/course-clubs.mjs';
 import { buildHome } from './shell/home.js';
 import { createCourseSheet } from './shell/course-sheet.js';
 import { isPhone } from './shell/map-default.mjs';
 import { parentHubRoute, previousCourseEntry } from './shell/router.js';
-import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch, savedTee } from './shell/settings-store.mjs';
+import { LAST_COURSE_KEY, MODES, courseSessions, launchUrl, modeOfRoute, readSettings, readText, rememberLaunch, savedTee, writeText } from './shell/settings-store.mjs';
 import { getCloudState, initCloud } from './shell/cloud.mjs';
 import { recoverPlayWrites } from './play/play-persistence.mjs';
 
@@ -65,23 +64,29 @@ try {
 
   /* A course opens in the mode it was picked in, with the settings' launch
      values, and is remembered so the start menu can offer it again. */
+  /* the layout a club opens on next time (course-clubs.mjs preferredLayout) */
+  const rememberLayout = slug => writeText(storage(), `${CLUB_LAYOUT_KEY}:${clubIdFor(slug)}`, slug);
   const launch = (slug, mode, plan = null) => {
     rememberLaunch(storage(), slug, mode);
+    rememberLayout(slug);
     location.assign(launchUrl(slug, mode, { phone: isPhone(), settings: readSettings(storage()), plan }));
   };
   /* A course card opens the course's own page, where the round is set up. */
-  const sheet = createCourseSheet({ courses, lines: COURSE_LINES, onLaunch: launch, onDismiss: () => back(), onEdit: () => {
+  const sheet = createCourseSheet({ courses, lines: COURSE_LINES, onLaunch: launch, onDismiss: () => back(), onLayout: rememberLayout, onEdit: () => {
     if (!sheet.isOpen()) return;
     const setup = sheet.snapshot();
     const [route, slug] = location.hash.slice(1).split('?')[0].split('/');
-    // Loading the guide can finish during a Back or new hash navigation.
-    if (!modeOfRoute(route) || slug !== encodeURIComponent(setup.slug)) return;
+    // Loading the guide can finish during a Back or new hash navigation. A switch to
+    // another layout of the same club (the sheet's Bana) rewrites this entry in place.
+    if (!modeOfRoute(route) || !slug || clubIdFor(decodeURIComponent(slug)) !== clubIdFor(setup.slug)) return;
     const query = new URLSearchParams();
     if (setup.hole !== 1) query.set('hal', setup.hole);
     query.set('tee', setup.tee + 1);
     if (setup.guideHole !== setup.hole) query.set('guide', setup.guideHole);
     const path = `#${MODES[setup.mode].route}/${encodeURIComponent(setup.slug)}?${query}`;
     history.replaceState({ ...history.state, setup }, '', path);
+    const shown = courses.find(c => c.slug === setup.slug);
+    if (shown) document.title = `${layoutLabel(shown)} · ${TITLES[setup.mode]}`;
   } });
 
   /* Did this visit reach the current screen from inside the hub? Then the
@@ -134,10 +139,6 @@ try {
   const openClub = (id, mode) => go(`${MODES[mode].route}/klubb/${encodeURIComponent(id)}`, {
     chooser: chooser?.snapshot(), returnCourse: id,
   });
-  const clubPicker = createClubPicker({ onSelect: slug => {
-    patchHistory({ focusLayout: slug });
-    openCourse(slug, chooser.getMode());
-  }, onDismiss: back });
   const openCourse = (slug, mode) => go(`${MODES[mode].route}/${encodeURIComponent(slug)}`, {
     chooser: chooser?.snapshot(), returnCourse: slug,
   });
@@ -165,6 +166,10 @@ try {
       /* at a course: its own page, in the map */
       onPlan: openCourse,
       onNearby: id => openClub(id, 'map'),
+      /* the lobby: a club's page opens over the lobby, which Back returns to */
+      onClub: (id, mode) => go(`${MODES[mode].route}/klubb/${encodeURIComponent(id)}`, { overHome: true }),
+      /* every hit of the lobby's search: the list, with the words already in its own */
+      onSearch: (query, mode) => go(MODES[mode].route, { chooser: { query } }),
       /* back on the tee last chosen there; the map reads it from its own key */
       onResume: (slug, mode, plan = null) => {
         const course = courses.find(c => c.slug === slug);
@@ -290,12 +295,13 @@ try {
     }
     if (!toBag && cleanBag) { cleanBag = false; patchHistory({ bagDraft: null }); }
     if (sheet.isOpen()) sheet.close();
-    if (clubPicker.isOpen()) clubPicker.close();
     if (mode || (key === 'stats' && query.get('exempel') === '1')) await catalogueReady;
     if (version !== sequence) return;
-    const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats() : mode ? getChooser(mode) : getHome();
+    const overHome = Boolean(mode && detail && entry.overHome);
+    const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats()
+      : mode && !overHome ? getChooser(mode) : getHome();
     if (version !== sequence) return;
-    if (mode && screen.getMode() !== mode) screen.setMode(mode);
+    if (mode && !overHome && screen.getMode() !== mode) screen.setMode(mode);
     const course = key === 'stats' && detail ? detail : null;
     if (key === 'stats') {
       const example = query.get('exempel') === '1';
@@ -323,20 +329,23 @@ try {
     document.documentElement.classList.add('hub-ready');
     /* where a keyboard and a screen reader land: the screen's own heading */
     if (!first) (screen.querySelector('h1[tabindex]') || screen.querySelector('h1'))?.focus({ preventScroll: true });
-    if (mode) await chooser.restore(entry.chooser ?? {});
+    if (mode && !overHome) await chooser.restore(entry.chooser ?? {});
     else if (Number.isFinite(entry.scroll) && !toBag) screen.scrollTop = entry.scroll;
     if (version !== sequence) return;
+    /* A club opens its own page on one layout, the others a switch away inside it: the
+       game under way there in this mode, else the layout last chosen at the club (or
+       last played, before the club remembered one), else the host's own course. */
     const club = mode && detail === 'klubb' && groupCourses(courses).find(group => group.id === roundId);
     if (club) {
-      const layouts = club.courses.filter(c => mode === 'detailed' || c.status !== 'mapping');
-      if (layouts.length === 1) {
-        const target = `#${MODES[mode].route}/${encodeURIComponent(layouts[0].slug)}`;
-        history.replaceState(entry, '', target);
+      const layouts = clubLayouts(club.courses, club.cover.slug).filter(c => mode === 'detailed' || c.status !== 'mapping');
+      const lastPlayed = readText(storage(), LAST_COURSE_KEY, null);
+      const slug = preferredLayout(layouts, {
+        sessions: courseSessions(storage(), layouts).filter(session => session.mode === mode),
+        remembered: readText(storage(), `${CLUB_LAYOUT_KEY}:${club.id}`, null) ?? lastPlayed,
+      });
+      if (slug) {
+        history.replaceState(entry, '', `#${MODES[mode].route}/${encodeURIComponent(slug)}`);
         return show();
-      }
-      if (layouts.length) {
-        clubPicker.open({ ...club, courses: layouts }, mode, entry.focusLayout, chooser.getSort());
-        document.title = `${club.name} · ${TITLES[key]}`;
       }
     } else if (mode && detail && courses.some(c => c.slug === detail)) {
       sheet.open(detail, mode, { ...entry.setup, mode,

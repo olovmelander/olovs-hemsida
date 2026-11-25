@@ -75,7 +75,7 @@ export async function drawRoundCard(record, { poster = null, shots = [], example
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext('2d');
-  try { await Promise.all([doc.fonts?.load('800 64px Outfit'), doc.fonts?.load('600 32px Outfit'), doc.fonts?.load('600 32px "JetBrains Mono"')]); } catch { /* the system's sans */ }
+  try { await Promise.all([doc.fonts?.load('800 64px Outfit'), doc.fonts?.load('600 32px Outfit')]); } catch { /* the system's sans */ }
   const facts = roundCardFacts(record, shots);
   const shotsOnly = facts.strokes === null && facts.logged > 0;
 
@@ -151,7 +151,7 @@ export async function drawRoundCard(record, { poster = null, shots = [], example
     ctx.fillStyle = 'rgba(95,208,122,0.55)';
     ctx.fillRect(x, 984, 4, 92);
     ctx.fillStyle = INK;
-    ctx.font = '600 56px "JetBrains Mono", ui-monospace, monospace';
+    ctx.font = '600 56px Outfit, system-ui, sans-serif';
     ctx.fillText(String(value), x + 24, 1040);
     ctx.fillStyle = FAINT;
     ctx.font = '700 22px Outfit, system-ui, sans-serif';

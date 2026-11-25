@@ -24,13 +24,16 @@ async function checkNameOrder(page) {
   assert.ok(ids.indexOf('angso') >= 0 && ids.indexOf('angso') < ids.indexOf('puttom'), 'Ängsö precedes Örnsköldsviks');
 }
 
-async function checkLayoutOrder(page, club, expected) {
+/* A club page lists its layouts host course first, whatever the sort, and opens on
+   the layout last opened there (course-clubs.mjs clubLayouts and preferredLayout). */
+async function checkClubPage(page, club, order, selected) {
   await page.locator(`.card[data-club-id="${club}"]`).click();
-  const picker = page.locator('#clubPicker[open]');
-  await picker.waitFor();
-  assert.deepEqual(await picker.locator('[data-layout]').evaluateAll(rows => rows.map(row => row.dataset.layout)), expected);
-  await picker.locator('[data-close]').click();
-  await picker.waitFor({ state: 'hidden' });
+  const clubPage = page.locator('#courseSheet[open]');
+  await clubPage.waitFor();
+  assert.deepEqual(await clubPage.locator('input[name="cs-layout"]').evaluateAll(inputs => inputs.map(input => input.value)), order);
+  assert.equal(await clubPage.locator('input[name="cs-layout"]:checked').inputValue(), selected);
+  await clubPage.locator('[data-close]').click();
+  await clubPage.waitFor({ state: 'hidden' });
 }
 
 async function openChooser(page) {
@@ -53,7 +56,7 @@ try {
     await page.waitForFunction(() => document.querySelector('#coursesCardList .card-item')?.dataset.clubId === 'angso');
     assert.equal(await chooser(page).inputValue(), 'distance');
     const distanceOrder = await clubIds(page);
-    if (device === desktop) await checkLayoutOrder(page, 'bro-hof', ['bro-hof-castle', 'bro-hof-stadium']);
+    if (device === desktop) await checkClubPage(page, 'bro-hof', ['bro-hof-stadium', 'bro-hof-castle'], 'bro-hof-stadium');
     assert.equal(new Set(distanceOrder).size, distanceOrder.length, 'each clubhouse occurs once in distance order');
     await page.locator('#courseSearchInput').fill('västerås');
     assert.deepEqual(await clubIds(page), ['angso', 'tortuna']);
@@ -85,11 +88,11 @@ try {
   await checkNameOrder(page);
   assert.equal(await chooser(page).inputValue(), 'name');
   assert.equal(await page.evaluate(() => globalThis.gpsQueue.length), 0, 'first visit does not request location');
-  await checkLayoutOrder(page, 'upsala', ['upsala-mellanbanan', 'upsala']);
+  await checkClubPage(page, 'upsala', ['upsala', 'upsala-mellanbanan'], 'upsala');
   await chooser(page).selectOption('recent');
   const recentOrder = await clubIds(page);
   assert.equal(recentOrder[0], 'upsala', 'the last opened layout promotes its club');
-  await checkLayoutOrder(page, 'upsala', ['upsala', 'upsala-mellanbanan']);
+  await checkClubPage(page, 'upsala', ['upsala', 'upsala-mellanbanan'], 'upsala');
   await openChooser(page);
   assert.equal(await chooser(page).inputValue(), 'recent');
   assert.deepEqual(await clubIds(page), recentOrder);

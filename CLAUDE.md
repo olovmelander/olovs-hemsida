@@ -103,7 +103,10 @@ this guide or the current production workflow.
   the URL grammar or storage keys it already reads, never by editing `main.js`.
   Statistik counts the map's own records (`stats-model.mjs`). Both modes use the
   posters from `tools/make-posters.mjs`, which also writes each course's
-  `backdrop.webp`. Run `tools/check-chooser-ui.mjs` after any change there. See
+  `backdrop.webp` and `thumb.webp`. Run `tools/check-chooser-ui.mjs` after any change
+  there. Since 25 November the start menu leads with the clubs: every club up to
+  twelve, and past that the golfer's own plus a search (`lobby-model.mjs`); run
+  `tools/check-lobby-scale.mjs` with it. See
   [the start menu](docs/start-menu.md). A course card opens the course's own page
   (`course-sheet.js`): tee, start hole, handicap or light, then the round; the map
   begins it at `runda=1`. The detailed course's drawer (`menu.js`) is three tabs that

@@ -4,10 +4,10 @@
    poster, three tabs, tiles for the tools, the lights as their own skies.
    =========================================================================== */
 .nd {
-  --nd-line: rgba(160, 230, 185, 0.13);
-  --nd-ink-2: #b7c8bc;
-  --nd-ink-3: #7f9587;
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --nd-line: var(--bv-hairline);
+  --nd-ink-2: var(--bv-ink-2);
+  --nd-ink-3: var(--bv-ink-3);
+  --ease: var(--bv-ease);
   background: #07110c;
   width: min(440px, 94vw);
 }
@@ -182,7 +182,7 @@
 .nd-row-text { display: flex; flex-direction: column; gap: 3px; flex: 1 1 auto; min-width: 0; }
 .nd-row-text b { font: 700 14.5px/1.2 Outfit, sans-serif; }
 .nd-row-text small { font: 500 12px/1.3 Outfit, sans-serif; color: var(--nd-ink-3); }
-.nd-row-value { flex: 0 0 auto; padding: 6px 10px; border-radius: 9px; background: rgba(95, 208, 122, 0.14); color: var(--turf); font: 700 12.5px/1 'JetBrains Mono', monospace; white-space: nowrap; }
+.nd-row-value { flex: 0 0 auto; padding: 6px 10px; border-radius: 9px; background: rgba(95, 208, 122, 0.14); color: var(--turf); font: 700 12.5px/1 var(--bv-font); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .nd-row-go { color: var(--nd-ink-3); }
 .nd-switch { position: relative; flex: 0 0 auto; width: 46px; height: 28px; border-radius: 14px; background: rgba(255, 255, 255, 0.14); transition: background-color 0.25s; }
 .nd-switch::before { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #e9f2ec; transition: transform 0.3s var(--ease); }

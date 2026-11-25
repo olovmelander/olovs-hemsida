@@ -187,11 +187,27 @@ export function withSettings(search, settings) {
 }
 
 /* ---------------------------------------------------- the last way played */
-export function rememberLaunch(storage, slug, mode) {
+/* The courses launched lately, newest first, each with its time: the start menu's
+   own clubs once the catalogue is too long to list whole (lobby-model.mjs). Kept
+   with the last course, so every way in -- the club page, the list, the map and
+   the detailed course -- adds to it. */
+export const RECENT_COURSES_KEY = 'banvy-recent-courses-v1';
+const RECENT_COURSES = 24;
+
+export function rememberLaunch(storage, slug, mode, now = Date.now()) {
   try {
     storage?.setItem(LAST_COURSE_KEY, slug);
     if (MODES[mode]) storage?.setItem(LAST_MODE_KEY, mode);
+    const earlier = recentLaunches(storage).filter(entry => entry.slug !== slug);
+    storage?.setItem(RECENT_COURSES_KEY, JSON.stringify([{ slug, at: now }, ...earlier].slice(0, RECENT_COURSES)));
   } catch { /* the start menu simply offers no shortcut */ }
+}
+
+export function recentLaunches(storage) {
+  try {
+    const list = JSON.parse(storage?.getItem(RECENT_COURSES_KEY) ?? '[]');
+    return Array.isArray(list) ? list.filter(entry => typeof entry?.slug === 'string' && Number.isFinite(entry.at)) : [];
+  } catch { return []; }
 }
 
 export function lastLaunch(storage, courses) {

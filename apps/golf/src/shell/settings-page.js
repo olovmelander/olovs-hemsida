@@ -112,7 +112,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
               ${row('Spelhandicap', 'Ger slag per hål på scorekortet i Lätt 3D.', `
                 <div class="stepper" role="group" aria-labelledby="lbl-hcp">
                   <button type="button" data-hcp-step="-1" aria-label="Sänk spelhandicap">−</button>
-                  <input type="number" inputmode="numeric" min="${MIN_HANDICAP}" max="${MAX_HANDICAP}" step="1" data-hcp aria-labelledby="lbl-hcp" placeholder="–">
+                  <input type="number" inputmode="numeric" min="${MIN_HANDICAP}" max="${MAX_HANDICAP}" step="1" data-hcp aria-labelledby="lbl-hcp" placeholder="Ingen">
                   <button type="button" data-hcp-step="1" aria-label="Höj spelhandicap">+</button>
                 </div>`, { id: 'lbl-hcp' })}
               <div class="set-row is-stacked set-bag">

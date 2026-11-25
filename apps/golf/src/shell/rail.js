@@ -10,56 +10,15 @@ import { hubUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { distanceText } from './nearest-course.mjs';
+import { CATEGORIES, COURSE_LINES, courseSearchKey, layoutMatches, parseQuery, searchText } from './club-search.mjs';
 import { LAST_COURSE_KEY, MODES, launchUrl, courseSessions, sessionBadge, sessionPosition, readSettings, readText, rememberLaunch, writeText } from './settings-store.mjs';
 
 const SORT_KEY = 'banvy-club-sort-v1';
 
 const comparableName = name => searchText(name).replace(/\b(golfklubb|golf club|gk|gc)\b/g, '').replace(/[^a-z0-9]/g, '');
-const searchText = text => text.trim().toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
-
-/* `places` is search vocabulary only, never shown: the placeholder promises
-   "bana, ort eller par", and a promise on the front door has to be kept. It
-   used to search name, club, tag and blurb -- so "Västerås" did not find Ängsö
-   and "72" found nothing at all. */
-const CATEGORIES = {
-  visby: { id: 'kust', label: 'Kronholmen · Seaside', iconName: 'wave', places: 'Gotland Västergarn Visby' },
-  lidingo: { id: 'skog', label: 'Lidingö · Parkbana', iconName: 'tree', places: 'Stockholm Sticklinge' },
-  'bro-hof-stadium': { id: 'slott', label: 'Bro · Slott vid Mälaren', iconName: 'castle', places: 'Upplands-Bro Stockholm Kungsängen Mälaren' },
-  'bro-hof-castle': { id: 'slott', label: 'Bro · Andra arton', iconName: 'castle', places: 'Upplands-Bro Stockholm Kungsängen Mälaren' },
-  tortuna: { id: 'skog', label: 'Västerås · Skog & Park', iconName: 'tree', places: 'Västmanland Mälardalen' },
-  angso: { id: 'kust', label: 'Mälaren · Halvö', iconName: 'wave', places: 'Västerås Västmanland Mälardalen' },
-  norrfallsviken: { id: 'kust', label: 'Höga Kusten · Seaside', iconName: 'wave', places: 'Mjällom Nordingrå Kramfors Ångermanland' },
-  puttom: { id: 'skog', label: 'Örnsköldsvik · Skog & Sjö', iconName: 'tree', places: 'Arnäsvall Ångermanland Höga Kusten' },
-  upsala: { id: 'skog', label: 'Uppsala · Parkbana', iconName: 'tree', places: 'Håmö Uppland' },
-  johannesberg: { id: 'slott', label: 'Gottröra · Slottsmiljö', iconName: 'castle', places: 'Uppland Roslagen' },
-  veckefjarden: { id: 'kust', label: 'Örnsköldsvik · Ö-green', iconName: 'wave', places: 'Ångermanland Höga Kusten' },
-  ribbingsfors: { id: 'skog', label: 'Gullspång · Park & Hagmark', iconName: 'tree', places: 'Skagern Västra Götaland' },
-  /* the second courses, categorised with the club they belong to */
-  'upsala-mellanbanan': { id: 'skog', label: 'Uppsala · Andra nio', iconName: 'tree', places: 'Håmö Uppland' },
-  'johannesberg-9': { id: 'slott', label: 'Gottröra · Andra nio', iconName: 'castle', places: 'Uppland Roslagen' },
-  'veckefjarden-korthalsbanan': { id: 'kust', label: 'Örnsköldsvik · Korthål', iconName: 'wave', places: 'Ångermanland Höga Kusten' },
-};
-
-const LINES = {
-  'bro-hof-stadium': 'Robert Trent Jones Jr:s mästerskapsbana vid Mälaren: breda fairways, stora vita bunkrar, ö-greenen på 17 och hemgång mot slottet.',
-  'bro-hof-castle': 'Bro Hofs andra arton, också ritad av Robert Trent Jones Jr: sex par 3, sex par 4 och sex par 5 genom park och skog, med små bunkrar och stora sandmarker.',
-  tortuna: 'Skogsslinga och parkhål vid Tortuna nordost om Västerås, ritad av Bengt Husell och spelklar 1991: en stor damm delar fyran och sexan, och Lillån slingrar genom de nio parkhålen.',
-  lidingo: 'Sveriges första 18-hålsbana, spelklar 1927 på Sticklinge: en kuperad parkbana bland villor och skogsdungar, ombyggd av Peter Chamberlain 2006–2009 med hårda, ondulerade greener.',
-  veckefjarden: 'Mästerskapsbanan vid fjärden, känd för sin ikoniska ö-green och utmanande vattenhinder.',
-  norrfallsviken: 'Dramatisk skogs- och linkskaraktär på Mjällomlandet med klippor direkt mot Bottenhavet.',
-  puttom: 'Naturskön skogs- och parkbana som slingrar sig elegant mellan två glittrande sjöar.',
-  angso: 'Mälarnära bana på halvön norr om Ängsön med fem tees, mäktiga ekar och strategisk bunkring.',
-  upsala: 'Klassisk svensk mästerskapsparkbana på historiska Håmö gårds böljande marker väster om Uppsala.',
-  johannesberg: 'Slottsbana i rofylld herrgårdsmiljö med dammar, månghundraåriga ekar och ståtligt klubbhus.',
-  ribbingsfors: 'Niohåls park- och hagmarksbana i herrgårdsmiljö vid sjön Skagern, ritad av Janne Lundvall och spelklar 1991.',
-  'upsala-mellanbanan': 'Upsala GK:s andra nio, där åttans tee blickar ut över stora banan och fyrans green ligger tjugo meter från dammen.',
-  'johannesberg-9': 'Johannesbergs andra nio, med en damm tvärs igenom och ett andrahål som faller drygt tolv meter ner mot vattnet.',
-  'veckefjarden-korthalsbanan': 'Veckefjärdens korthålsbana: nio korta hål i tallskogen, med fjärden i sikte från tredje tee.',
-  visby: 'Seaside med linkskaraktär på Kronholmen vid Västergarn, spelad sedan 1958 och rankad som Sveriges bästa bana av Svensk Golf 2020; Östersjön ligger några tiotal meter från de flesta greenerna, greenerna ombyggda av Pierre Fulke.',
-};
 
 /* the course page (course-sheet.js) tells the same story under its posters */
-export const COURSE_LINES = LINES;
+export { COURSE_LINES };
 
 /* The resting poster. The first cards are what the visitor sees before anything
    can run, so theirs is in the markup; the rest carry it as data and are painted
@@ -112,11 +71,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
   let sortOrder = preference === 'recent' && leadSlug ? 'recent' : 'name';
   const ordered = sortClubs(clubs, sortOrder, { recentSlug: leadSlug });
   const groupsById = new Map(clubs.map(group => [group.id, group]));
-  const searchKeys = new Map(courses.map(course => {
-    const cat = CATEGORIES[course.slug] || {};
-    return [course.slug, searchText([course.name, layoutLabel(course), course.club, course.tag,
-      cat.label, cat.places, COURSE_LOCATIONS[course.slug]?.city, `par ${course.par}`, `${course.holes} hål`, LINES[course.slug]].filter(Boolean).join(' '))];
-  }));
+  const searchKeys = new Map(courses.map(course => [course.slug, courseSearchKey(course)]));
   const available = c => c.status !== 'mapping' || mode === 'detailed';
   const category = c => CATEGORIES[c.slug]?.id || 'all';
   const nCat = id => clubs.filter(group => group.courses.some(c => available(c) && (category(c) === id || id === 'all'))).length;
@@ -268,19 +223,12 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
   function applyFilters() {
     matches.clear();
     let layoutCount = 0;
-    // Match all words on one layout. A typed hole count or par refers to
-    // the scorecard, even when a course description mentions another hole.
-    const holes = activeQuery.match(/\b(\d+)[\s-]*(?:hals?|holes?)\b/);
-    const par = activeQuery.match(/\bpar\s*(\d+)\b/);
-    let words = activeQuery;
-    if (holes) words = words.replace(holes[0], ' ');
-    if (par) words = words.replace(par[0], ' ');
-    const terms = words.match(/[\p{L}\p{N}]+/gu) || [];
+    // Match all words on one layout (club-search.mjs, shared with the start menu).
+    const query = parseQuery(activeQuery);
     cardItems.forEach(item => {
       const group = groupsById.get(item.dataset.clubId);
       const layouts = group.courses.filter(c => available(c) && (activeFilter === 'all' || category(c) === activeFilter)
-        && (!holes || c.holes === Number(holes[1])) && (!par || c.par === Number(par[1]))
-        && terms.every(term => searchKeys.get(c.slug).includes(term)));
+        && layoutMatches(c, searchKeys.get(c.slug), query));
       item.hidden = !layouts.length;
       if (!layouts.length) return;
       layoutCount += layouts.length;
@@ -518,7 +466,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
         try {
           const { createCourseSheet } = await import('./course-sheet.js');
           if (version !== playerSequence) return;
-          sheet = createCourseSheet({ courses, lines: LINES, onDismiss: () => panels.back(), onLaunch: launchFromPlayer,
+          sheet = createCourseSheet({ courses, lines: COURSE_LINES, onDismiss: () => panels.back(), onLaunch: launchFromPlayer,
             onEdit: () => { if (sheet.isOpen()) panels.update({ setup: sheet.snapshot() }); },
           });
         } catch {

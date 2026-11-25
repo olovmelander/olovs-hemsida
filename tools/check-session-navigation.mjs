@@ -71,13 +71,18 @@ try {
           assert.ok((await card.locator('.club-state').innerText()).includes([status, expected, position].join(' · ')));
         } else assert.doesNotMatch(await card.innerText(), /(?:GPS-runda|Simulering) pågår/);
         await card.click();
-        const picker = page.locator('#clubPicker[open]');
-        await picker.waitFor();
+        /* the club page opens on the layout with this mode's game under way, and each
+           layout says how it stands in this mode */
+        const clubPage = page.locator('#courseSheet[open]');
+        await clubPage.waitFor();
+        if (active) assert.equal(await clubPage.locator('input[name="cs-layout"]:checked').inputValue(), active);
         for (const slug of [castle, stadium]) {
-          const words = await picker.locator(`[data-layout="${slug}"]`).innerText();
+          const words = await clubPage.locator(`label.cs-layout:has(input[value="${slug}"])`).innerText();
           if (active === slug) assert.ok(words.includes(status + ' · ' + position));
           else assert.doesNotMatch(words, /(?:GPS-runda|Simulering) pågår/);
         }
+        await clubPage.locator('[data-close]').click();
+        await clubPage.waitFor({ state: 'hidden' });
       }
       console.log(`${phone ? '390×844' : '1366×768'} · both Home resume links, exact layout/tee/hole, mode-specific club and layout status`);
     } finally { await context.close(); }

@@ -1,5 +1,8 @@
 /* Keep the bare course chooser off the 3D engine's critical path. Deep links and
    historical URLs still enter the player directly. */
+/* The design tokens come first, so every route (start menu, map, player, game)
+   reads one palette and one type scale (styles/tokens.css). */
+import './styles/tokens.css';
 import { isPhone, navigationParams, opensMap } from './shell/map-default.mjs';
 import { legacyTarget, mapUrl } from './shell/router.js';
 import { coursePreview } from './course-previews.mjs';
