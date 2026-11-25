@@ -2,7 +2,7 @@
    and the same physics callback that commits regular shots. No GPS permission. */
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright-core';
-import { browserArgs, browserExecutable } from './browser-args.mjs';
+import { browserArgs, browserExecutable, GPU } from './browser-args.mjs';
 
 const base = process.argv[2] || 'http://127.0.0.1:5173';
 const browser = await chromium.launch({ ...browserExecutable(),
@@ -43,6 +43,21 @@ try {
   };
   await page.goto(url.href, { waitUntil: 'domcontentloaded' });
   await ready();
+  if (!GPU) {
+    // A real frame, golfer and ground have loaded. Keep the live simulator's
+    // clock, physics and input running, without drawing trees for every DOM
+    // interaction on the software adapter.
+    await page.evaluate(async () => {
+      await V3D.harness().renderer.setAnimationLoop(null);
+      let previous = performance.now();
+      function tick(now) {
+        window.BANVY_PLAY.update(Math.min(.1, Math.max(0, now - previous) / 1000));
+        previous = now;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
   console.log('Simulator loaded.');
   const mapKeys = () => page.evaluate(() => Object.entries(localStorage).filter(([k]) => k.startsWith('banvy-map-') || k.startsWith('banvy:round')));
   const gpsBefore = await mapKeys();
@@ -76,6 +91,7 @@ try {
   console.log('Viewport controls passed.');
   await page.locator('[data-menu]').tap();
   assert.ok(await page.getByRole('dialog', { name: /veckefj/i }).isVisible());
+  console.log('Simulator menu opened.');
   await page.locator('[data-end]').focus();
   await page.keyboard.press('Tab');
   assert.ok(await page.locator('dialog.pl-sheet[open]').evaluate(el => el.contains(document.activeElement)));
@@ -83,11 +99,13 @@ try {
   assert.ok(await page.locator('[data-end]').evaluate(el => el === document.activeElement));
   await page.keyboard.press('Escape');
   assert.ok(await page.locator('[data-menu]').evaluate(el => el === document.activeElement));
+  console.log('Menu focus and Escape passed.');
   await page.keyboard.press('Space');
   await page.locator('[data-clean]').tap();
   const beforeClean = await model();
   await page.locator('[data-clean-exit]').tap();
   assert.deepEqual(await model(), beforeClean);
+  console.log('Clean view returned to the same shot.');
   await page.locator('[data-menu]').tap();
   await page.locator('[data-practice]').tap();
   console.log('Practice started.');
