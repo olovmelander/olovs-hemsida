@@ -118,8 +118,61 @@ with the clubs (`home.js` `renderClubs`):
   of 64 px each at 900 px and narrower, three cards of 112 px wider), then Statistik
   and Inställningar. Keys 1 to 5 still open them.
 
-The lobby's own search bar, filter and map toggle, the phone's tab bar and layout
-chips on the list's club cards are still to come (the redesign's Phase 2 and 3).
+Past twelve clubs the lobby lists the golfer's own clubs and gets a search of its own
+(*A hundred clubs*, below). Still to come (the redesign's Phase 2 and 3): its filter
+and map toggle, the phone's tab bar and layout chips on the list's club cards.
+
+## A hundred clubs (25 November)
+
+The owner asked what happens with more than a hundred clubs. Listing every club
+would push the ways to play, Statistik and Inställningar about ten phone screens down.
+Each row would also fetch an 800 px poster for a 56 px picture (73 kB on average),
+and the Sverigekarta's pins would pile up. So once there are more than twelve clubs
+(`lobby-model.mjs` `LOBBY_ALL_CLUBS`), the lobby lists the golfer's own clubs and
+searches the rest. At twelve clubs or fewer it lists every club as before, so today's
+eleven look the same.
+
+- **Search.** A field under *Klubbar* uses the list's own search, moved into
+  `club-search.mjs` for both:
+  - it finds a club by name, layout, town, region words, par or holes, with every
+    word matching one layout;
+  - the best hits come first: a name that begins with the words, then a word of the
+    name, then layouts and towns, then the rest, with numbers in order (2 before 10);
+  - it shows five hits on a phone and eight on a computer;
+  - *Visa alla N träffar* opens the list with the same words in its search;
+  - `/` reaches the field, and Escape empties it.
+- ***Dina klubbar*** lists five clubs on a phone and eight on a computer:
+  - a game under way;
+  - then the courses launched lately, each saying when (*Öppnad i går*). They come
+    from `banvy-recent-courses-v1`, which `rememberLaunch` keeps with the last
+    course, so every way in adds to it;
+  - then the rounds the map kept (*Spelad 23 nov*);
+  - then, where the phone has already given its position, the nearest clubs within
+    200 km, each with its distance.
+
+  A club already on a card above (a game under way, *Nära dig*, *Senast öppnad*) is
+  left out of the short list.
+- ***Klubbar nära mig*** asks for the position only when tapped. If it is refused,
+  the lobby says so and offers *Försök igen*. *Alla N klubbar* opens the full list.
+- **Thumbnails.** A row shows `thumb.webp`, the poster's middle square at 168 px,
+  4–8 kB each. `tools/make-posters.mjs` writes it with the poster. Its `--thumbs`
+  mode writes it from the shipped `hero-1.webp` without a boot or a GPU. The service
+  worker keeps thumbnails with the posters (`banvy-posters`, now 96 entries).
+- **The Sverigekarta** groups pins that would stand on each other into one count
+  (`pin-groups.mjs`):
+  - pins closer than 44 px join a group, through any chain of them, and groups whose
+    middles would touch merge;
+  - a tap or Enter flies in until the clubs part, and the keyboard lands on the
+    first club;
+  - this only happens with more than twelve clubs on the map, so every club keeps
+    its own pin today, as `check-chooser-ui` expects. Today's opening view already
+    has pins 4–9 px apart at Örnsköldsvik and Västerås; grouping those too would
+    change that gate.
+- **Key hints.** The mode cards' hints stay hidden while the search has the keys,
+  and keep clear of the arrow in the compact cards.
+
+A new club still needs its entry in `course-places.mjs` to be on the map and in
+the distance sort.
 
 ## One page per club (25 November)
 
@@ -242,6 +295,19 @@ adds:
 `tools/check-hub-journeys.mjs` walks the lobby on a phone and a desktop (25 November):
 the clubs by name, Bro Hof's layouts with the host course first, a row opening its
 club page over the lobby in the last mode or the device's, and Back to the row.
+
+`tools/check-lobby-scale.mjs` (25 November, in the release journeys) serves today's
+catalogue with 110 made-up clubs beside it, on a phone and a desktop:
+- a first visit: no club of its own, the five destinations on the first screen,
+  *Klubbar nära mig* refused and then given;
+- a returning golfer: five or eight clubs of their own, newest first, never the one
+  on the card above, the destinations within 1.6 screens;
+- the search: by layout, by town, no hit, 110 hits with *Visa alla* into the list
+  and back, Escape, and a hit's club page;
+- the map: no drawn mark on another, and a group opened from the keyboard.
+
+It then opens today's catalogue as it is and checks every club is listed and every
+pin drawn.
 
 `tools/check-map-field.mjs` checks the start menu's mode cards and the near-course
 card, the round started from a plain link, and a finished round's Se statistik.

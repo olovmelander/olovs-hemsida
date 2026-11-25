@@ -2,6 +2,7 @@
 
    usage: node tools/make-posters.mjs [--base http://127.0.0.1:8643]
                                       [--course slug] [--candidates] [--write]
+                                      [--thumbs]
 
    Two passes, because picking a poster is a judgement and the judgement has to
    be made at the size the poster is shown:
@@ -58,12 +59,18 @@
    THE BACKDROP. hero-1 is also written whole, 1600 px wide, as backdrop.webp:
    the start menu lays it under everything, and the card's 800 px poster
    stretched to a desktop screen is a blur. Same still, a second encode, no
-   second boot. */
+   second boot.
+
+   THE THUMBNAIL. The start menu's club rows show a course at 56 px, and drew it
+   from the 800 px poster: some 73 kB a row, a megabyte a screen of clubs. hero-1
+   is also written as thumb.webp, the square the row's crop showed, at 168 px
+   (three device pixels to the CSS pixel, a phone's). --thumbs writes it from the
+   shipped hero-1.webp, with no boot and no GPU, for a poster already in place. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
-import { GPU, browserArgs } from './browser-args.mjs';
+import { GPU, browserArgs, browserExecutable } from './browser-args.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'apps/golf/public/courses');
@@ -81,6 +88,8 @@ const PICKS = (flag('picks', '') || '').split(',').filter(Boolean).map(Number);
 /* --clubhouse-candidates shoots the clubhouse from three sides per course and
    writes a sheet, the same judge-at-card-size pass as --candidates. */
 const DO_CLUB_CANDIDATES = args.includes('--clubhouse-candidates');
+/* --thumbs writes thumb.webp from each course's shipped hero-1.webp (THE THUMBNAIL) */
+const DO_THUMBS = args.includes('--thumbs');
 /* --extra "6:orbit:golden,17:green:golden" shoots named framings alongside the
    standard eight, numbered from 9 up, and keeps the ones already captured. A
    course whose identity is not on its signature hole needs this: Norrfällsviken
@@ -95,6 +104,7 @@ const shotUrl = slug => `${BASE}/?bana=${slug}&det=1&ren=1&skylt=0${LOOK}`;
 const WIDTH = 800;      /* 2x the ~400 px card; the card is never shown larger */
 const QUALITY = 0.90;   /* the knee of the curve above */
 const BACKDROP_WIDTH = 1600, BACKDROP_QUALITY = 0.86;
+const THUMB_SIZE = 168, THUMB_QUALITY = 0.82;
 
 /* signature hole, then two more the club's notes single out as scenic */
 const PLAN = {
@@ -311,7 +321,7 @@ const slugs = ONLY ? ONLY.split(',') : Object.keys(PLAN);
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const HAVE_BUNDLED = fs.existsSync(LINUX_CHROME);
 const browser = await chromium.launch({
-  ...(HAVE_BUNDLED ? { executablePath: LINUX_CHROME } : { channel: 'chrome' }),
+  ...(HAVE_BUNDLED ? { executablePath: LINUX_CHROME } : browserExecutable()),
   headless: true,
   args: HAVE_BUNDLED && !GPU
     ? ['--no-sandbox', '--force-device-scale-factor=1', '--enable-unsafe-swiftshader', '--use-angle=swiftshader']
@@ -343,6 +353,22 @@ async function encodeWebp(page, pngBuffer, width = WIDTH, quality = QUALITY) {
     c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
     return c.toDataURL('image/webp', q).split(',')[1];
   }, ['data:image/png;base64,' + pngBuffer.toString('base64'), width, quality]);
+  return Buffer.from(b64, 'base64');
+}
+
+/* The middle square of a picture, at the lobby row's own size (THE THUMBNAIL). */
+async function encodeThumb(page, src, size = THUMB_SIZE, quality = THUMB_QUALITY) {
+  const b64 = await page.evaluate(async ([src, size, q]) => {
+    const img = new Image();
+    await new Promise((ok, err) => { img.onload = ok; img.onerror = err; img.src = src; });
+    const side = Math.min(img.width, img.height);
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, size, size);
+    return c.toDataURL('image/webp', q).split(',')[1];
+  }, [src, size, quality]);
   return Buffer.from(b64, 'base64');
 }
 
@@ -495,6 +521,9 @@ async function writeChosen(slug) {
       const wide = await encodeWebp(page, png, BACKDROP_WIDTH, BACKDROP_QUALITY);
       fs.writeFileSync(path.join(dest, 'backdrop.webp'), wide);
       console.log(`    backdrop  ${(wide.length / 1024).toFixed(0)} kB`);
+      const thumb = await encodeThumb(page, 'data:image/png;base64,' + png.toString('base64'));
+      fs.writeFileSync(path.join(dest, 'thumb.webp'), thumb);
+      console.log(`    thumb  ${(thumb.length / 1024).toFixed(1)} kB`);
     }
   }
   await page.close();
@@ -574,5 +603,17 @@ if (DO_WRITE) {
   console.log(`\n  all posters on the front door: ${(grand / 1024).toFixed(0)} kB`);
   await heroSheet();
 }
-if (!DO_CANDIDATES && !DO_WRITE && !DO_CLUB_CANDIDATES) console.log('nothing to do: pass --candidates and/or --write');
+if (DO_THUMBS) {
+  console.log('\nwriting thumbnails from the shipped hero-1');
+  const page = await browser.newPage();
+  for (const slug of slugs) {
+    const hero = path.join(OUT, slug, 'hero-1.webp');
+    if (!fs.existsSync(hero)) { console.log(`  ${slug}: no hero-1.webp, skipped`); continue; }
+    const thumb = await encodeThumb(page, 'data:image/webp;base64,' + fs.readFileSync(hero).toString('base64'));
+    fs.writeFileSync(path.join(OUT, slug, 'thumb.webp'), thumb);
+    console.log(`  ${slug}: thumb ${(thumb.length / 1024).toFixed(1)} kB`);
+  }
+  await page.close();
+}
+if (!DO_CANDIDATES && !DO_WRITE && !DO_CLUB_CANDIDATES && !DO_THUMBS) console.log('nothing to do: pass --candidates, --write and/or --thumbs');
 await browser.close();

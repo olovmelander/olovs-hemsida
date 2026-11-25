@@ -168,6 +168,8 @@ try {
       onNearby: id => openClub(id, 'map'),
       /* the lobby: a club's page opens over the lobby, which Back returns to */
       onClub: (id, mode) => go(`${MODES[mode].route}/klubb/${encodeURIComponent(id)}`, { overHome: true }),
+      /* every hit of the lobby's search: the list, with the words already in its own */
+      onSearch: (query, mode) => go(MODES[mode].route, { chooser: { query } }),
       /* back on the tee last chosen there; the map reads it from its own key */
       onResume: (slug, mode, plan = null) => {
         const course = courses.find(c => c.slug === slug);

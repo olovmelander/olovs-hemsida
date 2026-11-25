@@ -18,6 +18,7 @@ import {
   PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, exportBackup, readBackup, restoreBackup, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
   readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
   OFFLINE_PREFIX, offlineCourses, hasBackupUndo, undoBackup, writeText, replaceStoredValues, courseSessions,
+  RECENT_COURSES_KEY, recentLaunches,
 } from './settings-store.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -153,6 +154,24 @@ describe('the last way played', () => {
   it('offers nothing for a course that no longer exists, and the detailed course for an unknown mode', () => {
     expect(lastLaunch(memory({ 'banvy-last-course': 'gone' }), courses)).toBeNull();
     expect(lastLaunch(memory({ 'banvy-last-course': 'visby', 'banvy-last-mode': 'vr' }), courses).mode).toBe('detailed');
+  });
+  it('keeps the courses launched lately, newest first, each once, for the start menu', () => {
+    const st = memory();
+    rememberLaunch(st, 'visby', 'map', 1000);
+    rememberLaunch(st, 'puttom', 'detailed', 2000);
+    rememberLaunch(st, 'visby', 'play', 3000);
+    expect(recentLaunches(st)).toEqual([{ slug: 'visby', at: 3000 }, { slug: 'puttom', at: 2000 }]);
+    for (let i = 0; i < 40; i++) rememberLaunch(st, `course-${i}`, 'map', 4000 + i);
+    expect(recentLaunches(st)).toHaveLength(24);
+    expect(recentLaunches(st)[0]).toEqual({ slug: 'course-39', at: 4039 });
+  });
+  it('reads a damaged or foreign recent list as empty, and still remembers the launch', () => {
+    expect(recentLaunches(memory({ [RECENT_COURSES_KEY]: '{oops' }))).toEqual([]);
+    expect(recentLaunches(memory({ [RECENT_COURSES_KEY]: '[{"slug":1},{"slug":"visby"},{"slug":"angso","at":5}]' }))).toEqual([{ slug: 'angso', at: 5 }]);
+    const st = memory({ [RECENT_COURSES_KEY]: 'null' });
+    rememberLaunch(st, 'visby', 'map', 7);
+    expect(recentLaunches(st)).toEqual([{ slug: 'visby', at: 7 }]);
+    expect(lastLaunch(st, courses).course.slug).toBe('visby');
   });
 });
 

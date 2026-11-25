@@ -780,6 +780,24 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   z-index: 2;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
 }
+/* Pins that would stand on each other in a large catalogue: one count, which a tap
+   or Enter flies in on until they part (map.js, pin-groups.mjs). */
+.golf-group-container { outline: none; }
+.golf-map-group {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--turf);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1b3d2b, #091710);
+  box-shadow: 0 0 14px rgba(95, 208, 122, 0.6);
+  color: var(--bv-ink-1);
+  cursor: pointer;
+}
+.golf-map-group .pin-count { font: 700 var(--bv-type-body)/1 var(--bv-font); font-variant-numeric: tabular-nums; }
+.golf-group-container:focus-visible .golf-map-group { outline: 3px solid var(--bv-focus); outline-offset: 3px; }
+@media (hover: hover) { .golf-map-group:hover { box-shadow: 0 0 22px var(--turf); } }
 .golf-map-pin:hover .pin-head,
 .golf-map-pin.hovered .pin-head {
   transform: scale(1.18);

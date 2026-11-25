@@ -230,7 +230,8 @@
   .home-tool:hover { background-color: #213a2c; }
   .hub-icon-btn:hover, .hub-back:hover { background-color: #26382d; }
 }
-#home:has(:focus-visible) .mode-card kbd { display: grid; }
+/* for a keyboard on the menu itself: not while a field takes the keys (the lobby's search) */
+#home:has(:focus-visible:not(input)) .mode-card kbd { display: grid; }
 @media (max-width: 900px) and (min-height: 521px) {
   .home-modes { grid-template-columns: 1fr; gap: 9px; }
   .home-modes .mode-card { min-height: 88px; padding: 12px 16px; gap: 5px; justify-content: center; }
@@ -327,6 +328,66 @@
 .hc-go { display: grid; flex: none; place-items: center; color: #acd4b7; }
 .hc-go svg { width: 18px; height: 18px; }
 .home-club:focus-visible { outline: 3px solid var(--bv-focus); outline-offset: 3px; }
+/* Past a dozen clubs the lobby lists the golfer's own and searches the rest
+   (lobby-model.mjs): the field, a caption saying what the rows are, and why each
+   row is there. */
+.home-club-search { position: relative; display: flex; align-items: center; max-width: 560px; margin-bottom: var(--bv-space-3); }
+.home-club-search[hidden] { display: none; }
+.home-club-search > svg { position: absolute; left: 15px; color: var(--bv-ink-3); pointer-events: none; }
+.home-club-search input {
+  width: 100%;
+  height: var(--bv-hit-comfort);
+  padding: 0 var(--bv-hit) 0 44px;
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-control-touch);
+  outline: none;
+  background: var(--bv-surface-solid);
+  color: var(--bv-ink-1);
+  font: 500 var(--bv-type-body)/1 var(--bv-font);
+  appearance: none;
+  -webkit-appearance: none;
+}
+.home-club-search input::-webkit-search-cancel-button,
+.home-club-search input::-webkit-search-decoration { -webkit-appearance: none; display: none; }
+.home-club-search input::placeholder { color: var(--bv-ink-3); }
+.home-club-search input:focus-visible { border-color: var(--bv-turf); box-shadow: 0 0 0 3px rgba(95, 208, 122, 0.18); }
+.hcs-clear {
+  position: absolute;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: var(--bv-hit);
+  height: var(--bv-hit);
+  border: 0;
+  border-radius: var(--bv-radius-pill);
+  background: transparent;
+  color: var(--bv-ink-2);
+  cursor: pointer;
+}
+.hcs-clear[hidden] { display: none; }
+.home-clubs-note { margin: 0 0 var(--bv-space-2); color: var(--bv-ink-2); font: 600 var(--bv-type-footnote)/1.35 var(--bv-font); }
+.hc-note { color: var(--bv-ink-2); font: 500 var(--bv-type-footnote)/1.3 var(--bv-font); }
+.home-clubs-more { display: flex; flex-wrap: wrap; align-items: center; gap: var(--bv-space-2) var(--bv-space-5); margin-top: var(--bv-space-3); }
+.home-clubs-more[hidden], .home-clubs-near[hidden], .home-clubs-hits[hidden] { display: none; }
+.home-clubs-near {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bv-space-2);
+  min-height: var(--bv-hit-comfort);
+  padding: 0 var(--bv-space-5) 0 var(--bv-space-4);
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-pill);
+  background: var(--bv-surface-solid);
+  color: var(--bv-ink-1);
+  font: 600 var(--bv-type-body)/1 var(--bv-font);
+  cursor: pointer;
+}
+.home-clubs-near svg { color: var(--bv-turf-hi); }
+.home-clubs-near[disabled] { cursor: progress; opacity: 0.75; }
+.home-clubs-near:focus-visible, .home-clubs-hits:focus-visible, .home-clubs-all:focus-visible, .hcs-clear:focus-visible { outline: 3px solid var(--bv-focus); outline-offset: 2px; }
+.home-clubs-hits { display: inline-flex; align-items: center; gap: 6px; min-height: var(--bv-hit); color: var(--bv-turf-hi); font: 600 var(--bv-type-body)/1.2 var(--bv-font); text-decoration: none; }
+.home-clubs-hits svg { width: 16px; height: 16px; }
+@media (hover: hover) { .home-clubs-near:hover:not([disabled]) { border-color: #a6deb6; background-color: var(--bv-surface-3); } }
 @media (hover: hover) { .home-club:hover { border-color: #a6deb6; background-color: #213a2c; } }
 /* the ways to play, compact under the clubs: three in a row, one line each on a phone */
 .home-inner:has(.home-clubs:not([hidden])) .home-modes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -334,6 +395,8 @@
 .home-inner:has(.home-clubs:not([hidden])) .home-modes .mc-body { margin: 6px 40px 0 0; }
 .home-inner:has(.home-clubs:not([hidden])) .home-modes .mc-title { font-size: clamp(17px, 1.4vw, 21px); }
 .home-inner:has(.home-clubs:not([hidden])) .home-modes .mc-text { display: none; }
+/* a key's hint keeps clear of the arrow, which a compact card draws beside it */
+.home-inner:has(.home-clubs:not([hidden])) .home-modes .mc-top { margin-right: 52px; }
 @media (max-width: 900px) {
   .home-inner:has(.home-clubs:not([hidden])) .home-modes { grid-template-columns: 1fr; gap: 8px; }
   .home-inner:has(.home-clubs:not([hidden])) .home-modes .mode-card,

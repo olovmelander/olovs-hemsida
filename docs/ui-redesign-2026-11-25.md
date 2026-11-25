@@ -1180,6 +1180,29 @@ Left for the next step:
   - search hits at layout level;
   - layout chips on the club cards.
 
+**Progress (25 November, a hundred clubs).** The owner asked what happens with more
+than a hundred clubs, then asked for the answer to be built (`docs/start-menu.md`,
+*A hundred clubs*).
+- **Done:**
+  - **The short list.** Past twelve clubs the lobby lists the golfer's own: a game
+    under way, then recent launches and kept rounds, then the nearest where the
+    position is already given. Five rows on a phone, eight on a computer, never a
+    club already on a card above.
+  - **Search.** The lobby gets its own search, the list's own moved into
+    `club-search.mjs`, ranked. *Visa alla N träffar* opens the list with the words.
+  - ***Klubbar nära mig*** asks for the position on a tap.
+  - **Thumbnails.** Rows draw 168 px thumbnails (4–8 kB, against 73 kB posters).
+  - **The Sverigekarta** groups pins that would touch, past twelve clubs.
+  - **Unchanged today:** at twelve clubs or fewer everything stays as it was.
+- **Gates:** `tools/check-lobby-scale.mjs`, with 110 made-up clubs on a phone and a
+  desktop, runs in the release journeys. Unit tests cover the model, the search, the
+  recent list, the pin groups and the thumbnails.
+- **Left in Phase 2:**
+  - the lobby's own sort, filter and map toggle;
+  - the tab bar and the desktop header links;
+  - search hits at layout level;
+  - layout chips on the club cards.
+
 ### Phase 3: responsive HUDs and the navigation shell
 
 - **Lätt 3D:** the four-element HUD (D3) behind `?hud=v2`, first by default only in
