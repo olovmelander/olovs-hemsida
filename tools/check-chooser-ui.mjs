@@ -60,9 +60,8 @@ const measure = page => page.evaluate(async () => {
   const chooser = document.getElementById('chooser');
   const r = e => e.getBoundingClientRect();
   const cards = [...chooser.querySelectorAll('.card')].filter(c => c.offsetParent);
-  const plain = cards.filter(c => !c.closest('.is-lead'));
   const vh = innerHeight;
-  const controls = [...chooser.querySelectorAll('button, input')].filter(e => e.offsetParent && !e.classList.contains('card'));
+  const controls = [...chooser.querySelectorAll('button, input, select')].filter(e => e.offsetParent && !e.classList.contains('card'));
   const small = controls.map(e => ({ e, b: r(e) })).filter(x => x.b.width < 40 || x.b.height < 40)
     .map(x => `${x.e.id || String(x.e.className).split(' ')[0]} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
   const filters = chooser.querySelector('.chooser-filters');
@@ -72,10 +71,10 @@ const measure = page => page.evaluate(async () => {
   const rowScrolls = filters.scrollWidth - filters.clientWidth > 1 && fr.right <= innerWidth + 0.5;
   const lostChips = chips.filter(c => r(c).right > innerWidth + 0.5 && !rowScrolls).length;
   const rest = {
-    cols: new Set(plain.map(c => Math.round(r(c).left))).size,
+    cols: new Set(cards.map(c => Math.round(r(c).left))).size,
     full: cards.filter(c => r(c).top >= 0 && r(c).bottom <= vh).length,
-    cardH: Math.round(r(plain[plain.length - 1]).height),
-    cardW: Math.round(r(plain[plain.length - 1]).width),
+    cardH: Math.round(r(cards[cards.length - 1]).height),
+    cardW: Math.round(r(cards[cards.length - 1]).width),
     firstTop: Math.round(r(cards[0]).top),
     sideways: chooser.scrollWidth > chooser.clientWidth + 1 || document.documentElement.scrollWidth > innerWidth + 1,
     small, lostChips, chips: chips.length,
@@ -152,7 +151,10 @@ await section('1366x768 desktop', async () => {
   console.log('warm-up');
   const asked = [];
   page.on('request', q => { if (/pack\.bin/.test(q.url())) asked.push(q.url()); });
-  const slug = await page.evaluate(() => document.querySelector('#chooser .card').dataset.slug);
+  await page.hover('#chooser .card[data-club-id="bro-hof"]');
+  await page.waitForTimeout(300);
+  gate(asked.length === 0, 'hovering a multi-layout club leaves course packs unloaded until a layout is chosen');
+  const slug = 'lidingo';
   const meta = manifest.courses.find(c => c.slug === slug);
   await page.hover(`#chooser .card[data-slug="${slug}"]`);
   await page.waitForTimeout(900);
@@ -229,7 +231,7 @@ await section('touch warm-up', async () => {
   const asked = [];
   page.on('request', q => { if (/pack\.bin/.test(q.url())) asked.push(q.url()); });
   await page.evaluate(() => {
-    const card = document.querySelector('#chooser .card');
+    const card = document.querySelector('#chooser .card[data-club-id="lidingo"]');
     card.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'touch', bubbles: false }));
   });
   await page.waitForTimeout(700);
@@ -261,28 +263,25 @@ for (const [width, height, touch] of [[390, 844, true], [1366, 768, false]]) {
 /* ------------------------------------------------- the last-opened course */
 console.log('last opened');
 await section('last opened', async () => {
-  /* the LAST manifest entry, so leading the list is something it had to be moved to do */
-  const last = manifest.courses[manifest.courses.length - 1].slug;
+  const last = 'upsala-mellanbanan';
   const { ctx, page } = await open({ width: 390, height: 844, touch: true, last });
-  await page.waitForSelector('#chooser .card', { timeout: 60000 });
-  await page.waitForTimeout(500);
-  const lead = await page.evaluate(() => {
-    const items = [...document.querySelectorAll('#chooser .card-item')];
-    return { id: items[0].dataset.clubId, lead: items[0].classList.contains('is-lead'),
-      leads: items.filter(i => i.classList.contains('is-lead')).length };
-  });
+  const cards = page.locator('#chooser .card-item:visible');
+  await cards.first().waitFor();
+  gate(await page.locator('#chooserSort').inputValue() === 'name' && await cards.first().getAttribute('data-club-id') === 'bro-hof',
+    'a previous layout keeps the default Swedish club-name order');
+  await page.selectOption('#chooserSort', 'recent');
+  const first = cards.first();
+  gate(await first.getAttribute('data-club-id') === 'upsala' && /Senast öppnad/.test(await first.locator('.club-state').innerText()),
+    'selecting recent brings the club of the last opened layout to the top');
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'phone-390x844-last.png') });
-  const rememberedClub = manifest.courses.find(c => c.slug === last).club;
-  const cover = manifest.courses.find(c => c.club === rememberedClub);
-  gate(lead.lead && lead.leads === 1 && await page.locator(`.card-item[data-slug="${cover.slug}"]`).getAttribute('data-club-id') === lead.id,
-    `the club of the last opened layout (${last}) leads the list`);
   await ctx.close();
 });
 await section('stale memory', async () => {
   const { ctx, page } = await open({ width: 390, height: 844, touch: true, last: 'no-such-course' });
   await page.waitForSelector('#chooser .card', { timeout: 60000 });
-  const first = await page.evaluate(() => ({ slug: document.querySelector('#chooser .card-item').dataset.slug, leads: document.querySelectorAll('#chooser .is-lead').length }));
-  gate(first.slug === manifest.courses[0].slug && first.leads === 0, 'a remembered course that no longer exists changes nothing');
+  const first = page.locator('#chooser .card-item:visible').first();
+  gate(await first.getAttribute('data-club-id') === 'bro-hof' && !(await page.locator('#chooser .club-state').count()),
+    'a remembered course that no longer exists leaves the alphabetical club list unchanged');
   await ctx.close();
 });
 
@@ -794,15 +793,15 @@ if (PLAYER) {
     await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });
     await page.evaluate(() => document.getElementById('bytBtn').click());
     await page.waitForTimeout(700);
-    const opened = await page.evaluate(() => {
-      const first = document.querySelector('#chooser .card-item');
+    const opened = await page.evaluate(slug => {
+      const current = document.querySelector(`#chooser .card-item[data-slug="${CSS.escape(slug)}"]`);
       const close = document.getElementById('chooserResumeBtn').getBoundingClientRect();
-      return { slug: first.dataset.slug, badge: first.querySelector('.club-state')?.textContent.trim(),
+      return { slug: current.dataset.slug, badge: current.querySelector('.club-state')?.textContent.trim(),
         close: Math.min(close.width, close.height), remembered: localStorage.getItem('banvy-last-course') };
-    });
-    gate(opened.slug === slug && opened.badge?.includes('Aktiv bana'), `in the player the running course leads: ${opened.slug}, "${opened.badge}"`);
+    }, slug);
+    gate(opened.slug === slug && opened.badge?.includes('Aktiv bana'), `the currently open course remains identified in the sorted grid: ${opened.slug}, "${opened.badge}"`);
     gate(opened.close >= 40, `and the way back is a ${Math.round(opened.close)} px button, not a sentence`);
-    gate(opened.remembered === slug, 'the player records the course for the hub to lead with');
+    gate(opened.remembered === slug, 'the player records the course for recents in the hub');
     const before = await page.evaluate(() => ({ hole: document.getElementById('cno').textContent, clean: document.body.classList.contains('clean'), sky: window.V3D.skyState() }));
     await page.click('#courseSearchInput');
     await page.keyboard.type('npm h', { delay: 30 });

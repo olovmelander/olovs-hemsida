@@ -339,7 +339,7 @@ try {
         return show();
       }
       if (layouts.length) {
-        clubPicker.open({ ...club, courses: layouts }, mode, entry.focusLayout);
+        clubPicker.open({ ...club, courses: layouts }, mode, entry.focusLayout, chooser.getSort());
         document.title = `${club.name} · ${TITLES[key]}`;
       }
     } else if (mode && detail && courses.some(c => c.slug === detail)) {

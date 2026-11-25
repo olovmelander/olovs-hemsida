@@ -357,26 +357,6 @@
 .chooser-search-box input::placeholder {
   color: var(--faint);
 }
-/* Finds the course under a phone's feet. */
-.chooser-near {
-  position: absolute;
-  right: 2px;
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 10px;
-  background: none;
-  color: var(--turf);
-  cursor: pointer;
-}
-.chooser-near[aria-pressed="true"] { color: #04140a; }
-.chooser-near[aria-pressed="true"]::before { content: ''; position: absolute; inset: 7px; z-index: -1; border-radius: 8px; background: var(--turf); }
-.chooser-near { isolation: isolate; }
-.chooser-near.is-busy { opacity: .5; }
-.chooser-near:focus-visible { outline: 2px solid var(--turf); outline-offset: -2px; }
-.chooser-controls.has-query .chooser-near { display: none; }
 .search-key {
   position: absolute;
   right: 10px;
@@ -410,6 +390,60 @@
   color: var(--dim);
   white-space: nowrap;
   order: 1;
+}
+.chooser-sort {
+  position: relative;
+  flex: 0 0 auto;
+  order: 2;
+}
+.chooser-sort label {
+  position: absolute;
+  top: 5px;
+  left: 12px;
+  color: #c1d3c6;
+  font: 600 11px/1 Outfit, sans-serif;
+  pointer-events: none;
+}
+.chooser-sort select {
+  display: block;
+  width: 100%;
+  height: max(var(--search-h), 44px);
+  padding: 13px 8px 1px;
+  border: 1px solid #506b58;
+  border-radius: 11px;
+  background-color: #17291e;
+  color: #f2f6ee;
+  color-scheme: dark;
+  font: 600 16px/1.2 Outfit, sans-serif;
+  cursor: pointer;
+}
+.chooser-sort select:focus-visible, .chooser-sort-retry:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.chooser-sort-feedback {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 4px 0 8px;
+}
+.chooser-sort-feedback:has(.chooser-sort-status:empty):has(.chooser-sort-retry[hidden]) { display: none; }
+.chooser-sort-status {
+  min-width: 0;
+  color: var(--ink);
+  font: 500 14px/1.4 Outfit, sans-serif;
+}
+.chooser-sort-status:empty { display: none; }
+.chooser-sort-retry {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #506b58;
+  border-radius: 10px;
+  background: #17291e;
+  color: #d5f5dc;
+  font: 600 14px/1.2 Outfit, sans-serif;
+  cursor: pointer;
 }
 .chooser-filters {
   order: 2;
@@ -1301,15 +1335,20 @@ a.drawer-main-btn { text-decoration: none; }
    the screen, so what stays is the chip row alone -- unless words are narrowing
    the list, in which case the words stay in sight. */
 @media (max-width: 900px) {
+  #chooser { --search-h: 44px; }
   .chooser-controls {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
     align-items: stretch;
+    column-gap: 8px;
     top: calc(var(--inset-top) - var(--ctl-pad) - var(--search-h));
   }
-  .chooser-controls.has-query { top: var(--inset-top); }
+  .chooser-controls.has-query,
+  .chooser-controls:has(.chooser-sort select:focus-visible) { top: var(--inset-top); }
   .chooser-search-box { flex: 0 0 auto; width: 100%; min-width: 0; }
+  .chooser-sort { grid-area: 1 / 2; }
   .search-key { display: none; }
-  .chooser-filters { order: 1; }
+  .chooser-filters { grid-area: 2 / 1 / 3 / -1; order: 1; }
   /* still announced, no longer drawn: the grid itself shows what matched */
   .chooser-count {
     position: absolute;
@@ -1319,6 +1358,12 @@ a.drawer-main-btn { text-decoration: none; }
     overflow: hidden;
     clip-path: inset(50%);
   }
+}
+
+@media (max-width: 380px) {
+  .chooser-search-box > svg { left: 8px; }
+  #chooser .chooser-search-box input { padding-left: 29px; }
+  .chooser-controls:not(.has-query) .chooser-search-box input { padding-right: 8px; }
 }
 
 @media (max-width: 820px) {
@@ -1450,9 +1495,10 @@ a.drawer-main-btn { text-decoration: none; }
   #chooser { --card-min: 220px; }
   /* one row again, with the short chip labels: there is width to spare here and
      no height at all */
-  .chooser-controls { flex-direction: row; align-items: center; top: var(--inset-top); }
-  .chooser-search-box { flex: 1 1 200px; width: auto; }
-  .chooser-filters { flex: 0 0 auto; }
+  .chooser-controls { display: flex; flex-direction: row; align-items: center; top: var(--inset-top); }
+  .chooser-search-box { flex: 1 1 200px; width: auto; min-width: 110px; }
+  .chooser-sort { order: 1; }
+  .chooser-filters { flex: 0 1 auto; order: 2; }
   .cf-long { display: none; }
   .cf-short { display: inline; }
   #chooser { --ctl-pad: 6px; }

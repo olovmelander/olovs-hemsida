@@ -1,6 +1,7 @@
 /* Club catalogue shared by the start menu and the in-course chooser. */
 import '../styles/shell.css';
 import { clubIdFor, groupCourses, layoutLabel } from './course-clubs.mjs';
+import { sortClubs, sortLayouts } from './club-sort.mjs';
 import { createClubPicker } from './club-picker.js';
 import { createPanelHistory } from '../ui/panel-history.mjs';
 import { ICONS } from './icons.js';
@@ -8,8 +9,10 @@ import { isPhone } from './map-default.mjs';
 import { hubUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
-import { coursesByDistance, distanceText } from './nearest-course.mjs';
-import { LAST_COURSE_KEY, MODES, launchUrl, liveRound, readSettings, rememberLaunch } from './settings-store.mjs';
+import { distanceText } from './nearest-course.mjs';
+import { LAST_COURSE_KEY, MODES, launchUrl, liveRound, readSettings, readText, rememberLaunch, writeText } from './settings-store.mjs';
+
+const SORT_KEY = 'banvy-club-sort-v1';
 
 const comparableName = name => searchText(name).replace(/\b(golfklubb|golf club|gk|gc)\b/g, '').replace(/[^a-z0-9]/g, '');
 const searchText = text => text.trim().toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
@@ -68,10 +71,7 @@ const posterAttr = (c, index) => {
   return index < EAGER_POSTERS ? `style="background-image: url('${url}')"` : `data-bg="${url}"`;
 };
 
-/* The course a returning golfer almost certainly wants is the one they had open
-   last, so it leads the list. Written by the player (buildRail is its boot-time
-   call), read by the bare hub. Storage can be absent or refuse -- private
-   windows, blocked site data -- and the chooser is exactly as usable without. */
+/* The player and start menu share the last-opened course. */
 export function lastCourse() {
   try { return localStorage.getItem(LAST_COURSE_KEY); } catch { return null; }
 }
@@ -106,12 +106,12 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
   el.setAttribute('aria-label', 'Välj klubb');
 
   const currentCourse = courses.find(c => c.slug === current);
-  /* The lead card: the running course in the player, the last one opened on the
-     hub. Everything else keeps the manifest's order. */
   const leadSlug = [current, last].find(s => s && courses.some(c => c.slug === s)) || null;
   const clubs = groupCourses(courses);
   const leadClub = leadSlug && clubIdFor(leadSlug);
-  const ordered = [...clubs].sort((a, b) => Number(b.id === leadClub) - Number(a.id === leadClub));
+  const preference = readText(storage(), SORT_KEY);
+  let sortOrder = preference === 'recent' && leadSlug ? 'recent' : 'name';
+  const ordered = sortClubs(clubs, sortOrder, { recentSlug: leadSlug });
   const groupsById = new Map(clubs.map(group => [group.id, group]));
   const searchKeys = new Map(courses.map(course => {
     const cat = CATEGORIES[course.slug] || {};
@@ -193,9 +193,16 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
                  spellcheck="false" enterkeyhint="search" />
           <kbd class="search-key" aria-hidden="true">/</kbd>
           <button class="search-clear" type="button" id="courseSearchClear" aria-label="Rensa sökningen" hidden>${ICONS.close(14)}</button>
-          ${phone ? `<button class="chooser-near" type="button" id="chooserNear" aria-pressed="false" aria-label="Visa banorna närmast mig först">${ICONS.pin(18)}</button>` : ''}
         </div>
 
+        <div class="chooser-sort">
+          <label for="chooserSort">Sortera</label>
+          <select id="chooserSort">
+            <option value="name">Klubbnamn A–Ö</option>
+            <option value="distance">Närmast mig</option>
+            <option value="recent"${leadSlug ? '' : ' disabled'}>Senast öppnad</option>
+          </select>
+        </div>
         <div class="chooser-filters" id="chooserFilters" role="group" aria-label="Filtrera på bantyp">
           ${filterBtn('all', 'Alla klubbar', 'Alla', clubs.length)}
           ${filterBtn('kust', 'Kust & Hav', 'Kust', nCat('kust'), ICONS.wave(13))}
@@ -204,26 +211,28 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
         </div>
         <span class="chooser-count" id="chooserCount" role="status" aria-live="polite"></span>
       </div>
+      <div class="chooser-sort-feedback">
+        <span class="chooser-sort-status" id="chooserSortStatus" role="status"></span>
+        <button class="chooser-sort-retry" type="button" id="chooserSortRetry" hidden>Försök igen</button>
+      </div>
 
       <div class="chooser-scroll" id="chooserScroll">
         <!-- Grid Cards View -->
         <div id="cardsViewWrap" class="cards-view-wrap">
           <ul class="cards" id="coursesCardList">
-            ${ordered.map((group, index) => {
+            ${ordered.map(({ club: group }, index) => {
               const c = group.cover;
               const place = COURSE_LOCATIONS[c.slug]?.city || c.boot;
-              const label = group.courses.map(layoutLabel).join(' · ');
-              const isLead = group.id === leadClub;
               const liveLayout = group.courses.find(layout => layout.slug === live?.course.slug);
               const recent = group.courses.find(layout => layout.slug === leadSlug);
               const state = liveLayout ? `Runda pågår · ${layoutLabel(liveLayout)}` :
                 recent ? `${current ? 'Aktiv bana' : 'Senast öppnad'} · ${layoutLabel(recent)}` : '';
-              return `<li class="card-item${isLead ? ' is-lead' : ''}" data-slug="${esc(c.slug)}" data-club-id="${esc(group.id)}">
+              return `<li class="card-item" data-slug="${esc(c.slug)}" data-club-id="${esc(group.id)}">
                 <button class="card club-card" type="button" data-slug="${esc(c.slug)}" data-club-id="${esc(group.id)}">
                   <span class="shot" ${posterAttr(c, index)} aria-hidden="true"></span>
-                  <span class="club-info"><span class="club-place">${esc(place)}</span>
+                  <span class="club-info"><span class="club-place">${esc(place)} <span class="is-near" title="Avstånd fågelvägen till klubben" hidden></span></span>
                     <strong class="club-name">${esc(group.name)}</strong>
-                    <span class="club-layouts" data-layout-names>${esc(label)}</span>
+                    <span class="club-layouts" data-layout-names></span>
                     <span class="club-foot"><span data-layout-count></span><span class="club-arrow" aria-hidden="true">${ICONS.chevronRight(16)}</span></span>
                     ${state ? `<small class="club-state">${esc(state)}</small>` : ''}
                   </span>
@@ -247,7 +256,8 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
   const searchInput = el.querySelector('#courseSearchInput');
   const searchClear = el.querySelector('#courseSearchClear');
   const filterBtns = el.querySelectorAll('.c-filter-btn');
-  const cardItems = el.querySelectorAll('.card-item');
+  const cardList = el.querySelector('#coursesCardList');
+  const cardItems = new Map([...cardList.children].map(item => [item.dataset.clubId, item]));
   const noMsg = el.querySelector('#noCoursesMsg');
   const resetBtn = el.querySelector('#resetSearchBtn');
   const countEl = el.querySelector('#chooserCount');
@@ -270,14 +280,15 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
       item.hidden = !layouts.length;
       if (!layouts.length) return;
       layoutCount += layouts.length;
-      matches.set(group.id, layouts);
+      const sortedLayouts = sortLayouts(layouts, sortOrder, leadSlug);
+      matches.set(group.id, sortedLayouts);
       const names = item.querySelector('[data-layout-names]');
       const facts = item.querySelector('[data-layout-count]');
       const single = layouts.length === 1 && group.courses.length === 1;
       const singleName = layoutLabel(layouts[0]);
       const repeatedName = single && comparableName(singleName) === comparableName(group.name);
       names.hidden = repeatedName;
-      names.textContent = layouts.map(layoutLabel).join(' · ');
+      names.textContent = sortedLayouts.map(layoutLabel).join(' · ');
       facts.textContent = single ? `${layouts[0].holes} hål · Par ${layouts[0].par}`
         : layouts.length < group.courses.length ? `${layouts.length} av ${group.courses.length} banor`
         : plural(layouts.length, 'bana', 'banor');
@@ -293,48 +304,86 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
     if (el.classList.contains('map-mode')) switchView('map');
   }
 
-  /* On a course a golfer wants that course, without searching for it. The position is
-     asked for by a tap, and read by itself only where the phone has already said yes. */
-  const nearBtn = el.querySelector('#chooserNear');
-  if (nearBtn) {
-    const cardList = el.querySelector('#coursesCardList');
-    const showNearest = async (coords, focusMap) => {
-      const items = new Map([...cardItems].map(item => [item.dataset.slug, item]));
-      const sorted = coursesByDistance(coords, COURSE_LOCATIONS).filter(({ slug }) => items.has(slug));
-      for (const { slug, metres } of sorted) {
-        const badges = items.get(slug).querySelector('.club-place');
-        badges.querySelector('.is-near')?.remove();
-        const badge = document.createElement('span');
-        badge.className = 'current-badge is-near';
-        badge.textContent = distanceText(metres);
-        badges.append(badge);
-      }
-      cardList.prepend(...sorted.map(({ slug }) => items.get(slug)));
-      cardItems.forEach(item => item.classList.toggle('is-lead', item === items.get(sorted[0]?.slug)));
-      nearBtn.classList.remove('is-busy');
-      nearBtn.setAttribute('aria-pressed', 'true');
-      if (focusMap && el.classList.contains('map-mode')) {
-        const nearest = sorted.find(({ slug }) => !items.get(slug).hidden);
-        if (nearest) {
-          await switchView('map');
-          if (el.classList.contains('map-mode')) swedenMapInstance?.focusClub(clubIdFor(nearest.slug), true);
-        }
-      }
-    };
-    const locate = (focusMap = false) => {
-      if (!navigator.geolocation) {
-        countEl.textContent = 'Positionen är inte tillgänglig. Sök på klubb eller ort.';
-        return;
-      }
-      nearBtn.classList.add('is-busy');
-      navigator.geolocation.getCurrentPosition(({ coords }) => showNearest(coords, focusMap), () => {
-        nearBtn.classList.remove('is-busy');
-        countEl.textContent = 'Positionen gick inte att läsa';
-      }, { timeout: 12000, maximumAge: 120000 });
-    };
-    nearBtn.addEventListener('click', () => locate(true));
-    if (!current) navigator.permissions?.query({ name: 'geolocation' }).then(answer => { if (answer.state === 'granted') locate(); }).catch(() => {});
+  const sortSelect = el.querySelector('#chooserSort');
+  const sortStatus = el.querySelector('#chooserSortStatus');
+  const sortRetry = el.querySelector('#chooserSortRetry');
+  sortSelect.value = sortOrder;
+  // Ignore a late GPS fix or permission lookup once the golfer chooses another order.
+  let sortRequest = 0;
+  function sortFeedback(message = '', retry = false) {
+    sortStatus.textContent = message;
+    sortRetry.hidden = !retry;
   }
+  function applySort(order, rows, remember) {
+    sortOrder = order;
+    sortSelect.value = order;
+    if (remember) writeText(storage(), SORT_KEY, order);
+    const focused = cardList.contains(document.activeElement) ? document.activeElement : null;
+    for (const { club, metres } of rows) {
+      const item = cardItems.get(club.id);
+      const badge = item.querySelector('.is-near');
+      badge.hidden = metres === null;
+      badge.textContent = metres === null ? '' : distanceText(metres);
+      cardList.append(item);
+    }
+    focused?.focus({ preventScroll: true });
+    applyFilters();
+  }
+
+  function locate(remember) {
+    const request = ++sortRequest;
+    const failed = code => {
+      if (request !== sortRequest) return;
+      sortSelect.value = sortOrder;
+      const message = code === 1 ? 'Tillåt platsåtkomst i webbläsaren för att sortera efter avstånd.'
+        : code === 3 ? 'Det tog för lång tid att hitta din position.'
+        : 'Din position är inte tillgänglig.';
+      sortFeedback(message, true);
+    };
+    if (!navigator.geolocation) { failed(); return; }
+    sortSelect.value = 'distance';
+    sortFeedback('Hämtar din position…');
+    try {
+      navigator.geolocation.getCurrentPosition(async position => {
+        if (request !== sortRequest) return;
+        const rows = sortClubs(clubs, 'distance', { coords: position.coords });
+        const nearest = rows.find(({ metres }) => metres !== null);
+        if (!nearest) { failed(); return; }
+        const focusMap = remember && el.classList.contains('map-mode');
+        applySort('distance', rows, remember);
+        sortFeedback();
+        if (focusMap) {
+          await switchView('map');
+          const visible = rows.find(({ club, metres }) => metres !== null && matches.has(club.id));
+          if (visible && request === sortRequest && el.classList.contains('map-mode') && !el.hidden) {
+            swedenMapInstance?.focusClub(visible.club.id, true);
+          }
+        }
+      }, error => failed(error.code), { timeout: 12000, maximumAge: 120000 });
+    } catch { failed(); }
+  }
+
+  sortSelect.addEventListener('change', () => {
+    if (sortSelect.value === 'distance') { locate(true); return; }
+    ++sortRequest;
+    sortFeedback();
+    const order = sortSelect.value;
+    applySort(order, sortClubs(clubs, order, { recentSlug: leadSlug }), true);
+    revealResults();
+  });
+  sortRetry.addEventListener('click', () => { sortSelect.focus(); locate(true); });
+
+  async function restoreDistance() {
+    if (sortRequest || preference === 'name' || preference === 'recent') return;
+    let permission;
+    try { permission = (await navigator.permissions?.query({ name: 'geolocation' }))?.state; }
+    catch { /* Some browsers only support asking from the select. */ }
+    if (sortRequest) return;
+    if (permission === 'granted') locate(false);
+    else if (preference === 'distance') sortFeedback('Platsåtkomst behövs för att visa närmaste klubb.', true);
+  }
+  if (context === 'hub') restoreDistance();
+  else el.addEventListener('focusin', restoreDistance, { once: true });
 
   /* How much of the bar stays on screen once it is pinned. On a phone its `top`
      is negative, so the search row slides out and only the chips stay (see
@@ -451,7 +500,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
       if (panel.kind === 'club') {
         picker ??= createClubPicker({ onSelect: pick, onDismiss: () => panels.back() });
         const group = groupsById.get(panel.id);
-        if (group) picker.open({ ...group, courses: group.courses.filter(available) }, panel.mode, previous.at(-1)?.slug);
+        if (group) picker.open({ ...group, courses: group.courses.filter(available) }, panel.mode, previous.at(-1)?.slug, el.getSort());
         return;
       }
       if (!sheet) {
@@ -536,7 +585,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
     if (!map) return;
     el.scrollTop = 0;
     const groups = [...matches].map(([id, layouts]) => ({ ...groupsById.get(id), courses: layouts }));
-    const key = mode + ':' + groups.map(group => group.courses.map(c => c.slug).join('/')).join(',');
+    const key = mode + ':' + groups.map(group => group.courses.map(c => c.slug).sort().join('/')).join(',');
     if (!swedenMapInstance || mapKey !== key) {
       swedenMapInstance?.map.remove();
       swedenMapInstance?.el.remove();
@@ -635,6 +684,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
   };
   el.setMode = setMode;
   el.getMode = () => mode;
+  el.getSort = () => ({ order: sortOrder, recentSlug: leadSlug });
   return el;
 }
 

@@ -1,3 +1,4 @@
+import { sortLayouts } from './club-sort.mjs';
 import { layoutLabel } from './course-clubs.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { ICONS } from './icons.js';
@@ -26,12 +27,13 @@ export function createClubPicker({ onSelect, onDismiss }) {
   return {
     isOpen: () => dialog.open,
     close: () => { if (dialog.open) dialog.close(); },
-    open(group, mode, focusSlug) {
+    open(group, mode, focusSlug, sort = {}) {
       let storage = null;
       try { storage = localStorage; } catch { /* private browsing */ }
       const live = mode === 'map' ? liveRound(storage, group.courses) : null;
       const kept = mode === 'map' ? offlineCourses(storage) : [];
       const city = COURSE_LOCATIONS[group.cover.slug]?.city;
+      const layouts = sortLayouts(group.courses, sort.order, sort.recentSlug);
       dialog.innerHTML = `
         <section class="club-picker-panel">
           <header>
@@ -40,7 +42,7 @@ export function createClubPicker({ onSelect, onDismiss }) {
             <button type="button" class="club-close" data-close aria-label="Tillbaka">${ICONS.close(19)}</button>
           </header>
           <h3>Välj bana</h3>
-          <ul>${group.courses.map(course => {
+          <ul>${layouts.map(course => {
             const signature = SIGNATURE_HOLES[course.slug];
             const picture = course.photos ? `courses/${course.slug}/hero-${signature?.poster || 1}.webp` : course.overviewUrl;
             const states = [];
