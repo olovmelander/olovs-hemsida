@@ -18,6 +18,7 @@
 
    It starts no browser and no heavy job, and changes nothing. It is the place to begin a sitting. */
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -30,6 +31,7 @@ import { deckGroundErrors } from '../packages/course-geo/mapping/deck-ground.mjs
 import { sandAuditOf } from '../packages/course-geo/mapping/sand-audit.mjs';
 import { pinProduction } from '../packages/course-workflow/pin-production.mjs';
 import { prunePlan } from '../packages/course-workflow/promote.mjs';
+import { waterOffTheLine } from './water-line.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const exists = file => fs.existsSync(path.join(ROOT, file));
@@ -42,8 +44,23 @@ export function grounds() {
   return [...new Set(json('apps/golf/public/courses/v2-index.json').courses.map(course => course.groundId))];
 }
 
-/** One ground's findings: [{ level, about, text, run? }]. Pure reading; `facts` is groundFacts(groundId). */
-export async function examine(groundId, facts = groundFacts(groundId)) {
+/** The ground's water bodies near play that stand unlike every accepted pond (two seconds a routing, on the CPU). */
+export function waterFindings(facts) {
+  const file = path.join(os.tmpdir(), `course-doctor-water-${process.pid}.json`);
+  const run = spawnSync(process.execPath, ['tools/audit-water-levels.mjs', '--course', facts.routings.map(x => x.slug).join(','), '--json', file], { cwd: ROOT, encoding: 'utf8' });
+  if (run.status !== 0 || !fs.existsSync(file)) return [{ level: 'known', about: 'water', text: `not measured: ${(run.stderr || '').split('\n')[0].slice(0, 120)}` }];
+  const report = JSON.parse(fs.readFileSync(file, 'utf8'));
+  fs.rmSync(file, { force: true });
+  const off = waterOffTheLine(report), bodies = new Set(report.flatMap(course => course.bodies.filter(body => !body.sea).map(body => body.index))).size;
+  return off.length
+    ? off.map(body => ({ level: 'todo', about: 'water', text: `water ${body.index} (${body.areaM2} m2, ${body.metresFromHole} m from ${body.slug} hole ${body.hole}) ${body.why}`,
+      run: `node tools/audit-water-levels.mjs --course ${body.slug}   (then look at it on the photo and in the app)` }))
+    : [{ level: 'ok', about: 'water', text: `${bodies} lakes and ponds measured; those near play stand as the accepted ponds do` }];
+}
+
+/** One ground's findings: [{ level, about, text, run? }]. Reading only; `facts` is groundFacts(groundId). `water` also
+ * measures the water levels, which the one-line-a-ground list leaves out to stay quick. */
+export async function examine(groundId, facts = groundFacts(groundId), { water = false } = {}) {
   const out = [], say = (level, about, text, run) => out.push({ level, about, text, ...(run ? { run } : {}) });
   const builds = facts.routings.map(x => x.build), home = builds.find(build => exists(`${build}/mapping/trace-config.json`)) ?? null;
 
@@ -83,12 +100,14 @@ export async function examine(groundId, facts = groundFacts(groundId)) {
     }
   }
 
+  if (water) out.push(...waterFindings(facts));
+
   // the model against its own checks
   if (facts.quality.errors) say('broken', 'quality gate', `${facts.quality.errors} errors`, `node tools/check-course-quality.mjs --ground ${groundId}`);
   else say('ok', 'quality gate', `no errors, ${facts.quality.warnings} warnings`);
   for (const x of facts.routings) {
     if (x.card && x.card.marks - x.card.within) say('known', 'card', `${x.slug}: ${x.card.marks - x.card.within} of ${x.card.marks} tee marks are more than 5 m from their card length (worst ${Math.abs(x.card.worst.metres)} m, hole ${x.card.worst.hole})`);
-    if (x.prepared < 4) say('owner', 'prepared data', `${x.slug}: ${x.prepared} of 4 baked records; the bake is a GPU sitting`, 'BANVY_GPU=1 node tools/gpu-pass.mjs --only ' + x.slug);
+    if (x.prepared < x.preparedOf) say('owner', 'prepared data', `${x.slug}: ${x.prepared} of ${x.preparedOf} baked records; the bake is a GPU sitting`, 'BANVY_GPU=1 node tools/gpu-pass.mjs --only ' + x.slug);
     if (!x.posters) say('owner', 'posters', `${x.slug}: no posters; they are taken on the GPU`, 'node tools/make-posters.mjs');
     const tests = `${x.build}/course.node-test.mjs`;
     if (exists(tests) && !json('package.json').scripts.test.includes(tests)) say('broken', 'tests', `${tests} is not in the suite`, 'add it to package.json scripts.test');
@@ -169,7 +188,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const groundId = flag('ground');
   if (argv.includes('--machine')) print('This machine', machine());
   else if (groundId) {
-    const findings = await examine(groundId);
+    const findings = await examine(groundId, undefined, { water: true });
     print(`${groundId}`, findings);
     const count = level => findings.filter(finding => finding.level === level).length;
     console.log(`\n${count('broken')} broken, ${count('todo')} to do, ${count('owner')} for the owner, ${count('known')} known faults, ${count('ok')} hold.`);

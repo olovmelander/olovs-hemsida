@@ -180,7 +180,7 @@ export function checkGroundQuality({
       }
 
       // Check tee pads slope & dryness
-      for (const pad of h.tees?.pads || []) {
+      for (const [padIndex, pad] of (h.tees?.pads || []).entries()) {
         const ring = pad.ring || [];
         if (ring.length < 3) continue;
         const pts = ring.map(([x, z]) => {
@@ -202,7 +202,7 @@ export function checkGroundQuality({
         const cz = ring.reduce((s, p) => s + p[1], 0) / ring.length;
         for (const wb of waterBodies) {
           if (wb.ring && pointInPoly(cx, cz, wb.ring)) {
-            errors.push(`${entry.slug} h${h.n}: tee pad centroid sits inside water body ${wb.id}`);
+            errors.push(`${entry.slug} h${h.n}: tee pad centroid sits inside water body ${wb.id ?? `water ${waterBodies.indexOf(wb)}`}`);
           }
         }
         // The app stands a lake up to 0.3 m over its plate: ground at the water's own level beside it floods (a fill newer
@@ -210,7 +210,7 @@ export function checkGroundQuality({
         const medianH = pts.map(p => p.h).sort((m, n) => m - n)[pts.length >> 1];
         const wet = waterBodies.find(wb => wb.ring && Number.isFinite(wb.level) && Math.abs(medianH - wb.level) < 0.3
           && pts.some(p => ringGap(p.x, p.z, wb.ring) < 6));
-        if (wet) warnings.push(`${entry.slug} h${h.n}: tee ${pad.id} stands at the water's own level beside ${wet.id}; the laser may be older than the ground`);
+        if (wet) warnings.push(`${entry.slug} h${h.n}: tee ${pad.id ?? `deck ${padIndex + 1}`} stands at the water's own level beside ${wet.id ?? `water ${waterBodies.indexOf(wet)}`}; the laser may be older than the ground`);
         teesDryChecked++;
       }
     }
