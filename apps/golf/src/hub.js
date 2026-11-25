@@ -18,7 +18,6 @@ import { buildHome } from './shell/home.js';
 import { createCourseSheet } from './shell/course-sheet.js';
 import { isPhone } from './shell/map-default.mjs';
 import { parentHubRoute, previousCourseEntry } from './shell/router.js';
-import { packRequestUrl } from './loader/pack.js';
 import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch, savedTee } from './shell/settings-store.mjs';
 import { getCloudState, initCloud } from './shell/cloud.mjs';
 
@@ -61,7 +60,6 @@ try {
       try { storage()?.setItem(catalogueKey, JSON.stringify(courses)); } catch { /* storage can be full */ }
     } catch { catalogueFailed = true; }
   })();
-  const prefetched = new Set();
 
   /* A course opens in the mode it was picked in, with the settings' launch
      values, and is remembered so the start menu can offer it again. */
@@ -196,17 +194,6 @@ try {
       },
       onHome: openHome,
       onSettings: () => go('installningar'),
-      /* Warm the cache for the course under the pointer -- by the SAME url the
-         player and the map will ask for, or the warm-up is a whole pack
-         (214-730 kB) nobody ever reads (see packRequestUrl). Low priority: it
-         must never compete with the posters. */
-      onIntent: slug => {
-        /* a device asking to save data fetches a pack only when it is opened */
-        if (prefetched.has(slug) || navigator.connection?.saveData) return;
-        prefetched.add(slug);
-        const course = courses.find(c => c.slug === slug);
-        if (course?.packUrl) fetch(packRequestUrl(course), { priority: 'low' }).catch(() => {});
-      },
     });
     keepPlace(chooser);
     chooser.hidden = true;
@@ -236,6 +223,12 @@ try {
     if (stats) return stats;
     /* the rounds are the map's, so a course is played next in the map */
     stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route), onCourse: slug => openCourse(slug, 'map'),
+      onLeaveExample: () => go('statistik'),
+      onRound: (course, id, example) => {
+        const path = `statistik/${encodeURIComponent(course)}/${encodeURIComponent(id)}${example ? '?exempel=1' : ''}`;
+        if (location.hash === '#' + path) stats.revealCourse();
+        else go(path);
+      },
       onFiltersOpen: () => {
         const [path, search] = location.hash.slice(1).split('?');
         const query = new URLSearchParams(search);
@@ -296,14 +289,15 @@ try {
     if (!toBag && cleanBag) { cleanBag = false; patchHistory({ bagDraft: null }); }
     if (sheet.isOpen()) sheet.close();
     if (clubPicker.isOpen()) clubPicker.close();
-    if (mode) await catalogueReady;
+    if (mode || (key === 'stats' && query.get('exempel') === '1')) await catalogueReady;
     if (version !== sequence) return;
     const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats() : mode ? getChooser(mode) : getHome();
     if (version !== sequence) return;
     if (mode && screen.getMode() !== mode) screen.setMode(mode);
     const course = key === 'stats' && detail ? detail : null;
     if (key === 'stats') {
-      if (course && !statsView) screen.showCourse(course, roundId || null);
+      const example = query.get('exempel') === '1';
+      if ((course || example) && !statsView) screen.showCourse(course || 'all', roundId || null, example);
       else screen.restore(statsView ?? null);
     } else if (!mode) screen.refresh?.();
     if (key === 'settings') screen.selectSection(toBag ? 'spelare' : detail);

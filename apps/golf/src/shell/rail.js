@@ -10,7 +10,7 @@ import { hubUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { distanceText } from './nearest-course.mjs';
-import { LAST_COURSE_KEY, MODES, launchUrl, liveRound, readSettings, readText, rememberLaunch, writeText } from './settings-store.mjs';
+import { LAST_COURSE_KEY, MODES, launchUrl, courseSessions, sessionBadge, sessionPosition, readSettings, readText, rememberLaunch, writeText } from './settings-store.mjs';
 
 const SORT_KEY = 'banvy-club-sort-v1';
 
@@ -87,7 +87,7 @@ const MODE_SUB = { detailed: 'Full grafik · hemma', map: 'GPS · på banan', pl
 /* `context` is where the list lives: 'hub', the start menu's own page, or
    'player', the glass over a running course (main.js). `mode` is which way the
    cards open, and setMode() changes it in place. */
-export function buildRail({ courses, current, last = null, onPick, onPickClub, onIntent, isInitialBoot = false,
+export function buildRail({ courses, current, last = null, onPick, onPickClub, isInitialBoot = false,
   context = 'player', mode: initialMode = 'detailed', onModeChange = null, onHome = null, onSettings = null }) {
   const phone = isPhone();
   let mode = MODES[initialMode] ? initialMode : 'detailed';
@@ -96,8 +96,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
      bare visit to the player boots the manifest's first entry, which nobody
      chose, so that one is not remembered. */
   if (current && !isInitialBoot) rememberLaunch(storage(), current, 'detailed');
-  /* a round under way in the map, marked on its course's card */
-  const live = liveRound(storage(), courses);
+  let sessions = courseSessions(storage(), courses);
 
   const el = document.createElement('div');
   el.id = 'chooser';
@@ -223,10 +222,6 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
             ${ordered.map(({ club: group }, index) => {
               const c = group.cover;
               const place = COURSE_LOCATIONS[c.slug]?.city || c.boot;
-              const liveLayout = group.courses.find(layout => layout.slug === live?.course.slug);
-              const recent = group.courses.find(layout => layout.slug === leadSlug);
-              const state = liveLayout ? `Runda pågår · ${layoutLabel(liveLayout)}` :
-                recent ? `${current ? 'Aktiv bana' : 'Senast öppnad'} · ${layoutLabel(recent)}` : '';
               return `<li class="card-item" data-slug="${esc(c.slug)}" data-club-id="${esc(group.id)}">
                 <button class="card club-card" type="button" data-slug="${esc(c.slug)}" data-club-id="${esc(group.id)}">
                   <span class="shot" ${posterAttr(c, index)} aria-hidden="true"></span>
@@ -234,7 +229,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
                     <strong class="club-name">${esc(group.name)}</strong>
                     <span class="club-layouts" data-layout-names></span>
                     <span class="club-foot"><span data-layout-count></span><span class="club-arrow" aria-hidden="true">${ICONS.chevronRight(16)}</span></span>
-                    ${state ? `<small class="club-state">${esc(state)}</small>` : ''}
+                    <small class="club-state" hidden></small>
                   </span>
                 </button>
               </li>`;
@@ -273,15 +268,31 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
   function applyFilters() {
     matches.clear();
     let layoutCount = 0;
+    // Match all words on one layout. A typed hole count or par refers to
+    // the scorecard, even when a course description mentions another hole.
+    const holes = activeQuery.match(/\b(\d+)[\s-]*(?:hals?|holes?)\b/);
+    const par = activeQuery.match(/\bpar\s*(\d+)\b/);
+    let words = activeQuery;
+    if (holes) words = words.replace(holes[0], ' ');
+    if (par) words = words.replace(par[0], ' ');
+    const terms = words.match(/[\p{L}\p{N}]+/gu) || [];
     cardItems.forEach(item => {
       const group = groupsById.get(item.dataset.clubId);
       const layouts = group.courses.filter(c => available(c) && (activeFilter === 'all' || category(c) === activeFilter)
-        && (!activeQuery || searchKeys.get(c.slug).includes(activeQuery)));
+        && (!holes || c.holes === Number(holes[1])) && (!par || c.par === Number(par[1]))
+        && terms.every(term => searchKeys.get(c.slug).includes(term)));
       item.hidden = !layouts.length;
       if (!layouts.length) return;
       layoutCount += layouts.length;
       const sortedLayouts = sortLayouts(layouts, sortOrder, leadSlug);
       matches.set(group.id, sortedLayouts);
+      const active = sessions.filter(session => session.mode === mode && layouts.some(c => c.slug === session.course.slug));
+      const recent = layouts.find(c => c.slug === leadSlug);
+      const badge = item.querySelector('.club-state');
+      badge.textContent = active.length
+        ? active.map(s => [sessionBadge(s), layoutLabel(s.course), sessionPosition(s)].filter(Boolean).join(' · ')).join(' / ')
+        : recent ? `${current ? 'Aktiv bana' : 'Senast öppnad'} · ${layoutLabel(recent)}` : '';
+      badge.hidden = !badge.textContent;
       const names = item.querySelector('[data-layout-names]');
       const facts = item.querySelector('[data-layout-count]');
       const single = layouts.length === 1 && group.courses.length === 1;
@@ -543,13 +554,6 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
   }
   el.querySelectorAll('.card').forEach(btn => {
     btn.addEventListener('click', () => pickClub(btn.dataset.clubId));
-    if (!onIntent) return;
-    const hint = () => {
-      const layouts = matches.get(btn.dataset.clubId);
-      if (layouts?.length === 1) onIntent(layouts[0].slug);
-    };
-    btn.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') hint(); });
-    btn.addEventListener('focus', () => { if (btn.matches(':focus-visible')) hint(); });
   });
 
   const lazyShots = [...el.querySelectorAll('.shot[data-bg]')];
@@ -670,6 +674,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, o
   el.snapshot = () => ({ query: searchInput.value, filter: activeFilter, view: el.classList.contains('map-mode') ? 'map' : 'grid', map: swedenMapInstance?.snapshot(), scroll: el.scrollTop });
   el.restore = async data => {
     if (!data) return;
+    sessions = courseSessions(storage(), courses);
     searchInput.value = data.query ?? '';
     activeQuery = searchText(searchInput.value);
     setFilter([...filterBtns].some(b => b.dataset.filter === data.filter) ? data.filter : 'all');

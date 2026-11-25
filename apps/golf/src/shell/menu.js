@@ -275,17 +275,33 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
      Each tile clicks the panel's own button, so the course has one behaviour
      and one state for it; the tile reads that state back. */
   const RAIL_OF = { fly: 'flyBtn', tour: 'tourBtn', range: 'rangeBtn', strategy: 'strategyBtn', grid: 'gridBtn', gps: 'gpsBtn', bag: 'bagBtn', note: 'mobileNoteToggle', mini: 'mobileMiniToggle' };
+  const toggles = ['range', 'strategy', 'grid', 'gps'];
   const isOn = key => {
     const btn = RAIL_OF[key] && document.getElementById(RAIL_OF[key]);
     if (!btn) return false;
     return btn.classList.contains('on') || btn.getAttribute('aria-pressed') === 'true';
   };
   const syncTiles = () => {
-    for (const el of drawer.querySelectorAll('[data-tool]')) el.classList.toggle('is-on', ['range', 'strategy', 'grid', 'gps'].includes(el.dataset.tool) && isOn(el.dataset.tool));
+    for (const key of toggles) {
+      const tile = drawer.querySelector(`[data-tool="${key}"]`);
+      const active = isOn(key);
+      tile.classList.toggle('is-on', active);
+      tile.setAttribute('aria-pressed', String(active));
+    }
   };
+  const toolState = new MutationObserver(() => { if (drawer.open) syncTiles(); });
+  for (const key of toggles) {
+    const button = document.getElementById(RAIL_OF[key]);
+    if (button) toolState.observe(button, { attributes: true, attributeFilter: ['class', 'aria-pressed'] });
+  }
   for (const el of drawer.querySelectorAll('button[data-tool]')) {
     el.addEventListener('click', () => {
       const key = el.dataset.tool;
+      if (key === 'strategy' || key === 'grid' || key === 'gps') {
+        chooseView(() => document.getElementById(RAIL_OF[key])?.click());
+        syncTiles();
+        return;
+      }
       close();
       if (RAIL_OF[key]) document.getElementById(RAIL_OF[key])?.click();
       if (key === 'note' || key === 'mini') {

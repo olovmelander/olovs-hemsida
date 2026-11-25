@@ -1,9 +1,8 @@
-import { readPlayCheckpoint } from '../play/play-rules.mjs';
 import '../styles/hub.css';
 import { isPhone } from './map-default.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import { parseHistory } from '../map/map-shots.mjs';
-import { MAP_KEYS, MODES, lastLaunch, liveRound, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
+import { MAP_KEYS, MODES, courseSessions, lastLaunch, sessionPosition, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
 import { perEighteen, playedHoles, scoreToPar } from './stats-model.mjs';
 import { clubIdFor, groupCourses, layoutLabel } from './course-clubs.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
@@ -19,9 +18,8 @@ const poster = (slug, n = 1) => `${BASE}courses/${slug}/hero-${n}.webp`;
 const backdrop = slug => `${BASE}courses/${slug}/backdrop.webp`;
 /* The island green in the fjord: the frame that says "a real course, in 3D" fastest. */
 const DEFAULT_BACKDROP = 'veckefjarden';
-/* The two modes' pictures. Both are the detailed course's own posters, as the
-   cards in both lists are (owner, 7 November): the map is the same place. */
-const MODE_ART = { detailed: 'visby', map: 'puttom' };
+const DETAILED_ART = poster('visby');
+const GPS_ART = `${BASE}play/gps-card.webp`;
 /* Spela's card: the game itself, from behind the golfer on the first tee */
 const PLAY_ART = `${BASE}play/spela-card.webp`;
 
@@ -49,8 +47,8 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
   el.setAttribute('aria-labelledby', 'homeTitle');
 
   const activities = {
-    detailed: { action: 'Utforska banan', detail: 'Flyg över hålen och läs greenerna.', icon: CUBE, image: poster(MODE_ART.detailed), key: 1 },
-    map: { label: 'Lätt 3D med GPS', action: 'Spela på banan', detail: 'Mät avstånd och för score under rundan.', icon: PIN, image: poster(MODE_ART.map), key: 2 },
+    detailed: { action: 'Utforska banan', detail: 'Flyg över hålen och läs greenerna.', icon: CUBE, image: DETAILED_ART, key: 1 },
+    map: { label: 'Lätt 3D med GPS', action: 'Spela på banan', detail: 'Mät avstånd och för score under rundan.', icon: PIN, image: GPS_ART, key: 2 },
     play: { action: 'Spela en virtuell runda', detail: 'Sikta, slå och putta med din egen bag.', icon: GOLFER, image: PLAY_ART, key: 3 },
   };
 
@@ -156,44 +154,36 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       : 'Dina rundor och din bag finns i Statistik och Inställningar.';
     requestAnimationFrame(() => transfers.refresh());
     const last = lastLaunch(storage(), playable);
-    /* A round under way comes first: it is what the golfer is standing in. */
-    const live = liveRound(storage(), playable);
+    const sessions = courseSessions(storage(), playable);
+    const featured = (phone ? ['map', 'play'] : ['play', 'map']).map(mode => sessions.find(s => s.mode === mode)).filter(Boolean);
     const courseCaption = course => {
       const title = layoutLabel(course);
       const club = clubs.find(group => group.id === clubIdFor(course.slug));
       return club?.courses.length > 1 ? `${club.name} · ${title}` : title;
     };
-    paintBackdrop(live?.course.slug || last?.course.slug || DEFAULT_BACKDROP);
+    paintBackdrop(featured[0]?.course.slug || last?.course.slug || DEFAULT_BACKDROP);
     summaryEl.textContent = settingsSummary(readSettings(storage()), readFrameCap(storage()));
     statsSummaryEl.textContent = statsSummary();
-    if (live) {
-      const completed = live.holes === 1 ? '1 spelat hål' : `${live.holes} spelade hål`;
-      const where = [live.hole ? `Hål ${live.hole}` : null, completed, live.strokes ? `${live.strokes} slag` : null].filter(Boolean).join(' · ');
-      resumeSlot.innerHTML = `
-        <button class="home-resume is-live" type="button" data-resume>
-          <span class="hr-thumb" style="background-image:url('${poster(live.course.slug)}')" aria-hidden="true"></span>
-          <span class="hr-text">
-            <span class="hr-kicker"><i class="hr-live" aria-hidden="true"></i>Fortsätt GPS-rundan</span>
-            <span class="hr-name">${esc(courseCaption(live.course))}</span>
-            <span class="hr-sub">${esc(where)}</span>
-          </span>
-          <span class="hr-mode">${PIN}${MODES.map.label}</span>
-          <span class="hr-go" aria-hidden="true">${ARROW}</span>
-        </button>`;
-      const btn = resumeSlot.querySelector('[data-resume]');
-      btn.setAttribute('aria-label', `Fortsätt GPS-rundan på ${live.course.club}, ${layoutLabel(live.course)}. ${where}`);
-      btn.addEventListener('click', () => onResume(live.course.slug, 'map', { round: 'resume' }));
-      return;
-    }
-    const simulation = playable.map(course => ({ course, saved: readPlayCheckpoint(storage(), course.slug, course.holes) }))
-      .filter(item => item.saved).sort((a, b) => b.saved.round.id - a.saved.round.id)[0];
-    if (simulation) {
-      const { course, saved } = simulation;
-      resumeSlot.innerHTML = `<button class="home-resume" type="button" data-resume data-simulation>
-        <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
-        <span class="hr-text"><span class="hr-kicker">Fortsätt simuleringen</span><span class="hr-name">${esc(courseCaption(course))}</span>
-        <span class="hr-sub">Hål ${saved.round.current} · ${MODES.play.label}</span></span><span class="hr-go" aria-hidden="true">${ARROW}</span></button>`;
-      resumeSlot.querySelector('button').onclick = () => onResume(course.slug, 'play', { sim: 'fortsatt' });
+    resumeSlot.classList.toggle('has-multiple', featured.length > 1);
+    if (featured.length) {
+      const focusId = resumeSlot.contains(document.activeElement) ? document.activeElement.id : null;
+      resumeSlot.innerHTML = featured.map(session => {
+        const gps = session.mode === 'map';
+        const action = gps ? 'Fortsätt GPS-rundan' : 'Fortsätt simuleringen';
+        const completed = gps ? (session.holes === 1 ? '1 spelat hål' : `${session.holes} spelade hål`) : '';
+        const where = [sessionPosition(session), completed, session.strokes ? `${session.strokes} slag` : ''].filter(Boolean).join(' · ');
+        return `<button class="home-resume${gps ? ' is-live' : ''}" id="homeResume-${session.mode}" type="button" data-resume="${session.mode}"${gps ? '' : ' data-simulation'}>
+          <span class="hr-thumb" style="background-image:url('${poster(session.course.slug)}')" aria-hidden="true"></span>
+          <span class="hr-text"><span class="hr-kicker">${gps ? '<i class="hr-live" aria-hidden="true"></i>' : ''}${action}</span>
+            <span class="hr-name">${esc(courseCaption(session.course))}</span><span class="hr-sub">${esc(where)}</span></span>
+          <span class="hr-mode">${activities[session.mode].icon}${MODES[session.mode].label}</span>
+          <span class="hr-go" aria-hidden="true">${ARROW}</span></button>`;
+      }).join('');
+      for (const session of featured) {
+        resumeSlot.querySelector(`[data-resume="${session.mode}"]`).onclick = () => onResume(session.course.slug, session.mode,
+          session.mode === 'map' ? { round: 'resume' } : { sim: 'fortsatt', tee: session.tee, hole: session.hole });
+      }
+      if (focusId) resumeSlot.querySelector('#' + CSS.escape(focusId))?.focus({ preventScroll: true });
       return;
     }
     lookNear();

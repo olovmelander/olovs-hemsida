@@ -29,7 +29,9 @@ const browser = await chromium.launch({
   ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
   args: browserArgs(),
 });
-const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+// On software graphics, confirm a real first frame at a small size. Each
+// layout below still uses its full viewport and the live course controls.
+const context = await browser.newContext({ viewport: GPU ? { width: 1440, height: 900 } : { width: 480, height: 320 } });
 const page = await context.newPage();
 page.setDefaultTimeout(180_000);
 const errors = [];
@@ -41,7 +43,13 @@ const gate = (ok, message) => {
 };
 
 await page.goto(`${BASE}/?bana=veckefjarden&karta=0&hal=12&vy=tee&det=1${GPU ? '' : '&q=lo'}`, { waitUntil: 'load', timeout: 180_000 });
-await page.waitForSelector('#boot.done', { timeout: 600_000 });
+await page.waitForFunction(() => document.querySelector('#boot.done')
+  || !document.querySelector('#bootRecovery').hidden, null, { timeout: 600_000 });
+if (!await page.locator('#boot.done').count()) {
+  const message = await page.locator('#bmsg').innerText();
+  await browser.close();
+  throw new Error('Course could not render its first frame: ' + message);
+}
 await page.waitForTimeout(1200);
 // The panels are live DOM over the finished course. Pause expensive draws while
 // measuring the same HUD at multiple window sizes, particularly on SwiftShader.
@@ -153,5 +161,26 @@ for (const [width, height] of [[568, 320], [667, 375], [390, 844]]) {
   await close.click();
   gate(await toggle.evaluate(el => el === document.activeElement && el.getAttribute('aria-expanded') === 'false'),
     'closing the overview restores its launcher');
+}
+await page.setViewportSize({ width: 1366, height: 768 });
+const fold = page.locator('#railFoldBtn');
+if (await fold.getAttribute('aria-expanded') === 'true') await fold.click();
+const button = await fold.boundingBox();
+gate(button.height >= 44 && button.width >= 150, 'the folded tools header is a full-width touch target');
+await fold.getByText('Vy · ljus · verktyg').click();
+gate(await fold.getAttribute('aria-expanded') === 'true', 'the header words open the toolbar');
+await fold.focus();
+await page.keyboard.press('Enter');
+gate(await fold.getAttribute('aria-expanded') === 'false', 'keyboard activation folds the toolbar');
+await page.locator('#menuToggle').click();
+await page.getByRole('tab', { name: 'Utforska' }).click();
+for (const [tile, control] of [['#dStrategyBtn', '#strategyBtn'], ['#dGridBtn', '#gridBtn']]) {
+  const toggle = page.locator(tile);
+  const before = await toggle.getAttribute('aria-pressed');
+  await toggle.click();
+  gate(await page.locator('#navDrawer[open]').isVisible()
+    && await toggle.getAttribute('aria-pressed') === String(before !== 'true'), 'switching ' + tile + ' preserves the drawer and reports the new state');
+  await page.locator(control).evaluate(el => el.click());
+  await page.waitForFunction(({ tile, before }) => document.querySelector(tile).getAttribute('aria-pressed') === before, { tile, before });
 }
 await browser.close();

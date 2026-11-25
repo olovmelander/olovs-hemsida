@@ -305,6 +305,13 @@ describe('a round under way', () => {
     });
     expect(liveRound(st, courses, NOW)).toMatchObject({ course: courses[0], hole: 4, holes: 3, strokes: 9 });
   });
+  it('shows the same next hole as the map for an older card with an expired preview', () => {
+    const st = memory({
+      [`${ROUND_KEY}:visby`]: round({ touchedAt: NOW, scores: { 5: { strokes: 4 } } }),
+      [`${HOLE_KEY}:visby`]: JSON.stringify({ value: 16, at: NOW - 7 * 3600e3 }),
+    });
+    expect(liveRound(st, courses, NOW)?.hole).toBe(6);
+  });
   it('leaves out an ended round, a stale one, and a card never begun', () => {
     expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 600e3, endedAt: NOW - 60e3 }) }), courses, NOW)).toBeNull();
     expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 7 * 3600e3 }) }), courses, NOW)).toBeNull();

@@ -143,7 +143,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
               <legend data-tee-legend>Tee</legend>
               <div class="cs-tees">${tees.map((name, i) => `
                 <label class="cs-tee"><input type="radio" id="csTee-${i}" name="cs-tee" value="${i}"${plan.tee === i ? ' checked' : ''}>
-                  <span><i style="background:${teeColour(c.tees.cols?.[i])}"></i>${esc(name)}</span></label>`).join('')}
+                  <span class="cs-tee-option"><b><i style="background:${teeColour(c.tees.cols?.[i])}"></i>${esc(name)}</b>
+                    <small data-tee-metres></small></span></label>`).join('')}
               </div>
             </fieldset>` : ''}
 
@@ -210,18 +211,18 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
               </div>
               <ol class="cs-guide" data-guide tabindex="0" aria-label="Hålen ett i taget"></ol>
             </details>
+            <section class="cs-offline-tools" data-only="map" aria-label="Offlinebana">
+              <p class="cs-hint" role="status" data-offline-status></p>
+              <button type="button" class="cs-ghost" id="csOffline" data-offline-action hidden>Kontrollera offlinebanan</button>
+            </section>
+            <p class="cs-hint" role="status" data-hint></p>
           </div>
 
           <div class="cs-actions">
             <button type="button" class="cs-go" id="csLaunch" data-go></button>
             <button type="button" class="cs-ghost" id="csNewSimulator" data-new-sim hidden>Starta ny simulering</button>
             <button type="button" class="cs-ghost" id="csPractice" data-practice data-only="play">Träna slag</button>
-            <div class="cs-map-actions" data-only="map">
-              <button type="button" class="cs-ghost" id="csPreview" data-look>Bara titta på banan</button>
-              <button type="button" class="cs-ghost" id="csOffline" data-offline-action>Kontrollera offlinebanan</button>
-            </div>
-            <p class="cs-hint" role="status" data-offline-status data-only="map"></p>
-            <p class="cs-hint" role="status" data-hint></p>
+            <button type="button" class="cs-ghost" id="csPreview" data-look data-only="map">Bara titta på banan</button>
           </div>
         </div>
       </form>`;
@@ -320,36 +321,29 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
       el.hidden = false;
     });
 
-    /* the card comes from the course's pack, which the round reads next. A phone
-       asking to save data fetches it only when asked, and is told its size. */
     card = null;
     guideShown = false;
-    if (globalThis.navigator?.connection?.saveData) {
-      const kb = Math.max(1, Math.round((c.bytes || 0) / 1024));
-      dialog.querySelector('#csCardTitle').textContent = 'Scorekort och banguide';
-      dialog.querySelector('[data-card]').innerHTML = `<button type="button" class="cs-ghost cs-card-load" data-card-load>Hämta scorekort och banguide · ${kb} kB</button>`;
-      const length = dialog.querySelector('[data-length]');
-      length.textContent = '–';
-      length.classList.remove('is-wait');
-      dialog.querySelector('[data-card-load]').addEventListener('click', () => {
-        dialog.querySelector('[data-card]').innerHTML = '<p class="cs-card-note">Hämtar scorekortet …</p>';
-        fetchCard(c);
-      });
-    } else fetchCard(c);
+    fetchCard(c);
   }
 
   function fetchCard(c) {
+    const cardEl = dialog.querySelector('[data-card]');
+    cardEl.innerHTML = '<p class="cs-card-note">Hämtar scorekortet …</p>';
     loadScorecard(c).then(
       loaded => {
         if (course !== c) return;
-        dialog.querySelector('#csCardTitle').textContent = 'Scorekort';
         card = loaded;
+        const teeOptions = dialog.querySelectorAll('[data-tee-metres]');
+        teeOptions.forEach((option, i) => {
+          const distance = loaded.lengths[i];
+          option.textContent = Number.isFinite(distance) ? `${distance.toLocaleString('sv-SE')} m` : 'Längd saknas';
+        });
         paintCard();
       },
       () => {
         if (course !== c) return;
-        dialog.querySelector('[data-card]').innerHTML = '<p class="cs-card-note">Scorekortet kunde inte hämtas just nu.</p><button type="button" class="cs-ghost" data-card-retry>Försök igen</button>';
-        dialog.querySelector('[data-card-retry]').onclick = () => fetchCard(c);
+        cardEl.innerHTML = '<p class="cs-card-note">Scorekortet kunde inte hämtas just nu.</p><button type="button" class="cs-ghost" data-card-retry>Försök igen</button>';
+        cardEl.querySelector('[data-card-retry]').onclick = () => fetchCard(c);
         const length = dialog.querySelector('[data-length]');
         length.textContent = '–';
         length.classList.remove('is-wait');
@@ -509,7 +503,9 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     writeText(storage(), `${TEE_KEY}:${course.slug}`, plan.tee);
     /* the player's handicap is theirs in both: the map's card and the game's points */
     if ((plan.mode === 'map' || plan.mode === 'play') && !savePlayerProfile('handicap', plan.handicap ?? null)) {
-      dialog.querySelector('[data-hint]').textContent = 'Handicap kunde inte sparas på enheten. Kontrollera webbläsarens lagring och försök igen.';
+      const hint = dialog.querySelector('[data-hint]');
+      hint.textContent = 'Handicap kunde inte sparas på enheten. Kontrollera webbläsarens lagring och försök igen.';
+      hint.scrollIntoView({ block: 'nearest' });
       return;
     }
     if (plan.mode === 'play') { try { storage()?.setItem(CHARACTER_KEY, plan.character); } catch {} }

@@ -87,7 +87,7 @@ function niceStep(range) {
   for (const step of [1, 2, 5, 10, 20, 50]) if (range / step <= 5) return step;
   return 100;
 }
-function drawTrend(host, rows, { metric = 'score', onPickRound = null } = {}) {
+function drawTrend(host, rows, { metric = 'score', selectedRound, onPoint, onPickRound = null } = {}) {
   const isPoints = metric === 'points';
   const list = isPoints ? rows.filter(r => Number.isFinite(r.points)) : rows;
   if (!list.length) {
@@ -125,7 +125,7 @@ function drawTrend(host, rows, { metric = 'score', onPickRound = null } = {}) {
   const fmtTick = v => (isPoints ? `${v} p` : (v === 0 ? 'Par' : signedInt(v)));
   const fmtVal = v => (isPoints ? `${Math.round(v)} p` : signed(v));
 
-  host.innerHTML = `<svg class="st-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" tabindex="0" role="img"
+  host.innerHTML = `<svg class="st-svg" id="statsTrendChart" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" tabindex="0" role="img"
       aria-label="${isPoints ? 'Stableford-poäng per runda' : 'Resultat per 18 hål mot par'}, ${list.length} rundor. Senaste ${fmtVal(values[last])}, ${isPoints ? 'högsta' : 'lägsta'} ${fmtVal(values[bestIndex])}. Piltangenterna går runda för runda, Enter öppnar scorekortet.">
     <defs><linearGradient id="stWash" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5fd07a" stop-opacity=".15"/><stop offset="1" stop-color="#5fd07a" stop-opacity="0"/></linearGradient></defs>
     ${ticks.map(v => `<line class="${v === refValue ? 'st-zero' : 'st-grid'}" x1="${pad.l}" x2="${W - pad.r}" y1="${y(v)}" y2="${y(v)}"/>
@@ -141,10 +141,13 @@ function drawTrend(host, rows, { metric = 'score', onPickRound = null } = {}) {
     <rect class="st-hit" x="${pad.l - 12}" y="0" width="${plotW + 24}" height="${H}"/>
   </svg>`;
   const svg = host.querySelector('svg'), cross = svg.querySelector('.st-cross');
-  let at = last;
+  const selected = list.findIndex(row => `${row.course}|${row.id}` === selectedRound);
+  let at = selected < 0 ? last : selected;
+  let touchPoint = null;
   const point = i => {
     at = Math.max(0, Math.min(last, i));
     const row = list[at];
+    onPoint?.(row);
     const roll = rollOf(row);
     cross.setAttribute('x1', x(at)); cross.setAttribute('x2', x(at)); cross.setAttribute('visibility', 'visible');
     svg.querySelectorAll('.st-dot').forEach((dot, k) => dot.classList.toggle('is-on', k === at));
@@ -158,7 +161,7 @@ function drawTrend(host, rows, { metric = 'score', onPickRound = null } = {}) {
       [`${row.courseName ?? row.course} · ${dateText(row.date)}`],
       [`${row.strokes} slag på ${row.holes} hål (${signedInt(row.toPar)})${!isPoints && row.points !== null ? ` · ${row.points} p` : ''}`],
       ...(rollNote ? [[rollNote]] : []),
-      ...(onPickRound ? [['Klicka för scorekort']] : []),
+      ...(onPickRound ? [[touchPoint === at ? 'Tryck igen för scorekort' : 'Öppna scorekort med klick eller Enter']] : []),
     ], hostBox.left - cardBox.left + x(at), hostBox.top - cardBox.top + y(valOf(row)));
   };
   const clear = () => { cross.setAttribute('visibility', 'hidden'); svg.querySelectorAll('.st-dot').forEach(dot => dot.classList.remove('is-on')); tip.hide(); };
@@ -169,16 +172,17 @@ function drawTrend(host, rows, { metric = 'score', onPickRound = null } = {}) {
     return nearest;
   };
   svg.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') point(nearestTo(e)); });
-  svg.addEventListener('pointerdown', e => { if (e.pointerType === 'touch') point(nearestTo(e)); });
   svg.addEventListener('click', e => {
-    if (e.pointerType === 'touch') return;
     const idx = nearestTo(e);
+    const inspect = e.pointerType === 'touch' && idx !== touchPoint;
+    touchPoint = e.pointerType === 'touch' ? idx : null;
+    svg.focus({ preventScroll: true });
     point(idx);
-    onPickRound?.(list[idx]);
+    if (!inspect) onPickRound?.(list[idx]);
   });
   svg.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') clear(); });
   svg.addEventListener('focus', () => point(at));
-  svg.addEventListener('blur', clear);
+  svg.addEventListener('blur', () => { touchPoint = null; clear(); });
   svg.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); point(at + (e.key === 'ArrowLeft' ? -1 : 1)); }
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPickRound?.(list[at]); }
@@ -359,13 +363,13 @@ function deltaBadge(value, { unit = '', digits = 1, higherIsBetter = true, thres
 }
 
 /* =============================================================== the page */
-export function buildStats({ courses, onBack, onPlay, onCourse = null, onFiltersOpen, onFiltersClose }) {
+export function buildStats({ courses, onBack, onPlay, onCourse = null, onRound, onLeaveExample, onFiltersOpen, onFiltersClose }) {
   const el = document.createElement('div');
   el.id = 'stats';
   el.className = 'hub-screen';
   el.setAttribute('role', 'main');
   el.setAttribute('aria-labelledby', 'statsTitle');
-  const defaultView = () => ({ period: 'all', course: 'all', example: false, trendMetric: 'score', roundId: null, view: {} });
+  const defaultView = () => ({ period: 'all', course: 'all', example: false, trendMetric: 'score', trendRound: null, roundId: null, view: {} });
   const state = defaultView();
   const changed = () => el.dispatchEvent(new Event('stats-view-change', { bubbles: true }));
   const poster = slug => (courses.some(c => c.slug === slug) ? `${BASE}courses/${slug}/hero-1.webp` : '');
@@ -463,7 +467,8 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
   function read() {
     if (state.example) {
       const bag = parseBag(null);
-      return { ...exampleData({ courses, bag }), bag };
+      return courses.some(course => course.holes === 18 && course.status !== 'mapping')
+        ? { ...exampleData({ courses, bag }), bag } : { rounds: [], shots: [], bag };
     }
     return {
       rounds: parseRounds(readText(storage(), MAP_KEYS.rounds, null)),
@@ -694,7 +699,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
           </div>` : latestRow ? `<div class="sl-score"><b>${latestRow.strokes}</b><div class="sl-score-sub"><span>${latestRow.toPar == null ? 'slag · par saknas' : `slag · ${signedInt(latestRow.toPar)} mot par`}</span>
               ${latestRow.points !== null ? `<span class="sl-points">${latestRow.points} poäng · Stableford</span>` : ''}
               ${versusPrevious != null ? `<em class="sl-cmp">${Math.abs(versusPrevious) < 0.3 ? 'I nivå med tidigare snitt' : `${dec(Math.abs(versusPrevious))} slag ${versusPrevious < 0 ? 'bättre' : 'över snittet'} per 18 hål`}</em>` : ''}</div></div>` : ''}
-          <div class="sl-actions"><button type="button" class="st-view" data-jump-round="${esc(`${latest.record.course}|${latest.record.id}`)}">${latestRow ? 'Öppna scorekort' : 'Öppna rundan'}</button>
+          <div class="sl-actions"><button type="button" class="st-view" id="statsLatest-${esc(latest.record.course)}-${esc(latest.record.id)}" data-jump-round="${esc(`${latest.record.course}|${latest.record.id}`)}">${latestRow ? 'Öppna scorekort' : 'Öppna rundan'}</button>
             <button type="button" class="st-view" data-share-round="${esc(`${latest.record.course}|${latest.record.id}`)}">Dela bild</button>${replayLink(latest, 'latest')}</div>
         </article>` : `<article class="st-card st-latest"><div class="sl-info"><h2 class="sl-course">Dina loggade slag</h2><p class="sl-meta">${stat.shotCount} loggade · ${stat.shotsMeasured} GPS-uppmätta</p></div></article>`}
         ${overviewInsights.length ? `<section class="st-insights" aria-labelledby="stHowH"><h2 class="st-h2" id="stHowH">Så spelar du</h2>${insightCard(overviewInsights[0])}</section>` : ''}
@@ -841,7 +846,10 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
       </section>` : ''}`;
 
     showSections(jumps);
-    body.querySelector('[data-hide-example]')?.addEventListener('click', () => { state.example = false; render(); changed(); });
+    body.querySelector('[data-hide-example]')?.addEventListener('click', () => {
+      if (onLeaveExample && new URLSearchParams(location.hash.split('?')[1]).get('exempel') === '1') onLeaveExample();
+      else { state.example = false; render(); changed(); }
+    });
     for (const btn of body.querySelectorAll('[data-trend-metric]')) {
       btn.addEventListener('click', () => {
         if (state.trendMetric === btn.dataset.trendMetric) return;
@@ -862,10 +870,21 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
         changed();
       });
     }
+    const visitRound = (course, id) => onRound ? onRound(course, id, state.example) : openRoundCard(course, id);
+    for (const summary of body.querySelectorAll('.st-round > summary')) {
+      summary.addEventListener('click', event => {
+        if (summary.parentElement.open || !onRound) return;
+        event.preventDefault();
+        summary.focus({ preventScroll: true });
+        const [course, id] = summary.parentElement.dataset.roundKey.split('|');
+        visitRound(course, id);
+      });
+    }
     for (const btn of body.querySelectorAll('[data-jump-round]')) {
       btn.addEventListener('click', () => {
         const [course, id] = btn.dataset.jumpRound.split('|');
-        openRoundCard(course, id);
+        btn.focus({ preventScroll: true });
+        visitRound(course, id);
       });
     }
 
@@ -873,8 +892,9 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
     const draw = () => {
       if (plot && plot.isConnected && trendRows.length) {
         drawTrend(plot, trendRows, {
-          metric: state.trendMetric,
-          onPickRound: row => openRoundCard(row.course, row.id),
+          metric: state.trendMetric, selectedRound: state.trendRound,
+          onPoint: row => { state.trendRound = `${row.course}|${row.id}`; },
+          onPickRound: row => visitRound(row.course, row.id),
         });
       }
       fitSegments(body);
@@ -886,12 +906,20 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
       const [course, id] = btn.dataset.shareRound.split('|');
       const record = data.rounds.find(r => r.course === course && String(r.id) === id);
       if (!record) return;
-      const orig = btn.textContent;
+      const courseName = courseNameOf(record);
+      const options = { courseName, example: state.example, shots: data.shots, poster: poster(record.course),
+        text: `${courseName}, ${dateText(record.date, true)}` };
+      const original = btn.textContent;
       btn.disabled = true;
-      const { shareRoundCard } = await import('./round-card.mjs');
-      const done = await shareRoundCard(record, { shots: data.shots, poster: poster(record.course), text: `${record.courseName ?? record.course}, ${dateText(record.date, true)}` });
-      btn.disabled = false;
-      btn.textContent = done === 'saved' ? 'Bilden är sparad' : done === 'failed' ? 'Kunde inte skapa bild' : orig;
+      try {
+        const { shareRoundCard } = await import('./round-card.mjs');
+        const result = await shareRoundCard(record, options);
+        btn.textContent = result === 'saved' ? 'Bilden är sparad' : result === 'failed' ? 'Kunde inte skapa bild' : original;
+      } catch {
+        btn.textContent = 'Kunde inte skapa bild';
+      } finally {
+        btn.disabled = false;
+      }
     });
     const holesCard = body.querySelector('[data-card="holes"]');
     if (holesCard) {
@@ -998,6 +1026,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
       base.course = saved.course || base.course;
       base.roundId = saved.roundId ?? null;
       base.example = saved.example === true;
+      base.trendRound = typeof saved.trendRound === 'string' ? saved.trendRound : null;
       base.trendMetric = saved.trendMetric === 'points' ? 'points' : 'score';
       base.view = { ...saved.view };
     }
@@ -1018,8 +1047,8 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null, onFilters
     const data = read();
     if (!data.rounds.length && !data.shots.length && !state.example) render();
   });
-  el.showCourse = (slug, roundId = null) => {
-    Object.assign(state, defaultView(), { course: slug, roundId });
+  el.showCourse = (slug, roundId = null, example = false) => {
+    Object.assign(state, defaultView(), { course: slug, roundId, example });
     endSection = null;
     render(roundId == null ? [] : [`${slug}|${roundId}`]);
   };

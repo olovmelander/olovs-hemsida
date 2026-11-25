@@ -147,22 +147,13 @@ await section('1366x768 desktop', async () => {
   gate(m.moved && m.pinned <= 72 && m.chipsPinned, `1366x768 desktop: ${m.pinned} px pinned once the list moves (was 211 px, always)`);
   gate(!m.sideways, '1366x768 desktop: nothing scrolls sideways');
 
-  /* -------------------------------------------------- the hover warm-up */
-  console.log('warm-up');
-  const asked = [];
-  page.on('request', q => { if (/pack\.bin/.test(q.url())) asked.push(q.url()); });
+  const packs = [];
+  page.on('request', request => { if (new URL(request.url()).pathname.endsWith('/pack.bin')) packs.push(request.url()); });
   await page.hover('#chooser .card[data-club-id="bro-hof"]');
-  await page.waitForTimeout(300);
-  gate(asked.length === 0, 'hovering a multi-layout club leaves course packs unloaded until a layout is chosen');
-  const slug = 'lidingo';
-  const meta = manifest.courses.find(c => c.slug === slug);
-  await page.hover(`#chooser .card[data-slug="${slug}"]`);
+  await page.hover('#chooser .card[data-slug="lidingo"]');
+  await page.focus('#chooser .card[data-slug="lidingo"]');
   await page.waitForTimeout(900);
-  /* the whole url, mount point included: on a subpath host a leading slash is
-     somebody else's site, and "ends with the right file" would not notice */
-  const want = `${BASE}/${String(meta.packUrl).replace(/^\//, '')}?v=${meta.sha256.slice(0, 16)}`;
-  gate(asked.length === 1 && asked[0] === want,
-    `hovering ${slug} warms ${want.replace(BASE, '')} -- the url the player asks for${asked.length ? '' : ' (nothing was fetched)'}${asked.length && asked[0] !== want ? ' -- got ' + asked[0] : ''}`);
+  gate(packs.length === 0, `hover and keyboard focus leave full course packs unloaded (${packs.length} requested)`);
 
   /* ---------------------------------------------------- search and chips */
   console.log('search');
@@ -280,7 +271,7 @@ await section('stale memory', async () => {
   const { ctx, page } = await open({ width: 390, height: 844, touch: true, last: 'no-such-course' });
   await page.waitForSelector('#chooser .card', { timeout: 60000 });
   const first = page.locator('#chooser .card-item:visible').first();
-  gate(await first.getAttribute('data-club-id') === 'bro-hof' && !(await page.locator('#chooser .club-state').count()),
+  gate(await first.getAttribute('data-club-id') === 'bro-hof' && !(await page.locator('#chooser .club-state:visible').count()),
     'a remembered course that no longer exists leaves the alphabetical club list unchanged');
   await ctx.close();
 });
@@ -416,7 +407,7 @@ await section('launch urls', async () => {
       `phone: a card opens its course's page first (${sheet.title}, ${sheet.tees} tees, mode ${sheet.mode})`);
     gate(sheet.go && sheet.small.length === 0, `phone: its start button is on screen and every choice is a 40 px target${sheet.small.length ? ' -- ' + sheet.small.join(', ') : ''}`);
     gate(sheet.lightsInSight, `phone: all ${sheet.lightCount} lights fit in view without hidden horizontal scrolling`);
-    /* the scorecard, from the course's own pack, in the tee chosen on the page */
+    /* The course's scorecard follows the tee chosen on the setup page. */
     await page.click('#csCardTitle');
     await page.waitForSelector('#courseSheet .cs-sc', { timeout: 20000 });
     const card = await page.evaluate(() => {
@@ -510,7 +501,7 @@ await section('a round under way', async () => {
   await page.goto(BASE + '/#karta', { waitUntil: 'load' });
   await page.waitForSelector('#chooser:not([hidden]) .card');
   const badge = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .club-state`)?.textContent, course.slug);
-  gate(badge?.includes('Runda pågår'), `its course's card says so too: "${badge}"`);
+  gate(badge?.includes('GPS-runda pågår'), `its course's card says so too: "${badge}"`);
   await ctx.close();
 });
 

@@ -29,7 +29,10 @@ canvas{display:block;position:fixed;inset:0}
   transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)}
 #boot.done{opacity:0;transform:scale(1.03);pointer-events:none}
 #boot .boot-recovery{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:20px}
-#boot .boot-recovery[hidden],#boot .boot-recovery [hidden],#boot.done .boot-recovery{display:none}
+#bootRecovery:not([hidden]){display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#boot .boot-recovery [hidden],#boot.done .boot-recovery,#boot .boot-recovery:has(>#bootRecovery[hidden]):has(>#bootReturn[hidden]){display:none}
+#bootMode{color:var(--turf);font:650 14px/1.4 Outfit,sans-serif;margin-bottom:5px}
+#bootStage{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
 .boot-recovery :is(a,button){display:inline-flex;align-items:center;justify-content:center;min-height:var(--touch-target);
   border:1px solid var(--edge);border-radius:12px;background:#14291e;color:var(--ink);font:600 15px Outfit,sans-serif;
   padding:8px 16px;text-decoration:none;cursor:pointer}
@@ -168,7 +171,7 @@ canvas{display:block;position:fixed;inset:0}
 /* THE PANEL FOLDS (2 November): on a desktop the rail folds to its hole summary
    behind a chevron, and the hole note to its title a few seconds after a hole
    change (hover, focus or a click opens it), so the course is the picture. */
-.rail-fold-btn{display:none}
+.rail-fold-btn,.rail-fold-label{display:none}
 @media(min-width:769px){
   .rail-hole-summary{position:relative;padding-right:24px}
   .rail-fold-btn{display:flex;align-items:center;justify-content:center;position:absolute;top:0;right:0;width:22px;height:22px;
@@ -177,13 +180,14 @@ canvas{display:block;position:fixed;inset:0}
   .rail-fold-btn:hover{background:rgba(95,208,122,.18)}
   .rail-fold-btn:focus-visible{outline:2px solid rgba(95,208,122,.8);outline-offset:2px}
   body.rail-folded #rail>:not(.rail-hole-summary){display:none}
-  body.rail-folded #rail .rail-hole-summary{margin:0;border:0;padding-bottom:0}
-  body.rail-folded .rail-fold-btn{transform:rotate(180deg)}
-/* Folded, the panel names what it holds: the hole card above already says the
-   hole, its par, length and index, and saying it twice was clutter (8 November).
-   What only the panel says -- how the hole plays, up or down -- stays. */
-body.rail-folded #rail .rhs-main{display:none}
-body.rail-folded #rail .rail-hole-summary::before{content:'Vy · ljus · verktyg';display:block;font:700 11.5px/1.2 Outfit,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--turf)}
+  body.rail-folded #rail .rail-hole-summary{display:flex;flex-direction:column;margin:0;padding:0;border:0}
+  body.rail-folded #rail .rhs-main{display:none}
+  body.rail-folded .rail-fold-btn{position:static;order:-1;justify-content:space-between;gap:8px;width:100%;
+    min-height:44px;padding:4px;border:0;border-radius:8px;background:transparent;text-align:left}
+  body.rail-folded .rail-fold-btn::after{content:'';position:absolute;inset:0}
+  body.rail-folded .rail-fold-btn:hover{background:rgba(95,208,122,.12)}
+  body.rail-folded .rail-fold-label{display:block;font:700 11.5px/1.2 Outfit,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--turf)}
+  body.rail-folded .rail-fold-btn svg{transform:rotate(180deg)}
   #note.folded #ntx{display:none}
   #note.folded .panel-head-bar{margin-bottom:0}
   #note.folded{cursor:pointer}
@@ -656,17 +660,21 @@ body.gps-on #v2TerrainBadge{top:118px}
     <div class="boot-ring"></div>
     <div class="mark">Ban<i>v</i>y</div>
   </div>
+  <p id="bootMode" hidden></p>
   <h1 id="bootTitle">Banvy 3D</h1>
   <p class="sub" id="bootSub">Svenska golfbanor i realtid</p>
-  <div id="bar"><i></i></div>
+  <div id="bar" role="progressbar" aria-label="Laddar Banvy"><i></i></div>
+  <span id="bootStage" role="status"></span>
   <div class="boot-status">
     <span class="status-pulse"></span>
     <span id="bmsg">startar</span>
   </div>
-  <div id="bootRecovery" class="boot-recovery" hidden>
-    <button type="button" id="bootRetry">Försök igen</button>
-    <a id="bootReturn" href="./">Till startmenyn</a>
-    <a id="bootSaved" hidden>Öppna sparad karta</a>
+  <div class="boot-recovery">
+    <span id="bootRecovery" hidden>
+      <button type="button" id="bootRetry">Försök igen</button>
+      <a id="bootSaved" hidden>Öppna sparad karta</a>
+    </span>
+    <a id="bootReturn" href="./" hidden>Till startmenyn</a>
   </div>
 </div></div>
 
@@ -682,6 +690,19 @@ body.gps-on #v2TerrainBadge{top:118px}
     if (onlyIdle && m.textContent !== 'startar') return;
     m.textContent = msg;
   };
+  var params = new URLSearchParams(location.search);
+  var slug = params.get('bana');
+  var link = document.getElementById('bootReturn');
+  if (slug) {
+    var mode = params.get('spela') === '1' ? 'spela' : params.get('karta') === '1' ? 'karta' : '3d';
+    var setup = new URLSearchParams();
+    ['hal', 'tee'].forEach(function (key) {
+      if (/^[1-9]\d*$/.test(params.get(key))) setup.set(key, params.get(key));
+    });
+    link.href = './#' + mode + '/' + encodeURIComponent(slug) + (setup.toString() ? '?' + setup : '');
+    link.textContent = 'Till banans inställningar';
+    link.hidden = false;
+  }
   // This also works if the application entry module itself fails to load.
   var failed = function (msg) {
     if (!booting()) return;
@@ -689,20 +710,9 @@ body.gps-on #v2TerrainBadge{top:118px}
     say(msg);
     var actions = document.getElementById('bootRecovery');
     if (!actions.hidden) return;
-    var params = new URLSearchParams(location.search);
-    var slug = params.get('bana');
-    if (slug) {
-      var mode = params.get('spela') === '1' ? 'spela' : params.get('karta') === '1' ? 'karta' : '3d';
-      var setup = new URLSearchParams();
-      ['hal', 'tee'].forEach(function (key) {
-        if (/^[1-9]\d*$/.test(params.get(key))) setup.set(key, params.get(key));
-      });
-      var link = document.getElementById('bootReturn');
-      link.href = './#' + mode + '/' + encodeURIComponent(slug) + (setup.toString() ? '?' + setup : '');
-      link.textContent = 'Till banans inställningar';
-      var title = document.getElementById('bootTitle');
-      if (title.textContent === 'Banvy 3D') title.textContent = slug.replace(/-/g, ' ');
-    }
+    var title = document.getElementById('bootTitle');
+    if (slug && title.textContent === 'Banvy 3D') title.textContent = slug.replace(/-/g, ' ');
+    link.hidden = false;
     document.getElementById('bootRetry').onclick = function () { location.reload(); };
     actions.hidden = false;
     window.dispatchEvent(new Event('banvy-boot-failed'));
@@ -787,7 +797,8 @@ body.gps-on #v2TerrainBadge{top:118px}
     </div>
     <div class="rhs-sub" id="railHoleSub" hidden></div>
     <button class="panel-close-btn" id="railCloseBtn" aria-label="Stäng meny" title="Stäng">×</button>
-    <button class="rail-fold-btn" id="railFoldBtn" aria-expanded="true" aria-controls="rail" title="Fäll ihop panelen">
+    <button type="button" class="rail-fold-btn" id="railFoldBtn" aria-expanded="true" aria-controls="rail" title="Fäll ihop panelen">
+      <span class="rail-fold-label">Vy · ljus · verktyg</span>
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>
     </button>
   </div>

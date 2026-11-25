@@ -372,6 +372,23 @@ export default defineConfig(({ mode }) => {
             },
           },
           {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/scorecard-[a-f0-9]{64}\.json$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-scorecards', expiration: { maxEntries: 64 },
+              plugins: [{
+                // A truncated 200 must not poison an immutable URL and every following retry.
+                cacheWillUpdate: async ({ request, response }) => {
+                  if (response.status !== 200) return null;
+                  const bytes = await response.clone().arrayBuffer();
+                  const digest = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
+                    .map(byte => byte.toString(16).padStart(2, '0')).join('');
+                  return new URL(request.url).pathname.endsWith(`/scorecard-${digest}.json`) ? response : null;
+                },
+              }],
+            },
+          },
+          {
             // Intake previews are verified, content-addressed JSON just like
             // playable assets; a visited preview remains available offline.
             urlPattern: ({ url, sameOrigin }) => sameOrigin &&

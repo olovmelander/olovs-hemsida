@@ -2,7 +2,7 @@ import { sortLayouts } from './club-sort.mjs';
 import { layoutLabel } from './course-clubs.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { ICONS } from './icons.js';
-import { MODES, liveRound, offlineCourses } from './settings-store.mjs';
+import { MODES, courseSessions, offlineCourses, sessionBadge, sessionPosition } from './settings-store.mjs';
 
 const SIGNATURE_HOLES = {
   'bro-hof-stadium': { poster: 1, description: 'Ö-green på hål 17' },
@@ -30,7 +30,7 @@ export function createClubPicker({ onSelect, onDismiss }) {
     open(group, mode, focusSlug, sort = {}) {
       let storage = null;
       try { storage = localStorage; } catch { /* private browsing */ }
-      const live = mode === 'map' ? liveRound(storage, group.courses) : null;
+      const sessions = courseSessions(storage, group.courses).filter(session => session.mode === mode);
       const kept = mode === 'map' ? offlineCourses(storage) : [];
       const city = COURSE_LOCATIONS[group.cover.slug]?.city;
       const layouts = sortLayouts(group.courses, sort.order, sort.recentSlug);
@@ -46,7 +46,8 @@ export function createClubPicker({ onSelect, onDismiss }) {
             const signature = SIGNATURE_HOLES[course.slug];
             const picture = course.photos ? `courses/${course.slug}/hero-${signature?.poster || 1}.webp` : course.overviewUrl;
             const states = [];
-            if (live?.course.slug === course.slug) states.push('Runda pågår');
+            const session = sessions.find(s => s.course.slug === course.slug);
+            if (session) states.push(sessionBadge(session), sessionPosition(session));
             if (kept.includes(course.slug)) states.push('Tidigare nedladdad');
             if (course.status === 'mapping') states.push('Under kartläggning');
             if (course.status === 'provisional') states.push('Preliminär 3D');

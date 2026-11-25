@@ -31,7 +31,7 @@ for attempt in {1..90}; do
   sleep 1
 done
 node tools/check-release-assets.mjs "$origin/"
-for journey in hub-journeys club-sorting stats-history play-session map-round map-offline-first live-handoff; do
+for journey in hub-journeys club-sorting course-loading session-navigation stats-history play-session map-round map-field-recovery map-offline-first live-handoff; do
   echo "::group::Browser journey $journey"
   node "tools/check-$journey.mjs" "$origin/"
   echo '::endgroup::'

@@ -70,7 +70,7 @@ export function roundCardFacts(record, shots = []) {
   };
 }
 
-export async function drawRoundCard(record, { poster = null, shots = [], document: doc = globalThis.document } = {}) {
+export async function drawRoundCard(record, { poster = null, shots = [], example = false, courseName = record.courseName || record.course || 'Runda', document: doc = globalThis.document } = {}) {
   const canvas = doc.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
@@ -105,16 +105,30 @@ export async function drawRoundCard(record, { poster = null, shots = [], documen
   ctx.fillStyle = INK;
   ctx.textBaseline = 'middle';
   ctx.fillText('Banvy', 98, 94);
+  if (example) {
+    ctx.font = '700 32px Outfit, system-ui, sans-serif';
+    ctx.fillStyle = '#05100b';
+    ctx.fillRect(72, 133, 282, 58);
+    ctx.fillStyle = INK;
+    ctx.fillText('EXEMPELRUNDA', 91, 163, 244);
+  }
 
   /* the course and the day */
   ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = TURF;
   ctx.font = '700 30px Outfit, system-ui, sans-serif';
   const day = record.date ? new Date(record.date).toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
-  ctx.fillText(day.toUpperCase(), 72, 560);
+  const parts = courseName.split(' · ');
+  const layout = parts.pop();
+  ctx.fillText(day.toUpperCase(), 72, parts.length ? 493 : 560);
+  if (parts.length) {
+    ctx.fillStyle = INK;
+    ctx.font = '600 40px Outfit, system-ui, sans-serif';
+    ctx.fillText(parts.join(' · '), 72, 560, W - 144);
+  }
   ctx.fillStyle = INK;
   ctx.font = '800 76px Outfit, system-ui, sans-serif';
-  ctx.fillText(record.courseName || record.course, 72, 640, W - 144);
+  ctx.fillText(layout, 72, 640, W - 144);
 
   /* the headline: strokes and the score against par */
   ctx.font = '800 220px Outfit, system-ui, sans-serif';
@@ -200,14 +214,15 @@ export async function drawRoundCard(record, { poster = null, shots = [], documen
 }
 
 /* Share the picture where the device can, else save it; the words go with it. */
-export async function shareRoundCard(record, { poster = null, text = '', shots = [] } = {}) {
-  const blob = await drawRoundCard(record, { poster, shots });
+export async function shareRoundCard(record, { poster = null, text = '', shots = [], example = false, courseName = record.courseName || record.course || 'Runda' } = {}) {
+  const blob = await drawRoundCard(record, { poster, shots, example, courseName });
   if (!blob) return 'failed';
-  const name = `banvy-${(record.courseName || record.course || 'runda').toLowerCase().replace(/[^a-z0-9åäö]+/g, '-')}-${record.date || ''}.png`;
+  const name = `banvy-${example ? 'exempel-' : ''}${courseName.toLowerCase().replace(/[^a-z0-9åäö]+/g, '-')}-${record.date || ''}.png`;
   const file = new globalThis.File([blob], name, { type: 'image/png' });
   if (navigator.canShare?.({ files: [file] })) {
     try {
-      await navigator.share({ files: [file], title: record.courseName || 'Rundan', text });
+      const prefix = example ? 'Exempelrunda · ' : '';
+      await navigator.share({ files: [file], title: prefix + courseName, text: prefix + (text || courseName) });
       return 'shared';
     } catch (error) {
       if (error?.name === 'AbortError') return 'cancelled';

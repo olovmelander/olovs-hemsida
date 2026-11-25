@@ -103,7 +103,8 @@ export function parentHubRoute(hash) {
   const parts = path.split('/').filter(Boolean);
   if (parts[1] === 'klubb' && parts.length === 3) return parts[0];
   parts.pop();
-  return parts.join('/');
+  const parent = parts.join('/');
+  return parts[0] === 'statistik' && query.get('exempel') === '1' ? parent + '?exempel=1' : parent;
 }
 
 /* Only offer browser Back across documents for a course within this app's

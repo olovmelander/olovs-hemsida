@@ -307,14 +307,15 @@
    left the last tee alone on a line of its own */
 .cs-tees { display: grid; grid-template-columns: repeat(auto-fit, minmax(65px, 1fr)); gap: 8px; }
 .cs-tee { position: relative; }
-.cs-tee span {
-  display: inline-flex;
+.cs-tee-option {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 9px;
+  gap: 5px;
   justify-content: center;
   width: 100%;
   min-height: 46px;
-  padding: 0 10px;
+  padding: 5px 4px;
   border-radius: 13px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.03);
@@ -323,6 +324,9 @@
   pointer-events: none;
   transition: border-color 0.2s, background-color 0.2s, color 0.2s;
 }
+.cs-tee-option b { display: flex; align-items: center; gap: 6px; font: inherit; }
+.cs-tee-option small { font: 500 12px/1.25 Outfit,sans-serif; color: var(--cs-ink-2); }
+.cs-tee-option small:empty { display: none; }
 .cs-tee i { flex: none; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25); }
 .cs-tee:has(input:checked) span { border-color: var(--turf); background: rgba(95, 208, 122, 0.12); color: #fff; box-shadow: 0 0 0 1px var(--turf); }
 .cs-tee:has(input:focus-visible) span { outline: 2px solid #fff; outline-offset: 2px; }
@@ -354,8 +358,10 @@
   border-top: 1px solid var(--cs-line);
   background: var(--cs-surface);
 }
-.cs-map-actions { display: flex; gap: 8px; }
-.cs-map-actions .cs-ghost { flex: 1; min-width: 0; }
+.cs-offline-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-block: 12px; border-top: 1px solid var(--cs-line); }
+.cs-offline-tools .cs-hint { text-align: start; }
+.cs-offline-tools .cs-ghost { min-width: 44px; padding-inline: 12px; }
+.cs .cs-offline-tools[hidden], .cs-offline-tools [hidden] { display: none; }
 .cs-actions [hidden] { display: none; }
 .cs-go {
   display: flex;
@@ -425,8 +431,8 @@
   .cs-sc th[scope="row"] { width: 50px; padding-left: 8px; letter-spacing: 0.02em; }
   .cs-sc .cs-sc-sum { width: 40px; }
   .cs-guide-nav { display: flex; }
-  .cs-actions { gap: 6px; padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
-  .cs-go { min-height: 54px; }
+  .cs-actions { gap: 4px; padding: 6px 16px calc(8px + env(safe-area-inset-bottom, 0px)); }
+  .cs-go { min-height: 48px; }
   .cs-ghost { min-height: 44px; }
   .cs-hint { font-size: 12px; }
 }

@@ -1,11 +1,126 @@
-/* History and course discovery through the shared production UI. */
+/* Exercise the shared production UI. Pass [baseUrl] [--setup-only] to run the
+   club search, lean setup, scorecard recovery and cached-layout checks alone. */
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright-core';
 import { browserArgs, browserExecutable } from './browser-args.mjs';
 
-const base = process.argv[2] || 'http://127.0.0.1:8711/';
-const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
-try {
+const base = process.argv.slice(2).find(arg => /^https?:\/\//.test(arg)) || 'http://127.0.0.1:8711/';
+// The published Castle scorecard has four measured tees. Keep this independent
+// of the setup payload so an accidental Stadium payload cannot satisfy the test.
+async function checkLayoutSetup(browser) {
+  const context = await browser.newContext({
+    viewport: { width: 375, height: 667 }, isMobile: true, hasTouch: true,
+    reducedMotion: 'reduce', serviceWorkers: 'block',
+  });
+  try {
+    const page = await context.newPage();
+    const packs = [];
+    const summaries = [];
+    page.on('request', request => {
+      const path = new URL(request.url()).pathname;
+      if (path.endsWith('/pack.bin')) packs.push(path);
+      const layout = path.match(/\/courses\/([^/]+)\/scorecard-[a-f0-9]{64}\.json$/);
+      if (layout) summaries.push(layout[1]);
+    });
+    let failCastle = true;
+    await page.route('**/courses/bro-hof-castle/scorecard-*.json', route => failCastle
+      ? route.fulfill({ status: 503, body: '' })
+      : route.continue());
+    await page.goto(new URL('#karta', base).href);
+    const search = page.locator('#courseSearchInput');
+    const cards = page.locator('.card-item:visible');
+    const setup = page.locator('#courseSheet[open]');
+    await search.fill('Stadium Castle');
+    assert.equal(await cards.count(), 0, 'tokens from two sibling layouts cannot be combined');
+    await search.fill('  UPPSALA 9 HAL ');
+    await cards.first().waitFor();
+    assert.equal(await cards.count(), 1);
+    assert.equal(await cards.first().locator('[data-layout-names]').textContent(), 'Mellanbanan',
+      'place, hole count and unaccented text identify the nine-hole layout');
+    await cards.first().locator('.card').click();
+    await setup.waitFor();
+    assert.equal(new URL(page.url()).hash.split('?')[0], '#karta/upsala-mellanbanan');
+    await page.waitForFunction(() => /\d/.test(document.querySelector('#courseSheet [data-length]')?.textContent ?? ''));
+    await page.goBack();
+    await setup.waitFor({ state: 'hidden' });
+
+    await search.fill('Castle Bro Hof');
+    await cards.first().waitFor();
+    assert.equal(await cards.count(), 1);
+    assert.equal(await cards.first().locator('[data-layout-names]').textContent(), 'The Castle Course');
+    await cards.first().locator('.card').click();
+    await setup.waitFor();
+    assert.equal(new URL(page.url()).hash.split('?')[0], '#karta/bro-hof-castle');
+    await setup.locator('#csCardTitle').click();
+    const retry = setup.locator('[data-card-retry]');
+    await retry.waitFor();
+    failCastle = false;
+    await retry.click();
+    const lengths = [['Vit', '6\\s*133'], ['Gul', '5\\s*535'], ['Blå', '5\\s*023'], ['Röd', '4\\s*218']];
+    for (const [name, length] of lengths) {
+      const tee = setup.getByRole('radio', { name: new RegExp(name + '.*' + length + '\\s*m(?:eter)?\\b', 'i') });
+      await tee.waitFor({ state: 'attached' });
+      assert.equal(await tee.count(), 1, `${name} exposes its measured total in the radio's accessible name`);
+    }
+    const footer = await setup.locator('.cs-actions').boundingBox();
+    assert.ok(footer && footer.height <= 115 && footer.y >= 0 && footer.y + footer.height <= 668,
+      `GPS setup keeps the fixed controls within 115 px on a 375×667 phone (measured ${footer?.height} px)`);
+    for (const [name, distance] of [['Vit', '563'], ['Röd', '386']]) {
+      const tee = setup.getByRole('radio', { name: new RegExp('^' + name, 'i') });
+      await tee.locator('..').click();
+      assert.ok(await tee.isChecked());
+      const tables = setup.locator('.cs-sc');
+      assert.equal(await tables.count(), 2, 'both nines appear');
+      assert.equal(await tables.first().locator('.cs-sc-len td').first().innerText(), distance, `hole 1 from the ${name} tee`);
+    }
+    await setup.locator('#csGuideTitle').click();
+    const firstHole = setup.locator('.cs-hole[data-hole="1"]');
+    assert.equal(await firstHole.locator('.cs-hole-name').innerText(), 'Ut från gården');
+    assert.match(await firstHole.locator('.cs-hole-facts').innerText(), /Par 5.*386 m.*index 5/i);
+    assert.equal(await setup.locator('.cs-hole[data-hole]').count(), 18);
+    await setup.locator('.cs-scroll').evaluate(scroll => { scroll.scrollTop = scroll.scrollHeight; });
+    const afterScroll = await setup.locator('.cs-actions').boundingBox();
+    assert.ok(afterScroll && Math.abs(afterScroll.y - footer.y) < 1, 'the primary actions stay in place while reading the guide');
+    assert.deepEqual(packs, [], 'browsing clubs, comparing tees and reading the guide never load full course packs');
+    assert.deepEqual(summaries, ['upsala-mellanbanan', 'bro-hof-castle', 'bro-hof-castle'],
+      'only selected layouts load their compact scorecard and the failed Castle request can be retried');
+    console.log('PASS · per-layout search, tee distances, compact GPS setup and retryable pack-free scorecard and guide');
+  } finally { await context.close(); }
+}
+
+// Simulate an upgrade from a GPS download completed before compact cards were published.
+async function checkCachedLayout(browser) {
+  const context = await browser.newContext({ serviceWorkers: 'block', reducedMotion: 'reduce' });
+  try {
+    const page = await context.newPage();
+    await page.goto(new URL('#statistik', base).href);
+    const manifest = await context.request.get(new URL('courses/index.json', base).href);
+    const { courses } = await manifest.json();
+    const castle = courses.find(course => course.slug === 'bro-hof-castle');
+    const url = new URL(castle.packUrl, base);
+    url.searchParams.set('v', castle.sha256.slice(0, 16));
+    const fixture = await context.request.get(url.href);
+    assert.ok(fixture.ok());
+    await page.evaluate(async ({ url, bytes }) => {
+      const cache = await caches.open('banvy-map-offline-v1');
+      const pack = Uint8Array.from(atob(bytes), char => char.charCodeAt(0));
+      await cache.put(url, new Response(pack));
+    }, { url: url.href, bytes: (await fixture.body()).toString('base64') });
+
+    const requests = [];
+    page.on('request', request => { if (new URL(request.url()).pathname.endsWith('/pack.bin')) requests.push(request.url()); });
+    await page.route('**/courses/bro-hof-castle/scorecard-*.json', route => route.abort('internetdisconnected'));
+    await page.goto(new URL('#karta/bro-hof-castle', base).href);
+    const setup = page.locator('#courseSheet[open]');
+    await setup.getByRole('radio', { name: /Vit.*6\s*133\s*m/i }).waitFor({ state: 'attached' });
+    await setup.locator('#csGuideTitle').click();
+    assert.equal(await setup.locator('.cs-hole[data-hole="1"] .cs-hole-name').innerText(), 'Ut från gården');
+    assert.deepEqual(requests, [], 'a downloaded layout opens its guide while the network scorecard is unavailable');
+    console.log('PASS · offline setup reads the previously saved layout');
+  } finally { await context.close(); }
+}
+
+async function checkHubHistory(browser) {
   const context = await browser.newContext({ viewport: { width: 360, height: 608 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce', serviceWorkers: 'block' });
   const page = await context.newPage();
   const errors = [];
@@ -246,4 +361,11 @@ try {
   }
   assert.deepEqual(errors, []);
   console.log('PASS · searchable layouts, restorable setup, exact guide preview, bag draft and catalogue recovery');
+}
+
+const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
+try {
+  await checkLayoutSetup(browser);
+  await checkCachedLayout(browser);
+  if (!process.argv.includes('--setup-only')) await checkHubHistory(browser);
 } finally { await browser.close(); }

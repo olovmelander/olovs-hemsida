@@ -37,7 +37,7 @@ import {
   shotTypesFor, shapeable, swingFor, fitSetup, lieQuality, slopeLie, slopeWords, suggestShot, puttPlaysLike, clubReach, setupForClub,
 } from './shot-model.mjs';
 import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, playHoleReaction, savePlayedRound, dropPoint, PLAY_KEYS,
-  receivedOn, pointsOn, roundStats, readPlayCheckpoint, savePlayCheckpoint, clearPlayCheckpoint } from './play-rules.mjs';
+  receivedOn, pointsOn, roundStats, getPlayStorage, readPlayCheckpoint, writePlayCheckpoint, finishPlayRound } from './play-rules.mjs';
 import { conditionsFor, groundWith, strokeWind } from './conditions.mjs';
 import { createHoleMap } from './hole-map.mjs';
 import { createPlayWorld } from './play-world.mjs';
@@ -63,20 +63,20 @@ export async function mountPlay(handle) {
 const ON_OFF = Object.freeze({ on: 'På', off: 'Av' });
 /* The player's handicap where the course page and the map keep it (read, never written here). */
 function mapHandicap() {
-  const text = readText(globalThis.localStorage, MAP_KEYS.handicap, '');
+  const text = readText(getPlayStorage(), MAP_KEYS.handicap, '');
   return text !== '' && Number.isFinite(Number(text)) ? Number(text) : null;
 }
 function readSettings() {
   let s = {};
-  try { s = JSON.parse(localStorage.getItem(PLAY_KEYS.settings) || '{}') || {}; } catch { s = {}; }
+  try { s = JSON.parse(getPlayStorage()?.getItem(PLAY_KEYS.settings) || '{}') || {}; } catch { s = {}; }
   return { difficulty: DIFFICULTY[s.difficulty] ? s.difficulty : 'normal', method: SWING_METHODS[s.method] ? s.method : 'drag',
     sound: s.sound !== false, flyover: s.flyover !== false, bigMap: s.bigMap };
 }
 function saveSettings({ difficulty, method, sound, flyover, bigMap }) {
-  try { localStorage.setItem(PLAY_KEYS.settings, JSON.stringify({ difficulty, method, sound, flyover, bigMap })); } catch {}
+  try { getPlayStorage()?.setItem(PLAY_KEYS.settings, JSON.stringify({ difficulty, method, sound, flyover, bigMap })); } catch {}
 }
 
-const KEY_HELP = 'Sikta ← → · Klubba ↑ ↓ · Slag T · Form Q E · Höjd W S · Spinn Z C · Repris R · Kamera V · Ljus L · Guide G · Karta M';
+const KEY_HELP = 'Trycksving: mellanslag · Sikta ← → · Klubba ↑ ↓ · Slag T · Form Q E · Höjd W S · Spinn Z C · Repris R · Kamera V · Ljus L · Guide G · Karta M';
 const PAD_HELP = 'Vänster spak siktar · höger spak svingar · LB RB klubba · X slag · ←→ form · ↑↓ höjd · LT RT spinn · Y kamera · Back repris';
 /* The lights, as the course's drawer shows them: Nu first, each as its own sky. */
 const NOW_SKY = 'conic-gradient(from 200deg, #294885, #8295ba, #d3b89a, #568bc6, #294885)';
@@ -110,9 +110,11 @@ async function startPlay(h, query) {
   }, { signal: abort.signal });
   const settings = readSettings();
   const intent = query.get('sim');
-  const saved = intent === 'ny' ? null : readPlayCheckpoint(localStorage, h.slug, h.holes.length);
+  const initialCheckpoint = readPlayCheckpoint(getPlayStorage(), h.slug, h.holes.length);
+  const saved = intent === 'ny' ? null : initialCheckpoint;
   let directPractice = intent === 'traning';
-  let revision = intent === 'ny' ? undefined : saved?.revision ?? null;
+  let revision = initialCheckpoint?.revision ?? null;
+  let leaving = false, saveError = null;
   let saveWarning = false;
   const wanted = saved?.round.character || query.get('golfare');
   const characterId = Object.hasOwn(GOLFER_CHARACTERS, wanted) ? wanted : 'female';
@@ -218,6 +220,7 @@ async function startPlay(h, query) {
 
   const pad = createSwingPad({
     parent: hud.root, method: settings.method,
+    onMethod: value => { settings.method = value; saveSettings(settings); },
     onBack: (power, source) => {
       if (state !== 'address') return;
       hud.toggleSetup(false);
@@ -473,9 +476,10 @@ async function startPlay(h, query) {
       club: club().id, setup: { ...setup }, yaw, targetDist };
   }
   function checkpoint(next = position()) {
-    if (detached || practice || initializingPractice) return false;
-    const nextRevision = savePlayCheckpoint(localStorage, round, next, revision);
-    if (nextRevision) { revision = nextRevision; saveWarning = false; return true; }
+    if (leaving || practice || initializingPractice) return false;
+    const result = detached ? { error: 'account' } : writePlayCheckpoint(getPlayStorage(), round, next, revision);
+    saveError = result.error;
+    if (result.revision) { revision = result.revision; saveWarning = false; return true; }
     if (!saveWarning) hud.banner('Rundan kunde inte sparas', 'Kontrollera lagringen och om rundan är öppen i en annan flik.', '', 4500);
     saveWarning = true;
     return false;
@@ -919,7 +923,7 @@ async function startPlay(h, query) {
   function finishHole(holed) {
     const card = holeCard(round, round.current), par = hole().par;
     if (holed) card.holed = true;
-    if (settled('holed')) savePlayedRound(localStorage, round);
+    if (settled('holed')) savePlayedRound(getPlayStorage(), round);
     state = 'holed';
     hud.finishResults();
     hud.replay(false); hideAids();
@@ -953,23 +957,77 @@ async function startPlay(h, query) {
       </section>
       <div class="pl-actions">${next ? `<button class="pl-btn pl-primary" data-next type="button">Nästa hål · ${next}</button>` : ''}
       ${last && card.holed ? `<button class="pl-btn pl-ghost" data-replay-last type="button">${'Se sista slaget igen'}</button>` : ''}
-      <button class="pl-btn ${next ? 'pl-ghost' : 'pl-primary'}" data-end type="button">${next ? 'Avsluta rundan' : 'Klar · tillbaka'}</button></div>`);
+      ${next ? '<button class="pl-btn pl-ghost" data-leave type="button">Spara och lämna</button>' : ''}
+      <button class="pl-btn ${next ? 'pl-ghost' : 'pl-primary'}" data-end type="button">Avsluta rundan</button>
+      <p class="pl-save-error" role="alert" data-save-error></p></div>`);
     box.querySelector('[data-next]')?.addEventListener('click', () => { hud.closeSheet(); startHole(next); });
     box.querySelector('[data-replay-last]')?.addEventListener('click', () => {
       hud.closeSheet();
       startReplay(() => { ballMesh.visible = false; state = 'holed'; holeSheet(); });
     });
-    box.querySelector('[data-end]').addEventListener('click', endRound);
+    wireRoundActions(box);
     (box.querySelector('[data-next]') || box.querySelector('[data-end]')).focus();
   }
-  function endRound() {
-    if (practice || detached) return;
-    const active = readPlayCheckpoint(localStorage, round.slug);
-    round.endedAt = Date.now();
-    if (active ? active.revision === revision : revision == null) {
-      if (savePlayedRound(localStorage, round)) clearPlayCheckpoint(localStorage, round, revision);
+  function explainSaveError(box, reason) {
+    const message = reason === 'conflict' ? 'Rundan har ändrats i en annan flik. Dina ändringar här kunde inte sparas.'
+      : reason === 'account' ? 'Kontot har bytts. Öppna Simulator från rätt konto för att fortsätta.'
+      : 'Rundan kunde inte sparas. Kontrollera webbläsarens lagring och försök igen.';
+    const status = box.querySelector('[data-save-error]');
+    status.textContent = message;
+    if (reason === 'conflict' || reason === 'account') {
+      const latest = reason === 'conflict' && readPlayCheckpoint(getPlayStorage(), round.slug, h.holes.length);
+      const action = document.createElement('button');
+      action.type = 'button'; action.className = 'pl-btn pl-ghost';
+      action.textContent = latest ? 'Öppna senast sparade rundan' : 'Till banans inställningar';
+      action.onclick = () => {
+        if (!latest) { leaveToSetup(); return; }
+        const url = new URL(location.href);
+        url.searchParams.set('sim', 'fortsatt');
+        leaving = true;
+        location.replace(url.href);
+      };
+      status.append(document.createElement('br'), action);
     }
-    location.assign(`${import.meta.env.BASE_URL}#spela`);
+  }
+  function leaveToSetup() {
+    leaving = true;
+    location.replace(`${import.meta.env.BASE_URL}#spela/${encodeURIComponent(round.slug)}`);
+  }
+  function wireRoundActions(box) {
+    box.querySelector('[data-leave]')?.addEventListener('click', () => {
+      if (leaving || practice) return;
+      if (state === 'holed' ? settled('holed') : checkpoint()) leaveToSetup();
+      else explainSaveError(box, saveError);
+    });
+    box.querySelector('[data-end]').addEventListener('click', () => {
+      if (leaving || practice) return;
+      const confirm = hud.openSheet(`<header class="pl-hero"><span class="pl-k">Simulator · hål ${round.current}</span>
+        <h2>Avsluta rundan?</h2><p>Ditt resultat sparas. Efteråt kan du inte fortsätta spela den här rundan.</p></header>
+        <div class="pl-actions"><button type="button" class="pl-btn pl-primary" data-cancel-end>Tillbaka</button>
+        <button type="button" class="pl-btn pl-ghost" data-confirm-end>Avsluta rundan</button>
+        <p class="pl-save-error" role="alert" data-save-error></p></div>`);
+      const cancel = confirm.querySelector('[data-cancel-end]');
+      cancel.addEventListener('click', () => {
+        if (state === 'holed') holeSheet(); else openMenu();
+        hud.sheet.querySelector('[data-end]').focus();
+      });
+      confirm.querySelector('[data-confirm-end]').addEventListener('click', () => {
+        if (leaving) return;
+        if (detached) return explainSaveError(confirm, 'account');
+        // A first checkpoint may have failed when the hole loaded. Retry it
+        // before publishing the score, using the same ownership check.
+        if ((!revision || saveWarning) && !(state === 'holed' ? settled('holed') : checkpoint())) return explainSaveError(confirm, saveError);
+        const result = finishPlayRound(getPlayStorage(), round, revision);
+        if (result === 'finished') leaveToSetup();
+        else explainSaveError(confirm, result);
+      });
+      cancel.focus();
+    });
+  }
+  function backFromSheet() {
+    const cancel = hud.sheet.querySelector('[data-cancel-end]');
+    if (cancel) cancel.click();
+    else if (state !== 'holed') hud.closeSheet();
   }
   const practiceExitLabel = () => directPractice && !saved ? 'Avsluta träningen' : 'Till rundan';
   function startPractice() {
@@ -1070,8 +1128,10 @@ async function startPlay(h, query) {
       <section class="pl-menu" id="pl-panel-card" role="tabpanel" aria-labelledby="pl-tab-card" data-panel="card" ${tab === 'card' ? '' : 'hidden'}>
         ${scorecardHtml(round, h.holes, n => pointsOn(round, h.holes, n))}
       </section>
-      <div class="pl-actions"><button class="pl-btn pl-primary" data-resume type="button">Fortsätt</button>
-      <button class="pl-btn pl-ghost" data-end type="button" ${practice || state !== 'address' ? 'disabled' : ''}>Avsluta rundan</button></div>`);
+      <div class="pl-actions"><button class="pl-btn pl-primary" data-resume type="button">Fortsätt spela</button>
+      <button class="pl-btn pl-ghost" data-leave type="button" ${practice || state !== 'address' ? 'disabled' : ''}>Spara och lämna</button>
+      <button class="pl-btn pl-ghost" data-end type="button" ${practice || state !== 'address' ? 'disabled' : ''}>Avsluta rundan</button>
+      <p class="pl-save-error" role="alert" data-save-error></p></div>`);
     for (const group of box.querySelectorAll('[data-seg]')) {
       group.addEventListener('click', e => {
         const b = e.target.closest('button'); if (!b) return;
@@ -1109,7 +1169,7 @@ async function startPlay(h, query) {
     box.querySelector('[data-practice]').addEventListener('click', () => practice ? endPractice() : startPractice());
     box.querySelector('[data-clean]').addEventListener('click', () => { hud.closeSheet(); setClean(true); });
     box.querySelector('[data-resume]').addEventListener('click', () => hud.closeSheet());
-    box.querySelector('[data-end]').addEventListener('click', endRound);
+    wireRoundActions(box);
     // Open at the top (the lights), with the way back ready under the keyboard.
     box.querySelector('[data-resume]').focus({ preventScroll: true });
     box.scrollTop = 0;
@@ -1126,7 +1186,7 @@ async function startPlay(h, query) {
     const key = e.key, lower = key.length === 1 ? key.toLowerCase() : key;
     if (hud.sheetOpen) {
       hud.trapTab(e);
-      if (key === 'Escape' && state !== 'holed') { hud.closeSheet(); e.preventDefault(); }
+      if (key === 'Escape') { backFromSheet(); e.preventDefault(); }
       if (e.target.matches?.('[data-tab]') && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key)) {
         const tabs = [...hud.sheet.querySelectorAll('[data-tab]')];
         const i = tabs.indexOf(e.target) + (key === 'ArrowLeft' ? -1 : 1);
@@ -1138,6 +1198,7 @@ async function startPlay(h, query) {
     if (state === 'flyover') { if (key === ' ' || key === 'Enter' || key === 'Escape') { e.preventDefault(); endFlyover(); } return; }
     if (state === 'replay') { if (key === ' ' || key === 'Enter' || key === 'Escape' || lower === 'r') { e.preventDefault(); endReplay(); } return; }
     if (clean) { if (key === 'Escape' || lower === 'h') { setClean(false); e.preventDefault(); } return; }
+    if (e.repeat && (key === ' ' || key === 'Enter') && (e.target.closest?.('.pl-swing') || (state === 'address' && key === ' '))) { e.preventDefault(); return; }
     if ((key === ' ' || key === 'Enter') && e.target.closest?.('button,a')) return;
     if (key === 'Escape' && hud.setupOpen) { hud.toggleSetup(false); e.preventDefault(); return; }
     if (key === 'Escape' && hud.guideOpen) { hud.toggleGuide(false); e.preventDefault(); return; }
@@ -1205,7 +1266,7 @@ async function startPlay(h, query) {
     if (p.size) wake();
     if (hud.sheetOpen) {
       if (p.has('a')) document.activeElement?.click?.();
-      if (p.has('b') && state !== 'holed') hud.closeSheet();
+      if (p.has('b')) backFromSheet();
       if (p.has('left') || p.has('up')) moveFocus(-1);
       if (p.has('right') || p.has('down')) moveFocus(1);
       return;
@@ -1244,7 +1305,7 @@ async function startPlay(h, query) {
   if (intent === 'ny') {
     const url = new URL(location.href); url.searchParams.set('sim', 'fortsatt'); history.replaceState(null, '', url);
   }
-  addEventListener('pagehide', () => { if (state === 'address' && !round.endedAt) checkpoint(); }, { signal: abort.signal });
+  addEventListener('pagehide', () => { if (!leaving && state === 'address' && !round.endedAt) checkpoint(); }, { signal: abort.signal });
 
   const controller = {
     /** The free view hands the camera to the course's own orbit controls. */

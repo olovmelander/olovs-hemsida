@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { boundaryCrossings, outTest, dropPoint, createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, holeReaction, playHoleReaction, readPlayedRounds, savePlayedRound, readPlayCheckpoint, savePlayCheckpoint, clearPlayCheckpoint, PLAY_KEYS } from './play-rules.mjs';
+import { boundaryCrossings, outTest, dropPoint, createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, holeReaction, playHoleReaction, readPlayedRounds, savePlayedRound, readPlayCheckpoint, savePlayCheckpoint, clearPlayCheckpoint, finishPlayRound, writePlayCheckpoint, getPlayStorage, PLAY_KEYS } from './play-rules.mjs';
 import { playBag, clubCategory, suggestClub, launchFor, puttRangeFor, setupForClub } from './shot-model.mjs';
 import { DEFAULT_BAG } from '../engine/caddie.js';
 
@@ -226,12 +226,72 @@ describe('simulator checkpoints', () => {
     expect(store.getItem('banvy:round')).toBe('physical round');
     expect(readPlayedRounds(store)).toEqual([]);
   });
+  it('can play when the browser denies the storage accessor and retry when it becomes available', () => {
+    const store = memory(), round = createRound(course), position = { phase: 'address', ball: [1, 2] };
+    holeCard(round, 1);
+    let allowed = false;
+    const scope = { get localStorage() { if (!allowed) throw Error('SecurityError'); return store; } };
+    expect(readPlayCheckpoint(getPlayStorage(scope), course.slug)).toBeNull();
+    expect(writePlayCheckpoint(getPlayStorage(scope), round, position, null)).toEqual({ error: 'unavailable' });
+    expect(finishPlayRound(getPlayStorage(scope), round, 'previous')).toBe('unavailable');
+    allowed = true;
+    const revision = writePlayCheckpoint(getPlayStorage(scope), round, position, null).revision;
+    expect(readPlayCheckpoint(getPlayStorage(scope), course.slug).revision).toBe(revision);
+  });
+  it('saves a completed hole for resume without ending it; an older tab cannot leave or finish over it', () => {
+    const store = memory(), round = createRound(course), position = { phase: 'address', ball: [0, 0] };
+    holeCard(round, 1);
+    const first = savePlayCheckpoint(store, round, position, null);
+    round.holes[1].holed = true;
+    const latest = savePlayCheckpoint(store, round, { phase: 'holed', ball: [4, 9] }, first);
+    expect(writePlayCheckpoint(store, round, position, first)).toEqual({ error: 'conflict' });
+    expect(finishPlayRound(store, round, first)).toBe('conflict');
+    expect(readPlayCheckpoint(store, course.slug)).toMatchObject({ revision: latest, position: { phase: 'holed', ball: [4, 9] } });
+    expect(readPlayedRounds(store)).toEqual([]);
+  });
+  it('keeps the active checkpoint on a failed archive and retries including interrupted cleanup', () => {
+    const store = memory(), round = createRound(course), position = { phase: 'address', ball: [4, 9] };
+    holeCard(round, 1);
+    const revision = savePlayCheckpoint(store, round, position, null);
+    const denied = { ...store, setItem() { throw Error('quota'); } };
+    expect(writePlayCheckpoint(denied, round, position, revision)).toEqual({ error: 'unavailable' });
+    expect(finishPlayRound(denied, round, revision)).toBe('unavailable');
+    const ignored = { ...store, setItem() {} };
+    expect(finishPlayRound(ignored, round, revision)).toBe('unavailable');
+    expect(writePlayCheckpoint(ignored, round, position, revision)).toEqual({ error: 'unavailable' });
+    expect(round.endedAt).toBeNull();
+    expect(readPlayCheckpoint(store, course.slug).revision).toBe(revision);
+    expect(readPlayedRounds(store)).toEqual([]);
+    const cleanupDenied = { ...store, removeItem() { throw Error('unavailable'); } };
+    expect(finishPlayRound(cleanupDenied, round, revision, 100)).toBe('finished');
+    expect(readPlayCheckpoint(store, course.slug)).toBeNull();
+    expect(writePlayCheckpoint(store, round, position, revision)).toEqual({ error: 'conflict' });
+    expect(savePlayedRound(store, round)).toBe(false);
+    expect(finishPlayRound(store, round, revision, 101)).toBe('finished');
+    expect(finishPlayRound(store, round, 'stale', 103)).toBe('conflict');
+    expect(readPlayedRounds(store)).toEqual([{ ...round, endedAt: 100, finishRevision: revision }]);
+    expect(store.getItem(PLAY_KEYS.checkpoint + round.slug)).toBeNull();
+    const newer = { ...round, id: round.id + 1 };
+    const nextRevision = savePlayCheckpoint(store, newer, position, null);
+    expect(finishPlayRound(store, round, revision, 102)).toBe('finished');
+    expect(readPlayCheckpoint(store, course.slug).revision).toBe(nextRevision);
+  });
+  it('preserves previous history if a storage read fails', () => {
+    const store = memory(), round = createRound(course);
+    holeCard(round, 1);
+    const revision = savePlayCheckpoint(store, round, { phase: 'address', ball: [0, 0] }, null);
+    store.setItem(PLAY_KEYS.rounds, 'unreadable');
+    expect(finishPlayRound(store, round, revision)).toBe('unavailable');
+    expect(store.getItem(PLAY_KEYS.rounds)).toBe('unreadable');
+    expect(store.getItem(PLAY_KEYS.checkpoint + course.slug)).toContain(revision);
+  });
   it('ignores broken checkpoints and preserves previously published history', () => {
     const store = memory(), round = createRound(course);
     holeCard(round, 1);
     savePlayedRound(store, round);
     savePlayCheckpoint(store, round, { phase: 'address', ball: [0, null] });
     expect(readPlayCheckpoint(store, course.slug)).toBeNull();
+    expect(writePlayCheckpoint(store, round, { phase: 'address', ball: [2, 4] }, null).revision).toEqual(expect.any(String));
     store.setItem(PLAY_KEYS.checkpoint + course.slug, 'broken');
     expect(readPlayCheckpoint(store, course.slug)).toBeNull();
     expect(readPlayedRounds(store)).toEqual([round]);

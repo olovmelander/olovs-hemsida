@@ -83,6 +83,9 @@ describe('hub returns', () => {
   it('walks shared round links and filter dialogs one level at a time', () => {
     expect(parentHubRoute('#statistik/upsala/42?filter=1')).toBe('statistik/upsala/42');
     expect(parentHubRoute('#statistik/upsala/42')).toBe('statistik/upsala');
+    expect(parentHubRoute('#statistik/angso/1015?exempel=1')).toBe('statistik/angso?exempel=1');
+    expect(parentHubRoute('#statistik/angso?exempel=1')).toBe('statistik?exempel=1');
+    expect(parentHubRoute('#statistik?exempel=1')).toBe('');
     expect(parentHubRoute('#statistik/upsala')).toBe('statistik');
     expect(parentHubRoute('#/karta/upsala?hal=10&tee=2')).toBe('karta');
     expect(parentHubRoute('#karta/klubb/bro-hof')).toBe('karta');

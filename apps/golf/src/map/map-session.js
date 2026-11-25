@@ -239,6 +239,7 @@ root.innerHTML = `
     <div class="map-legend" data-legend hidden aria-label="Greenens lutning i procent">
       <span>Lutning %</span><div data-legend-steps></div>
     </div>
+    <p class="map-pending" data-pending-shot role="status" aria-atomic="true" hidden></p>
     <div class="map-tools">
       <button class="map-tool map-tool-primary" data-wheel-lock><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span data-wheel-lock-label>Logga slag</span></button>
       <button class="map-tool" data-hole aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 21V4l11 4.5L7 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg><span>Hålet</span></button>
@@ -277,13 +278,13 @@ root.innerHTML = `
     <p class="map-score-stats" data-score-stats></p>
     <div class="map-card" data-card></div>
     <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-handicap-less aria-label="Sänk spelhandicap">−</button><output data-handicap>–</output><button data-handicap-more aria-label="Höj spelhandicap">+</button></div>
-    <div class="map-score-undo" data-score-undo hidden>
-      <span data-score-undo-text></span>
-      <button type="button" data-score-undo-btn>Ångra</button>
-    </div>
     <div class="map-actions">
       <button class="map-action" data-pick-up>Stryk hålet</button>
       <button class="map-action" data-end-round>Avsluta rundan</button>
+    </div>
+    <div class="map-score-undo" data-score-undo hidden>
+      <span role="status" data-score-undo-text></span>
+      <button type="button" data-score-undo-btn>Ångra</button>
     </div>
   </section>
   <section class="map-sheet map-sheet-tall" data-round-sheet hidden aria-label="Rundan">
@@ -437,6 +438,7 @@ const ui = {
   legend: $('[data-legend]'), views: $('[data-views]'),
   viewWrap: $('[data-view-wrap]'), viewToggle: $('[data-view-toggle]'), viewLabel: $('[data-view-label]'), viewMenu: $('[data-view-menu]'),
   tools: $('.map-tools'), backdrop: $('[data-backdrop]'),
+  pendingShot: $('[data-pending-shot]'),
   deskRail: $('[data-desk-rail]'), deskCourse: $('[data-desk-course]'), deskCollapse: $('[data-desk-collapse]'), deskOpen: $('[data-desk-open]'),
   wheel: $('[data-wheel]'), logShot: $('[data-wheel-lock]'), logShotLabel: $('[data-wheel-lock-label]'), walkedShot: $('[data-wheel-hint]'), hintNote: $('[data-hint-note]'), hintMetres: $('[data-hint-metres]'),
   promptMore: $('[data-prompt-more]'), holeNoteMore: $('[data-note-more]'), locked: $('[data-locked]'), lockedText: $('[data-locked-text]'), lockedPenalty: $('[data-locked-penalty]'), lockedEdit: $('[data-locked-edit]'), same: $('[data-same]'),
@@ -955,7 +957,7 @@ async function start() {
     const onTheGreen = state.mode === 'hole' && onMeasuredGreen(position);
     ui.green.classList.toggle('is-on', onTheGreen);
     ui.green.classList.toggle('is-green', state.greenView);
-    ui.mid.textContent = onTheGreen ? 'På green' : metres(centre);
+    ui.mid.textContent = onTheGreen ? (position.source === 'last-gps' ? 'Senast på green' : 'På green') : metres(centre);
     ui.front.textContent = edge + metres(front ?? centre);
     /* A rough fix (under trees, or a phone just woken) says so where the numbers are
        read, at the length the shot log already stops trusting: they can be that far out. */
@@ -1042,7 +1044,7 @@ async function start() {
     say(ui.recentre, elsewhere ? `Tillbaka till hål ${state.playing}` : 'Tillbaka till hålet');
     /* Kept in the layout, so the wheel keeps its place while the course is shown. */
     ui.wheel.classList.toggle('is-away', state.mode !== 'hole');
-    ui.logShot.disabled = state.mode !== 'hole';
+    ui.logShot.disabled = state.mode !== 'hole' && !state.pendingLock;
     const shownView = state.mode === 'course' ? null : state.greenView ? 'green' : state.view;
     const viewName = VIEW_NAMES[state.mode === 'course' ? 'course' : shownView ?? 'hole'] ?? 'Hela hålet';
     if (ui.viewLabel.textContent !== viewName) ui.viewLabel.textContent = viewName;
@@ -1290,11 +1292,14 @@ async function start() {
         lastTeeTimestamp = timestamp;
         checkTee(sampleTime);
       }
-      if (state.pendingLock) {
+      if (state.pendingLock && !state.pendingLock.retry) {
         const pending = state.pendingLock;
-        const current = pending.round === round.id && pending.hole === state.playing && gpsClock() < pending.expires;
-        if (current) lockClub(pending.club, { superseded: true });
-        else clearPendingLock();
+        if (pending.round !== round.id || pending.hole !== state.playing) clearPendingLock();
+        else if (gpsClock() >= pending.expires) expirePendingLock();
+        else if (fixCanRecord()) {
+          clearPendingLock();
+          lockClub(pending.club, { superseded: true });
+        }
       }
       invalidate();
   }
@@ -1357,7 +1362,8 @@ async function start() {
     clearTimeout(gpsArmTimer);
     clearTimeout(guidanceTimer);
     forgetTee();
-    clearPendingLock();
+    if (reason === 'off') clearPendingLock();
+    else expirePendingLock();
     gpsArmed = false;
     gps.stop();
     screenLock.release();
@@ -1841,11 +1847,16 @@ async function start() {
     }
     const tag = event.target?.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || event.target?.isContentEditable) return;
-    if (root.classList.contains('has-sheet')) return;
     const lower = event.key.length === 1 ? event.key.toLowerCase() : '';
-    if ((event.ctrlKey || event.metaKey) && !event.altKey && lower === 'z') {
-      if (scoreUndo) { event.preventDefault(); undoScore(); return; }
-      if (undoPoint) { event.preventDefault(); takeBack(); return; }
+    const undoKey = lower === 'z' && !event.altKey && !event.shiftKey;
+    if (root.classList.contains('has-sheet')) {
+      if (undoKey && !ui.scoreSheet.hidden && scoreUndo) { event.preventDefault(); undoScore(); }
+      return;
+    }
+    if (undoKey && (scoreUndo || undoPoint)) {
+      event.preventDefault();
+      if (scoreUndo && (lastUndoWasScore || !undoPoint)) undoScore();
+      else takeBack();
       return;
     }
     if (event.ctrlKey || event.metaKey || event.altKey) return;
@@ -1863,10 +1874,6 @@ async function start() {
       invalidate();
       status(next ? 'Solläge på' : 'Solläge av', 1600, true);
       return;
-    }
-    if (lower === 'z') {
-      if (scoreUndo) { event.preventDefault(); undoScore(); return; }
-      if (undoPoint) { event.preventDefault(); takeBack(); return; }
     }
     if (shortcuts.press(event.key)) event.preventDefault();
   });
@@ -2256,6 +2263,7 @@ async function start() {
 
   function setPlayingHole(number) {
     if (!course.holes[number - 1]) return;
+    if (number !== state.playing) clearPendingLock();
     if (number !== state.playing && guidanceFix.expiresAt <= gpsClock()) {
       // The previous hole's last known ball position cannot anchor a new hole.
       guidanceFix.clear();
@@ -2268,27 +2276,35 @@ async function start() {
     }
   }
 
-  let scoreUndo = null, scoreUndoTimer = 0;
+  let scoreUndo = null, lastUndoWasScore = false;
   function clearScoreUndo() {
-    clearTimeout(scoreUndoTimer);
-    scoreUndoTimer = 0;
     scoreUndo = null;
     ui.scoreUndo.hidden = true;
   }
-  function pushScoreUndo(number, label) {
-    const existing = round.scores[number];
-    scoreUndo = { hole: number, prev: existing ? { ...existing } : null };
+  function pushScoreUndo(number, label, change) {
+    const previous = round.scores[number] ?? {};
+    const fields = new Map();
+    for (const [key, value] of Object.entries(change)) {
+      fields.set(key, { previous: previous[key], existed: Object.hasOwn(previous, key), value });
+    }
+    scoreUndo = { hole: number, fields };
+    lastUndoWasScore = true;
     ui.scoreUndoText.textContent = label;
+    ui.scoreUndoBtn.setAttribute('aria-label', `Ångra scoreändringen på hål ${number}`);
     ui.scoreUndo.hidden = false;
-    clearTimeout(scoreUndoTimer);
-    scoreUndoTimer = setTimeout(clearScoreUndo, NOTE_MS);
   }
   function undoScore() {
     if (!scoreUndo) return;
-    const { hole: number, prev } = scoreUndo;
+    const { hole: number, fields } = scoreUndo;
     clearScoreUndo();
-    if (prev) round.scores[number] = prev;
-    else delete round.scores[number];
+    const row = round.scores[number];
+    if (!row) return;
+    for (const [key, field] of fields) {
+      if (row[key] !== field.value) continue;
+      if (field.existed) row[key] = field.previous;
+      else delete row[key];
+    }
+    if (!Object.keys(row).length) delete round.scores[number];
     saveRound();
     refreshScore();
     status(`Hål ${number} återställt`, 2000, true);
@@ -2298,7 +2314,10 @@ async function start() {
   function setScore(change, number = scoredHole().n, fromShot = false) {
     if (!fromShot) {
       const label = change.picked ? `Hål ${number} struket` : `Hål ${number} ändrat`;
-      pushScoreUndo(number, label);
+      pushScoreUndo(number, label, change);
+    } else if (scoreUndo?.hole === number) {
+      for (const key of Object.keys(change)) scoreUndo.fields.delete(key);
+      if (!scoreUndo.fields.size) clearScoreUndo();
     }
     undoPoint?.score(round.scores, number, change, fromShot);
     round.scores[number] = { ...round.scores[number], ...change };
@@ -2463,7 +2482,12 @@ async function start() {
       hitGreen(own, h.par) ? 'GIR här' : null].filter(Boolean).join(' · ');
     const nines = [course.holes.slice(0, 9), course.holes.slice(9)].filter(part => part.length);
     ui.card.innerHTML = nines.map(cardRows).join('');
-    ui.card.querySelector('.map-card-score .is-now')?.scrollIntoView({ inline: 'center', block: 'nearest' });
+    const currentCell = ui.card.querySelector('.map-card-score .is-now');
+    if (currentCell) {
+      const strip = currentCell.closest('.map-card-part');
+      const cellBox = currentCell.getBoundingClientRect(), stripBox = strip.getBoundingClientRect();
+      strip.scrollLeft += cellBox.left + cellBox.width / 2 - stripBox.left - stripBox.width / 2;
+    }
   }
 
   ui.card.onclick = event => {
@@ -2638,6 +2662,8 @@ async function start() {
   }
 
   function freshRound() {
+    clearScoreUndo();
+    clearPendingLock();
     finishOpenShot();
     const { handicap } = round;
     round = { ...newRound(), handicap, id: Date.now() };
@@ -2787,7 +2813,7 @@ async function start() {
   addEventListener('online', uploadCurrentRound);
   document.addEventListener('visibilitychange', uploadCurrentRound);
   /* One step back, whatever the last step was. */
-  const markUndo = () => { undoPoint = shotUndo(shots); };
+  const markUndo = () => { undoPoint = shotUndo(shots); lastUndoWasScore = false; };
   let trail = [], trailFrom = null;
   function refreshTrail() {
     const own = roundShots().filter(shot => shot.hole === state.hole);
@@ -2849,6 +2875,13 @@ async function start() {
     onSlip: how => diary.add('slip', how),
   });
   ui.logShot.onclick = () => {
+    const pending = state.pendingLock;
+    if (pending) {
+      clearPendingLock();
+      if (pending.retry) lockClub(pending.club);
+      else status('Slagloggningen avbröts.', 2200);
+      return;
+    }
     if (canStartFromPreview()) { openStart(state.hole, { opener: ui.logShot }); return; }
     const club = wheel.current();
     if (club) lockClub(club);
@@ -2977,6 +3010,19 @@ async function start() {
     .replace(/^Lobwedge$/, 'LW');
 
   function refreshLogAction() {
+    const pending = state.pendingLock;
+    ui.pendingShot.hidden = !pending;
+    if (pending) {
+      const where = `Hål ${pending.hole} · ${pending.club.name}`;
+      const message = `${pending.retry ? 'Slaget loggades inte – ingen säker GPS' : 'Väntar på GPS'} · ${where}`;
+      if (ui.pendingShot.textContent !== message) ui.pendingShot.textContent = message;
+      const action = pending.retry ? 'Försök igen' : 'Avbryt';
+      if (ui.logShotLabel.textContent !== action) ui.logShotLabel.textContent = action;
+      ui.logShot.classList.add('is-starting');
+      const label = `${action} · ${where}`;
+      if (ui.logShot.getAttribute('aria-label') !== label) ui.logShot.setAttribute('aria-label', label);
+      return;
+    }
     const club = wheel.current(), hole = state.playing;
     const starting = canStartFromPreview();
     const clubTag = club ? shortClubLabel(club.name) : '';
@@ -3049,8 +3095,16 @@ async function start() {
     sameChoice = null;
   };
   function clearPendingLock() {
+    if (!state.pendingLock) return;
     clearTimeout(lockTimer);
     state.pendingLock = null;
+    refreshLogAction();
+  }
+  function expirePendingLock() {
+    if (!state.pendingLock || state.pendingLock.retry) return;
+    clearTimeout(lockTimer);
+    state.pendingLock.retry = true;
+    refreshLogAction();
   }
   const fixCanRecord = () => state.player?.onCourse && guidanceFix.expiresAt > gpsClock();
 
@@ -3067,6 +3121,7 @@ async function start() {
 
   /* Long enough to mean it, and the shot starts from this spot, this club. */
   function lockClub(club, { superseded = false } = {}) {
+    if (state.pendingLock) return;
     if (canStartFromPreview()) { openStart(state.hole, { opener: ui.wheel }); return; }
     const underway = openShot(shots);
     if (underway && ours(underway) && isPutt(underway) && underway.hole === state.playing) {
@@ -3080,19 +3135,14 @@ async function start() {
     }
     const { player } = state;
     if (!fixCanRecord()) {
-      if (!state.pendingLock) {
-        diary.add('lock-waited', player ? Math.round(player.accuracy) : null);
-        state.pendingLock = { club, round: round.id, hole: state.playing, expires: gpsClock() + LOCK_WAIT_MS };
-        lockTimer = setTimeout(() => {
-          clearPendingLock();
-          status('Ingen säker position. Logga igen vid bollen.');
-        }, LOCK_WAIT_MS);
-        status('Väntar på GPS-positionen', 4000);
-      } else state.pendingLock.club = club;
+      diary.add('lock-waited', player ? Math.round(player.accuracy) : null);
+      const pending = { club, round: round.id, hole: state.playing, expires: gpsClock() + LOCK_WAIT_MS, retry: false };
+      state.pendingLock = pending;
+      lockTimer = setTimeout(() => { if (state.pendingLock === pending) expirePendingLock(); }, LOCK_WAIT_MS);
+      refreshLogAction();
       if (gps.active) gps.ask(); else startGps();
       return;
     }
-    clearPendingLock();
     const open = openShot(roundShots());
     if (open?.hole === holeInPlay().n && nearOpenShot(open) < SAME_SPOT_METRES && !isPutter(club)) {
       sameChoice = { club, open, expires: gpsClock() + SAME_SPOT_MS };

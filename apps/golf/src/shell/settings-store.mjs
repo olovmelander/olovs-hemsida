@@ -13,6 +13,7 @@
    stores. */
 
 import { parseHistory } from '../map/map-shots.mjs';
+import { roundEntry } from '../map/map-rounds.mjs';
 import { normalizeBag } from '../engine/caddie.js';
 import { MIN_HANDICAP, MAX_HANDICAP } from '../map/map-score.mjs';
 import { PLAY_KEYS, readPlayCheckpoint } from '../play/play-rules.mjs';
@@ -405,21 +406,22 @@ export function undoBackup(storage, additionalEntries = () => []) {
   return [...changes.keys()];
 }
 
-/* A round under way in the map: begun and not ended, and touched within the
-   map's own resume window (map-session.js RESUME_MS, six hours). The freshest
-   wins. The start menu offers it before anything else. */
+/* The map offers its active rounds for six hours after their last activity. */
 export const ROUND_KEY = 'banvy-map-round-v1';
 export const HOLE_KEY = 'banvy-map-hole-v1';
 const RESUME_MS = 6 * 60 * 60 * 1000;
-export function liveRound(storage, courses, now = Date.now()) {
-  let best = null, history;
+function liveRounds(storage, courses, now) {
+  const rounds = [];
+  let history;
   for (const course of courses) {
     let round = null, hole = null;
     try { round = JSON.parse(storage?.getItem(`${ROUND_KEY}:${course.slug}`) ?? 'null'); } catch { round = null; }
     if (!round || round.endedAt || typeof round.scores !== 'object' || round.scores === null) continue;
     const played = Object.values(round.scores).filter(score => score && (score.picked || Number.isFinite(score.strokes)));
     let lastShot;
-    if (round.id != null && (!round.playingHole || (!round.begunAt && !played.length))) {
+    const count = course.holes || 18;
+    const hasPlayingHole = Number.isInteger(round.playingHole) && round.playingHole >= 1 && round.playingHole <= count;
+    if (round.id != null && (!hasPlayingHole || (!round.begunAt && !played.length))) {
       history ??= parseHistory(readText(storage, MAP_KEYS.shots, null));
       lastShot = history.findLast(shot => shot?.course === course.slug && shot.round === round.id);
     }
@@ -427,15 +429,39 @@ export function liveRound(storage, courses, now = Date.now()) {
     try { hole = JSON.parse(storage?.getItem(`${HOLE_KEY}:${course.slug}`) ?? 'null'); } catch { hole = null; }
     const touched = Number(round.touchedAt) || Math.max(Number(round.begunAt) || 0, Number(lastShot?.at) || 0, Number(hole?.at) || 0);
     if (!touched || now - touched > RESUME_MS) continue;
-    if (!best || touched > best.touched) {
-      const playing = Number(round.playingHole ?? lastShot?.hole);
-      const activeHole = Number.isInteger(playing) && playing > 0 && (!course.holes || playing <= course.holes)
-        ? playing : Number(hole?.value) || null;
-      best = { course, touched, hole: activeHole, holes: played.length,
-        strokes: played.reduce((sum, score) => sum + (Number.isFinite(score.strokes) ? score.strokes : 0), 0) };
-    }
+    const recentHole = hole && now - hole.at < RESUME_MS ? hole.value : null;
+    const { playing } = roundEntry({ round, active: true, shotHole: lastShot?.hole, recentHole, count, intent: 'fortsatt' });
+    rounds.push({ course, touched, hole: playing, holes: played.length,
+      strokes: played.reduce((sum, score) => sum + (Number.isFinite(score.strokes) ? score.strokes : 0), 0) });
   }
-  return best;
+  return rounds.sort((a, b) => b.touched - a.touched);
+}
+
+export function liveRound(storage, courses, now = Date.now()) {
+  return liveRounds(storage, courses, now)[0] ?? null;
+}
+
+/* Each mode keeps its own progress, even at two layouts of the same club. */
+export function courseSessions(storage, courses, now = Date.now()) {
+  const sessions = liveRounds(storage, courses, now).map(round => ({
+    ...round, mode: 'map', tee: savedTee(storage, round.course),
+  }));
+  for (const course of courses) {
+    const checkpoint = readPlayCheckpoint(storage, course.slug, course.holes);
+    if (!checkpoint) continue;
+    const { round } = checkpoint;
+    sessions.push({ mode: 'play', course, hole: round.current, tee: round.tee, touched: round.id });
+  }
+  return sessions.sort((a, b) => b.touched - a.touched);
+}
+
+export function sessionPosition(session) {
+  const name = session.course.tees?.names?.[session.tee];
+  return [session.hole ? `Hål ${session.hole}` : '', name ? `Tee ${name}` : ''].filter(Boolean).join(' · ');
+}
+
+export function sessionBadge(session) {
+  return session.mode === 'map' ? 'GPS-runda pågår' : 'Simulering pågår';
 }
 
 /* ------------------------------------------------------------ the light map

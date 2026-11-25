@@ -154,6 +154,9 @@ body.pl-on canvas{touch-action:none}
 
 /* -- the swing -- */
 .pl-swing{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));display:grid;justify-items:center;gap:8px}
+.pl-method{display:inline-flex;padding:2px;border-radius:13px;background:#14261d;border:1px solid var(--edge)}
+.pl-method button{min-width:44px;min-height:44px;padding:0 5px;border:0;border-radius:10px;background:transparent;color:var(--dim);font:650 13px Outfit,system-ui,sans-serif;cursor:pointer}
+.pl-method button[aria-pressed=true]{background:#335940;color:#f5fff6}
 .pl-pad{position:relative;width:88px;height:214px;border-radius:44px;background:linear-gradient(180deg,rgba(20,38,29,.84),rgba(8,17,12,.86));border:1px solid var(--edge);touch-action:none;cursor:grab;overflow:hidden;backdrop-filter:blur(18px);box-shadow:0 12px 34px rgba(0,0,0,.28)}
 .pl-swing.active .pl-pad{cursor:grabbing;border-color:var(--turf)}
 .pl-pad-fill{position:absolute;left:0;right:0;top:0;height:calc(var(--p,0) * 82%);background:linear-gradient(var(--turf),#2f9a52);opacity:.85;transition:height .05s}
@@ -175,7 +178,7 @@ body.pl-on canvas{touch-action:none}
 .pl-meter-marker{position:absolute;top:-2px;bottom:-2px;left:calc(10% + var(--m,0) * 82%);width:4px;margin-left:-2px;background:#fff;border-radius:2px}
 .pl-swing[data-method=tap] .pl-tap{display:block;min-width:150px;min-height:56px;border-radius:16px;border:0;background:linear-gradient(160deg,#6fe08a,#3fae5d);color:#07170d;font:700 18px Outfit,system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.28)}
 .pl-swing.off{opacity:.32;pointer-events:none}
-.pl-swing-hint{font-size:11.5px;color:var(--dim);text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.pl-swing-hint{max-width:100%;padding:3px 6px;border-radius:6px;background:rgba(8,22,14,.9);color:#e1eee4;font-size:12px;line-height:1.2;text-align:center}
 .pl-power{position:absolute;right:calc(max(18px,env(safe-area-inset-right)) + 104px);bottom:calc(max(18px,env(safe-area-inset-bottom)) + 150px);padding:8px 12px;border-radius:12px;font:600 15px 'JetBrains Mono',monospace;opacity:0;transform:translateX(6px);transition:opacity .2s,transform .2s var(--ease);pointer-events:none}
 .pl-power.show{opacity:1;transform:none}
 .pl-power.good{color:var(--turf-hi)}.pl-power.bad{color:var(--amber)}
@@ -273,6 +276,8 @@ body.pl-clean .pl-clean-hint{display:block}
 .pl-table td.sum,.pl-table th.sum{background:rgba(255,255,255,.04);font-weight:700}
 .pl-actions{display:flex;gap:10px;flex-wrap:wrap;padding:16px 22px 20px;border-top:1px solid var(--edge)}
 .pl-actions .pl-btn{flex:1;min-height:50px}
+.pl-save-error{flex-basis:100%;margin:0;color:#ffd7af;font-size:14px}
+.pl-save-error:empty{display:none}
 .pl-primary{background:linear-gradient(160deg,#6fe08a,#3fae5d);color:#07170d;border:0;font-weight:700}
 .pl-ghost{background:rgba(255,255,255,.04);border:1px solid var(--edge)}
 .pl-tabs{display:flex;gap:4px;margin:14px 22px 0;padding:4px;border-radius:14px;background:rgba(0,0,0,.25)}
@@ -361,13 +366,13 @@ body.pl-clean .pl-clean-hint{display:block}
   .pl-map{width:200px;height:238px}
   .pl-dist-big{font-size:32px}
 }
-.pl-map:not(.small){max-height:clamp(140px,calc(100dvh - 555px),300px)}
+.pl-map:not(.small){max-height:clamp(120px,calc(100dvh - 610px),300px)}
 .pl-setup-panel{max-height:calc(100dvh - 104px);overflow:auto;z-index:2}
 @media (max-width:640px) and (orientation:portrait){
-  .pl-swing[data-method=drag]{width:76px;right:max(8px,env(safe-area-inset-right))}
+  .pl-swing[data-method=drag]{width:94px;right:max(8px,env(safe-area-inset-right))}
   .pl-swing[data-method=drag] .pl-pad{max-width:100%}
   .pl-swing-hint{text-align:center}
-  .pl-dock{max-width:calc(100% - 104px);gap:5px}
+  .pl-dock{max-width:calc(100% - 118px);gap:5px}
   .pl-club{min-width:0;max-width:100px}
   .pl-club b,.pl-setup-btn b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .pl-clubs,.pl-setup-btn{min-width:0}
@@ -377,8 +382,16 @@ body.pl-clean .pl-clean-hint{display:block}
   .pl-top [data-practice-exit]{width:54px;min-width:54px;padding:0;font-size:0;gap:0}
   .pl-top [data-practice-exit]::before{content:attr(data-short);font-size:13px}
 }
+@media (max-width:640px) and (orientation:portrait){
+  .pl-swing[data-method=tap]{grid-template-columns:94px minmax(0,1fr);align-items:center;gap:4px 8px}
+  .pl-swing[data-method=tap] .pl-meter{grid-column:1/-1;grid-row:1}
+  .pl-swing[data-method=tap] .pl-method{grid-column:1;grid-row:2}
+  .pl-swing[data-method=tap] .pl-tap{grid-column:2;grid-row:2;min-width:0;min-height:48px}
+  .pl-swing[data-method=tap] .pl-swing-hint{grid-column:1/-1}
+}
 @media (max-height:650px) and (orientation:portrait){
-  .pl-swing[data-method=drag] .pl-pad{height:150px}
+  .pl-swing[data-method=drag] .pl-pad{height:106px}
+  .pl-map.small{width:104px;height:104px}
 }
 @media (max-height:500px) and (orientation:landscape){
   .pl-right{top:max(5px,env(safe-area-inset-top));right:max(8px,env(safe-area-inset-right));display:grid;grid-template-columns:auto auto;gap:5px 7px;align-items:start}
@@ -387,10 +400,11 @@ body.pl-clean .pl-clean-hint{display:block}
   .pl-map,.pl-map.small,.pl-map:not(.small){width:100px;height:clamp(78px,25dvh,110px);max-height:none}
   .pl-map:not(.small){width:134px;height:clamp(96px,34dvh,150px)}
   .pl-swing{bottom:max(5px,env(safe-area-inset-bottom));right:max(8px,env(safe-area-inset-right))}
-  .pl-swing[data-method=drag]{gap:2px;width:74px}
+   .pl-swing[data-method=drag]{gap:2px;width:94px}
+  .pl-swing[data-method=drag] .pl-swing-hint{display:block;position:absolute;bottom:2px;max-width:78px;pointer-events:none;font-size:11px}
   .pl-pad{width:70px;height:clamp(90px,30dvh,148px)}
   .pl-swing-hint{display:none}
-  .pl-swing[data-method=tap]{left:auto;right:max(8px,env(safe-area-inset-right));bottom:max(5px,env(safe-area-inset-bottom));width:150px}
+  .pl-swing[data-method=tap]{gap:3px;left:auto;right:max(8px,env(safe-area-inset-right));bottom:max(5px,env(safe-area-inset-bottom));width:150px}
   .pl-swing[data-method=tap] .pl-tap{min-height:44px}
   .pl-dock{bottom:max(5px,env(safe-area-inset-bottom))}
   .pl-left{top:max(5px,env(safe-area-inset-top));gap:4px}

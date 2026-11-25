@@ -1,8 +1,10 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { inflate } from '../engine/codec.js';
 import { scorecardOf } from './course-scorecard.mjs';
+import { cardFromHoles } from './scorecard-model.mjs';
 
 const PUBLIC = fileURLToPath(new URL('../../public/', import.meta.url));
 
@@ -49,6 +51,12 @@ describe('every published course', () => {
       expect(card.par).toBe(meta.par);
       /* every tee the course offers has a length on every hole */
       expect(card.lengths.every(Number.isFinite)).toBe(true);
+      const data = readFileSync(`${PUBLIC}${meta.scorecard.url}`);
+      const digest = createHash('sha256').update(data).digest('hex');
+      expect(meta.scorecard).toEqual({ url: `courses/${meta.slug}/scorecard-${digest}.json`, bytes: data.length, sha256: digest });
+      const summary = JSON.parse(data);
+      expect(summary).toEqual({ version: 1, slug: meta.slug, packSha256: meta.sha256, holes: card.holes });
+      expect(cardFromHoles(summary.holes, meta.tees.names.length)).toEqual(card);
     });
   }
 });

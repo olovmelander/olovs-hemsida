@@ -7,6 +7,7 @@ geobuild/*.json text eol=lf
 # Johannesberg review ledgers retain dated byte hashes, including original newlines.
 johannesbergbuild/mapping/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 apps/golf/public/courses/*/intake-*.json text eol=lf
+apps/golf/public/courses/*/scorecard-*.json text eol=lf
 # Retained acquisition/trace byte identities are also referenced by raw SHA
 # evidence. Preserve their dated bytes across Windows and Linux checkouts.
 geo_data/course-v2/lidingo/reference/*.geojson -text

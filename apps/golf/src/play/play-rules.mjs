@@ -180,54 +180,114 @@ export function nextHole(round) {
   return i >= 0 && i + 1 < round.order.length ? round.order[i + 1] : null;
 }
 
+/* The browser may deny the storage accessor itself (private or embedded contexts). */
+export function getPlayStorage(scope = globalThis) {
+  try { return scope.localStorage; } catch { return null; }
+}
+
 /* Storage: its own key, the newest 100 rounds. */
 export function readPlayedRounds(storage) {
   try {
-    const data = JSON.parse(storage?.getItem(PLAY_KEYS.rounds) || 'null');
-    return data?.version === 1 && Array.isArray(data.rounds) ? data.rounds : [];
+    return storedRounds(storage);
   } catch { return []; }
 }
+function storedRounds(storage) {
+  const raw = storage.getItem(PLAY_KEYS.rounds);
+  if (raw == null) return [];
+  const data = JSON.parse(raw);
+  if (data?.version !== 1 || !Array.isArray(data.rounds)) throw new Error('Ogiltig rundhistorik');
+  return data.rounds;
+}
+
+const sameRound = (a, b) => a.id === b.id && a.slug === b.slug;
+
+function writeHistory(storage, rounds, round) {
+  const next = rounds.filter(r => !sameRound(r, round));
+  next.push(round);
+  const data = JSON.stringify({ version: 1, rounds: next.slice(-100) });
+  storage.setItem(PLAY_KEYS.rounds, data);
+  if (storage.getItem(PLAY_KEYS.rounds) !== data) throw new Error('Resultatet kunde inte verifieras');
+}
+
 export function savePlayedRound(storage, round) {
   try {
-    const rounds = readPlayedRounds(storage).filter(r => !(r.id === round.id && r.slug === round.slug));
-    rounds.push(round);
-    storage?.setItem(PLAY_KEYS.rounds, JSON.stringify({ version: 1, rounds: rounds.slice(-100) }));
+    const rounds = storedRounds(storage);
+    if (rounds.some(r => sameRound(r, round) && r.endedAt != null)) return false;
+    writeHistory(storage, rounds, round);
     return true;
   } catch { return false; }
 }
 
-
 /** One settled simulator lie per course. A stroke in flight still has its previous
     address saved; relief and its penalty are stored together when it lands. */
+function storedCheckpoint(storage, slug, holeCount = null) {
+  const raw = storage.getItem(PLAY_KEYS.checkpoint + slug);
+  let saved;
+  try { saved = JSON.parse(raw); } catch { return null; }
+  if (!saved || saved.version !== 1) return null;
+  const { round, position } = saved;
+  if (round?.slug !== slug || !Number.isFinite(round.id) || round.endedAt != null ||
+      !Array.isArray(round.order) || !round.order.length || (holeCount != null && round.order.length !== holeCount) ||
+      !round.order.every(n => Number.isInteger(n) && n >= 1 && n <= round.order.length) ||
+      new Set(round.order).size !== round.order.length || !round.order.includes(round.current) ||
+      !round.pars || !round.holes || !round.holes[round.current] || !Number.isInteger(round.tee) || round.tee < 0) return null;
+  if (!Object.values(round.holes).every(c => c && [c.strokes, c.putts, c.penalties].every(n => Number.isInteger(n) && n >= 0) && Array.isArray(c.shots))) return null;
+  if (!Array.isArray(position?.ball) || position.ball.length !== 2 || !position.ball.every(Number.isFinite) ||
+      !['address', 'holed'].includes(position.phase)) return null;
+  return saved;
+}
+
 export function readPlayCheckpoint(storage, slug, holeCount = null) {
   try {
-    const saved = JSON.parse(storage.getItem(PLAY_KEYS.checkpoint + slug));
-    if (!saved || saved.version !== 1) return null;
-    const { round, position } = saved;
-    if (round?.slug !== slug || !Number.isFinite(round.id) || round.endedAt != null ||
-        !Array.isArray(round.order) || !round.order.length || (holeCount != null && round.order.length !== holeCount) ||
-        !round.order.every(n => Number.isInteger(n) && n >= 1 && n <= round.order.length) ||
-        new Set(round.order).size !== round.order.length || !round.order.includes(round.current) ||
-        !round.pars || !round.holes || !round.holes[round.current] || !Number.isInteger(round.tee) || round.tee < 0) return null;
-    if (!Object.values(round.holes).every(c => c && [c.strokes, c.putts, c.penalties].every(n => Number.isInteger(n) && n >= 0) && Array.isArray(c.shots))) return null;
-    if (!Array.isArray(position?.ball) || position.ball.length !== 2 || !position.ball.every(Number.isFinite) ||
-        !['address', 'holed'].includes(position.phase)) return null;
+    const saved = storedCheckpoint(storage, slug, holeCount);
+    // History commits the finish. A failed cleanup must never offer a finished round again.
+    if (saved && readPlayedRounds(storage).some(r => sameRound(r, saved.round) && r.endedAt != null)) return null;
     return saved;
   } catch { return null; }
 }
 
-export function savePlayCheckpoint(storage, round, position, previousRevision) {
+export function writePlayCheckpoint(storage, round, position, previousRevision) {
   try {
-    if (previousRevision !== undefined && (readPlayCheckpoint(storage, round.slug)?.revision ?? null) !== previousRevision) return null;
+    const rounds = storedRounds(storage);
+    const ended = candidate => rounds.some(r => sameRound(r, candidate) && r.endedAt != null);
+    if (ended(round)) return { error: 'conflict' };
+    const current = storedCheckpoint(storage, round.slug, round.order.length);
+    const activeRevision = current?.round && !ended(current.round) ? current.revision ?? null : null;
+    if (previousRevision !== undefined && activeRevision !== previousRevision) return { error: 'conflict' };
     const revision = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
-    storage.setItem(PLAY_KEYS.checkpoint + round.slug, JSON.stringify({ version: 1, revision, round, position }));
-    return revision;
-  } catch { return null; }
+    const key = PLAY_KEYS.checkpoint + round.slug;
+    const data = JSON.stringify({ version: 1, revision, round, position });
+    storage.setItem(key, data);
+    if (storage.getItem(key) !== data) return { error: 'unavailable' };
+    return { revision };
+  } catch { return { error: 'unavailable' }; }
+}
+
+export function savePlayCheckpoint(storage, round, position, previousRevision) {
+  return writePlayCheckpoint(storage, round, position, previousRevision).revision ?? null;
 }
 
 export function clearPlayCheckpoint(storage, round, revision) {
   try {
-    const current = readPlayCheckpoint(storage, round.slug);
-    if (current?.round.id === round.id && (revision === undefined || current.revision === revision)) storage.removeItem(PLAY_KEYS.checkpoint + round.slug);
+    const current = storedCheckpoint(storage, round.slug);
+    if (current?.round?.id === round.id && (revision === undefined || current.revision === revision)) storage.removeItem(PLAY_KEYS.checkpoint + round.slug);
   } catch { /* An unavailable store does not interrupt a round. */ }
+}
+
+/** Archive once, then discard just this revision's resume point. Archiving is the
+    commit, so cleanup can safely be retried if storage closes between writes. */
+export function finishPlayRound(storage, round, revision, endedAt = Date.now()) {
+  if (!revision) return 'conflict';
+  try {
+    const rounds = storedRounds(storage);
+    const previous = rounds.find(r => sameRound(r, round) && r.endedAt != null);
+    if (previous && previous.finishRevision !== revision) return 'conflict';
+    if (!previous) {
+      const current = storedCheckpoint(storage, round.slug);
+      if (current?.round?.id !== round.id || current.revision !== revision) return 'conflict';
+      writeHistory(storage, rounds, { ...round, endedAt, finishRevision: revision });
+    }
+    clearPlayCheckpoint(storage, round, revision);
+    return 'finished';
+  } catch { return 'unavailable'; }
 }
