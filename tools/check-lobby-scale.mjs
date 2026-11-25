@@ -201,14 +201,63 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
     assert.ok(m.groups.every(group => group.count === group.ids.length && group.count > 1), `${label}: a group's count is its clubs`);
     const touching = drawn.flatMap((a, i) => drawn.slice(i + 1).filter(b => Math.hypot(a.x - b.x, a.y - b.y) <= PIN_GROUP_PX - 6).map(b => `${a.id ?? a.ids} / ${b.id ?? b.ids}`));
     assert.deepEqual(touching, [], `${label}: nothing drawn stands on anything else`);
-    /* Enter on the largest group flies in until its clubs part, and the keyboard lands on the first */
+    /* Enter on the largest group zooms in on its clubs. The keyboard lands on the first
+       club's own pin, or on the smaller group that still holds it, where Enter goes on:
+       how many steps that takes depends on the map's size, so it is counted, not fixed. */
     const largest = m.groups.reduce((a, b) => (b.count > a.count ? b : a));
-    const group = page.locator(`.golf-map-group[data-group-ids="${largest.ids.join(' ')}"]`).locator('..');
-    await group.focus();
-    await page.keyboard.press('Enter');
-    await page.waitForFunction(first => document.activeElement?.querySelector?.(`.golf-map-pin[data-club-id="${first}"]`), largest.ids[0], { timeout: 15000 });
+    const first = largest.ids[0];
+    /* At the map's edge on purpose: focusing a marker there pans the map into view, and
+       stopping that pan for the zoom once took the keyboard's place away (25 November,
+       the first deploy of this check). Dragging keeps the zoom, so the groups stand. */
+    const map = await page.locator('.map-canvas-wrap').boundingBox();
+    const start = [map.x + map.width / 2, map.y + map.height / 2];
+    const shift = map.x + map.width - 8 - largest.x;
+    await page.mouse.move(...start);
+    await page.mouse.down();
+    await page.mouse.move(start[0] + shift / 2, start[1], { steps: 4 });
+    await page.mouse.move(start[0] + shift, start[1], { steps: 4 });
+    await page.mouse.up();
+    await page.waitForTimeout(400);
+    const atEdge = await page.locator(`.golf-map-group[data-group-ids="${largest.ids.join(' ')}"]`).boundingBox();
+    assert.ok(atEdge && atEdge.x + atEdge.width > map.x + map.width, `${label}: the group stands at the map's edge, half out of view`);
+    await page.locator(`.golf-map-group[data-group-ids="${largest.ids.join(' ')}"]`).locator('..').focus();
+    /* focus on the marker itself: the body holds every pin, so asking it proves nothing */
+    const holding = () => page.evaluate(id => {
+      const active = document.activeElement;
+      if (!active?.classList?.contains('leaflet-marker-icon')) return 0;
+      if (active.querySelector(`.golf-map-pin[data-club-id="${id}"]`)) return 1;
+      const group = active.querySelector('.golf-map-group');
+      return group?.dataset.groupIds.split(' ').includes(id) ? group.dataset.groupIds.split(' ').length : 0;
+    }, first);
+    const steps = [largest.count];
+    while (steps.at(-1) > 1 && steps.length <= 5) {
+      await page.keyboard.press('Enter');
+      await page.waitForFunction(([id, before]) => {
+        const active = document.activeElement;
+        if (!active?.classList?.contains('leaflet-marker-icon')) return false;
+        if (active.querySelector(`.golf-map-pin[data-club-id="${id}"]`)) return true;
+        const group = active.querySelector('.golf-map-group');
+        return Boolean(group?.dataset.groupIds.split(' ').includes(id)) && group.dataset.groupIds !== before;
+      }, [first, steps.length === 1 ? largest.ids.join(' ') : null], { timeout: 15000 }).catch(async error => {
+        /* say where the keyboard went, so a runner's failure explains itself */
+        const where = await page.evaluate(() => ({
+          active: `${document.activeElement?.tagName}.${String(document.activeElement?.className).slice(0, 60)}`,
+          sheet: Boolean(document.querySelector('#courseSheet[open]')),
+          groups: [...document.querySelectorAll('.golf-map-group')].map(group => group.dataset.groupIds),
+        }));
+        throw new Error(`${label}: after Enter ${steps.length} on a group holding ${first} (${steps.join(' -> ')}), the keyboard is not on it: ${JSON.stringify(where)}. ${error.message.split('\n')[0]}`);
+      });
+      steps.push(await holding());
+    }
+    assert.equal(steps.at(-1), 1, `${label}: Enter zooms in until the group's first club has its own pin, the keyboard with it (${steps.join(' -> ')})`);
+    assert.ok(steps.every((size, i) => i === 0 || size <= steps[i - 1]), `${label}: no Enter leaves the club in a larger group (${steps.join(' -> ')})`);
     const after = await marks();
     assert.ok(after.pins.length > m.pins.length, `${label}: the group's clubs get their own pins (${m.pins.length} -> ${after.pins.length})`);
+    /* a pin that came back out of a group keeps its name and opens its club from the keyboard */
+    const freed = page.locator(`.golf-map-pin[data-club-id="${first}"]`).locator('..');
+    assert.ok(await freed.getAttribute('aria-label'), `${label}: the freed pin keeps its name`);
+    await page.keyboard.press('Enter');
+    await page.locator('#courseSheet[open]').waitFor({ timeout: 15000 });
     assert.deepEqual(errors, [], `${label}: no page errors`);
     await context.close();
   }

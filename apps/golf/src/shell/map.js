@@ -98,15 +98,20 @@ export function createSwedenMap({ container, groups, current, lead = null, onPic
       iconAnchor: [18, 18],
     });
 
-    const marker = L.marker([loc.lat, loc.lng], { icon: customIcon, title: group.name, alt: group.name }).addTo(map);
-    const markerButton = marker.getElement();
-    markerButton.setAttribute('aria-label', group.name);
-    markerButton.addEventListener('keydown', event => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-      event.preventDefault();
-      event.stopPropagation();
-      onPickClub(group.id);
+    const marker = L.marker([loc.lat, loc.lng], { icon: customIcon, title: group.name, alt: group.name });
+    /* wired on every add: a pin a group took off the map comes back as a new element,
+       which would otherwise lose its name and its Enter */
+    marker.on('add', () => {
+      const markerButton = marker.getElement();
+      markerButton.setAttribute('aria-label', group.name);
+      markerButton.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        event.stopPropagation();
+        onPickClub(group.id);
+      });
     });
+    marker.addTo(map);
     markers[group.id] = marker;
     marker.on('click', () => onPickClub(group.id));
 
@@ -150,8 +155,10 @@ export function createSwedenMap({ container, groups, current, lead = null, onPic
     });
   }
   /* With more clubs than the start menu lists whole, pins that would stand on each
-     other are drawn as one group with a count (pin-groups.mjs). A tap or Enter flies
-     in until they part. Below that every club keeps its own pin, as the gates expect. */
+     other are drawn as one group with a count (pin-groups.mjs). A tap or Enter zooms
+     in on the group's clubs, at least a step; the keyboard lands on the first club or
+     the smaller group still holding it. Below that every club keeps its own pin, as
+     the gates expect. */
   const grouping = catalogueIsLarge(groups);
   const groupLayer = L.layerGroup().addTo(map);
   const alone = new Set(Object.keys(markers));
@@ -191,7 +198,13 @@ export function createSwedenMap({ container, groups, current, lead = null, onPic
         const first = members[0].id, bounds = L.latLngBounds(latLngs), zoom = map.getZoom();
         const parts = separatingZoom(latLngs[0], latLngs.slice(1), pixels, { from: zoom + 1, to: map.getMaxZoom() });
         const target = Math.min(map.getMaxZoom(), Math.max(zoom + 1, Math.min(parts, map.getBoundsZoom(bounds.pad(0.2)))));
-        if (byKeys) map.once('moveend', () => focusClubOrGroup(first));
+        /* at the deepest zoom the clubs stand where they stand: the first opens */
+        if (target <= zoom) { onPickClub(first); return; }
+        /* After the zoom, never on `moveend`: a marker focused near the edge pans the
+           map into view (Leaflet's autoPanOnFocus), and stopping that pan for the fly
+           fires `moveend` before the zoom, which then took the focused group away. The
+           regrouping listens on `zoomend` first, so the club's pin or group is there. */
+        if (byKeys) map.once('zoomend', () => focusClubOrGroup(first));
         map.flyTo(bounds.getCenter(), target, move);
       };
       marker.on('click', () => open(false));
