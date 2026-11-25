@@ -42,8 +42,9 @@ async function phone({ serviceWorkers = 'allow' } = {}) {
 async function courseCard(page) {
   await page.goto(new URL('#karta', base).href, { waitUntil: 'domcontentloaded' });
   await tap(page, `#chooser .card[data-slug="${slug}"]`);
-  await tap(page, `#clubPicker [data-layout="${slug}"]`);
   await page.locator(sheet + '[open]').waitFor();
+  /* Upsala's club page opens on its host course, the layout this round is on */
+  assert.equal(await page.locator(`${sheet}[open] input[name="cs-layout"]:checked`).inputValue(), slug);
 }
 
 async function launch(page, button, intent, hole) {

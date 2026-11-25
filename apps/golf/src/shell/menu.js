@@ -27,7 +27,7 @@
 import { createPanelHistory } from '../ui/panel-history.mjs';
 import '../styles/drawer.css';
 import { ICONS } from './icons.js';
-import { hubUrl, mapUrl } from './router.js';
+import { hubUrl, mapUrl, playUrl } from './router.js';
 import { SHORTCUT_ROWS } from '../engine/keyboard-shortcuts.mjs';
 import { LIGHTS, MAP_KEYS, readText } from './settings-store.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
@@ -57,6 +57,7 @@ const TOOL_ICONS = {
   mini: ICONS.map(22),
   bag: ICONS.golfBall(22),
   map: svg('<path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/>'),
+  play: svg('<path d="M5 20.5c3.2-1.6 10.8-1.6 14 0"/><path d="M15.5 3.5v13"/><path d="M15.5 3.8l4.6 1.9-4.6 1.9"/><circle cx="8.5" cy="16.6" r="1.6"/>'),
 };
 const CAMS = [
   ['tee', 'Tee', svg('<path d="M12 21V11"/><circle cx="12" cy="7" r="3"/><path d="M9 21h6"/>')],
@@ -129,9 +130,16 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
             ${tile('dNoteBtn', 'note', 'Banguide', 'Klubbens råd')}
             ${tile('dMiniBtn', 'mini', 'Banöversikt', 'Hela banan i 2D')}
             ${tile('dBagBtn', 'bag', 'Min bag', 'Dina carry-längder')}
+          </div>
+          <h3 class="nd-h">Byt läge</h3>
+          <div class="nd-grid">
             <a class="nd-tile" id="dMapBtn" href="${mapUrl(current)}" data-tool="map">
               <span class="nd-tile-icon">${TOOL_ICONS.map}</span>
               <span class="nd-tile-name">Lätt 3D</span><span class="nd-tile-sub">Kartan för rundan</span>
+            </a>
+            <a class="nd-tile" id="dPlayBtn" href="${playUrl(current)}" data-tool="play">
+              <span class="nd-tile-icon">${TOOL_ICONS.play}</span>
+              <span class="nd-tile-name">Simulator</span><span class="nd-tile-sub">Spela hålet</span>
             </a>
           </div>
         </section>
@@ -207,11 +215,13 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     }
     const selectedTee = document.querySelector('#tees .tee.on');
     const params = new URLSearchParams(location.search);
-    $('#dMapBtn').href = mapUrl(current, {
+    /* both other modes open on the hole and tee shown here */
+    const place = {
       hole: Number(params.get('hal')) || undefined,
       tee: Number(params.get('tee')) || (selectedTee ? [...selectedTee.parentElement.children].indexOf(selectedTee) + 1 : undefined),
-      preview: true,
-    });
+    };
+    $('#dMapBtn').href = mapUrl(current, { ...place, preview: true });
+    $('#dPlayBtn').href = playUrl(current, place);
     if (!drawer.open && drawer.isConnected) drawer.showModal();
     syncTiles();
     selectTab(panel.tab || 'play', true);

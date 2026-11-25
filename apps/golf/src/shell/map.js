@@ -3,6 +3,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ICONS } from './icons.js';
 import { COURSE_LOCATIONS } from './course-places.mjs';
+import { catalogueIsLarge } from './lobby-model.mjs';
+import { groupMiddle, groupPins, separatingZoom } from './pin-groups.mjs';
 
 export { COURSE_LOCATIONS };
 
@@ -138,13 +140,81 @@ export function createSwedenMap({ container, groups, current, lead = null, onPic
     const pins = labelOrder.map(slug => markers[slug].getElement()?.querySelector('.golf-map-pin')).filter(Boolean);
     for (const pin of pins) pin.classList.remove('label-off');
     const heads = pins.map(pin => pin.querySelector('.pin-head').getBoundingClientRect());
+    /* a group's count is a pin head too */
+    const counts = [...canvasWrap.querySelectorAll('.golf-map-group')].map(group => group.getBoundingClientRect());
     const kept = [];
     pins.forEach((pin, i) => {
       const plate = pin.querySelector('.pin-label').getBoundingClientRect();
-      const blocked = kept.some(k => overlaps(plate, k)) || heads.some((h, j) => j !== i && overlaps(plate, h));
+      const blocked = kept.some(k => overlaps(plate, k)) || heads.some((h, j) => j !== i && overlaps(plate, h)) || counts.some(c => overlaps(plate, c));
       if (blocked) pin.classList.add('label-off'); else kept.push(plate);
     });
   }
+  /* With more clubs than the start menu lists whole, pins that would stand on each
+     other are drawn as one group with a count (pin-groups.mjs). A tap or Enter flies
+     in until they part. Below that every club keeps its own pin, as the gates expect. */
+  const grouping = catalogueIsLarge(groups);
+  const groupLayer = L.layerGroup().addTo(map);
+  const alone = new Set(Object.keys(markers));
+  const motion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const move = { duration: 0.6, animate: motion };
+  const pixels = (latLng, zoom = map.getZoom()) => map.project(latLng, zoom);
+  function regroup() {
+    if (!grouping) return;
+    groupLayer.clearLayers();
+    alone.clear();
+    const points = labelOrder.map(id => ({ id, ...pixels(markers[id].getLatLng()) }));
+    for (const members of groupPins(points)) {
+      if (members.length === 1) {
+        const marker = markers[members[0].id];
+        if (!map.hasLayer(marker)) marker.addTo(map);
+        alone.add(members[0].id);
+        continue;
+      }
+      for (const { id } of members) if (map.hasLayer(markers[id])) map.removeLayer(markers[id]);
+      const latLngs = members.map(({ id }) => markers[id].getLatLng());
+      const names = members.map(({ id }) => mapped.find(group => group.id === id)?.name).filter(Boolean);
+      const icon = L.divIcon({
+        html: `<div class="golf-map-group" data-group-ids="${esc(members.map(({ id }) => id).join(' '))}"><span class="pin-count">${members.length}</span></div>`,
+        className: 'golf-pin-container golf-group-container',
+        iconSize: [44, 44],
+        iconAnchor: [22, 22],
+      });
+      /* drawn at its pins' middle, where the grouping kept it clear of every other mark */
+      const { x, y } = groupMiddle(members);
+      const marker = L.marker(map.unproject(L.point(x, y), map.getZoom()), { icon, title: `${members.length} klubbar`, zIndexOffset: 500 }).addTo(groupLayer);
+      const button = marker.getElement();
+      button.setAttribute('aria-label', `${members.length} klubbar: ${names.join(', ')}. Zooma in`);
+      /* In to where the first club parts from the rest, or the whole group fits if that
+         comes first, and always at least one step: a long chain of pins can span the
+         view, and a tap that did not move would look broken. */
+      const open = byKeys => {
+        const first = members[0].id, bounds = L.latLngBounds(latLngs), zoom = map.getZoom();
+        const parts = separatingZoom(latLngs[0], latLngs.slice(1), pixels, { from: zoom + 1, to: map.getMaxZoom() });
+        const target = Math.min(map.getMaxZoom(), Math.max(zoom + 1, Math.min(parts, map.getBoundsZoom(bounds.pad(0.2)))));
+        if (byKeys) map.once('moveend', () => focusClubOrGroup(first));
+        map.flyTo(bounds.getCenter(), target, move);
+      };
+      marker.on('click', () => open(false));
+      button.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        event.stopPropagation();
+        open(true);
+      });
+    }
+  }
+  /* the keyboard lands on the club, or on the group that still holds it */
+  function focusClubOrGroup(id) {
+    const own = markers[id].getElement();
+    const holder = own ? null : [...canvasWrap.querySelectorAll('.golf-map-group')]
+      .find(group => group.dataset.groupIds.split(' ').includes(id))?.closest('.leaflet-marker-icon');
+    (own ?? holder)?.focus({ preventScroll: true });
+  }
+  /* the zoom at which a club stands clear of every other: where its own pin is */
+  const ownZoom = (id, from) => separatingZoom(markers[id].getLatLng(),
+    Object.keys(markers).filter(other => other !== id).map(other => markers[other].getLatLng()), pixels, { from, to: map.getMaxZoom() });
+  map.on('zoomend viewreset', regroup);
+
   map.on('zoomend moveend resize', () => requestAnimationFrame(declutter));
   document.fonts?.ready.then(declutter);
 
@@ -155,8 +225,6 @@ export function createSwedenMap({ container, groups, current, lead = null, onPic
 
   // Region filtering and zoom buttons
   const regionBtns = controls.querySelectorAll('.mrb-btn');
-  const motion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const move = { duration: 0.6, animate: motion };
   regionBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       regionBtns.forEach(b => b.classList.remove('active'));
@@ -179,6 +247,7 @@ export function createSwedenMap({ container, groups, current, lead = null, onPic
 
   // Fit initially to show all courses cleanly
   if (latLngs.length) map.fitBounds(L.latLngBounds(latLngs), fitPadding());
+  regroup();
 
   return {
     el: mapEl,
@@ -196,7 +265,9 @@ export function createSwedenMap({ container, groups, current, lead = null, onPic
     focusClub: (id, center = false) => {
       const marker = markers[id];
       if (!marker) return;
-      if (center) map.setView(marker.getLatLng(), 9);
+      /* a club inside a group is flown to the zoom where it has its own pin */
+      if (center) map.setView(marker.getLatLng(), grouping ? ownZoom(id, 9) : 9);
+      else if (grouping && !alone.has(id)) map.setView(marker.getLatLng(), ownZoom(id, map.getZoom()), { animate: false });
       marker.getElement()?.focus({ preventScroll: true });
     },
   };

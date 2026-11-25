@@ -30,7 +30,7 @@ import { createPanelHistory } from '../ui/panel-history.mjs';
 import { shotHud } from './map-shot-hud.mjs';
 import { createDiary } from './map-diary.mjs';
 import { activeFrameMs, createDisplay } from './map-display.mjs';
-import { dateText, renderClubs, renderHoleHistory, renderRound, renderRounds } from './map-panels.mjs';
+import { dateText, markCardOverflow, renderClubs, renderHoleHistory, renderRound, renderRounds } from './map-panels.mjs';
 import { atTheTurn, courseLength, dropRound, dropRoundShots, holeHistory, holesScored, isRoundComplete, keepRound, parseRounds, roundEntry, roundIsOver, roundRecord, roundSummary, roundText, roundTrend, storeRounds } from './map-rounds.mjs';
 import { createTeeWatch } from './map-follow.mjs';
 import { attachGestures } from './map-gestures.mjs';
@@ -277,7 +277,7 @@ root.innerHTML = `
     <p class="map-score-sum" data-score-sum></p>
     <p class="map-score-stats" data-score-stats></p>
     <div class="map-card" data-card></div>
-    <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-handicap-less aria-label="Sänk spelhandicap">−</button><output data-handicap>–</output><button data-handicap-more aria-label="Höj spelhandicap">+</button></div>
+    <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-handicap-less aria-label="Sänk spelhandicap">−</button><output data-handicap>Ingen</output><button data-handicap-more aria-label="Höj spelhandicap">+</button></div>
     <div class="map-actions">
       <button class="map-action" data-pick-up>Stryk hålet</button>
       <button class="map-action" data-end-round>Avsluta rundan</button>
@@ -313,7 +313,7 @@ root.innerHTML = `
       <h3>Tee</h3>
       <div class="map-chips" data-start-tees></div>
     </div>
-    <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-start-less aria-label="Sänk spelhandicap">−</button><output data-start-handicap>–</output><button data-start-more aria-label="Höj spelhandicap">+</button></div>
+    <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-start-less aria-label="Sänk spelhandicap">−</button><output data-start-handicap>Ingen</output><button data-start-more aria-label="Höj spelhandicap">+</button></div>
     <button class="map-action" data-start-download>Spara för offline</button>
     <button class="map-action map-action-next map-start-go" data-start-go>Starta rundan</button>
     <button class="map-note-more map-start-look" data-close>Bara titta på banan</button>
@@ -426,6 +426,12 @@ root.innerHTML = `
 document.body.append(root);
 
 const $ = selector => root.querySelector(selector);
+/* Scroll does not bubble, but it can be caught on the way down: one listener keeps
+   every scorecard's edge cue (map-panels.mjs) true as a nine is scrolled or resized. */
+root.addEventListener('scroll', event => {
+  if (event.target.classList?.contains('map-card-part')) markCardOverflow(event.target);
+}, { capture: true, passive: true });
+addEventListener('resize', () => root.querySelectorAll('.map-card-part').forEach(markCardOverflow));
 const ui = {
   hole: $('[data-hole-title]'), facts: $('[data-hole-facts]'), prev: $('[data-prev]'), next: $('[data-next]'),
   back: $('[data-back-number]'), mid: $('[data-mid-number]'), front: $('[data-front-number]'), greenPlays: $('[data-green-plays]'), greenCueText: $('[data-green-cue-text]'), from: $('[data-from]'),
@@ -458,7 +464,7 @@ const ui = {
   menuSheet: $('[data-menu-sheet]'), lights: $('[data-lights]'),
   menuTitle: $('[data-menu-title]'), tip: $('[data-tip]'), note: $('[data-note]'), holes: $('[data-holes]'),
   teeSection: $('[data-tee-section]'), tees: $('[data-tees]'), reliefs: $('[data-reliefs]'), contours: $('[data-contours]'), rings: $('[data-rings]'),
-  download: $('[data-download]'), full: $('[data-full]'),
+  download: $('[data-download]'), full: $('[data-full]'), play: $('[data-play]'),
   overview: $('[data-overview]'), green: $('[data-green]'),
   profile: $('[data-profile]'), profileLine: $('[data-profile-line]'), profileFill: $('[data-profile-fill]'), profileText: $('[data-profile-text]'), profilePlays: $('[data-profile-plays]'),
   profileWalked: $('[data-profile-walked]'), profileYou: $('[data-profile-you]'), profileAim: $('[data-profile-aim]'),
@@ -592,7 +598,7 @@ async function start() {
   document.getElementById('bootTitle').textContent = course.name;
   document.getElementById('bootSub').textContent = 'Lätt 3D';
   document.title = `${course.name} — Lätt 3D | Banvy`;
-  $('[data-play]').href = `${BASE}${playUrl(slug)}`;
+  ui.play.href = `${BASE}${playUrl(slug)}`;
   /* the start menu's "Fortsätt" brings the golfer back here, in this mode */
   rememberLaunch(localStorageOrNull(), slug, 'map');
 
@@ -985,6 +991,11 @@ async function start() {
       : [`Par ${h.par}`, length ? `${length} m` : null, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
     ui.holeText.setAttribute('aria-label', [ui.hole.textContent, ui.facts.textContent, 'Öppna hålinformation'].join('. '));
     const detailedTarget = `${BASE}${detailedUrl(slug, { hole: h.n, tee: state.tee + 1 })}`;
+    const playTarget = `${BASE}${playUrl(slug, { hole: h.n, tee: state.tee + 1 })}`;
+    if (ui.play.getAttribute('href') !== playTarget) {
+      ui.play.href = playTarget;
+      ui.play.textContent = `Spela hål ${h.n} i simulatorn`;
+    }
     if (ui.full.getAttribute('href') !== detailedTarget) {
       ui.full.href = detailedTarget;
       ui.full.textContent = `Utforska hål ${h.n} i Detaljerad 3D`;
@@ -2462,7 +2473,7 @@ async function start() {
       : fillingIn() || round.endedAt || (h.n === course.holes.length && roundIsOver(round, course.holes, h.n)) ? 'Klart'
       : `Vidare till hål ${h.n % course.holes.length + 1} ›`;
     ui.endRound.hidden = !holesScored(round, course.holes) && !roundShots().length;
-    ui.handicap.textContent = Number.isFinite(round.handicap) ? String(round.handicap) : '–';
+    ui.handicap.textContent = Number.isFinite(round.handicap) ? String(round.handicap) : 'Ingen';
     const received = strokesReceived(round.handicap, h, course.holes);
     const name = Number.isFinite(own.strokes) && !own.picked ? scoreName(own.strokes, h.par) : own.picked ? 'Struket' : '';
     const points = received === null ? null : own.picked ? 0 : Number.isFinite(own.strokes) ? stablefordPoints(h.par, own.strokes, received) : null;
@@ -2489,6 +2500,7 @@ async function start() {
       const cellBox = currentCell.getBoundingClientRect(), stripBox = strip.getBoundingClientRect();
       strip.scrollLeft += cellBox.left + cellBox.width / 2 - stripBox.left - stripBox.width / 2;
     }
+    ui.card.querySelectorAll('.map-card-part').forEach(markCardOverflow);
   }
 
   ui.card.onclick = event => {
@@ -2717,7 +2729,7 @@ async function start() {
     const tees = course.tees?.names ?? [];
     ui.startTeeSection.hidden = tees.length < 2;
     ui.startTees.replaceChildren(...tees.map((name, index) => choice(name, index, 'tee', 'data-start-tee')));
-    ui.startHandicap.textContent = Number.isFinite(startSetup.handicap) ? String(startSetup.handicap) : '–';
+    ui.startHandicap.textContent = Number.isFinite(startSetup.handicap) ? String(startSetup.handicap) : 'Ingen';
   }
   const stepStartHandicap = step => {
     startSetup.handicap = clamp(Number.isFinite(startSetup.handicap) ? startSetup.handicap + step : 18, MIN_HANDICAP, MAX_HANDICAP);

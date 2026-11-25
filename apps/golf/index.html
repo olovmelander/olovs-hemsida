@@ -9,11 +9,15 @@
 <meta name="description" content="Svenska golfbanor i 3D, mätta mot klubbarnas egna kort och byggda ur verklig terräng.">
 <link href="/fonts/fonts.css" rel="stylesheet">
 <style>
+/* The player's names for styles/tokens.css. The loading screen's own colours keep
+   a fallback, so a failed load still reads when the stylesheet never arrived.
+   --dim and --faint rose to the token inks: over a fairway seen through the glass,
+   6.2 to 7.9:1 and 3.5 to 4.7:1. */
 :root{
-  --ink:#eaf3ec; --dim:#9db3a5; --faint:#6d8579;
-  --glass:rgba(9,18,14,.78); --edge:rgba(150,220,175,.18);
-  --turf:#5fd07a; --amber:#f0a23a; --sand:#e2cf9a; --water:#4bb4d8;
-  --touch-target:44px; --focus-ring:#dafbe3;
+  --ink:var(--bv-ink-1,#fff); --dim:var(--bv-ink-2,#b7c8bc); --faint:var(--bv-ink-3);
+  --glass:var(--bv-surface-glass,rgba(9,18,14,.78)); --edge:var(--bv-hairline-strong,rgba(150,220,175,.18));
+  --turf:var(--bv-turf,#5fd07a); --amber:var(--bv-warn); --sand:var(--bv-sand); --water:var(--bv-water);
+  --touch-target:var(--bv-hit,44px); --focus-ring:var(--bv-focus,#dafbe3);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 :where(button,a[href],input,select,summary,[tabindex="0"]):focus-visible{
@@ -21,7 +25,7 @@
 html,body{height:100%;overflow:hidden;background:#070d10;color:var(--ink);
   font-family:Outfit,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 canvas{display:block;position:fixed;inset:0}
-.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.mono{font-family:var(--bv-font);font-variant-numeric:tabular-nums}
 
 /* ---- boot screen ---- */
 #boot{position:fixed;inset:0;z-index:90;display:grid;place-items:center;
@@ -109,7 +113,7 @@ canvas{display:block;position:fixed;inset:0}
 #tees{display:flex;gap:5px}
 .tee{padding:4px 7px;border-radius:8px;text-align:center;min-width:44px;
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:all .15s}
-.tee b{display:block;font-size:12.5px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.tee b{display:block;font-size:12.5px;font-weight:700;font-family:var(--bv-font);font-variant-numeric:tabular-nums}
 /* the tee's name is what a golfer calls it ("58"): 8 px at 62% was a smudge under the length */
 .tee i{display:block;font-size:9.5px;font-weight:600;font-style:normal;letter-spacing:.04em;opacity:.78;margin-top:1px}
 .tee.on i{opacity:1}
@@ -158,6 +162,9 @@ canvas{display:block;position:fixed;inset:0}
 /* four light names in one row on the desktop rail: less side padding leaves
    Sommar room to fit (the short-window tiers below restate the rail's padding) */
 @media(min-width:769px){#rail .grp.tight .btn{padding-left:2px;padding-right:2px}}
+/* The camera row sizes its buttons by their words: at 45 px each, Ovanifrån
+   (54 px) ran out of the panel at 1440 x 900. Content widths fit in 188 of 198. */
+#rail .grp.fit .btn{flex:1 1 auto}
 .rail-lights{padding:0 2px}
 .rail-lights summary{padding:7px 0;font-size:12px;font-weight:650;color:var(--ink);cursor:pointer}
 .rail-lights summary span{float:right;margin-left:6px;color:var(--turf)}
@@ -165,7 +172,7 @@ canvas{display:block;position:fixed;inset:0}
 @media(pointer:coarse){.rail-lights summary{min-height:44px;padding:13px 0}}
 .lbl{font-size:8.5px;color:var(--faint);letter-spacing:.15em;text-transform:uppercase;margin:2px 0 -1px}
 #facts{font-size:10px;color:var(--dim);line-height:1.55;padding-top:4px;border-top:1px solid rgba(255,255,255,.06)}
-#facts b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600}
+#facts b{color:var(--ink);font-family:var(--bv-font);font-variant-numeric:tabular-nums;font-weight:600}
 #facts .data-status{color:#e9bb6a;font-weight:600}
 
 /* THE PANEL FOLDS (2 November): on a desktop the rail folds to its hole summary
@@ -289,8 +296,12 @@ canvas{display:block;position:fixed;inset:0}
 }
 #mini canvas{position:static;width:100%;height:100%;border-radius:9px}
 
-#hint{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:19;font-size:10px;
-  color:var(--faint);letter-spacing:.08em;pointer-events:none;transition:opacity .6s}
+/* Shown for the first six seconds of a visit (main.js fades it), so it has to
+   read straight away: a glass pill at the 12 px the drag hint needs on terrain,
+   where 10 px faint text on the grass did not. */
+#hint{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:19;font-size:12px;
+  color:var(--dim);letter-spacing:.04em;pointer-events:none;transition:opacity .6s;
+  padding:5px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--edge);white-space:nowrap}
 
 /* Mobile HUD Quick Actions */
 .mobile-hud-cluster{display:none;position:fixed;z-index:21;right:calc(8px + env(safe-area-inset-right));
@@ -448,7 +459,7 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 #kikGreen.show{display:flex;flex-direction:row-reverse;align-items:flex-end;gap:14px}
 .kg-row{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:44px}
 .kg-row i{font:600 8px/1 Outfit,sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.kg-row b{font:600 17px/1.05 'JetBrains Mono',monospace;color:var(--ink)}
+.kg-row b{font:600 17px/1.05 var(--bv-font);font-variant-numeric:tabular-nums;color:var(--ink)}
 .kg-row.mid i{color:var(--turf)}
 .kg-row.mid b{font-size:26px;color:#fff}
 .kg-row b em{font:600 9px/1 Outfit,sans-serif;font-style:normal;color:var(--dim);margin-left:2px}
@@ -459,15 +470,15 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   border:1px solid rgba(255,223,138,.32);box-shadow:0 10px 26px rgba(0,0,0,.45);text-align:center;white-space:nowrap}
 .kt-box::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:20px;
   background:linear-gradient(rgba(255,223,138,.95),rgba(255,223,138,0))}
-.kt-box b{display:block;font:700 23px/1 'JetBrains Mono',monospace;color:#fff;font-variant-numeric:tabular-nums}
+.kt-box b{display:block;font:700 23px/1 var(--bv-font);color:#fff;font-variant-numeric:tabular-nums}
 .kt-box b em{font:600 10px/1 Outfit,sans-serif;font-style:normal;color:var(--dim);margin-left:2px}
 .kt-box span{display:block;margin-top:4px;font:500 9.5px/1.2 Outfit,sans-serif;color:var(--dim)}
-.kt-box span i{font-style:normal;font-family:'JetBrains Mono',monospace;color:var(--ink)}
+.kt-box span i{font-style:normal;font-family:var(--bv-font);font-variant-numeric:tabular-nums;color:var(--ink)}
 .kt-box span u{text-decoration:none;color:#ffdf8a}
 #kikOut{display:none;width:min(336px,calc(100vw - 28px));padding:0;
   overflow:hidden;font-size:11px;line-height:1.55;color:var(--dim)}
 #kikOut.show{display:block}
-#kikOut b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600;font-variant-numeric:tabular-nums}
+#kikOut b{color:var(--ink);font-family:var(--bv-font);font-weight:600;font-variant-numeric:tabular-nums}
 .kik-grab{display:none}
 .kik-head{display:flex;align-items:center;gap:7px;padding:9px 11px 7px;border-bottom:1px solid rgba(255,255,255,.07)}
 .kik-head>b{font:750 12px/1 Outfit,sans-serif!important;letter-spacing:.02em}
@@ -510,7 +521,7 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 #gpsStatus[data-state="error"] .gps-pill{border-color:rgba(239,124,103,.4)}
 .gps-copy{min-width:0;display:flex;align-items:baseline;gap:6px}
 .gps-copy b{color:var(--ink);font-size:10.5px;letter-spacing:.04em}
-.gps-copy span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+.gps-copy span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--bv-font);font-variant-numeric:tabular-nums}
 .gps-action{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.1);
   background:rgba(255,255,255,.06);color:var(--dim);font:500 15px/1 Outfit,sans-serif;cursor:pointer;flex:0 0 auto}
 .gps-action:hover{background:rgba(239,124,103,.16);color:#ffb3a5;border-color:rgba(239,124,103,.4)}
@@ -571,7 +582,7 @@ body.gps-on #v2TerrainBadge{top:118px}
   box-shadow:0 8px 28px rgba(0,0,0,.28);backdrop-filter:blur(16px) saturate(1.2);
   -webkit-backdrop-filter:blur(16px) saturate(1.2);pointer-events:none}
 #v2TerrainBadge[hidden],body.clean #v2TerrainBadge{display:none}
-#v2TerrainBadge b{font:700 10px/1.2 'JetBrains Mono',monospace;letter-spacing:.08em;color:#9af0aa}
+#v2TerrainBadge b{font:700 10px/1.2 var(--bv-font);font-variant-numeric:tabular-nums;letter-spacing:.08em;color:#9af0aa}
 #v2TerrainBadge span{font-size:10px;line-height:1.25;color:var(--dim)}
 #v2TerrainBadge[data-state="fallback"]{border-color:rgba(226,178,89,.35)}
 #v2TerrainBadge[data-state="fallback"] b{color:#efc676}
@@ -812,7 +823,7 @@ body.gps-on #v2TerrainBadge{top:118px}
     </button>
   </div>
   <div class="lbl" title="Byt kameravy med C">Kameravy</div>
-  <div class="grp">
+  <div class="grp tight fit">
     <button class="btn" data-cam="tee">Tee</button>
     <button class="btn" data-cam="green">Green</button>
     <button class="btn on" data-cam="orbit">Fri</button>

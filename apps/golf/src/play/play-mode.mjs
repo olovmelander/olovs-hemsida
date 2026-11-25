@@ -31,6 +31,7 @@ import { loadGolfer, GOLF_SWINGS, GOLFER_CHARACTERS } from '../engine/golfer.mjs
 import { playsLike, greenDistances, lineHazards } from '../engine/rangefinder.js';
 import { GROUND_WETNESS } from '../engine/painted-world-lighting.mjs';
 import { LIGHTS, NOW_LIGHT, MAP_KEYS, readText } from '../shell/settings-store.mjs';
+import { detailedUrl, mapUrl } from '../shell/router.js';
 import { launchState, simulateShot, seeded, BALL } from './ball-physics.mjs';
 import {
   playBag, launchFor, puttRangeFor, planPower, LIE_NAME, DIFFICULTY, SHOT_TYPES, SHAPES, HEIGHTS, SPINS, STOCK_SETUP,
@@ -998,7 +999,14 @@ async function startPlay(h, query) {
     leaving = true;
     location.replace(`${import.meta.env.BASE_URL}#spela/${encodeURIComponent(round.slug)}`);
   }
-  async function saveAndExit(box, finish) {
+  /* The other two modes open on this hole and tee once the game is saved, and the
+     checkpoint brings the golfer back to the same ball (docs/ui-redesign-2026-11-25.md). */
+  function leaveToMode(mode) {
+    leaving = true;
+    const place = { hole: round.current, tee: Number.isInteger(round.tee) ? round.tee + 1 : undefined };
+    location.assign(`${import.meta.env.BASE_URL}${mode === 'map' ? mapUrl(round.slug, { ...place, preview: true }) : detailedUrl(round.slug, place)}`);
+  }
+  async function saveAndExit(box, finish, mode = null) {
     if (leaving || savingExit || practice) return;
     clearTimeout(inputSave);
     savingExit = true;
@@ -1007,7 +1015,7 @@ async function startPlay(h, query) {
     const result = await (finish ? persistence.finish(round, next) : persistence.save(round, next));
     savingExit = false;
     box.inert = false;
-    if ((result === 'saved' || result === 'finished') && !detached) leaveToSetup();
+    if ((result === 'saved' || result === 'finished') && !detached) { if (mode) leaveToMode(mode); else leaveToSetup(); }
     else {
       explainSaveError(box, detached ? 'account' : result);
       box.querySelector('[data-save-error] button, [data-confirm-end], [data-leave]')?.focus();
@@ -1015,6 +1023,7 @@ async function startPlay(h, query) {
   }
   function wireRoundActions(box) {
     box.querySelector('[data-leave]')?.addEventListener('click', () => saveAndExit(box, false));
+    for (const button of box.querySelectorAll('[data-switch-mode]')) button.addEventListener('click', () => saveAndExit(box, false, button.dataset.switchMode));
     box.querySelector('[data-end]').addEventListener('click', () => {
       if (leaving || practice) return;
       const confirm = hud.openSheet(`<header class="pl-hero"><span class="pl-k">Simulator · hål ${round.current}</span>
@@ -1126,12 +1135,15 @@ async function startPlay(h, query) {
         <div class="pl-row"><span>Svårighet</span>${seg('difficulty', DIFFICULTY, settings.difficulty)}</div>
         <div class="pl-row"><span>Sving</span>${seg('method', SWING_METHODS, settings.method)}</div>
         <div class="pl-row"><span>Spelhandicap</span><div class="pl-stepper" role="group" aria-label="Spelhandicap">
-          <button type="button" data-hcp="-1" ${practice ? 'disabled' : ''} aria-label="Sänk spelhandicap">−</button><output data-hcp-value>${round.handicap ?? '–'}</output>
+          <button type="button" data-hcp="-1" ${practice ? 'disabled' : ''} aria-label="Sänk spelhandicap">−</button><output data-hcp-value>${round.handicap ?? 'Ingen'}</output>
           <button type="button" data-hcp="1" ${practice ? 'disabled' : ''} aria-label="Höj spelhandicap">+</button></div></div>
         <div class="pl-row"><span>Ljud</span>${seg('sound', ON_OFF, settings.sound ? 'on' : 'off')}</div>
         <div class="pl-row"><span>Hålöverflygning</span>${seg('flyover', ON_OFF, settings.flyover ? 'on' : 'off')}</div>
         <div class="pl-row"><span>Träning</span><button type="button" class="pl-btn pl-ghost" data-practice ${state === 'address' ? '' : 'disabled'}>${practice ? practiceExitLabel() : 'Öva slag här'}</button></div>
         <div class="pl-row"><span>Ren vy</span><button class="pl-btn pl-ghost" type="button" data-clean>Dölj panelerna (H)</button></div>
+        <div class="pl-row"><span>Visa hålet i</span><div class="pl-switch">
+          <button class="pl-btn pl-ghost" type="button" data-switch-mode="detailed" ${practice || state !== 'address' ? 'disabled' : ''}>Detaljerad 3D</button>
+          <button class="pl-btn pl-ghost" type="button" data-switch-mode="map" ${practice || state !== 'address' ? 'disabled' : ''}>Lätt 3D</button></div></div>
       </section>
       <section class="pl-menu" id="pl-panel-card" role="tabpanel" aria-labelledby="pl-tab-card" data-panel="card" ${tab === 'card' ? '' : 'hidden'}>
         ${scorecardHtml(round, h.holes, n => pointsOn(round, h.holes, n))}

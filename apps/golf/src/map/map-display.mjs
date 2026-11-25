@@ -47,7 +47,11 @@ function systemTextPixels() {
 export function createDisplay(root, { read, write }) {
   const system = systemDisplay();
   const choices = displayChoices(read(KEY), system);
-  const apply = () => { for (const name of CHOICES) root.classList.toggle(CLASS_OF[name], choices[name]); };
+  const apply = () => {
+    for (const name of CHOICES) root.classList.toggle(CLASS_OF[name], choices[name]);
+    /* Solläge is the design system's Dag material (styles/tokens.css) */
+    root.classList.toggle('bv-dag', choices.sun);
+  };
   apply();
   return {
     get: name => choices[name],

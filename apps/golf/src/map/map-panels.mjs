@@ -35,6 +35,14 @@ function factRow(name, value) {
   return row;
 }
 
+/* A nine wider than its sheet scrolls sideways (its 44 px cells are thumb targets).
+   Mark the side it can still scroll toward, so that edge fades and says so. */
+export function markCardOverflow(part) {
+  const more = part.scrollWidth - part.clientWidth;
+  part.toggleAttribute('data-more-left', more > 1 && part.scrollLeft > 1);
+  part.toggleAttribute('data-more-right', more > 1 && part.scrollLeft < more - 1);
+}
+
 /* The card as it was: a birdie ringed and a bogey boxed, as a golfer marks a paper one. */
 function cardPart(holes, onHole) {
   const part = node('div', 'map-card-part');
@@ -99,6 +107,7 @@ export function renderRound(element, { record, summary, clubName, onHole = null 
   const shownHalves = halves.length ? halves : [cardHoles.slice(0, 9)];
   const card = node('div', 'map-card');
   card.append(...shownHalves.map(half => cardPart(half, onHole)));
+  globalThis.requestAnimationFrame?.(() => card.querySelectorAll('.map-card-part').forEach(markCardOverflow));
   parts.push(card);
   if (onHole && shownHalves.flat().some(hole => !scoredOn(hole))) parts.push(node('p', 'map-shots-hint', 'Saknas ett resultat? Tryck på hålet.'));
   const highlights = node('ul', 'map-facts');

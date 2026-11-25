@@ -2,11 +2,13 @@ import '../styles/hub.css';
 import { isPhone } from './map-default.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import { parseHistory } from '../map/map-shots.mjs';
-import { MAP_KEYS, MODES, courseSessions, lastLaunch, sessionPosition, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
+import { LAST_MODE_KEY, MAP_KEYS, MODES, courseSessions, lastLaunch, recentLaunches, sessionBadge, sessionPosition, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
 import { perEighteen, playedHoles, scoreToPar } from './stats-model.mjs';
-import { clubIdFor, groupCourses, layoutLabel } from './course-clubs.mjs';
+import { clubIdFor, clubLayouts, groupCourses, layoutLabel } from './course-clubs.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
+import { LOBBY_SHORT_LIST, LOBBY_SHORT_LIST_PHONE, catalogueIsLarge, dayText, lobbyClubs, recentCourses, searchClubs } from './lobby-model.mjs';
+import { ICONS } from './icons.js';
 import { subscribeCloud } from './cloud.mjs';
 import { showLiveRounds } from './live-round-panel.mjs';
 
@@ -16,6 +18,8 @@ const NEAR_METRES = 5000;
 const BASE = import.meta.env.BASE_URL;
 const poster = (slug, n = 1) => `${BASE}courses/${slug}/hero-${n}.webp`;
 const backdrop = slug => `${BASE}courses/${slug}/backdrop.webp`;
+/* a club row's 56 px picture: the poster's middle square at 168 px (tools/make-posters.mjs) */
+const thumbnail = slug => `${BASE}courses/${slug}/thumb.webp`;
 /* The island green in the fjord: the frame that says "a real course, in 3D" fastest. */
 const DEFAULT_BACKDROP = 'veckefjarden';
 const DETAILED_ART = poster('visby');
@@ -35,7 +39,7 @@ const GOLFER = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stro
 const PIN = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>';
 const USER_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1-3.8 3.6-5.6 7-5.6s6 1.8 7 5.6"/></svg>';
 
-export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null, onNearby = null }) {
+export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null, onNearby = null, onClub = null, onSearch = null }) {
   const phone = isPhone();
   let playable = [];
 
@@ -75,12 +79,32 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       </div>
 
       <section class="home-hero">
-        <h1 class="home-title" id="homeTitle" tabindex="-1">Välj aktivitet</h1>
+        <h1 class="home-title" id="homeTitle" tabindex="-1">Var spelar du?</h1>
         <p class="home-lead"></p>
       </section>
       <div class="home-resume-slot"></div>
       <section class="home-live-transfer" data-live-rounds aria-label="Rundor mellan enheter" hidden></section>
-      <nav class="home-modes" aria-label="Aktiviteter">
+      <section class="home-clubs" aria-labelledby="homeClubsTitle" data-home-clubs hidden>
+        <div class="home-clubs-head">
+          <h2 id="homeClubsTitle">Klubbar</h2>
+          <a class="home-clubs-all" href="#" data-all-clubs><span data-all-label>Sök, sortera och karta</span>${ARROW}</a>
+        </div>
+        <div class="home-club-search" data-club-search hidden>
+          ${ICONS.search(17)}
+          <input type="search" id="homeClubQuery" data-club-query placeholder="Sök klubb, bana eller ort"
+            aria-label="Sök klubbar efter namn, bana, ort eller par" aria-controls="homeClubList" aria-keyshortcuts="/"
+            autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+          <button class="hcs-clear" type="button" data-club-query-clear aria-label="Töm sökningen" hidden>${ICONS.close(14)}</button>
+        </div>
+        <p class="home-clubs-note" id="homeClubsNote" data-clubs-note role="status" hidden></p>
+        <ul class="home-club-list" id="homeClubList" data-club-list aria-labelledby="homeClubsTitle"></ul>
+        <div class="home-clubs-more" data-clubs-more hidden>
+          <button class="home-clubs-near" type="button" data-clubs-near hidden>${PIN}<span data-near-label>Klubbar nära mig</span></button>
+          <a class="home-clubs-hits" href="#" data-clubs-hits hidden><span data-hits-label></span>${ARROW}</a>
+        </div>
+      </section>
+      <h2 class="home-modes-title" id="homeModesTitle">Eller börja med ett sätt att spela</h2>
+      <nav class="home-modes" aria-labelledby="homeModesTitle">
         ${(phone ? ['map', 'detailed', 'play'] : ['detailed', 'play', 'map']).map(activityCard).join('')}
       </nav>
       <nav class="home-side" aria-label="Dina sidor">
@@ -146,6 +170,137 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     tryUrl([backdrop(slug), poster(slug)]);
   }
 
+  /* A club tapped here opens its own page in the way this golfer last played, or
+     the device's own: the map on a phone, the detailed course on a computer. The
+     page shows the mode and changes it in one tap (docs/ui-redesign-2026-11-25.md B1). */
+  const preferredMode = () => {
+    const last = readText(storage(), LAST_MODE_KEY, null);
+    return MODES[last] ? last : phone ? 'map' : 'detailed';
+  };
+  const clubsSection = el.querySelector('[data-home-clubs]');
+  const clubList = el.querySelector('[data-club-list]');
+  const allClubs = el.querySelector('[data-all-clubs]');
+  const allLabel = el.querySelector('[data-all-label]');
+  const searchBox = el.querySelector('[data-club-search]');
+  const queryInput = el.querySelector('[data-club-query]');
+  const queryClear = el.querySelector('[data-club-query-clear]');
+  const clubsNote = el.querySelector('[data-clubs-note]');
+  const clubsMore = el.querySelector('[data-clubs-more]');
+  const nearButton = el.querySelector('[data-clubs-near]');
+  const nearLabel = el.querySelector('[data-near-label]');
+  const hitsLink = el.querySelector('[data-clubs-hits]');
+  const hitsLabel = el.querySelector('[data-hits-label]');
+  const plainClick = e => !(e.metaKey || e.ctrlKey || e.shiftKey || e.button);
+  allClubs.addEventListener('click', e => {
+    if (!plainClick(e)) return;
+    e.preventDefault();
+    onMode(preferredMode());
+  });
+  /* every hit, in the list, with the words already in its search */
+  hitsLink.addEventListener('click', e => {
+    if (!plainClick(e)) return;
+    e.preventDefault();
+    if (onSearch) onSearch(queryInput.value.trim(), preferredMode());
+    else onMode(preferredMode());
+  });
+
+  let lobby = { clubs: [], sessions: [], recent: [] };
+  /* the phone's position, once it has said yes (lookNear, or Klubbar nära mig) */
+  let place = null;
+  let placeFailed = false;
+  let shownClubs = '';
+
+  function clubRow({ club, why, session = null, at = null, metres = null }, sessions) {
+    const cover = club.cover;
+    const live = session ?? sessions.find(entry => club.courses.some(course => course.slug === entry.course.slug));
+    /* in the club page's order, the host's own course first */
+    const layouts = club.courses.length > 1 ? clubLayouts(club.courses, cover.slug).map(layoutLabel).join(' · ') : `${cover.holes} hål · Par ${cover.par}`;
+    const town = COURSE_LOCATIONS[cover.slug]?.city;
+    const picture = cover.photos ? thumbnail(cover.slug) : cover.overviewUrl ? `${BASE}${cover.overviewUrl}` : '';
+    /* why a row of the short list is there */
+    const note = why === 'opened' ? (Number.isFinite(at) ? `Öppnad ${dayText(at)}` : 'Senast öppnad')
+      : why === 'played' ? `Spelad ${dayText(at)}`
+      : why === 'near' ? `${distanceText(metres)} bort` : '';
+    return `<li><button type="button" class="home-club" id="homeClub-${esc(club.id)}" data-club="${esc(club.id)}">
+        ${picture ? `<img class="hc-thumb" src="${esc(picture)}" alt="" width="56" height="56" loading="lazy" decoding="async">` : '<span class="hc-thumb" aria-hidden="true"></span>'}
+        <span class="hc-text"><strong>${esc(club.name)}</strong><small>${esc([town, layouts].filter(Boolean).join(' · '))}</small>
+          ${live ? `<span class="hc-live">${esc([sessionBadge(live), club.courses.length > 1 ? layoutLabel(live.course) : ''].filter(Boolean).join(' · '))}</span>`
+            : note ? `<span class="hc-note">${esc(note)}</span>` : ''}</span>
+        <span class="hc-go" aria-hidden="true">${ARROW}</span></button></li>`;
+  }
+
+  /* The lobby: every club by name while they fit; past that the golfer's own and a
+     search over all of them (lobby-model.mjs). */
+  function renderClubList() {
+    const { clubs, sessions, recent } = lobby;
+    if (!onClub || !clubs.length) { clubsSection.hidden = true; return; }
+    const large = catalogueIsLarge(clubs);
+    const mode = preferredMode();
+    allClubs.href = `#${MODES[mode].route}`;
+    allLabel.textContent = large ? `Alla ${clubs.length} klubbar` : 'Sök, sortera och karta';
+    searchBox.hidden = !large;
+    const query = large ? queryInput.value.trim() : '';
+    queryClear.hidden = !query;
+    const limit = phone ? LOBBY_SHORT_LIST_PHONE : LOBBY_SHORT_LIST;
+    const found = query ? searchClubs(clubs, query, { limit }) : null;
+    const shown = [...resumeSlot.querySelectorAll('[data-club-id]')].map(card => card.dataset.clubId);
+    const { rows } = found ?? lobbyClubs(clubs, { sessions, recent, coords: place, exclude: shown, limit });
+    let note = '';
+    if (found) note = found.total ? `${found.total} ${found.total === 1 ? 'klubb' : 'klubbar'}` : `Ingen klubb matchar ”${query}”`;
+    else if (large && rows.length) note = rows.some(row => row.why !== 'near') ? 'Dina klubbar' : 'Närmast dig';
+    else if (large) {
+      note = placeFailed ? 'Banvy fick ingen position. Sök på klubbens namn eller ort i stället.'
+        : navigator.geolocation ? `Sök bland ${clubs.length} klubbar, eller låt Banvy visa de närmaste.` : `Sök bland ${clubs.length} klubbar.`;
+    }
+    if (clubsNote.textContent !== note) clubsNote.textContent = note;
+    clubsNote.hidden = !note;
+    nearButton.hidden = !(large && !query && !place && navigator.geolocation);
+    const more = Boolean(found && found.total > found.rows.length);
+    hitsLink.hidden = !more;
+    if (more) {
+      hitsLink.href = `#${MODES[mode].route}`;
+      hitsLabel.textContent = `Visa alla ${found.total} träffar`;
+    }
+    clubsMore.hidden = nearButton.hidden && hitsLink.hidden;
+    clubsSection.hidden = false;
+    const html = rows.map(row => clubRow(row, sessions)).join('');
+    if (html === shownClubs) return;
+    const focusId = clubList.contains(document.activeElement) ? document.activeElement.id : null;
+    shownClubs = html;
+    clubList.innerHTML = html;
+    if (focusId) clubList.querySelector('#' + CSS.escape(focusId))?.focus({ preventScroll: true });
+  }
+  clubList.addEventListener('click', e => {
+    const row = e.target.closest('[data-club]');
+    if (row) onClub?.(row.dataset.club, preferredMode());
+  });
+  const clearQuery = () => { queryInput.value = ''; renderClubList(); };
+  queryInput.addEventListener('input', renderClubList);
+  /* Escape empties the field before anything else; Enter puts a phone's keyboard
+     away, so the hits are what is on screen (as in the list) */
+  queryInput.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && queryInput.value) { e.stopPropagation(); clearQuery(); }
+    if (e.key === 'Enter') queryInput.blur();
+  });
+  queryClear.addEventListener('click', () => { clearQuery(); queryInput.focus(); });
+  /* Asking for the position belongs to a tap: this one, or the list's sort */
+  nearButton.addEventListener('click', () => {
+    if (!navigator.geolocation) return;
+    nearButton.disabled = true;
+    nearButton.setAttribute('aria-busy', 'true');
+    nearLabel.textContent = 'Söker din position…';
+    const done = label => {
+      nearButton.disabled = false;
+      nearButton.removeAttribute('aria-busy');
+      nearLabel.textContent = label;
+    };
+    navigator.geolocation.getCurrentPosition(({ coords }) => { done('Klubbar nära mig'); placed(coords); }, () => {
+      done('Försök igen');
+      placeFailed = true;
+      renderClubList();
+    }, { timeout: 15000, maximumAge: 120000 });
+  });
+
   function refresh() {
     playable = courses.filter(c => c.status !== 'mapping');
     const clubs = groupCourses(playable);
@@ -155,6 +310,22 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     requestAnimationFrame(() => transfers.refresh());
     const last = lastLaunch(storage(), playable);
     const sessions = courseSessions(storage(), playable);
+    lobby = {
+      clubs,
+      sessions,
+      recent: recentCourses({
+        lastSlug: last?.course.slug ?? null,
+        launches: recentLaunches(storage()),
+        rounds: parseRounds(readText(storage(), MAP_KEYS.rounds, null)),
+      }),
+    };
+    /* the cards first, so the short list can leave out the clubs they show */
+    renderResume(clubs, sessions, last);
+    renderClubList();
+    lookNear();
+  }
+
+  function renderResume(clubs, sessions, last) {
     const featured = (phone ? ['map', 'play'] : ['play', 'map']).map(mode => sessions.find(s => s.mode === mode)).filter(Boolean);
     const courseCaption = course => {
       const title = layoutLabel(course);
@@ -172,7 +343,7 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
         const action = gps ? 'Fortsätt GPS-rundan' : 'Fortsätt simuleringen';
         const completed = gps ? (session.holes === 1 ? '1 spelat hål' : `${session.holes} spelade hål`) : '';
         const where = [sessionPosition(session), completed, session.strokes ? `${session.strokes} slag` : ''].filter(Boolean).join(' · ');
-        return `<button class="home-resume${gps ? ' is-live' : ''}" id="homeResume-${session.mode}" type="button" data-resume="${session.mode}"${gps ? '' : ' data-simulation'}>
+        return `<button class="home-resume${gps ? ' is-live' : ''}" id="homeResume-${session.mode}" type="button" data-resume="${session.mode}" data-club-id="${esc(clubIdFor(session.course.slug))}"${gps ? '' : ' data-simulation'}>
           <span class="hr-thumb" style="background-image:url('${poster(session.course.slug)}')" aria-hidden="true"></span>
           <span class="hr-text"><span class="hr-kicker">${gps ? '<i class="hr-live" aria-hidden="true"></i>' : ''}${action}</span>
             <span class="hr-name">${esc(courseCaption(session.course))}</span><span class="hr-sub">${esc(where)}</span></span>
@@ -186,12 +357,11 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       if (focusId) resumeSlot.querySelector('#' + CSS.escape(focusId))?.focus({ preventScroll: true });
       return;
     }
-    lookNear();
     if (resumeSlot.querySelector('[data-near]')) return;
     if (!last) { resumeSlot.innerHTML = ''; return; }
     const { course, mode } = last;
     resumeSlot.innerHTML = `
-      <button class="home-resume" type="button" data-resume>
+      <button class="home-resume" type="button" data-resume data-club-id="${esc(clubIdFor(course.slug))}">
         <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
         <span class="hr-text">
           <span class="hr-kicker">Senast öppnad</span>
@@ -205,37 +375,47 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     btn.addEventListener('click', () => onResume(course.slug, mode));
   }
 
-  /* Standing at a course: the menu offers that course's round. Only where the phone has
-     already said yes to its position -- asking belongs to a tap, in the list -- and
-     never over a round under way, which refresh() has shown first. */
+  /* The phone's position, read only where it has already said yes -- asking belongs
+     to a tap (Klubbar nära mig, or the list's sort). It gives the lobby its nearest
+     clubs and, standing at a course, that course's round. */
   let nearAsked = false;
   function lookNear() {
-    if (!playable.length || nearAsked || !onPlan || !navigator.permissions || !navigator.geolocation) return;
+    if (!playable.length || nearAsked || !navigator.permissions || !navigator.geolocation) return;
     nearAsked = true;
     navigator.permissions.query({ name: 'geolocation' }).then(answer => {
       if (answer.state !== 'granted') return;
-      navigator.geolocation.getCurrentPosition(({ coords }) => {
-        const nearest = coursesByDistance(coords, COURSE_LOCATIONS).find(({ slug }) => playable.some(c => c.slug === slug));
-        if (!nearest || nearest.metres > NEAR_METRES || resumeSlot.querySelector('.is-live, [data-simulation]')) return;
-        const course = playable.find(c => c.slug === nearest.slug);
-        const club = groupCourses(playable).find(group => group.id === clubIdFor(course.slug));
-        const multiple = club?.courses.length > 1;
-        const name = multiple ? club.name : course.name;
-        resumeSlot.innerHTML = `
-          <button class="home-resume is-near" type="button" data-near data-slug="${esc(course.slug)}">
-            <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
-            <span class="hr-text">
-              <span class="hr-kicker">${PIN}${nearest.metres < 1500 ? 'Du är vid banan' : 'Nära dig'}</span>
-              <span class="hr-name">${esc(name)}</span>
-              <span class="hr-sub">${distanceText(nearest.metres)} bort · ${multiple ? 'välj bana för GPS-rundan' : 'starta rundan med GPS'}</span>
-            </span>
-            <span class="hr-go" aria-hidden="true">${ARROW}</span>
-          </button>`;
-        const btn = resumeSlot.querySelector('[data-near]');
-        btn.setAttribute('aria-label', `Välj bana för en runda på ${name}, ${distanceText(nearest.metres)} bort`);
-        btn.addEventListener('click', () => multiple && onNearby ? onNearby(club.id) : onPlan(course.slug, 'map'));
-      }, () => {}, { timeout: 10000, maximumAge: 120000 });
+      navigator.geolocation.getCurrentPosition(({ coords }) => placed(coords), () => {}, { timeout: 10000, maximumAge: 120000 });
     }).catch(() => {});
+  }
+  function placed(coords) {
+    place = coords;
+    placeFailed = false;
+    offerNear(coords);
+    renderClubList();
+  }
+  /* Standing at a course: the menu offers that course's round, never over a round
+     under way, which refresh() has shown first. */
+  function offerNear(coords) {
+    if (!onPlan) return;
+    const nearest = coursesByDistance(coords, COURSE_LOCATIONS).find(({ slug }) => playable.some(c => c.slug === slug));
+    if (!nearest || nearest.metres > NEAR_METRES || resumeSlot.querySelector('.is-live, [data-simulation]')) return;
+    const course = playable.find(c => c.slug === nearest.slug);
+    const club = groupCourses(playable).find(group => group.id === clubIdFor(course.slug));
+    const multiple = club?.courses.length > 1;
+    const name = multiple ? club.name : course.name;
+    resumeSlot.innerHTML = `
+      <button class="home-resume is-near" type="button" data-near data-slug="${esc(course.slug)}" data-club-id="${esc(club?.id ?? clubIdFor(course.slug))}">
+        <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
+        <span class="hr-text">
+          <span class="hr-kicker">${PIN}${nearest.metres < 1500 ? 'Du är vid banan' : 'Nära dig'}</span>
+          <span class="hr-name">${esc(name)}</span>
+          <span class="hr-sub">${distanceText(nearest.metres)} bort · ${multiple ? 'välj bana för GPS-rundan' : 'starta rundan med GPS'}</span>
+        </span>
+        <span class="hr-go" aria-hidden="true">${ARROW}</span>
+      </button>`;
+    const btn = resumeSlot.querySelector('[data-near]');
+    btn.setAttribute('aria-label', `Välj bana för en runda på ${name}, ${distanceText(nearest.metres)} bort`);
+    btn.addEventListener('click', () => multiple && onNearby ? onNearby(club.id) : onPlan(course.slug, 'map'));
   }
 
   const accountBtn = el.querySelector('[data-account]');
@@ -288,6 +468,13 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
   /* 1 to 5 -- only while the menu is what is on screen, never out of a field */
   addEventListener('keydown', e => {
     if (el.hidden || e.metaKey || e.ctrlKey || e.altKey || e.target?.closest?.('input, textarea, select, [contenteditable], dialog')) return;
+    /* "/" reaches the lobby's search, as it reaches the list's */
+    if (e.key === '/' && !searchBox.hidden && !document.querySelector('dialog[open]')) {
+      e.preventDefault();
+      queryInput.focus();
+      queryInput.select();
+      return;
+    }
     if (e.key === '1') onMode('detailed');
     else if (e.key === '2') onMode('map');
     else if (e.key === '3') onMode('play');
