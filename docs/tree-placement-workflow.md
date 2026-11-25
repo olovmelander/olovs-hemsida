@@ -46,8 +46,10 @@ node tools/tree-pipeline.mjs --ground <id> --stage <stage>
 
 **Rules the pipeline enforces.**
 
-- Lantmäteriet only; never the surface model matched from aerial photos or
-  Skogsstyrelsen data. Credentials only through `node --env-file`, never printed.
+- Lantmäteriet's laser and photos, and since 25 November 2026 (the owner's decision) also
+  Lantmäteriet's surface model matched from aerial photos and Naturvårdsverket's tree-species
+  map; never Skogsstyrelsen data. The laser places the trees: the other sources add to it.
+  Credentials only through `node --env-file`, never printed. See [species](#species).
 - No GPU, browser or deep-learning step. One heavy process at a time.
 - The held-out gate is fixed at 90% precision and recall on at least 30 unseen
   crowns. A failed gate stays failed; publication needs an owner exception in
@@ -255,6 +257,44 @@ The [Johannesberg review of 2026-11-08](../geo_data/course-v2/johannesberg/veget
 - Tuning uses calibration windows only.
 - A held-out sample whose scores have been seen is marked `used-holdout`, and a new unseen sample is frozen before the next round is scored.
 - Results are reported stratified (isolated, group, edge, closed; conifer, broadleaf), alongside a paired comparison on the same references.
+
+## Species
+
+Placement is measured against a held-out sample; until 25 November 2026 species was not
+measured at all. These steps measure it, and every one is scored before anything it says is drawn.
+
+| Step | Tool | What it gives |
+| --- | --- | --- |
+| The species map | `tools/tree-pipeline/forest-species-map.py` | Naturvårdsverket's NMD2023 tree-species map (CC0), cut to every ground's 5 km square and kept in git: `geo_data/course-v2/<ground>/vegetation/nmd2023-tradslag.tif`, with its source record. Crown cover of pine, spruce, larch, ordinary and noble broadleaf, beech and oak in each 10 m forest cell. One pass of about 8 GB serves every ground. |
+| The photo surfaces | `node --env-file=.env tools/tree-pipeline/surface-models.mjs --ground <id>` | Lantmäteriet's surface model matched from each photo flight (2025 leafy, 2021 leafless and so on), on the laser canopy's 0.5 m grid. Pinned in `acquisition/surface-models.json`. **The pipeline's account is refused this product (HTTP 403) until it is added on Lantmäteriet's Geotorget.** |
+| Each tree's evidence | `tools/tree-pipeline/species-evidence.py --ground <id>` | For every placed tree and every reference crown: laser top and the spire of its top, the photo surfaces' tops and leafless/leafy fill (where fetched), the species map's shares, the distance to water. |
+| Conifer or broadleaf | `tools/tree-pipeline/type-evaluation.mjs --ground <id> --write` | The rule in use against the species map and the photo surfaces, chosen on calibration windows and reported on evaluation windows of the reference crowns. |
+| The truth | `species-sample.py`, the `species-reviewer` agent, `species-check-page.mjs` | 200 placed trees spread over type, zone and forest, split by 150 m blocks; each named blind by an agent from three panels (summer, summer infrared, leafless), then by the owner on a local page. The owner's word wins: `species-truth.json`. |
+| Which species | `tools/tree-pipeline/species-evaluation.mjs --ground <id> --write` | Conifer or broadleaf, pine or spruce (published only through `SUBTYPE_PUBLICATION`), and which broadleaf the app should draw (birch, alder or oak), each against the stated mix it would replace. |
+| Planted and felled | `tools/tree-pipeline/canopy-change.py --ground <id>` | Canopy that is new since the laser, or gone, where two photo flights agree. Needs the photo surfaces. |
+
+**What Bro Hof showed (25 November 2026).** On the placed trees in the evaluation windows,
+the rule in use types conifer or broadleaf at 0.705 balanced accuracy, counting its unknowns as
+wrong; 20.5% of the drawn trees have no type. Filling only those with the species map's conifer
+share gives 0.862, with 2 unknown of 260 instead of 73. The map alone is weaker (0.660): it
+decides where the rule in use cannot, never over it. The map is not a species for one tree
+(its own description says so for solitary trees and small patches).
+
+The blind species look at 200 sample trees (`species-sample.json`, agent labels in
+`species-truth.json`) named almost no species: 107 unknown, 69 broadleaves it could not name,
+16 spruce, 7 pine and one oak. At about 9 pixels a metre the photos show no stems, catkins or
+bark, so **beyond conifer or broadleaf, a tree's species cannot be read by eye from these
+photos**, and pine or spruce only for a few. On the 42 evaluation trees it could type, the
+combination again beat both parts (0.652 against 0.525 for the rule in use and 0.551 for the map:
+small and provisional). Pine or spruce had 9 evaluation trees, short of the gate's 30, so nothing
+is published. The reviewer also found about 25 circles on open ground, paths or water and one
+tree felled since 2021: a placement check for the next round. What would move species further is
+the photo surfaces (leafy against leafless, the spire of a top), which wait for the account, and
+the owner's own knowledge of the course on the check page.
+
+Next, in a round of its own with a bake: type the trees the rule in use leaves unknown from the
+species map, and take each woodland area's pine and spruce shares from the map instead of the
+default mix.
 
 ## 1. Define the ground, scope and baseline
 

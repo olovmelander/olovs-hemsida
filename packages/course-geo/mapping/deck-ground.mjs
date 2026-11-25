@@ -20,7 +20,14 @@
    node packages/course-geo/mapping/deck-ground.mjs --config <build>/mapping/trace-config.json --record   and keep the record
    node packages/course-geo/mapping/deck-ground.mjs --config <...> --around <ring id> [--pad 8]           the heights round one ring
 
-   <build>/mapping/deck-ground.json is what the walkthrough and the owner's review page print on each hole. */
+   <build>/mapping/deck-ground.json is what the walkthrough and the owner's review page print on each hole.
+
+   AND IS EVERY BUNKER IN A BOWL? The same record measures each bunker: how far its floor lies under the plane of
+   the ground round it. Of Bro Hof's 102 measured bunkers all but two lie 0.25 m or more under it, most between
+   half a metre and a metre; two lie on it. Both were built after the terrain was flown (Castle 7's first, and
+   Stadium 2's first, which the 2021 photo shows as a building site), and are drawn as flat sand on a slope. A
+   bunker that was only enlarged keeps the older, smaller bowl, which this cannot see: audit-sand.py's reading of
+   the older photo finds those. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -30,6 +37,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../.
 /** A deck's ground slopes less than this (percent), and lies within this of a plane (metres, nine cells in ten). */
 export const DECK_SLOPE_LINE = 3;
 export const DECK_OFF_PLANE_LINE = 0.08;
+/** A bunker's floor lies at least this far (metres) under the plane of the ground round it. */
+export const BUNKER_BOWL_LINE = 0.15;
 const INSET_METRES = 1, RIM_METRES = 4, FEWEST_CELLS = 6;
 
 const read = file => fs.readFileSync(path.join(ROOT, file));
@@ -80,6 +89,27 @@ export function deckGround(heightAt, ring) {
     level: round(quantile(cells.map(c => c[2]), 0.5), 2), aboveRim: rim.length ? round(quantile(cells.map(c => c[2]), 0.5) - quantile(rim, 0.5), 2) : null };
 }
 
+/** How far a bunker's floor lies under the ground round it: the plane through the terrain 1.5 to 5 m outside its ring is
+ * what the ground would be without the bunker, and `depth` is the median of the floor under that plane (metres).
+ * A ring too small to hold four cells a metre inside its edge is not measured. */
+export function bunkerGround(heightAt, ring) {
+  const xs = ring.map(p => p[0]), ys = ring.map(p => p[1]), floor = [], rim = [];
+  for (let e = Math.floor(Math.min(...xs)) - 6; e <= Math.max(...xs) + 6; e++) {
+    for (let n = Math.floor(Math.min(...ys)) - 6; n <= Math.max(...ys) + 6; n++) {
+      const p = [e + 0.5, n + 0.5], d = gap(p, ring);
+      if (inside(p, ring)) { if (d >= INSET_METRES) floor.push([p[0], p[1], heightAt(p[0], p[1])]); } else if (d >= 1.5 && d <= 5) rim.push([p[0], p[1], heightAt(p[0], p[1])]);
+    }
+  }
+  if (floor.length < 4 || rim.length < 12) return { cells: floor.length, measured: false };
+  const n = rim.length, mean = k => rim.reduce((s, c) => s + c[k], 0) / n, mx = mean(0), my = mean(1), mz = mean(2);
+  let sxx = 0, sxy = 0, syy = 0, sxz = 0, syz = 0;
+  for (const [x, y, z] of rim) { sxx += (x - mx) ** 2; sxy += (x - mx) * (y - my); syy += (y - my) ** 2; sxz += (x - mx) * (z - mz); syz += (y - my) * (z - mz); }
+  const det = sxx * syy - sxy * sxy;
+  if (!(det > 1e-9)) return { cells: floor.length, measured: false };
+  const a = (sxz * syy - syz * sxy) / det, b = (syz * sxx - sxz * sxy) / det;
+  return { cells: floor.length, measured: true, depth: round(quantile(floor.map(([x, y, z]) => mz + a * (x - mx) + b * (y - my) - z), 0.5), 2) };
+}
+
 export const offTheLine = deck => deck.measured && (deck.slope > DECK_SLOPE_LINE || deck.offPlane > DECK_OFF_PLANE_LINE);
 
 /** The trace config's terrain as a height function over EPSG:3006 metres (a north-up Float32 grid of 1 m cells). */
@@ -98,9 +128,13 @@ export function terrainReader(terrain, root = ROOT) {
 export function deckGroundRecord(surfaces, heightAt, { slug, surfacesSha256, terrainSha256 }) {
   const decks = surfaces.features.filter(f => f.properties.kind === 'tee').map(f => ({ id: f.id, hole: f.properties.hole, tees: f.properties.teeIds ?? [], ...deckGround(heightAt, f.geometry.coordinates[0]) }));
   const measured = decks.filter(d => d.measured), off = measured.filter(offTheLine);
+  const bunkers = surfaces.features.filter(f => f.properties.kind === 'bunker').map(f => ({ id: f.id, hole: f.properties.hole ?? null, ...bunkerGround(heightAt, f.geometry.coordinates[0]) }));
+  const bowls = bunkers.filter(b => b.measured), flat = bowls.filter(b => b.depth < BUNKER_BOWL_LINE);
   return { schemaVersion: 1, slug, surfacesSha256, terrainSha256, line: { slopePercent: DECK_SLOPE_LINE, offPlaneMetres: DECK_OFF_PLANE_LINE },
     decks: decks.length, measured: measured.length, tooSmall: decks.filter(d => !d.measured).map(d => d.id), level: measured.length - off.length,
-    off: off.map(({ id, hole, tees, cells, slope, offPlane, aboveRim }) => ({ id, hole, tees, cells, slope, offPlane, aboveRim })) };
+    off: off.map(({ id, hole, tees, cells, slope, offPlane, aboveRim }) => ({ id, hole, tees, cells, slope, offPlane, aboveRim })),
+    bunkers: { line: { bowlMetres: BUNKER_BOWL_LINE }, count: bunkers.length, measured: bowls.length, bowled: bowls.length - flat.length,
+      flat: flat.map(({ id, hole, cells, depth }) => ({ id, hole, cells, depth })) } };
 }
 
 /** Why a build's deck record does not hold (an empty list when it does). Needs no terrain: it is what CI can check. */
@@ -111,6 +145,8 @@ export function deckGroundErrors(build) {
   if (record.surfacesSha256 !== sha(`${build}/mapping/playing-surfaces.geojson`)) errors.push(`${build}: the outlines changed since the decks were measured; run deck-ground.mjs --record again`);
   if (record.line?.slopePercent !== DECK_SLOPE_LINE || record.line?.offPlaneMetres !== DECK_OFF_PLANE_LINE) errors.push(`${build}: the decks were measured against another line`);
   if (record.decks !== record.measured + record.tooSmall.length || record.level !== record.measured - record.off.length) errors.push(`${build}: the deck record does not add up`);
+  if (!record.bunkers || record.bunkers.line?.bowlMetres !== BUNKER_BOWL_LINE) errors.push(`${build}: the bunkers were not measured against their bowls; run deck-ground.mjs --record again`);
+  else if (record.bunkers.bowled !== record.bunkers.measured - record.bunkers.flat.length) errors.push(`${build}: the bunker record does not add up`);
   return errors;
 }
 
@@ -139,7 +175,8 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       const surfaces = json(`${build}/mapping/playing-surfaces.geojson`);
       const record = deckGroundRecord(surfaces, heightAt, { slug: config.courses[i].slug, surfacesSha256: sha(`${build}/mapping/playing-surfaces.geojson`), terrainSha256 });
       if (argv.includes('--record')) fs.writeFileSync(path.join(ROOT, deckGroundPath(build)), `${JSON.stringify(record, null, 1)}\n`);
-      out.push({ build, decks: record.decks, measured: record.measured, level: record.level, tooSmall: record.tooSmall, off: record.off.map(d => `${d.id} (${d.tees.join('/') || 'no card tee'}): slope ${d.slope}%, ${d.offPlane} m off a plane`) });
+      out.push({ build, decks: record.decks, measured: record.measured, level: record.level, tooSmall: record.tooSmall, off: record.off.map(d => `${d.id} (${d.tees.join('/') || 'no card tee'}): slope ${d.slope}%, ${d.offPlane} m off a plane`),
+        bunkers: `${record.bunkers.bowled} of ${record.bunkers.measured} measured bunkers lie in a bowl`, withoutABowl: record.bunkers.flat.map(b => `${b.id}: ${b.depth} m under the ground round it`) });
     }
     console.log(JSON.stringify(out, null, 1));
   }

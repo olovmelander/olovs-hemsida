@@ -60,7 +60,9 @@ export function sandAuditSummary(record) {
   return { captured: record.imagery?.captured ?? null, modelled: Object.values(record.modelled ?? {}).reduce((sum, n) => sum + n, 0), ringsNamed: record.rings.length,
     areas: record.areas.length, onNothingMapped: record.areas.filter(area => area.on === null).length,
     faults: [...record.rings, ...record.areas].filter(item => item.fault).map(item => ({ id: item.id, slug: item.slug, hole: item.hole, fault: item.fault })),
-    open: open.filter(item => !said(item.verdict) && !said(item.fault)).map(item => item.id) };
+    open: open.filter(item => !said(item.verdict) && !said(item.fault)).map(item => item.id),
+    // what the older photo says of the model's bunkers: evidence of the ground's age, not a fault of an outline
+    before: record.before ? { captured: record.before.captured ?? null, bunkers: record.before.bunkers, wasSand: record.before.wasSand, changed: record.before.changed, shaded: record.before.shaded } : null };
 }
 
 /** The outlines' checksums for the routings a record covers, from the catalogue's builds. */

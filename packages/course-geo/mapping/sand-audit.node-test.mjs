@@ -26,8 +26,13 @@ test('everything the sand audit names needs a person\'s word, and what the map e
   r.areas[1].verdict = 'A gravel yard behind the workshop, the same on both photos.';
   assert.deepEqual(sandAuditErrors(r, now, 'demo'), []);
   assert.deepEqual(sandAuditSummary(r), { captured: '2025-06-14', modelled: 42, ringsNamed: 1, areas: 3, onNothingMapped: 2,
-    faults: [{ id: 'sand-001', slug: 'demo-a', hole: 7, fault: r.areas[0].fault }], open: [] });
+    faults: [{ id: 'sand-001', slug: 'demo-a', hole: 7, fault: r.areas[0].fault }], open: [], before: null });
   assert.equal(sandAuditSummary(null), null);
+  // What the older photo says of the model's bunkers is evidence of the ground's age: it asks for no verdict.
+  r.before = { captured: '2021-04-16', levels: {}, lines: {}, bunkers: 40, wasSand: 37, changed: [{ id: 'a-bunker-07-1', slug: 'demo-a', hole: 7, wasSand: 0, wasGrass: 1 }],
+    shaded: [{ id: 'a-bunker-15-1', slug: 'demo-a', hole: 15, wasSand: 0.6, wasGrass: 0 }] };
+  assert.deepEqual(sandAuditErrors(r, now, 'demo'), []);
+  assert.deepEqual(sandAuditSummary(r).before, { captured: '2021-04-16', bunkers: 40, wasSand: 37, changed: r.before.changed, shaded: r.before.shaded });
 });
 
 test('a sand audit holds only for the outlines it measured, and a word is not a verdict', () => {

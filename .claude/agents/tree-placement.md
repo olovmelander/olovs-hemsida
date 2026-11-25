@@ -18,13 +18,17 @@ config, `course-workflows/johannesberg/trees.json`, is the worked example.
 
 ## Hard rules
 
-- **Lantmäteriet only.** Laser: COPC point clouds from the height STAC
-  (https://api.lantmateriet.se/stac-hojd/v1/). Orthophotos: `orto-*` collections
-  from stac-bild. As current as the account can get: the newest laser campaign
-  per area (record-laser-campaigns picks it), the leaf-off photo nearest the laser
-  date, and the newest leaf-on photo. **Never** "Ythöjdmodell från flygbilder" (the
-  surface model matched from aerial photos), under any name, and **never**
-  Skogsstyrelsen data. `source-policy.mjs` refuses them; do not work around it.
+- **Sources.** Laser: COPC point clouds from Lantmäteriet's height STAC
+  (https://api.lantmateriet.se/stac-hojd/v1/); the laser places the trees. Orthophotos:
+  `orto-*` collections from stac-bild. As current as the account can get: the newest
+  laser campaign per area (record-laser-campaigns picks it), the leaf-off photo nearest
+  the laser date, and the newest leaf-on photo. Since 25 November 2026 the owner also
+  allows Lantmäteriet's surface model matched from aerial photos (dsm-cog,
+  `tools/tree-pipeline/surface-models.mjs`), to add to the laser and never replace it:
+  trees planted since the laser, leafy crowns, species, each use scored on a held-out
+  sample; and Naturvårdsverket's tree-species map (NMD2023, CC0,
+  `tools/tree-pipeline/forest-species-map.py`), for the odds of a species in woodland.
+  **Never** Skogsstyrelsen data. `source-policy.mjs` holds this; do not work around it.
 - **Credentials** load only through `node --env-file=C:/Users/olovm/repos/olovs-hemsida/.env`
   (in a worktree, that path in the main checkout). Never print, log, echo, copy or
   commit them, never read the .env file yourself, and never put them in a command

@@ -96,6 +96,7 @@ function routingFacts(row, quality) {
       ...(deckGround?.off ?? []).filter(deck => deck.hole === hole.n)
         .map(deck => `${deck.tees.join('/') || 'unused'} deck not on level ground in the terrain (${deck.slope}% slope${deck.offPlane > DECK_OFF_PLANE_LINE ? `, ${deck.offPlane} m off a plane` : ''})`),
       ...(second?.faults ?? []).filter(fault => holeOf(fault.id) === hole.n).map(fault => `second look: \`${fault.id}\` is a fault`),
+      ...(deckGround?.bunkers?.flat ?? []).filter(bunker => bunker.hole === hole.n).map(bunker => `\`${bunker.id}\` has no bowl in the terrain: built after it was flown`),
     ];
     return {
       n: hole.n, name: hole.name ?? '', par: hole.par, index: hole.idx ?? null, back: hole.t?.[0] ?? null,
@@ -151,6 +152,17 @@ export function groundFacts(groundId) {
   const sandBuild = routings.map(x => x.build).find(build => exists(`${build}/mapping/sand-audit.json`));
   const sand = sandBuild ? sandAuditSummary(json(`${sandBuild}/mapping/sand-audit.json`)) : null;
   for (const fault of sand?.faults ?? []) routings.find(x => x.slug === fault.slug)?.holes.find(h => h.n === fault.hole)?.flags.push(`sand audit: \`${fault.id}\` is a fault`);
+  for (const bunker of sand?.before?.changed ?? []) {
+    routings.find(x => x.slug === bunker.slug)?.holes.find(h => h.n === bunker.hole)?.flags
+      .push(`\`${bunker.id}\` was ${Math.round(bunker.wasGrass * 100)}% grass on the ${sand.before.captured ?? 'older'} photo: built or reshaped since`);
+  }
+  // The ground's age, by hole: what says that the hole was rebuilt after the terrain under it was flown.
+  const age = routings.flatMap(x => x.holes.map(h => ({
+    label: `${x.label.replace(/^The | Course$/g, '')} ${h.n}`,
+    changed: (sand?.before?.changed ?? []).filter(b => b.slug === x.slug && b.hole === h.n).length,
+    noBowl: (x.deckGround?.bunkers?.flat ?? []).filter(b => b.hole === h.n).length,
+    decks: (x.deckGround?.off ?? []).filter(d => d.hole === h.n).length,
+  }))).filter(hole => hole.changed || hole.noBowl || hole.decks);
   const workflow = maybe(`course-workflows/${groundId}/workflow.json`), acceptance = maybe(`course-workflows/${groundId}/owner-acceptance.json`);
   const facilities = maybe(`apps/golf/public/models/${groundId}/facilities-v1.json`);
   const roofs = maybe(`geobuild/facilities/roof-colours/${groundId}.json`);
@@ -172,7 +184,7 @@ export function groundFacts(groundId) {
     roofs: roofs ? { measured: roofs.buildings.filter(b => b.roof).length } : null,
     facilities: facilities ? { parts: facilities.facilities.map(f => f.id), bytes: facilities.asset.bytes,
       triangles: sum(facilities.facilities.map(f => f.triangles ?? 0)) || facilities.triangles || report.summary?.facilities?.triangles || null } : null,
-    sand, trees: treeFacts(groundId), quality: { errors: report.errors.length, warnings: report.warnings.length, unplaced: quality.filter(line => !/ h\d+:/.test(line)) },
+    sand, age, trees: treeFacts(groundId), quality: { errors: report.errors.length, warnings: report.warnings.length, unplaced: quality.filter(line => !/ h\d+:/.test(line)) },
     release: { policy: workflow?.releasePolicy ?? null, acceptance, blockers: audit.blockers.filter(b => b.severity === 'release-blocking'), frame: audit.frameStatus },
     walkthrough: exists(`docs/courses/${groundId}-walkthrough.md`),
   };
@@ -222,6 +234,17 @@ function summaryBlock(f) {
     lines.splice(1, 0, `- **Sand:** the ${f.sand.captured ?? 'tracing'} photo was read round every hole against the model's ${number(f.sand.modelled)} bunkers and waste areas: `
       + `${f.sand.ringsNamed} of them hold little sand or have sand outside their line, and ${f.sand.areas} areas of bright sand are not in the model, ${f.sand.onNothingMapped} of those on nothing the map holds. `
       + (f.sand.open.length ? `**${f.sand.open.length} have no verdict yet.**` : `Each has a verdict; ${f.sand.faults.length} ${f.sand.faults.length === 1 ? 'is' : 'are'} kept as a fault.`));
+  }
+  if (f.age?.length) {
+    const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+    const sands = f.age.filter(hole => hole.changed || hole.noBowl), decksOnly = f.age.filter(hole => !hole.changed && !hole.noBowl);
+    const sign = hole => [hole.changed ? `${plural(hole.changed, 'bunker', 'bunkers')} built or reshaped since the ${f.sand?.before?.captured ?? 'older'} photo` : null,
+      hole.noBowl ? `${plural(hole.noBowl, 'bunker', 'bunkers')} without a bowl in the terrain` : null, hole.decks ? `${plural(hole.decks, 'deck', 'decks')} not on level ground` : null].filter(Boolean).join(', ');
+    lines.splice(1, 0, `- **The ground's age:** where the course is newer than the terrain under it, by what was measured. `
+      + (sands.length ? `${sands.map(hole => `${hole.label} (${sign(hole)})`).join('; ')}. ` : '')
+      + (decksOnly.length ? `Tee decks only: ${decksOnly.map(hole => `${hole.label} (${hole.decks})`).join(', ')}. ` : '')
+      + 'A deck that is not level is newer than the terrain or off its deck; both photo years say which.'
+      + (f.sand?.before?.shaded?.length ? ` The older photo cannot say for ${plural(f.sand.before.shaded.length, 'bunker', 'bunkers')} in shade.` : ''));
   }
   const faults = [...r.flatMap(x => x.second?.faults ?? []), ...(f.sand?.faults ?? [])].map(fault => `  - \`${fault.id}\`: ${fault.fault}`);
   if (faults.length) lines.push(`- **Faults the second look and the sand audit found, kept until they can be put right:**\n${faults.join('\n')}`);

@@ -1,0 +1,57 @@
+{
+ "schemaVersion": 1,
+ "kind": "forest-species-map",
+ "groundId": "visby",
+ "product": "NMD2023 tilläggsskikt trädslag",
+ "version": "1.1",
+ "producer": "Naturvårdsverket (Metria, SLU)",
+ "licence": "CC0-1.0",
+ "attribution": "NMD, Naturvårdsverket",
+ "descriptionUrl": "https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Tillaggsskikt/NMD2023_Produktbeskrivning_till%c3%a4gsskikt_Tr%c3%a4dslag.pdf",
+ "sourceZip": {
+  "url": "https://geodata.naturvardsverket.se/nedladdning/marktacke/NMD2023/Tillaggsskikt/NMD2023_Tradslag_v1_1.zip",
+  "bytes": 8494853833,
+  "lastModified": "Mon, 30 Mar 2026 10:23:37 GMT",
+  "etag": "\"1fa552ec9-64e3b3e63be2f\""
+ },
+ "read": {
+  "tall": "NMD2023_tradslag_tall_v1_1.tif",
+  "gran": "NMD2023_tradslag_gran_v1_1.tif",
+  "lark": "NMD2023_tradslag_lark_v1_1.tif",
+  "trivial": "NMD2023_tradslag_trivial_v1_1.tif",
+  "adel": "NMD2023_tradslag_adel_v1_1.tif",
+  "bok": "NMD2023_tradslag_bok_v1_1.tif",
+  "ekovradel": "NMD2023_tradslag_ekovradel_v1_1.tif",
+  "osakerklassning": "NMD2023_tradslag_osakerklassning_v1_1.tif"
+ },
+ "imagery": "Sentinel-2 time series 2021-2023",
+ "meaning": "0-100 indication that should correspond to crown cover in per cent; 255 is not forest land. Pine includes larch. osakerklassning: 1 where the species call is uncertain (every share is 0 there). Pine, spruce, broadleaf and noble broadleaf add up to 100 in a typical cell, but to as much as 140 where noble broadleaf grows: use the shares relative to each other.",
+ "limits": "The product description: the risk of a wrong species is large for solitary trees, sparse forest and small forest patches; young dense or very wet ordinary broadleaf can read as noble broadleaf; thinned spruce can read as pine.",
+ "crs": "EPSG:3006",
+ "cellMetres": 10,
+ "window": {
+  "easting": [
+   685180.0,
+   690300.0
+  ],
+  "northing": [
+   6368400.0,
+   6373520.0
+  ]
+ },
+ "bands": [
+  "tall",
+  "gran",
+  "lark",
+  "trivial",
+  "adel",
+  "bok",
+  "ekovradel",
+  "osakerklassning"
+ ],
+ "forestCells": 48080,
+ "cells": 262144,
+ "extractedOn": "2026-11-25",
+ "tool": "tools/tree-pipeline/forest-species-map.py",
+ "sha256": "0d5957f97f58e19d546f5d025febf0e0633faca9feb3b5e4ae27bb819c3a45ee"
+}

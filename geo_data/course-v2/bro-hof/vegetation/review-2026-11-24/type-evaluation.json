@@ -1,0 +1,187 @@
+{
+ "schemaVersion": 1,
+ "kind": "conifer-broadleaf-evaluation",
+ "groundId": "bro-hof",
+ "reviewId": "review-2026-11-24",
+ "evaluatedOn": "2026-11-25",
+ "crowns": {
+  "calibration": 348,
+  "evaluation": 395,
+  "placedOnes": 497
+ },
+ "surfaceThreshold": null,
+ "nmdThreshold": {
+  "t": 0.067,
+  "score": 0.7666237666237665
+ },
+ "rules": [
+  {
+   "name": "in use",
+   "description": "type-rule.json as published: groundShare < t OR aprilVegetatedShare >= t, per placed tree; a crown not placed counts as unknown",
+   "calibration": {
+    "balanced": 0.6509009009009009,
+    "coniferRecall": 0.8333333333333334,
+    "broadleafRecall": 0.46846846846846846,
+    "conifers": 126,
+    "broadleaves": 222,
+    "unknownCalls": 131
+   },
+   "evaluation": {
+    "balanced": 0.4678144893986426,
+    "coniferRecall": 0.5120481927710844,
+    "broadleafRecall": 0.42358078602620086,
+    "conifers": 166,
+    "broadleaves": 229,
+    "unknownCalls": 208
+   },
+   "evaluationPlaced": {
+    "balanced": 0.7045279211916207,
+    "coniferRecall": 0.6204379562043796,
+    "broadleafRecall": 0.7886178861788617,
+    "conifers": 137,
+    "broadleaves": 123,
+    "unknownCalls": 73
+   }
+  },
+  {
+   "name": "photo surfaces",
+   "description": "leaflessShare >= undefined is conifer, where the leafy surface fills at least 15% of the crown",
+   "calibration": {
+    "balanced": 0,
+    "coniferRecall": 0,
+    "broadleafRecall": 0,
+    "conifers": 126,
+    "broadleaves": 222,
+    "unknownCalls": 348
+   },
+   "evaluation": {
+    "balanced": 0,
+    "coniferRecall": 0,
+    "broadleafRecall": 0,
+    "conifers": 166,
+    "broadleaves": 229,
+    "unknownCalls": 395
+   },
+   "evaluationPlaced": {
+    "balanced": 0,
+    "coniferRecall": 0,
+    "broadleafRecall": 0,
+    "conifers": 137,
+    "broadleaves": 123,
+    "unknownCalls": 260
+   }
+  },
+  {
+   "name": "in use, surfaces where it is unknown",
+   "description": "the rule in use, and the photo surfaces only where it says unknown or placed nothing",
+   "calibration": {
+    "balanced": 0.6509009009009009,
+    "coniferRecall": 0.8333333333333334,
+    "broadleafRecall": 0.46846846846846846,
+    "conifers": 126,
+    "broadleaves": 222,
+    "unknownCalls": 131
+   },
+   "evaluation": {
+    "balanced": 0.4678144893986426,
+    "coniferRecall": 0.5120481927710844,
+    "broadleafRecall": 0.42358078602620086,
+    "conifers": 166,
+    "broadleaves": 229,
+    "unknownCalls": 208
+   },
+   "evaluationPlaced": {
+    "balanced": 0.7045279211916207,
+    "coniferRecall": 0.6204379562043796,
+    "broadleafRecall": 0.7886178861788617,
+    "conifers": 137,
+    "broadleaves": 123,
+    "unknownCalls": 73
+   }
+  },
+  {
+   "name": "surfaces first",
+   "description": "the photo surfaces, and the rule in use only where they cannot say",
+   "calibration": {
+    "balanced": 0.6509009009009009,
+    "coniferRecall": 0.8333333333333334,
+    "broadleafRecall": 0.46846846846846846,
+    "conifers": 126,
+    "broadleaves": 222,
+    "unknownCalls": 131
+   },
+   "evaluation": {
+    "balanced": 0.4678144893986426,
+    "coniferRecall": 0.5120481927710844,
+    "broadleafRecall": 0.42358078602620086,
+    "conifers": 166,
+    "broadleaves": 229,
+    "unknownCalls": 208
+   },
+   "evaluationPlaced": {
+    "balanced": 0.7045279211916207,
+    "coniferRecall": 0.6204379562043796,
+    "broadleafRecall": 0.7886178861788617,
+    "conifers": 137,
+    "broadleaves": 123,
+    "unknownCalls": 73
+   }
+  },
+  {
+   "name": "species map",
+   "description": "the species map's conifer share >= 0.067 is conifer, where the cell is forest",
+   "calibration": {
+    "balanced": 0.7666237666237665,
+    "coniferRecall": 0.9206349206349206,
+    "broadleafRecall": 0.6126126126126126,
+    "conifers": 126,
+    "broadleaves": 222,
+    "unknownCalls": 55
+   },
+   "evaluation": {
+    "balanced": 0.6728442152891041,
+    "coniferRecall": 0.7168674698795181,
+    "broadleafRecall": 0.62882096069869,
+    "conifers": 166,
+    "broadleaves": 229,
+    "unknownCalls": 33
+   },
+   "evaluationPlaced": {
+    "balanced": 0.6604652542875793,
+    "coniferRecall": 0.7518248175182481,
+    "broadleafRecall": 0.5691056910569106,
+    "conifers": 137,
+    "broadleaves": 123,
+    "unknownCalls": 20
+   }
+  },
+  {
+   "name": "in use, species map where it is unknown",
+   "description": "the rule in use, and the species map only where it says unknown or placed nothing",
+   "calibration": {
+    "balanced": 0.8867438867438867,
+    "coniferRecall": 0.9761904761904762,
+    "broadleafRecall": 0.7972972972972973,
+    "conifers": 126,
+    "broadleaves": 222,
+    "unknownCalls": 14
+   },
+   "evaluation": {
+    "balanced": 0.7966275582680065,
+    "coniferRecall": 0.8072289156626506,
+    "broadleafRecall": 0.7860262008733624,
+    "conifers": 166,
+    "broadleaves": 229,
+    "unknownCalls": 15
+   },
+   "evaluationPlaced": {
+    "balanced": 0.8615512432496588,
+    "coniferRecall": 0.8613138686131386,
+    "broadleafRecall": 0.8617886178861789,
+    "conifers": 137,
+    "broadleaves": 123,
+    "unknownCalls": 2
+   }
+  }
+ ]
+}

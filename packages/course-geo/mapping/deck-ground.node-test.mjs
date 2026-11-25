@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DECK_OFF_PLANE_LINE, DECK_SLOPE_LINE, deckGround, deckGroundErrors, deckGroundRecord, offTheLine } from './deck-ground.mjs';
+import { BUNKER_BOWL_LINE, DECK_OFF_PLANE_LINE, DECK_SLOPE_LINE, bunkerGround, deckGround, deckGroundErrors, deckGroundRecord, offTheLine } from './deck-ground.mjs';
 import { tracedBuilds } from './ring-review.mjs';
 
 const rectangle = (e0, n0, e1, n1) => [[e0, n0], [e1, n0], [e1, n1], [e0, n1], [e0, n0]];
@@ -30,6 +30,29 @@ test('a ring on its deck is level, and one over a bank, across a step or on a sl
   const tiny = deckGround(ground, rectangle(100, 200, 103.5, 203.5));
   assert.equal(tiny.measured, false);
   assert.equal(offTheLine(tiny), false, 'a ring too small to measure is named as such, not as a fault');
+});
+
+test('a bunker lies in a bowl, on level ground and on a slope; one built after the terrain lies on the ground', () => {
+  const pit = (e, n, e0, n0, e1, n1, depth) => (e > e0 && e < e1 && n > n0 && n < n1 ? Math.min(depth, 0.4 * Math.min(e - e0, e1 - e, n - n0, n1 - n)) : 0);
+  const level = (e, n) => 10 - pit(e, n, 100, 200, 112, 210, 0.8);
+  const inABowl = bunkerGround(level, rectangle(100, 200, 112, 210));
+  assert.ok(inABowl.measured && Math.abs(inABowl.depth - 0.8) < 0.15, JSON.stringify(inABowl));
+  // The same bowl cut into a hillside of 12%: the plane of the ground round it takes the slope out.
+  const hillside = (e, n) => 10 + (e - 100) * 0.12 - pit(e, n, 100, 200, 112, 210, 0.8);
+  const onASlope = bunkerGround(hillside, rectangle(100, 200, 112, 210));
+  assert.ok(Math.abs(onASlope.depth - 0.8) < 0.2, JSON.stringify(onASlope));
+  // Sand laid on a slope the terrain knows nothing of: no bowl.
+  const newer = bunkerGround((e, n) => 10 + (e - 100) * 0.12, rectangle(100, 200, 112, 210));
+  assert.ok(Math.abs(newer.depth) < 0.02 && newer.depth < BUNKER_BOWL_LINE);
+  assert.ok(inABowl.depth > BUNKER_BOWL_LINE && onASlope.depth > BUNKER_BOWL_LINE);
+  assert.equal(bunkerGround(level, rectangle(100, 200, 102.5, 202.5)).measured, false, 'a pot too small to hold four cells is not measured');
+
+  const feature = (id, kind, hole, ring) => ({ id, properties: { kind, hole }, geometry: { coordinates: [ring] } });
+  const ground = (e, n) => 10 - pit(e, n, 100, 200, 112, 210, 0.8);
+  const record = deckGroundRecord({ features: [feature('x-bunker-03-1', 'bunker', 3, rectangle(100, 200, 112, 210)), feature('x-bunker-03-2', 'bunker', 3, rectangle(140, 200, 152, 210)),
+    feature('x-bunker-p-1', 'bunker', undefined, rectangle(180, 200, 182, 202))] }, ground, { slug: 'x', surfacesSha256: 'a'.repeat(64), terrainSha256: 'b'.repeat(64) });
+  assert.deepEqual([record.bunkers.count, record.bunkers.measured, record.bunkers.bowled], [3, 2, 1]);
+  assert.deepEqual(record.bunkers.flat.map(bunker => [bunker.id, bunker.hole, bunker.depth]), [['x-bunker-03-2', 3, 0]]);
 });
 
 test('a build\'s record counts every deck once and names the ones off the line', () => {

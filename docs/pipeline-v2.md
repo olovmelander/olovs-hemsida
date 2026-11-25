@@ -13,6 +13,8 @@ loader.
 - **Starting any sitting:** `node tools/course-doctor.mjs --ground <ground>` reads every record of the ground and
   sorts what it finds: broken, to do, the owner's, known faults, holding. Without `--ground` it lists every ground
   in a line each, and `--machine` says whether this machine can run each part of the pipeline today.
+  `--private` lists the private source data each ground was built from, which only the machine that fetched it
+  holds: that is the list to back up.
 - **Building a new ground:** follow the stages in order.
 - **Improving a published ground:** start at [its walkthrough](#the-walkthrough), then use
   [the upgrade table](#improving-a-published-course).
@@ -157,6 +159,15 @@ as a fault. At Bro Hof no bunker was missing; the three rings it named were exac
 and one of those (a "waste area" on Castle 15) turned out to be dark bare ground. It shares the tracer's blind
 spots: sand in deep shade, and sand that is not bright.
 
+**The ground's age.** The terrain's record gives one date for a mosaic of flights, so the age of the ground under a
+hole is measured instead, three ways. `deck-ground.mjs` names the tee decks that are not level and the bunkers
+that lie in no bowl (all but two of Bro Hof's 102 measured bunkers lie 0.25 m or more under the ground round
+them). `audit-sand.py --compare <older photo> --compare-captured <date>` reads every bunker on the older photo,
+with that photo's own sand and turf levels, and names the ones that were grass then. The walkthrough prints
+the signs by hole. A hole with several is one that was rebuilt after the terrain was flown: trust its outlines
+from the newer photo, and expect its heights to be wrong. Bare soil reads as sand on a photo, so a bunker on what
+was a building site shows only in the terrain; shade hides the rest, and the record says for which.
+
 **The owner's look.** The review page is a local file with every hole's photo and model side by side, what the
 checks flag, links into the app and seven verdicts a hole. It keeps its place in the browser and saves one
 JSON file; `--import` checks it against what is published and keeps it as evidence, and `--apply` writes its
@@ -286,6 +297,7 @@ Generate the ground's walkthrough first if it has none; it works on every publis
 | A building or the campus model | `build_campus.py`, `publish-facility-glb.mjs`, `validate-facility-glb.mjs` | the campus test | none for the model alone |
 | Colours, species, water rule, stated buildings | the ground's scenery module | the first look | **every course** (it is engine code) |
 | Something missing on the phone map | `map-course.mjs`, `map-paint.mjs`, `MAP_KNOWS` | the map tests, a look at phone width | none |
+| A tee or a green that nobody could settle from the photos | ask the rounds: `tools/rounds-evidence.mjs --ground <ground> --shots <extract>` says where golfers tee off and putt (the extract is the owner's to make; the tool's header has the query) | then the row above for an outline | that ground |
 
 After any of them: the quality gate, the walkthrough (`--check`), a first look at the holes that changed, and
 the rehearsal. A ground built with its own older builder keeps that builder for small fixes; its walkthrough,
@@ -304,6 +316,7 @@ Each row is a fault that happened, and what stands in its way now.
 | A tee ring off its deck under crowns, where neither photo shows the edge | `deck-ground.mjs`: the terrain under it is not level | 3 |
 | A deck or bunker built after the terrain was flown | `deck-ground.mjs` for decks; for bunkers the second look's two photo years only | 3 |
 | What the person who traced cannot see in their own work | the blind second look, whose doubts bind | 3 |
+| A hole rebuilt after the terrain was flown, which the terrain's one date hides | the ground's age: bunkers without a bowl (`deck-ground.mjs`) and bunkers that were grass on the older photo (`audit-sand.py --compare`) | 3 |
 | A bunker that was never drawn; a ring drawn by hand on ground that is not sand | `audit-sand.py`: each area and ring it names needs a verdict | 3 |
 | Nobody knowing which of a dozen records is behind | `course-doctor.mjs`: every record of a ground, read once | always |
 | A table that does not name a new ground, or names it differently | `ground-card.mjs --check` and its test | 0, 5 |
@@ -417,12 +430,15 @@ the best place to start improving it.
   misses its basin by 0.33 m) and Johannesberg 11 (it stands at the height of its bank).
 - The tracer does not stop on a low score by itself; the recorded review is what holds it.
 - The deck check names a deck that is not on level ground; it cannot tell a ring off its deck from a deck newer
-  than the terrain, and nothing measures a bunker against its bowl. No check dates the ground under a hole.
+  than the terrain. The ground's age is read from three signs (a deck not level, a bunker without a bowl, a
+  bunker that was grass on the older photo); a hole rebuilt without moving a tee or a bunker shows none of them.
+  Nothing puts the ground right where it is older than the course: a new tee is drawn on the old slope and a new
+  bunker as flat sand. That takes reshaping the terrain under them, which is a new ground generation and a bake.
 - Every ground has a card and a test holds each to its tables, but the tables do not read the cards yet: a fact
   is still written twice. The ten older grounds' cards were derived from the tables (`ground-card.mjs --derive`),
   so they say that the reason for a position or a poster hole was not recorded.
 - The tracer writes `start: "extracted-sand"` on a sand ring that was drawn by hand; the sand audit is what finds
-  those today. The sand audit does not see sand in shade, and nothing measures a bunker against its bowl.
+  those today. The sand audit does not see sand in shade.
 - Five older grounds fail the quality gate on white campus materials brighter than the glow's ceiling (Lidingö 4,
   Veckefjärden 2, Puttom, Ribbingsfors and Visby 1 each; six of the nine are above the glow's own threshold of
   0.86, three between 0.82 and 0.86). It is not a patch: each model's checksum is pinned in its ground's own
@@ -434,6 +450,11 @@ the best place to start improving it.
   open a browser.
 - The second look has been taken once, by an agent. Its "no doubt" on bunkers is weak: a white line on white
   sand hides a line drawn a metre inside the edge.
+- Real rounds have not been read yet: `rounds-evidence.mjs` is tested on made-up shots only, because the extract
+  from the players' data is the owner's to make. A phone's fix is good to a few metres, so it names a place only
+  on several shots that agree.
+- Only Bro Hof's source data is on the build machine (4.8 GB); nothing is backed up, and the other ten grounds
+  have no raw photos or laser there at all, so tracing one of them again starts with fetching its sources.
 - No ground has been looked at on a real phone as part of this process, and none has passed the full release
   review: Bro Hof came in on the owner's recorded acceptance.
 - `tools/check-map-field.mjs` and two start-menu checks failed on 24 November for reasons older than Bro Hof;
