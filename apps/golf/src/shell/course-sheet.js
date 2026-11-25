@@ -31,13 +31,14 @@ import { MAX_HANDICAP, MIN_HANDICAP } from '../map/map-score.mjs';
 import { savedCourseStatus } from '../map/map-offline-status.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import {
-  LIGHTS, MAP_KEYS, MODES, NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PLAY_CHARACTERS, TEE_KEY, liveRound, readSettings, readText, savedTee, teeColour, writeText,
+  LIGHTS, MAP_KEYS, MODES, NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PLAY_CHARACTERS, TEE_KEY, courseSessions, liveRound, offlineCourses, readSettings, readText, savedTee,
+  sessionBadge, sessionPosition, teeColour, writeText,
 } from './settings-store.mjs';
 import { bestScorecard, perEighteen, perHole } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { loadScorecard } from './course-scorecard.mjs';
 import { hubUrl } from './router.js';
-import { layoutLabel } from './course-clubs.mjs';
+import { clubLayouts, layoutLabel } from './course-clubs.mjs';
 import { courseWeather, weatherLine } from './course-weather.mjs';
 
 const BASE = import.meta.env.BASE_URL;
@@ -60,7 +61,7 @@ const WIND = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke
 
 const signed = value => (Math.abs(value) < 0.05 ? '±0' : `${value > 0 ? '+' : '−'}${Math.abs(value).toFixed(1).replace('.', ',')}`);
 
-export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = null, onEdit = null }) {
+export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = null, onEdit = null, onLayout = null }) {
   const dialog = document.createElement('dialog');
   dialog.id = 'courseSheet';
   dialog.className = 'cs';
@@ -92,6 +93,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     const photos = Math.max(1, c.photos || 1);
     const startingHoles = [...new Set([1, ...(c.holes >= 18 ? [10] : []), plan.hole])].sort((a, b) => a - b);
     const openIf = name => expanded.includes(name) ? ' open' : '';
+    /* the club's other courses, switched here in place (docs/ui-redesign-2026-11-25.md, B2) */
+    const layouts = clubLayouts(courses, c.slug).filter(layout => layout.status !== 'mapping' || layout.slug === c.slug);
     const past = history(c.slug);
     mine = past?.holes?.length ? { holes: new Map(past.holes.map(h => [h.n, h])), rounds: past.rounds } : null;
     const settings = readSettings(storage());
@@ -128,16 +131,21 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
 
         <div class="cs-form">
           <div class="cs-scroll">
-            <details class="cs-collapse cs-choose-mode" data-disclosure="mode"${openIf('mode')}>
-              <summary id="csModeTitle"><b data-mode-label></b><span>Byt läge</span></summary>
-              <fieldset class="cs-field">
-                <legend class="cs-sr">Välj läge</legend>
-                <div class="cs-modes">${Object.entries(MODES).map(([key, m]) => `
+            ${layouts.length > 1 ? `<fieldset class="cs-field cs-layouts-field" data-layouts>
+              <legend>Bana</legend>
+              <div class="cs-layouts">${layouts.map(layout => `
+                <label class="cs-layout"><input type="radio" id="csLayout-${esc(layout.slug)}" name="cs-layout" value="${esc(layout.slug)}"${layout.slug === c.slug ? ' checked' : ''}>
+                  <span><b>${esc(layoutLabel(layout))}</b><small data-layout-state="${esc(layout.slug)}"></small></span></label>`).join('')}
+              </div>
+            </fieldset>` : ''}
+
+            <fieldset class="cs-field cs-mode-field">
+              <legend id="csModeTitle">Spela i</legend>
+              <div class="cs-modes">${Object.entries(MODES).map(([key, m]) => `
                 <label class="cs-mode"><input type="radio" id="csMode-${key}" name="cs-mode" value="${key}"${plan.mode === key ? ' checked' : ''}>
                   <span class="cs-mode-icon">${ICON[key]}</span><span class="cs-mode-text"><b>${m.label}</b><small>${SUB[key]}</small></span></label>`).join('')}
               </div>
-              </fieldset>
-            </details>
+            </fieldset>
 
             ${tees.length ? `<fieldset class="cs-field">
               <legend data-tee-legend>Tee</legend>
@@ -265,14 +273,11 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     dialog.querySelector('form').addEventListener('submit', e => e.preventDefault());
     dialog.querySelector('form').addEventListener('change', e => {
       const { name, value } = e.target;
+      if (name === 'cs-layout') { switchLayout(value); return; }
       if (name === 'cs-mode') {
         plan.mode = value;
         reflect();
         paintCard();
-        if (!e.target.matches(':focus-visible')) {
-          dialog.querySelector('[data-disclosure="mode"]').open = false;
-          dialog.querySelector('#csModeTitle').focus({ preventScroll: true });
-        }
       }
       if (name === 'cs-tee') { plan.tee = Number(value); paintCard(); }
       if (name === 'cs-hole') { plan.hole = Number(value); showHole(plan.hole); }
@@ -468,9 +473,49 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
     dialog.querySelector('[data-light-label]').textContent = light || '';
   }
 
+  /* Each layout says how it stands in this mode: a game under way there, or its size,
+     and in Lätt 3D whether it was downloaded for play without signal. */
+  function paintLayouts() {
+    const states = dialog.querySelectorAll('[data-layout-state]');
+    if (!states.length) return;
+    const layouts = clubLayouts(courses, course.slug);
+    const sessions = courseSessions(storage(), layouts).filter(session => session.mode === plan.mode);
+    const kept = plan.mode === 'map' ? offlineCourses(storage()) : [];
+    for (const state of states) {
+      const layout = layouts.find(item => item.slug === state.dataset.layoutState);
+      const session = sessions.find(item => item.course.slug === layout?.slug);
+      state.textContent = session ? [sessionBadge(session), sessionPosition(session)].filter(Boolean).join(' · ')
+        : layout ? [`${layout.holes} hål · par ${layout.par}`, kept.includes(layout.slug) ? 'Tidigare nedladdad' : ''].filter(Boolean).join(' · ') : '';
+      state.classList.toggle('is-live', Boolean(session));
+    }
+  }
+
+  /* Another layout of the same club, in place: the mode, the handicap, the light and
+     the open sections stay; the tee follows its name (Gul stays Gul) or the layout's
+     own last tee; a start hole the layout lacks falls back to the 1st. */
+  function switchLayout(slug) {
+    const next = courses.find(item => item.slug === slug);
+    if (!next || next === course) return;
+    const teeName = course.tees?.names?.[plan.tee];
+    expanded = [...dialog.querySelectorAll('[data-disclosure][open]')].map(item => item.dataset.disclosure);
+    course = next;
+    activeRound = liveRound(storage(), [course]);
+    checkpoint = readPlayCheckpoint(storage(), slug, course.holes);
+    const named = teeName ? (course.tees?.names ?? []).indexOf(teeName) : -1;
+    plan.tee = named >= 0 ? named : savedTee(storage(), course);
+    if (!(plan.hole >= 1 && plan.hole <= course.holes)) plan.hole = 1;
+    if (!(guideHole >= 1 && guideHole <= course.holes)) guideHole = plan.hole;
+    restoreScroll = 0;
+    restoreFocus = '';
+    render();
+    onEdit?.();
+    onLayout?.(slug);
+    dialog.querySelector('input[name="cs-layout"]:checked')?.focus({ preventScroll: true });
+  }
+
   function reflect() {
     dialog.dataset.mode = plan.mode;
-    dialog.querySelector('[data-mode-label]').textContent = MODES[plan.mode].label;
+    paintLayouts();
     dialog.querySelector('[data-options-label]').textContent = plan.mode === 'play' ? 'Ljus och golfare' : 'Ljus';
     updateLightLabel();
     const resume = plan.mode === 'map' && Boolean(activeRound);

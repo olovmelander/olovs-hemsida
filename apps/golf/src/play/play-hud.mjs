@@ -285,6 +285,8 @@ body.pl-clean .pl-clean-hint{display:block}
 .pl-tabs button{flex:1;min-height:40px;border:0;border-radius:10px;background:transparent;color:var(--dim);font:650 13.5px Outfit,sans-serif;cursor:pointer}
 .pl-tabs button[aria-selected=true]{background:rgba(95,208,122,.16);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(95,208,122,.4)}
 .pl-menu .pl-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0;font-size:14.5px}
+.pl-switch{display:flex;gap:6px}
+.pl-switch .pl-btn:disabled{opacity:.4;cursor:default}
 .pl-seg{display:flex;gap:4px;padding:3px;border-radius:12px;background:rgba(0,0,0,.28)}
 .pl-seg button{min-height:40px;min-width:62px;border:0;border-radius:9px;background:transparent;color:var(--dim);font:600 13px Outfit,system-ui,sans-serif;cursor:pointer}
 .pl-seg button[aria-pressed=true]{background:var(--turf);color:#07170d}

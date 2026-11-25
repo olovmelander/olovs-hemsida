@@ -68,9 +68,11 @@ export function detailedUrl(slug, context) {
   return viewerUrl(slug, false, context);
 }
 
-/* Spela: the detailed course as a game (apps/golf/src/play) */
-export function playUrl(slug) {
-  return `${detailedUrl(slug)}&spela=1`;
+/* Spela: the detailed course as a game (apps/golf/src/play). A new game starts on
+   the hole and tee the link names (main.js reads them; play-mode.mjs takes h.hole()
+   and h.tee()), so a switch from another mode keeps the golfer's place. */
+export function playUrl(slug, context) {
+  return `${detailedUrl(slug, { ...context, preview: false })}&spela=1`;
 }
 
 /* Återupplev: a round the map kept, replayed on the detailed course */

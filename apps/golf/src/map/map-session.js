@@ -464,7 +464,7 @@ const ui = {
   menuSheet: $('[data-menu-sheet]'), lights: $('[data-lights]'),
   menuTitle: $('[data-menu-title]'), tip: $('[data-tip]'), note: $('[data-note]'), holes: $('[data-holes]'),
   teeSection: $('[data-tee-section]'), tees: $('[data-tees]'), reliefs: $('[data-reliefs]'), contours: $('[data-contours]'), rings: $('[data-rings]'),
-  download: $('[data-download]'), full: $('[data-full]'),
+  download: $('[data-download]'), full: $('[data-full]'), play: $('[data-play]'),
   overview: $('[data-overview]'), green: $('[data-green]'),
   profile: $('[data-profile]'), profileLine: $('[data-profile-line]'), profileFill: $('[data-profile-fill]'), profileText: $('[data-profile-text]'), profilePlays: $('[data-profile-plays]'),
   profileWalked: $('[data-profile-walked]'), profileYou: $('[data-profile-you]'), profileAim: $('[data-profile-aim]'),
@@ -598,7 +598,7 @@ async function start() {
   document.getElementById('bootTitle').textContent = course.name;
   document.getElementById('bootSub').textContent = 'Lätt 3D';
   document.title = `${course.name} — Lätt 3D | Banvy`;
-  $('[data-play]').href = `${BASE}${playUrl(slug)}`;
+  ui.play.href = `${BASE}${playUrl(slug)}`;
   /* the start menu's "Fortsätt" brings the golfer back here, in this mode */
   rememberLaunch(localStorageOrNull(), slug, 'map');
 
@@ -991,6 +991,11 @@ async function start() {
       : [`Par ${h.par}`, length ? `${length} m` : null, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
     ui.holeText.setAttribute('aria-label', [ui.hole.textContent, ui.facts.textContent, 'Öppna hålinformation'].join('. '));
     const detailedTarget = `${BASE}${detailedUrl(slug, { hole: h.n, tee: state.tee + 1 })}`;
+    const playTarget = `${BASE}${playUrl(slug, { hole: h.n, tee: state.tee + 1 })}`;
+    if (ui.play.getAttribute('href') !== playTarget) {
+      ui.play.href = playTarget;
+      ui.play.textContent = `Spela hål ${h.n} i simulatorn`;
+    }
     if (ui.full.getAttribute('href') !== detailedTarget) {
       ui.full.href = detailedTarget;
       ui.full.textContent = `Utforska hål ${h.n} i Detaljerad 3D`;

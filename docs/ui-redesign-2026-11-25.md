@@ -1127,6 +1127,27 @@ Left for the next step:
 - **Exit:** every journey in C1 runs in the harness on 390 × 844, 844 × 390 and
   1440 × 900.
 
+**Progress (25 November, the club page).**
+- **Done:**
+  - **The setup sheet is the club page.** A layout switch (host course first) shows
+    each layout's size, its download for offline play and the game under way in the
+    chosen mode.
+  - **Switching layout happens in place,** keeping the mode, the tee by name and the
+    start hole where it exists.
+  - **Clubs, pins and *Nära dig* open the page directly.** They land on the layout
+    with a game under way, else the one last chosen, else the host course; the
+    picker dialog is gone from the start menu.
+  - **The mode is a visible three-way choice.**
+- **Also done, from Phase 3's state-keeping list:**
+  - Lätt 3D → Simulator carries the hole and tee;
+  - Detaljerad 3D's drawer gains *Byt läge* (Lätt 3D, Simulator);
+  - the Simulator's menu reaches Detaljerad 3D and Lätt 3D after saving.
+- **Gates:** `check-hub-journeys`, `check-club-sorting`, `check-session-navigation`,
+  `check-map-round` and `check-chooser-ui` now walk the club page instead of the
+  picker, and `check-hud-layout` checks the Simulator handoff.
+- **Left in Phase 2:** the lobby in place of *Välj aktivitet*, search hits at
+  layout level, and layout chips on the club cards.
+
 ### Phase 3: responsive HUDs and the navigation shell
 
 - **Lätt 3D:** the four-element HUD (D3) behind `?hud=v2`, first by default only in
@@ -1180,6 +1201,10 @@ Left for the next step:
 ---
 
 ## G. Decisions for the owner
+
+The owner answered on 25 November: "do whatever you find to be the best and what you
+recommend". The recommendations below are therefore adopted, and are applied in the
+order of the roadmap.
 
 1. **Lobby first.** Retire *Välj aktivitet* and choose the mode on the club page.
 2. **One accent grammar.** Flag yellow for the primary action and the golfer's

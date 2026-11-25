@@ -61,6 +61,7 @@ describe('courseUrl', () => {
     expect(q(mapUrl(slug, context))).toEqual({ bana: slug, karta: '1', hal: '8', tee: '3', runda: 'visa' });
     expect(q(mapUrl(slug, { hole: 0, tee: null }))).toEqual({ bana: slug, karta: '1' });
     expect(q(playUrl(slug))).toEqual({ bana: slug, karta: '0', spela: '1' });
+    expect(q(playUrl(slug, context))).toEqual({ bana: slug, karta: '0', hal: '8', tee: '3', spela: '1' });
   });
 
   it('switches course while preserving quality settings and discarding retired modes', () => {

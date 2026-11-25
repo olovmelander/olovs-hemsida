@@ -301,18 +301,18 @@ await section('map', async () => {
   const pin = page.locator('.golf-map-pin[data-club-id="bro-hof"]');
   await pin.locator('..').focus();
   await page.keyboard.press('Enter');
-  await page.waitForSelector('#clubPicker[open]');
-  const rows = page.locator('#clubPicker[open] [data-layout]');
-  const targets = await rows.evaluateAll(buttons => buttons.map(button => button.getBoundingClientRect().height));
-  gate(targets.length === 2 && targets.every(size => size >= 44), 'the Bro Hof pin opens two touch-sized layout choices');
+  await page.waitForSelector('#courseSheet[open]');
+  const rows = page.locator('#courseSheet[open] label.cs-layout');
+  const targets = await rows.evaluateAll(labels => labels.map(label => label.getBoundingClientRect().height));
+  gate(targets.length === 2 && targets.every(size => size >= 44), 'the Bro Hof pin opens its club page with two touch-sized layout choices');
   if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'phone-390x844-map-pin.png') });
   await page.keyboard.press('Escape');
-  await page.locator('#clubPicker[open]').waitFor({ state: 'hidden' });
+  await page.locator('#courseSheet[open]').waitFor({ state: 'hidden' });
   gate(await pin.locator('..').evaluate(marker => marker === document.activeElement), 'Back restores focus to the original map pin');
   await page.keyboard.press('Space');
-  await page.locator('#clubPicker[open]').waitFor();
+  await page.locator('#courseSheet[open]').waitFor();
   await page.keyboard.press('Escape');
-  await page.locator('#clubPicker[open]').waitFor({ state: 'hidden' });
+  await page.locator('#courseSheet[open]').waitFor({ state: 'hidden' });
   await page.click('#viewGridBtn');
   await page.waitForTimeout(300);
   gate(await page.evaluate(() => [...document.querySelectorAll('#chooser .card')].filter(c => c.offsetParent).length > 0
@@ -513,18 +513,14 @@ await section('a layout kept for offline play', async () => {
   await page.goto(BASE + '/#karta');
   const card = page.locator('.card-item[data-club-id="bro-hof"] .card');
   await card.click();
-  const picker = page.locator('#clubPicker[open]');
-  await picker.waitFor();
-  const castle = picker.locator('[data-layout="bro-hof-castle"]');
-  const stadium = picker.locator('[data-layout="bro-hof-stadium"]');
+  const clubPage = page.locator('#courseSheet[open]');
+  await clubPage.waitFor();
+  const castle = clubPage.locator('label.cs-layout:has(input[value="bro-hof-castle"])');
+  const stadium = clubPage.locator('label.cs-layout:has(input[value="bro-hof-stadium"])');
   gate(/Tidigare nedladdad/.test(await castle.innerText()) && !/nedladdad/i.test(await stadium.innerText()),
     'only the previously downloaded Castle layout is marked in Lätt 3D');
-  await page.keyboard.press('Escape');
-  await picker.waitFor({ state: 'hidden' });
-  await page.click('#chooserModeToggle');
-  await page.click('.c-mode-btn[data-mode="detailed"]');
-  await card.click();
-  gate(!/nedladdad/i.test(await picker.innerText()), 'the desktop renderer does not advertise an offline GPS pack');
+  await clubPage.locator('label.cs-mode:has(input[value="detailed"])').click();
+  gate(!/nedladdad/i.test(await clubPage.locator('[data-layouts]').innerText()), 'the desktop renderer does not advertise an offline GPS pack');
   await ctx.close();
 });
 

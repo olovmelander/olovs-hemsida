@@ -67,7 +67,8 @@ once. It opens the course's own page (`shell/course-sheet.js`, a native
   webdriver;
 - how you have played it before (rounds, best, average per 18), from the map's
   records, with a link to that course in Statistik;
-- **Spela i**: Detaljerad 3D or Lätt 3D, preselected from the list's mode;
+- **Spela i**: Detaljerad 3D, Lätt 3D or Simulator, preselected from the list's mode
+  (always visible since 25 November, below);
 - **Tee**: chips in the tee's own colour, preselected from the tee last played
   there. It is kept under the map's own key (`banvy-map-tee-v1:<slug>`), so
   both programs start on the same tee;
@@ -93,6 +94,36 @@ carries on. **Bara titta på banan** opens the map without a round, and **Spela 
 3D** opens the detailed course with `tee=` and `hal=`. Escape, the close button,
 the backdrop or any change of screen closes the page. On a phone it fills the
 screen, posters on top and the button under the thumb.
+
+## One page per club (25 November)
+
+A club with several layouts (Bro Hof, Upsala, Johannesberg, Veckefjärden) no longer
+opens a picker dialog in front of the course page. Its card, map pin or *Nära dig*
+opens the course page directly, which became the club page:
+
+- **Bana** lists the club's layouts, the host's own course first (*The Stadium Course |
+  The Castle Course*), each with its holes and par. In Lätt 3D a layout also says
+  *Tidigare nedladdad*, and a game under way in the chosen mode is named in green
+  (*GPS-runda pågår · Hål 4 · Tee Röd*). Switching layout happens in place. It keeps
+  the mode, handicap, light and open sections, the tee by its name (Gul stays Gul),
+  and the start hole where the layout has it. The address is rewritten without a
+  new history step, so one Back still reaches the list.
+- **Which layout opens:** the one with a game under way in this mode, else the one
+  last chosen at the club (`banvy-club-layout-v1:<club>`, written on a switch and a
+  launch), else the course last played, else the host course
+  (`course-clubs.mjs` `clubLayouts`, `preferredLayout`).
+- **Spela i** is always visible: three tiles in a row on a phone (icon over name), or
+  with their sub-lines on a wider screen. It replaces the *Byt läge* disclosure.
+- `#<mode>/klubb/<club>` links still work and land on the same page. The picker
+  dialog (`club-picker.js`) remains only in the player's own *Byt bana* list.
+
+Mode switches now keep the golfer's place:
+- Lätt 3D's *Spela hål N i simulatorn* carries the hole and tee (`playUrl` takes
+  them).
+- Detaljerad 3D's drawer has a *Byt läge* row with Lätt 3D and Simulator, both on
+  the displayed hole and tee.
+- The Simulator's menu offers *Visa hålet i Detaljerad 3D* and *Lätt 3D*, which save
+  the game first, as *Spara och lämna* does.
 
 ## Settings: one home for each value
 

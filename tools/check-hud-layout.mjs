@@ -157,6 +157,9 @@ const handoff = new URL(await page.locator('#dMapBtn').getAttribute('href'), BAS
 const tee = await page.locator('#tees .tee.on').evaluate(el => [...el.parentElement.children].indexOf(el) + 1);
 gate(handoff.searchParams.get('hal') === '12' && handoff.searchParams.get('tee') === String(tee)
   && handoff.searchParams.get('runda') === 'visa', 'Lätt 3D previews the displayed hole and tee');
+const game = new URL(await page.locator('#dPlayBtn').getAttribute('href'), BASE);
+gate(game.searchParams.get('hal') === '12' && game.searchParams.get('tee') === String(tee)
+  && game.searchParams.get('spela') === '1', 'the Simulator starts on the displayed hole and tee');
 await page.locator('#drawerCloseBtn').click();
 for (const [width, height] of [[568, 320], [667, 375], [390, 844]]) {
   await page.setViewportSize({ width, height });

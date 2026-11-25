@@ -180,8 +180,6 @@
 .cs-collapse > summary:has(> span)::after { margin-left: 0; }
 .cs-collapse > summary:focus-visible { outline: 2px solid #abedba; outline-offset: 3px; border-radius: 6px; }
 .cs-collapse[open] > :last-child { margin-bottom: 12px; }
-.cs-choose-mode { background: #11271b; border-color: #496d52; }
-.cs-choose-mode > summary { min-height: 48px; }
 .cs-section-body { display: grid; gap: 14px; }
 .cs-collapse > summary + .cs-guide-head { justify-content: flex-end; }
 .cs-form .cs-field legend, .cs-form .cs-legend {
@@ -280,7 +278,39 @@
   .cs-modes .cs-mode { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px; }
   .cs-modes .cs-mode-icon { width: 38px; height: 38px; }
 }
-@media (max-width: 600px) { .cs-modes { grid-template-columns: 1fr; } }
+/* On a phone the mode stays a visible three-way choice: three compact tiles in a row,
+   icon over name, the sub-line saved for wider screens. */
+@media (max-width: 600px) {
+  .cs-modes { gap: 8px; }
+  .cs-modes .cs-mode { flex-direction: column; justify-content: center; gap: 6px; min-height: 64px; padding: 10px 6px; text-align: center; }
+  .cs-modes .cs-mode-icon { width: 30px; height: 30px; border-radius: 9px; }
+  .cs-modes .cs-mode-text b { font-size: 13.5px; }
+  .cs-modes .cs-mode-text small { display: none; }
+}
+
+/* The club's layouts (course-sheet.js switchLayout): the host course first, each with
+   its size, or the game under way there in green. */
+.cs-layouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.cs-layout { position: relative; }
+.cs-layout input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.cs-layout > span {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-height: 56px;
+  padding: 8px 12px;
+  border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.cs-layout b { font: 700 15px/1.2 var(--bv-font); color: #fff; }
+.cs-layout small { font: 500 12px/1.25 var(--bv-font); font-variant-numeric: tabular-nums; color: var(--cs-ink-2); }
+.cs-layout small.is-live { color: var(--turf); font-weight: 600; }
+.cs-layout:has(input:checked) > span { border-color: var(--turf); background: rgba(95, 208, 122, 0.12); box-shadow: 0 0 0 1px var(--turf); }
+.cs-layout:has(input:focus-visible) > span { outline: 2px solid #fff; outline-offset: 2px; }
 .cs-mode {
   position: relative;
   display: flex;

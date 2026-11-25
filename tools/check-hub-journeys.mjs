@@ -201,7 +201,9 @@ async function checkHubHistory(browser) {
   const errors = [];
   page.on('pageerror', error => { errors.push(error.message); console.error(error.message); });
   const sheet = page.locator('#courseSheet[open]');
-  const picker = page.locator('#clubPicker[open]');
+  /* a club's layouts are the club page's own switch (course-sheet.js switchLayout) */
+  const layoutsOn = dialog => dialog.locator('input[name="cs-layout"]').evaluateAll(inputs => inputs.map(input => input.value));
+  const chooseLayout = (dialog, slug) => dialog.locator(`label.cs-layout:has(input[value="${slug}"])`).click();
   const tagged = new URL(base);
   tagged.searchParams.set('utm_source', 'course-guide');
   await page.goto(tagged.href);
@@ -222,21 +224,20 @@ async function checkHubHistory(browser) {
   const broHof = page.locator('.card-item[data-club-id="bro-hof"] .card');
   assert.equal(await page.locator('.card-item:visible').count(), 1, 'Bro Hof appears once in the catalogue');
   await broHof.click();
-  await picker.waitFor();
-  assert.deepEqual((await picker.locator('[data-layout]').evaluateAll(buttons => buttons.map(b => b.dataset.layout))).sort(),
-    ['bro-hof-castle', 'bro-hof-stadium'], 'both published layouts belong to the same club');
-  await picker.locator('[data-layout="bro-hof-stadium"]').click();
   await sheet.waitFor();
-  assert.match(page.url(), /#karta\/bro-hof-stadium(?:\?|$)/);
+  assert.deepEqual(await layoutsOn(sheet), ['bro-hof-stadium', 'bro-hof-castle'],
+    'both published layouts belong to the same club page, the host course first');
+  assert.match(page.url(), /#karta\/bro-hof-stadium(?:\?|$)/, 'a club with no history opens on its host course');
+  await chooseLayout(sheet, 'bro-hof-castle');
+  await page.waitForURL(/#karta\/bro-hof-castle(?:\?|$)/);
+  assert.equal(await sheet.locator('#csTitle').textContent(), 'The Castle Course', 'the club page switches layout in place');
   await page.goBack();
-  await picker.waitFor();
-  await page.goBack();
-  await picker.waitFor({ state: 'hidden' });
-  assert.equal(await search.inputValue(), 'Bro Hof');
+  await sheet.waitFor({ state: 'hidden' });
+  assert.equal(await search.inputValue(), 'Bro Hof', 'one Back leaves the club page for the list');
   await search.fill('Castle');
   await broHof.click();
   await sheet.waitFor();
-  assert.match(page.url(), /#karta\/bro-hof-castle(?:\?|$)/, 'an unambiguous layout search skips the club picker');
+  assert.match(page.url(), /#karta\/bro-hof-castle(?:\?|$)/, 'an unambiguous layout search opens that layout');
   await page.goBack();
   await sheet.waitFor({ state: 'hidden' });
   assert.equal(await search.inputValue(), 'Castle');
@@ -263,24 +264,21 @@ async function checkHubHistory(browser) {
   await page.locator('.golf-map-pin').first().waitFor();
   assert.equal(await page.locator('.golf-map-pin').count(), 1);
   await page.locator('.golf-map-pin').first().click();
-  await picker.waitFor();
-  assert.match(page.url(), /#karta\/klubb\/upsala$/);
-  await picker.locator('[data-layout="upsala-mellanbanan"]').click();
   await sheet.waitFor();
-  assert.ok(page.url().includes('#karta/upsala-mellanbanan'));
+  assert.match(page.url(), /#karta\/upsala(?:\?|$)/, 'the pin opens the club page on its host course');
+  await chooseLayout(sheet, 'upsala-mellanbanan');
+  await page.waitForURL(/#karta\/upsala-mellanbanan(?:\?|$)/);
   await page.goBack();
   await sheet.waitFor({ state: 'hidden' });
   assert.equal(await page.locator('#courseSearchInput').inputValue(), 'Upsala');
-  await picker.waitFor();
-  assert.equal(await picker.locator(':focus').getAttribute('data-layout'), 'upsala-mellanbanan', 'Back restores the selected layout');
   await page.goForward();
   await sheet.waitFor();
+  assert.equal(await sheet.locator('input[name="cs-layout"]:checked').inputValue(), 'upsala-mellanbanan', 'Forward returns to the layout chosen on the club page');
   await page.reload();
   await sheet.waitFor();
+  assert.equal(await sheet.locator('input[name="cs-layout"]:checked').inputValue(), 'upsala-mellanbanan', 'and so does a reload');
   await sheet.locator('[data-close]').click();
-  await picker.waitFor();
-  await page.goBack();
-  await picker.waitFor({ state: 'hidden' });
+  await sheet.waitFor({ state: 'hidden' });
   assert.equal(await page.locator('#viewMapBtn').getAttribute('aria-pressed'), 'true');
   await page.locator('#viewGridBtn').click();
   const active = { version: 1, startedAt: '2026-05-12', begunAt: Date.now(), playingHole: 3, scores: { 2: { strokes: 4, putts: 2 } } };
@@ -290,8 +288,8 @@ async function checkHubHistory(browser) {
     localStorage.setItem('banvy-map-quality-v1', '3');
   }, active);
   await page.locator('.card[data-slug="upsala"]').click();
-  await picker.locator('[data-layout="upsala"]').click();
   await sheet.waitFor();
+  assert.match(page.url(), /#karta\/upsala(?:\?|$)/, 'a club opens on the layout with its round under way, over the one last chosen');
   const tee = sheet.locator('input[name="cs-tee"]').nth(1);
   await tee.check({ force: true });
   await sheet.locator('#csGuideTitle').click();
@@ -361,22 +359,22 @@ async function checkHubHistory(browser) {
   await local.goto(base);
   await local.locator('[data-near]').click();
   await local.locator('#chooser:visible').waitFor();
-  const localPicker = local.locator('#clubPicker[open]');
-  await localPicker.waitFor();
-  assert.match(local.url(), /#karta\/klubb\/upsala$/);
-  assert.equal(await localPicker.locator('[data-layout]').count(), 2);
-  await localPicker.locator('[data-layout="upsala-mellanbanan"]').click();
-  await local.locator('#courseSheet[open]').waitFor();
-  assert.match(local.url(), /#karta\/upsala-mellanbanan(?:\?|$)/);
+  const localSheet = local.locator('#courseSheet[open]');
+  await localSheet.waitFor();
+  assert.match(local.url(), /#karta\/upsala(?:\?|$)/, 'Nära dig opens the club page on its host course');
+  assert.equal((await layoutsOn(localSheet)).length, 2);
+  await chooseLayout(localSheet, 'upsala-mellanbanan');
+  await local.waitForURL(/#karta\/upsala-mellanbanan(?:\?|$)/);
   await nearby.close();
 
   const desktop = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' });
   const wide = await desktop.newPage();
   for (const mode of ['3d', 'spela']) {
     await wide.goto(base + '#' + mode + '/klubb/bro-hof');
-    await wide.locator('#clubPicker[open] [data-layout="bro-hof-castle"]').click();
     const selected = wide.locator('#courseSheet[open]');
     await selected.waitFor();
+    await chooseLayout(selected, 'bro-hof-castle');
+    await wide.waitForURL(new RegExp('#' + mode + '/bro-hof-castle(?:\\?|$)'));
     assert.equal(new URL(wide.url()).hash.split('?')[0], '#' + mode + '/bro-hof-castle');
     assert.equal(await selected.locator('[name="cs-mode"]:checked').inputValue(), mode === '3d' ? 'detailed' : 'play');
   }
@@ -426,10 +424,9 @@ async function checkHubHistory(browser) {
       await offline.locator('#courseSheet[open]').waitFor();
       assert.equal(new URL(offline.url()).hash.split('?')[0], '#karta/' + layouts[0].slug);
     } else {
-      const options = offline.locator('#clubPicker[open] [data-layout]');
-      await options.first().waitFor();
-      assert.deepEqual((await options.evaluateAll(buttons => buttons.map(b => b.dataset.layout))).sort(),
-        layouts.map(course => course.slug).sort());
+      const clubPage = offline.locator('#courseSheet[open]');
+      await clubPage.waitFor();
+      assert.deepEqual((await layoutsOn(clubPage)).sort(), layouts.map(course => course.slug).sort());
     }
     await offline.goBack();
     await offline.locator('dialog[open]').waitFor({ state: 'hidden' });
