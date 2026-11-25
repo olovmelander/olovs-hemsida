@@ -255,6 +255,15 @@ canvas{display:block;position:fixed;inset:0}
   display:grid;place-items:center;cursor:pointer;transition:all .15s}
 .hole-step-btn:hover{background:rgba(95,208,122,.2);color:var(--turf);border-color:rgba(95,208,122,.4)}
 
+/* Leave the minimap its corner, including after a touch-sized boot has
+   produced wider hole buttons. The arrows stay outside the scrollable row. */
+@media(min-width:981px){
+  .holes-wrap{max-width:calc(100vw - var(--mini-size) - 36px);
+    transform:translateX(min(-50%,calc(50vw - var(--mini-size) - 22px - 100%)))}
+  #holes{min-width:0;overflow-x:auto;scrollbar-width:none}
+  #holes .hb,.hole-step-btn{flex:none}
+}
+
 /* minimap */
 /* The size comes from :root, never from a rule on #mini: the rail reads the
    same value and a custom property reaches it by INHERITANCE, the two panels

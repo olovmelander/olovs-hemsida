@@ -113,6 +113,16 @@ for (const [width, height] of SIZES) {
 }
 
 gate(errors.length === 0, `no page errors${errors.length ? `: ${errors[0]}` : ''}`);
+await page.setViewportSize({ width: 981, height: 760 });
+await page.locator('#holes .hb').last().click();
+await page.locator('#holeNextBtn').click();
+await page.waitForFunction(() => {
+  const row = document.querySelector('#holes').getBoundingClientRect();
+  const active = document.querySelector('#holes .hb.on');
+  return active?.textContent === '1' && active.getBoundingClientRect().left >= row.left;
+});
+gate(true, 'the end of the laptop hole strip and the arrow back to hole one are reachable');
+await page.setViewportSize({ width: 390, height: 844 });
 await page.evaluate(() => { V3D.goHole(1, true, true); V3D.setCam('tee', true); });
 const target = page.locator('#strategyReadout');
 await target.waitFor({ state: 'visible' });
