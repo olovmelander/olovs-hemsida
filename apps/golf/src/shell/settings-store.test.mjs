@@ -12,11 +12,12 @@ import { DEFAULT_LIGHT, MAP_LIGHTS } from '../map/map-light.mjs';
 import { storeHistory } from '../map/map-shots.mjs';
 import { DISPLAY_KEY } from '../map/map-display.mjs';
 import { opensMap } from './map-default.mjs';
+import { createRound, holeCard, PLAY_KEYS } from '../play/play-rules.mjs';
 import {
   DEV_OVERLAY_KEY, FRAME_CAP_CHOICES, FRAME_CAP_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_KEYS, MODES, NOW_LIGHT,
   PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, exportBackup, readBackup, restoreBackup, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
   readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
-  OFFLINE_PREFIX, offlineCourses, hasBackupUndo, undoBackup, writeText, replaceStoredValues,
+  OFFLINE_PREFIX, offlineCourses, hasBackupUndo, undoBackup, writeText, replaceStoredValues, courseSessions,
 } from './settings-store.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -343,6 +344,20 @@ describe('a round under way', () => {
     expect(source('../map/map-session.js')).toContain(`const HOLE_KEY = '${HOLE_KEY}'`);
     expect(source('../map/map-session.js')).toContain('const RESUME_MS = 6 * 60 * 60 * 1000');
   });
+});
+
+it('resumes the most recently played Simulator course, including legacy checkpoints', () => {
+  const store = memory();
+  const courses = [{ slug: 'bro-hof-castle', holes: 1 }, { slug: 'bro-hof-stadium', holes: 1 }];
+  for (const [i, course] of courses.entries()) {
+    const round = createRound({ slug: course.slug, holes: [{ n: 1, par: 4 }], now: 100 + i });
+    holeCard(round, 1);
+    const checkpoint = { version: 1, revision: 'r1', position: { phase: 'address', ball: [0, 0] }, round };
+    if (i === 0) checkpoint.savedAt = 120;
+    store.setItem(PLAY_KEYS.checkpoint + course.slug, JSON.stringify(checkpoint));
+  }
+  expect(courseSessions(store, courses).map(session => [session.course.slug, session.touched]))
+    .toEqual([['bro-hof-castle', 120], ['bro-hof-stadium', 101]]);
 });
 
 describe('routes', () => {

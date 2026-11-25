@@ -186,7 +186,7 @@ try {
     const row = JSON.parse(localStorage.getItem(key)); row.revision = 'other-tab'; localStorage.setItem(key, JSON.stringify(row));
   }, checkpointKey);
   await save.click();
-  assert.match(await page.locator('[data-save-error]').innerText(), /annan flik/);
+  await page.locator('[data-save-error]').filter({ hasText: /annan flik/ }).waitFor();
   assert.ok(await page.getByRole('button', { name: 'Öppna senast sparade rundan' }).isVisible());
   assert.deepEqual(await model(), settled);
   await page.evaluate(([key, value]) => localStorage.setItem(key, value), [checkpointKey, stored]);
@@ -209,7 +209,7 @@ try {
     };
   });
   await finish.click();
-  assert.match(await page.locator('[data-save-error]').innerText(), /webbläsarens lagring/);
+  await page.locator('[data-save-error]').filter({ hasText: /webbläsarens lagring/ }).waitFor();
   assert.deepEqual(await model(), settled);
   await finish.click();
   await page.waitForURL('**/#spela/veckefjarden');

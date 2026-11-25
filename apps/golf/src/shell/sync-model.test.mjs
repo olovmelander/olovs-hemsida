@@ -246,11 +246,12 @@ describe('offline writes while a sync is pending', () => {
   it('isolates active cards, simulator and unsent data, preserving each player and installation preferences', () => {
     const card = 'banvy-map-round-v1:visby', hole = 'banvy-map-hole-v1:visby';
     const sim = 'banvy-play-checkpoint-v1:upsala', guard = 'banvy-live-owner-v1:visby';
-    const st = memory({ [card]: 'alice', [hole]: '8', [sim]: 'simulation', [guard]: 'claim', 'banvy-device-id-v1': 'phone' });
+    const pending = 'banvy_sim_pending_v1:tab-id';
+    const st = memory({ [card]: 'alice', [hole]: '8', [sim]: 'simulation', [guard]: 'claim', [pending]: 'settled shot', 'banvy-device-id-v1': 'phone' });
     selectSyncUser(st, 'alice');
     writePlayerProfile(st, 'handicap', 9, 100);
     selectSyncUser(st, 'bob');
-    for (const key of [card, hole, sim, guard, MAP_KEYS.handicap]) expect(st.getItem(key)).toBeNull();
+    for (const key of [card, hole, sim, guard, pending, MAP_KEYS.handicap]) expect(st.getItem(key)).toBeNull();
     expect(st.getItem('banvy-device-id-v1')).toBe('phone');
     st.setItem(card, 'bob');
     selectSyncUser(st, null);
@@ -258,6 +259,7 @@ describe('offline writes while a sync is pending', () => {
     selectSyncUser(st, 'alice');
     expect(st.getItem(card)).toBe('alice');
     expect(st.getItem(sim)).toBe('simulation');
+    expect(st.getItem(pending)).toBe('settled shot');
     expect(st.getItem(guard)).toBe('claim');
     expect(st.getItem(hole)).toBe('8');
     expect(readSyncMeta(st)).toMatchObject({ userId: 'alice', dirty: true, handicapUpdatedAt: 100 });

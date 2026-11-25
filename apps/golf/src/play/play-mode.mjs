@@ -36,8 +36,9 @@ import {
   playBag, launchFor, puttRangeFor, planPower, LIE_NAME, DIFFICULTY, SHOT_TYPES, SHAPES, HEIGHTS, SPINS, STOCK_SETUP,
   shotTypesFor, shapeable, swingFor, fitSetup, lieQuality, slopeLie, slopeWords, suggestShot, puttPlaysLike, clubReach, setupForClub,
 } from './shot-model.mjs';
-import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, playHoleReaction, savePlayedRound, dropPoint, PLAY_KEYS,
-  receivedOn, pointsOn, roundStats, getPlayStorage, readPlayCheckpoint, writePlayCheckpoint, finishPlayRound } from './play-rules.mjs';
+import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, playHoleReaction, dropPoint, PLAY_KEYS,
+  receivedOn, pointsOn, roundStats, getPlayStorage, readPlayCheckpoint } from './play-rules.mjs';
+import { createPlayPersistence, recoverPlayWrites } from './play-persistence.mjs';
 import { conditionsFor, groundWith, strokeWind } from './conditions.mjs';
 import { createHoleMap } from './hole-map.mjs';
 import { createPlayWorld } from './play-world.mjs';
@@ -110,12 +111,13 @@ async function startPlay(h, query) {
   }, { signal: abort.signal });
   const settings = readSettings();
   const intent = query.get('sim');
+  const ownsAccount = () => !detached;
+  await recoverPlayWrites(h.slug, { ownsAccount });
   const initialCheckpoint = readPlayCheckpoint(getPlayStorage(), h.slug, h.holes.length);
   const saved = intent === 'ny' ? null : initialCheckpoint;
   let directPractice = intent === 'traning';
-  let revision = initialCheckpoint?.revision ?? null;
-  let leaving = false, saveError = null;
-  let saveWarning = false;
+  const persistence = createPlayPersistence({ revision: initialCheckpoint?.revision, ownsAccount });
+  let leaving = false, savingExit = false, saveWarning = false, inputSave = 0;
   const wanted = saved?.round.character || query.get('golfare');
   const characterId = Object.hasOwn(GOLFER_CHARACTERS, wanted) ? wanted : 'female';
   if (saved && DIFFICULTY[saved.round.difficulty]) settings.difficulty = saved.round.difficulty;
@@ -314,7 +316,7 @@ async function startPlay(h, query) {
   function clearTarget() {
     if (targetDist == null) return;
     targetDist = null;
-    if (state === 'address') { plan(); showHud(); preview(); }
+    if (state === 'address') { plan(); showHud(); preview(); scheduleInputSave(); }
   }
 
   /* -- the camera's views (the course's Tee, Green, Fri) ------------------------------ */
@@ -475,17 +477,20 @@ async function startPlay(h, query) {
     return { phase: 'address', ball: [ball.x, ball.z], plugged: pluggedLie,
       club: club().id, setup: { ...setup }, yaw, targetDist };
   }
-  function checkpoint(next = position()) {
-    if (leaving || practice || initializingPractice) return false;
-    const result = detached ? { error: 'account' } : writePlayCheckpoint(getPlayStorage(), round, next, revision);
-    saveError = result.error;
-    if (result.revision) { revision = result.revision; saveWarning = false; return true; }
+  async function checkpoint(next = position(), options) {
+    clearTimeout(inputSave);
+    if (leaving || practice || initializingPractice) return;
+    const result = await persistence.save(round, next, options);
+    if (result === 'saved') { saveWarning = false; return; }
     if (!saveWarning) hud.banner('Rundan kunde inte sparas', 'Kontrollera lagringen och om rundan är öppen i en annan flik.', '', 4500);
     saveWarning = true;
-    return false;
   }
-  function settled(phase = 'address') {
-    return checkpoint({ phase, ball: [ball.x, ball.z], plugged: nextPlugged });
+  function scheduleInputSave() {
+    clearTimeout(inputSave);
+    if (!practice) inputSave = setTimeout(() => { if (state === 'address') checkpoint(); }, 250);
+  }
+  function settled(phase = 'address', options) {
+    return checkpoint({ phase, ball: [ball.x, ball.z], plugged: nextPlugged }, options);
   }
   function address(snap = false, savedPosition = null) {
     refreshConditions();
@@ -543,7 +548,7 @@ async function startPlay(h, query) {
     readSlope();
     stand();
     frameView();
-    plan(); showHud(); preview(); showGreenRead();
+    plan(); showHud(); preview(); showGreenRead(); scheduleInputSave();
   }
   /** Another club, with the set-up it starts with (setupForClub). */
   function changeClub(d, from = club()) {
@@ -575,7 +580,7 @@ async function startPlay(h, query) {
     standAtBall(golfer, ball, yaw, swingName(), heightAt);
     readSlope();
     frameView();
-    plan(); showHud(); preview();
+    plan(); showHud(); preview(); scheduleInputSave();
   }
   function aimPoint() {
     const reach = targetDist ?? (putting() ? Math.min(toCup(), puttRange) : Math.min(toCup() + 5, reachOf()));
@@ -923,7 +928,7 @@ async function startPlay(h, query) {
   function finishHole(holed) {
     const card = holeCard(round, round.current), par = hole().par;
     if (holed) card.holed = true;
-    if (settled('holed')) savePlayedRound(getPlayStorage(), round);
+    settled('holed', { publish: true });
     state = 'holed';
     hud.finishResults();
     hud.replay(false); hideAids();
@@ -993,12 +998,23 @@ async function startPlay(h, query) {
     leaving = true;
     location.replace(`${import.meta.env.BASE_URL}#spela/${encodeURIComponent(round.slug)}`);
   }
+  async function saveAndExit(box, finish) {
+    if (leaving || savingExit || practice) return;
+    clearTimeout(inputSave);
+    savingExit = true;
+    box.inert = true;
+    const next = state === 'holed' ? { phase: 'holed', ball: [ball.x, ball.z], plugged: nextPlugged } : position();
+    const result = await (finish ? persistence.finish(round, next) : persistence.save(round, next));
+    savingExit = false;
+    box.inert = false;
+    if ((result === 'saved' || result === 'finished') && !detached) leaveToSetup();
+    else {
+      explainSaveError(box, detached ? 'account' : result);
+      box.querySelector('[data-save-error] button, [data-confirm-end], [data-leave]')?.focus();
+    }
+  }
   function wireRoundActions(box) {
-    box.querySelector('[data-leave]')?.addEventListener('click', () => {
-      if (leaving || practice) return;
-      if (state === 'holed' ? settled('holed') : checkpoint()) leaveToSetup();
-      else explainSaveError(box, saveError);
-    });
+    box.querySelector('[data-leave]')?.addEventListener('click', () => saveAndExit(box, false));
     box.querySelector('[data-end]').addEventListener('click', () => {
       if (leaving || practice) return;
       const confirm = hud.openSheet(`<header class="pl-hero"><span class="pl-k">Simulator · hål ${round.current}</span>
@@ -1011,20 +1027,12 @@ async function startPlay(h, query) {
         if (state === 'holed') holeSheet(); else openMenu();
         hud.sheet.querySelector('[data-end]').focus();
       });
-      confirm.querySelector('[data-confirm-end]').addEventListener('click', () => {
-        if (leaving) return;
-        if (detached) return explainSaveError(confirm, 'account');
-        // A first checkpoint may have failed when the hole loaded. Retry it
-        // before publishing the score, using the same ownership check.
-        if ((!revision || saveWarning) && !(state === 'holed' ? settled('holed') : checkpoint())) return explainSaveError(confirm, saveError);
-        const result = finishPlayRound(getPlayStorage(), round, revision);
-        if (result === 'finished') leaveToSetup();
-        else explainSaveError(confirm, result);
-      });
+      confirm.querySelector('[data-confirm-end]').addEventListener('click', () => saveAndExit(confirm, true));
       cancel.focus();
     });
   }
   function backFromSheet() {
+    if (savingExit) return;
     const cancel = hud.sheet.querySelector('[data-cancel-end]');
     if (cancel) cancel.click();
     else if (state !== 'holed') hud.closeSheet();
@@ -1305,7 +1313,15 @@ async function startPlay(h, query) {
   if (intent === 'ny') {
     const url = new URL(location.href); url.searchParams.set('sim', 'fortsatt'); history.replaceState(null, '', url);
   }
-  addEventListener('pagehide', () => { if (!leaving && state === 'address' && !round.endedAt) checkpoint(); }, { signal: abort.signal });
+  function preserveOnHide() {
+    if (leaving || detached) return;
+    if (!savingExit && state === 'address' && !round.endedAt) checkpoint();
+    persistence.preservePending();
+  }
+  addEventListener('pagehide', preserveOnHide, { signal: abort.signal });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') preserveOnHide();
+  }, { signal: abort.signal });
 
   const controller = {
     /** The free view hands the camera to the course's own orbit controls. */
@@ -1401,6 +1417,7 @@ async function startPlay(h, query) {
     look(eye, target) { cam.frame(new THREE.Vector3(...eye), new THREE.Vector3(...target)); cam.snap(); },
     club(id) { const i = bag.findIndex(c => c.id === id); if (i >= 0 && state === 'address') { const from = club(); clubIndex = i; changeClub(0, from); } },
     dispose() {
+      clearTimeout(inputSave);
       abort.abort(); pad.dispose(); holeMap.dispose(); hud.dispose(); golfer.dispose(); audio.dispose(); tracer.dispose(); greenRead.dispose();
       glow.dispose();
       for (const o of [ballMesh, marker, dots, halo, spreadFill, spreadEdge, runDots, restMark]) { o.parent?.remove(o); o.geometry.dispose(); o.material.dispose(); }

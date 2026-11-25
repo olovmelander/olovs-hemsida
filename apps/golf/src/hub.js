@@ -20,6 +20,7 @@ import { isPhone } from './shell/map-default.mjs';
 import { parentHubRoute, previousCourseEntry } from './shell/router.js';
 import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch, savedTee } from './shell/settings-store.mjs';
 import { getCloudState, initCloud } from './shell/cloud.mjs';
+import { recoverPlayWrites } from './play/play-persistence.mjs';
 
 const boot = document.getElementById('boot');
 /* The bare route never loads the player, so its HUD is placeholder markup ("1",
@@ -43,6 +44,7 @@ const TITLES = {
 try {
   if (message) message.textContent = 'laddar banor';
   if (bar) bar.style.width = '45%';
+  const recoveredSessions = recoverPlayWrites();
   const catalogueKey = 'banvy-hub-catalogue-v1';
   const courses = [];
   let catalogueFailed = false;
@@ -392,6 +394,7 @@ try {
     if (current === home && home) home.refresh();
     if (current) catalogueNotice(current);
   });
+  await recoveredSessions;
   initCloud();
 
   /* Escape is the way back from a list or the settings. The search field and

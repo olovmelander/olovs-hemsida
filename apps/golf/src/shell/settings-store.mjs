@@ -449,8 +449,9 @@ export function courseSessions(storage, courses, now = Date.now()) {
   for (const course of courses) {
     const checkpoint = readPlayCheckpoint(storage, course.slug, course.holes);
     if (!checkpoint) continue;
-    const { round } = checkpoint;
-    sessions.push({ mode: 'play', course, hole: round.current, tee: round.tee, touched: round.id });
+    const { round, savedAt } = checkpoint;
+    const touched = Number.isFinite(savedAt) ? savedAt : round.id;
+    sessions.push({ mode: 'play', course, hole: round.current, tee: round.tee, touched });
   }
   return sessions.sort((a, b) => b.touched - a.touched);
 }

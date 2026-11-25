@@ -246,7 +246,7 @@ export function readPlayCheckpoint(storage, slug, holeCount = null) {
   } catch { return null; }
 }
 
-export function writePlayCheckpoint(storage, round, position, previousRevision) {
+export function writePlayCheckpoint(storage, round, position, previousRevision, revision = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`) {
   try {
     const rounds = storedRounds(storage);
     const ended = candidate => rounds.some(r => sameRound(r, candidate) && r.endedAt != null);
@@ -254,9 +254,8 @@ export function writePlayCheckpoint(storage, round, position, previousRevision) 
     const current = storedCheckpoint(storage, round.slug, round.order.length);
     const activeRevision = current?.round && !ended(current.round) ? current.revision ?? null : null;
     if (previousRevision !== undefined && activeRevision !== previousRevision) return { error: 'conflict' };
-    const revision = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
     const key = PLAY_KEYS.checkpoint + round.slug;
-    const data = JSON.stringify({ version: 1, revision, round, position });
+    const data = JSON.stringify({ version: 1, revision, savedAt: Date.now(), round, position });
     storage.setItem(key, data);
     if (storage.getItem(key) !== data) return { error: 'unavailable' };
     return { revision };
