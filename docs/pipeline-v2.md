@@ -194,7 +194,10 @@ Do not edit a watched file while the six stages run: the runner refuses a build 
 
 **Gate:** `node tools/check-course-quality.mjs --ground <ground>` has no errors, and each warning is explained;
 `pnpm exec vitest run apps/golf` passes, which includes the test that every kind and list in the new pack is
-known to the phone map (`MAP_KNOWS` in `map-course.mjs`); `node tools/lint-app.mjs` is clean.
+known to the phone map (`MAP_KNOWS` in `map-course.mjs`) and the test that no mapped surface is both painted by
+the ground and laid as a sheet (`mapped-surface-once.test.mjs`); `node tools/lint-app.mjs` is clean; and
+`node tools/audit-water-levels.mjs --course <slugs> --check` names no water body near play that stands unlike
+every accepted pond, or each one it names has been looked at.
 
 ### 6. The first look
 
@@ -308,8 +311,10 @@ Each row is a fault that happened, and what stands in its way now.
 | Ground in a pack that the phone map does not paint | `MAP_KNOWS` and its test on every pack | 5 |
 | Tables that must agree and do not (frames, grounds, roofs) | `sync-course-registries.mjs --check` | 5 |
 | A campus model that is too bright, too heavy or not what its manifest says | `validate-facility-glb.mjs`, the campus loader's tests | 5 |
-| Ponds standing low inside their banks | **a picture only** (the first look); `deferWaterBedToWorld` is the fix | 6 |
-| A surface drawn twice, or wrong at a distance | **a picture only** | 6 |
+| A pond whose outline misses its basin, or that stands at the height of its bank | `audit-water-levels.mjs --check`: the lines every accepted pond keeps (`tools/water-line.mjs`) | 5 |
+| Ponds standing low inside their banks because the engine read its level from carved ground | **a picture only** (the first look); `deferWaterBedToWorld` is the fix | 6 |
+| A mapped surface painted by the ground and laid as a sheet as well | `mapped-surface-once.test.mjs`, on every published course | 5 |
+| A surface wrong at a distance for another reason | **a picture only** | 6 |
 | Trees of the wrong kind | **a picture only**; then the ground's species rule and its test | 6 |
 | Trees placed worse than they should be | the held-out benchmark | 7 |
 | Prepared data that no longer matches the code | `check-prepared-startup.mjs`, `check-prepared-water.mjs` | 8 |
@@ -388,14 +393,14 @@ Written by `node tools/course-walkthrough.mjs --catalogue`; a test fails when it
 | `angso` | 18 | own builder | no record | automatic | 0 errors, 1 warnings | none | advisory, 3 open |
 | `bro-hof` | 18 + 18 | decisions as data | recorded | one by one (review-2026-11-24) | 0 errors, 1 warnings | [yes](courses/bro-hof-walkthrough.md) | owner acceptance, 4 open |
 | `johannesberg` | 18 + 9 | own builder | no record | one by one (review-2026-11-08) | 0 errors, 0 warnings | none | advisory, 4 open |
-| `lidingo` | 18 | own builder | no record | automatic | 4 errors, 1 warnings | none | advisory, 4 open |
+| `lidingo` | 18 | own builder | no record | automatic | 4 errors, 1 warnings | [yes](courses/lidingo-walkthrough.md) | advisory, 4 open |
 | `norrfallsviken` | 18 | own builder | no record | one by one (review-2026-11-09) | 0 errors, 0 warnings | none | advisory, 3 open |
-| `puttom` | 18 | own builder | no record | automatic | 1 errors, 0 warnings | none | advisory, 3 open |
-| `ribbingsfors` | 9 | own builder | no record | automatic | 1 errors, 1 warnings | none | advisory, 3 open |
+| `puttom` | 18 | own builder | no record | automatic | 1 errors, 0 warnings | [yes](courses/puttom-walkthrough.md) | advisory, 3 open |
+| `ribbingsfors` | 9 | own builder | no record | automatic | 1 errors, 1 warnings | [yes](courses/ribbingsfors-walkthrough.md) | advisory, 3 open |
 | `tortuna` | 18 | own builder | no record | automatic | 0 errors, 0 warnings | none | advisory, 3 open |
 | `upsala` | 18 + 9 | own builder | no record | automatic | 0 errors, 0 warnings | none | advisory, 3 open |
-| `veckefjarden` | 18 + 9 | own builder | no record | automatic | 3 errors, 1 warnings | none | advisory, 3 open |
-| `visby` | 18 | own builder | no record | automatic | 1 errors, 0 warnings | none | advisory, 7 open |
+| `veckefjarden` | 18 + 9 | own builder | no record | automatic | 3 errors, 1 warnings | [yes](courses/veckefjarden-walkthrough.md) | advisory, 3 open |
+| `visby` | 18 | own builder | no record | automatic | 1 errors, 0 warnings | [yes](courses/visby-walkthrough.md) | advisory, 7 open |
 <!-- /generated:catalogue -->
 
 "Outlines: own builder" means the ground was built before the shared tracer, so it has no decision files and no
@@ -404,20 +409,27 @@ the best place to start improving it.
 
 ## Not done yet
 
-- A CPU check for water standing inside its outline, and one for a surface drawn twice.
+- The two interim checks are weaker than they should be. The water lines are drawn from the 99 ponds that were
+  accepted, not derived, and the audit reckons each level itself, so it cannot see the engine getting a level
+  wrong. The drawn-once test lifts the sheet rule out of `main.js` as text. Both want the engine's own rules in
+  a module a check can call: an engine edit, and so a bake of every course. Do it with the next engine change.
+- The water lines name two ponds on published grounds that nobody has looked at yet: Upsala 4 (the outline
+  misses its basin by 0.33 m) and Johannesberg 11 (it stands at the height of its bank).
 - The tracer does not stop on a low score by itself; the recorded review is what holds it.
 - The deck check names a deck that is not on level ground; it cannot tell a ring off its deck from a deck newer
   than the terrain, and nothing measures a bunker against its bowl. No check dates the ground under a hole.
 - Every ground has a card and a test holds each to its tables, but the tables do not read the cards yet: a fact
   is still written twice. The ten older grounds' cards were derived from the tables (`ground-card.mjs --derive`),
   so they say that the reason for a position or a poster hole was not recorded.
-- The two checks above (water inside its outline, a surface drawn twice) need the engine's own rules moved into
-  a module a check can read, which is an engine edit and so a bake of every course. `tools/audit-water-levels.mjs`
-  measures every water body on the CPU already, but no line for it has been proven against pictures.
 - The tracer writes `start: "extracted-sand"` on a sand ring that was drawn by hand; the sand audit is what finds
   those today. The sand audit does not see sand in shade, and nothing measures a bunker against its bowl.
 - Five older grounds fail the quality gate on white campus materials brighter than the glow's ceiling (Lidingö 4,
-  Veckefjärden 2, Puttom, Ribbingsfors and Visby 1 each). Dimming a white is a change the owner has to see.
+  Veckefjärden 2, Puttom, Ribbingsfors and Visby 1 each; six of the nine are above the glow's own threshold of
+  0.86, three between 0.82 and 0.86). It is not a patch: each model's checksum is pinned in its ground's own
+  validation records (for Veckefjärden in a tree review's input lock as well), so a dimmer white means rebuilding
+  the model with that ground's builder and validating it again, and it changes how the clubhouse looks. The
+  owner's to decide, ground by ground: rebuild, or accept the model as it was looked at and say so in its
+  walkthrough.
 - The owner's review page has not been used by the owner, and `check-live-course.mjs` has not been run: both
   open a browser.
 - The second look has been taken once, by an agent. Its "no doubt" on bunkers is weak: a white line on white

@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 /* Where every course's water stands against its ground: an audit on the CPU, no browser.
  *
- *   node tools/audit-water-levels.mjs [--course slug[,slug]] [--json out.json] [--near]
+ *   node tools/audit-water-levels.mjs [--course slug[,slug]] [--json out.json] [--near] [--check]
+ *
+ * It ends by naming the bodies near play that stand unlike every accepted pond (tools/water-line.mjs);
+ * --check fails when there is one.
  *
  * For each layout's water polygon (lake, pond, waterhole) it reads the 1 m laser ground
  * the map and the simulator read, in the pack's own frame and datum, and reports:
@@ -23,6 +26,7 @@ import { laserPlateLevel, LASER_PLATE_COURSES } from '../apps/golf/src/engine/wa
 import { simulatorLevel, nearPlay } from './map-shores-bake.mjs';
 import { shoreLevel } from '../apps/golf/src/engine/water-level.mjs';
 import { buildStreamWater } from '../apps/golf/src/engine/stream-water.mjs';
+import { waterOffTheLine, waterLine } from './water-line.mjs';
 
 const args = process.argv.slice(2);
 const flag = (k, d) => { const i = args.indexOf('--' + k); return i < 0 ? d : args[i + 1]; };
@@ -204,3 +208,6 @@ for (const meta of layouts) {
 }
 const out = flag('json', null);
 if (out) fs.writeFileSync(out, JSON.stringify(report, null, 1));
+const off = waterOffTheLine(report);
+console.log(off.length ? `\n${off.length} near play stand unlike every accepted pond:\n${off.map(body => `  ${waterLine(body)}`).join('\n')}` : '\nEvery water body near play stands as the accepted ponds do.');
+if (args.includes('--check') && off.length) process.exitCode = 1;

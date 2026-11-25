@@ -13,6 +13,7 @@ import { rebuildPlan } from './course-rebuild.mjs';
 import { buildingFrame, measureBuilding, roofLevels } from './facility-pipeline/measure-building.mjs';
 import { reviewMeta, reviewPage } from './course-review-page.mjs';
 import { examine, grounds } from './course-doctor.mjs';
+import { WATER_LINE, waterOffTheLine } from './water-line.mjs';
 import { applyOwnerReview, ownerReviewErrors, ownerReviewSummary, reviewDocument } from '../packages/course-workflow/owner-review.mjs';
 import { draftAcceptance } from '../packages/course-workflow/acceptance.mjs';
 import { reviewErrors as releaseReviewErrors } from '../packages/course-workflow/release.mjs';
@@ -242,6 +243,22 @@ test('the mapping environment asks for the same libraries on Windows as everywhe
   }
 });
 
+test('a pond that stands unlike every accepted pond is named once, by the routing nearest to it', () => {
+  const body = (index, more) => ({ index, sea: false, areaM2: 800, nearHole: 4, holeM: 30, boot: 5.2, ringP50: 5.0, freeboard: 0.6, ...more });
+  const report = [
+    { slug: 'demo', ground: 'demo', bodies: [body(0), body(1, { boot: 4.6 }), body(2, { boot: 5.5 }), body(3, { freeboard: 0.0 }), body(4, { boot: 4.0, holeM: 400 }),
+      body(5, { boot: 3.0, sea: true }), body(6, { boot: 4.95 }), body(7, { freeboard: 0.05 })] },
+    { slug: 'demo-9', ground: 'demo', bodies: [body(1, { boot: 4.6, holeM: 12, nearHole: 2 }), body(0, { holeM: 80 })] },
+  ];
+  const off = waterOffTheLine(report);
+  assert.deepEqual(off.map(found => [found.slug, found.index, found.hole]), [['demo-9', 1, 2], ['demo', 2, 4], ['demo', 3, 4]]);
+  assert.match(off[0].why, /stands -0\.40 m from the ground along its own outline: the outline may miss its basin/);
+  assert.match(off[1].why, /stands \+0\.50 m from the ground along its own outline: it would flood past it/);
+  assert.match(off[2].why, /stands at the height of its bank \(0\.00 m below it\)/);
+  assert.deepEqual([WATER_LINE.belowOutline, WATER_LINE.aboveOutline, WATER_LINE.freeboard, WATER_LINE.reachMetres], [-0.1, 0.35, 0.05, 100], 'the lines every accepted pond keeps; move them only with the audit of every layout in hand');
+  assert.deepEqual(waterOffTheLine([{ slug: 'dry', ground: 'dry', bodies: [] }]), []);
+});
+
 test('the doctor reads a ground\'s records once and sorts what it finds, worst first', async () => {
   assert.ok(grounds().length >= 11 && grounds().includes('bro-hof'));
   const levels = ['broken', 'todo', 'owner', 'known', 'ok'];
@@ -254,6 +271,7 @@ test('the doctor reads a ground\'s records once and sorts what it finds, worst f
   assert.ok(broHof.every(finding => !finding.run || !/BANVY_GPU|gpu-pass|make-posters/.test(finding.run) || finding.level === 'owner'), 'anything on the GPU is the owner\'s');
   const older = await examine('ribbingsfors'); // built before the shared tracer
   assert.ok(older.some(finding => finding.about === 'outlines' && finding.level === 'known' && /own older builder/.test(finding.text)));
-  assert.ok(older.some(finding => finding.about === 'walkthrough' && finding.level === 'todo'));
+  const written = fs.existsSync(path.join(ROOT, 'docs/courses/ribbingsfors-walkthrough.md'));
+  assert.ok(older.some(finding => finding.about === 'walkthrough' && finding.level === (written ? 'ok' : 'todo')), 'a walkthrough that is there and current holds; one that is missing is work to do');
   assert.ok(!older.some(finding => finding.about === 'ring review' || finding.about === 'sand'), 'no record is asked of a ground that never had the step');
 });

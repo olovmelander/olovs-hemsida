@@ -106,13 +106,16 @@ function routingFacts(row, quality) {
       card: worst ? Math.abs(worst[1]) : null, flags,
     };
   });
-  const count = kind => (surfaces ? surfaces.features.filter(f => f.properties.kind === kind) : null);
+  // Only a build traced with the shared tracer has outlines that are the model's own. An older build's file of the same
+  // name is an intermediate of its own builder, and can be months behind what is published: count the model there.
+  const count = kind => (surfaces && trace ? surfaces.features.filter(f => f.properties.kind === kind) : null);
   const waste = count('waste_sand') ?? (model.scenery?.mappedFeatures ?? []).filter(f => f.kind === 'waste_sand').map(f => ({ geometry: { coordinates: f.rings } }));
   const abs = marks.map(m => Math.abs(m.metres)).sort((a, b) => a - b);
   const worstMark = marks.slice().sort((a, b) => Math.abs(b.metres) - Math.abs(a.metres))[0] ?? null;
   return {
     slug: row.slug, name: row.name, label: row.tag || row.name, build: row.build, par: row.par, teeNames: row.tees.names, posters: row.photos ?? 0,
     prepared: ['preparedWater', 'preparedTint', 'preparedVista', 'preparedScatter'].filter(k => row[k]).length, scorecard: !!row.scorecard,
+    preparedOf: row.preparedWaterUnsupported ? 3 : 4, // a course that keeps its measured water path has no water record to bake
     lengths: row.tees.names.map((_, i) => sum(model.holes.map(h => h.t?.[i] ?? 0))),
     greens: count('green')?.length ?? holes.length, decks: count('tee')?.length ?? sum(holes.map(h => h.decks)),
     fairways: count('fairway')?.length ?? sum(model.holes.map(h => h.fairway?.rings?.length ?? (h.fairway ? 1 : 0))),
@@ -167,7 +170,8 @@ export function groundFacts(groundId) {
     cartRows: (model.scenery?.cartParks ?? []).length + (model.scenery?.cartPark ? 1 : 0),
     carts: sum([model.scenery?.cartPark, ...(model.scenery?.cartParks ?? [])].filter(Boolean).map(row => row.count ?? 0)),
     roofs: roofs ? { measured: roofs.buildings.filter(b => b.roof).length } : null,
-    facilities: facilities ? { parts: facilities.facilities.map(f => f.id), triangles: sum(facilities.facilities.map(f => f.triangles ?? 0)), bytes: facilities.asset.bytes } : null,
+    facilities: facilities ? { parts: facilities.facilities.map(f => f.id), bytes: facilities.asset.bytes,
+      triangles: sum(facilities.facilities.map(f => f.triangles ?? 0)) || facilities.triangles || report.summary?.facilities?.triangles || null } : null,
     sand, trees: treeFacts(groundId), quality: { errors: report.errors.length, warnings: report.warnings.length, unplaced: quality.filter(line => !/ h\d+:/.test(line)) },
     release: { policy: workflow?.releasePolicy ?? null, acceptance, blockers: audit.blockers.filter(b => b.severity === 'release-blocking'), frame: audit.frameStatus },
     walkthrough: exists(`docs/courses/${groundId}-walkthrough.md`),
@@ -194,7 +198,7 @@ function summaryBlock(f) {
       ? `${x.second.reviewedOn}: ${x.second.doubts} doubts, ${x.second.stand.length} stand, ${x.second.faults.length} kept as faults; ${x.second.cannotTell} it could not judge`
       : 'none'))],
     ['Tee decks on level ground in the terrain', ...each(x => (x.deckGround ? `${x.deckGround.level} of ${x.deckGround.measured} measured` : 'not measured'))],
-    ['Posters, prepared data, scorecard', ...each(x => `${x.posters}, ${x.prepared} of 4, ${x.scorecard ? 'yes' : 'no'}`)],
+    ['Posters, prepared data, scorecard', ...each(x => `${x.posters}, ${x.prepared} of ${x.preparedOf}${x.preparedOf === 3 ? ' (its water is kept live, by design)' : ''}, ${x.scorecard ? 'yes' : 'no'}`)],
   ];
   const walls = Object.entries(f.bulkheads).map(([kind, n]) => `${n} ${kind}`).join(' and ');
   const t = f.trees, a = f.release.acceptance;
@@ -207,7 +211,7 @@ function summaryBlock(f) {
       : `- **Trees:** automatic (${number(f.layers.objects)} object tiles, ${number(f.layers.stands)} stand tiles); not placed one by one.`,
     `- **Buildings:** ${number(f.buildings)} mapped`
       + (f.roofs ? `, ${number(f.roofs.measured)} with a roof colour measured on the photo` : '')
-      + (f.facilities ? `; an authored campus of ${f.facilities.parts.length} parts (${f.facilities.parts.join(', ')}), ${number(f.facilities.triangles)} triangles` : '')
+      + (f.facilities ? `; an authored campus of ${f.facilities.parts.length} parts (${f.facilities.parts.join(', ')})${f.facilities.triangles ? `, ${number(f.facilities.triangles)} triangles` : ''}` : '')
       + (f.carts ? `; ${f.carts} golf carts in ${f.cartRows} rows` : '') + '.',
     `- **Quality gate:** ${f.quality.errors} errors, ${f.quality.warnings} warnings (\`tools/check-course-quality.mjs\`); each is on its hole below.`
       + (f.quality.unplaced.length ? ` Not tied to a hole: ${f.quality.unplaced.join('; ')}.` : ''),
