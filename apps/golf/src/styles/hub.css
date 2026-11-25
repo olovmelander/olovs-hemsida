@@ -4,16 +4,16 @@
    A launch monitor's home screen was the brief: dark, the course itself as the
    picture, big type, numbers set like readings, and every choice a large
    target. The course list (shell.css) is the third screen and shares the
-   palette: --turf on near-black green, Outfit for words, JetBrains Mono for
-   numbers.
+   palette: --turf on near-black green, and Outfit for words and numbers alike,
+   with tabular figures for the numbers (styles/tokens.css).
    =========================================================================== */
 
 .hub-screen {
   --pad: max(clamp(18px, 4vw, 64px), env(safe-area-inset-left, 0px));
-  --line: rgba(160, 230, 185, 0.13);
-  --panel: rgba(13, 26, 19, 0.78);
-  --turf-hi: #8ef0a4;
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --line: var(--bv-hairline);
+  --panel: var(--bv-surface-glass);
+  --turf-hi: var(--bv-turf-hi);
+  --ease: var(--bv-ease);
   position: fixed;
   inset: 0;
   z-index: 60;
@@ -188,7 +188,8 @@
   min-width: 24px;
   height: 24px;
   text-align: center;
-  font: 500 12px/1 'JetBrains Mono', monospace;
+  font: 500 12px/1 var(--bv-font);
+  font-variant-numeric: tabular-nums;
   background: #15231c;
   color: #d2e2d7;
   border: 1px solid #768c7e;
@@ -558,7 +559,8 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(0, 0, 0, 0.3);
   color: #fff;
-  font: 600 24px/1 'JetBrains Mono', monospace;
+  font: 600 24px/1 var(--bv-font);
+  font-variant-numeric: tabular-nums;
   text-align: center;
   -moz-appearance: textfield;
 }
@@ -582,7 +584,7 @@
 .bl-name { font: 600 14px/1.2 Outfit, sans-serif; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bl-bar { height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
 .bl-bar i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #2f8f4e, var(--turf) 70%, var(--turf-hi)); }
-.bl-carry { text-align: right; font: 600 15px/1 'JetBrains Mono', monospace; color: #fff; white-space: nowrap; }
+.bl-carry { text-align: right; font: 600 15px/1 var(--bv-font); font-variant-numeric: tabular-nums; color: #fff; white-space: nowrap; }
 .bl-carry small { font-size: 11px; color: var(--dim); }
 .bag-ladder .is-putter .bl-carry { font: 600 12px/1 Outfit, sans-serif; color: var(--dim); }
 
@@ -600,7 +602,7 @@
 .set-danger.is-armed { background: #d9503f; border-color: #d9503f; color: #fff; }
 .set-primary:focus-visible, .set-danger:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .set-primary:active, .set-danger:active { transform: scale(0.98); }
-.set-metric { font: 600 28px/1 'JetBrains Mono', monospace; color: #fff; }
+.set-metric { font: 600 28px/1 var(--bv-font); font-variant-numeric: tabular-nums; color: #fff; }
 .set-inline { display: flex; align-items: center; gap: 14px; }
 .set-link {
   display: inline-flex;

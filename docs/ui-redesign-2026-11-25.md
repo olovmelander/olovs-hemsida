@@ -233,7 +233,7 @@ rundan*, so it is a dead end for both mode and layout.
 | Where | What | Fix |
 |---|---|---|
 | Lätt 3D score sheet, 390 px | Each nine is 468 px wide in a 342 px card and scrolls sideways with no cue: on hole 5 only holes 2–8 and 10–16 show | Card scrolls as one 9-hole block with a visible edge fade, or Ut/In on two rows |
-| Lätt 3D dock | *Logga · Dr*, *Logga · T3*: an unexplained abbreviation on the primary button | Full club name on the wheel; button says *Logga slag* |
+| Lätt 3D dock | *Logga · Dr*, *Logga · T3*: an abbreviation on the primary button | **Keep** (corrected in Phase 1): the tag names the club, or the hole being played before the next one takes over ([the club wheel](club-wheel.md)). In the v2 HUD the wheel sits directly above the button, which can then say *Logga slag* |
 | Lätt 3D distance card | *från dig* and *Spelas 257 m* at 10.5 px, *Greenvy* at 10 px | 13 px floor for on-course text (E2); *Greenvy* becomes a chevron |
 | Setup sheet | Empty handicap shows "–" in a box between − and +, which reads as a value | Placeholder *Ingen*, and the field becomes a number input on tap |
 | Setup sheet | Tee names in a monospace face | Outfit; mono digits only where columns must align |
@@ -864,38 +864,49 @@ wheel position. The sheet becomes a side panel and back again. The map re-runs
 ### E1. Surfaces and colour roles
 
 There are two materials. **Natt** is dark glass, the default for desktop and for
-indoor modes. **Dag** is near-opaque white: today's Solläge, generalized.
+indoor modes. **Dag** is white with black ink: today's Solläge, generalized.
 
 Lätt 3D chooses between them by the sun at the course, using `solar.mjs` (already
 shared with the map): Dag while the sun is more than 6° up, Natt otherwise. That is
 *Auto*; the Meny sheet's top row overrides it in one tap. A dark panel in direct sun
 only mirrors the sky, as `course-map.css` itself says.
 
-| Token | Natt | Dag | Use |
+The tokens live in `apps/golf/src/styles/tokens.css` (Phase 1). Every value below
+already ran in the app before it became a token. The Dag column is the map's
+Solläge, which the owner has used on the course.
+
+| Token | Natt | Dag (`.bv-dag`) | Use |
 |---|---|---|---|
-| `--bv-surface-1` | `rgba(10,20,15,.86)` + `blur(16px) saturate(1.2)` | `rgba(255,255,255,.94)`, no blur | HUD panels, sheets |
-| `--bv-surface-2` | `rgba(255,255,255,.10)` | `rgba(11,20,16,.06)` | controls at rest, segmented track |
-| `--bv-surface-3` | `rgba(255,255,255,.18)` | `#ffffff` + shadow-1 | pressed, segmented thumb |
-| `--bv-hairline` | `rgba(255,255,255,.14)` | `rgba(11,20,16,.14)` | 1 px borders; every floating panel has one, so it holds its edge over white sky |
-| `--bv-ink-1` | `#ffffff` | `#0b1410` | numbers, titles |
-| `--bv-ink-2` | `rgba(255,255,255,.80)` | `rgba(11,20,16,.76)` | body |
-| `--bv-ink-3` | `rgba(255,255,255,.64)` | `rgba(11,20,16,.62)` | captions; ≥ 4.5:1 on surface-1 in both |
-| `--bv-flag` | `#ffd23f` | `#ffd23f` fill, ink `#10201a` | **your number and your action** |
-| `--bv-on-flag` | `#10201a` | `#10201a` | ink on flag |
-| `--bv-turf` | `#5fd07a` | `#1e7a3a` | **on, live, locked**: GPS good, live round, toggle on, brand dot |
-| `--bv-warn` | `#f0a23a` | `#9a5a00` | rough GPS, stale data |
-| `--bv-danger` | `#ff8a73` | `#b3261e` | denied, delete |
-| `--bv-water` · `--bv-sand` | `#4bb4d8` · `#e2cf9a` | `#11709a` · `#8a6d1f` | hazard pills and rows |
-| `--bv-under` · `--bv-over` | the score scale in `stats-model` | the same | scorecards |
-| `--bv-focus` | `#ffffff` with a `#0b1410` halo | `#0b1410` with a `#ffffff` halo | 3 px ring, 2 px offset; the halo keeps it visible over terrain |
+| `--bv-surface-glass` | `rgba(9,18,14,.78)` | `#fff` | Detaljerad 3D, Simulator and start menu panels |
+| `--bv-surface-solid` | `rgba(12,24,18,.92)` | `#fff` | Lätt 3D panels and sheets: they must read in daylight |
+| `--bv-surface-2` · `-3` | `rgba(255,255,255,.10)` · `.14` | `rgba(0,0,0,.08)` · `.13` | a control at rest, pressed; the segmented track and thumb |
+| `--bv-hairline` · `-strong` | `rgba(160,230,185,.14)` · `rgba(150,220,175,.18)` | `rgba(0,0,0,.18)` · `.2` | 1 px borders; every floating panel has one, so it holds its edge over white sky |
+| `--bv-ink-1` | `#ffffff` | `#000000` | numbers, titles |
+| `--bv-ink-2` | `#b7c8bc` | `#27332c` | body |
+| `--bv-ink-3` | `#849c8f` | `#4a574f` | captions |
+| `--bv-signal` | `#ffd23f` (flag) | `#000000` | **your number**: the *Mitt* yardage, the aim line, the chosen club |
+| `--bv-action` · `--bv-on-action` | `#ffd23f` · `#10201a` | `#000000` · `#ffd23f` | **your action**: the one primary button |
+| `--bv-turf` · `--bv-turf-hi` | `#5fd07a` · `#8ef0a4` | the same, as fills and icons only | **on, live, locked**: GPS good, live round, toggle on, brand dot |
+| `--bv-warn` · `--bv-danger` | `#f0a23a` · `#ef7c67` | the same, as fills and icons only | rough GPS and stale data; denied and delete |
+| `--bv-water` · `--bv-sand` | `#4bb4d8` · `#e2cf9a` | the same | hazard pills and rows |
+| `--bv-under` · `--bv-over` · `--bv-link` | `#7fe39a` · `#ffb48a` · `#9fd8ff` | `#0b6b34` · `#a33a00` · `#084a85` | scores and links, as text |
+| `--bv-focus` | `#dafbe3` | `#000000` | the focus ring |
 
-Worst cases, computed with the WCAG formula through each panel's translucency:
-- **ink-3:** 6.2:1 on Natt over white sky and 5.0:1 on Dag over black;
-- **flag text on Natt:** 8.8:1;
-- **on-flag ink on flag:** 11.7:1;
-- **turf on Dag:** 4.7:1.
+Contrast, computed with the WCAG formula through each panel's translucency over
+three backgrounds (black, a fairway at `rgb(110,160,80)` and white sky):
 
-Flag yellow is never text on Dag, where it reaches only 1.3:1; it is a fill there.
+| | ink-1 | ink-2 | ink-3 | flag | turf |
+|---|---:|---:|---:|---:|---:|
+| Glass (.78) over a fairway | 13.8 | 7.9 | 4.7 | 9.6 | 7.1 |
+| Glass (.78) over white sky | 9.7 | 5.5 | **3.3** | 6.7 | 5.0 |
+| Solid (.92) over white sky | 14.7 | 8.4 | 5.0 | 10.2 | 7.6 |
+
+So a caption on the glass that can sit over sky takes `ink-2`. That means the hole
+header and the inspector at the top of Detaljerad 3D (Phase 3); a more opaque glass
+is the alternative. On Dag, the inks reach 13.2 (ink-2) and 7.6:1 (ink-3); the
+action's flag ink on black reaches 14.5:1. Turf (1.9:1) and warn (2.1:1) are
+never text on Dag, which is why the map's Solläge sets scores in its dark
+`under`, `over` and `rough`.
 
 **The grammar,** applied in every mode:
 - **Flag yellow** is reserved for the one primary action on a screen and for the
@@ -948,7 +959,7 @@ Rules:
 | Spacing (4 px grid) | 4 · 8 · 12 · 16 · 20 · 24 · 32 · 48 |
 | Radius | 6 chip · 10 control (desktop) · 14 control (phone), card · 20 sheet, panel · 28 hero card · 999 pill |
 | Elevation | shadow-1 `0 1px 2px rgb(0 0 0/.24), 0 4px 12px rgb(0 0 0/.18)`; shadow-2 `0 12px 32px rgb(0 0 0/.28)` |
-| Motion | ease `cubic-bezier(.2,.8,.2,1)`; 120 ms press, 200 ms state, 320 ms sheet; reduced motion cross-fades |
+| Motion | ease `cubic-bezier(.16,1,.3,1)`, the curve the start menu, sheet, drawer and Simulator already share; 120 ms press, 200 ms state, 320 ms sheet; reduced motion cross-fades |
 | Hit area | 48 × 48 on touch (a visual of 40 with 4 px slop where space is tight), 36 × 36 with a pointer; nothing under 44 on touch |
 
 Targets for production CSS after Phase 1: at most 40 colour values, 8 radii and
@@ -999,20 +1010,26 @@ Further rules:
 | `Esc` | close the top layer (a measured point counts); with nothing open, open the menu (today's Simulator rule, adopted everywhere) | Lätt 3D's `M` for Meny goes |
 | `H` | hide or show the HUD | Lätt 3D's side panel moves from `H` to `I` |
 | `I` | side panel or inspector | — |
-| `B` | course guide (Banguide) | Simulator: from `G`; Detaljerad 3D: new |
+| `B` | course guide (Banguide) | Simulator: from `G`; Detaljerad 3D: new, through `ui/detailed-hud.mjs` |
 | `C` | cycle the camera | Simulator: `V` moves to `C`; spin moves from `Z`/`C` to `Z`/`X` |
 | `G` | green view | — |
 | `L` | cycle the light | — |
-| `M` | map: minimap, hole map or *Banan* | Detaljerad 3D: signs (Skyltar) move from `M` to `K` |
+| `M` | map: hole map or *Banan* | Detaljerad 3D keeps `M` for signs (Skyltar): see below |
 | `?` | shortcut sheet | — |
 | `←` `→` `P` `N` · `1`–`9` `0` | previous and next hole, jump to a hole | Simulator: `←` `→` aim (game convention) |
 | `S` | — | Lätt 3D: scorecard. Simulator: height − (local); its card stays in the menu |
 
 `Tab` is never taken: it moves keyboard focus.
 
-`engine/keyboard-shortcuts.mjs` stays the single table for Detaljerad 3D (with its
-test). The map's shortcut list and the Simulator's help render from the same rows
-plus their mode-specific ones.
+**Where each key lives.** Detaljerad 3D's keys are handled in `main.js` and listed in
+`engine/keyboard-shortcuts.mjs`. Both feed the prepared startup data's source
+revision (`tools/course-source-revision.mjs`), so changing a key there turns the
+prepared data off until the next GPU bake. Detaljerad 3D therefore keeps every key
+it has, `M` for signs included. The new ones (`G`, `B`, `I`, `?`) are bound in
+`ui/detailed-hud.mjs`, which clicks the panel's own buttons as the drawer does, and
+the drawer's shortcut list (`shell/menu.js`) appends their rows. The Simulator's
+keys (`play-mode.mjs`) and Lätt 3D's (`map-session.js`) are outside the hashed
+folders and move freely.
 
 ---
 
@@ -1038,11 +1055,14 @@ Constraints that hold in every phase:
   `bv-segmented`, `bv-chip`, `bv-sheet` (detents, drag, history), `bv-panel`,
   `bv-popover` and `bv-toast`. These are small classes plus one module each where
   behaviour is needed, reusing `panel-history.mjs`.
-- **Fix A1 #8's defects:** mono tee names, the empty handicap, the abbreviation, the
-  10–10.5 px labels, the 10 px hint and the clipped *Ovanifrån*. Drop JetBrains Mono
-  for Outfit's tabular figures.
-- **Align the key map** (E6) in `keyboard-shortcuts.mjs` with its test, the map's list
-  and `play-mode.mjs`.
+- **Fix A1 #8's defects:** mono tee names, the empty handicap, the 10–10.5 px
+  labels, the 10 px hint, the clipped *Ovanifrån*, the wrapping shot shapes and the
+  scorecard's silent sideways scroll. Drop JetBrains Mono for Outfit's tabular
+  figures.
+- **Align the key map** (E6) once G#5 is decided: the Simulator's keys in
+  `play-mode.mjs`, Lätt 3D's in `map-session.js`, and Detaljerad 3D's additions in
+  `ui/detailed-hud.mjs`. Its own table, `engine/keyboard-shortcuts.mjs`, is
+  hashed into the prepared data and stays as it is.
 - **Gates:**
   - `pnpm exec vitest run apps/golf`;
   - `node tools/lint-app.mjs`;
@@ -1053,6 +1073,35 @@ Constraints that hold in every phase:
     appears outside `tokens.css`. It ratchets: the counts may only fall.
 - **Exit:** the counts meet E3's targets; axe reports no new violations; a
   before-and-after sheet of every screen matches except for intended colour changes.
+
+**Progress (25 November, first step).** Done:
+- **`styles/tokens.css`**, loaded first from `entry.js` on every route. It holds the
+  Natt roles and the Dag material (`.bv-dag`, which Solläge now switches with
+  `is-sun`), type, space, radii, elevation, motion and touch sizes.
+- **Re-pointed at the tokens:** the player page's, Simulator's, start menu's, setup
+  sheet's, Statistik's, drawer's and map's own colour names. The player's `--dim` and
+  `--faint` rose to the token inks.
+- **JetBrains Mono is gone:** 53 rules and the share card use Outfit's tabular
+  figures, and its six font files left the precache.
+- **Defects fixed:**
+  - *Ingen* for an empty handicap (setup sheet, Inställningar, the map's two
+    steppers, the Simulator);
+  - the distance card's labels at the 11 px floor;
+  - the drag hint as a 12 px glass pill;
+  - *Ovanifrån* fitting its row;
+  - the Simulator's shot shapes on one line on a phone, and its key hints hidden on
+    touch;
+  - a fading edge on a scorecard nine that scrolls.
+- **`styles/tokens.test.mjs`:** every token read is defined, Dag restates every
+  colour role, no JetBrains Mono, and the raw values outside `tokens.css` may only
+  fall. They are 320 colours (333 the day before), 38 radii and 47 font sizes.
+
+Left for the next step:
+- the primitives;
+- the club list's (`shell.css`) and the bag editor's raw colours;
+- bringing the radii and font sizes down to E3's targets;
+- the rail's 8.5 and 10 px labels, which fall with the Phase 3 inspector;
+- the key map, which waits for G#5.
 
 ### Phase 2: the lobby and the multi-course hierarchy
 
@@ -1143,6 +1192,7 @@ Constraints that hold in every phase:
 4. **Dag panels by the sun** as Lätt 3D's default (*Auto*), replacing a Solläge that is
    off unless switched on, or unless the phone asks for more contrast.
 5. **The key map:** `C` camera, `G` green, `B` guide, `I` panel and `Esc` menu
-   everywhere. The Simulator's `V` and `G`, Detaljerad 3D's `M` and Lätt 3D's `H`
-   and `M` move.
+   everywhere. The Simulator's `V` and `G` and Lätt 3D's `H` and `M` move.
+   Detaljerad 3D keeps all its keys, `M` included, because its table is part of the
+   prepared data's revision.
 6. **The inspector closed by default** below 1600 px in Detaljerad 3D.

@@ -42,7 +42,7 @@ body.pl-relive .pl-third-kicker{color:#9fdcf2}
 .pl-rv-bar button:hover{background:rgba(255,255,255,.06)}
 .pl-rv-bar button:focus-visible{outline:2px solid var(--turf,#5fd07a);outline-offset:1px}
 .pl-rv-bar [data-play]{background:linear-gradient(160deg,#6fe08a,#3fae5d);color:#07170d;min-width:66px}
-.pl-rv-bar [data-speed]{font:600 13px 'JetBrains Mono',monospace;min-width:52px}
+.pl-rv-bar [data-speed]{font:600 13px var(--bv-font);font-variant-numeric:tabular-nums;min-width:52px}
 @media (max-width:640px){
   body.pl-relive .pl-live{top:auto;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 112px);font-size:10px}
   body.pl-relive .pl-third{bottom:calc(max(16px,env(safe-area-inset-bottom)) + 156px)}

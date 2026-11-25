@@ -1126,7 +1126,7 @@ async function startPlay(h, query) {
         <div class="pl-row"><span>Svårighet</span>${seg('difficulty', DIFFICULTY, settings.difficulty)}</div>
         <div class="pl-row"><span>Sving</span>${seg('method', SWING_METHODS, settings.method)}</div>
         <div class="pl-row"><span>Spelhandicap</span><div class="pl-stepper" role="group" aria-label="Spelhandicap">
-          <button type="button" data-hcp="-1" ${practice ? 'disabled' : ''} aria-label="Sänk spelhandicap">−</button><output data-hcp-value>${round.handicap ?? '–'}</output>
+          <button type="button" data-hcp="-1" ${practice ? 'disabled' : ''} aria-label="Sänk spelhandicap">−</button><output data-hcp-value>${round.handicap ?? 'Ingen'}</output>
           <button type="button" data-hcp="1" ${practice ? 'disabled' : ''} aria-label="Höj spelhandicap">+</button></div></div>
         <div class="pl-row"><span>Ljud</span>${seg('sound', ON_OFF, settings.sound ? 'on' : 'off')}</div>
         <div class="pl-row"><span>Hålöverflygning</span>${seg('flyover', ON_OFF, settings.flyover ? 'on' : 'off')}</div>

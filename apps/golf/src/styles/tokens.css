@@ -1,0 +1,125 @@
+/* Banvy's design tokens: one source for colour, type, space, shape and motion.
+
+   docs/ui-redesign-2026-11-25.md, section E. Every value here already ran in
+   the app before it became a token, so pointing a stylesheet at a token changes
+   what is drawn by no more than the difference between two near-identical
+   values (the contrast fixes in that document excepted).
+
+   Two materials:
+     Natt  the default: dark glass indoors, a near-opaque dark panel outdoors;
+     Dag   `.bv-dag`: white panels and black ink, the map's Solläge, for a
+           screen in direct sun, where a dark panel only mirrors the sky.
+
+   The grammar the roles keep in every mode:
+     flag   your number and your one action (the Mitt yardage, the aim line,
+            the chosen club, the primary button);
+     turf   on, live, locked (GPS good, a live round, a toggle that is on);
+     a selected option is the neutral raised fill, never an accent.
+
+   Raw colours, radii and font sizes belong here. tokens.test.mjs counts them in
+   every other style source and fails when a count rises. */
+
+:root {
+  /* -- palette (the same in both materials) -------------------------------- */
+  --bv-flag: #ffd23f;
+  --bv-on-flag: #10201a;
+  --bv-turf: #5fd07a;
+  --bv-turf-hi: #8ef0a4;
+  --bv-on-turf: #04140a;
+  --bv-warn: #f0a23a;
+  --bv-danger: #ef7c67;
+  --bv-water: #4bb4d8;
+  --bv-sand: #e2cf9a;
+
+  /* -- Natt material ------------------------------------------------------- */
+  --bv-canvas: #08120d;
+  --bv-surface-glass: rgba(9, 18, 14, 0.78);   /* Detaljerad 3D, Simulator, start menu */
+  --bv-surface-solid: rgba(12, 24, 18, 0.92);  /* Lätt 3D: reads in daylight */
+  --bv-surface-opaque: #0c1812;
+  --bv-surface-2: rgba(255, 255, 255, 0.1);    /* a control at rest, a segmented track */
+  --bv-surface-3: rgba(255, 255, 255, 0.14);   /* pressed, a segmented thumb */
+  --bv-hairline: rgba(160, 230, 185, 0.14);
+  --bv-hairline-strong: rgba(150, 220, 175, 0.18);
+  --bv-ink-1: #ffffff;
+  --bv-ink-2: #b7c8bc;
+  --bv-ink-3: #849c8f;                        /* 5.3:1 on the Simulator's glass (18 November) */
+  --bv-link: #9fd8ff;
+  --bv-under: #7fe39a;
+  --bv-over: #ffb48a;
+  --bv-signal: var(--bv-flag);                 /* your number */
+  --bv-action: var(--bv-flag);                 /* your action's fill */
+  --bv-on-action: var(--bv-on-flag);
+  --bv-focus: #dafbe3;
+
+  /* -- type ---------------------------------------------------------------- */
+  --bv-font: Outfit, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bv-type-hero: 44px;
+  --bv-type-title1: 32px;
+  --bv-type-title2: 24px;
+  --bv-type-title3: 20px;
+  --bv-type-headline: 17px;
+  --bv-type-body: 15px;
+  --bv-type-footnote: 13px;
+  --bv-type-caption: 11px;                     /* the floor: nothing is set smaller */
+
+  /* -- space, shape, elevation, motion, touch -------------------------------- */
+  --bv-space-1: 4px;
+  --bv-space-2: 8px;
+  --bv-space-3: 12px;
+  --bv-space-4: 16px;
+  --bv-space-5: 20px;
+  --bv-space-6: 24px;
+  --bv-space-7: 32px;
+  --bv-space-8: 48px;
+  --bv-radius-chip: 6px;
+  --bv-radius-control: 10px;
+  --bv-radius-control-touch: 14px;
+  --bv-radius-sheet: 20px;
+  --bv-radius-hero: 28px;
+  --bv-radius-pill: 999px;
+  --bv-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.24), 0 4px 12px rgba(0, 0, 0, 0.18);
+  --bv-shadow-2: 0 12px 32px rgba(0, 0, 0, 0.28);
+  --bv-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --bv-dur-press: 120ms;
+  --bv-dur-state: 200ms;
+  --bv-dur-sheet: 320ms;
+  --bv-hit: 44px;
+  --bv-hit-comfort: 48px;
+}
+
+/* Dag: the light material. The values are the map's Solläge, which the owner
+   has used on the course; the action inverts to black with flag-yellow ink. */
+.bv-dag {
+  --bv-canvas: #ffffff;
+  --bv-surface-glass: #ffffff;
+  --bv-surface-solid: #ffffff;
+  --bv-surface-opaque: #ffffff;
+  --bv-surface-2: rgba(0, 0, 0, 0.08);
+  --bv-surface-3: rgba(0, 0, 0, 0.13);
+  --bv-hairline: rgba(0, 0, 0, 0.18);
+  --bv-hairline-strong: rgba(0, 0, 0, 0.2);
+  --bv-ink-1: #000000;
+  --bv-ink-2: #27332c;
+  --bv-ink-3: #4a574f;
+  --bv-link: #084a85;
+  --bv-under: #0b6b34;
+  --bv-over: #a33a00;
+  --bv-signal: #000000;
+  --bv-action: #000000;
+  --bv-on-action: var(--bv-flag);
+  --bv-focus: #000000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --bv-dur-press: 0ms;
+    --bv-dur-state: 0ms;
+    --bv-dur-sheet: 0ms;
+  }
+}
+
+/* Numbers that update under the eye, or align in columns, keep their width:
+   Outfit has tabular figures, so no second typeface is needed for them. */
+.bv-num {
+  font-variant-numeric: tabular-nums;
+}

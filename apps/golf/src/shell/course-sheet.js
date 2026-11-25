@@ -158,7 +158,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch, onDismiss = n
               <div class="cs-hcp">
                 <div class="stepper" role="group" aria-label="Spelhandicap">
                   <button type="button" data-hcp-step="-1" aria-label="Sänk spelhandicap">−</button>
-                  <input type="number" id="csHandicap" inputmode="numeric" min="${MIN_HANDICAP}" max="${MAX_HANDICAP}" step="1" data-hcp aria-label="Spelhandicap" placeholder="–" value="${plan.handicap ?? ''}">
+                  <input type="number" id="csHandicap" inputmode="numeric" min="${MIN_HANDICAP}" max="${MAX_HANDICAP}" step="1" data-hcp aria-label="Spelhandicap" placeholder="Ingen" value="${plan.handicap ?? ''}">
                   <button type="button" data-hcp-step="1" aria-label="Höj spelhandicap">+</button>
                 </div>
                 <p class="cs-note">Ger slag per hål och poäng på scorekortet. Utan handicap räknas slagen.</p>

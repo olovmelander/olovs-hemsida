@@ -5,27 +5,30 @@
 body.course-map > :not(#courseMap):not(#boot):not(script) { display: none !important; }
 html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; overscroll-behavior: none; }
 
+/* The roles come from styles/tokens.css. Solläge puts the Dag material (`bv-dag`) on
+   #courseMap beside `is-sun`, so every role below turns light with it; the map's own
+   in-between inks and lines keep their Solläge values in the block further down. */
 #courseMap {
-  --panel: rgba(12, 24, 18, .92);
-  --panel-soft: rgba(12, 24, 18, .9);
-  --panel-solid: #0c1812;
-  --ink: #fff;
+  --panel: var(--bv-surface-solid);
+  --panel-soft: var(--bv-surface-solid);
+  --panel-solid: var(--bv-surface-opaque);
+  --ink: var(--bv-ink-1);
   --ink-body: #e6eee9;
   --ink-soft: #c9d8cf;
   --ink-faint: #8ea097;
-  --accent: #ffd23f;
-  --fill-on: #ffd23f;
-  --ink-on: #10201a;
-  --link: #9fd8ff;
-  --fill: rgba(255, 255, 255, .1);
-  --fill-strong: rgba(255, 255, 255, .14);
+  --accent: var(--bv-signal);
+  --fill-on: var(--bv-action);
+  --ink-on: var(--bv-on-action);
+  --link: var(--bv-link);
+  --fill: var(--bv-surface-2);
+  --fill-strong: var(--bv-surface-3);
   --track: rgba(255, 255, 255, .24);
   --line: rgba(255, 255, 255, .09);
   --panel-border: rgba(255, 255, 255, .12);
   --panel-shadow: 0 4px 16px rgba(0, 0, 0, .28);
   --held: rgba(255, 210, 63, .36);
-  --under: #7fe39a;
-  --over: #ffb48a;
+  --under: var(--bv-under);
+  --over: var(--bv-over);
   --rough: #ffc46b;
   --rough-fill: #8a5a00;
   --side-width: 86px;
@@ -243,13 +246,13 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-green.is-on .map-green-mid b { font-size: 16px; line-height: 1.15; }
 .map-green-row { display: block; padding: 2px 0; line-height: 1; }
 .map-green-val { display: inline-flex; align-items: baseline; justify-content: center; gap: 1px; margin-top: 1px; }
-.map-green i { display: block; font-size: 10.5px; font-weight: 700; font-style: normal; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+.map-green i { display: block; font-size: 11.5px; font-weight: 700; font-style: normal; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
 .map-green b { display: inline; font-size: 21px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
 .map-green .map-unit { font-size: 11px; font-weight: 600; color: var(--ink-soft); text-decoration: none; }
 .map-green-mid { padding: 3px 0; }
 .map-green-mid b { font-size: 38px; font-weight: 800; color: var(--accent); letter-spacing: -.02em; }
 .map-green-mid .map-unit { font-size: 13px; font-weight: 700; color: var(--accent); opacity: .88; }
-.map-green small { display: block; margin-top: 3px; font-size: 10.5px; color: var(--ink-soft); }
+.map-green small { display: block; margin-top: 3px; font-size: 11.5px; color: var(--ink-soft); }
 .map-green small.is-rough { color: var(--rough); font-weight: 700; }
 .map-green-plays {
   display: block;
@@ -258,7 +261,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   border-radius: 999px;
   background: var(--fill);
   color: var(--ink);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
@@ -275,7 +278,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   border-radius: 999px;
   background: var(--fill);
   color: var(--ink-soft);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: .02em;
 }
@@ -920,6 +923,20 @@ a.map-row-next { text-decoration: none; }
   scrollbar-width: thin;
   padding-bottom: 2px;
 }
+/* The edge a nine can still scroll toward fades (markCardOverflow in map-panels.mjs);
+   on the left the fade starts after the sticky label column, which stays whole. */
+.map-card-part[data-more-right] {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+}
+.map-card-part[data-more-left] {
+  -webkit-mask-image: linear-gradient(to right, #000 36px, transparent 36px, #000 64px);
+  mask-image: linear-gradient(to right, #000 36px, transparent 36px, #000 64px);
+}
+.map-card-part[data-more-left][data-more-right] {
+  -webkit-mask-image: linear-gradient(to right, #000 36px, transparent 36px, #000 64px, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, #000 36px, transparent 36px, #000 64px, #000 calc(100% - 28px), transparent);
+}
 .map-card-row {
   display: grid;
   grid-template-columns: 36px repeat(var(--cols, 9), minmax(44px, 1fr)) 36px;
@@ -1033,26 +1050,14 @@ a.map-row-next { text-decoration: none; }
 
 /* ---- Solläge: the sun's look ---- */
 #courseMap.is-sun {
-  --panel: #fff;
-  --panel-soft: #fff;
-  --panel-solid: #fff;
-  --ink: #000;
-  --ink-body: #000;
-  --ink-soft: #27332c;
-  --ink-faint: #4a574f;
-  --accent: #000;
-  --fill-on: #000;
-  --ink-on: #ffd23f;
-  --link: #084a85;
-  --fill: rgba(0, 0, 0, .08);
-  --fill-strong: rgba(0, 0, 0, .13);
+  --ink-body: var(--bv-ink-1);
+  --ink-soft: var(--bv-ink-2);
+  --ink-faint: var(--bv-ink-3);
   --track: rgba(0, 0, 0, .28);
   --line: rgba(0, 0, 0, .18);
   --panel-border: rgba(0, 0, 0, .2);
   --panel-shadow: 0 3px 12px rgba(0, 0, 0, .2);
   --held: rgba(0, 0, 0, .2);
-  --under: #0b6b34;
-  --over: #a33a00;
   --rough: #8a4b00;
   --side-width: 92px;
 }
@@ -1114,7 +1119,7 @@ a.map-row-next { text-decoration: none; }
 .is-compact .map-green { padding: 4px 3px; }
 .is-compact .map-green-row { padding: 1px 0; }
 .is-compact .map-green small { margin-top: 1px; }
-.is-compact .map-green-plays { margin: 2px 2px 0; padding: 1px 4px; font-size: 10px; }
+.is-compact .map-green-plays { margin: 2px 2px 0; padding: 1px 3px; font-size: 11px; }
 .is-compact .map-green-cue { display: none; }
 .is-compact .map-green b { font-size: 20px; }
 .is-compact .map-green-mid b { font-size: 34px; }

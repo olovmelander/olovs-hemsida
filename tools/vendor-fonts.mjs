@@ -1,4 +1,4 @@
-/* Self-host the two faces. Google's css2 endpoint serves woff2 @font-face rules
+/* Self-host the face. Google's css2 endpoint serves woff2 @font-face rules
    to a modern UA; this downloads that css, pulls every woff2 it references into
    apps/golf/public/fonts/, and rewrites the urls to local paths. Run once (and
    again only to change weights). The app then makes no third-party requests.
@@ -13,7 +13,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'apps/golf/public/fonts');
-const CSS_URL = 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap';
+/* Outfit alone since 25 November: its tabular figures replaced JetBrains Mono for numbers. */
+const CSS_URL = 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap';
 const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 
 fs.mkdirSync(OUT, { recursive: true });
