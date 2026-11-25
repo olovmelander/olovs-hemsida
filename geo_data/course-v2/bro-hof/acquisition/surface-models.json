@@ -1,0 +1,265 @@
+{
+ "schemaVersion": 1,
+ "kind": "surface-model-pins",
+ "groundId": "bro-hof",
+ "discovery": "https://api.lantmateriet.se/stac-hojd/v1/",
+ "collection": "dsm-cog",
+ "product": "Ythöjdmodell (surface model matched from aerial photos), Lantmäteriet",
+ "terms": "https://www.lantmateriet.se/sv/geodata/vara-produkter/Villkor-och-avgifter/",
+ "allowedBy": "the owner, 25 November 2026",
+ "searchBboxWgs84": [
+  17.61,
+  59.485,
+  17.658,
+  59.512
+ ],
+ "observedOn": "2026-11-25",
+ "years": [
+  2025,
+  2023,
+  2021,
+  2019
+ ],
+ "items": [
+  {
+   "id": "2025_o2-659_64_5075",
+   "year": 2025,
+   "datetime": "2025-06-14T00:00:00Z",
+   "campaign": "2025_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2025_o2/y2025_o2-659_64_5075_dsm.tif",
+   "bytes": 387405830,
+   "sha256": "e1130ea55c5e7231d8cdd3041b748a8e2570ec880f9d82bdc095fc86cac36244"
+  },
+  {
+   "id": "2025_o2-659_64_7575",
+   "year": 2025,
+   "datetime": "2025-06-14T00:00:00Z",
+   "campaign": "2025_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2025_o2/y2025_o2-659_64_7575_dsm.tif",
+   "bytes": 334920883,
+   "sha256": "81662b0649afb436278d25eff35e0df6d2310a6c1fd645260d60b0cc6cb33a99"
+  },
+  {
+   "id": "2025_o2-659_65_5000",
+   "year": 2025,
+   "datetime": "2025-06-14T00:00:00Z",
+   "campaign": "2025_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2025_o2/y2025_o2-659_65_5000_dsm.tif",
+   "bytes": 369327478,
+   "sha256": "98f5089af48ba359131fdfa428d90d04848a45d8a19e47b695f903bc98466007"
+  },
+  {
+   "id": "2025_o2-659_65_7500",
+   "year": 2025,
+   "datetime": "2025-06-14T00:00:00Z",
+   "campaign": "2025_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2025_o2/y2025_o2-659_65_7500_dsm.tif",
+   "bytes": 320050553,
+   "sha256": "3cb421edf226e3c78886a0e2881a89b9182b4e8c67f05ecac494b31e312cffcb"
+  },
+  {
+   "id": "2025_o2-660_64_0075",
+   "year": 2025,
+   "datetime": "2025-06-14T00:00:00Z",
+   "campaign": "2025_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2025_o2/y2025_o2-660_64_0075_dsm.tif",
+   "bytes": 307857962,
+   "sha256": "87ebe143b775945409022eeadf0b3bd46537d5ce7a661a12cc3a5f19f89d470d"
+  },
+  {
+   "id": "2025_o2-660_65_0000",
+   "year": 2025,
+   "datetime": "2025-06-14T00:00:00Z",
+   "campaign": "2025_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2025_o2/y2025_o2-660_65_0000_dsm.tif",
+   "bytes": 320734904,
+   "sha256": "a9f557ab2192c68b098a6be0bc944dee2218ce786dfcc443efd16bd6294e1dbe"
+  },
+  {
+   "id": "2023_o2-659_64_5075",
+   "year": 2023,
+   "datetime": "2023-05-11T00:00:00Z",
+   "campaign": "2023_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2023_o2/y2023_o2-659_64_5075_dsm.tif",
+   "bytes": 342609982,
+   "sha256": "8c97063bafe158550e99aede80b55cbf3008e6ceecdab1807a341bfd924a15f4"
+  },
+  {
+   "id": "2023_o2-659_64_7575",
+   "year": 2023,
+   "datetime": "2023-05-11T00:00:00Z",
+   "campaign": "2023_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2023_o2/y2023_o2-659_64_7575_dsm.tif",
+   "bytes": 321816211,
+   "sha256": "04c31156b8e7472b210a73689eee58b0145d500a84081a0869219e3d5888ae53"
+  },
+  {
+   "id": "2023_o2-659_65_5000",
+   "year": 2023,
+   "datetime": "2023-05-11T00:00:00Z",
+   "campaign": "2023_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2023_o2/y2023_o2-659_65_5000_dsm.tif",
+   "bytes": 324830989,
+   "sha256": "3f49aa68a7d0067f82f991399c75f4122bd0d643e2c888d4057a7d308ee78c80"
+  },
+  {
+   "id": "2023_o2-659_65_7500",
+   "year": 2023,
+   "datetime": "2023-05-11T00:00:00Z",
+   "campaign": "2023_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2023_o2/y2023_o2-659_65_7500_dsm.tif",
+   "bytes": 317196184,
+   "sha256": "f7f51e0fe7ad1848e7ad4a26c8e7801902632e824c018bbd1264fd3b89cc71b6"
+  },
+  {
+   "id": "2023_o2-660_64_0075",
+   "year": 2023,
+   "datetime": "2023-05-11T00:00:00Z",
+   "campaign": "2023_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2023_o2/y2023_o2-660_64_0075_dsm.tif",
+   "bytes": 303961551,
+   "sha256": "35b508cb5c0adcab07118619ab21fd27e497776e2b719b03f8b53b25eb56ee44"
+  },
+  {
+   "id": "2023_o2-660_65_0000",
+   "year": 2023,
+   "datetime": "2023-05-11T00:00:00Z",
+   "campaign": "2023_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2023_o2/y2023_o2-660_65_0000_dsm.tif",
+   "bytes": 319292068,
+   "sha256": "8c5bedc1d62470a688c584fdb8883dbd75ff8ee50a8fb30c0ca68f557e13f8f7"
+  },
+  {
+   "id": "2021_o2-659_64_5075",
+   "year": 2021,
+   "datetime": "2021-04-16T00:00:00Z",
+   "campaign": "2021_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2021_o2/y2021_o2-659_64_5075_dsm.tif",
+   "bytes": 260802802,
+   "sha256": "ad130c801f33f34fb8db5ace0deedde30f45daa114046086bc3c040f20a5346e"
+  },
+  {
+   "id": "2021_o2-659_64_7575",
+   "year": 2021,
+   "datetime": "2021-04-16T00:00:00Z",
+   "campaign": "2021_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2021_o2/y2021_o2-659_64_7575_dsm.tif",
+   "bytes": 324941715,
+   "sha256": "366c0834c8ba9f68de3b145d42f2b0fab348c02e9adb3659f32316ec740cbcf2"
+  },
+  {
+   "id": "2021_o2-659_65_5000",
+   "year": 2021,
+   "datetime": "2021-04-16T00:00:00Z",
+   "campaign": "2021_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2021_o2/y2021_o2-659_65_5000_dsm.tif",
+   "bytes": 317666937,
+   "sha256": "f3fdb509a54f9716b2615eae44254c73eca5839670b680b9666cf3d2eea82e10"
+  },
+  {
+   "id": "2021_o2-659_65_7500",
+   "year": 2021,
+   "datetime": "2021-04-16T00:00:00Z",
+   "campaign": "2021_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2021_o2/y2021_o2-659_65_7500_dsm.tif",
+   "bytes": 316744851,
+   "sha256": "f5d287abdc490b455601cd3390177a32763ad8375ba6b5d42eb2459d4599e7ad"
+  },
+  {
+   "id": "2021_o2-660_64_0075",
+   "year": 2021,
+   "datetime": "2021-04-16T00:00:00Z",
+   "campaign": "2021_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2021_o2/y2021_o2-660_64_0075_dsm.tif",
+   "bytes": 305118597,
+   "sha256": "d9c8d8d5c28de5a050c76ec4e141e2466f7f0c37fc2b0ff2aad9b7c47e327702"
+  },
+  {
+   "id": "2021_o2-660_65_0000",
+   "year": 2021,
+   "datetime": "2021-04-16T00:00:00Z",
+   "campaign": "2021_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2021_o2/y2021_o2-660_65_0000_dsm.tif",
+   "bytes": 314897930,
+   "sha256": "94ffe6bf6b23b7007bfa985ea6e12c7a43648deef3432c0e9aee14109b6578e1"
+  },
+  {
+   "id": "2019_o2-659_64_5075",
+   "year": 2019,
+   "datetime": "2019-07-19T00:00:00Z",
+   "campaign": "2019_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2019_o2/y2019_o2-659_64_5075_dsm.tif",
+   "bytes": 387734735,
+   "sha256": "64145244d756c562f05c8eed097aa53c70bc7460371b71d1fa789df0fd22d8b1"
+  },
+  {
+   "id": "2019_o2-659_64_7575",
+   "year": 2019,
+   "datetime": "2019-07-19T00:00:00Z",
+   "campaign": "2019_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2019_o2/y2019_o2-659_64_7575_dsm.tif",
+   "bytes": 332028229,
+   "sha256": "c4db9a6382ff811a85ad30efd9bda8a739a3f9bcbbc55c118cbddcadbb0a8a8d"
+  },
+  {
+   "id": "2019_o2-659_65_5000",
+   "year": 2019,
+   "datetime": "2019-07-19T00:00:00Z",
+   "campaign": "2019_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2019_o2/y2019_o2-659_65_5000_dsm.tif",
+   "bytes": 364814464,
+   "sha256": "f291fd3582059e452d0eebdd14818f8077d14b567dba66bea24a301966c62f59"
+  },
+  {
+   "id": "2019_o2-659_65_7500",
+   "year": 2019,
+   "datetime": "2019-07-19T00:00:00Z",
+   "campaign": "2019_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2019_o2/y2019_o2-659_65_7500_dsm.tif",
+   "bytes": 316227626,
+   "sha256": "58d33c63d03209452128f049d712df804d462206fe93358685312f0ddba63377"
+  },
+  {
+   "id": "2019_o2-660_64_0075",
+   "year": 2019,
+   "datetime": "2019-07-19T00:00:00Z",
+   "campaign": "2019_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2019_o2/y2019_o2-660_64_0075_dsm.tif",
+   "bytes": 304081916,
+   "sha256": "6af1fd1b540bbe4fce8ee95d23d05c1b76ab8727b2655f0e63707a226355d86d"
+  },
+  {
+   "id": "2019_o2-660_65_0000",
+   "year": 2019,
+   "datetime": "2019-07-19T00:00:00Z",
+   "campaign": "2019_O2",
+   "resolutionMetres": 0.25,
+   "href": "https://dl1.lantmateriet.se/hojd/data/grid/yhm/2019_o2/y2019_o2-660_65_0000_dsm.tif",
+   "bytes": 314147557,
+   "sha256": "8c56699a34c5065154fc2db91579f00462275341e5c6aa3f5c1814c1a956dda7"
+  }
+ ]
+}

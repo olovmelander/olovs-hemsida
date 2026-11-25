@@ -17,8 +17,11 @@ in the repository: `tools/course-rebuild.mjs --ground <id>` runs them in their o
 (`--dry-run` lists them), a ground's hand-chosen facts live in its card
 (`course-workflows/<id>/ground.json`, held to every table by `ground-card.mjs --check`), a
 second reviewer looks at the rings blind (`.claude/agents/ring-reviewer.md`; its doubts bind),
-`deck-ground.mjs` measures the terrain under every tee deck, `audit-sand.py` reads the photo
-round every hole against the model's sand, and the owner's look is a local page
+`deck-ground.mjs` measures the terrain under every tee deck and bunker, `audit-sand.py` reads
+the photo round every hole against the model's sand (and, with an older photo, says which
+bunkers were built since: together the ground's age, hole by hole), `tools/rounds-evidence.mjs`
+reads where golfers really tee off and putt from an extract only the owner may make, and the
+owner's look is a local page
 (`tools/course-review-page.mjs`). Begin a sitting with `node tools/course-doctor.mjs --ground
 <id>` (every record of the ground, sorted into broken, to do, the owner's and known), or hand
 the work to `.claude/agents/course-builder.md`. Never import a gallery or poster tool to read
@@ -205,7 +208,10 @@ land cover's WATER class is a colour verdict: never paint from it. See
 - Place a ground's trees with the tree pipeline (`tools/tree-pipeline.mjs`,
   configured in `course-workflows/<ground>/trees.json`) and its agent
   (`.claude/agents/tree-placement.md`); see
-  [the tree placement workflow](docs/tree-placement-workflow.md).
+  [the tree placement workflow](docs/tree-placement-workflow.md). Species is measured
+  there too (its "Species" section): Naturvårdsverket's NMD2023 species map, kept in git
+  for every ground, and Lantmäteriet's photo-matched surface model, both allowed by the
+  owner on 25 November 2026; Skogsstyrelsen data is still never used.
 
 ## Rendering and performance verification
 

@@ -5,7 +5,7 @@ import path from 'node:path';
 import { ROOT, chmGrid, configTemplate, createContext, haloWindow, loadGroundConfig, readGroundConfig, validateGroundConfig } from './config.mjs';
 import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, publicationVerdict, staleExceptions } from './gate.mjs';
 import { STAGES, STAGE_NAMES, firstIncompleteStage, missingPrerequisites, nextStage, stageIndex } from './stages.mjs';
-import { forbiddenSource, laserPolicyProblems, orthoPolicyProblems, safeOrthoUrl } from './source-policy.mjs';
+import { forbiddenSource, laserPolicyProblems, orthoPolicyProblems, safeOrthoUrl, safeSurfaceUrl, surfacePolicyProblems } from './source-policy.mjs';
 import { photoEvidenceKey, photoLabel, shadowEvidenceKey } from './crown-evidence.mjs';
 import { poleLike } from './candidates.mjs';
 import { leafOffClass, strataWarnings, stratumOf } from './detect.mjs';
@@ -236,12 +236,21 @@ test('sources: Lantmäteriet COPC and orthophotos only', () => {
   assert.ok(laserPolicyProblems(raster, [item.id]).some(p => /not a COPC point cloud|forbidden/.test(p)));
   const elsewhere = { ...campaigns, items: [{ ...item, assets: { data: { ...item.assets.data, href: 'https://example.org/a.copc.laz' } } }] };
   assert.ok(laserPolicyProblems(elsewhere, [item.id]).some(p => /not served by dl1.lantmateriet.se/.test(p)));
-  assert.ok(forbiddenSource('Ythöjdmodell från flygbilder'));
+  assert.ok(!forbiddenSource('Ythöjdmodell från flygbilder'), 'allowed by the owner on 25 November 2026');
   assert.ok(forbiddenSource('skogsstyrelsen-laser'));
   assert.ok(!forbiddenSource('dsm-skoglig-copc'));
   assert.ok(!forbiddenSource('orto-o2-2025'));
   assert.throws(() => safeOrthoUrl('https://example.org/bild/data/orto/x.tif'), /not a Lantmäteriet orthophoto/);
   assert.equal(safeOrthoUrl('https://dl1.lantmateriet.se/bild/data/orto/o2/x.tif').hostname, 'dl1.lantmateriet.se');
+  // the surface model matched from aerial photos: Lantmäteriet's dsm-cog only, pinned, and never a point cloud's stand-in
+  const surface = 'https://dl1.lantmateriet.se/hojd/data/grid/yhm/2025_o2/y2025_o2-659_64_5075_dsm.tif';
+  assert.equal(safeSurfaceUrl(surface).pathname, '/hojd/data/grid/yhm/2025_o2/y2025_o2-659_64_5075_dsm.tif');
+  assert.throws(() => safeSurfaceUrl('https://example.org/hojd/data/grid/yhm/a_dsm.tif'), /not a Lantmäteriet surface-model asset/);
+  assert.throws(() => safeSurfaceUrl('https://dl1.lantmateriet.se/hojd/data/grid/yhm/2025_o2/a_class.tif'), /not a Lantmäteriet surface-model asset/);
+  const pins = { discovery: 'https://api.lantmateriet.se/stac-hojd/v1/', collection: 'dsm-cog', items: [{ id: 'a', href: surface, sha256: 'a'.repeat(64), bytes: 1 }] };
+  assert.deepEqual(surfacePolicyProblems(pins), []);
+  assert.ok(surfacePolicyProblems({ ...pins, collection: 'tradhojd' }).some(p => /not dsm-cog/.test(p)));
+  assert.ok(surfacePolicyProblems({ ...pins, items: [{ ...pins.items[0], sha256: null }] }).some(p => /no pinned size/.test(p)));
 });
 
 /* ---------------- stage rules ---------------- */
