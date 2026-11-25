@@ -13,7 +13,7 @@
           node tools/check-hud-layout.mjs [http://127.0.0.1:8631] */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, GPU } from './browser-args.mjs';
 
 const BASE = process.argv[2]?.startsWith('http') ? process.argv[2] : 'http://127.0.0.1:8631';
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
@@ -40,7 +40,7 @@ const gate = (ok, message) => {
   if (!ok) process.exitCode = 1;
 };
 
-await page.goto(`${BASE}/?bana=veckefjarden&karta=0&hal=12&vy=tee&det=1`, { waitUntil: 'load', timeout: 180_000 });
+await page.goto(`${BASE}/?bana=veckefjarden&karta=0&hal=12&vy=tee&det=1${GPU ? '' : '&q=lo'}`, { waitUntil: 'load', timeout: 180_000 });
 await page.waitForSelector('#boot.done', { timeout: 600_000 });
 await page.waitForTimeout(1200);
 // The panels are live DOM over the finished course. Pause expensive draws while
