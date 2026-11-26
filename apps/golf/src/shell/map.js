@@ -165,8 +165,15 @@ export function createSwedenMap({ container, groups, current, lead = null, onPic
   const motion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const move = { duration: 0.6, animate: motion };
   const pixels = (latLng, zoom = map.getZoom()) => map.project(latLng, zoom);
+  /* Which pins stand on each other depends on the zoom alone, so the groups are drawn again only when it has
+     changed. A view set without animation (reduced motion) fires `zoomend` and then `viewreset`: drawn twice,
+     the second drawing took away the group the keyboard had just landed on, and the keyboard with it. It showed
+     with the twelfth club (26 November): Tjusta stays in Bro Hof's group a step longer than any club before it,
+     so the first Enter lands on a smaller group and not on a pin, which is never redrawn. */
+  let groupedAt = null;
   function regroup() {
-    if (!grouping) return;
+    if (!grouping || groupedAt === map.getZoom()) return;
+    groupedAt = map.getZoom();
     groupLayer.clearLayers();
     alone.clear();
     const points = labelOrder.map(id => ({ id, ...pixels(markers[id].getLatLng()) }));
