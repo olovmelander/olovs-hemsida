@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 import { validateFacilityManifest, linearLuminance } from './validate-facility-glb.mjs';
 import { publishFacility } from './publish-facility-glb.mjs';
@@ -140,5 +141,60 @@ test('publishFacility names the GLB by its hash, drops the one it replaces and r
     assert.throws(() => publishFacility({ from, publicRoot }), /another GLB/);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+/* campus_mesh.py runs inside Blender, which CI does not have: there this is skipped, and the published campus
+   it built is held by its own test (apps/golf/src/engine/scenery/tjusta.test.mjs). */
+const BLENDER = (() => {
+  const probe = spawnSync('blender', ['--version'], { encoding: 'utf8' });
+  return probe.status === 0 && /Blender \d/.test(probe.stdout);
+})();
+test('campus_mesh winds every face to look the way it was told, on a frame turned off the grid', { skip: !BLENDER && 'Blender is not installed' }, () => {
+  const script = `
+import json, math, sys
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'tools/facility-pipeline'))})
+from campus_mesh import Frame, Mesh, linear
+f = Frame((1000.0, 2000.0), 1010.0, 2020.0, 30.0)
+m = Mesh(f)
+m.box('wall', -4, 4, -3, 3, 10, 13, bottom=True)
+m.roof('roof', [(-3.4, 13), (0, 15), (3.4, 13)], -4.3, 4.3, 'u', 'edge')
+m.wall('wall', (5, 5), (9, 5), 10, 12, (0, -1))                    # told to look toward -v, given the other way round
+m.panel('door', (9, 5), (5, 5), 10, 12, (0, -1), 0.05)
+def normals(mat):
+    verts, faces = m.parts[mat]
+    out = []
+    for a, b, c in faces:
+        p, q, r = verts[a], verts[b], verts[c]
+        u = [q[k] - p[k] for k in range(3)]; v = [r[k] - p[k] for k in range(3)]
+        n = (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])
+        l = math.hypot(*n)
+        centre = [(p[k] + q[k] + r[k]) / 3 for k in range(3)]
+        out.append(([x / l for x in n], centre))
+    return out
+middle = f.scene((0, 0, 11.5))
+box = [(n[0] * (c[0] - middle[0]) + n[1] * (c[1] - middle[1]) + n[2] * (c[2] - middle[2])) for n, c in normals('wall')[:12]]
+minus_v = f.turn((0, -1, 0))
+lone = [n[0] * minus_v[0] + n[1] * minus_v[1] for n, _ in normals('wall')[12:]]
+door = [n[0] * minus_v[0] + n[1] * minus_v[1] for n, _ in normals('door')]
+lo, hi = m.bounds()
+print(json.dumps(dict(box=min(box), roof=min(n[2] for n, _ in normals('roof')), lone=min(lone), door=min(door), triangles=m.triangles(),
+                      origin=[round(v, 6) for v in f.scene((0, 0, 0))], east=[round(v, 6) for v in f.turn((1, 0, 0))], top=hi[2], red=linear(0xff0000))))
+`;
+  const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'campus-mesh-')), 'probe.py');
+  fs.writeFileSync(file, script);
+  try {
+    const run = spawnSync('blender', ['--background', '--factory-startup', '--python', file], { encoding: 'utf8' });
+    assert.equal(run.status, 0, run.stderr);
+    const out = JSON.parse(run.stdout.trim().split('\n').filter(line => line.startsWith('{')).at(-1));
+    assert.ok(out.box > 0, 'every face of a box looks away from its middle');
+    assert.ok(out.roof > 0.3, 'both slopes of a roof look up');
+    assert.ok(out.lone > 0.99 && out.door > 0.99, 'a wall and a door look the way they were told, whichever way their corners ran');
+    assert.deepEqual(out.origin, [10, 20, 0], 'the scene is the ground\'s own metres from its origin');
+    assert.ok(Math.abs(out.east[0] - 0.5) < 1e-6 && Math.abs(out.east[1] - Math.cos(Math.PI / 6)) < 1e-6, 'u runs at the bearing, clockwise from north');
+    assert.equal(out.top, 15);
+    assert.deepEqual(out.red, [1, 0, 0]);
+  } finally {
+    fs.rmSync(path.dirname(file), { recursive: true, force: true });
   }
 });

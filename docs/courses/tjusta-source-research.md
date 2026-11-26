@@ -170,6 +170,10 @@ to dormant turf, and may be 3 m out.
 - **The scenery module** (`apps/golf/src/engine/scenery/tjusta.js`): tan sand measured in the bunkers, the ponds'
   beds carved with the world, species by place, and the clubhouse as the club's photographs show it, a nearly
   windowless falu-red barn.
+- **The buildings (26 November):** the clubhouse barn, its terrace, the farm's two machine halls and the range's
+  shelter are an authored Blender model, built from dense laser returns round each (`microterrain-summary.json`:
+  five targets of campaign 21C038) and the club's photographs; `tjustabuild/facilities/README.md` lists what is
+  measured and what is estimated. The barn's ridge is 33.69 m RH 2000, 13 m over the lawn of the 18th.
 - **The first look:** 24 pictures of the detailed course and two of the phone map on the GPU, before any bake
   (`tools/goldens/gfx/tjusta-look*`, not in git). One fault: the clubhouse was drawn with forty windows.
 

@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "crs": "EPSG:5845",
+  "generatedAt": "2026-11-26T21:02:16.793Z",
+  "retainedPointCloudBytes": 0,
+  "note": "Raw COPC points and micro-grids stay in gitignored local cache; this ledger records aggregate RH 2000 & intensity measurements only.",
+  "targets": [
+    {
+      "id": "clubhouse-barn",
+      "kind": "facility-building",
+      "boundsEpsg3006": [
+        669080,
+        6611295,
+        669160,
+        6611395
+      ],
+      "sources": [
+        {
+          "id": "21c038-66100_6675_25",
+          "capturedAt": "2021-04-17T12:00:00Z",
+          "sha256": "02314a14ec526f724f957617b4efb61719d6617937c7bd1a3ba2dbb4dd6d1459",
+          "pointsInWindow": 9997
+        }
+      ],
+      "summary": {
+        "pointCount": 9997,
+        "pointDensityPerSquareMetre": 1.25,
+        "byClass": {
+          "1": 1928,
+          "2": 8067,
+          "7": 2
+        },
+        "allRH2000": {
+          "count": 9997,
+          "min": 17.69,
+          "p10": 19.13,
+          "median": 20.72,
+          "p90": 23.744,
+          "p98": 35.951,
+          "max": 41.68,
+          "mean": 21.771
+        },
+        "groundRH2000": {
+          "count": 8067,
+          "min": 17.69,
+          "p10": 19.08,
+          "median": 20.57,
+          "p90": 22.37,
+          "p98": 23.12,
+          "max": 23.6,
+          "mean": 20.6
+        },
+        "buildingRH2000": null,
+        "waterRH2000": null,
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": null,
+        "intensity1064nm": {
+          "ground": {
+            "count": 8067,
+            "min": 0,
+            "p10": 1588,
+            "median": 2090,
+            "p90": 12356,
+            "p98": 12582,
+            "max": 24432,
+            "mean": 6084.382
+          },
+          "building": null,
+          "water": null
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "clubhouse-barn.microgrid.json",
+        "pointsSha256": "14872a707ce4fd6f7dd3b6a9ffdb151540367ce8e0f871365d05365c364c42e2"
+      }
+    },
+    {
+      "id": "black-hall",
+      "kind": "facility-building",
+      "boundsEpsg3006": [
+        669060,
+        6611250,
+        669155,
+        6611320
+      ],
+      "sources": [
+        {
+          "id": "21c038-66100_6675_25",
+          "capturedAt": "2021-04-17T12:00:00Z",
+          "sha256": "02314a14ec526f724f957617b4efb61719d6617937c7bd1a3ba2dbb4dd6d1459",
+          "pointsInWindow": 7402
+        }
+      ],
+      "summary": {
+        "pointCount": 7402,
+        "pointDensityPerSquareMetre": 1.11,
+        "byClass": {
+          "1": 991,
+          "2": 6410,
+          "7": 1
+        },
+        "allRH2000": {
+          "count": 7402,
+          "min": 20.41,
+          "p10": 20.83,
+          "median": 21.89,
+          "p90": 23.27,
+          "p98": 25.17,
+          "max": 33.7,
+          "mean": 22.067
+        },
+        "groundRH2000": {
+          "count": 6410,
+          "min": 20.41,
+          "p10": 20.77,
+          "median": 21.84,
+          "p90": 22.86,
+          "p98": 24.558,
+          "max": 25.48,
+          "mean": 21.887
+        },
+        "buildingRH2000": null,
+        "waterRH2000": null,
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": null,
+        "intensity1064nm": {
+          "ground": {
+            "count": 6410,
+            "min": 199,
+            "p10": 1768,
+            "median": 2170,
+            "p90": 12281,
+            "p98": 12507,
+            "max": 29091,
+            "mean": 6680.95
+          },
+          "building": null,
+          "water": null
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "black-hall.microgrid.json",
+        "pointsSha256": "1f3ad5da6571cc481b5b00757576f9fd1de504f8888944c7aa7a5cd998399adc"
+      }
+    },
+    {
+      "id": "grey-hall",
+      "kind": "facility-building",
+      "boundsEpsg3006": [
+        669145,
+        6611295,
+        669220,
+        6611360
+      ],
+      "sources": [
+        {
+          "id": "21c038-66100_6675_25",
+          "capturedAt": "2021-04-17T12:00:00Z",
+          "sha256": "02314a14ec526f724f957617b4efb61719d6617937c7bd1a3ba2dbb4dd6d1459",
+          "pointsInWindow": 5367
+        }
+      ],
+      "summary": {
+        "pointCount": 5367,
+        "pointDensityPerSquareMetre": 1.1,
+        "byClass": {
+          "1": 650,
+          "2": 4716,
+          "7": 1
+        },
+        "allRH2000": {
+          "count": 5367,
+          "min": 17.82,
+          "p10": 19.95,
+          "median": 20.71,
+          "p90": 22.224,
+          "p98": 23.577,
+          "max": 36.51,
+          "mean": 20.966
+        },
+        "groundRH2000": {
+          "count": 4716,
+          "min": 17.82,
+          "p10": 19.88,
+          "median": 20.67,
+          "p90": 21.93,
+          "p98": 22.587,
+          "max": 23.41,
+          "mean": 20.766
+        },
+        "buildingRH2000": null,
+        "waterRH2000": null,
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": null,
+        "intensity1064nm": {
+          "ground": {
+            "count": 4716,
+            "min": 144,
+            "p10": 1330,
+            "median": 1937,
+            "p90": 12154,
+            "p98": 12432,
+            "max": 18776,
+            "mean": 4878.005
+          },
+          "building": null,
+          "water": null
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "grey-hall.microgrid.json",
+        "pointsSha256": "691827ba4337ccf0da64a817b2b8d2110e5322500b6abf68c16b2574b60bba4d"
+      }
+    },
+    {
+      "id": "stable-and-row-house",
+      "kind": "facility-building",
+      "boundsEpsg3006": [
+        668960,
+        6611280,
+        669040,
+        6611345
+      ],
+      "sources": [
+        {
+          "id": "21c038-66100_6675_25",
+          "capturedAt": "2021-04-17T12:00:00Z",
+          "sha256": "02314a14ec526f724f957617b4efb61719d6617937c7bd1a3ba2dbb4dd6d1459",
+          "pointsInWindow": 7771
+        }
+      ],
+      "summary": {
+        "pointCount": 7771,
+        "pointDensityPerSquareMetre": 1.49,
+        "byClass": {
+          "1": 1863,
+          "2": 5906,
+          "7": 2
+        },
+        "allRH2000": {
+          "count": 7771,
+          "min": 20.39,
+          "p10": 21,
+          "median": 22.92,
+          "p90": 27.78,
+          "p98": 31.23,
+          "max": 31.9,
+          "mean": 23.644
+        },
+        "groundRH2000": {
+          "count": 5906,
+          "min": 20.39,
+          "p10": 20.96,
+          "median": 21.93,
+          "p90": 24.745,
+          "p98": 25.149,
+          "max": 25.57,
+          "mean": 22.485
+        },
+        "buildingRH2000": null,
+        "waterRH2000": null,
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": null,
+        "intensity1064nm": {
+          "ground": {
+            "count": 5906,
+            "min": 153,
+            "p10": 1547,
+            "median": 12018,
+            "p90": 12493,
+            "p98": 12658,
+            "max": 28940,
+            "mean": 8759.104
+          },
+          "building": null,
+          "water": null
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "stable-and-row-house.microgrid.json",
+        "pointsSha256": "0de06809fb9bd756acb458d56c2b1bd57e6e8cf34e2879e67f144e7b2cf10128"
+      }
+    },
+    {
+      "id": "range-shelter",
+      "kind": "facility-building",
+      "boundsEpsg3006": [
+        669055,
+        6611512,
+        669110,
+        6611560
+      ],
+      "sources": [
+        {
+          "id": "21c038-66100_6675_25",
+          "capturedAt": "2021-04-17T12:00:00Z",
+          "sha256": "02314a14ec526f724f957617b4efb61719d6617937c7bd1a3ba2dbb4dd6d1459",
+          "pointsInWindow": 3587
+        }
+      ],
+      "summary": {
+        "pointCount": 3587,
+        "pointDensityPerSquareMetre": 1.36,
+        "byClass": {
+          "1": 99,
+          "2": 3488
+        },
+        "allRH2000": {
+          "count": 3587,
+          "min": 16.58,
+          "p10": 16.87,
+          "median": 17.11,
+          "p90": 17.95,
+          "p98": 19.87,
+          "max": 21.71,
+          "mean": 17.36
+        },
+        "groundRH2000": {
+          "count": 3488,
+          "min": 16.58,
+          "p10": 16.87,
+          "median": 17.11,
+          "p90": 17.91,
+          "p98": 19.513,
+          "max": 20.3,
+          "mean": 17.31
+        },
+        "buildingRH2000": null,
+        "waterRH2000": null,
+        "vegetationRH2000": null,
+        "buildingRelative": null,
+        "shorelineDrop": null,
+        "intensity1064nm": {
+          "ground": {
+            "count": 3488,
+            "min": 153,
+            "p10": 1544.3,
+            "median": 12425,
+            "p90": 12765,
+            "p98": 12959,
+            "max": 13186,
+            "mean": 10556.602
+          },
+          "building": null,
+          "water": null
+        }
+      },
+      "cacheArtifacts": {
+        "gridMeta": "range-shelter.microgrid.json",
+        "pointsSha256": "931bd09525b6f2c10858b1b433998cb16b9407b59d03a7a045f511c89d045b20"
+      }
+    }
+  ]
+}

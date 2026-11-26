@@ -244,7 +244,7 @@ With automatic trees, so that everything else can be looked at.
 | Terrain before anything is published, then canopy | `course-workflow/bootstrap-terrain.mjs`, `course-v2/vegetation/build-canopy.mjs --ground-document` |
 | Pin the inputs, run the six stages, promote | `pin-production.mjs --ground <ground>` (the checksums in `production.json`), `production.mjs --ground <ground> --configure`, `$PX node packages/course-workflow/cli.mjs run --ground <ground> --through validate`, `promote.mjs` |
 | Register the ground | paste the card's rows (`ground-card.mjs --ground <ground> --rows`), then `ground-card.mjs --ground <ground> --check` and `node tools/sync-course-registries.mjs --check`. A new club changes the start menu's list and the Sverigekarta's groups: on a served build run `tools/check-chooser-ui.mjs` and `tools/check-lobby-scale.mjs` |
-| Scenery: roofs, sand, buildings, species, water, campus | `geobuild/facilities/roof-colours.py`, `<build>/facilities/build_campus.py`, `tools/facility-pipeline/*` |
+| Scenery: roofs, sand, buildings, species, water, campus | `geobuild/facilities/roof-colours.py`, `<build>/facilities/build_campus.py` on `tools/facility-pipeline/campus_mesh.py` (frames, faces that know which way they look, roofs, the export), `tools/facility-pipeline/*` |
 | A building's own axes, eaves and roof levels from the laser, before modelling it | `node tools/facility-pipeline/measure-building.mjs --points <points.json> --context <context.geojson> --building <id>` |
 | The campus model as pictures, on the CPU | `blender --background --factory-startup --python tools/facility-pipeline/preview-facility-glb.py -- --manifest <facilities-v1.json> --out <dir>` |
 | The map's pictures | `node tools/bake-map-land.mjs` |
@@ -436,7 +436,10 @@ them, and the app's bundles may not import from the workflow. It is the one plac
 - **A new ground has no baseline;** placed trees need the first generation as theirs.
 - **Line endings are part of a checksum,** and published JSON is canonical (`v2-index.json` has no final newline).
 - **A campus model starts from the laser:** roof breaks and cornices tabulated along the building's own axes,
-  then a photograph for the order of the façade, and a list of what was estimated.
+  then a photograph for the order of the façade, and a list of what was estimated. A mapped footprint can lie a
+  degree off its roof: fit a line through the ridge's own returns and read every level again in that frame. A
+  dark roof returns little, and its shadow on a morning photo looks like a lean-to: the ground returns under it
+  say which (Tjusta's barn).
 - **Rewriting one catalogue row must keep its baked records** (`emit-manifest.mjs --only`).
 - **A heredoc with an apostrophe breaks in Git Bash.** Write scripts as files.
 - **A terrain model has many dates.** It is a mosaic, and its record's date is its newest patch. What tells the

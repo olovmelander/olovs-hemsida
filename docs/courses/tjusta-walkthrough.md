@@ -25,7 +25,7 @@ years, the laser and a guide's hole plates, and nobody who has played it has loo
 - **The ground's age:** where the course is newer than the terrain under it, by what was measured. Tjusta Gård 7 (2 bunkers built or reshaped since the 2021-04-18 photo, 2 bunkers without a bowl in the terrain); Tjusta Gård 11 (1 bunker built or reshaped since the 2021-04-18 photo, 1 bunker without a bowl in the terrain); Tjusta Gård 13 (2 bunkers built or reshaped since the 2021-04-18 photo, 2 bunkers without a bowl in the terrain); Tjusta Gård 16 (1 bunker built or reshaped since the 2021-04-18 photo, 1 bunker without a bowl in the terrain). Tee decks only: Tjusta Gård 4 (1), Tjusta Gård 10 (1), Tjusta Gård 18 (1). A deck that is not level is newer than the terrain or off its deck; both photo years say which.
 - **Sand:** the 2025-06-14 photo was read round every hole against the model's 14 bunkers and waste areas: 0 of them hold little sand or have sand outside their line, and 92 areas of bright sand are not in the model, 85 of those on nothing the map holds. Each has a verdict; 0 are kept as a fault.
 - **Trees:** automatic (169 object tiles, 179 stand tiles); not placed one by one.
-- **Buildings:** 216 mapped, 205 with a roof colour measured on the photo.
+- **Buildings:** 216 mapped, 205 with a roof colour measured on the photo; an authored campus of 5 parts (clubhouse, clubhouse-terrace, machine-hall, grey-hall, range-shelter), 1,276 triangles.
 - **Quality gate:** 0 errors, 0 warnings (`tools/check-course-quality.mjs`); each is on its hole below.
 - **Release:** on the owner's acceptance of 2026-11-26, with 5 items open:
   - `canonical-control-pending`: No independent horizontal or RH 2000 ground control has been measured at Tjusta. The frame is the 1 m national terrain and the orthophotos of four years, which agree with each other.
@@ -69,9 +69,12 @@ years, the laser and a guide's hole plates, and nobody who has played it has loo
 - **The far lakes are not in the land cover.** Its water rule needs 2,000 labelled cells and Tjusta's ponds give
   523, so Fysingen and Halmsjön are classed as trees. The lakes themselves are drawn from the laser's level
   ground; what is wrong is the far ground's colour round their shores.
-- **The buildings are sketches.** The clubhouse is a windowless falu-red barn under a hipped roof; the real one
-  has a gambrel roof with a tall middle gable, a low wing and a terrace, and its heights here are estimates. The
-  farm's halls by the 9th green come from their footprints alone.
+- **Five buildings are modelled, from the laser's levels; much of their walls is estimated.** The clubhouse
+  barn, its terrace, the two machine halls and the range's shelter are a Blender model
+  ([what is measured and what is not](../../tjustabuild/facilities/README.md)). Their roofs, ridges and eaves are
+  the laser's. The barn's north front, its west wing and the terrace follow the club's photographs. No photograph
+  shows the halls' walls or the barn's yard side from the ground: their colours and doors are estimates. The grey
+  hall's main eaves rest on four returns. The other farm buildings are still the house kit's.
 - **The ditches were not checked one by one.** Water is drawn wherever the laser shows a cut channel (22 of 26),
   as wide as the channel and as blue as a pond; whether each holds water in summer was not looked at.
 - **No independent control.** The frame is Lantmäteriet's own grid and heights; no surveyed point has been held
@@ -79,13 +82,13 @@ years, the laser and a guide's hole plates, and nobody who has played it has loo
 
 ## Worth looking at
 
-At its best: **18**, round the farm pond to the green under the barn; **10**, round the west pond to the green at
+At its best: **18**, round the farm pond to the green under the barn, the clubhouse with its terrace beside it; **10**, round the west pond to the green at
 the head of the strip; **12**, a short hole over the pond's edge; **4**, its green with two tan bunkers behind;
 **2**, north over Kimstavägen with the field beside it; **13**, up along the ditch.
 
 Most likely wrong: **18** (the red tee, the lengthened yellow tee), **4** (the red tee, the sloping yellow deck),
 **10** (the green's front, the red deck), **11** (the line's bend), **7** and **13** (flat bunkers), **16** (a tee
-ring under crowns), and the farm's buildings anywhere they are seen close.
+ring under crowns), and the modelled buildings where their walls are estimates: the halls by the 9th green and the barn's yard side.
 
 <!-- generated:holes -->
 ## Hole by hole
@@ -134,7 +137,8 @@ is a check that did not exist; the last column says whether it exists now.
 | A bare patch on the lip of the 7th hole's bunker drawn as sand | the blind look | 3 | `trimMetres` in the sand decisions |
 | A stage run lost to a lock left by a stopped run, and another to app files edited while it ran | the runner | 5 | the pipeline's rule ("do not edit a watched file while the six stages run"); nothing new |
 | No land cover: beyond the 1 m core the map's ground was 92% forest, Arlanda included | the map's test on each ground's forest picture | 5 | that test; `sidecars.landcover` in the production profile |
-| The clubhouse drawn as a block of flats, forty windows in two rows | the first GPU picture, held against the club's photograph | 6 | the scenery module's own words; no test |
+| The clubhouse drawn as a block of flats, forty windows in two rows | the first GPU picture, held against the club's photograph | 6 | the authored campus (26 November), and its test: the barn's ridge stands at the laser's 33.69 m |
+| The modelled wing's eaves stuck out across the barn's front; the shelter's dividing wall stood through its roof | the facility pipeline's CPU previews, before the model was published | 5 | the previews; nothing checks a part against its roof |
 | The Sverigekarta lost the keyboard when a group was opened under reduced motion (the groups were drawn twice, the second time over the group just focused) | the Cloudflare pipeline's browser journey `check-lobby-scale.mjs`, on main | 9, after the merge: the deploy stopped | the groups are drawn only when the zoom changes (`map.js`); that journey; the pipeline's rule to run the journeys before the pull request |
 
 
