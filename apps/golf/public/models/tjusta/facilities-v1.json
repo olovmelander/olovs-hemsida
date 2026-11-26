@@ -1,0 +1,315 @@
+{
+ "schemaVersion": 1,
+ "groundId": "tjusta",
+ "courseSlugs": [
+  "tjusta"
+ ],
+ "coordinateFrame": {
+  "kind": "epsg3006-local-rh2000",
+  "originEasting": 669130.5,
+  "originNorthing": 6611250.5,
+  "axes": "east-up-south",
+  "heightDatum": "RH2000"
+ },
+ "asset": {
+  "url": "models/tjusta/facilities-0357110766daec2da1ddac61cd1a5aa00d58cb6f04a860bc8a01f0da72cadea9.glb",
+  "sha256": "0357110766daec2da1ddac61cd1a5aa00d58cb6f04a860bc8a01f0da72cadea9",
+  "bytes": 88716
+ },
+ "replacesRangeFacilities": false,
+ "replacesCourtyard": false,
+ "facilities": [
+  {
+   "id": "clubhouse",
+   "nodeName": "Tjusta-Clubhouse",
+   "sourceBuildingIds": [
+    "w48232863"
+   ],
+   "footprintLocal": [
+    [
+     -20.63,
+     -61.18
+    ],
+    [
+     -28.84,
+     -63.74
+    ],
+    [
+     -27.33,
+     -68.61
+    ],
+    [
+     -27.9,
+     -68.78
+    ],
+    [
+     -14.64,
+     -111.37
+    ],
+    [
+     -21.9,
+     -113.63
+    ],
+    [
+     -18.51,
+     -124.51
+    ],
+    [
+     13.19,
+     -114.65
+    ],
+    [
+     9.8,
+     -103.76
+    ],
+    [
+     -0.13,
+     -106.85
+    ],
+    [
+     -13.39,
+     -64.27
+    ],
+    [
+     -19.11,
+     -66.05
+    ]
+   ],
+   "groundAnchorLocal": [
+    -12.38,
+    -93.07
+   ],
+   "groundAnchorRh2000M": 20.69,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -31.188,
+     18.832,
+     -125.445
+    ],
+    "max": [
+     13.704,
+     33.69,
+     -60.806
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 372,
+   "evidence": {
+    "levels": "Laserdata Skog 2021-04-17: ridge 33.69, gambrel break 30.9, eaves 26.55; wing ridge 30.08, eaves 25.55; annex ridge 25.35, eaves 23.5; west canopy 24.15",
+    "plan": "ridge and eave lines fitted through the laser returns; orthophotos of 2025, 2023, 2021 and 2019",
+    "front": "the club's photograph of the north front (private cache, reference only): door, vents, dock, the wing's windows and porch",
+    "estimated": "the east wall and its doors, the south gable and annex door, every wall no photograph shows"
+   }
+  },
+  {
+   "id": "clubhouse-terrace",
+   "nodeName": "Tjusta-Terrace",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -21.29,
+     -115.74
+    ],
+    [
+     -17.88,
+     -126.72
+    ],
+    [
+     -32.91,
+     -131.41
+    ],
+    [
+     -36.33,
+     -120.42
+    ]
+   ],
+   "groundAnchorLocal": [
+    -26.55,
+    -121.57
+   ],
+   "groundAnchorRh2000M": 20.22,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -36.272,
+     18.924,
+     -131.405
+    ],
+    "max": [
+     -18.592,
+     26.58,
+     -115.362
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 771,
+   "evidence": {
+    "levels": "Laserdata Skog 2021-04-17: deck floor 22.26, rail 23.32, building ridge 26.58, eaves 23.86",
+    "plan": "laser returns of the floor and rail; orthophoto 2025-06-14",
+    "order": "the club's photographs (reference only): deck on posts before a low black-roofed building, stair at its west end",
+    "estimated": "post spacing, the stair, the wall under the deck"
+   }
+  },
+  {
+   "id": "machine-hall",
+   "nodeName": "Tjusta-MachineHall",
+   "sourceBuildingIds": [
+    "w48232860"
+   ],
+   "footprintLocal": [
+    [
+     -56.77,
+     -33.92
+    ],
+    [
+     3.12,
+     -15.71
+    ],
+    [
+     9.64,
+     -37.14
+    ],
+    [
+     -50.26,
+     -55.35
+    ]
+   ],
+   "groundAnchorLocal": [
+    -21.27,
+    -34.83
+   ],
+   "groundAnchorRh2000M": 21.66,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -57.183,
+     21.011,
+     -55.847
+    ],
+    "max": [
+     10.05,
+     31.54,
+     -15.209
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 38,
+   "evidence": {
+    "levels": "Laserdata Skog 2021-04-17: ridge 31.54, eaves 26.09",
+    "plan": "ridge and both eaves fitted through the laser returns",
+    "walls": "dark on the orthophotos where the west gable leans into view",
+    "estimated": "the doors"
+   }
+  },
+  {
+   "id": "grey-hall",
+   "nodeName": "Tjusta-GreyHall",
+   "sourceBuildingIds": [
+    "w189730445"
+   ],
+   "footprintLocal": [
+    [
+     27.85,
+     -75.37
+    ],
+    [
+     56.81,
+     -66.81
+    ],
+    [
+     54.75,
+     -59.81
+    ],
+    [
+     70.19,
+     -55.25
+    ],
+    [
+     77.8,
+     -81.05
+    ],
+    [
+     33.29,
+     -93.78
+    ]
+   ],
+   "groundAnchorLocal": [
+    50.9,
+    -78.57
+   ],
+   "groundAnchorRh2000M": 20.67,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     27.448,
+     19.737,
+     -94.249
+    ],
+    "max": [
+     78.273,
+     30.2,
+     -54.853
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 53,
+   "evidence": {
+    "levels": "Laserdata Skog 2021-04-17: ridge 30.2 (three returns), east eave 22.9; the main eaves 26.0 from four returns",
+    "plan": "orthophotos of 2025 and 2019: a gabled hall and a cross hall whose roofs meet in two valleys",
+    "estimated": "the eaves of the main hall, every wall, the doors"
+   }
+  },
+  {
+   "id": "range-shelter",
+   "nodeName": "Tjusta-RangeShelter",
+   "sourceBuildingIds": [
+    "w293867832"
+   ],
+   "footprintLocal": [
+    [
+     -51.12,
+     -273.79
+    ],
+    [
+     -46.96,
+     -283.54
+    ],
+    [
+     -52.48,
+     -285.89
+    ],
+    [
+     -56.64,
+     -276.14
+    ]
+   ],
+   "groundAnchorLocal": [
+    -51.8,
+    -279.84
+   ],
+   "groundAnchorRh2000M": 17.59,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -57.193,
+     16.813,
+     -286.321
+    ],
+    "max": [
+     -46.584,
+     21.8,
+     -273.443
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 42,
+   "evidence": {
+    "levels": "Laserdata Skog 2021-04-17: the roof's high edge 21.7, ground 17.3",
+    "plan": "laser returns of the high edge; orthophoto 2025-06-14",
+    "order": "the club's photograph (reference only): two open bays lined in white under a single-pitch black roof, red ends",
+    "estimated": "the low edge of the roof, the depth of the bays"
+   }
+  }
+ ]
+}

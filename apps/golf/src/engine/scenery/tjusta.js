@@ -4,6 +4,7 @@
    flights beside it, Laserdata Skog of 2021-04-17 and the club's own photographs; see
    docs/courses/tjusta-source-research.md. */
 import roofColours from './tjusta-roof-colours.json' with { type: 'json' };
+import { campusSlot } from './campus-slot.mjs';
 
 /* The houses are drawn with the house kit (engine/house-kit.mjs): a plinth, eaves and gables, and
    windows, doors and the rest modelled in Blender on each mapped footprint. Each roof takes its colour
@@ -41,12 +42,10 @@ export function species({ r, x, z, extended = false }) {
 }
 
 /* The clubhouse is the big barn at Tjusta Gård (OSM way 48232863): falu-red boarding under a dark gambrel
-   roof, with a terrace toward the 18th green, on the club's own photographs (klubbhus-2022, "Klubbhus med
-   terrass"). A barn has next to no windows: the photograph shows two round vents in the gable and three small
-   panes on the low wing, so no window rows are hung on it (the first picture of 26 November drew forty, and
-   it read as a block of flats). Its roof is the engine's hip: the gabled roof lays a flat lid on this
-   L-shaped footprint, and a gambrel is not drawn yet. The heights are display estimates, not laser roof
-   measurements. */
+   roof, with a terrace toward the 18th green, on the club's own photographs. It is drawn by the authored campus
+   below. This is what stands in for it until that has loaded, and with buildingGeometry=source: a barn has next
+   to no windows, so no window rows are hung on it (the first picture of 26 November drew forty, and it read as a
+   block of flats), and its roof is the engine's hip. */
 export const clubhouse = {
   wall: 0x8a3a2e,
   roof: 0x34373b,
@@ -54,3 +53,21 @@ export const clubhouse = {
   windowRows: [],
   terrace: true,
 };
+
+/* The authored campus (tjustabuild/facilities/build_campus.py, Blender): the clubhouse barn with its cross wing,
+   annex and canopy, the terrace on posts beside it, the farm's two machine halls and the range's tee shelter,
+   each from the laser's levels (ridge 33.7 m RH 2000 on the barn, 13 m over the lawn). It stands in for the
+   mapped footprints it names, and only once the whole asset has been checked; until then, and with
+   buildingGeometry=source, the house kit draws them. */
+export const TJUSTA_CAMPUS = Object.freeze({
+  groundId: 'tjusta', name: 'Tjusta Gård authored facilities', courseSlugs: ['tjusta'],
+  originEasting: 669130.5, originNorthing: 6611250.5, requiredSources: ['w48232863'],
+});
+const campus = campusSlot(async context => {
+  const { loadCampusFacilities } = await import('./campus-facilities.mjs');
+  return loadCampusFacilities(TJUSTA_CAMPUS, context);
+});
+export const loadFacilitiesBeforeSurfaces = true;
+export const loadFacilities = context => campus.load(context);
+export const isFacilityInterior = campus.isFacilityInterior;
+export const architectureStatus = campus.status;
