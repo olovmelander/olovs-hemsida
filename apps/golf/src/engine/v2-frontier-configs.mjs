@@ -23,6 +23,7 @@ import { UPSALA_V2_CONFIGS } from './v2-upsala-config.mjs';
 import { VECKEFJARDEN_V2_CONFIGS } from './v2-veckefjarden-config.mjs';
 import { VISBY_V2_CONFIGS } from './v2-visby-config.mjs';
 import { TORTUNA_V2_CONFIGS } from './v2-tortuna-config.mjs';
+import { TJUSTA_V2_CONFIGS } from './v2-tjusta-config.mjs';
 
 export const V2_GRAPH_FRONTIER_CONFIGS = Object.freeze({
   ...ANGSO_V2_CONFIGS,
@@ -35,6 +36,7 @@ export const V2_GRAPH_FRONTIER_CONFIGS = Object.freeze({
   ...VECKEFJARDEN_V2_CONFIGS,
   ...VISBY_V2_CONFIGS,
   ...TORTUNA_V2_CONFIGS,
+  ...TJUSTA_V2_CONFIGS,
 });
 
 /* A record's own slug and the key it is registered under must agree, or a

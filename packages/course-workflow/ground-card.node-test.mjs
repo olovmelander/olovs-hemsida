@@ -27,11 +27,14 @@ test('a table is read from a tool\'s text without running the tool', () => {
 test('every published ground has a card, whole, and every table that names the ground agrees with it', async () => {
   const grounds = groundCards();
   const published = [...new Set(JSON.parse(fs.readFileSync(new URL('../../apps/golf/public/courses/v2-index.json', import.meta.url), 'utf8')).courses.map(course => course.groundId))].sort();
-  assert.deepEqual(grounds, published, 'a ground without a card: ground-card.mjs --ground <id> --derive --write');
+  assert.deepEqual(published.filter(groundId => !grounds.includes(groundId)), [], 'a ground without a card: ground-card.mjs --ground <id> --derive --write');
   for (const groundId of grounds) {
     const card = loadGroundCard(groundId);
     assert.equal(card.groundId, groundId);
     assert.deepEqual(groundCardErrors(card), [], groundId);
+    // A ground being built writes its card at stage 0 and joins the tables at stage 5 (pipeline-v2.md): until it is
+    // published its card must be whole, and the tables are not asked to name it yet.
+    if (!published.includes(groundId)) continue;
     const rows = await registration(card);
     assert.deepEqual(rows.filter(row => row.state !== 'agrees').map(row => `${row.slug}: ${row.table} ${row.state} in ${row.file}. ${row.detail}`), [],
       `${groundId}: change the card and the table together (ground-card.mjs --ground ${groundId} --rows prints the rows)`);

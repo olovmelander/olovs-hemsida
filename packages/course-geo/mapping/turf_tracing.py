@@ -140,7 +140,14 @@ def _quad(z, mu, sg, iu):
 class TurfModel:
     """Softmax over {green, fairway, other grass}; deterministic training."""
 
-    def fit(self, samples, iterations=900, seed=1):
+    def fit(self, samples, iterations=900, seed=1, settled=False):
+        """`settled` fits to convergence (L-BFGS on the same weighted loss) instead of the fixed 900 momentum steps.
+
+        The fixed steps are enough where the classes stand apart (a ground's verified outlines: 0.95 and up). Taught
+        fairway against rough from hole lines on a drought photo, they never settle: the loss bounces between 0.5 and
+        1.3 and the fairway share of the ground between 0.61 and 0.92 from one hundred steps to the next, so a hole
+        line moved 2 m redrew the fairways (Tjusta, November 2026). Settled, three samples of the same labels agree on
+        all but 0.9% of the ground. It is asked for by name, so every outline traced before it stays as it was."""
         x = np.concatenate(samples)
         y = np.concatenate([np.full(len(s), k) for k, s in enumerate(samples)])
         self.mu, self.sg = x.mean(0), x.std(0) + 1e-6
@@ -154,6 +161,23 @@ class TurfModel:
         onehot = np.eye(k)[y]
         w = np.zeros((q.shape[1], k))
         v = np.zeros_like(w)
+        if settled:
+            from scipy.optimize import minimize
+            n, d = q.shape
+            rows = np.arange(n)
+
+            def loss(flat):
+                wk = flat.reshape(d, k)
+                z = q @ wk
+                z -= z.max(1, keepdims=True)
+                lse = np.log(np.exp(z).sum(1))
+                p = np.exp(z - lse[:, None])
+                return (float(((lse - z[rows, y]) * sw).mean() + 0.5e-4 * (wk * wk).sum()),
+                        (q.T @ ((p - onehot) * sw[:, None]) / n + 1e-4 * wk).ravel())
+
+            w = minimize(loss, w.ravel(), jac=True, method='L-BFGS-B',
+                         options=dict(maxiter=4000, maxfun=8000, ftol=1e-12, gtol=1e-7)).x.reshape(d, k)
+            iterations = 0
         for _ in range(iterations):
             p = q @ w
             p -= p.max(1, keepdims=True)
@@ -178,28 +202,56 @@ class TurfModel:
         return out
 
 
-def vegetated(feats):
+def vegetated(feats, ndvi_above=0.12):
     ndvi = (feats[7] - feats[4]) / (feats[7] + feats[4] + 1e-3)
-    return (ndvi > 0.12) & ((feats[4] + feats[5] + feats[6]) / 3 > 58)
+    return (ndvi > ndvi_above) & ((feats[4] + feats[5] + feats[6]) / 3 > 58)
 
 
 # ---------------------------------------------------------------- sand
 
-SAND = {
+INF = float('inf')
+# What sand looks like on the photo, as numbers: brightness (mean of R, G, B), NDVI and warmth (R - B).
+# A core pixel is inside every band; the patch grows over pixels inside the looser `grow` bands. These are
+# Bro Hof's, measured on its June 2025 photo. A ground whose sand is another colour states its own,
+# measured on its own photo, as `sand` in its trace-config.json (`sand_spec`), never by editing these.
+SAND_BANDS = {
     # Crushed white marble and washed sand: bright, neutral, no vegetation signal.
-    'bunker': dict(core=lambda br, nd_, w: (br > 188) & (nd_ < 0.02) & (w > 2) & (w < 20),
-                   grow=lambda br, nd_, w: (br > 158) & (nd_ < 0.06),
-                   open=1, close=2, core_m2=3, min_m2=5, island_m2=1.2, res=0.16, tile=400, pad=60),
+    'bunker': dict(core=dict(brightness=[188, INF], ndviBelow=0.02, warmth=[2, 20]),
+                   grow=dict(brightness=[158, INF], ndviBelow=0.06, warmth=[-INF, INF])),
     # Unraked waste sand: tan, darker, warmer; islands of fescue kept as holes.
-    'waste_sand': dict(core=lambda br, nd_, w: (br > 120) & (br < 188) & (nd_ < -0.12) & (w > 13),
-                       grow=lambda br, nd_, w: (br > 104) & (nd_ < -0.02) & (w > 5),
-                       open=2, close=3, core_m2=120, min_m2=250, island_m2=4, res=0.25, tile=500, pad=300),
+    'waste_sand': dict(core=dict(brightness=[120, 188], ndviBelow=-0.12, warmth=[13, INF]),
+                       grow=dict(brightness=[104, INF], ndviBelow=-0.02, warmth=[5, INF])),
+}
+SAND_SHAPE = {
+    'bunker': dict(open=1, close=2, core_m2=3, min_m2=5, island_m2=1.2, res=0.16, tile=400, pad=60),
+    'waste_sand': dict(open=2, close=3, core_m2=120, min_m2=250, island_m2=4, res=0.25, tile=500, pad=300),
 }
 
 
-def extract_sand(imagery, box, kind):
-    """`pad` must exceed the widest object's reach past a tile, or a large waste area is cut at the window edge."""
-    spec = SAND[kind]
+def band_test(bands):
+    lo, hi = (float(v) for v in bands['brightness'])
+    wlo, whi = (float(v) for v in bands['warmth'])
+    below = float(bands['ndviBelow'])
+    return lambda br, nd_, w: (br > lo) & (br < hi) & (nd_ < below) & (w > wlo) & (w < whi)
+
+
+def sand_spec(kind, measured=None):
+    """The extraction spec for `kind`: the default bands, or a ground's own (`measured`, from its trace-config).
+
+    `measured` replaces the bands it names (`core`, `grow`) and nothing else; the shape (opening, smallest
+    patch, tile) stays the tracer's."""
+    bands = {**SAND_BANDS[kind], **{k: v for k, v in (measured or {}).items() if k in ('core', 'grow')}}
+    return dict(core=band_test(bands['core']), grow=band_test(bands['grow']), **SAND_SHAPE[kind])
+
+
+SAND = {kind: sand_spec(kind) for kind in SAND_BANDS}
+
+
+def extract_sand(imagery, box, kind, measured=None):
+    """`pad` must exceed the widest object's reach past a tile, or a large waste area is cut at the window edge.
+
+    `measured` is the ground's own sand bands for `kind` (see `sand_spec`), when it has them."""
+    spec = sand_spec(kind, measured)
     res, tile, pad = spec['res'], spec['tile'], spec['pad']
     e0, n0, e1, n1 = box
     found = []
@@ -388,16 +440,48 @@ def refine_ring(imagery, ring, reach, *, ds=0.7, res=0.16, inside_m=1.0, gap_m=1
     return largest(poly.simplify(0.08)), stats
 
 
+def _rounded_ring(coords, nd_):
+    out = []
+    for x, y in coords:
+        p = [round(x, nd_), round(y, nd_)]
+        if not out or p != out[-1]:   # two vertices rounding can merge
+            out.append(p)
+    return out
+
+
 def round_coords(poly, nd_=2):
     poly = orient(poly, 1.0)
-    rings = [[[round(x, nd_), round(y, nd_)] for x, y in poly.exterior.coords]]
-    rings += [[[round(x, nd_), round(y, nd_)] for x, y in r.coords] for r in poly.interiors]
+    rings = [_rounded_ring(poly.exterior.coords, nd_)]
+    rings += [_rounded_ring(r.coords, nd_) for r in poly.interiors]
     return rings
+
+
+def _revisits(rings):
+    """True when a ring passes through one of its own vertices twice (a pinch), which a model compiler refuses."""
+    vertices = [tuple(p) for r in rings for p in r[:-1]]
+    return len(set(vertices)) != len(vertices)
+
+
+def clean_rings(poly, nd_=2):
+    """The rings of `poly`, rounded; a ring that touches itself at a point (a fairway pinched between two trees, a
+    hole meeting the outline) is joined through a 1 cm neck (closed by 10 cm, opened by 9: an equal opening would
+    cut the neck again), or else opened, until no vertex repeats. A polygon without a pinch comes back exactly as
+    `round_coords` gives it."""
+    rings = round_coords(poly, nd_)
+    if not _revisits(rings):
+        return rings
+    for fix in (lambda p: p.buffer(0.1, join_style=2).buffer(-0.09, join_style=2), lambda p: p.buffer(-0.1, join_style=2).buffer(0.1, join_style=2)):
+        q = largest(fix(poly))
+        if q is not None and not q.is_empty:
+            rings = round_coords(q.simplify(0.02), nd_)
+            if not _revisits(rings):
+                return rings
+    raise ValueError('a ring that touches itself could not be cleaned')
 
 
 def feature(fid, kind, poly, **props):
     return {'type': 'Feature', 'id': fid, 'properties': {'kind': kind, **props},
-            'geometry': {'type': 'Polygon', 'coordinates': round_coords(poly)}}
+            'geometry': {'type': 'Polygon', 'coordinates': clean_rings(poly)}}
 
 
 def collection(features, **extra):

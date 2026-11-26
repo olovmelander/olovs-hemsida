@@ -1,0 +1,1330 @@
+{
+ "schemaVersion": 1,
+ "slug": "tjusta",
+ "classifierAccuracy": {
+  "green": 0.9879,
+  "fairway": 0.9537,
+  "otherGrass": 0.941
+ },
+ "provenance": {
+  "imagery": "orto-o2-2025",
+  "imagerySha256": {
+   "south-w-2025.tif": "eeec2ebbc494e645d81db98169e8055140eaeeb5560cb88531f09837e754695a",
+   "south-e-2025.tif": "c2e396136c9fcc4e774721a727a4afd3e781350a626aba39653edaeab9483a26",
+   "mid-w-2025.tif": "48edbea849d5986d47b06d361daba8faa557691923fcbb8e6ebf5899c20b52e3",
+   "mid-e-2025.tif": "075980abc0201eb6cee3804d8f95956b22324fb86d696237b96c3d62873cdf06",
+   "north-w-2025.tif": "5a9e61f9af0d828d77a255cea057bcd72bf899c45af5b2e2fe2597d6c32b043e",
+   "north-e-2025.tif": "1ec910c758c02245440ed615f863c301d202796c9c4405f05f588b483c79f4f2",
+   "overview-2025.tif": "dfe919e4a3436c5a40f57bacaab3b02aab6b60e876b4ac8c24b23595d0a01b36"
+  },
+  "terrainSha256": "1440dad3d3c6b2a322c16719e56f937399b40d3abd8cbbe101e53b593555aecb",
+  "osmSha256": "f7ca15ba4ee23169517c1ceb660a60f5df6c9db735237b7811aaae69cc501932",
+  "tool": "packages/course-geo/mapping/trace-course-surfaces.py",
+  "fairwayImagery": "orto-o2-2025+orto-o2-2023+orto-o2-2021",
+  "fairwayImagerySha256": {
+   "south-w-2025.tif": "eeec2ebbc494e645d81db98169e8055140eaeeb5560cb88531f09837e754695a",
+   "south-e-2025.tif": "c2e396136c9fcc4e774721a727a4afd3e781350a626aba39653edaeab9483a26",
+   "mid-w-2025.tif": "48edbea849d5986d47b06d361daba8faa557691923fcbb8e6ebf5899c20b52e3",
+   "mid-e-2025.tif": "075980abc0201eb6cee3804d8f95956b22324fb86d696237b96c3d62873cdf06",
+   "north-w-2025.tif": "5a9e61f9af0d828d77a255cea057bcd72bf899c45af5b2e2fe2597d6c32b043e",
+   "north-e-2025.tif": "1ec910c758c02245440ed615f863c301d202796c9c4405f05f588b483c79f4f2",
+   "overview-2025.tif": "dfe919e4a3436c5a40f57bacaab3b02aab6b60e876b4ac8c24b23595d0a01b36",
+   "course-2023.tif": "bf5927d108d1b2a8271f1b65c84414849a34296b9edc7c8ef2419238e75fcb60",
+   "overview-2021.tif": "e7422c4fec23fc629b34b940392f1d58559b7c01619716738e085c9251ffde35"
+  },
+  "fairwayTraining": {
+   "training": "decision-lines",
+   "skipHoles": [
+    4
+   ],
+   "ndviAbove": 0,
+   "fit": "settled"
+  }
+ },
+ "rows": [
+  {
+   "hole": 1,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 299.9,
+   "dPrime": 3.75,
+   "meanShift": 0.12,
+   "rmsShift": 0.18,
+   "weakShare": 0.44,
+   "meanEdge": 0.29
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "tjusta-tee-01-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 182.8,
+   "dPrime": 1.8,
+   "meanShift": 0.05,
+   "rmsShift": 0.15,
+   "weakShare": 0.2,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "tjusta-tee-01-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 39.3,
+   "dPrime": 3.82,
+   "meanShift": -0.03,
+   "rmsShift": 0.05,
+   "weakShare": 0.21,
+   "meanEdge": 0.46
+  },
+  {
+   "hole": 1,
+   "kind": "route",
+   "length": 399.9,
+   "card": 400,
+   "cardResidual": {
+    "gul": -0.1,
+    "rod": -0.9
+   }
+  },
+  {
+   "hole": 2,
+   "kind": "green",
+   "start": "classified-component",
+   "area": 311.9,
+   "dPrime": 4.8,
+   "meanShift": 0.04,
+   "rmsShift": 0.1,
+   "weakShare": 0.36,
+   "meanEdge": 0.32
+  },
+  {
+   "hole": 2,
+   "kind": "tee",
+   "id": "tjusta-tee-02-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 147.8,
+   "dPrime": 1.6,
+   "meanShift": 0.02,
+   "rmsShift": 0.3,
+   "weakShare": 0.16,
+   "meanEdge": 0.65
+  },
+  {
+   "hole": 2,
+   "kind": "tee",
+   "id": "tjusta-tee-02-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 70.7,
+   "dPrime": 1.88,
+   "meanShift": 0.04,
+   "rmsShift": 0.18,
+   "weakShare": 0.18,
+   "meanEdge": 0.53
+  },
+  {
+   "hole": 2,
+   "kind": "route",
+   "length": 370.1,
+   "card": 370,
+   "cardResidual": {
+    "gul": 0.1,
+    "rod": 0.0
+   }
+  },
+  {
+   "hole": 3,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 212.8,
+   "dPrime": 5.26,
+   "meanShift": 0.15,
+   "rmsShift": 0.18,
+   "weakShare": 0.09,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 3,
+   "kind": "tee",
+   "id": "tjusta-tee-03-1",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "gul",
+    "rod"
+   ],
+   "area": 109.1,
+   "dPrime": 2.94,
+   "meanShift": -0.09,
+   "rmsShift": 0.21,
+   "weakShare": 0.08,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 3,
+   "kind": "route",
+   "length": 133.0,
+   "card": 133,
+   "cardResidual": {
+    "gul": 0.0,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 4,
+   "kind": "green",
+   "start": "classified-component",
+   "area": 464.1,
+   "dPrime": 5.6,
+   "meanShift": 0.09,
+   "rmsShift": 0.14,
+   "weakShare": 0.18,
+   "meanEdge": 0.4
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "tjusta-tee-04-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "gul"
+   ],
+   "area": 71.6,
+   "dPrime": 3.92,
+   "meanShift": -0.03,
+   "rmsShift": 0.22,
+   "weakShare": 0.22,
+   "meanEdge": 0.48
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "tjusta-tee-04-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 18.0,
+   "dPrime": 5.84,
+   "meanShift": 0.1,
+   "rmsShift": 0.17,
+   "weakShare": 0.0,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "tjusta-tee-04-3",
+   "start": "reviewed-ring",
+   "tees": [],
+   "area": 73.7,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "tjusta-tee-04-4",
+   "start": "terrain-platform",
+   "tees": [],
+   "area": 45.7,
+   "dPrime": 3.03,
+   "meanShift": 0.12,
+   "rmsShift": 0.18,
+   "weakShare": 0.29,
+   "meanEdge": 0.42
+  },
+  {
+   "hole": 4,
+   "kind": "route",
+   "length": 260.4,
+   "card": 257,
+   "cardResidual": {
+    "gul": 3.4,
+    "rod": -8.9
+   }
+  },
+  {
+   "hole": 5,
+   "kind": "green",
+   "start": "classified-component",
+   "area": 442.1,
+   "dPrime": 4.21,
+   "meanShift": 0.13,
+   "rmsShift": 0.2,
+   "weakShare": 0.26,
+   "meanEdge": 0.32
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "tjusta-tee-05-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 107.0,
+   "dPrime": 4.4,
+   "meanShift": 0.06,
+   "rmsShift": 0.09,
+   "weakShare": 0.15,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "tjusta-tee-05-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 56.9,
+   "dPrime": 6.08,
+   "meanShift": 0.05,
+   "rmsShift": 0.12,
+   "weakShare": 0.0,
+   "meanEdge": 0.61
+  },
+  {
+   "hole": 5,
+   "kind": "route",
+   "length": 436.0,
+   "card": 436,
+   "cardResidual": {
+    "gul": -0.0,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 6,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 411.9,
+   "dPrime": 2.35,
+   "meanShift": 0.04,
+   "rmsShift": 0.13,
+   "weakShare": 0.14,
+   "meanEdge": 0.62
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "tjusta-tee-06-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul",
+    "rod"
+   ],
+   "area": 194.5,
+   "dPrime": 1.42,
+   "meanShift": -0.12,
+   "rmsShift": 0.3,
+   "weakShare": 0.31,
+   "meanEdge": 0.6
+  },
+  {
+   "hole": 6,
+   "kind": "route",
+   "length": 126.9,
+   "card": 127,
+   "cardResidual": {
+    "gul": -0.1,
+    "rod": -0.1
+   }
+  },
+  {
+   "hole": 7,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 429.8,
+   "dPrime": 4.43,
+   "meanShift": 0.0,
+   "rmsShift": 0.11,
+   "weakShare": 0.47,
+   "meanEdge": 0.29
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "tjusta-tee-07-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 189.2,
+   "dPrime": 2.2,
+   "meanShift": 0.08,
+   "rmsShift": 0.21,
+   "weakShare": 0.12,
+   "meanEdge": 0.52
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "tjusta-tee-07-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 48.4,
+   "dPrime": 4.03,
+   "meanShift": 0.01,
+   "rmsShift": 0.15,
+   "weakShare": 0.0,
+   "meanEdge": 0.65
+  },
+  {
+   "hole": 7,
+   "kind": "route",
+   "length": 505.1,
+   "card": 505,
+   "cardResidual": {
+    "gul": 0.1,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 8,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 245.7,
+   "dPrime": 2.83,
+   "meanShift": 0.03,
+   "rmsShift": 0.12,
+   "weakShare": 0.35,
+   "meanEdge": 0.4
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "tjusta-tee-08-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "gul"
+   ],
+   "area": 108.0,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "tjusta-tee-08-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 78.2,
+   "dPrime": 4.84,
+   "meanShift": 0.09,
+   "rmsShift": 0.14,
+   "weakShare": 0.03,
+   "meanEdge": 0.6
+  },
+  {
+   "hole": 8,
+   "kind": "route",
+   "length": 307.1,
+   "card": 310,
+   "cardResidual": {
+    "gul": -2.9,
+    "rod": -2.4
+   }
+  },
+  {
+   "hole": 9,
+   "kind": "green",
+   "start": "classified-component",
+   "area": 363.7,
+   "dPrime": 5.96,
+   "meanShift": 0.06,
+   "rmsShift": 0.25,
+   "weakShare": 0.35,
+   "meanEdge": 0.32
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "tjusta-tee-09-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "gul"
+   ],
+   "area": 70.3,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "tjusta-tee-09-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 48.4,
+   "dPrime": 3.99,
+   "meanShift": -0.09,
+   "rmsShift": 0.16,
+   "weakShare": 0.15,
+   "meanEdge": 0.63
+  },
+  {
+   "hole": 9,
+   "kind": "route",
+   "length": 393.0,
+   "card": 393,
+   "cardResidual": {
+    "gul": -0.0,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 10,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 290.6,
+   "dPrime": 1.87,
+   "meanShift": 0.18,
+   "rmsShift": 0.25,
+   "weakShare": 0.45,
+   "meanEdge": 0.33
+  },
+  {
+   "hole": 10,
+   "kind": "tee",
+   "id": "tjusta-tee-10-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 39.6,
+   "dPrime": 1.91,
+   "meanShift": 0.07,
+   "rmsShift": 0.15,
+   "weakShare": 0.0,
+   "meanEdge": 0.75
+  },
+  {
+   "hole": 10,
+   "kind": "tee",
+   "id": "tjusta-tee-10-2",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "rod"
+   ],
+   "area": 44.9,
+   "dPrime": 3.42,
+   "meanShift": -0.01,
+   "rmsShift": 0.17,
+   "weakShare": 0.19,
+   "meanEdge": 0.42,
+   "kept": "start"
+  },
+  {
+   "hole": 10,
+   "kind": "route",
+   "length": 346.0,
+   "card": 346,
+   "cardResidual": {
+    "gul": 0.0,
+    "rod": -2.4
+   }
+  },
+  {
+   "hole": 11,
+   "kind": "green",
+   "start": "classified-component",
+   "area": 276.3,
+   "dPrime": 6.33,
+   "meanShift": 0.2,
+   "rmsShift": 0.31,
+   "weakShare": 0.12,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 11,
+   "kind": "tee",
+   "id": "tjusta-tee-11-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 64.7,
+   "dPrime": 1.02,
+   "meanShift": 0.01,
+   "rmsShift": 0.17,
+   "weakShare": 0.02,
+   "meanEdge": 0.78
+  },
+  {
+   "hole": 11,
+   "kind": "tee",
+   "id": "tjusta-tee-11-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 123.9,
+   "dPrime": 6.73,
+   "meanShift": -0.19,
+   "rmsShift": 0.22,
+   "weakShare": 0.0,
+   "meanEdge": 0.49
+  },
+  {
+   "hole": 11,
+   "kind": "route",
+   "length": 506.4,
+   "card": 500,
+   "cardResidual": {
+    "gul": 6.4,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 12,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 456.7,
+   "dPrime": 3.78,
+   "meanShift": 0.11,
+   "rmsShift": 0.2,
+   "weakShare": 0.15,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 12,
+   "kind": "tee",
+   "id": "tjusta-tee-12-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "gul"
+   ],
+   "area": 70.9,
+   "dPrime": 3.32,
+   "meanShift": 0.11,
+   "rmsShift": 0.22,
+   "weakShare": 0.2,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 12,
+   "kind": "tee",
+   "id": "tjusta-tee-12-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 44.2,
+   "dPrime": 1.76,
+   "meanShift": 0.01,
+   "rmsShift": 0.23,
+   "weakShare": 0.2,
+   "meanEdge": 0.39
+  },
+  {
+   "hole": 12,
+   "kind": "route",
+   "length": 130.0,
+   "card": 130,
+   "cardResidual": {
+    "gul": -0.0,
+    "rod": 1.6
+   }
+  },
+  {
+   "hole": 13,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 227.4,
+   "dPrime": 3.18,
+   "meanShift": 0.06,
+   "rmsShift": 0.17,
+   "weakShare": 0.32,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 13,
+   "kind": "tee",
+   "id": "tjusta-tee-13-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 82.6,
+   "dPrime": 3.32,
+   "meanShift": -0.01,
+   "rmsShift": 0.15,
+   "weakShare": 0.09,
+   "meanEdge": 0.52
+  },
+  {
+   "hole": 13,
+   "kind": "tee",
+   "id": "tjusta-tee-13-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 110.9,
+   "dPrime": 3.6,
+   "meanShift": -0.06,
+   "rmsShift": 0.12,
+   "weakShare": 0.36,
+   "meanEdge": 0.38
+  },
+  {
+   "hole": 13,
+   "kind": "route",
+   "length": 323.0,
+   "card": 323,
+   "cardResidual": {
+    "gul": -0.0,
+    "rod": -0.1
+   }
+  },
+  {
+   "hole": 14,
+   "kind": "green",
+   "start": "classified-component",
+   "area": 353.3,
+   "dPrime": 3.54,
+   "meanShift": 0.04,
+   "rmsShift": 0.13,
+   "weakShare": 0.05,
+   "meanEdge": 0.53
+  },
+  {
+   "hole": 14,
+   "kind": "tee",
+   "id": "tjusta-tee-14-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 186.3,
+   "dPrime": 1.52,
+   "meanShift": 0.1,
+   "rmsShift": 0.18,
+   "weakShare": 0.27,
+   "meanEdge": 0.42
+  },
+  {
+   "hole": 14,
+   "kind": "tee",
+   "id": "tjusta-tee-14-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 31.9,
+   "dPrime": 4.61,
+   "meanShift": 0.01,
+   "rmsShift": 0.04,
+   "weakShare": 0.23,
+   "meanEdge": 0.6
+  },
+  {
+   "hole": 14,
+   "kind": "route",
+   "length": 365.1,
+   "card": 365,
+   "cardResidual": {
+    "gul": 0.1,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 15,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 313.9,
+   "dPrime": 3.11,
+   "meanShift": 0.04,
+   "rmsShift": 0.18,
+   "weakShare": 0.45,
+   "meanEdge": 0.38
+  },
+  {
+   "hole": 15,
+   "kind": "tee",
+   "id": "tjusta-tee-15-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "gul"
+   ],
+   "area": 67.2,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 15,
+   "kind": "tee",
+   "id": "tjusta-tee-15-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 62.3,
+   "dPrime": 5.97,
+   "meanShift": 0.02,
+   "rmsShift": 0.09,
+   "weakShare": 0.0,
+   "meanEdge": 0.62
+  },
+  {
+   "hole": 15,
+   "kind": "route",
+   "length": 332.0,
+   "card": 332,
+   "cardResidual": {
+    "gul": -0.0,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 16,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 373.7,
+   "dPrime": 5.76,
+   "meanShift": 0.11,
+   "rmsShift": 0.16,
+   "weakShare": 0.14,
+   "meanEdge": 0.47
+  },
+  {
+   "hole": 16,
+   "kind": "tee",
+   "id": "tjusta-tee-16-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 159.6,
+   "dPrime": 1.72,
+   "meanShift": 0.04,
+   "rmsShift": 0.22,
+   "weakShare": 0.28,
+   "meanEdge": 0.52
+  },
+  {
+   "hole": 16,
+   "kind": "tee",
+   "id": "tjusta-tee-16-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 61.1,
+   "dPrime": 2.22,
+   "meanShift": -0.02,
+   "rmsShift": 0.12,
+   "weakShare": 0.08,
+   "meanEdge": 0.7,
+   "kept": "start"
+  },
+  {
+   "hole": 16,
+   "kind": "route",
+   "length": 394.9,
+   "card": 395,
+   "cardResidual": {
+    "gul": -0.1,
+    "rod": -0.9
+   }
+  },
+  {
+   "hole": 17,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 435.4,
+   "dPrime": 4.04,
+   "meanShift": 0.1,
+   "rmsShift": 0.17,
+   "weakShare": 0.22,
+   "meanEdge": 0.43
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "tjusta-tee-17-1",
+   "start": "terrain-platform",
+   "tees": [
+    "gul"
+   ],
+   "area": 123.9,
+   "dPrime": 2.97,
+   "meanShift": 0.16,
+   "rmsShift": 0.27,
+   "weakShare": 0.38,
+   "meanEdge": 0.37
+  },
+  {
+   "hole": 17,
+   "kind": "tee",
+   "id": "tjusta-tee-17-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 55.0,
+   "dPrime": 3.86,
+   "meanShift": 0.04,
+   "rmsShift": 0.1,
+   "weakShare": 0.13,
+   "meanEdge": 0.56
+  },
+  {
+   "hole": 17,
+   "kind": "route",
+   "length": 180.0,
+   "card": 180,
+   "cardResidual": {
+    "gul": -0.0,
+    "rod": -0.0
+   }
+  },
+  {
+   "hole": 18,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 382.6,
+   "dPrime": 3.8,
+   "meanShift": 0.12,
+   "rmsShift": 0.27,
+   "weakShare": 0.07,
+   "meanEdge": 0.49
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "tjusta-tee-18-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "gul"
+   ],
+   "area": 89.7,
+   "dPrime": 2.81,
+   "meanShift": 0.07,
+   "rmsShift": 0.22,
+   "weakShare": 0.15,
+   "meanEdge": 0.64
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "tjusta-tee-18-2",
+   "start": "terrain-platform",
+   "tees": [
+    "rod"
+   ],
+   "area": 47.4,
+   "dPrime": 4.26,
+   "meanShift": -0.02,
+   "rmsShift": 0.17,
+   "weakShare": 0.25,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 18,
+   "kind": "tee",
+   "id": "tjusta-tee-18-3",
+   "start": "terrain-platform",
+   "tees": [],
+   "area": 117.4,
+   "dPrime": 2.56,
+   "meanShift": 0.04,
+   "rmsShift": 0.11,
+   "weakShare": 0.11,
+   "meanEdge": 0.53
+  },
+  {
+   "hole": 18,
+   "kind": "route",
+   "length": 369.7,
+   "card": 376,
+   "cardResidual": {
+    "gul": -6.3,
+    "rod": -13.7
+   }
+  },
+  {
+   "hole": 1,
+   "kind": "fairway",
+   "area": 13625,
+   "dPrime": 2.31,
+   "meanShift": -0.11,
+   "rmsShift": 0.99,
+   "weakShare": 0.43,
+   "meanEdge": 0.31
+  },
+  {
+   "hole": 1,
+   "kind": "fairway",
+   "area": 690,
+   "dPrime": 1.21,
+   "meanShift": -0.39,
+   "rmsShift": 0.95,
+   "weakShare": 0.24,
+   "meanEdge": 0.61
+  },
+  {
+   "hole": 1,
+   "kind": "fairway",
+   "area": 586,
+   "dPrime": 1.31,
+   "meanShift": 1.33,
+   "rmsShift": 1.43,
+   "weakShare": 0.29,
+   "meanEdge": 0.42
+  },
+  {
+   "hole": 2,
+   "kind": "fairway",
+   "area": 8906,
+   "dPrime": 2.09,
+   "meanShift": -0.03,
+   "rmsShift": 0.87,
+   "weakShare": 0.4,
+   "meanEdge": 0.34
+  },
+  {
+   "hole": 2,
+   "kind": "fairway",
+   "area": 1670,
+   "dPrime": 2.13,
+   "meanShift": 1.12,
+   "rmsShift": 1.48,
+   "weakShare": 0.33,
+   "meanEdge": 0.4
+  },
+  {
+   "hole": 3,
+   "kind": "fairway",
+   "area": 1613,
+   "dPrime": 1.1,
+   "meanShift": 0.24,
+   "rmsShift": 1.15,
+   "weakShare": 0.24,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 3,
+   "kind": "fairway",
+   "area": 1290,
+   "dPrime": 1.42,
+   "meanShift": -0.02,
+   "rmsShift": 0.86,
+   "weakShare": 0.45,
+   "meanEdge": 0.3
+  },
+  {
+   "hole": 4,
+   "kind": "fairway",
+   "area": 6895,
+   "dPrime": 1.87,
+   "meanShift": 0.05,
+   "rmsShift": 1.09,
+   "weakShare": 0.39,
+   "meanEdge": 0.43
+  },
+  {
+   "hole": 4,
+   "kind": "fairway",
+   "area": 242,
+   "dPrime": 2.2,
+   "meanShift": 0.32,
+   "rmsShift": 0.6,
+   "weakShare": 0.65,
+   "meanEdge": 0.21
+  },
+  {
+   "hole": 5,
+   "kind": "fairway",
+   "area": 8437,
+   "dPrime": 1.74,
+   "meanShift": 0.09,
+   "rmsShift": 0.98,
+   "weakShare": 0.39,
+   "meanEdge": 0.34
+  },
+  {
+   "hole": 5,
+   "kind": "fairway",
+   "area": 7014,
+   "dPrime": 1.49,
+   "meanShift": -0.42,
+   "rmsShift": 1.02,
+   "weakShare": 0.5,
+   "meanEdge": 0.29
+  },
+  {
+   "hole": 6,
+   "kind": "fairway",
+   "area": 4270,
+   "dPrime": 1.74,
+   "meanShift": -0.14,
+   "rmsShift": 1.1,
+   "weakShare": 0.54,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 7,
+   "kind": "fairway",
+   "area": 263,
+   "dPrime": 2.5,
+   "meanShift": 0.65,
+   "rmsShift": 1.18,
+   "weakShare": 0.3,
+   "meanEdge": 0.4
+  },
+  {
+   "hole": 7,
+   "kind": "fairway",
+   "area": 12586,
+   "dPrime": 1.9,
+   "meanShift": 0.25,
+   "rmsShift": 0.92,
+   "weakShare": 0.6,
+   "meanEdge": 0.3
+  },
+  {
+   "hole": 7,
+   "kind": "fairway",
+   "area": 4565,
+   "dPrime": 1.94,
+   "meanShift": -0.08,
+   "rmsShift": 0.82,
+   "weakShare": 0.73,
+   "meanEdge": 0.21
+  },
+  {
+   "hole": 8,
+   "kind": "fairway",
+   "area": 8175,
+   "dPrime": 3.0,
+   "meanShift": 0.3,
+   "rmsShift": 1.06,
+   "weakShare": 0.56,
+   "meanEdge": 0.23
+  },
+  {
+   "hole": 8,
+   "kind": "fairway",
+   "area": 1998,
+   "dPrime": 2.49,
+   "meanShift": 0.52,
+   "rmsShift": 0.97,
+   "weakShare": 0.73,
+   "meanEdge": 0.18
+  },
+  {
+   "hole": 8,
+   "kind": "fairway",
+   "area": 950,
+   "dPrime": 1.28,
+   "meanShift": 0.62,
+   "rmsShift": 0.97,
+   "weakShare": 0.54,
+   "meanEdge": 0.34
+  },
+  {
+   "hole": 8,
+   "kind": "fairway",
+   "area": 303,
+   "dPrime": 0.88,
+   "meanShift": 0.8,
+   "rmsShift": 1.03,
+   "weakShare": 0.45,
+   "meanEdge": 0.48
+  },
+  {
+   "hole": 9,
+   "kind": "fairway",
+   "area": 10215,
+   "dPrime": 2.03,
+   "meanShift": 0.67,
+   "rmsShift": 1.13,
+   "weakShare": 0.54,
+   "meanEdge": 0.3
+  },
+  {
+   "hole": 9,
+   "kind": "fairway",
+   "area": 510,
+   "dPrime": 1.28,
+   "meanShift": 1.32,
+   "rmsShift": 1.49,
+   "weakShare": 0.34,
+   "meanEdge": 0.6
+  },
+  {
+   "hole": 10,
+   "kind": "fairway",
+   "area": 7976,
+   "dPrime": 1.99,
+   "meanShift": 0.35,
+   "rmsShift": 1.17,
+   "weakShare": 0.54,
+   "meanEdge": 0.28
+  },
+  {
+   "hole": 11,
+   "kind": "fairway",
+   "area": 12179,
+   "dPrime": 2.24,
+   "meanShift": -0.03,
+   "rmsShift": 0.96,
+   "weakShare": 0.52,
+   "meanEdge": 0.3
+  },
+  {
+   "hole": 12,
+   "kind": "fairway",
+   "area": 2860,
+   "dPrime": 1.43,
+   "meanShift": 0.0,
+   "rmsShift": 0.7,
+   "weakShare": 0.56,
+   "meanEdge": 0.3
+  },
+  {
+   "hole": 13,
+   "kind": "fairway",
+   "area": 5584,
+   "dPrime": 2.07,
+   "meanShift": -0.05,
+   "rmsShift": 0.91,
+   "weakShare": 0.5,
+   "meanEdge": 0.29
+  },
+  {
+   "hole": 14,
+   "kind": "fairway",
+   "area": 1514,
+   "dPrime": 1.95,
+   "meanShift": 0.4,
+   "rmsShift": 0.9,
+   "weakShare": 0.37,
+   "meanEdge": 0.38
+  },
+  {
+   "hole": 14,
+   "kind": "fairway",
+   "area": 8812,
+   "dPrime": 2.66,
+   "meanShift": -0.02,
+   "rmsShift": 1.05,
+   "weakShare": 0.75,
+   "meanEdge": 0.17
+  },
+  {
+   "hole": 14,
+   "kind": "fairway",
+   "area": 319,
+   "dPrime": 1.87,
+   "meanShift": 0.88,
+   "rmsShift": 1.48,
+   "weakShare": 0.28,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 15,
+   "kind": "fairway",
+   "area": 12852,
+   "dPrime": 2.05,
+   "meanShift": 0.38,
+   "rmsShift": 0.97,
+   "weakShare": 0.7,
+   "meanEdge": 0.2
+  },
+  {
+   "hole": 15,
+   "kind": "fairway",
+   "area": 532,
+   "dPrime": 0.81,
+   "meanShift": 0.58,
+   "rmsShift": 1.0,
+   "weakShare": 0.29,
+   "meanEdge": 0.52
+  },
+  {
+   "hole": 16,
+   "kind": "fairway",
+   "area": 10043,
+   "dPrime": 2.16,
+   "meanShift": 0.13,
+   "rmsShift": 0.96,
+   "weakShare": 0.54,
+   "meanEdge": 0.3
+  },
+  {
+   "hole": 16,
+   "kind": "fairway",
+   "area": 369,
+   "dPrime": 1.84,
+   "meanShift": 0.16,
+   "rmsShift": 1.06,
+   "weakShare": 0.51,
+   "meanEdge": 0.39
+  },
+  {
+   "hole": 17,
+   "kind": "fairway",
+   "area": 5839,
+   "dPrime": 0.81,
+   "meanShift": 0.6,
+   "rmsShift": 1.16,
+   "weakShare": 0.27,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 17,
+   "kind": "fairway",
+   "area": 452,
+   "dPrime": 0.52,
+   "meanShift": 0.21,
+   "rmsShift": 0.94,
+   "weakShare": 0.11,
+   "meanEdge": 0.94,
+   "kept": "classified"
+  },
+  {
+   "hole": 17,
+   "kind": "fairway",
+   "area": 318,
+   "dPrime": 3.15,
+   "meanShift": -0.28,
+   "rmsShift": 0.63,
+   "weakShare": 0.6,
+   "meanEdge": 0.23
+  },
+  {
+   "hole": 18,
+   "kind": "fairway",
+   "area": 15259,
+   "dPrime": 1.53,
+   "meanShift": 0.33,
+   "rmsShift": 1.03,
+   "weakShare": 0.48,
+   "meanEdge": 0.32
+  }
+ ]
+}

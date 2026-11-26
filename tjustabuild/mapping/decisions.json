@@ -1,0 +1,2515 @@
+{
+ "schemaVersion": 1,
+ "groundId": "tjusta",
+ "slug": "tjusta",
+ "horizontalCrs": "EPSG:3006",
+ "coordinateOrder": [
+  "easting",
+  "northing"
+ ],
+ "reviewedOn": "2026-11-26",
+ "reviewer": "Claude Opus 5.5 (agent), on the 2025-06-14 0.16 m and 2021-04-18 leaf-off RGBI orthophotos, the 1 m laser terrain and the par-72 card",
+ "greenOpenMetres": 3,
+ "greenInsetMetres": 2.5,
+ "greenReachMetres": 2,
+ "note": "No club hole map exists online; the routing is read from the photos against the card, the local rules and the club's photos (make-decisions.mjs says how). Each pad is a level deck of the terrain and each green a component of the turf model, both from the tracer's own detectors. Tees with a card residual over 5 m are named in the walkthrough. The owner is asked to confirm the routing.",
+ "holes": {
+  "1": {
+   "why": "From the decks by the car park east-north-east along the field, Kimstavägen on the left (OB, local rule 1b).",
+   "bends": [
+    [
+     669250,
+     6611580
+    ]
+   ],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      669121.4,
+      6611463.2
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "OSM tee way, a level deck; 395 m to the green"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669149.2,
+      6611499.3
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "OSM tee way, 349 m"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669478.9,
+      6611613.1
+     ],
+     [
+      669479.1,
+      6611615.2
+     ],
+     [
+      669478.9,
+      6611617.2
+     ],
+     [
+      669478.2,
+      6611619.3
+     ],
+     [
+      669477.1,
+      6611621.1
+     ],
+     [
+      669475.5,
+      6611622.7
+     ],
+     [
+      669473.6,
+      6611623.9
+     ],
+     [
+      669471.5,
+      6611624.7
+     ],
+     [
+      669469.3,
+      6611625
+     ],
+     [
+      669467,
+      6611624.9
+     ],
+     [
+      669464.9,
+      6611624.4
+     ],
+     [
+      669463,
+      6611623.3
+     ],
+     [
+      669461.4,
+      6611622
+     ],
+     [
+      669460.1,
+      6611620.2
+     ],
+     [
+      669459.3,
+      6611618.3
+     ],
+     [
+      669459.1,
+      6611616.2
+     ],
+     [
+      669459.3,
+      6611614.2
+     ],
+     [
+      669460,
+      6611612.1
+     ],
+     [
+      669461.1,
+      6611610.3
+     ],
+     [
+      669462.7,
+      6611608.7
+     ],
+     [
+      669464.6,
+      6611607.5
+     ],
+     [
+      669466.7,
+      6611606.7
+     ],
+     [
+      669468.9,
+      6611606.4
+     ],
+     [
+      669471.2,
+      6611606.5
+     ],
+     [
+      669473.3,
+      6611607
+     ],
+     [
+      669475.2,
+      6611608.1
+     ],
+     [
+      669476.8,
+      6611609.4
+     ],
+     [
+      669478.1,
+      6611611.2
+     ]
+    ],
+    "reach": 1,
+    "why": "the raised putting surface with a bunker short left (OSM's green): one even oval on the May 2023 and July 2019 photos. On the 2025 photo it stands among concentric mowing rings of the same green, and the search begun from the turf model's component stopped on one of those, 3 m out on the west and north"
+   }
+  },
+  "2": {
+   "why": "North over Kimstavägen and up the fairway along the field edge to the green in the north corner.",
+   "bends": [
+    [
+     669490,
+     6611790
+    ],
+    [
+     669560,
+     6611900
+    ]
+   ],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      669425.8,
+      6611682.5
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "level deck north of the road; 377 m"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669468.7,
+      6611721.5
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "level deck; 320 m"
+    }
+   ],
+   "green": {
+    "seed": [
+     669601.9,
+     6612010.6
+    ],
+    "why": "OSM green at the north end of the OSM fairway"
+   }
+  },
+  "3": {
+   "why": "Par 3 from behind the 2nd green south-east to the green in the clearing.",
+   "bends": [],
+   "pads": [
+    {
+     "src": "ellipse",
+     "c": [
+      669628,
+      6612057
+     ],
+     "size": [
+      18,
+      8
+     ],
+     "rot": 108,
+     "tees": [
+      "gul",
+      "rod"
+     ],
+     "why": "the striped rectangle behind the 2nd green, the plate's long narrow tee (read by eye: the plate's own fit fails on a par 3); the laser's level platform round it is twice its size and takes in the apron"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669664.7,
+      6611928.1
+     ],
+     [
+      669664.5,
+      6611929.9
+     ],
+     [
+      669664,
+      6611931.7
+     ],
+     [
+      669663.1,
+      6611933.2
+     ],
+     [
+      669661.9,
+      6611934.5
+     ],
+     [
+      669660.5,
+      6611935.5
+     ],
+     [
+      669658.9,
+      6611936.1
+     ],
+     [
+      669657.3,
+      6611936.3
+     ],
+     [
+      669655.7,
+      6611936.1
+     ],
+     [
+      669654.1,
+      6611935.5
+     ],
+     [
+      669652.7,
+      6611934.5
+     ],
+     [
+      669651.5,
+      6611933.2
+     ],
+     [
+      669650.6,
+      6611931.7
+     ],
+     [
+      669650.1,
+      6611929.9
+     ],
+     [
+      669649.9,
+      6611928.1
+     ],
+     [
+      669650.1,
+      6611926.3
+     ],
+     [
+      669650.6,
+      6611924.5
+     ],
+     [
+      669651.5,
+      6611923
+     ],
+     [
+      669652.7,
+      6611921.7
+     ],
+     [
+      669654.1,
+      6611920.7
+     ],
+     [
+      669655.7,
+      6611920.1
+     ],
+     [
+      669657.3,
+      6611919.9
+     ],
+     [
+      669658.9,
+      6611920.1
+     ],
+     [
+      669660.5,
+      6611920.7
+     ],
+     [
+      669661.9,
+      6611921.7
+     ],
+     [
+      669663.1,
+      6611923
+     ],
+     [
+      669664,
+      6611924.5
+     ],
+     [
+      669664.5,
+      6611926.3
+     ]
+    ],
+    "reach": 1,
+    "why": "the round striped putting surface in the clearing east of the 2nd fairway, not in OSM: 15 m by 16 on the 2025 and 2023 photos alike. The turf model's component was twice that, taking in the collar and the dry apron south of it"
+   }
+  },
+  "4": {
+   "why": "From the decks east of the 3rd green straight south-west over the trees to the bunkered green by the road: the plate draws a straight line of 257 m, the card's length (OSM draws a dogleg fairway round the trees).",
+   "bends": [],
+   "pads": [
+    {
+     "src": "ring",
+     "ring": [
+      [
+       669684.9,
+       6611889.1
+      ],
+      [
+       669688.9,
+       6611886.3
+      ],
+      [
+       669697,
+       6611897.9
+      ],
+      [
+       669693,
+       6611900.7
+      ]
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "the mown deck with a tee box at its far end, by the path spur, on the 2025 and 2023 photos; its near end is 259 m from the green (the card 257) and the plate puts the yellow tee there. The first two looks had the yellow tee on the shaded platform 10 m ahead of it (the blind look doubted it three times); the May 2023 photo showed this deck"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669643.6,
+      6611834.8
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "the small level patch 10 m from the plate's line, 56 m ahead of the yellow tee: the card gives Röd 201 against Gul 257. No photo year shows a red tee box and the plate draws none, so this is the laser's nearest level ground to where it must stand: a fault until someone has seen the hole"
+    },
+    {
+     "src": "ring",
+     "ring": [
+      [
+       669670.6,
+       6611872.8
+      ],
+      [
+       669669.4,
+       6611874.2
+      ],
+      [
+       669669.8,
+       6611874.8
+      ],
+      [
+       669676.1,
+       6611881
+      ],
+      [
+       669677.3,
+       6611882.8
+      ],
+      [
+       669679.3,
+       6611884.3
+      ],
+      [
+       669680.1,
+       6611884.3
+      ],
+      [
+       669680.8,
+       6611883.8
+      ],
+      [
+       669683.2,
+       6611880.3
+      ],
+      [
+       669683.2,
+       6611879.4
+      ],
+      [
+       669680.8,
+       6611877
+      ],
+      [
+       669679.1,
+       6611876.7
+      ],
+      [
+       669674.8,
+       6611873
+      ],
+      [
+       669672.5,
+       6611873.3
+      ]
+     ],
+     "tees": [],
+     "reach": 0,
+     "why": "a level platform of the laser between the yellow deck and the box ahead of it, under crowns, with a worn patch at its near end on the 2023 photo: part of the tee line, with no colour on the card. Kept as the laser drew it"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669668.9,
+      6611869.7
+     ],
+     "tees": [],
+     "why": "the mown tee box 20 m ahead of the yellow deck, on the 2019, 2023 and 2025 photos, 234 m from the green: a tee the card gives no colour (the card has Röd at 201)"
+    }
+   ],
+   "green": {
+    "seed": [
+     669536.5,
+     6611676.3
+    ],
+    "why": "OSM green, two bunkers behind it to the north"
+   }
+  },
+  "5": {
+   "why": "Par 5 south across Kimstavägen and down the long straight fairway beside the wetland.",
+   "bends": [],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      669515.1,
+      6611611.2
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "rectangular deck by the road; 430 m"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669486.9,
+      6611553.9
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "deck at the top of the fairway; 372 m"
+    }
+   ],
+   "green": {
+    "seed": [
+     669467.1,
+     6611182.3
+    ],
+    "why": "green at the south end of the two OSM fairway pieces"
+   }
+  },
+  "6": {
+   "why": "Par 3 north-west to the bunkered green; the service road on the left is OB (local rule 1c).",
+   "bends": [],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      669454.3,
+      6611140.5
+     ],
+     "tees": [
+      "gul",
+      "rod"
+     ],
+     "why": "deck by the yard at the road; 128 m, the card 127/127"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669387.5,
+      6611240
+     ],
+     [
+      669387.2,
+      6611242.2
+     ],
+     [
+      669386.1,
+      6611244.3
+     ],
+     [
+      669384.5,
+      6611246.1
+     ],
+     [
+      669382.3,
+      6611247.7
+     ],
+     [
+      669379.7,
+      6611248.8
+     ],
+     [
+      669376.8,
+      6611249.6
+     ],
+     [
+      669373.8,
+      6611249.8
+     ],
+     [
+      669370.8,
+      6611249.6
+     ],
+     [
+      669367.9,
+      6611248.8
+     ],
+     [
+      669365.3,
+      6611247.7
+     ],
+     [
+      669363.1,
+      6611246.1
+     ],
+     [
+      669361.5,
+      6611244.3
+     ],
+     [
+      669360.4,
+      6611242.2
+     ],
+     [
+      669360.1,
+      6611240
+     ],
+     [
+      669360.4,
+      6611237.8
+     ],
+     [
+      669361.5,
+      6611235.7
+     ],
+     [
+      669363.1,
+      6611233.9
+     ],
+     [
+      669365.3,
+      6611232.3
+     ],
+     [
+      669367.9,
+      6611231.2
+     ],
+     [
+      669370.8,
+      6611230.4
+     ],
+     [
+      669373.8,
+      6611230.2
+     ],
+     [
+      669376.8,
+      6611230.4
+     ],
+     [
+      669379.7,
+      6611231.2
+     ],
+     [
+      669382.3,
+      6611232.3
+     ],
+     [
+      669384.5,
+      6611233.9
+     ],
+     [
+      669386.1,
+      6611235.7
+     ],
+     [
+      669387.2,
+      6611237.8
+     ]
+    ],
+    "reach": 1.5,
+    "why": "the striped oval putting surface, two bunkers south of it; the component also took in the collar west, north and east of it"
+   }
+  },
+  "7": {
+   "why": "Par 5 south down the meadow corridor; Kimstavägen on the left is OB (local rule 1d).",
+   "bends": [],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      669322.8,
+      6611195
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "raised deck west of the service road; 506 m"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669329.2,
+      6611113.9
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "deck at the head of the meadow; 424 m"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669414.1,
+      6610696.4
+     ],
+     [
+      669413.8,
+      6610699.3
+     ],
+     [
+      669413,
+      6610702
+     ],
+     [
+      669411.8,
+      6610704.5
+     ],
+     [
+      669410.1,
+      6610706.6
+     ],
+     [
+      669408,
+      6610708.1
+     ],
+     [
+      669405.8,
+      6610709.1
+     ],
+     [
+      669403.4,
+      6610709.4
+     ],
+     [
+      669401,
+      6610709.1
+     ],
+     [
+      669398.8,
+      6610708.1
+     ],
+     [
+      669396.7,
+      6610706.6
+     ],
+     [
+      669395,
+      6610704.5
+     ],
+     [
+      669393.8,
+      6610702
+     ],
+     [
+      669393,
+      6610699.3
+     ],
+     [
+      669392.7,
+      6610696.4
+     ],
+     [
+      669393,
+      6610693.5
+     ],
+     [
+      669393.8,
+      6610690.8
+     ],
+     [
+      669395,
+      6610688.3
+     ],
+     [
+      669396.7,
+      6610686.2
+     ],
+     [
+      669398.8,
+      6610684.7
+     ],
+     [
+      669401,
+      6610683.7
+     ],
+     [
+      669403.4,
+      6610683.4
+     ],
+     [
+      669405.8,
+      6610683.7
+     ],
+     [
+      669408,
+      6610684.7
+     ],
+     [
+      669410.1,
+      6610686.2
+     ],
+     [
+      669411.8,
+      6610688.3
+     ],
+     [
+      669413,
+      6610690.8
+     ],
+     [
+      669413.8,
+      6610693.5
+     ]
+    ],
+    "reach": 1,
+    "why": "the oval putting surface north of the small pond, bunker short of it; the component's east edge followed a tree's shadow in a 3 m notch"
+   }
+  },
+  "8": {
+   "why": "West along the north half of the wide field to the green below the wood.",
+   "bends": [],
+   "pads": [
+    {
+     "src": "ring",
+     "ring": [
+      [
+       669368.4,
+       6610664.8
+      ],
+      [
+       669368.4,
+       6610659.2
+      ],
+      [
+       669370.6,
+       6610658
+      ],
+      [
+       669379,
+       6610657.4
+      ],
+      [
+       669381.6,
+       6610659.8
+      ],
+      [
+       669382,
+       6610666.5
+      ],
+      [
+       669376,
+       6610667
+      ],
+      [
+       669371,
+       6610665
+      ]
+     ],
+     "tees": [
+      "gul"
+     ],
+     "reach": 0,
+     "why": "the west-facing lower part of the L-shaped deck between the 7th and 14th greens, where the plate puts the yellow tee; the north arm is 15's. Kept as drawn so the two do not grow into one"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669327.6,
+      6610664.9
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "deck in the field; 252 m"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669089.2,
+      6610722.1
+     ],
+     [
+      669089,
+      6610724.1
+     ],
+     [
+      669088.3,
+      6610726
+     ],
+     [
+      669087.2,
+      6610727.7
+     ],
+     [
+      669085.8,
+      6610729.1
+     ],
+     [
+      669084.1,
+      6610730.2
+     ],
+     [
+      669082.2,
+      6610730.9
+     ],
+     [
+      669080.2,
+      6610731.1
+     ],
+     [
+      669078.2,
+      6610730.9
+     ],
+     [
+      669076.3,
+      6610730.2
+     ],
+     [
+      669074.6,
+      6610729.1
+     ],
+     [
+      669073.2,
+      6610727.7
+     ],
+     [
+      669072.1,
+      6610726
+     ],
+     [
+      669071.4,
+      6610724.1
+     ],
+     [
+      669071.2,
+      6610722.1
+     ],
+     [
+      669071.4,
+      6610720.1
+     ],
+     [
+      669072.1,
+      6610718.2
+     ],
+     [
+      669073.2,
+      6610716.5
+     ],
+     [
+      669074.6,
+      6610715.1
+     ],
+     [
+      669076.3,
+      6610714
+     ],
+     [
+      669078.2,
+      6610713.3
+     ],
+     [
+      669080.2,
+      6610713.1
+     ],
+     [
+      669082.2,
+      6610713.3
+     ],
+     [
+      669084.1,
+      6610714
+     ],
+     [
+      669085.8,
+      6610715.1
+     ],
+     [
+      669087.2,
+      6610716.5
+     ],
+     [
+      669088.3,
+      6610718.2
+     ],
+     [
+      669089,
+      6610720.1
+     ]
+    ],
+    "reach": 1.5,
+    "why": "the round putting surface with concentric mowing below the wood at the west end of the field: the pale disc and its first ring. The turf model's component took in the dry patch east of it, and the first redraw the apron south of it (the blind look's doubts)"
+   }
+  },
+  "9": {
+   "why": "North up the west corridor to the ringed green south of the black barn and the bale stack (the plate); the coffee break after 9 (local rule 8a). The plate's \"next tee\" points west, to 10.",
+   "bends": [
+    [
+     669069,
+     6611064
+    ]
+   ],
+   "pads": [
+    {
+     "src": "ring",
+     "ring": [
+      [
+       669119.7,
+       6610838.6
+      ],
+      [
+       669119.5,
+       6610841.1
+      ],
+      [
+       669121,
+       6610842.9
+      ],
+      [
+       669120.5,
+       6610844.1
+      ],
+      [
+       669120.5,
+       6610851.6
+      ],
+      [
+       669122.1,
+       6610853.2
+      ],
+      [
+       669124.3,
+       6610853.2
+      ],
+      [
+       669125.5,
+       6610852.1
+      ],
+      [
+       669125.5,
+       6610850.3
+      ],
+      [
+       669126,
+       6610849.5
+      ],
+      [
+       669126,
+       6610846.5
+      ],
+      [
+       669125.5,
+       6610845.5
+      ],
+      [
+       669126,
+       6610843.9
+      ],
+      [
+       669124.6,
+       6610841.9
+      ],
+      [
+       669124.4,
+       6610840.8
+      ],
+      [
+       669121.5,
+       6610837.9
+      ]
+     ],
+     "tees": [
+      "gul"
+     ],
+     "reach": 0,
+     "why": "the southernmost deck of the west corridor, the lit mown patch on the 2021 photo, where the plate puts the yellow tee; kept as the laser drew it, since refined on the 2025 photo it narrowed into the shade (the blind look's doubt)"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669111.5,
+      6610904.2
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "deck at the corridor foot"
+    }
+   ],
+   "green": {
+    "seed": [
+     669146.7,
+     6611214.5
+    ],
+    "why": "the green with concentric mowing rings south of the black barn, the plate's flag"
+   }
+  },
+  "10": {
+   "why": "From a clearing south of the row house west across the meadow, round the north of the west pond, to the green at the head of the strip (the plate: plays 10 m downhill).",
+   "bends": [
+    [
+     668772,
+     6611333
+    ]
+   ],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      668975.6,
+      6611248.7
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "the level patch in the clearing south of the row house, where the plate puts the yellow tee (13 m off)"
+    },
+    {
+     "src": "ellipse",
+     "c": [
+      668914,
+      6611275
+     ],
+     "size": [
+      9,
+      6
+     ],
+     "rot": 30,
+     "tees": [
+      "rod"
+     ],
+     "why": "the round mown platform with a tee rectangle between the path and the wood, 79 m ahead; the plate's line passes it. Not level in the laser, so drawn on the photo"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      668710,
+      6611237.2
+     ],
+     [
+      668710.6,
+      6611237.1
+     ],
+     [
+      668711.2,
+      6611237
+     ],
+     [
+      668711.7,
+      6611236.8
+     ],
+     [
+      668712.3,
+      6611236.6
+     ],
+     [
+      668712.9,
+      6611236.3
+     ],
+     [
+      668713.5,
+      6611235.9
+     ],
+     [
+      668714,
+      6611235.6
+     ],
+     [
+      668714.5,
+      6611235.2
+     ],
+     [
+      668715,
+      6611234.8
+     ],
+     [
+      668715.4,
+      6611234.3
+     ],
+     [
+      668715.9,
+      6611233.8
+     ],
+     [
+      668716.3,
+      6611233.3
+     ],
+     [
+      668716.7,
+      6611232.7
+     ],
+     [
+      668717,
+      6611232.2
+     ],
+     [
+      668717.3,
+      6611231.6
+     ],
+     [
+      668717.6,
+      6611231
+     ],
+     [
+      668717.8,
+      6611230.4
+     ],
+     [
+      668718.1,
+      6611229.8
+     ],
+     [
+      668718.3,
+      6611229.2
+     ],
+     [
+      668718.4,
+      6611228.5
+     ],
+     [
+      668718.5,
+      6611227.9
+     ],
+     [
+      668718.6,
+      6611227.2
+     ],
+     [
+      668718.6,
+      6611226.6
+     ],
+     [
+      668718.6,
+      6611226
+     ],
+     [
+      668718.5,
+      6611225.4
+     ],
+     [
+      668718.4,
+      6611224.8
+     ],
+     [
+      668718.2,
+      6611224.2
+     ],
+     [
+      668718,
+      6611223.6
+     ],
+     [
+      668717.7,
+      6611223.1
+     ],
+     [
+      668717.3,
+      6611222.5
+     ],
+     [
+      668716.9,
+      6611222
+     ],
+     [
+      668716.5,
+      6611221.5
+     ],
+     [
+      668716,
+      6611221
+     ],
+     [
+      668715.4,
+      6611220.6
+     ],
+     [
+      668714.7,
+      6611220.1
+     ],
+     [
+      668714,
+      6611219.7
+     ],
+     [
+      668713.3,
+      6611219.3
+     ],
+     [
+      668712.5,
+      6611218.9
+     ],
+     [
+      668711.7,
+      6611218.7
+     ],
+     [
+      668711,
+      6611218.5
+     ],
+     [
+      668710.2,
+      6611218.4
+     ],
+     [
+      668709.5,
+      6611218.4
+     ],
+     [
+      668708.7,
+      6611218.5
+     ],
+     [
+      668707.9,
+      6611218.6
+     ],
+     [
+      668707.1,
+      6611218.8
+     ],
+     [
+      668706.3,
+      6611219
+     ],
+     [
+      668705.5,
+      6611219.2
+     ],
+     [
+      668704.8,
+      6611219.5
+     ],
+     [
+      668704.1,
+      6611219.8
+     ],
+     [
+      668703.4,
+      6611220.2
+     ],
+     [
+      668702.7,
+      6611220.6
+     ],
+     [
+      668702.1,
+      6611221.1
+     ],
+     [
+      668701.4,
+      6611221.5
+     ],
+     [
+      668700.9,
+      6611222
+     ],
+     [
+      668700.4,
+      6611222.5
+     ],
+     [
+      668700,
+      6611223
+     ],
+     [
+      668699.7,
+      6611223.5
+     ],
+     [
+      668699.5,
+      6611223.9
+     ],
+     [
+      668699.3,
+      6611224.4
+     ],
+     [
+      668699.2,
+      6611224.9
+     ],
+     [
+      668699.1,
+      6611225.4
+     ],
+     [
+      668699.2,
+      6611225.9
+     ],
+     [
+      668699.2,
+      6611226.4
+     ],
+     [
+      668699.3,
+      6611227
+     ],
+     [
+      668699.5,
+      6611227.6
+     ],
+     [
+      668699.7,
+      6611228.2
+     ],
+     [
+      668700,
+      6611228.9
+     ],
+     [
+      668700.3,
+      6611229.5
+     ],
+     [
+      668700.6,
+      6611230.2
+     ],
+     [
+      668701,
+      6611230.8
+     ],
+     [
+      668701.4,
+      6611231.4
+     ],
+     [
+      668701.8,
+      6611232
+     ],
+     [
+      668702.2,
+      6611232.5
+     ],
+     [
+      668702.6,
+      6611233
+     ],
+     [
+      668703.1,
+      6611233.5
+     ],
+     [
+      668703.5,
+      6611234
+     ],
+     [
+      668704,
+      6611234.5
+     ],
+     [
+      668704.5,
+      6611234.9
+     ],
+     [
+      668705,
+      6611235.3
+     ],
+     [
+      668705.5,
+      6611235.6
+     ],
+     [
+      668706,
+      6611235.9
+     ],
+     [
+      668706.6,
+      6611236.2
+     ],
+     [
+      668707.1,
+      6611236.5
+     ],
+     [
+      668707.7,
+      6611236.7
+     ],
+     [
+      668708.3,
+      6611237
+     ],
+     [
+      668708.9,
+      6611237.1
+     ],
+     [
+      668709.4,
+      6611237.2
+     ]
+    ],
+    "reach": 0.8,
+    "why": "the green at the head of the west strip, the plate's flag. Its rim shows round the north end and down the north-west side on every photo year; the mown tongue runs on south-west as the approach with no rim across it, so the front is set where the leaf-off photo of 2021 turns from green to dormant turf and the 2023 mowing pattern changes, uncertain by some 3 m; the east side lies under the wood's shadow on all four years and follows the 2021 edge and the 2023 mowing arcs. The turf model's component ran 15 m down the approach"
+   }
+  },
+  "11": {
+   "why": "Par 5 south down the strip between the wood and the ditch, bending west and back into the green (the plate); the field on the right is OB (local rule 1e). The plate's line measures 518 m on its fit, the weakest of the 18, so its bulge is drawn four fifths as wide, which gives the card's 500.",
+   "bends": [
+    [
+     668625,
+     6610810
+    ],
+    [
+     668637,
+     6610734
+    ]
+   ],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      668693.2,
+      6611162.2
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "level deck where the plate puts the yellow tee (4 m off)"
+    },
+    {
+     "src": "platform",
+     "at": [
+      668656.3,
+      6611091.8
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "OSM tee way, a level deck"
+    }
+   ],
+   "green": {
+    "seed": [
+     668699.2,
+     6610706.2
+    ],
+    "why": "OSM green at the south end of the strip, where it turns into the wood"
+   }
+  },
+  "12": {
+   "why": "Par 3 west over the edge of the west pond to the green beside the ditch.",
+   "bends": [],
+   "pads": [
+    {
+     "src": "ring",
+     "ring": [
+      [
+       668703.4,
+       6610673.1
+      ],
+      [
+       668716.2,
+       6610674.4
+      ],
+      [
+       668717.2,
+       6610672.2
+      ],
+      [
+       668717.5,
+       6610669
+      ],
+      [
+       668703.5,
+       6610669
+      ]
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "the mown tee strip south of the 11th green, 14 m by 5, with its worn tee box at the east end (bare on the 2023 photo); the plate, fitted on the 11th and 12th greens (its own fit fails on a par 3), puts the yellow tee on it. The first ring held only the tee box (the blind look's doubt)"
+    },
+    {
+     "src": "platform",
+     "at": [
+      668696,
+      6610654.2
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "the small level deck where the plate draws a forward tee (4 m off)"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      668600.6,
+      6610637.2
+     ],
+     [
+      668600.6,
+      6610639.6
+     ],
+     [
+      668599.9,
+      6610641.9
+     ],
+     [
+      668598.6,
+      6610644.1
+     ],
+     [
+      668596.8,
+      6610646.1
+     ],
+     [
+      668594.4,
+      6610647.7
+     ],
+     [
+      668591.8,
+      6610648.8
+     ],
+     [
+      668588.9,
+      6610649.5
+     ],
+     [
+      668585.9,
+      6610649.6
+     ],
+     [
+      668583,
+      6610649.3
+     ],
+     [
+      668580.3,
+      6610648.4
+     ],
+     [
+      668578,
+      6610647
+     ],
+     [
+      668576.2,
+      6610645.3
+     ],
+     [
+      668574.9,
+      6610643.2
+     ],
+     [
+      668574.2,
+      6610641
+     ],
+     [
+      668574.2,
+      6610638.6
+     ],
+     [
+      668574.9,
+      6610636.3
+     ],
+     [
+      668576.2,
+      6610634.1
+     ],
+     [
+      668578,
+      6610632.1
+     ],
+     [
+      668580.4,
+      6610630.5
+     ],
+     [
+      668583,
+      6610629.4
+     ],
+     [
+      668585.9,
+      6610628.7
+     ],
+     [
+      668588.9,
+      6610628.6
+     ],
+     [
+      668591.8,
+      6610628.9
+     ],
+     [
+      668594.5,
+      6610629.8
+     ],
+     [
+      668596.8,
+      6610631.2
+     ],
+     [
+      668598.6,
+      6610632.9
+     ],
+     [
+      668599.9,
+      6610635
+     ]
+    ],
+    "reach": 1,
+    "why": "the oval putting surface west of the pond, the plate's flag (OSM's green): one even oval on the May 2023 photo, whose edge is the outer edge of the pale band round the stripes on the 2025 photo. The search begun from the component ran 4.5 m out over a bare patch at the south-east"
+   }
+  },
+  "13": {
+   "why": "East-south-east from the decks by the ditch; the ditch and field on the right are OB (local rule 1f).",
+   "bends": [
+    [
+     668773,
+     6610500
+    ],
+    [
+     668848,
+     6610485
+    ]
+   ],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      668584.3,
+      6610593.4
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "OSM tee way, a level deck; about 308 m"
+    },
+    {
+     "src": "platform",
+     "at": [
+      668648.8,
+      6610574.7
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "OSM tee way, a level deck; about 237 m"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      668889.2,
+      6610499.9
+     ],
+     [
+      668888.5,
+      6610501.4
+     ],
+     [
+      668887.3,
+      6610502.7
+     ],
+     [
+      668885.8,
+      6610503.7
+     ],
+     [
+      668884,
+      6610504.4
+     ],
+     [
+      668882,
+      6610504.7
+     ],
+     [
+      668879.9,
+      6610504.6
+     ],
+     [
+      668877.8,
+      6610504.2
+     ],
+     [
+      668875.8,
+      6610503.4
+     ],
+     [
+      668874.1,
+      6610502.3
+     ],
+     [
+      668872.6,
+      6610500.9
+     ],
+     [
+      668871.5,
+      6610499.3
+     ],
+     [
+      668870.8,
+      6610497.6
+     ],
+     [
+      668870.6,
+      6610495.9
+     ],
+     [
+      668870.8,
+      6610494.3
+     ],
+     [
+      668871.5,
+      6610492.8
+     ],
+     [
+      668872.7,
+      6610491.5
+     ],
+     [
+      668874.2,
+      6610490.5
+     ],
+     [
+      668876,
+      6610489.8
+     ],
+     [
+      668878,
+      6610489.5
+     ],
+     [
+      668880.1,
+      6610489.6
+     ],
+     [
+      668882.2,
+      6610490
+     ],
+     [
+      668884.2,
+      6610490.8
+     ],
+     [
+      668885.9,
+      6610491.9
+     ],
+     [
+      668887.4,
+      6610493.3
+     ],
+     [
+      668888.5,
+      6610494.9
+     ],
+     [
+      668889.2,
+      6610496.6
+     ],
+     [
+      668889.4,
+      6610498.3
+     ]
+    ],
+    "reach": 0.8,
+    "why": "the oval putting surface at the east end of the fairway, two bunkers short of it; a pine's shadow covers its south-east third on the 2025 photo, where the component followed the shadow, so the oval is fitted on the leaf-off photo of 2021, which shows the whole rim"
+   }
+  },
+  "14": {
+   "why": "East along the south half of the wide field to the green south of the small pond.",
+   "bends": [],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      669015.1,
+      6610564.2
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "deck at the west end of the field; 366 m"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669054.7,
+      6610585.5
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "deck; 324 m"
+    }
+   ],
+   "green": {
+    "seed": [
+     669376.3,
+     6610620.7
+    ],
+    "why": "green south of the small pond"
+   }
+  },
+  "15": {
+   "why": "North-west from the deck between the 7th and 14th greens up the open fairway to the green in the wood edge.",
+   "bends": [],
+   "pads": [
+    {
+     "src": "ring",
+     "ring": [
+      [
+       669373,
+       6610677
+      ],
+      [
+       669375,
+       6610678.6
+      ],
+      [
+       669378,
+       6610678.6
+      ],
+      [
+       669381.5,
+       6610673
+      ],
+      [
+       669382,
+       6610667
+      ],
+      [
+       669376,
+       6610667
+      ],
+      [
+       669375.5,
+       6610673
+      ]
+     ],
+     "tees": [
+      "gul"
+     ],
+     "reach": 0,
+     "why": "the north arm of the L-shaped deck whose lower part is 8's, where the plate puts the yellow tee; the plate's line is the card's 332 m. Kept as drawn"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669334.2,
+      6610709
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "deck; 278 m"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669255.2,
+      6610980.8
+     ],
+     [
+      669253.7,
+      6610983
+     ],
+     [
+      669251.9,
+      6610984.9
+     ],
+     [
+      669249.9,
+      6610986.4
+     ],
+     [
+      669247.7,
+      6610987.4
+     ],
+     [
+      669245.6,
+      6610987.8
+     ],
+     [
+      669243.6,
+      6610987.7
+     ],
+     [
+      669241.8,
+      6610987
+     ],
+     [
+      669240.2,
+      6610985.8
+     ],
+     [
+      669239.1,
+      6610984.1
+     ],
+     [
+      669238.4,
+      6610982
+     ],
+     [
+      669238.2,
+      6610979.7
+     ],
+     [
+      669238.5,
+      6610977.2
+     ],
+     [
+      669239.2,
+      6610974.6
+     ],
+     [
+      669240.4,
+      6610972.2
+     ],
+     [
+      669241.9,
+      6610970
+     ],
+     [
+      669243.7,
+      6610968.1
+     ],
+     [
+      669245.7,
+      6610966.6
+     ],
+     [
+      669247.9,
+      6610965.6
+     ],
+     [
+      669250,
+      6610965.2
+     ],
+     [
+      669252,
+      6610965.3
+     ],
+     [
+      669253.9,
+      6610966
+     ],
+     [
+      669255.4,
+      6610967.2
+     ],
+     [
+      669256.5,
+      6610968.9
+     ],
+     [
+      669257.2,
+      6610971
+     ],
+     [
+      669257.4,
+      6610973.3
+     ],
+     [
+      669257.1,
+      6610975.8
+     ],
+     [
+      669256.4,
+      6610978.4
+     ]
+    ],
+    "reach": 1,
+    "why": "the egg-shaped putting surface at the north end of the fairway from the field, the plate's flag; its rim is whole on the leaf-off photo of 2021. The component kept a 2 m tail of collar at the south end"
+   }
+  },
+  "16": {
+   "why": "Par 5 (par 4 on the older card) north up the middle corridor to the green with a bunker short left, south of the farm buildings.",
+   "bends": [
+    [
+     669165,
+     6610950
+    ],
+    [
+     669180,
+     6611150
+    ]
+   ],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      669161,
+      6610859
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "deck at the south end of the middle corridor, where the plate puts the yellow tee"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669155.8,
+      6610906.1
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "deck"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669254.8,
+      6611227.1
+     ],
+     [
+      669254.7,
+      6611229.1
+     ],
+     [
+      669253.9,
+      6611231
+     ],
+     [
+      669252.4,
+      6611232.7
+     ],
+     [
+      669250.4,
+      6611234.3
+     ],
+     [
+      669248,
+      6611235.5
+     ],
+     [
+      669245.3,
+      6611236.4
+     ],
+     [
+      669242.3,
+      6611236.9
+     ],
+     [
+      669239.4,
+      6611236.9
+     ],
+     [
+      669236.5,
+      6611236.5
+     ],
+     [
+      669233.9,
+      6611235.7
+     ],
+     [
+      669231.7,
+      6611234.5
+     ],
+     [
+      669230,
+      6611233.1
+     ],
+     [
+      669228.8,
+      6611231.3
+     ],
+     [
+      669228.4,
+      6611229.5
+     ],
+     [
+      669228.5,
+      6611227.5
+     ],
+     [
+      669229.3,
+      6611225.6
+     ],
+     [
+      669230.8,
+      6611223.9
+     ],
+     [
+      669232.8,
+      6611222.3
+     ],
+     [
+      669235.2,
+      6611221.1
+     ],
+     [
+      669237.9,
+      6611220.2
+     ],
+     [
+      669240.9,
+      6611219.7
+     ],
+     [
+      669243.8,
+      6611219.7
+     ],
+     [
+      669246.7,
+      6611220.1
+     ],
+     [
+      669249.3,
+      6611220.9
+     ],
+     [
+      669251.5,
+      6611222.1
+     ],
+     [
+      669253.2,
+      6611223.5
+     ],
+     [
+      669254.4,
+      6611225.3
+     ]
+    ],
+    "reach": 1.5,
+    "why": "the striped oval putting surface with a bunker short left, the plate's flag; the component ran 10 m down the approach south-west of it"
+   }
+  },
+  "17": {
+   "why": "Par 3 north-east to the round green east of the 1st fairway.",
+   "bends": [],
+   "pads": [
+    {
+     "src": "platform",
+     "at": [
+      669316.4,
+      6611346.5
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "deck in the rough north of the service road; 183 m"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669359.4,
+      6611392.2
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "rectangular deck; 121 m"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669432.8,
+      6611494.7
+     ],
+     [
+      669432.5,
+      6611497.4
+     ],
+     [
+      669431.7,
+      6611499.9
+     ],
+     [
+      669430.4,
+      6611502.2
+     ],
+     [
+      669428.7,
+      6611504.2
+     ],
+     [
+      669426.6,
+      6611505.6
+     ],
+     [
+      669424.3,
+      6611506.5
+     ],
+     [
+      669421.9,
+      6611506.8
+     ],
+     [
+      669419.5,
+      6611506.5
+     ],
+     [
+      669417.2,
+      6611505.6
+     ],
+     [
+      669415.1,
+      6611504.2
+     ],
+     [
+      669413.4,
+      6611502.2
+     ],
+     [
+      669412.1,
+      6611499.9
+     ],
+     [
+      669411.3,
+      6611497.4
+     ],
+     [
+      669411,
+      6611494.7
+     ],
+     [
+      669411.3,
+      6611492
+     ],
+     [
+      669412.1,
+      6611489.5
+     ],
+     [
+      669413.4,
+      6611487.2
+     ],
+     [
+      669415.1,
+      6611485.2
+     ],
+     [
+      669417.2,
+      6611483.8
+     ],
+     [
+      669419.5,
+      6611482.9
+     ],
+     [
+      669421.9,
+      6611482.6
+     ],
+     [
+      669424.3,
+      6611482.9
+     ],
+     [
+      669426.6,
+      6611483.8
+     ],
+     [
+      669428.7,
+      6611485.2
+     ],
+     [
+      669430.4,
+      6611487.2
+     ],
+     [
+      669431.7,
+      6611489.5
+     ],
+     [
+      669432.5,
+      6611492
+     ]
+    ],
+    "reach": 1.5,
+    "why": "the round putting surface inside its pale collar ring; the component took in the collar at both north corners and along the south"
+   }
+  },
+  "18": {
+   "why": "West-south-west round the farm pond to the green below the clubhouse terrace (the club's photo of 18 across the pond).",
+   "bends": [
+    [
+     669272,
+     6611393
+    ]
+   ],
+   "pads": [
+    {
+     "src": "ring",
+     "ring": [
+      [
+       669419.5,
+       6611545.5
+      ],
+      [
+       669426.5,
+       6611554.5
+      ],
+      [
+       669434,
+       6611550
+      ],
+      [
+       669427,
+       6611542.5
+      ]
+     ],
+     "tees": [
+      "gul"
+     ],
+     "why": "the mown rectangle with a tee marker north-east of the round mown oval, where the plate puts the yellow tee (7 m off). Not level in the laser, so drawn on the photo"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669356.7,
+      6611500.8
+     ],
+     "tees": [
+      "rod"
+     ],
+     "why": "the mown rectangle beside the plate's line 96 m ahead of the yellow tee (1.3 m off), a level deck; the plate draws no red tee. The deck first chosen, 35 m behind it, is rough with bushes on both photos"
+    },
+    {
+     "src": "platform",
+     "at": [
+      669416.4,
+      6611538.7
+     ],
+     "tees": [],
+     "why": "the round mown oval between the 17th green and the yellow tee, a level deck on all four photo years: a tee the card gives no colour"
+    }
+   ],
+   "green": {
+    "ring": [
+     [
+      669139.6,
+      6611421.6
+     ],
+     [
+      669139.3,
+      6611424.1
+     ],
+     [
+      669138.6,
+      6611426.5
+     ],
+     [
+      669137.3,
+      6611428.6
+     ],
+     [
+      669135.6,
+      6611430.4
+     ],
+     [
+      669133.6,
+      6611431.8
+     ],
+     [
+      669131.4,
+      6611432.6
+     ],
+     [
+      669129,
+      6611432.9
+     ],
+     [
+      669126.6,
+      6611432.6
+     ],
+     [
+      669124.4,
+      6611431.8
+     ],
+     [
+      669122.4,
+      6611430.4
+     ],
+     [
+      669120.7,
+      6611428.6
+     ],
+     [
+      669119.4,
+      6611426.5
+     ],
+     [
+      669118.7,
+      6611424.1
+     ],
+     [
+      669118.4,
+      6611421.6
+     ],
+     [
+      669118.7,
+      6611419.1
+     ],
+     [
+      669119.4,
+      6611416.7
+     ],
+     [
+      669120.7,
+      6611414.6
+     ],
+     [
+      669122.4,
+      6611412.8
+     ],
+     [
+      669124.4,
+      6611411.4
+     ],
+     [
+      669126.6,
+      6611410.6
+     ],
+     [
+      669129,
+      6611410.3
+     ],
+     [
+      669131.4,
+      6611410.6
+     ],
+     [
+      669133.6,
+      6611411.4
+     ],
+     [
+      669135.6,
+      6611412.8
+     ],
+     [
+      669137.3,
+      6611414.6
+     ],
+     [
+      669138.6,
+      6611416.7
+     ],
+     [
+      669139.3,
+      6611419.1
+     ]
+    ],
+    "reach": 1,
+    "why": "the round putting surface below the barn, bunkers right and behind (OSM's green): one even oval on the May 2023 and July 2019 photos. The search begun from the component kept 2 m of collar at the north-west, the last of the knob the blind look named"
+   }
+  }
+ }
+}

@@ -273,6 +273,22 @@
         "reviewStatus": "pending",
         "notes": "Harvested 2026-11-24 into ignored brohofbuild/cache/club-sources/ with SHA-256 ledger."
       }
+    },
+    {
+      "id": "tjusta-club-media",
+      "provider": "Tjusta Golf AB; Svenska Golfförbundet (slope tables); Golf i Sverige and Caddee (scorecard and hole plates); Hole19, All Square and GolfPass (scorecards)",
+      "product": "Official club pages, SGF slope tables, 2023 local rules and club photographs, with guide publishers' scorecards and hole plates and third-party scorecards",
+      "homepage": "https://tjustagolf.se/banan/",
+      "horizontalCrs": null,
+      "verticalCrs": null,
+      "licence": {
+        "id": "Exact primary permission unresolved",
+        "attribution": "Tjusta Golf AB / Svenska Golfförbundet / Golf i Sverige / Caddee / Hole19 / All Square / GolfPass",
+        "redistribution": "Raw source media remain in ignored local reference storage; no redistribution grant established.",
+        "derivatives": "Factual card data (par, lengths, index, ratings) and routing corroboration only: the hole plates' marks name which deck and which green a hole plays, registered on the Lantmäteriet photo; production geometry comes from Lantmäteriet national measurements.",
+        "reviewStatus": "pending",
+        "notes": "Harvested 2026-11-26 into ignored tjustabuild/cache/club-sources/ with SHA-256 ledger. The club publishes no hole-by-hole card and no hole map."
+      }
     }
   ]
 }

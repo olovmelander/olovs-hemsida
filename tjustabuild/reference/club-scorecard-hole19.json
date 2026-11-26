@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "slug": "tjusta",
+  "courseName": "Tjusta GK (Hole19's par-72 card)",
+  "source": {
+    "primary": "https://www.hole19golf.com/courses/tjusta-golfklubb",
+    "retrievedOn": "2026-11-26",
+    "notes": "User-maintained card, kept to show where it differs from the guide publishers' card: index on 16 holes, Röd 4 (251 against 201), 6 (127 against 121) and 16 (346 against 350). Hole19 gives Röd per hole only; Gul here is the guide publishers' except 16, whose Hole19 value is not printed (its Gul total 5906 m would make 16 Gul 423 m)."
+  },
+  "par": { "front": 36, "back": 36, "total": 72 },
+  "tees": [
+    { "id": "rod", "name": "Röd", "front": 2574, "back": 2437, "total": 5011 }
+  ],
+  "holes": [
+    { "number": 1,  "par": 4, "index": 11, "lengths": { "rod": 355 } },
+    { "number": 2,  "par": 4, "index": 7,  "lengths": { "rod": 318 } },
+    { "number": 3,  "par": 3, "index": 15, "lengths": { "rod": 128 } },
+    { "number": 4,  "par": 4, "index": 13, "lengths": { "rod": 251 } },
+    { "number": 5,  "par": 5, "index": 3,  "lengths": { "rod": 374 } },
+    { "number": 6,  "par": 3, "index": 17, "lengths": { "rod": 127 } },
+    { "number": 7,  "par": 5, "index": 1,  "lengths": { "rod": 424 } },
+    { "number": 8,  "par": 4, "index": 9,  "lengths": { "rod": 262 } },
+    { "number": 9,  "par": 4, "index": 5,  "lengths": { "rod": 335 } },
+    { "number": 10, "par": 4, "index": 8,  "lengths": { "rod": 281 } },
+    { "number": 11, "par": 5, "index": 2,  "lengths": { "rod": 425 } },
+    { "number": 12, "par": 3, "index": 16, "lengths": { "rod": 105 } },
+    { "number": 13, "par": 4, "index": 12, "lengths": { "rod": 257 } },
+    { "number": 14, "par": 4, "index": 6,  "lengths": { "rod": 323 } },
+    { "number": 15, "par": 4, "index": 14, "lengths": { "rod": 280 } },
+    { "number": 16, "par": 5, "index": 4,  "lengths": { "rod": 346 } },
+    { "number": 17, "par": 3, "index": 18, "lengths": { "rod": 120 } },
+    { "number": 18, "par": 4, "index": 10, "lengths": { "rod": 300 } }
+  ]
+}

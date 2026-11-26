@@ -1,0 +1,419 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "items": [
+    {
+      "id": "home-page",
+      "url": "https://tjustagolf.se/",
+      "kind": "club-page",
+      "role": "official-club-html"
+    },
+    {
+      "id": "course-page",
+      "url": "https://tjustagolf.se/banan/",
+      "kind": "course-page",
+      "role": "official-club-html",
+      "notes": "Says par 72, woodland and meadow, practice ground with range, short-game area and putting green."
+    },
+    {
+      "id": "about-course-page",
+      "url": "https://tjustagolf.se/om-banan/",
+      "kind": "course-page",
+      "role": "official-club-html"
+    },
+    {
+      "id": "practice-page",
+      "url": "https://tjustagolf.se/ovningsomraden/",
+      "kind": "facility-page",
+      "role": "official-club-html",
+      "notes": "Short-game area straight ahead from the first tee; putting green beside the range."
+    },
+    {
+      "id": "local-rules-page",
+      "url": "https://tjustagolf.se/lokala-regler/",
+      "kind": "local-rules",
+      "role": "official-club-html"
+    },
+    {
+      "id": "local-rules-pdf",
+      "url": "https://tjustagolf.se/wp-content/uploads/2023/09/Lokala-Regler-2023.pdf",
+      "kind": "local-rules",
+      "role": "official-club-pdf",
+      "notes": "Linked as 'Lokala Regler 2025' (valid until further notice from 2025)."
+    },
+    {
+      "id": "slope-page",
+      "url": "https://tjustagolf.se/slopekalkylator/",
+      "kind": "slope-table",
+      "role": "official-club-html"
+    },
+    {
+      "id": "slope-men-pdf",
+      "url": "https://tjustagolf.se/wp-content/uploads/2023/03/TJUSTA_Golf_Course_Men-1.pdf",
+      "kind": "slope-table",
+      "role": "sgf-slope",
+      "date": "2020-08-01",
+      "notes": "SGF: Tjusta GK, Herrar par 72, rated 2020-08-01; Gul CR 71.2 / slope 127, Röd 66.9 / 117."
+    },
+    {
+      "id": "slope-women-pdf",
+      "url": "https://tjustagolf.se/wp-content/uploads/2023/03/TJUSTA_Golf_Course_Women-1.pdf",
+      "kind": "slope-table",
+      "role": "sgf-slope",
+      "date": "2020-08-01",
+      "notes": "SGF: Tjusta GK, Damer par 72, rated 2020-08-01; Gul CR 77.3 / slope 142, Röd 71.9 / 130."
+    },
+    {
+      "id": "slope-poster-png",
+      "url": "https://tjustagolf.se/wp-content/uploads/2026/04/POSTER-2.png",
+      "kind": "slope-table",
+      "role": "sgf-slope",
+      "date": "2026-04-28",
+      "notes": "Both SGF tables on one poster (Canva, 2026-04-28): par 72, rated 2020-08-01."
+    },
+    {
+      "id": "gallery-page",
+      "url": "https://tjustagolf.se/bilder-tjusta-golf/",
+      "kind": "gallery",
+      "role": "official-club-html"
+    },
+    {
+      "id": "photo-hole-18-reeds",
+      "url": "https://tjustagolf.se/wp-content/uploads/2023/03/vass-hal-18-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev",
+      "notes": "Captioned 'vass hål 18' (reeds, hole 18)."
+    },
+    {
+      "id": "photo-tjusta18",
+      "url": "https://tjustagolf.se/wp-content/uploads/2023/03/tjusta18_small.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "photo-clubhouse-2022",
+      "url": "https://tjustagolf.se/wp-content/uploads/2023/03/klubbhus-2022-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "photo-clubhouse-terrace",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/TJUSTA_6-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev",
+      "notes": "Captioned 'Klubbhus med terrass'."
+    },
+    {
+      "id": "photo-course-view-1",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/P1359390-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev",
+      "notes": "Captioned 'Vy över Tjusta Golfklubbs bana'."
+    },
+    {
+      "id": "photo-woodland-meadow",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/P1432475-1-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "photo-practice-range",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/P1491701-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "photo-course-view-2",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/P1492749-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "photo-course-view-3",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/P1359317-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "photo-fairway",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/P1491632-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "photo-putting-green",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/P1491754-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "photo-short-game",
+      "url": "https://tjustagolf.se/wp-content/uploads/2025/10/P1492023-scaled.jpg",
+      "kind": "reference-photo",
+      "role": "look-dev"
+    },
+    {
+      "id": "card-hole19",
+      "url": "https://www.hole19golf.com/courses/tjusta-golfklubb",
+      "kind": "scorecard",
+      "role": "third-party-scorecard",
+      "notes": "Par 72 card, red (l) tee only, hole lengths in metres although labelled yds; hole 16 par 5."
+    },
+    {
+      "id": "card-allsquare",
+      "url": "https://allsquaregolf.com/golf-courses/sweden/tjusta-golfklubb",
+      "kind": "scorecard",
+      "role": "third-party-scorecard",
+      "notes": "Older par 71 card: white, yellow and red lengths, men's and women's index; hole 16 par 4."
+    },
+    {
+      "id": "card-golfpass",
+      "url": "https://www.golfpass.com/travel-advisor/courses/37543-tjusta-golf-club/scorecard-and-layout",
+      "kind": "scorecard",
+      "role": "third-party-scorecard",
+      "notes": "Par 71 card in yards (yellow and red) with the 2020 SGF ratings; year built 2003."
+    },
+    {
+      "id": "caddee-page",
+      "url": "https://www.caddee.se/klubb/tjusta-golf",
+      "kind": "course-page",
+      "role": "banguide-html",
+      "notes": "Caddee: par 72 card with Röd and Gul per hole and index; not Caddee-connected, so its guide graphics may not be exact."
+    },
+    {
+      "id": "caddee-overview",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/course-images/2a793317-7673-4dd5-b6f7-04cdb91d3519/overview-normal_web_4JGiexT.png",
+      "kind": "banguide",
+      "role": "overview-diagram"
+    },
+    {
+      "id": "caddee-h01-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/8effabc3-196a-43b4-9c15-da24ce56f447/hole-preview_web_8iurB08.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h02-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/edc9e0ab-12af-4b8b-a4cf-cd1919ab973b/hole-preview_web_TDV0vn4.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h03-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/a022b33d-6317-4c63-a4eb-aa5798b719e8/hole-preview_web_UMNc518.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h04-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/430bf48f-9bc9-4616-87bb-40d59b0e0255/hole-preview_web_JQwwUsK.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h05-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/17a70a75-2f88-49c9-8fa3-1c0f6d66bdee/hole-preview_web_tggXPgU.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h06-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/231af4ce-76e4-48e8-afce-452c74ade0ac/hole-preview_web_zvEZHS2.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h07-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/170f2639-9d75-4d2e-b443-ba873dc997d2/hole-preview_web_YuXN5G3.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h08-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/558babd6-e717-4bc7-b375-f23fe1e49d94/hole-preview_web_MP18N5U.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h09-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/8440c633-b987-4a5c-86c6-aeaefd89e4fc/hole-preview_web_AaaTZxu.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h10-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/072d7331-5986-4934-a607-7a4f6666d04b/hole-preview_web_W4upZkh.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h11-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/c78cff80-d231-48a9-a979-4367c65f6723/hole-preview_web_oShhcWR.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h12-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/98098401-5c2b-4544-9d47-a07df09aa8f9/hole-preview_web_XYmqurq.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h13-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/c6b9e2a5-5dea-4b1f-ba23-dd224819193e/hole-preview_web_dNdj4K4.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h14-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/352af6e7-1e5a-46aa-8808-7efbbfe79a6c/hole-preview_web_2rtl7DE.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h15-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/e2e42974-06ef-4b11-85db-f3af33fe537b/hole-preview_web_iySwbyd.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h16-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/4d47d1e1-2d1a-43e8-a452-a9e09ceb245d/hole-preview_web_spwT5Yr.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h17-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/44dcdf0f-78df-4954-a982-a1f96587b45e/hole-preview_web_qTKw3qB.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "caddee-h18-diagram",
+      "url": "https://caddee-prod-media.s3.amazonaws.com/hole-images/4fcd0166-1570-4fb5-8f7d-b60314696d4d/hole-preview_web_8IYRYTH.png",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-page",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/",
+      "kind": "course-page",
+      "role": "scorecard-html",
+      "notes": "Golf i Sverige: the same par 72 card as Caddee, hole by hole."
+    },
+    {
+      "id": "golfisverige-overview",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-oversikt-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "overview-diagram"
+    },
+    {
+      "id": "golfisverige-h01-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-1-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h02-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-2-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h03-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-3-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h04-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-4-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h05-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-5-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h06-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-6-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h07-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-7-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h08-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-8-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h09-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-9-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h10-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-10-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h11-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-11-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h12-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-12-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h13-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-13-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h14-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-14-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h15-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-15-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h16-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-16-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h17-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-17-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    },
+    {
+      "id": "golfisverige-h18-diagram",
+      "url": "https://www.golfisverige.com/klubb/tjusta-golf/maps/tjusta-golf-banguide-hal-18-5d4e7d65-c75d-4c15-bd63-512d88ccc541.webp",
+      "kind": "banguide",
+      "role": "hole-diagram"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "teeNames": [
+    "Gul",
+    "Röd"
+  ],
+  "source": {
+    "primary": "https://www.golfisverige.com/klubb/tjusta-golf/",
+    "primaryEdition": "Golf i Sverige's par-72 scorecard and hole plates (read 2026-11-26): par, index, Röd and Gul per hole. The club publishes no hole-by-hole card.",
+    "secondary": "https://www.caddee.se/klubb/tjusta-golf",
+    "secondaryEdition": "Caddee's par-72 card (read 2026-11-26): the same par, index and lengths on every hole.",
+    "slopeMenPdf": "https://tjustagolf.se/wp-content/uploads/2023/03/TJUSTA_Golf_Course_Men-1.pdf",
+    "slopeWomenPdf": "https://tjustagolf.se/wp-content/uploads/2023/03/TJUSTA_Golf_Course_Women-1.pdf",
+    "sgfRatedOn": "2020-08-01",
+    "retrievedOn": "2026-11-26",
+    "notes": "Par 72 is the SGF's own (both slope tables, rated 2020-08-01). Golf i Sverige and Caddee agree cell for cell; Hole19's par-72 card (Röd 5011 m, Gul 5906 m) differs on 16 of 18 indexes and on Röd 4, 6 and 16 and Gul 16, and the older par-71 card (All Square, GolfPass, 18Birdies) has 16 as a par 4. The two guide publishers are kept as the card; club-scorecard-hole19.json and club-scorecard-par71.json keep the others."
+  },
+  "holes": [
+    {
+      "n": 1,
+      "par": 4,
+      "hcp": 5,
+      "t": [
+        400,
+        355
+      ]
+    },
+    {
+      "n": 2,
+      "par": 4,
+      "hcp": 11,
+      "t": [
+        370,
+        318
+      ]
+    },
+    {
+      "n": 3,
+      "par": 3,
+      "hcp": 15,
+      "t": [
+        133,
+        128
+      ]
+    },
+    {
+      "n": 4,
+      "par": 4,
+      "hcp": 13,
+      "t": [
+        257,
+        201
+      ]
+    },
+    {
+      "n": 5,
+      "par": 5,
+      "hcp": 9,
+      "t": [
+        436,
+        374
+      ]
+    },
+    {
+      "n": 6,
+      "par": 3,
+      "hcp": 17,
+      "t": [
+        127,
+        121
+      ]
+    },
+    {
+      "n": 7,
+      "par": 5,
+      "hcp": 3,
+      "t": [
+        505,
+        424
+      ]
+    },
+    {
+      "n": 8,
+      "par": 4,
+      "hcp": 7,
+      "t": [
+        310,
+        262
+      ]
+    },
+    {
+      "n": 9,
+      "par": 4,
+      "hcp": 1,
+      "t": [
+        393,
+        335
+      ]
+    },
+    {
+      "n": 10,
+      "par": 4,
+      "hcp": 8,
+      "t": [
+        346,
+        281
+      ]
+    },
+    {
+      "n": 11,
+      "par": 5,
+      "hcp": 2,
+      "t": [
+        500,
+        425
+      ]
+    },
+    {
+      "n": 12,
+      "par": 3,
+      "hcp": 18,
+      "t": [
+        130,
+        105
+      ]
+    },
+    {
+      "n": 13,
+      "par": 4,
+      "hcp": 14,
+      "t": [
+        323,
+        257
+      ]
+    },
+    {
+      "n": 14,
+      "par": 4,
+      "hcp": 4,
+      "t": [
+        365,
+        323
+      ]
+    },
+    {
+      "n": 15,
+      "par": 4,
+      "hcp": 12,
+      "t": [
+        332,
+        280
+      ]
+    },
+    {
+      "n": 16,
+      "par": 5,
+      "hcp": 16,
+      "t": [
+        395,
+        350
+      ]
+    },
+    {
+      "n": 17,
+      "par": 3,
+      "hcp": 6,
+      "t": [
+        180,
+        120
+      ]
+    },
+    {
+      "n": 18,
+      "par": 4,
+      "hcp": 10,
+      "t": [
+        376,
+        300
+      ]
+    }
+  ]
+}

@@ -229,6 +229,7 @@ describe('the measured roofs', () => {
     tortuna: ['tortuna'],
     veckefjarden: ['veckefjarden', 'veckefjarden-korthalsbanan'],
     'bro-hof': ['bro-hof-stadium', 'bro-hof-castle'],
+    tjusta: ['tjusta'],
   };
   it('reach every course (Johannesberg since 9 November)', () => {
     const index = JSON.parse(fs.readFileSync(new URL('../../public/courses/index.json', import.meta.url), 'utf8'));

@@ -65,11 +65,25 @@ export function sandAuditSummary(record) {
     before: record.before ? { captured: record.before.captured ?? null, bunkers: record.before.bunkers, wasSand: record.before.wasSand, changed: record.before.changed, shaded: record.before.shaded } : null };
 }
 
+/** The build of a routing: the catalogue's, or for a ground not registered yet (its outlines are reviewed at stage 3,
+    it joins the catalogue at stage 5) the one its ground card names. */
+function buildOf(slug, index) {
+  const listed = index.find(course => course.slug === slug)?.build;
+  if (listed) return listed;
+  const workflows = path.join(ROOT, 'course-workflows');
+  for (const id of fs.existsSync(workflows) ? fs.readdirSync(workflows) : []) {
+    const card = path.join(workflows, id, 'ground.json');
+    const routing = fs.existsSync(card) ? JSON.parse(fs.readFileSync(card, 'utf8')).routings?.find(r => r.slug === slug) : null;
+    if (routing?.build) return routing.build;
+  }
+  return null;
+}
+
 /** The outlines' checksums for the routings a record covers, from the catalogue's builds. */
 export function currentSurfaces(record) {
   const index = json('apps/golf/public/courses/index.json').courses;
   return Object.fromEntries(Object.keys(record.surfaces ?? {}).map(slug => {
-    const build = index.find(course => course.slug === slug)?.build;
+    const build = buildOf(slug, index);
     return [slug, build ? createHash('sha256').update(read(`${build}/mapping/playing-surfaces.geojson`)).digest('hex') : null];
   }));
 }

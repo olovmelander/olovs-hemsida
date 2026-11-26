@@ -121,6 +121,7 @@ and `layer-decisions.json` (practice areas, walls, bridges, plates, cart rows). 
 
 | Do | Tool |
 | --- | --- |
+| Where no club map gives the routing: put a guide's hole plates on the photo and read each plate's tee and flag in SWEREF 99 TM | `$PX -e mapping python packages/course-geo/mapping/register-guide-plates.py --config <build>/mapping/trace-config.json --plates '<dir>/h{hole:02d}.webp' --out <build>/mapping/guide-plates.json` |
 | Check that the decision files can be traced (every card tee has a deck, every OSM id exists, nothing leaves the box) | `node packages/course-geo/mapping/check-decisions.mjs --config <build>/mapping/trace-config.json` |
 | Trace | `$PX -e mapping python packages/course-geo/mapping/trace-course-surfaces.py --config <build>/mapping/trace-config.json --cache <build>/cache/mapping` |
 | Measure the terrain under every tee deck | `node packages/course-geo/mapping/deck-ground.mjs --config <build>/mapping/trace-config.json --record` (`--around <ring id>` prints the heights round one) |
@@ -176,6 +177,53 @@ The page holds crops of the photo, so it lives in the build's private cache and 
 
 A guide plate or a club drawing names things and gives their order. It never places them: check each claim on
 the photo.
+
+**When the club has no map.** Tjusta's club publishes no hole map and OSM has no hole ways. A routing read from
+the photos alone was right on ten holes and wrong on the rest: two holes swapped, and five tees on the wrong
+deck, most of which both looks had doubted. golfisverige.com's hole plates are aerial photos with the yellow tee
+and the flag drawn on. `register-guide-plates.py` finds each plate's photo on the orthophoto, with its scale
+bounded by the card's length against the drawn tee-to-flag distance (left free, a plate finds a chance peak at a
+third of its scale), and reads both marks. A fit whose marks leave the course is rejected; a par 3's plate shows
+little but turf and usually is, so read it by eye or fit it on two greens it shows. A plate's drawn line also
+gives a hole's bends.
+
+**What the tracer reads from the ground's own configuration.** A ground's sand may not be Bro Hof's white marble:
+`sand` in `trace-config.json` states its colour bands, measured on its own photo (Tjusta's raked sand is tan), and
+`audit-sand.py` reads the same bands. The fairways have five switches under `fairways`, each for a fault Tjusta
+showed; a ground that sets none is traced as Bro Hof was:
+
+- `training: "decision-lines"`: the turf model learns "fairway" from OSM's fairway outlines. Where those are few or
+  old (Tjusta had six, of 2012) it learns that every other hole's fairway is rough and draws fragments. Taught
+  from the holes' own lines instead, the 7 m either side of a par 4's or 5's line is fairway and the ground 26 to
+  55 m from every line is rough (`skipHoles` names a line that carries over trees).
+- `flights`: one model per photo year, and the fairway is what they agree on (the geometric mean of their
+  verdicts). No single flight separated Tjusta's fairways from its semi-rough: pale in the June 2025 drought,
+  striped in April 2021. One model over all the flights' features did not settle and is not offered.
+- `ndviAbove`: the vegetation line. A drought photo's fairway reads NDVI 0.03 to 0.16; the default 0.12 threw
+  half of it away before the model saw it.
+- `holeReachMetres`: mown ground is shared out to the hole whose line is nearest, and to none beyond that reach.
+  Without it a connected piece has one owner, and holes side by side in open ground are one piece (Tjusta's 1st
+  took ten hectares; four holes got nothing).
+- `fit: "settled"`: fits each fairway model to convergence. The turf model's fixed 900 steps are enough where the
+  classes stand apart, as on a ground's verified outlines; fairway against rough from hole lines they never settle
+  (the loss bounced between 0.5 and 1.3, the model's fairway accuracy between 0.61 and 0.92), and three hole lines
+  moved 2 m took a quarter off Tjusta's 18th fairway. Settled, three samples of the same labels disagree on 0.9%
+  of the ground. **A fairway that changes when nothing about it did is this fault: look for it.**
+
+A routing's `greenOpenMetres` (in its decisions) trims its greens: the model's green component follows a mowing
+line or an apron out of the putting surface as a spike, and an opening of that radius takes it off. Its
+`greenInsetMetres` and `greenReachMetres` start each model-traced green that far inside its component and stop the
+edge search short of where it began: the component runs to the collar's outer edge, the strongest edge on a dry
+summer's photo, and a search begun there stays there. Tjusta's greens came out 20 to 100% too large that way (the
+3rd was drawn at 427 m2 and is 213), and neither look saw it at sheet scale: the second reviewer named only
+"spurs". **Look at every green on the photo with its contrast stretched** (2nd to 98th percentile of the window):
+the putting surface, its collar and the rough then stand apart, and a spring photo shows the surface as one even
+colour. A green whose rim a shadow or an approach hides is drawn by hand as an oval or a closed curve, with what
+it was read from. A kept bunker's `trimMetres` (in the sand decisions) takes a bare patch off its lip the same way.
+
+**A third and a fourth photo year are cheap, and each showed something.** Tjusta's May 2023 photo showed the 4th
+hole's yellow tee deck, built after the laser was flown and in shade on the tracing photo, and that a sand-bright
+strip by the 18th tees is a 2.5 m trench and not a tee. Fetch them when a tee or a fairway will not settle.
 
 ### 4. Model
 
@@ -395,6 +443,19 @@ them, and the app's bundles may not import from the workflow. It is the one plac
   one is read from its text (`literalOf` in `ground-card.mjs`), never by importing the file.
 - **A relative output path is the tool's to resolve.** Blender resolves one against the drive, pathlib against
   nothing: resolve `--out` before using it.
+- **A sheet at 5 px a metre cannot see a green's collar.** Tjusta's greens passed two recorded looks while every
+  one was 20 to 100% too large. Stretch the photo's contrast and look at each green alone; hold a spring photo
+  beside the summer one.
+- **A model that has not settled looks like a model.** Tjusta's fairway fit printed plausible accuracies on every
+  run and a different fairway each time a line moved. When an outline changes and its evidence did not, fit again
+  from another sample before believing either.
+- **With no club map, a guide's hole plates are the routing's witness.** They are drawings: registered on the photo
+  they say which deck and which green, never where an edge lies, and a par 3's plate rarely registers.
+- **A ground needs its land cover before its map.** Without `sidecars.landcover` everything past the 1 m core is
+  forest by rule; the map's forest-picture test says so, and it is the only thing that does.
+- **The six stages take the whole app as their input.** One line changed under `apps/golf/src` is 40 minutes of
+  stages again, and an edit while they run loses the run. Batch the app's edits between runs: register the
+  terrain config before the first run, and take the first pictures before the second.
 
 ## Where every ground stands
 
@@ -410,6 +471,7 @@ Written by `node tools/course-walkthrough.mjs --catalogue`; a test fails when it
 | `norrfallsviken` | 18 | own builder | no record | one by one (review-2026-11-09) | 0 errors, 0 warnings | none | advisory, 3 open |
 | `puttom` | 18 | own builder | no record | automatic | 1 errors, 0 warnings | [yes](courses/puttom-walkthrough.md) | advisory, 3 open |
 | `ribbingsfors` | 9 | own builder | no record | automatic | 1 errors, 1 warnings | [yes](courses/ribbingsfors-walkthrough.md) | advisory, 3 open |
+| `tjusta` | 18 | decisions as data | recorded | automatic | 0 errors, 0 warnings | [yes](courses/tjusta-walkthrough.md) | owner acceptance, 5 open |
 | `tortuna` | 18 | own builder | no record | automatic | 0 errors, 0 warnings | none | advisory, 3 open |
 | `upsala` | 18 + 9 | own builder | no record | automatic | 0 errors, 0 warnings | none | advisory, 3 open |
 | `veckefjarden` | 18 + 9 | own builder | no record | automatic | 3 errors, 1 warnings | [yes](courses/veckefjarden-walkthrough.md) | advisory, 3 open |

@@ -253,6 +253,144 @@ print(json.dumps(dict(iou=iou, d=st['dPrime'], wastes=len(sand), islands=[len(s.
   }
 });
 
+test('turf_tracing reads a ground\'s own sand bands: tan sand is no bunker by the default rule and one by its measured bands', { skip: NEEDS_MAPPING }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sand-bands-'));
+  const script = `
+import sys, json
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'packages/course-geo/mapping'))})
+import numpy as np, rasterio, turf_tracing as tt
+from rasterio.transform import from_origin
+rng = np.random.default_rng(5)
+R = 0.16; W = 500
+yy, xx = np.mgrid[0:W, 0:W]
+e = 649000 + (xx + .5) * R; n = 6598500 + W * R - (yy + .5) * R
+img = np.stack([np.full((W, W), v, np.float32) for v in (92, 108, 88, 140)])
+tan = np.hypot(e - 649040, n - 6598540) < 4
+for k, v in enumerate((172, 155, 148, 112)): img[k][tan] = v
+img += rng.normal(0, 1.5, img.shape)
+path = ${JSON.stringify(path.join(dir, 't.tif'))}
+with rasterio.open(path, 'w', driver='GTiff', dtype='uint8', count=4, width=W, height=W, crs='EPSG:3006', transform=from_origin(649000, 6598500 + W * R, R, R)) as d:
+    d.write(np.clip(img, 0, 255).astype(np.uint8))
+im = tt.Imagery([path])
+box = [649000, 6598500, 649080, 6598580]
+tjusta = dict(core=dict(brightness=[128, 215], ndviBelow=-0.12, warmth=[12, 36]), grow=dict(brightness=[112, 230], ndviBelow=-0.04, warmth=[6, 45]))
+found = tt.extract_sand(im, box, 'bunker', tjusta)
+a = np.linspace(-1, 1, 9)
+br, nd_, w = np.meshgrid(np.linspace(100, 255, 9), a, np.linspace(-30, 40, 9))
+legacy_core = (br > 188) & (nd_ < 0.02) & (w > 2) & (w < 20)
+legacy_grow = (br > 158) & (nd_ < 0.06)
+spec = tt.sand_spec('bunker')
+print(json.dumps(dict(default=len(tt.extract_sand(im, box, 'bunker')), measured=len(found), area=found[0].area if found else 0,
+                      sameCore=bool((spec['core'](br, nd_, w) == legacy_core).all()), sameGrow=bool((spec['grow'](br, nd_, w) == legacy_grow).all()))))
+`;
+  try {
+    const run = spawnSync(PIXI, ['run', '--manifest-path', path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml'), '-e', 'mapping', '--frozen', 'python', '-c', script], { encoding: 'utf8' });
+    assert.equal(run.status, 0, run.stderr);
+    const out = JSON.parse(run.stdout.trim().split('\n').at(-1));
+    assert.equal(out.default, 0, 'Bro Hof\'s white-sand rule does not take tan sand');
+    assert.equal(out.measured, 1, 'the measured bands do');
+    assert.ok(Math.abs(out.area - Math.PI * 16) < 8, `bunker area ${out.area}`);
+    assert.ok(out.sameCore && out.sameGrow, 'the default bands are the thresholds the tracer always had');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('turf_tracing writes no ring that touches itself, and leaves every other ring as it was', { skip: NEEDS_MAPPING }, () => {
+  const script = `
+import sys, json
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'packages/course-geo/mapping'))})
+import turf_tracing as tt
+from shapely.geometry import Polygon
+# Two lobes that meet at one vertex: a fairway pinched between two trees.
+pinch = Polygon([(0, 0), (10, 0), (10, 10), (20, 10), (20, 20), (10, 20), (10, 10), (0, 10)])
+plain = Polygon([(0, 0), (10.004, 0), (10, 0.001), (10, 10), (0, 10)])
+rings = tt.clean_rings(pinch)
+verts = [tuple(p) for p in rings[0][:-1]]
+print(json.dumps(dict(before=tt._revisits(tt.round_coords(pinch)), after=len(set(verts)) != len(verts), area=Polygon(rings[0]).area,
+                      plain=tt.clean_rings(plain) == tt.round_coords(plain), plainPoints=len(tt.round_coords(plain)[0]))))
+`;
+  const run = spawnSync(PIXI, ['run', '--manifest-path', path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml'), '-e', 'mapping', '--frozen', 'python', '-c', script], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  const out = JSON.parse(run.stdout.trim().split('\n').at(-1));
+  assert.equal(out.before, true, 'the pinched ring revisits its vertex');
+  assert.equal(out.after, false, 'the written ring does not');
+  assert.ok(Math.abs(out.area - 200) < 3, `both lobes kept: ${out.area} m2`);
+  assert.equal(out.plain, true, 'a ring without a pinch is written as round_coords writes it');
+  assert.equal(out.plainPoints, 5, 'two vertices that round to one are written once');
+});
+
+test('the tracer teaches a fairway model from the holes\' lines, and keeps what several flights agree on', { skip: NEEDS_MAPPING }, () => {
+  const script = `
+import sys, json, importlib.util
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'packages/course-geo/mapping'))})
+import numpy as np
+from shapely.geometry import LineString, Point
+spec = importlib.util.spec_from_file_location('tcs', ${JSON.stringify(path.join(ROOT, 'packages/course-geo/mapping/trace-course-surfaces.py'))})
+tcs = importlib.util.module_from_spec(spec); spec.loader.exec_module(tcs)
+holes = [(1, 4, LineString([(0, 0), (0, 300)])), (2, 3, LineString([(200, 0), (200, 150)])), (3, 5, LineString([(400, 0), (400, 450)]))]
+fairway, rough = tcs.line_labels(holes, skip=[3])
+inside = lambda g, x, y: bool(g.contains(Point(x, y)))
+a = np.zeros((3, 2, 2), np.float32); b = np.zeros((3, 2, 2), np.float32)
+a[:, 0, 0] = [0.1, 0.8, 0.1]; b[:, 0, 0] = [0.1, 0.8, 0.1]    # both say fairway
+a[:, 0, 1] = [0.0, 0.9, 0.1]; b[:, 0, 1] = [0.0, 0.1, 0.9]    # they disagree
+a[:, 1, 0] = [0.1, 0.8, 0.1]                                   # the second flight saw no turf
+p = tcs.flights_agree([a, b])
+print(json.dumps(dict(
+  core=[inside(fairway, 0, 150), inside(fairway, 6, 150), inside(fairway, 9, 150), inside(fairway, 0, 90), inside(fairway, 0, 262)],
+  par3=inside(fairway, 200, 75), skipped=inside(fairway, 400, 200), area=fairway.area,
+  rough=[inside(rough, 40, 150), inside(rough, 20, 150), inside(rough, 60, 150), inside(rough, 240, 75), inside(rough, 430, 200)],
+  agree=float(p[1, 0, 0]), split=[float(p[1, 0, 1]), float(p[2, 0, 1])], unseen=float(p[:, 1, 0].sum()), sums=float(p[:, 0, 0].sum()))))
+`;
+  const run = spawnSync(PIXI, ['run', '--manifest-path', path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml'), '-e', 'mapping', '--frozen', 'python', '-c', script], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  const out = JSON.parse(run.stdout.trim().split('\n').at(-1));
+  assert.deepEqual(out.core, [true, true, false, false, false], 'fairway is the 7 m either side of the line, from 100 m off the tee to 45 m short of the green');
+  assert.equal(out.par3, false, 'a par 3 has no fairway to teach from');
+  assert.equal(out.skipped, false, 'a skipped hole teaches nothing');
+  assert.ok(Math.abs(out.area - (155 * 14 + Math.PI * 49)) < 12, `one strip: ${out.area} m2`);
+  assert.deepEqual(out.rough, [true, false, false, true, true], 'rough is 26-55 m from every line, a skipped hole\'s too');
+  assert.ok(out.agree > 0.79 && Math.abs(out.sums - 1) < 1e-5, 'where the flights agree their verdict stands');
+  assert.ok(out.split[0] < 0.5 && out.split[1] < 0.6, `where they disagree nothing is fairway: ${out.split}`);
+  assert.equal(out.unseen, 0, 'no turf in one flight, no verdict');
+});
+
+test('a settled turf model gives two samples of the same ground the same verdict, and the fixed steps stay as they were', { skip: NEEDS_MAPPING }, () => {
+  // Tjusta, November 2026: fairway against rough taught from hole lines never settled in the fixed 900 steps (the
+  // fairway share of the ground swung between 0.61 and 0.92), so a hole line moved 2 m redrew the fairways. The
+  // long tail of a texture term is what does it: on this ground the fixed steps at 900 and at 1,000 call 9% of it
+  // differently.
+  const script = `
+import sys, json
+sys.path.insert(0, ${JSON.stringify(path.join(ROOT, 'packages/course-geo/mapping'))})
+import numpy as np
+import turf_tracing as tt
+def draw(seed, n=6000):
+    r = np.random.default_rng(seed)
+    def cls(mean, sd, m):
+        z = r.normal(mean, sd, (m, 3))
+        heavy = np.exp(r.normal(0, 2.0, (m, 3))) * (1 + 0.2 * z[:, 1:2])       # local variance has a long tail
+        return np.concatenate([z[:, :1] + 0.05 * r.normal(0, 1, (m, 3)), z[:, 1:2] + 0.1 * r.normal(0, 1, (m, 1)), z[:, 2:3], heavy], 1)
+    return [cls([4, 2, 0], 0.6, n // 2), cls([0, 0.3, 0.2], 1, n), cls([0, -0.3, -0.2], 1.2, n)]   # fairway and rough overlap
+test = np.concatenate(draw(99)).T.reshape(8, 1, -1)
+call = lambda m: m.predict(test).argmax(0).ravel()
+a, b = tt.TurfModel().fit(draw(1), settled=True), tt.TurfModel().fit(draw(2), settled=True)
+again = tt.TurfModel().fit(draw(1), iterations=10, settled=True)
+c, d = tt.TurfModel().fit(draw(1)), tt.TurfModel().fit(draw(1))
+print(json.dumps(dict(pair=float((call(a) != call(b)).mean()), accuracy=[a.accuracy, b.accuracy], steps=float(np.abs(a.w - again.w).max()),
+                      same=bool(np.array_equal(c.w, d.w)), moved=float(np.abs(a.w - c.w).max()))))
+`;
+  const run = spawnSync(PIXI, ['run', '--manifest-path', path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml'), '-e', 'mapping', '--frozen', 'python', '-c', script], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
+  const out = JSON.parse(run.stdout.trim().split('\n').at(-1));
+  assert.ok(out.pair < 0.05, `two samples disagree on ${out.pair} of the ground`);
+  for (const k of [0, 1, 2]) assert.ok(Math.abs(out.accuracy[0][k] - out.accuracy[1][k]) < 0.03, `class ${k}: ${out.accuracy[0][k]} and ${out.accuracy[1][k]}`);
+  assert.ok(out.accuracy[0][0] > 0.95, 'the green stands apart either way');
+  assert.equal(out.steps, 0, 'a settled fit does not depend on a step count');
+  assert.equal(out.same, true, 'the fixed steps are deterministic');
+  assert.ok(out.moved > 0, 'and are a different fit, which every ground traced before keeps');
+});
+
 test('compileGridCourse keeps reviewed tee marks on their platform, far boxes, and only the policies a course asks for', () => {
   const frame = { easting: 649094.5, northing: 6598568.5, latitude: 59.498973, longitude: 17.633749 };
   const E = dx => frame.easting + dx;

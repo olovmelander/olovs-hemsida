@@ -23,6 +23,21 @@ export const TERRAIN_WINDOW_SPECS = Object.freeze({
     pixelEdgeWindow: { west: 647046, north: 6600617, east: 651143, south: 6596520 },
     plausibleHeightRangeRH2000: { minimum: -5, maximum: 150 },
   }),
+  tjusta: Object.freeze({
+    // 4,096 m LOD0 square centred on the box of Tjusta's 18 holes and practice
+    // ground, south-east of Arlanda: about 1.2 km of margin north and south and
+    // 1.4 km east and west. Crosses E=670,000 and N=6,610,000, so it reads four
+    // full 10 km DTM COGs. (OSM's course outline also takes in a separate golf
+    // facility to the south, which is not Tjusta's; the square is not centred on it.)
+    sourceItemIds: ['660_66', '660_67', '661_66', '661_67'],
+    sampleSpacingMetres: 1,
+    width: 4097,
+    height: 4097,
+    originEasting: 667082.5,
+    originNorthing: 6613298.5,
+    pixelEdgeWindow: { west: 667082, north: 6613299, east: 671179, south: 6609202 },
+    plausibleHeightRangeRH2000: { minimum: -5, maximum: 150 },
+  }),
   tortuna: Object.freeze({
     // A 4.096 km square covers both loops, facilities and a broad context margin.
     // Exact native sample centres; this does not approve the canonical origin.

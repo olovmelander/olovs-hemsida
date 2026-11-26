@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "standard": "banvy-course-production-v1",
+  "groundId": "tjusta",
+  "name": "Tjusta Golfklubb",
+  "courses": [
+    {
+      "slug": "tjusta",
+      "holes": 18
+    }
+  ],
+  "releasePolicy": "advisory",
+  "sourceManifest": "geo_data/course-v2/tjusta/source-manifest.json",
+  "publicRoot": "output/course-workflow/tjusta/public",
+  "reviewFile": "course-workflows/tjusta/review.json",
+  "watch": [
+    "apps/golf/src",
+    "packages/course-v2",
+    "packages/course-pack",
+    "packages/course-geo",
+    "packages/course-workflow",
+    "pnpm-lock.yaml",
+    "course-workflows/tjusta/production.json",
+    "geobuild/mapping",
+    "geobuild/lib.mjs",
+    "tools/build-startup-packs.mjs",
+    "packages/course-geo/toolchain/pixi.lock"
+  ],
+  "stages": {
+    "sources": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "tjusta",
+        "--stage",
+        "sources"
+      ],
+      "inputs": [
+        "course-workflows/tjusta/intake-plan.json",
+        "course-workflows/tjusta/production.json",
+        "geo_data/course-v2/source-catalog.json",
+        "geo_data/course-v2/tjusta/acquisition/d2-discovery.json",
+        "geo_data/course-v2/tjusta/acquisition/ground-rings.json",
+        "geo_data/course-v2/tjusta/acquisition/laser-campaigns.json",
+        "geo_data/course-v2/tjusta/acquisition/orthophoto-review.json",
+        "geo_data/course-v2/tjusta/migration/course-model.epsg3006.json",
+        "geo_data/course-v2/tjusta/migration/residual-report.json",
+        "geo_data/course-v2/tjusta/source-manifest.json",
+        "geo_data/course-v2/tjusta/vegetation/canopy-evidence.json",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l0.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l1.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l2.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l3.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l4.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l5.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l6.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66075-6675-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66075-6675-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66075-6700-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66075-6700-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6675-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6675-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6700-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6700-25.json",
+        "tjustabuild/card.json",
+        "tjustabuild/course-model.json",
+        "tjustabuild/heightfields.json",
+        "tjustabuild/landcover.json",
+        "tjustabuild/mapping/decisions.json",
+        "tjustabuild/mapping/guide-plates.json",
+        "tjustabuild/mapping/layer-decisions.json",
+        "tjustabuild/mapping/sand-decisions.json",
+        "tjustabuild/mapping/trace-report.json",
+        "tjustabuild/reference/club-scorecard.json"
+      ],
+      "outputs": [
+        "output/course-workflow/tjusta/stages/sources"
+      ]
+    },
+    "terrain": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "tjusta",
+        "--stage",
+        "terrain"
+      ],
+      "inputs": [
+        "course-workflows/tjusta/production.json",
+        "output/course-workflow/tjusta/stages/sources",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l0.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l1.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l2.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l3.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l4.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l5.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l6.f32"
+      ],
+      "outputs": [
+        "output/course-workflow/tjusta/stages/terrain"
+      ]
+    },
+    "mapping": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "tjusta",
+        "--stage",
+        "mapping"
+      ],
+      "inputs": [
+        "course-workflows/tjusta/production.json",
+        "geo_data/course-v2/tjusta/source-manifest.json",
+        "output/course-workflow/tjusta/stages/sources",
+        "output/course-workflow/tjusta/stages/terrain",
+        "tjustabuild/card.json",
+        "tjustabuild/course-model.json",
+        "tjustabuild/heightfields.json",
+        "tjustabuild/landcover.json",
+        "tjustabuild/mapping/decisions.json",
+        "tjustabuild/mapping/guide-plates.json",
+        "tjustabuild/mapping/layer-decisions.json",
+        "tjustabuild/mapping/sand-decisions.json",
+        "tjustabuild/mapping/trace-report.json",
+        "tjustabuild/reference/club-scorecard.json"
+      ],
+      "outputs": [
+        "output/course-workflow/tjusta/stages/mapping"
+      ]
+    },
+    "vegetation": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "tjusta",
+        "--stage",
+        "vegetation"
+      ],
+      "inputs": [
+        "course-workflows/tjusta/production.json",
+        "output/course-workflow/tjusta/stages/mapping",
+        "output/course-workflow/tjusta/stages/sources",
+        "output/course-workflow/tjusta/stages/terrain",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66075-6675-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66075-6675-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66075-6700-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66075-6700-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6675-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6675-25.json",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6700-25.f32",
+        "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6700-25.json"
+      ],
+      "outputs": [
+        "output/course-workflow/tjusta/stages/vegetation"
+      ]
+    },
+    "assemble": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "tjusta",
+        "--stage",
+        "assemble"
+      ],
+      "inputs": [
+        "course-workflows/tjusta/production.json",
+        "output/course-workflow/tjusta/stages/mapping",
+        "output/course-workflow/tjusta/stages/sources",
+        "output/course-workflow/tjusta/stages/terrain",
+        "output/course-workflow/tjusta/stages/vegetation"
+      ],
+      "outputs": [
+        "output/course-workflow/tjusta/public"
+      ]
+    },
+    "validate": {
+      "command": [
+        "node",
+        "packages/course-workflow/production.mjs",
+        "--ground",
+        "tjusta",
+        "--stage",
+        "validate"
+      ],
+      "inputs": [
+        "course-workflows/tjusta/production.json",
+        "output/course-workflow/tjusta/public",
+        "output/course-workflow/tjusta/stages/mapping",
+        "output/course-workflow/tjusta/stages/sources"
+      ],
+      "outputs": [
+        "output/course-workflow/tjusta/stages/validate"
+      ]
+    }
+  },
+  "performance": {
+    "maxRegressionPercent": 10,
+    "maxColdLoadMs": 10000,
+    "maxFrameP95Ms": {
+      "webgpu": 20,
+      "webgl2": 33.4,
+      "mobile": 33.4
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+ "schemaVersion": 1,
+ "slug": "tjusta",
+ "surfacesSha256": "74eee9781cf5e9b09014ff61f6514d8368a97cc5d521286cf68386c1d65d4489",
+ "terrainSha256": "1440dad3d3c6b2a322c16719e56f937399b40d3abd8cbbe101e53b593555aecb",
+ "line": {
+  "slopePercent": 3,
+  "offPlaneMetres": 0.08
+ },
+ "decks": 37,
+ "measured": 36,
+ "tooSmall": [
+  "tjusta-tee-04-2"
+ ],
+ "level": 33,
+ "off": [
+  {
+   "id": "tjusta-tee-04-1",
+   "hole": 4,
+   "tees": [
+    "gul"
+   ],
+   "cells": 39,
+   "slope": 6.3,
+   "offPlane": 0.21,
+   "aboveRim": 1.38
+  },
+  {
+   "id": "tjusta-tee-10-2",
+   "hole": 10,
+   "tees": [
+    "rod"
+   ],
+   "cells": 22,
+   "slope": 6,
+   "offPlane": 0.07,
+   "aboveRim": 0.62
+  },
+  {
+   "id": "tjusta-tee-18-1",
+   "hole": 18,
+   "tees": [
+    "gul"
+   ],
+   "cells": 56,
+   "slope": 0.3,
+   "offPlane": 0.13,
+   "aboveRim": 0.7
+  }
+ ],
+ "bunkers": {
+  "line": {
+   "bowlMetres": 0.15
+  },
+  "count": 14,
+  "measured": 14,
+  "bowled": 8,
+  "flat": [
+   {
+    "id": "tjusta-bunker-07-1",
+    "hole": 7,
+    "cells": 63,
+    "depth": -0.06
+   },
+   {
+    "id": "tjusta-bunker-07-2",
+    "hole": 7,
+    "cells": 38,
+    "depth": 0.03
+   },
+   {
+    "id": "tjusta-bunker-11-1",
+    "hole": 11,
+    "cells": 21,
+    "depth": -0.01
+   },
+   {
+    "id": "tjusta-bunker-13-1",
+    "hole": 13,
+    "cells": 19,
+    "depth": -0.06
+   },
+   {
+    "id": "tjusta-bunker-13-2",
+    "hole": 13,
+    "cells": 59,
+    "depth": 0.05
+   },
+   {
+    "id": "tjusta-bunker-16-1",
+    "hole": 16,
+    "cells": 42,
+    "depth": 0.02
+   }
+  ]
+ }
+}

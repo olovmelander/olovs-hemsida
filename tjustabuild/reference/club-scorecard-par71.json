@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "slug": "tjusta",
+  "courseName": "Tjusta GK (older par-71 card)",
+  "source": {
+    "primary": "https://allsquaregolf.com/golf-courses/sweden/tjusta-golfklubb",
+    "secondary": "https://www.golfpass.com/travel-advisor/courses/37543-tjusta-golf-club/scorecard-and-layout",
+    "retrievedOn": "2026-11-26",
+    "notes": "Superseded layout, kept to show what changed: All Square's metres agree with GolfPass's yards (converted) and 18Birdies' Gul column on every hole. Vit (6064 m) is not rated in the 2020 SGF tables and is not a current tee. Index is the card's men's index (the women's row is the same)."
+  },
+  "par": { "front": 36, "back": 35, "total": 71 },
+  "tees": [
+    { "id": "vit", "name": "Vit", "front": 3014, "back": 3050, "total": 6064 },
+    { "id": "gul", "name": "Gul", "front": 2931, "back": 2902, "total": 5833 },
+    { "id": "rod", "name": "Röd", "front": 2524, "back": 2381, "total": 4905 }
+  ],
+  "holes": [
+    { "number": 1,  "par": 4, "index": 3,  "lengths": { "vit": 411, "gul": 400, "rod": 355 } },
+    { "number": 2,  "par": 4, "index": 9,  "lengths": { "vit": 378, "gul": 370, "rod": 318 } },
+    { "number": 3,  "par": 3, "index": 11, "lengths": { "vit": 143, "gul": 133, "rod": 128 } },
+    { "number": 4,  "par": 4, "index": 17, "lengths": { "vit": 280, "gul": 257, "rod": 201 } },
+    { "number": 5,  "par": 5, "index": 13, "lengths": { "vit": 444, "gul": 436, "rod": 374 } },
+    { "number": 6,  "par": 3, "index": 15, "lengths": { "vit": 137, "gul": 127, "rod": 127 } },
+    { "number": 7,  "par": 5, "index": 7,  "lengths": { "vit": 518, "gul": 505, "rod": 424 } },
+    { "number": 8,  "par": 4, "index": 5,  "lengths": { "vit": 310, "gul": 310, "rod": 262 } },
+    { "number": 9,  "par": 4, "index": 1,  "lengths": { "vit": 393, "gul": 393, "rod": 335 } },
+    { "number": 10, "par": 4, "index": 6,  "lengths": { "vit": 346, "gul": 346, "rod": 281 } },
+    { "number": 11, "par": 5, "index": 2,  "lengths": { "vit": 509, "gul": 500, "rod": 425 } },
+    { "number": 12, "par": 3, "index": 16, "lengths": { "vit": 140, "gul": 130, "rod": 105 } },
+    { "number": 13, "par": 4, "index": 18, "lengths": { "vit": 323, "gul": 323, "rod": 257 } },
+    { "number": 14, "par": 4, "index": 8,  "lengths": { "vit": 420, "gul": 365, "rod": 323 } },
+    { "number": 15, "par": 4, "index": 4,  "lengths": { "vit": 342, "gul": 332, "rod": 280 } },
+    { "number": 16, "par": 4, "index": 10, "lengths": { "vit": 395, "gul": 350, "rod": 290 } },
+    { "number": 17, "par": 3, "index": 14, "lengths": { "vit": 188, "gul": 180, "rod": 120 } },
+    { "number": 18, "par": 4, "index": 12, "lengths": { "vit": 387, "gul": 376, "rod": 300 } }
+  ]
+}

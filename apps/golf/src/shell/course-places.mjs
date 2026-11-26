@@ -78,6 +78,11 @@ export const COURSE_LOCATIONS = {
     city: 'Gullspång',
     iconName: 'tree',
   },
+  tjusta: {
+    // The clubhouse, the red barn at Tjusta Gård (E 669115 N 6611345, SWEREF 99 TM, read on the 2025-06-14 photo and the club's photos), projected with packages/course-geo/chmv2/projection.mjs; not a survey control.
+    lat: 59.60595, lng: 17.99705, region: 'Mälardalen',
+    regionTag: 'Rosersberg · Gård & Äng', city: 'Rosersberg', iconName: 'tree',
+  },
 };
 
 // These layouts share a clubhouse and the same weather observation.

@@ -21,7 +21,7 @@ import numpy as np
 from rasterio.features import rasterize
 from scipy import ndimage as nd
 from shapely.geometry import LineString, Point, Polygon, mapping, shape
-from shapely.ops import unary_union
+from shapely.ops import substring, unary_union
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import turf_tracing as tt  # noqa: E402
@@ -44,31 +44,51 @@ def osm_index(path):
     return out
 
 
-def train_turf(imagery, box, osm, routes, res):
-    """Train on the flight's own verified Stadium-style outlines (greens, fairways) and the rough beside them."""
+def train_turf(imagery, box, osm, routes, res, labels=None, ndvi_above=0.12, settled=False):
+    """Train on the flight's own verified Stadium-style outlines (greens, fairways) and the rough beside them.
+
+    `labels` is (fairway ground, rough ground) from `line_labels`, for a ground whose OSM fairways cannot teach
+    the model; `ndvi_above` is the vegetation line of the photo read (a drought photo's turf is paler); `settled` fits
+    the model to convergence (`TurfModel.fit` says why line-taught fairways need it)."""
     img, tr, have = imagery.read(*box, res)
     feats = tt.turf_features(img, res)
-    veg = tt.vegetated(feats) & have
+    veg = tt.vegetated(feats, ndvi_above) & have
     shp = have.shape
     rast = lambda g: rasterize([(g, 1)], out_shape=shp, transform=tr, fill=0, dtype=np.uint8).astype(bool) if not g.is_empty else np.zeros(shp, bool)
     by = lambda k: [g for t, g in osm.values() if t.get('golf') == k and g.geom_type == 'Polygon']
     near = unary_union([r.buffer(60) for r in routes])
     greens = unary_union([p for p in by('green') if near.contains(p)])
-    fairways = unary_union([p for p in by('fairway') if sum(p.intersection(r).length for r in routes) > 20])
+    fairways = labels[0] if labels else unary_union([p for p in by('fairway') if sum(p.intersection(r).length for r in routes) > 20])
     paths = unary_union([g.buffer(4) for t, g in osm.values() if t.get('golf') == 'cartpath'])
     keepout = unary_union([greens.buffer(6), fairways.buffer(4), unary_union(by('bunker')).buffer(2),
                            unary_union(by('water_hazard')).buffer(3), unary_union(by('tee')).buffer(3), paths])
-    masks = [rast(greens.buffer(-1.5)), rast(fairways.difference(greens.buffer(3)).buffer(-3)),
-             rast(unary_union([r.buffer(55) for r in routes]).difference(keepout)) & veg & ((feats[4] + feats[5] + feats[6]) / 3 > 62)]
+    bright = (feats[4] + feats[5] + feats[6]) / 3 > 62
+    if labels:
+        masks = [rast(greens.buffer(-1.5)), rast(fairways.difference(greens.buffer(6))) & veg, rast(labels[1].difference(keepout)) & veg & bright]
+    else:
+        masks = [rast(greens.buffer(-1.5)), rast(fairways.difference(greens.buffer(3)).buffer(-3)),
+                 rast(unary_union([r.buffer(55) for r in routes]).difference(keepout)) & veg & bright]
     rng = np.random.default_rng(1)
     flat = feats.reshape(feats.shape[0], -1)
     samples = []
     for m, n in zip(masks, (9000, 16000, 16000)):
         i = np.flatnonzero(m.ravel())
         samples.append(flat[:, rng.choice(i, min(n, len(i)), replace=False)].T)
-    model = tt.TurfModel().fit(samples)
+    model = tt.TurfModel().fit(samples, settled=settled)
     prob = model.predict(feats) * veg
     return prob, tr, model.accuracy
+
+
+def flights_agree(probs):
+    """One verdict from several flights' models: the geometric mean of their class probabilities, and nothing where
+    any flight saw no turf. A fairway is mown in every flight; rough that one dry summer bleached is not.
+
+    One model over the flights' features side by side was tried first (Tjusta, November 2026). With four flights it
+    has 861 terms, did not settle in the training's 900 steps, and moved by a tenth of the fairway when a line
+    moved two metres. Each flight's own model is the single-flight model every ground uses."""
+    seen = np.all([p.sum(0) > 0 for p in probs], axis=0)
+    mean = np.exp(np.mean([np.log(np.clip(p, 1e-4, 1)) for p in probs], axis=0))
+    return (mean / mean.sum(0, keepdims=True) * seen).astype(np.float32)
 
 
 def component_at(mask, tr, seed, cap=32):
@@ -123,6 +143,54 @@ def place_mark(pad, route, want):
     return (best.x, best.y)
 
 
+def pad_point(spec, osm):
+    if spec['src'] == 'osm':
+        return tt.largest(osm[spec['id']][1]).centroid.coords[0]
+    if spec['src'] == 'ellipse':
+        return tuple(spec['c'])
+    if spec['src'] == 'platform':
+        return tuple(spec['at'])
+    return Polygon(spec['ring']).centroid.coords[0]
+
+
+def green_point(g, osm):
+    if 'seed' in g:
+        return tuple(g['seed'])
+    if isinstance(g['ring'], str):
+        return tt.largest(osm[g['ring'].split(':', 1)[1]][1]).centroid.coords[0]
+    return Polygon(g['ring']).centroid.coords[0]
+
+
+def decision_holes(courses, osm):
+    """(hole number, par, line) for every hole: the pad farthest from the green that carries a tee, the bends, the green."""
+    out = []
+    for course in courses:
+        par = {h['number']: h['par'] for h in tt.load_json(course['card'])['holes']}
+        for key, hole in tt.load_json(course['decisions'])['holes'].items():
+            g = green_point(hole['green'], osm)
+            back = max((pad_point(p, osm) for p in hole['pads'] if p['tees']), key=lambda p: math.dist(p, g))
+            out.append((int(key), par[int(key)], LineString([back, *[tuple(b) for b in hole['bends']], g])))
+    return out
+
+
+def decision_lines(courses, osm):
+    """Each hole's line as the decisions draw it.
+
+    The turf model learns where play is from OSM's hole ways. A ground OSM has none for (Tjusta,
+    whose OSM course carries greens and fairways but no `golf=hole`) learns it from these instead."""
+    return [line for _, _, line in decision_holes(courses, osm)]
+
+
+def line_labels(holes, skip=()):
+    """Where the fairway and the rough are known without an outline: on a par 4 or 5 the line runs down the fairway
+    from 100 m off the tee to 45 m short of the green, so the 7 m either side of it is fairway; the ground 26-55 m
+    from every line is rough, or trees, which the vegetation line leaves out. `skip` names the holes whose line
+    does not follow their fairway (a carry over trees). The model learns the two from these and draws the rest."""
+    lines = unary_union([line for _, _, line in holes])
+    cores = [substring(line, 100.0, line.length - 45.0).buffer(7) for n, par, line in holes if par >= 4 and n not in skip and line.length > 220]
+    return unary_union(cores), lines.buffer(55).difference(lines.buffer(26))
+
+
 def trace_course(course, ctx):
     imagery, osm, prob, tr, platforms, sand = (ctx[k] for k in ('imagery', 'osm', 'prob', 'tr', 'platforms', 'sand'))
     dec = tt.load_json(course['decisions'])
@@ -140,13 +208,28 @@ def trace_course(course, ctx):
             m = nd.binary_opening(m, iterations=3)
             start = tt.largest(unary_union(tt.polygon_from_mask(m, tr, 60)).buffer(1.5).buffer(-1.5).buffer(-1).buffer(1))
             src = 'classified-component'
+            # A routing may start its classified greens inside the collar (`greenInsetMetres` in its decisions, or a green's
+            # own `inset`): the turf model's component runs to the collar's outer edge, the strongest edge on a dry summer's
+            # photo, and a search begun there stays there. Begun that far inside, with a reach that stops short of that
+            # edge (`greenReachMetres`), it finds the putting surface's own rim.
+            inset = g.get('inset', dec.get('greenInsetMetres', 0))
+            if inset:
+                start = tt.largest(start.buffer(-inset)) or start
         elif isinstance(g['ring'], str):
             start, src = tt.largest(osm[g['ring'].split(':', 1)[1]][1]), g['ring']
         else:
             start, src = Polygon(g['ring']), 'reviewed-ring'
-        poly, st = tt.refine_ring(imagery, start, g.get('reach', 3.0), avoid=ctx['bunkerAvoid'], smooth_m=0.8, stiffness=1.0)
+        reach = g.get('reach', dec.get('greenReachMetres', 3.0) if 'seed' in g else 3.0)
+        poly, st = tt.refine_ring(imagery, start, reach, avoid=ctx['bunkerAvoid'], smooth_m=0.8, stiffness=1.0)
         if poly is None or st['dPrime'] < 0.8:
             poly, st = start, {**st, 'kept': 'start'}
+        # A routing may trim its greens (`greenOpenMetres` in its decisions): the classified component follows a mowing
+        # line or an apron out of the putting surface as a spike a few metres long, and an opening of that radius
+        # takes off what is narrower than twice it and leaves the rest of the edge where it was measured. The edge
+        # search only leans away from sand and water; here the green is cut clear of them (0.8 m and 0.5 m).
+        if dec.get('greenOpenMetres'):
+            clear = tt.largest(poly.difference(ctx['bunkerAvoid'])) or poly
+            poly = tt.largest(clear.buffer(-dec['greenOpenMetres']).buffer(dec['greenOpenMetres'])) or clear
         greens[n] = poly
         features.append(tt.feature(f"{course['prefix']}-green-{n:02d}", 'green', poly, hole=n, sourceId=ctx['imageId'], start=src, edge=st))
         report.append(dict(hole=n, kind='green', start=src, area=round(poly.area, 1), **st))
@@ -202,8 +285,49 @@ def trace_course(course, ctx):
     return dict(features=features, routes=routes, report=report, greens=greens, pads=pads_by_hole, lines=route_lines, dec=dec)
 
 
-def assign_fairways(courses, ctx):
-    """Mown ground (fairway and green classes together), cut at narrow necks, owned by the nearest route."""
+def fairways_by_hole(courses, ctx, mown, greens, reach):
+    """Mown ground shared out hole by hole: each piece of it belongs to the hole whose line is nearest, and to none
+    beyond `reach` metres of a line (a range, a lawn).
+
+    Where holes lie side by side in open ground their mown turf is one connected piece, and a piece has one owner
+    in `assign_fairways`: at Tjusta the 1st took ten hectares and the 5th, 17th and 18th none. Sharing by the
+    nearest line cuts such a piece along the middle between two holes."""
+    tr = ctx['tr']
+    lines = [(c, hn, line) for c in courses for hn, line in c['out']['lines'].items()]
+    nearest = np.full(mown.shape, np.inf, np.float32)
+    owner = np.full(mown.shape, -1, np.int16)
+    for k, (_, _, line) in enumerate(lines):
+        on = rasterize([(line, 1)], out_shape=mown.shape, transform=tr, fill=0, dtype=np.uint8, all_touched=True).astype(bool)
+        d = (nd.distance_transform_edt(~on) * TURF_RES).astype(np.float32)
+        closer = d < nearest
+        owner[closer], nearest[closer] = k, d[closer]
+    sandy = unary_union([p['polygon'].buffer(0.6) for p in ctx['sandKept']])
+    tees = unary_union([p['poly'].buffer(1.5) for c in courses for ps in c['out']['pads'].values() for p in ps])
+    made = []
+    for k, (c, hn, _) in enumerate(lines):
+        own = mown & (owner == k) & (nearest <= reach)
+        lab, _ = nd.label(nd.binary_opening(own, structure=nd.generate_binary_structure(2, 1), iterations=4))
+        lab = np.where(own & (lab == 0), nd.grey_dilation(lab, size=(9, 9)), lab) * own
+        for p0, sl in enumerate(nd.find_objects(lab), 1):
+            if sl is None:
+                continue
+            m = np.pad(lab[sl] == p0, 2)
+            if m.sum() * TURF_RES ** 2 < 180:
+                continue
+            t2 = tr * tt.rasterio.Affine.translation(sl[1].start - 2, sl[0].start - 2)
+            for p in tt.polygon_from_mask(nd.binary_fill_holes(m), t2, 180):
+                p = tt.largest(p.buffer(3.5).buffer(-6.5).buffer(3.0))
+                p = tt.largest(p.difference(sandy)) if p is not None else None
+                if p is None or p.area < 180 or p.intersection(tees).area > 0.5 * p.area or p.difference(greens).area < 100:
+                    continue
+                made.append((c, hn, p))
+    return made
+
+
+def assign_fairways(courses, ctx, reach=None):
+    """Mown ground (fairway and green classes together), cut at narrow necks, owned by the nearest route.
+
+    With `reach`, the ground is shared out hole by hole instead (`fairways_by_hole`)."""
     prob, tr = ctx['prob'], ctx['tr']
     mown = nd.gaussian_filter(prob[0] + prob[1], 1.2) > 0.5
     # A green is mown whatever its colour says (shade, a dry ridge), so it never opens a hole in its own fairway.
@@ -211,6 +335,8 @@ def assign_fairways(courses, ctx):
     mown |= rasterize([(greens, 1)], out_shape=mown.shape, transform=tr, fill=0, dtype=np.uint8).astype(bool)
     block = unary_union([p['polygon'] for p in ctx['sandKept']] + [ctx['water']] + ctx['fairwayExclude'])
     mown &= ~rasterize([(block, 1)], out_shape=mown.shape, transform=tr, fill=0, dtype=np.uint8).astype(bool)
+    if reach:
+        return fairways_by_hole(courses, ctx, mown, greens, reach)
     lab, n = nd.label(nd.binary_opening(mown, structure=nd.generate_binary_structure(2, 1), iterations=4))
     # Grow the opened cores back inside the mask, so the opening only cuts necks and never erodes an edge.
     grown = nd.grey_dilation(lab, size=(9, 9))
@@ -263,7 +389,18 @@ def main():
     train = [g for tags, g in osm.values() if tags.get('golf') == 'hole']
     raster_sha = {Path(p).name: sha(p) for p in cfg['imagery']['rasters']}
     # The slow, decision-free steps are cached on exactly what they read.
-    key = hashlib.sha256(json.dumps([raster_sha, sha(cfg['osm']), box, sha(Path(__file__).parent / 'turf_tracing.py')]).encode()).hexdigest()[:16]
+    keyed = [raster_sha, sha(cfg['osm']), box, sha(Path(__file__).parent / 'turf_tracing.py')]
+    if not train:
+        # Then the classifier reads the decisions' lines, so they belong in its cache key. They are taken to 10 m: the
+        # training reads 55-60 m round each line, and a tee moved a few metres (or a reason reworded) must not
+        # retrain the model.
+        train = [LineString([(round(x, -1), round(y, -1)) for x, y in line.coords]) for line in decision_lines(cfg['courses'], osm)]
+        keyed.append([[list(p) for p in line.coords] for line in train])
+        print(f'no OSM hole ways: the turf model trains on {len(train)} decision lines')
+    measured_sand = cfg.get('sand', {})
+    if measured_sand:
+        keyed.append(measured_sand)
+    key = hashlib.sha256(json.dumps(keyed).encode()).hexdigest()[:16]
     cached = args.cache / f'trace-{key}.npz' if args.cache else None
     if cached and cached.exists():
         z = np.load(cached, allow_pickle=False)
@@ -272,7 +409,7 @@ def main():
         sand = [dict(kind=k, polygon=shape(g)) for k, g in json.loads(str(z['sand']))]
     else:
         prob, tr, acc = train_turf(imagery, box, osm, train, TURF_RES)
-        sand = [dict(kind=k, polygon=p) for k in ('bunker', 'waste_sand') for p in tt.extract_sand(imagery, box, k)]
+        sand = [dict(kind=k, polygon=p) for k in ('bunker', 'waste_sand') for p in tt.extract_sand(imagery, box, k, measured_sand.get(k))]
         if cached:
             args.cache.mkdir(parents=True, exist_ok=True)
             np.savez_compressed(cached, prob=prob.astype(np.float16), acc=np.array(acc),
@@ -294,6 +431,10 @@ def main():
             q = tt.largest(hit['polygon'].buffer(-0.9).buffer(1.8).buffer(-0.9))
             q = Polygon(q.exterior, [r for r in q.interiors if Polygon(r).area > 8])
             hit = {**hit, 'polygon': tt.largest(q.simplify(0.15))}
+        if rule.get('trimMetres'):
+            # A bare patch on a bunker's lip reads as sand and hangs on its ring as a knob: an opening of this radius takes
+            # off what is narrower than twice it (a decision of the ground's, with its reason, per bunker).
+            hit = {**hit, 'polygon': tt.largest(hit['polygon'].buffer(-rule['trimMetres']).buffer(rule['trimMetres'])) or hit['polygon']}
         kept.append({**hit, **{k: rule.get(k) for k in ('hole', 'course', 'role', 'material')}})
     for rule in sd.get('add', []):
         start = Polygon(rule['ring'])
@@ -307,13 +448,54 @@ def main():
     courses = cfg['courses']
     for c in courses:
         c['out'] = trace_course(c, ctx)
-    for c, hn, p in assign_fairways(courses, ctx):
-        poly, st = tt.refine_ring(imagery, p, 2.0, ds=0.9, avoid=ctx['bunkerAvoid'], smooth_m=1.2, stiffness=1.2, passes=1)
+    # Fairways from another flight, when the ground says so: on a dry summer photo mown turf can read as rough (Tjusta's
+    # 2025 photo), while in April it is green against straw. The turf model is trained again on that photo, the same
+    # way and on the same lines; greens, tees and sand stay the tracing photo's.
+    #
+    # `flights` reads several photo years, each with its own model, and keeps what they agree on (`flights_agree`;
+    # the last one listed also draws the edges). `training: "decision-lines"` teaches each model from the holes' own
+    # lines (`line_labels`) where OSM's fairways are too few or too old to: Tjusta's six, of 2012, taught it that
+    # every other hole's fairway was rough. `fit: "settled"` fits each such model to convergence, which the fixed
+    # steps do not reach on fairway against rough.
+    fw = cfg.get('fairways')
+    if fw:
+        flights = fw.get('flights') or [fw['imagery']]
+        fsource = '+'.join(f['sourceId'] for f in flights)
+        fshas = [{Path(p).name: sha(p) for p in f['rasters']} for f in flights]
+        frules = {k: fw[k] for k in ('training', 'skipHoles', 'ndviAbove', 'fit') if k in fw}
+        fimages = [tt.Imagery(f['rasters']) for f in flights]
+        fimagery = fimages[-1]
+        labels = None
+        if fw.get('training') == 'decision-lines':
+            # The lines are taken to 2 m, and the cache is keyed on exactly those: the teaching strip is 14 m wide, so
+            # the 10 m the main model's key is content with would move it half off a narrow fairway (it cost a
+            # sixth of the line ground at Tjusta).
+            holes = [(n, par, LineString([(round(x / 2) * 2, round(y / 2) * 2) for x, y in line.coords])) for n, par, line in decision_holes(cfg['courses'], osm)]
+            labels = line_labels(holes, fw.get('skipHoles', []))
+            frules['lines'] = [[list(p) for p in line.coords] for _, _, line in holes]
+        fkey = hashlib.sha256(json.dumps([key, fshas[0] if len(flights) == 1 and not frules else [fshas, frules]]).encode()).hexdigest()[:16]
+        fcached = args.cache / f'fairways-{fkey}.npz' if args.cache else None
+        if fcached and fcached.exists():
+            z = np.load(fcached, allow_pickle=False)
+            fprob, facc = z['prob'], z['acc'].tolist()
+        else:
+            each = [train_turf(image, box, osm, train, TURF_RES, labels=labels, ndvi_above=fw.get('ndviAbove', 0.12),
+                               settled=fw.get('fit') == 'settled') for image in fimages]
+            fprob = each[0][0] if len(each) == 1 else flights_agree([p for p, _, _ in each])
+            facc = each[0][2] if len(each) == 1 else [a for _, _, a in each]
+            if fcached:
+                np.savez_compressed(fcached, prob=fprob.astype(np.float16), acc=np.array(facc))
+        print(f"fairways from {fsource}, classifier accuracy G/F/R {np.round(facc, 3).tolist()}")
+        fctx = {**ctx, 'prob': np.asarray(fprob, np.float16).astype(np.float32), 'imageId': fsource}
+    else:
+        fimagery, fctx = imagery, ctx
+    for c, hn, p in assign_fairways(courses, fctx, reach=(fw or {}).get('holeReachMetres')):
+        poly, st = tt.refine_ring(fimagery, p, 2.0, ds=0.9, avoid=ctx['bunkerAvoid'], smooth_m=1.2, stiffness=1.2, passes=1)
         if poly is None or st['dPrime'] < 0.8 or not 0.8 < poly.area / p.area < 1.25:
             poly, st = p, {**(st or {}), 'kept': 'classified'}
         k = 1 + sum(1 for f in c['out']['features'] if f['properties']['kind'] == 'fairway' and f['properties']['hole'] == hn)
         c['out']['features'].append(tt.feature(f"{c['prefix']}-fairway-{hn:02d}-{k}", 'fairway', Polygon(poly.exterior), hole=hn,
-                                               sourceId=ctx['imageId'], start='classified-mown-ground', edge=st))
+                                               sourceId=fctx['imageId'], start='classified-mown-ground', edge=st))
         c['out']['report'].append(dict(hole=hn, kind='fairway', area=round(poly.area), **st))
     for k, s in enumerate(kept, 1):
         c = next((c for c in courses if c['slug'] == s.get('course')), None)
@@ -326,6 +508,11 @@ def main():
                                                sourceId=ctx['imageId'], start='extracted-sand', material=s.get('material')))
     provenance = dict(imagery=cfg['imagery']['sourceId'], imagerySha256=raster_sha,
                       terrainSha256=t['sha256'], osmSha256=sha(cfg['osm']), tool='packages/course-geo/mapping/trace-course-surfaces.py')
+    if fw:
+        provenance['fairwayImagery'] = fsource
+        provenance['fairwayImagerySha256'] = {name: value for one in fshas for name, value in one.items()}
+        if frules:
+            provenance['fairwayTraining'] = {k: v for k, v in frules.items() if k != 'lines'}
     for c in courses:
         out, where = c.pop('out'), Path(c['outDir'])
         tt.write_json(where / 'routes.geojson', tt.collection(out['routes'], status='traced-awaiting-review', provenance=provenance))

@@ -6,7 +6,7 @@ import { V2_GRAPH_FRONTIER_CONFIGS } from './v2-frontier-configs.mjs';
 
 /* Every published course must resolve a verified v2 graph and a reviewed
    renderer contract. The build gate checks this registry against the catalogue. */
-export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['angso', 'bro-hof-castle', 'bro-hof-stadium', 'johannesberg', 'johannesberg-9', 'lidingo', 'norrfallsviken', 'puttom', 'ribbingsfors', 'tortuna', 'upsala', 'upsala-mellanbanan', 'veckefjarden', 'veckefjarden-korthalsbanan', 'visby']);
+export const V2_PUBLISHED_GRAPH_SLUGS = Object.freeze(['angso', 'bro-hof-castle', 'bro-hof-stadium', 'johannesberg', 'johannesberg-9', 'lidingo', 'norrfallsviken', 'puttom', 'ribbingsfors', 'tjusta', 'tortuna', 'upsala', 'upsala-mellanbanan', 'veckefjarden', 'veckefjarden-korthalsbanan', 'visby']);
 
 export const V2_GRAPH_RENDERER_GATE = 'graph-renderer-not-activated';
 

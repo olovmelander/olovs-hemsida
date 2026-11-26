@@ -99,6 +99,10 @@ const COURSES = [
   { slug: 'bro-hof-castle', build: 'brohofcastlebuild', name: 'Bro Hof Castle', club: 'Bro Hof Slott Golf Club',
     title: 'Bro Hof Slott GC — The Castle Course i 3D', tag: 'The Castle Course', boot: 'Bro · Mälaren',
     tees: { names: ['Vit', 'Gul', 'Blå', 'Röd'], cols: [0xf4f4ee, 0xf0c93a, 0x4a8fe0, 0xe0574a], hideFrom: 4 } },
+  /* Tjusta Gård, Rosersberg: one eighteen. The card (Golf i Sverige's and Caddee's, identical) has two tees. */
+  { slug: 'tjusta', build: 'tjustabuild', name: 'Tjusta', club: 'Tjusta Golfklubb',
+    title: 'Tjusta Golfklubb — Banan i 3D', tag: 'Tjusta Gård', boot: 'Tjusta Gård · Rosersberg',
+    tees: { names: ['Gul', 'Röd'], cols: [0xf0c93a, 0xe0574a], hideFrom: 3 } },
   { slug: 'lidingo', build: 'lidingobuild', name: 'Lidingö GK', club: 'Lidingö Golfklubb',
     title: 'Lidingö Golfklubb — Banan i 3D', tag: 'Sticklinge · Lidingö', boot: 'Lidingö · Stockholm',
     overviewUrl: 'courses/lidingo/overview.svg',

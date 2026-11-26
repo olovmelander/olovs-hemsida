@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "visualSetup": "v2-ghibli",
+  "frame": {
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "origin": {
+      "easting": 669130.5,
+      "heightRH2000": 21.75,
+      "northing": 6611250.5
+    },
+    "verticalCrs": "EPSG:5613",
+    "fingerprint": "36822f4a128f4f97370201288083f6dc01735cb51f54b074b68b0e294eb373ad"
+  },
+  "baselineGround": null,
+  "firstGenerationPolicy": "initial-source-compilation",
+  "terrain": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings",
+    "evidence": {
+      "path": "geo_data/course-v2/tjusta/acquisition/ground-rings.json",
+      "sha256": "43445533482a0bae9efe3221e04d73c9e464ff855cf5b3be72fdc1067494dd6e"
+    },
+    "maximumBaselineDifferenceMetres": 0.011
+  },
+  "vegetation": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation",
+    "campaigns": {
+      "path": "geo_data/course-v2/tjusta/acquisition/laser-campaigns.json",
+      "sha256": "1d6a2ec5da6b7190acb09ffa5589d2b9944c7e3c4fc1ca364000606b3aa89757"
+    },
+    "evidence": {
+      "path": "geo_data/course-v2/tjusta/vegetation/canopy-evidence.json",
+      "sha256": "7cc21e3216118488037e4079be74b9ac1ff3426fb99ae8e2476112b58135c07f"
+    },
+    "reviewMode": "machine-v1",
+    "observedOn": "2026-11-26",
+    "reviewNote": "First generation: machine-v1 crowns and stands from Laserdata Skog campaign 21C038 (2021-04-17, leaf-off), before the tree pipeline (course-workflows/tjusta/trees.json) has placed and scored individual trees."
+  },
+  "courses": [
+    {
+      "slug": "tjusta",
+      "holes": 18,
+      "model": {
+        "path": "tjustabuild/course-model.json",
+        "sha256": "e026b78e46473151b0c1ad2f33164b30c824397e8823f0d6aefe0edd0bc76e76"
+      },
+      "heightfields": {
+        "path": "tjustabuild/heightfields.json",
+        "sha256": "814bc438c0f23696a3334a374ab8a829ad7dc757b1e559dc862abbf44e887ec1"
+      },
+      "card": {
+        "path": "tjustabuild/card.json",
+        "sha256": "794051184589b9bd901cb662a030360f57e9d6615768bc5b7576c8d58cb5b931"
+      },
+      "cover": null,
+      "strokeIndexStatus": "unverified",
+      "accuracyTier": "unrated",
+      "player": {
+        "slug": "tjusta",
+        "name": "Tjusta",
+        "club": "Tjusta Golfklubb",
+        "title": "Tjusta Golfklubb — Banan i 3D",
+        "tag": "Tjusta Gård",
+        "boot": "Tjusta Gård · Rosersberg",
+        "build": "tjustabuild",
+        "tees": {
+          "names": [
+            "Gul",
+            "Röd"
+          ],
+          "cols": [
+            15780154,
+            14702410
+          ],
+          "hideFrom": 3,
+          "def": 0
+        }
+      },
+      "sidecars": {
+        "landcover": {
+          "path": "tjustabuild/landcover.json",
+          "sha256": "625a3ea12659c91b68183d203f738d855a7989141168b06b0983d6e4a1cc69a4"
+        }
+      }
+    }
+  ],
+  "mappingEvidence": [
+    {
+      "path": "tjustabuild/mapping/decisions.json",
+      "sha256": "f6275e6d3b0c94f6f2f36bb4462c98506e308ca660c475f2bbeee60105f5bf0a"
+    },
+    {
+      "path": "tjustabuild/mapping/sand-decisions.json",
+      "sha256": "7f9bb64593c5c0999625585502b110a33b1003d7d2f1f099c763cd9af3883f37"
+    },
+    {
+      "path": "tjustabuild/mapping/layer-decisions.json",
+      "sha256": "b07be71de4a17d3d29c870015b61a8fafd0058c47e0000b906fa29829c97d578"
+    },
+    {
+      "path": "tjustabuild/mapping/trace-report.json",
+      "sha256": "4dcad4bc0553964ef34f73aa8df0a7ec34c3e78072d23d1b51b13677d1cd801a"
+    },
+    {
+      "path": "tjustabuild/mapping/guide-plates.json",
+      "sha256": "65a9764f098e08a1e5e34220c8e409de58ed6f2f50808797e89e8910b31c572f"
+    },
+    {
+      "path": "tjustabuild/reference/club-scorecard.json",
+      "sha256": "65ac97c876abc3135fd03948a8bc6856bb61bf4085263d7b98f114659d9945c1"
+    }
+  ],
+  "review": {
+    "sourceDirectory": "tjustabuild/cache/ortho/2025",
+    "captureBackend": [
+      "webgpu",
+      "webgl2"
+    ],
+    "captureQuality": [
+      "hi",
+      "lo"
+    ],
+    "capturePresets": [
+      "noon",
+      "golden"
+    ],
+    "notes": "Imagery source pixels and captures stay local. Empty or unknown categories require review; counts never approve geography.",
+    "acquisition": {
+      "path": "geo_data/course-v2/tjusta/acquisition/orthophoto-review.json",
+      "sha256": "3cef7bd241bd1cf19c5c5469e0f22fff46c601a4ac9a061e8374e72891162d6a"
+    }
+  }
+}

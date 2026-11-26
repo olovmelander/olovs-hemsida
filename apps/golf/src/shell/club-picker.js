@@ -7,6 +7,7 @@ import { MODES, courseSessions, offlineCourses, sessionBadge, sessionPosition } 
 const SIGNATURE_HOLES = {
   'bro-hof-stadium': { poster: 1, description: 'Ö-green på hål 17' },
   'bro-hof-castle': { poster: 2, description: 'Sandmarkerna på hål 4' },
+  tjusta: { poster: 1, description: 'Hemgång runt gårdsdammen på hål 18' },
 };
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, ch =>

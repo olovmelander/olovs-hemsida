@@ -249,6 +249,42 @@
    "ground": "5d616311e246c109899b52223af5ed4a68f372f9b923787d6c0354b33b2c968f",
    "terrain": "45c8d0edb7e6fd1c66106caee027d7f52636de594b24995588f1500097489d54"
   },
+  "tjusta": {
+   "water": {
+    "file": "models/map-land/tjusta-water-488fcd67568cbf2f.png",
+    "sha256": "488fcd67568cbf2fd057784fd4fcfbca4fe9b73db046d13188bef18f29bb8089",
+    "bytes": 11516
+   },
+   "forest": {
+    "file": "models/map-land/tjusta-forest-f90edb15ba428a0a.png",
+    "sha256": "f90edb15ba428a0acb2f2f4989337d89fdb26165eb872f851374894dd4f5c734",
+    "bytes": 115105
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "shores": {
+    "picture": {
+     "file": "models/map-land/tjusta-shores-e2025db74374118e.png",
+     "sha256": "e2025db74374118e9184b62a04b9bd1a3127a0ff48971b7ec1b6d5504a20a88b",
+     "bytes": 5054
+    },
+    "lakes": {
+     "file": "models/map-land/tjusta-shores-0ebf66f3cf5a135e.json",
+     "sha256": "0ebf66f3cf5a135ebe63ff5d29366f1efe412008d7e48458724aa2ff6fd7a324",
+     "bytes": 6020
+    },
+    "rules": "8a0c636d8b7242a6462ef4910d8246929d7390e238b28f74715f7fc1d8d6a2b1",
+    "packs": {
+     "tjusta": "dcfba3db0bb6cf934d982b0a5f31be0ea4a62bfbf25c0be0774ce1b4ce56dd2a"
+    }
+   },
+   "ground": "36822f4a128f4f97370201288083f6dc01735cb51f54b074b68b0e294eb373ad",
+   "terrain": "6ea14d821c3bc51ed4b5ec32a17afd770f50173a45491e4fa2990386406c6bf5"
+  },
   "tortuna": {
    "water": {
     "file": "models/map-land/tortuna-water-703c5d96e9263387.png",
