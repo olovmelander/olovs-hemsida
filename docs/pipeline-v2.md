@@ -243,7 +243,7 @@ With automatic trees, so that everything else can be looked at.
 | --- | --- |
 | Terrain before anything is published, then canopy | `course-workflow/bootstrap-terrain.mjs`, `course-v2/vegetation/build-canopy.mjs --ground-document` |
 | Pin the inputs, run the six stages, promote | `pin-production.mjs --ground <ground>` (the checksums in `production.json`), `production.mjs --ground <ground> --configure`, `$PX node packages/course-workflow/cli.mjs run --ground <ground> --through validate`, `promote.mjs` |
-| Register the ground | paste the card's rows (`ground-card.mjs --ground <ground> --rows`), then `ground-card.mjs --ground <ground> --check` and `node tools/sync-course-registries.mjs --check` |
+| Register the ground | paste the card's rows (`ground-card.mjs --ground <ground> --rows`), then `ground-card.mjs --ground <ground> --check` and `node tools/sync-course-registries.mjs --check`. A new club changes the start menu's list and the Sverigekarta's groups: on a served build run `tools/check-chooser-ui.mjs` and `tools/check-lobby-scale.mjs` |
 | Scenery: roofs, sand, buildings, species, water, campus | `geobuild/facilities/roof-colours.py`, `<build>/facilities/build_campus.py`, `tools/facility-pipeline/*` |
 | A building's own axes, eaves and roof levels from the laser, before modelling it | `node tools/facility-pipeline/measure-building.mjs --points <points.json> --context <context.geojson> --building <id>` |
 | The campus model as pictures, on the CPU | `blender --background --factory-startup --python tools/facility-pipeline/preview-facility-glb.py -- --manifest <facilities-v1.json> --out <dir>` |
@@ -302,6 +302,13 @@ rev-parse origin/main)`, `node packages/course-geo/check-manifests.mjs`, `$PX te
 `$PX plan-hole-controls`, `$PX check-migration`, `pnpm test`, the build, `node tools/check-prepared-startup.mjs`
 and `node tools/course-walkthrough.mjs --ground <ground> --check`. Open the pull request only when all of it
 and the GPU pass have finished.
+
+**The Cloudflare deploy has a gate no pull request runs:** the browser journeys of
+`tools/check-release-journeys.sh` (the start menu, the lobby at a hundred clubs, a round on the map, a played
+round, the hand-over). They run on main after the merge, and a failure stops the deploy: the course is then on
+GitHub Pages and not on Cloudflare. Run them before the pull request, against a local Worker (the script as it is
+on Linux; on Windows start `wrangler dev --local` as the script does, build with `BANVY_BASE=/` from PowerShell,
+since Git Bash rewrites `/`, and run each `tools/check-<journey>.mjs` against it).
 
 ### 9. Ship
 
@@ -456,6 +463,9 @@ them, and the app's bundles may not import from the workflow. It is the one plac
 - **The six stages take the whole app as their input.** One line changed under `apps/golf/src` is 40 minutes of
   stages again, and an edit while they run loses the run. Batch the app's edits between runs: register the
   terrain config before the first run, and take the first pictures before the second.
+- **A new club is a change to the start menu.** Tjusta, the twelfth club, stayed in Bro Hof's group on the
+  Sverigekarta a step longer than any club before it, and showed that opening a group lost the keyboard under
+  reduced motion. Only the Cloudflare pipeline's journeys saw it, after the merge.
 
 ## Where every ground stands
 

@@ -135,6 +135,7 @@ is a check that did not exist; the last column says whether it exists now.
 | A stage run lost to a lock left by a stopped run, and another to app files edited while it ran | the runner | 5 | the pipeline's rule ("do not edit a watched file while the six stages run"); nothing new |
 | No land cover: beyond the 1 m core the map's ground was 92% forest, Arlanda included | the map's test on each ground's forest picture | 5 | that test; `sidecars.landcover` in the production profile |
 | The clubhouse drawn as a block of flats, forty windows in two rows | the first GPU picture, held against the club's photograph | 6 | the scenery module's own words; no test |
+| The Sverigekarta lost the keyboard when a group was opened under reduced motion (the groups were drawn twice, the second time over the group just focused) | the Cloudflare pipeline's browser journey `check-lobby-scale.mjs`, on main | 9, after the merge: the deploy stopped | the groups are drawn only when the zoom changes (`map.js`); that journey; the pipeline's rule to run the journeys before the pull request |
 
 
 ## Decisions
