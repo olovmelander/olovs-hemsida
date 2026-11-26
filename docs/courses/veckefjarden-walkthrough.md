@@ -78,7 +78,8 @@ except the white stakes, which the owner found ruling good shots out while playi
   hole: snapped to OpenStreetMap's course boundary where a vertex of it lies within 95 m on that side, else half
   way to the neighbour the rules name, else 6 m past the mown edge; "behind" and "around" a green are arcs
   16 and 14 m past its rim. Where a stake landed on a hole's fairway, green or tee it is moved 3 m past that
-  ground's nearest edge (six stakes on the 13th, where the boundary crosses the reviewed fairway; 27 November).
+  ground's nearest edge (27 November: six stakes, on the 1st's and the 5th's tee decks and the 2nd's and the
+  13th's fairways).
   So a line's course is right and its exact place is not: the 5th's left and the 2nd's left still zigzag between
   boundary vertices. Spela rules a ball out by counting crossings of these lines, so a line that is wrong by
   metres only moves where a ball beside it is out, and the quality gate holds that no shot onto a hole's own
@@ -169,7 +170,7 @@ records do not say what found a fault, the row says so.
 | Three penalty runs were yellow where the club has only red since 2022, and the white runs missed the club's list | reading the club's 2025 local rules | 4 September, the dossier | `course-rules.json`, which `reconcile.mjs` paints from |
 | The clubhouse was cream with a dark red roof: the app had taken the engine's defaults | the club's photographs | 4 September, the dossier | the scenery module, then the campus model of 10 September; no test is named |
 | A four-storey block of flats stood by the 10th | the owner, on a phone | 8 November, after the house kit | the `BLOCK_COMPANY` rule (90 m) and its tests in `house-kit.test.mjs` |
-| Spela called balls on the fairway and the green out of bounds on five holes: every approach to the 2nd, 3rd and 5th, every tee shot onto the 12th and the 14th (5,469 of 33,681 replayed good shots). `reconcile.mjs` drew "behind the green" across its front (it read a = PI, back down the hole, as behind), "around the green" as a closed circle, and snapped the 13th's last right-hand stakes to the lake shore across the 14th. Six of the 13th's stakes also stood on its own fairway | the owner, playing Spela | 26-27 November; nothing looked at the stakes before | the arcs drawn on the far side and open to the approach; the white runs moved off every hole's ground and split where they cross a line of play, after the orthophoto review; quality gate item 8 (`tools/out-of-bounds-shots.mjs`, every course) and its test in `course-tools.node-test.mjs` |
+| Spela called balls on the fairway and the green out of bounds on five holes: every approach to the 2nd, 3rd and 5th, every tee shot onto the 12th and the 14th (5,469 of 33,681 replayed good shots). `reconcile.mjs` drew "behind the green" across its front (it read a = PI, back down the hole, as behind), "around the green" as a closed circle, and snapped the 13th's last right-hand stakes to the lake shore across the 14th. Six more stakes stood on a hole's own ground: the 1st's and the 5th's tee decks, the 2nd's and the 13th's fairways | the owner, playing Spela | 26-27 November; nothing looked at the stakes before | the arcs drawn on the far side and open to the approach; the white runs moved off every hole's ground and split where they cross a line of play, after the orthophoto review; quality gate item 8 (`tools/out-of-bounds-shots.mjs`, every course) and its test in `course-tools.node-test.mjs` |
 
 ## Decisions
 

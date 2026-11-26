@@ -784,9 +784,10 @@ if (fs.existsSync(orthoReviewFile)) {
   const allAreas = plays.flatMap(p => p.areas);
   const onPlay = ([x, z]) => allAreas.some(r => pointInPoly(x, z, r));
   /* a stake on a hole's ground goes out across that ground's nearest edge, STAKE_OUT
-     beyond it: the 13th's right-hand stakes, snapped to OpenStreetMap's course
-     boundary, stood 60 m along inside the reviewed fairway, and a stake left out
-     opens a door in the line */
+     beyond it, since a stake left out opens a door in the line. Six stood on a hole's
+     ground on 27 November 2026: on the 1st's and the 5th's tee decks, and two each on
+     the 2nd's and the 13th's reviewed fairways, most of them snapped to vertices of
+     OpenStreetMap's course boundary */
   const STAKE_OUT = 3;
   const pushOut = p => {
     for (let tries = 0; tries < 3 && onPlay(p); tries++) {
