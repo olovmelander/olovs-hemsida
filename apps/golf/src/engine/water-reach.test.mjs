@@ -83,13 +83,17 @@ describe('the water the ground holds', () => {
     for (const [x] of reach.outline) expect(x).toBeLessThan(57);
   });
 
-  it('draws no reach for a lake its caps would sample coarser than the far cell, but still fits its level', () => {
+  it('draws no reach for a finely traced lake its caps would sample coarser than the far cell, but still fits its level', () => {
     /* a lake 2.4 km across: the sample cap takes its lattice past 5 m, where the sheet's
        outline would end in steps of a cell (Malaren at Bro Hof, 7.6 m) */
-    const big = Array.from({ length: 64 }, (_, i) => [Math.cos(i / 64 * Math.PI * 2) * 1200, Math.sin(i / 64 * Math.PI * 2) * 1200]);
+    const circle = n => Array.from({ length: n }, (_, i) => [Math.cos(i / n * Math.PI * 2) * 1200, Math.sin(i / n * Math.PI * 2) * 1200]);
     const flat = (x, z) => (Math.hypot(x, z) <= 1210 ? 10 : 10 + (Math.hypot(x, z) - 1210) * 0.1);
-    expect(waterReach({ ring: big, level: 10.06, heightAt: flat, near: () => false })).toBeNull();
-    const fitted = waterReach({ ring: big, heightAt: flat, near: () => false, surface: 10, fit: true });
+    /* traced every 3.7 m, finer than the lattice: the ring is the better shore */
+    expect(waterReach({ ring: circle(2048), level: 10.06, heightAt: flat, near: () => false })).toBeNull();
+    /* sketched every 118 m (Puttom's far lake has 61 m chords): the coarse lattice is still better */
+    const sketched = waterReach({ ring: circle(64), level: 10.06, heightAt: flat, near: () => false });
+    expect(sketched.cell).toBeGreaterThan(WATER_REACH.farCellMetres);
+    const fitted = waterReach({ ring: circle(2048), heightAt: flat, near: () => false, surface: 10, fit: true });
     expect(fitted.cell).toBeGreaterThan(WATER_REACH.farCellMetres);
     expect(fitted.fitted.level).toBeGreaterThanOrEqual(10);
     /* a far lake the caps leave at the far cell is still reached */

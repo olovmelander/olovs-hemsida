@@ -69,6 +69,13 @@ function perimeter(ring) {
   return p;
 }
 
+/* the median length of a ring's segments: how finely its own line draws the shore */
+function medianChord(ring) {
+  const lengths = ring.map((p, i) => { const q = ring[(i + 1) % ring.length]; return Math.hypot(q[0] - p[0], q[1] - p[1]); });
+  lengths.sort((a, b) => a - b);
+  return lengths[lengths.length >> 1];
+}
+
 /* even-odd scanline fill of a ring at the lattice's node centres */
 function fillRing(ring, x0, z0, cell, cols, rows) {
   const inside = new Uint8Array(cols * rows);
@@ -220,9 +227,13 @@ export function waterReach({ ring, level, heightAt, near = () => true, surface =
      bank, so wherever the shore is flat at the water's level -- reed beds, shallows, a spit
      -- the sheet ended in 7.6 m steps, and the wet mask carved the bed in 7.6 m blocks the
      sheet did not cover. Such a lake keeps its traced ring as the sheet, as it did before
-     the reach. The level's fit (water-level.mjs, `fit`) still reads the same lattice: it
-     measures an overlap, which the cell size does not bias, and draws nothing. */
-  if (!fit && cell > o.farCellMetres * (1 + 1e-9)) return null;
+     the reach, but only where that ring draws the shore more finely than the lattice could:
+     its median chord is shorter than the cell (Malaren 4.0-4.4 m at Bro Hof and Angso,
+     Skagern 4.5 m at Ribbingsfors, where the cap made the cell 17 m). A sketched ring stays
+     reached on the coarse lattice, which is still the better shore (Puttom's far lake, 61 m
+     chords on a 7.5 m lattice). The level's fit (water-level.mjs, `fit`) still reads the same
+     lattice: it measures an overlap, which the cell size does not bias, and draws nothing. */
+  if (!fit && cell > o.farCellMetres * (1 + 1e-9) && medianChord(ring) < cell) return null;
   const x0 = box.x0 - margin, z0 = box.z0 - margin;
   const n = cols * rows;
   const inside = fillRing(ring, x0, z0, cell, cols, rows);
