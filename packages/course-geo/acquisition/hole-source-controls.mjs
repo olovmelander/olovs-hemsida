@@ -67,7 +67,11 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      canonical migrator, still an exact translation. */
   visby: 'da127e2d8c70d127570f8b37ee04411dc463d37f3742790e6e07b7add58a5847',
   lidingo: 'e806bd21a71fa172aa9ec428e15968e3fc031c5c61a6e10ed3b009d9c94c74f1',
-  angso: '1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf',
+  /* 2026-11-27: pipeline v2's tee decisions (angsobuild/mapping/tee-decisions.json) stand 77 tee
+     marks where their card length falls on their deck or fairway, and hole 1's line starts at its
+     new back deck; decks, greens, bunkers, water and everything else are byte-identical. The
+     migration follows the model through the canonical migrator. */
+  angso: 'e249fa78cd2559805429d216fd945423c07aa95b5310280725a4c4e22fda804e',
   norrfallsviken: 'b6b65607904c8727b8789c85235ebf1278d2185990f558f6fae5099da975d15f',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
      committed cs2cs migration: worst 1.4 mm over 3,564 coordinates) after the
