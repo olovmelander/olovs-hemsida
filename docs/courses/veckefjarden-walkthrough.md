@@ -32,7 +32,8 @@ upgrade under that process starts from.
 
 ## What is known not to be right
 
-This list was drawn from the repository's records on 25 November 2026; nobody has looked at the course again for it.
+This list was drawn from the repository's records on 25 November 2026; nobody has looked at the course again for it,
+except the white stakes, which the owner found ruling good shots out while playing (27 November).
 
 - **The outlines have never been checked ring by ring.** The ground was built with its own older builder, before
   the shared tracer: it has no pipeline-v2 decision files, no ring sheets, no recorded ring review or second look,
@@ -72,6 +73,17 @@ This list was drawn from the repository's records on 25 November 2026; nobody ha
   sample read by one agent (`geo_data/course-v2/veckefjarden/vegetation/reviews/2026-09-16/benchmark.json`).
   Which species a tree is, is a rule and not a measurement: alder and birch in the reserve, spruce and pine above
   46 m (`scenery/veckefjarden.js`). To fix: a round of the tree pipeline, in its own sitting.
+- **The white stakes are drawn from the club's words, not surveyed.** The 2025 local rules say on which side of
+  ten holes the out-of-bounds runs (`geobuild/course-rules.json`), and `reconcile.mjs` draws each run beside its
+  hole: snapped to OpenStreetMap's course boundary where a vertex of it lies within 95 m on that side, else half
+  way to the neighbour the rules name, else 6 m past the mown edge; "behind" and "around" a green are arcs
+  16 and 14 m past its rim. Where a stake landed on a hole's fairway, green or tee it is moved 3 m past that
+  ground's nearest edge (27 November: six stakes, on the 1st's and the 5th's tee decks and the 2nd's and the
+  13th's fairways).
+  So a line's course is right and its exact place is not: the 5th's left and the 2nd's left still zigzag between
+  boundary vertices. Spela rules a ball out by counting crossings of these lines, so a line that is wrong by
+  metres only moves where a ball beside it is out, and the quality gate holds that no shot onto a hole's own
+  fairway or green is. To fix: the stakes' positions, from the club or someone who has walked them.
 - **Paths and bridges are thinner than the ground.** The model has OpenStreetMap's 69 paths; the laser shows more,
   not traced. The club's rules name five bridges (holes 6, 8, 10, 11 and between 16 and 17) and the summary above
   counts none: the course map (section 5, 5 September) says they exist only where a mapped path crosses a
@@ -158,6 +170,7 @@ records do not say what found a fault, the row says so.
 | Three penalty runs were yellow where the club has only red since 2022, and the white runs missed the club's list | reading the club's 2025 local rules | 4 September, the dossier | `course-rules.json`, which `reconcile.mjs` paints from |
 | The clubhouse was cream with a dark red roof: the app had taken the engine's defaults | the club's photographs | 4 September, the dossier | the scenery module, then the campus model of 10 September; no test is named |
 | A four-storey block of flats stood by the 10th | the owner, on a phone | 8 November, after the house kit | the `BLOCK_COMPANY` rule (90 m) and its tests in `house-kit.test.mjs` |
+| Spela called balls on the fairway and the green out of bounds on five holes: every approach to the 2nd, 3rd and 5th, every tee shot onto the 12th and the 14th (5,469 of 33,681 replayed good shots). `reconcile.mjs` drew "behind the green" across its front (it read a = PI, back down the hole, as behind), "around the green" as a closed circle, and snapped the 13th's last right-hand stakes to the lake shore across the 14th. Six more stakes stood on a hole's own ground: the 1st's and the 5th's tee decks, the 2nd's and the 13th's fairways | the owner, playing Spela | 26-27 November; nothing looked at the stakes before | the arcs drawn on the far side and open to the approach; the white runs moved off every hole's ground and split where they cross a line of play, after the orthophoto review; quality gate item 8 (`tools/out-of-bounds-shots.mjs`, every course) and its test in `course-tools.node-test.mjs` |
 
 ## Decisions
 
@@ -195,6 +208,9 @@ The GPU and browser lines are the owner's to start (in PowerShell: `$env:BANVY_G
 
 ## Befores
 
+- The white stakes before 27 November are the packs `d6cb9ae7…` (Mästerskapsbanan) and `b08bb0dd…`
+  (Korthålsbanan) in git history; their v2 course manifests stay on disk, and the packs changed in their
+  white marking alone (the heightfields, the red stakes and every other key are byte for byte the same).
 - `?buildingGeometry=source` keeps the mapped buildings in place of the campus model, as a comparison view.
 - `?houses=before` draws every house as the building batch did, `?roofs=palette` keeps the kit with the palette's
   roofs, and `?houseparts=all` lays every part on every house however far from the holes (8 November).
