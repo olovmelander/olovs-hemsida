@@ -13,9 +13,9 @@
   "heightDatum": "RH2000"
  },
  "asset": {
-  "url": "models/bro-hof/facilities-6dc07defea419f899546d1bbe568f1608432c527df0202d37137b803e9d0140a.glb",
-  "sha256": "6dc07defea419f899546d1bbe568f1608432c527df0202d37137b803e9d0140a",
-  "bytes": 1526568
+  "url": "models/bro-hof/facilities-2df050df962ebab1b489db701ae70fd02e1165bedccfde9bd02ab4f9658806ba.glb",
+  "sha256": "2df050df962ebab1b489db701ae70fd02e1165bedccfde9bd02ab4f9658806ba",
+  "bytes": 1510840
  },
  "replacesRangeFacilities": false,
  "replacesCourtyard": false,
@@ -750,20 +750,20 @@
    "sourceBuildingIds": [],
    "footprintLocal": [
     [
-     -497.51,
-     462.51
+     -709.83,
+     557.01
     ],
     [
-     -448.19,
-     462.51
+     -292.69,
+     557.01
     ],
     [
-     -448.19,
-     430.98
+     -292.69,
+     187.57
     ],
     [
-     -497.51,
-     430.98
+     -709.83,
+     187.57
     ]
    ],
    "groundAnchorLocal": [
@@ -774,21 +774,21 @@
    "placement": "absolute-rh2000",
    "boundsLocalRh2000": {
     "min": [
-     -497.509,
-     11.954,
-     430.979
+     -709.833,
+     5.837,
+     187.573
     ],
     "max": [
-     -448.191,
-     13.401,
-     462.511
+     -292.691,
+     14.81,
+     557.014
     ]
    },
    "excludeVegetation": false,
-   "triangles": 144,
+   "triangles": 1016,
    "evidence": {
-    "greens": "orthophoto 2025-06-14",
-    "cups": "estimated: no photo resolves a cup"
+    "greens": "the course model: five putting greens, the putting course and the four short-game greens",
+    "cups": "placed on the traced greens: no photo resolves a cup; the putting course has 18 numbered flags (club page), their numbers not drawn"
    }
   },
   {
@@ -893,20 +893,20 @@
    "sourceBuildingIds": [],
    "footprintLocal": [
     [
-     -828.82,
-     368.17
+     -829.13,
+     368.69
     ],
     [
-     -681.73,
-     368.17
+     -706.67,
+     368.69
     ],
     [
-     -681.73,
-     196.45
+     -706.67,
+     207.46
     ],
     [
-     -828.82,
-     196.45
+     -829.13,
+     207.46
     ]
    ],
    "groundAnchorLocal": [
@@ -917,20 +917,20 @@
    "placement": "absolute-rh2000",
    "boundsLocalRh2000": {
     "min": [
-     -828.82,
-     5.963,
-     196.453
+     -829.129,
+     5.928,
+     207.456
     ],
     "max": [
-     -681.73,
-     11.825,
-     368.169
+     -706.671,
+     10.515,
+     368.688
     ]
    },
    "excludeVegetation": false,
-   "triangles": 1940,
+   "triangles": 1082,
    "evidence": {
-    "greens": "the five traced target greens and three more on the orthophoto 2025-06-14",
+    "greens": "the five traced target greens (course model)",
     "flags": "estimated",
     "distances": "metres from the middle of the mat line, rounded to 5 m; the club boards are in no source"
    }

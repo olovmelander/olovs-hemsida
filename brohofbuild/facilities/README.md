@@ -15,7 +15,7 @@ pnpm exec vitest run apps/golf/src/engine/scenery/campus-facilities.test.mjs
 
 The build needs the acquired 1 m terrain (`packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings`),
 because hedges, garden walls and the gate stand on the ground under them. It uses Blender's data API only,
-in its own scene, and no textures: 15 facilities, 26,677 triangles, 1.5 MB, 27 plain materials (the brightest,
+in its own scene, and no textures: 15 facilities, 26,691 triangles, 1.5 MB, 27 plain materials (the brightest,
 the white flags, at 0.72 linear luminance, under the glow's 0.86).
 
 ## What is measured and what is not
@@ -32,10 +32,10 @@ the white flags, at 0.72 linear luminance, under the glow's 0.86).
 
 | Flagpoles (27 Nov) | Five feet where their shadows begin on the 2025 orthophoto; heights 8.3-10.4 m from the shadows at the photo's sun (2025-06-14 08:58 UTC, 48.8 degrees). A Swedish flag by the path, white on the rest (the club's aerial photograph). | Flag sizes (a quarter of the pole); the flags' prints are not drawn; one or two poles the aerial shows north of the green have no shadow on the photo and are not placed. |
 | Terrace parasols | Six, their centres, size and turn (2025 orthophoto). | Height, the tables under them. |
-| Practice greens' flags | The two greens (2025 orthophoto). | The cups, three a green: no photo resolves one. |
+| Practice greens' flags | The greens as the course model traces them: five putting greens (three short flags each), the putting course (its 18 numbered flags, club page) and the short-game area's four greens (two full pins each). | Every cup: no photo resolves one, so they are spread along each green; the putting course's numbers are not drawn. |
 | Range mat line | The artificial-turf strip's ends (2021 and 2025 orthophotos), a ball pile at every bay (counted on the 2021 photo: 30 at 3 m), the ball dispenser's place (2025). | The dispenser's form, the bags. |
 | Range grass tee | The line the golfers stand along on the 2025 photo. | The rope and stakes. |
-| Range targets | Eight greens: the five traced target surfaces and three the 2025 photo shows on the field's east side. | The flags' colours; the boards' figures are metres from the middle of the mat line, rounded to 5 m, not the club's. |
+| Range targets | The five traced target surfaces (course model). The greens with bunkers on the field's east side are the short-game area's, flagged with the practice greens. | The flags' colours; the boards' figures are metres from the middle of the mat line, rounded to 5 m, not the club's. |
 
 Every flag stands out to the east, before the prevailing westerly. The boards' figures are Blender's built-in font,
 converted to triangles. The build reads the 1 m terrain from `BROHOF_TERRAIN` when that is set (a worktree has no

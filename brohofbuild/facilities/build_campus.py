@@ -828,18 +828,110 @@ def parasols():
     return m
 
 
-# Cups on the two practice greens below the terrace: no photo resolves a cup, so these are placed, three a green.
-PRACTICE_CUPS = [(648597.0, 6598137.5), (648601.5, 6598127.0), (648604.5, 6598117.5),
-                 (648627.0, 6598110.0), (648636.5, 6598106.0), (648646.0, 6598109.0)]
+# The practice surfaces as the course model traces them (brohofbuild/course-model.json, the app's own frame: x east of
+# the origin, z south of it). The engine draws them as turf and nothing on them, so their flags are here.
+MODEL = json.loads((Path(__file__).resolve().parents[1] / 'course-model.json').read_text(encoding='utf-8'))
+
+
+def model_rings(kind):
+    """Every traced ring of `kind`, by id, on the map (easting, northing)."""
+    found = {}
+
+    def walk(o):
+        if isinstance(o, dict):
+            if o.get('kind') == kind and o.get('rings') and o.get('id'):
+                found[o['id']] = [(ORIGIN[0] + x, ORIGIN[1] - z) for x, z in o['rings'][0]]
+            for v in o.values():
+                walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+    walk(MODEL)
+    return dict(sorted(found.items()))
+
+
+def ring_inside(p, ring):
+    inside = False
+    for i in range(len(ring)):
+        (x0, y0), (x1, y1) = ring[i - 1], ring[i]
+        if (y0 > p[1]) != (y1 > p[1]) and p[0] < x0 + (p[1] - y0) * (x1 - x0) / (y1 - y0):
+            inside = not inside
+    return inside
+
+
+def ring_centroid(ring):
+    a = cx = cy = 0.0
+    for i in range(len(ring)):
+        (x0, y0), (x1, y1) = ring[i - 1], ring[i]
+        c = x0 * y1 - x1 * y0
+        a, cx, cy = a + c, cx + (x0 + x1) * c, cy + (y0 + y1) * c
+    return (cx / (3 * a), cy / (3 * a))
+
+
+def cups(ring, count, spread=0.5):
+    """`count` spots along the ring's long axis, staggered across it, each kept inside (else the centroid)."""
+    c = ring_centroid(ring)
+    pts = np.array(ring) - c
+    _, vectors = np.linalg.eigh(pts.T @ pts)
+    major, minor = vectors[:, 1], vectors[:, 0]
+    along, across = np.abs(pts @ major).max(), np.abs(pts @ minor).max()
+    out = []
+    for k in range(count):
+        t = 0.0 if count == 1 else spread * (2 * k / (count - 1) - 1)
+        s = 0.25 * (1 if k % 2 else -1) if count > 1 else 0.0
+        p = (c[0] + major[0] * t * along + minor[0] * s * across, c[1] + major[1] * t * along + minor[1] * s * across)
+        out.append(p if ring_inside(p, ring) else c)
+    return out
+
+
+def spread_cups(ring, count, clearance=2.0):
+    """`count` spots spread over a large green (farthest-point sampling on a 1 m grid, kept off the edge)."""
+    xs, ys = [p[0] for p in ring], [p[1] for p in ring]
+    grid = [(x + 0.5, y + 0.5) for x in range(int(min(xs)), int(max(xs))) for y in range(int(min(ys)), int(max(ys)))]
+    edge = lambda p: min(math.hypot(p[0] - q[0], p[1] - q[1]) for q in ring[::2])
+    grid = [p for p in grid if ring_inside(p, ring) and edge(p) > clearance]
+    chosen = [min(grid, key=lambda p: math.hypot(p[0] - ring_centroid(ring)[0], p[1] - ring_centroid(ring)[1]))]
+    far = [math.hypot(p[0] - chosen[0][0], p[1] - chosen[0][1]) for p in grid]
+    while len(chosen) < count:
+        i = max(range(len(grid)), key=far.__getitem__)
+        chosen.append(grid[i])
+        far = [min(f, math.hypot(p[0] - grid[i][0], p[1] - grid[i][1])) for f, p in zip(far, grid)]
+    return chosen
+
+
+PUTTING_GREENS = ['practice-green-castle-west', 'practice-green-castle-south', 'practice-green-first-tee',
+                  'practice-green-castle-first-tee', 'practice-green-range']
+SHORT_GAME_GREENS = ['practice-green-short-a', 'practice-green-short-b', 'practice-green-short-c', 'practice-green-short-d']
+PUTTING_COURSE = 'putting-course'
+
+
+def short_flag(m, e, n, phase):
+    p, g = Mesh(e, n, *WIND), ground(e, n)
+    p.lathe('pole', 0, 0, [(g - 0.05, 0.009), (g + 0.76, 0.009)], 6)
+    flag_cloth(p, g + 0.75, 0.3, 0.2, plain('flag_yellow'), phase=phase, segments=4, hoist=0.009)
+    merge(m, p)
 
 
 def practice_flags():
-    m = Mesh(*PRACTICE_CUPS[0], 1, 0)
-    for k, (e, n) in enumerate(PRACTICE_CUPS):
-        p, g = Mesh(e, n, *WIND), ground(e, n)
-        p.lathe('pole', 0, 0, [(g - 0.05, 0.009), (g + 0.76, 0.009)], 6)
-        flag_cloth(p, g + 0.75, 0.3, 0.2, plain('flag_yellow'), phase=k, segments=4, hoist=0.009)
-        merge(m, p)
+    """Short flags on the putting greens (three a green) and the putting course (its 18), a full pin on the short-game
+    greens (two a green). No photo resolves a cup: the spots are placed on the traced greens."""
+    greens = model_rings('practice_green')
+    m = Mesh(*ring_centroid(greens[PUTTING_GREENS[0]]), 1, 0)
+    k = 0
+    for gid in PUTTING_GREENS:
+        for e, n in cups(greens[gid], 3):
+            short_flag(m, e, n, k)
+            k += 1
+    for e, n in spread_cups(greens[PUTTING_COURSE], 18):
+        short_flag(m, e, n, k)
+        k += 1
+    for gid in SHORT_GAME_GREENS:
+        for e, n in cups(greens[gid], 2, spread=0.35):
+            p, g = Mesh(e, n, *WIND), ground(e, n)
+            p.lathe('pole', 0, 0, [(g - 0.1, 0.012), (g + 2.13, 0.012)], 6)
+            flag_cloth(p, g + 2.1, 0.5, 0.36, plain('flag_red'), phase=k, segments=6, hoist=0.012)
+            merge(m, p)
+            k += 1
     return m
 
 
@@ -906,11 +998,10 @@ def range_grass_tee():
     return m
 
 
-# The range's eight target greens: the five traced ones (their centroids) and three the 2025 photo shows on its east side
-# with their bunkers, which were not traced. Each has a flag and a board with its distance in metres from the middle of
-# the mat line, rounded to 5 m: the club's own boards are in no source.
-RANGE_TARGETS = [(648386.4, 6598207.0), (648323.3, 6598209.7), (648265.7, 6598232.9), (648324.6, 6598272.6),
-                 (648397.0, 6598294.0), (648412.0, 6598347.0), (648280.6, 6598354.8), (648392.0, 6598372.0)]
+# The range's five target greens as traced (their centroids); the four greens with bunkers on the field's east side are
+# the short-game area's, flagged with the practice greens. Each target has a flag and a board with its distance in metres
+# from the middle of the mat line, rounded to 5 m: the club's own boards are in no source.
+RANGE_TARGETS = [ring_centroid(r) for r in model_rings('range_target_surface').values()]
 TARGET_FLAGS = ['flag_red', 'flag_white', 'flag_yellow', 'flag_blue']
 
 
@@ -974,14 +1065,15 @@ FACILITIES = [
     dict(id='terrace-parasols', node='BroHof-TerraceParasols', build=parasols, sources=[], anchor=(648632.0, 6598151.5), plants=True,
          evidence=dict(position='orthophoto 2025-06-14', size='orthophoto', height='estimated', tables='estimated')),
     dict(id='practice-green-flags', node='BroHof-PracticeGreenFlags', build=practice_flags, sources=[], anchor=(648620.0, 6598118.0), plants=True,
-         evidence=dict(greens='orthophoto 2025-06-14', cups='estimated: no photo resolves a cup')),
+         evidence=dict(greens='the course model: five putting greens, the putting course and the four short-game greens',
+                       cups='placed on the traced greens: no photo resolves a cup; the putting course has 18 numbered flags (club page), their numbers not drawn')),
     dict(id='range-mat-line', node='BroHof-RangeMatLine', build=range_mats, sources=[], anchor=MAT_MIDDLE, plants=True,
          evidence=dict(line='orthophoto 2021-04-16 and 2025-06-14: the artificial-turf strip and a ball pile at each bay', bays='30 at 3 m, counted on the 2021 photo',
                        dispenser='orthophoto 2025-06-14, its form estimated', bags='estimated')),
     dict(id='range-grass-tee', node='BroHof-RangeGrassTee', build=range_grass_tee, sources=[], anchor=(648347.5, 6598117.5), plants=True,
          evidence=dict(line='orthophoto 2025-06-14: the golfers along the grass tee', rope='estimated')),
     dict(id='range-targets', node='BroHof-RangeTargets', build=range_targets, sources=[], anchor=(648330.0, 6598290.0), plants=True,
-         evidence=dict(greens='the five traced target greens and three more on the orthophoto 2025-06-14', flags='estimated',
+         evidence=dict(greens='the five traced target greens (course model)', flags='estimated',
                        distances='metres from the middle of the mat line, rounded to 5 m; the club boards are in no source')),
 ]
 
