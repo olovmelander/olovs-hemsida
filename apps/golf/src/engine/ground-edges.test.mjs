@@ -82,7 +82,7 @@ describe('class edges seen from the tee', () => {
 
   it('is the shader\'s rule: each field\'s own change over the pixel, and the edge details fade by it', () => {
     expect(core).toMatch(/const pixelAcross = exactEdges && acrossEdges \? sdfs\.map\(sdf => fwidth\(sdf\)\) : null;/);
-    expect(core).toMatch(/pixelAcross\.map\(slope => slope\.mul\(0\.7\)\.max\(CUT_EDGE_FLOOR_METRES\)\.min\(pixelHalf\.min\(EDGE_REACH_METRES\)\)\)/);
+    expect(core).toMatch(/pixelAcross\.map\(slope => slope\.mul\(0\.7\)\.max\(edgeFloor\)\.min\(pixelHalf\.min\(EDGE_REACH_METRES\)\)\)/);
     expect(core).toMatch(/const width = isCut\(index\) \? half : mix\(max\(float\(softRamp\), half\), half, meetsCut\);/);
     /* the contact line, the bank, the rake and lip, and the paths */
     expect(core).toMatch(/const pixel = pixelAcross\[index\]\.min\(footprint\);/);

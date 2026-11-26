@@ -46,8 +46,13 @@ result.backend = renderer.backend.isWebGPUBackend ? 'webgpu' : 'webgl2';
 result.reversedDepth = renderer.reversedDepthBuffer === true;
 
 /* the player's catalogue (ghibli-trees.mjs), ?treeset=v1 the painted one and ?course=visby its own, proved the same way */
-const GHIBLI = await loadGhibliTrees({ baseUrl: '/', variants: 1, tier, treeset: playerTreeSet(location.search), courseSlug: q.get('course') });
+const variantIndex = Math.max(0, Math.min(2, Number(q.get('variant')) | 0));
+const GHIBLI = await loadGhibliTrees({ baseUrl: '/', variants: variantIndex + 1, tier, treeset: playerTreeSet(location.search),
+  courseSlug: q.get('course'), playingHeight: q.has('playingHeight'), treeArt: q.has('treeArt'), relief: !q.has('low') });
 result.treeset = GHIBLI.summary.treeset;
+result.playingHeight = GHIBLI.summary.playingHeight;
+result.woodland = GHIBLI.summary.woodland;
+result.variant = variantIndex;
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
@@ -55,6 +60,10 @@ const ground = new THREE.Mesh(new THREE.PlaneGeometry(6000, 6000), new THREE.Mes
 ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true;
 scene.add(ground, new THREE.HemisphereLight(0xffffff, 0xffffff, 0.25));
 const sun = new THREE.DirectionalLight(0xffffff, 1);
+// A normal player visit owns a single shadow-map resolution. Use this mode
+// on native WebGPU to keep a live depth target for the whole course profile.
+const fixedMapSize = Number(q.get('mapSize')) || 0;
+if (fixedMapSize) sun.shadow.mapSize.set(fixedMapSize, fixedMapSize);
 sun.castShadow = true;
 sun.shadow.bias = -0.0004;
 sun.shadow.filterNode = createSunShadowFilter().filterNode;
@@ -63,11 +72,14 @@ scene.add(sun, sun.target);
 const captureCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 2000);
 const rt = new THREE.RenderTarget(W, W, { type: THREE.UnsignedByteType, depthBuffer: true });
 
-const species = GHIBLI.species.map((sp, s) => {
+const species = GHIBLI.species.map((speciesRecord, s) => {
+  const sp = speciesRecord.variants[variantIndex];
   const near = sp.mesh;
-  const atlas = bakeImpostorAtlas(renderer, { crown: near.crown, trunk: near.trunk, trunkColor: new THREE.Color(...sp.trunkMean), foliage: sp.foliage });
+  const baked = bakeImpostorAtlas(renderer, { crown: near.crown, trunk: near.trunk, trunkColor: new THREE.Color(...sp.trunkMean), foliage: sp.foliage,
+    framesPerSide: +q.get('views') || null, frameSize: +q.get('pixels') || null });
+  const atlas = q.has('cut') ? { ...baked, shadowThreshold: +q.get('cut') } : baked;
   const crownOptions = { key: sp.foliage.key, map: sp.foliage.map, sunDirection: uSun, tint: vec3(1), seed: float(0.5), autumn: float(0),
-    ...(sp.foliage.realistic ? { realistic: true } : {}) };
+    ...(sp.foliage.realistic ? { realistic: true, woodland: sp.foliage.woodland, normals: sp.foliage.normals, mean: sp.foliage.mean } : {}) };
   const crownMat = makeGhibliFoliageMaterial(crownOptions), crownRef = REF_FOLIAGE.makeGhibliFoliageMaterial(crownOptions);
   const crown = new THREE.Mesh(near.crown, crownMat), trunk = new THREE.Mesh(near.trunk, new THREE.MeshStandardNodeMaterial({ color: 0x806040 }));
   const mesh = new THREE.Group();
@@ -101,6 +113,7 @@ const fineBox = (sp, d) => Math.max(60, Math.ceil((shadowLength(sp, d) / 2 + sp.
 
 /* the darkness the mesh and the impostor each add to the lit ground, with the sun's box as placeSun sizes it */
 async function shadows(sp, sunDir, R, mapSize, yaw, dump = null) {
+  mapSize = fixedMapSize || mapSize;
   const d = new THREE.Vector3(...sunDir).normalize();
   uSun.value.copy(d);
   sun.intensity = 1.6 / Math.max(0.05, d.y);   /* the same lit ground at every sun height */
@@ -153,6 +166,7 @@ try {
   const suns = [[-0.22, 0.88, 0.42], [-0.42, 0.46, 0.78], [-0.56, 0.15, 0.71], [-0.20, 0.08, -0.97]];
   if (modes.has('match')) for (const sp of chosen) for (const sunDir of suns) {
     for (const [R, mapSize] of [[0, 2048], [850, 2048], [850, 1024], [2200, 2048]]) {
+      if (fixedMapSize && mapSize !== fixedMapSize) continue;
       const r = await shadows(sp, sunDir, R, mapSize, R ? 1.1 : 0, sunDir === suns[1] && R === 850 && mapSize === 2048 ? `match-${sp.key}-R850` : null);
       result.match.push(r); console.log(JSON.stringify(r));
     }
@@ -161,6 +175,7 @@ try {
     sp.crown.material = sp.crownRef;
     const reference = await shadows(sp, sunDir, 0, 2048, 1.1);
     for (const [R, mapSize] of [[260, 2048], [400, 2048], [600, 2048], [850, 2048], [1150, 2048], [2200, 2048], [260, 1024], [600, 1024], [850, 1024], [1150, 1024]]) {
+      if (fixedMapSize && mapSize !== fixedMapSize) continue;
       sp.crown.material = sp.crownRef;
       const before = await shadows(sp, sunDir, R, mapSize, 1.1);
       sp.crown.material = sp.crownMat;

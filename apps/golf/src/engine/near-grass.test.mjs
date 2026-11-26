@@ -270,8 +270,10 @@ describe('main.js', () => {
     expect(main).toMatch(/if \(NEAR_GRASS_ON && M\.infra\.vegetationPlacement !== 'measured-only' && groundAtlas\?\.exactEdges\)/);
     expect(main).toMatch(/ground: \{ relief: GROUND_RELIEF_ON, wear: GROUND_WEAR_ON, grain: TURF_GRAIN_ON, gloss: SURFACE_GLOSS \}/);
     expect(main).toMatch(/quality: LOWQ \? 'lo' : 'hi'/);
-    /* the visible ground, and no grass in water */
-    expect(main).toMatch(/const h = terrainH\(x, z\);\s*return \{ h, grass: Number\.isFinite\(h\) && !wetAt\(x, z, h\) \};/);
+    /* Use the visible height, and skip only wet ground and drawn bridge footprints. */
+    expect(main).toContain("mappedDeckFootprints.add(ring, ringBBox(ring), 0)");
+    expect(main).toContain("mappedDeckFootprints.at(x, z).some(ring => inRing(x, z, ring))");
+    expect(main).toMatch(/const h = terrainH\(x, z\);\s*const underDeck = [^;]+;\s*return \{ h, grass: Number\.isFinite\(h\) && !underDeck && !wetAt\(x, z, h\) \};/);
   });
 
   it('moves it with the camera each frame, fills its ground and compiles it at boot, and waits for it to settle', () => {

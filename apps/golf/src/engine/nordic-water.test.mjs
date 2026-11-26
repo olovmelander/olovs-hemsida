@@ -119,8 +119,8 @@ describe('Nordic lake water', () => {
     expect(shading).toMatch(/texture\(DETAIL, drift\(4, 0\.55,/);
     expect(shading).toMatch(/const patchChop = wind \? waterPatchChop\(\{ p: wp, distance: cd \}\) : null;/);
     expect(shading).toMatch(/mul\(waterChop\)\.mul\(patchChop\)/);
-    /* none on the ocean's sheets, nor on the open sea (the water road pass, water-road.mjs) */
-    expect(shading).toMatch(/if \(!ocean && !sea\) \{[\s\S]*?skyC = mix\(skyC, waterTreeLine, treeLineShare\(\{ R: Rs, up: saturate\(Rs\.y\) \}\)/);
+    expect(shading).not.toContain('treeLineShare(');
+    expect(shading).toContain('waterLighting.reflectedSkyColour(up, sunUp, R)');
     expect(shading).toMatch(/expectedGlitter\(\{ V, L: uSun, sigma \}\), dabs,/);
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toMatch(/waterShading\(\{ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,\n    cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON,\n/);

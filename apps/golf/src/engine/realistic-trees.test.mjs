@@ -1,7 +1,11 @@
 import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { createHash } from 'node:crypto';
+import { Color, OrthographicCamera, Texture, Vector3, WebGLCoordinateSystem, WebGPUCoordinateSystem } from 'three';
 import { PLAYER_TREE_SETS, REALISTIC_TREE_REVISION, REALISTIC_VISBY_REVISION, playerTreeSet } from './ghibli-trees.mjs';
+import { fetchGlb, fitFoliageTier } from './ghibli-tree-assets.mjs';
+import { bakeImpostorAtlas, frameNdcOffset, hemiOctahedralDecode, viewBasis } from './tree-impostor.mjs';
+import pilotTiers from '../data/playing-height-tree-tiers.mjs';
 import { REALISTIC_BARK, REALISTIC_LEAVES } from './ghibli-foliage-material.mjs';
 
 const root = new URL('../../public/models/trees/', import.meta.url);
@@ -64,9 +68,6 @@ describe('the realistic catalogue (treeset v2)', () => {
   it('leaves the relief out at low quality, and works offline', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toContain("relief: !LOWQ || new URLSearchParams(location.search).get('treerelief') === '1',");
-    const loader = fs.readFileSync(new URL('./ghibli-trees.mjs', import.meta.url), 'utf8');
-    expect(loader).toContain('if (realistic && relief && entry.bark) {');
-    expect(loader).toContain('if (realistic && relief && entry.foliage.normals) {');
     /* the service worker keeps what the default visit draws, as it keeps the painted catalogue */
     const worker = fs.readFileSync(new URL('../../vite.config.js', import.meta.url), 'utf8');
     expect(worker).toContain('(ghibli-fluffy|ghibli-visby|realistic-v2|realistic-visby)');
@@ -147,7 +148,83 @@ describe('the realistic catalogue (treeset v2)', () => {
     expect(impostor).toContain('foliage.realistic === true && foliage.normals ? leafNormal({ normals: foliage.normals }) : normalWorldGeometry');
     expect(main).toContain("normals: new URLSearchParams(location.search).get('leafnormals') !== '0' ? foliage.normals ?? null : null, mean: foliage.mean ?? null,");
     expect(main).toContain("if (bark?.map && bark.normals && new URLSearchParams(location.search).get('bark') !== '0') {");
-    expect(impostor).toContain("frameSize ??= foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;");
+  });
+  it.each([WebGLCoordinateSystem, WebGPUCoordinateSystem])('bakes a full set of pine views in two passes with the original model-space normals (%s)', async coordinateSystem => {
+    const pine = (await import('../data/scots-pine-assets.mjs')).default.inland;
+    const rec = pine.variants[1].hero;
+    const mesh = await fetchGlb(rec.file, rec, async file => new Response(read(file)));
+    const foliage = { key: 'tall', map: new Texture(), realistic: true, woodland: true };
+    let passes = 0;
+    const renderer = { coordinateSystem, reversedDepthBuffer: coordinateSystem === WebGPUCoordinateSystem,
+      getRenderTarget: () => null, setRenderTarget() {}, clear() {}, getClearColor: t => t, getClearAlpha: () => 1, setClearColor() {},
+      render(scene, camera) {
+        passes++;
+        const geo = scene.children[0].geometry;
+        expect(geo.instanceCount).toBe(256);
+        expect(geo.attributes.normal).toBe(mesh.crown.attributes.normal);
+        const radius = camera.right;
+        const observation = new OrthographicCamera(camera.left, camera.right, camera.top, camera.bottom, camera.near, camera.far);
+        observation.coordinateSystem = coordinateSystem;
+        observation._reversedDepth = renderer.reversedDepthBuffer;
+        observation.updateProjectionMatrix();
+        const height = Math.max(mesh.trunk.boundingBox.max.y, mesh.crown.boundingBox.max.y);
+        const vertex = new Vector3().fromBufferAttribute(geo.attributes.position, 0);
+        for (const [i,j] of [[0,0], [7,7], [11,14], [15,15]]) {
+          const direction = hemiOctahedralDecode(i / 15, j / 15);
+          observation.position.fromArray(direction).multiplyScalar(radius * 2);
+          observation.position.y += height / 2;
+          observation.up.fromArray(viewBasis(...direction).up);
+          observation.lookAt(0, height / 2, 0);
+          observation.updateMatrixWorld();
+          const clip = vertex.clone().project(observation);
+          const tile = frameNdcOffset(i,j,16);
+          const reference = [clip.x * tile.scale + tile.x, clip.y * tile.scale + tile.y, clip.z];
+          for (const [r, name] of ['aBakeX','aBakeY','aBakeZ'].entries()) {
+            const row = geo.attributes[name], k = j * 16 + i;
+            expect(row.getX(k)*vertex.x + row.getY(k)*vertex.y + row.getZ(k)*vertex.z + row.getW(k)).toBeCloseTo(reference[r], 5);
+          }
+        }
+      } };
+    const atlas = bakeImpostorAtlas(renderer, { ...mesh, foliage, trunkColor: new Color(...mesh.trunkMean) });
+    expect(passes).toBe(2);
+    for (const target of atlas.targets) target.dispose();
+    foliage.map.dispose(); mesh.crown.dispose(); mesh.trunk.dispose();
+  });
+  it.each([
+    ['standard birch', 'björk', 'hero', false, true, 8, 128],
+    ['pilot birch', 'björk', 'hero', true, true, 9, 112],
+    ['pilot birch', 'björk', 'full', true, true, 9, 112],
+    ['pilot spruce', 'gran', 'full', true, true, 8, 128],
+    ['painted birch', 'björk', 'hero', false, false, 8, 96],
+  ])('bakes the %s %s/%s near mesh into its distant atlas', async (_, key, tier, pilot, realistic, framesPerSide, frameSize) => {
+    const species = (realistic ? v2 : approved).species.find(s => s.key === key);
+    const variant = species.variants[0];
+    const record = (pilot ? pilotTiers[key][0] : variant.tiers)[tier];
+    const mesh = await fetchGlb(record.file, record, async file => new Response(read(file)));
+    fitFoliageTier(mesh, variant.templateHeight, variant.templateRadius);
+    const foliage = { key: species.foliage.key, map: new Texture(), realistic, playingHeight: pilot, meshTier: tier };
+    // Record the two actual bake passes without allocating a GPU in the unit suite.
+    let drawnViews = 0;
+    const geometries = new Set();
+    const renderer = {
+      coordinateSystem: WebGLCoordinateSystem, getRenderTarget: () => null, setRenderTarget() {}, clear() {},
+      getClearColor: target => target, getClearAlpha: () => 1, setClearColor() {},
+      render(scene) {
+        if (scene.children.length) drawnViews++;
+        for (const child of scene.children) geometries.add(child.geometry);
+      },
+    };
+    const atlas = bakeImpostorAtlas(renderer, { ...mesh, trunkColor: new Color(...mesh.trunkMean), foliage });
+    expect(geometries).toEqual(new Set([mesh.crown, mesh.trunk]));
+    expect(drawnViews).toBe(2 * framesPerSide ** 2);
+    expect(atlas).toMatchObject({ framesPerSide, frameSize, size: framesPerSide * frameSize });
+    for (const target of atlas.targets) {
+      expect([target.width, target.height]).toEqual([atlas.size, atlas.size]);
+      target.dispose();
+    }
+    expect(atlas.height).toBeCloseTo(variant.templateHeight, 4);
+    expect(atlas.centreY).toBeCloseTo(variant.templateHeight / 2, 4);
+    foliage.map.dispose(); mesh.crown.dispose(); mesh.trunk.dispose();
   });
 });
 

@@ -1,11 +1,21 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three/webgpu';
-import { puffyBushGeometry, roundedStoneGeometry } from './cover-shapes.mjs';
+import { puffyBushGeometry, roundedStoneGeometry, woodlandShrubGeometry } from './cover-shapes.mjs';
 import { SEAT_RIM } from './ground-cover.mjs';
 
 const box = g => { g.computeBoundingBox(); return g.boundingBox; };
 
 describe('the ground cover\'s shapes', () => {
+  it('fits the Blender sprigs to the existing shrub envelope and triangle budget', () => {
+    const legacy = puffyBushGeometry(), sprays = woodlandShrubGeometry();
+    const a = box(legacy), b = box(sprays);
+    for (const limit of ['min', 'max']) {
+      expect(a[limit].distanceTo(b[limit])).toBeLessThan(0.00001);
+    }
+    expect(sprays.index.count).toBeLessThanOrEqual(legacy.index.count);
+    expect(sprays.attributes.uv.count).toBe(sprays.attributes.position.count);
+    expect(sprays.attributes.uv.array.every(v => v >= 0 && v <= 1)).toBe(true);
+  });
   it('keep the old extents, so the seating and the prepared places still fit', () => {
     const bush = box(puffyBushGeometry()), stone = box(roundedStoneGeometry());
     expect(bush.max.x - bush.min.x).toBeGreaterThan(1.0); expect(bush.max.x - bush.min.x).toBeLessThan(1.45);

@@ -21,7 +21,7 @@ import {
   Fn, float, vec2, vec3, vec4, color, uv, attribute, varying, texture, cameraPosition, uniform,
   cameraProjectionMatrix, cameraWorldMatrix,
   normalize, abs, floor, fract, select, dot, pow, saturate, sin, cos,
-  transformNormalToView, positionWorld, normalWorldGeometry,
+  transformNormalToView, positionWorld, positionGeometry, normalWorldGeometry,
 } from 'three/tsl';
 import { treeFadeMask, createFadeAttribute } from './tree-fade.mjs';
 import { paintedFoliageColour, foliageLight, foliageSurfacePigment, foliageFacingSun, leafNormal, IMPOSTOR_BACK_EDGE } from './ghibli-foliage-material.mjs';
@@ -179,13 +179,57 @@ function viewBasisNode(view) {
 /* the realistic crowns' frames (treeset v2): their lacy needle pads and leaf clusters kept too little
    of their shape at 96 px, and the impostors' shadows strayed from the meshes' under a low sun */
 export const REALISTIC_IMPOSTOR_FRAME = 128;
+
+// All views of a growth form share its geometry, material and depth target.
+// Instance the orthographic clip transforms. Leaf and bark shading still see
+// their original tree-local positions and normals in every tile.
+function instancedBakeViews(camera, radius, centreY, count, geometries, materials) {
+  const rows = Array.from({ length: 3 }, () => new Float32Array(count * count * 4));
+  const clip = new THREE.Matrix4(), tile = new THREE.Matrix4();
+  camera.updateProjectionMatrix();
+  for (let j = 0; j < count; j++) for (let i = 0; i < count; i++) {
+    const [x, y, z] = hemiOctahedralDecode(i / (count - 1), j / (count - 1));
+    camera.position.set(x * radius * 2, centreY + y * radius * 2, z * radius * 2);
+    camera.up.fromArray(viewBasis(x, y, z).up);
+    camera.lookAt(0, centreY, 0);
+    camera.updateMatrixWorld(true);
+    const o = frameNdcOffset(i, j, count);
+    tile.makeScale(o.scale, o.scale, 1).setPosition(o.x, o.y, 0);
+    clip.multiplyMatrices(tile, camera.projectionMatrix).multiply(camera.matrixWorldInverse);
+    const offset = (j * count + i) * 4;
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) rows[r][offset + c] = clip.elements[c * 4 + r];
+  }
+  const names = ['aBakeX', 'aBakeY', 'aBakeZ'];
+  const attributes = rows.map(row => new THREE.InstancedBufferAttribute(row, 4));
+  const p = vec4(positionGeometry, 1);
+  const projected = vec4(...names.map(name => dot(attribute(name, 'vec4'), p)), 1);
+  for (const material of materials) material.vertexNode = projected;
+  return geometries.map(source => {
+    const geometry = new THREE.InstancedBufferGeometry();
+    geometry.setIndex(source.index);
+    for (const [name, data] of Object.entries(source.attributes)) geometry.setAttribute(name, data);
+    names.forEach((name, i) => geometry.setAttribute(name, attributes[i]));
+    geometry.instanceCount = count * count;
+    return geometry;
+  });
+}
 /* `into`: an atlas this bake made before, baked again in place -- the same targets, framing and
    textures, so every material that reads it follows. `bare`: the wood alone, no crown (a broadleaf
    in winter, engine/snow.mjs); its frames keep the leafy tree's framing, so a billboard keeps its size. */
-export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = 8, frameSize = null, into = null, bare = false } = {}) {
+export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = null, frameSize = null, into = null, bare = false } = {}) {
   if (!renderer || !crown || !trunk) throw new TypeError('bakeImpostorAtlas needs the renderer and both template geometries');
   if (into) ({ framesPerSide, frameSize } = into);
-  frameSize ??= foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;
+  const openCrown = foliage?.playingHeight && foliage.key === 'bjork';
+  // Open oak scaffolds and separated pine fans need more viewing angles:
+  // at low sun a few degrees expose different branches through each gap.
+  const openBoughs = foliage?.woodland && ['tall', 'martall', 'ek'].includes(foliage.key);
+  // Keep the pilot atlas within the same 1024 px budget, distributing its
+  // samples across more directions to track gaps between open boughs.
+  framesPerSide ??= openBoughs ? 16 : openCrown ? 9 : 8;
+  // The varied treeline carries one atlas per form. A distant tree typically
+  // occupies fewer than 48 pixels. Keep the direction count for open crowns.
+  frameSize ??= foliage?.woodland ? (openBoughs ? 64 : openCrown ? 72 : 80)
+    : openCrown ? 112 : foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;
   crown.computeBoundingBox(); trunk.computeBoundingBox();
   const box = new THREE.Box3().union(crown.boundingBox).union(trunk.boundingBox);
   const height = box.max.y, radiusXZ = Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);
@@ -207,7 +251,8 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
        is premultiplied by construction and the draw divides it back out */
     const rt = new THREE.RenderTarget(size, size, {
       depthBuffer: true, stencilBuffer: false, format: THREE.RGBAFormat,
-      type: THREE.HalfFloatType, samples: 0, generateMipmaps: true,
+      type: foliage?.woodland ? THREE.UnsignedByteType : THREE.HalfFloatType,
+      samples: 0, generateMipmaps: true,
       minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter,
     });
     rt.texture.colorSpace = THREE.LinearSRGBColorSpace;
@@ -245,6 +290,12 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
     /* the modelled sprigs' leaves tilt the baked normal as they tilt the mesh's light */
     crownNormal.colorNode = (foliage.realistic === true && foliage.normals ? leafNormal({ normals: foliage.normals }) : normalWorldGeometry).mul(.5).add(.5);
   }
+  // The two byte targets keep all three forms resident. Albedo carries a
+  // reflectance multiplier up to two. Alpha is always unscaled coverage.
+  if (foliage?.woodland) {
+    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(.5);
+    trunkAlbedo.colorNode = color(trunkBase).mul(.5);
+  }
   const trunkNormal = new THREE.MeshBasicNodeMaterial();
   trunkNormal.colorNode = faceNormal;
   trunkNormal.opacityNode = float(0);
@@ -264,6 +315,9 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
      up front so the per-frame projection below is the one that renders */
   camera.coordinateSystem = renderer.coordinateSystem;
   if (renderer.reversedDepthBuffer === true) camera._reversedDepth = true;
+  const instanced = foliage?.woodland ? instancedBakeViews(camera, radius, centreY, framesPerSide, [crown, trunk],
+    [crownAlbedo, trunkAlbedo, crownNormal, trunkNormal]) : null;
+  if (instanced) [crownMesh.geometry, trunkMesh.geometry] = instanced;
   const ndcOffset = new THREE.Matrix4();
   const previous = {
     target: renderer.getRenderTarget(), autoClear: renderer.autoClear,
@@ -287,6 +341,10 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
        three regenerates that chain after EVERY render into it, and there
        are 64 renders a pass: 4.4 s of boot. Off for the frames, then one
        empty render with it on builds the chain once. */
+    if (instanced) {
+      renderer.render(scene, camera);
+      continue;
+    }
     pass.rt.texture.generateMipmaps = false;
     for (let j = 0; j < framesPerSide; j++) {
       for (let i = 0; i < framesPerSide; i++) {
@@ -315,6 +373,14 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
   renderer.autoClear = previous.autoClear;
   renderer.setClearColor(previous.clearColor, previous.clearAlpha);
   renderer.toneMapping = previous.toneMapping;
+  for (const geometry of instanced ?? []) {
+    // The player owns the shared mesh buffers. Only release this wrapper and
+    // the three per-view attributes, including when winter rebakes the atlas.
+    geometry.setIndex(null);
+    for (const name of Object.keys(crown.attributes)) geometry.deleteAttribute(name);
+    for (const name of Object.keys(trunk.attributes)) geometry.deleteAttribute(name);
+    geometry.dispose();
+  }
   crownAlbedo.dispose(); trunkAlbedo.dispose(); crownNormal.dispose(); trunkNormal.dispose();
 
   if (into) return into;
@@ -322,7 +388,8 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
     albedo: albedoTarget.texture, normal: normalTarget.texture,
     targets: [albedoTarget, normalTarget],
     framesPerSide, frameSize, size, radius, centreY, height, trunkColor: trunkBase,
-    foliage: foliage ? { key: foliage.key } : null,
+    foliage: foliage ? { key: foliage.key, realistic: foliage.realistic === true,
+      woodland: foliage.woodland === true, playingHeight: foliage.playingHeight === true, meshTier: foliage.meshTier } : null,
   });
 }
 
@@ -418,7 +485,9 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
      atlas, texture v from the top, and the tree's top is at v = 0 of its
      frame (the unit test holds the two to each other) */
   const span = cell - inset * 2;
-  const atlasUv = (frame, p) => vec2(
+  const atlasUv = (frame, p) => atlas.foliage?.woodland ? vec2(
+    frame.x.mul(cell).add(p.x.mul(cell).clamp(inset, cell - inset)),
+    float(n - 1).sub(frame.y).mul(cell).add(float(1).sub(p.y).mul(cell).clamp(inset, cell - inset))) : vec2(
     frame.x.mul(cell).add(p.x.clamp(0, 1).mul(span)).add(inset),
     float(n - 1).sub(frame.y).mul(cell).add(float(1).sub(p.y.clamp(0, 1)).mul(span)).add(inset));
   const sample = (tex, frame, p) => texture(tex, atlasUv(frame, p)).mul(
@@ -430,7 +499,8 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
   const nrm = normalA.mul(w.x).add(normalB.mul(w.y)).add(normalC.mul(w.z));
   const coverage = albedo.a;
   /* premultiplied by coverage in the blend; divide it back out */
-  const colourLocal = albedo.rgb.div(coverage.max(1e-4));
+  const reflectance = atlas.foliage?.woodland ? albedo.rgb.mul(2) : albedo.rgb;
+  const colourLocal = reflectance.div(coverage.max(1e-4));
   const crownCoverage = nrm.a.clamp(0, coverage);
   const crownMask = crownCoverage.div(coverage.max(1e-4));
   /* Filtering mixes untinted crown RGB with the trunk's baked colour. Tinting
@@ -438,7 +508,7 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
      Recover both premultiplied contributions before tinting only the crown;
      clamp the mask to coverage to absorb half-float rounding between atlases. */
   const trunkPremultiplied = color(atlas.trunkColor).mul(coverage.sub(crownCoverage));
-  const crownPremultiplied = albedo.rgb.sub(trunkPremultiplied).max(0);
+  const crownPremultiplied = reflectance.sub(trunkPremultiplied).max(0);
   const nLocalRaw = nrm.rgb.div(coverage.max(1e-4)).mul(2).sub(1);
   /* the blend of three frames' facet normals (and the mip chain under
      them) is SHORT where the facets disagreed: the sideways components of
@@ -477,7 +547,24 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
      the same dither, so an impostor's shadow fades in and out with it as a
      mesh tier's does. The billboard faces the light there (viewDirectionNode),
      and three draws a front-sided caster's back faces into the map. */
-  const shadowCut = coverage.greaterThan(IMPOSTOR_SHADOW_COVERAGE);
+  // Open spruce whorls and birch sprays have small sunlit gaps between adjacent
+  // atlas views. Preserve those gaps when filtered coverage becomes a depth bit.
+  let shadowCoverage = IMPOSTOR_SHADOW_COVERAGE;
+  if (atlas.foliage?.playingHeight && atlas.foliage.key === 'gran') {
+    // The full tier groups its needles into larger sprays. Seen from above,
+    // overlapping frames otherwise close over the space between its whorls.
+    // Sub-metre shadow texels can resolve the individual gaps. Coarser ones
+    // integrate several twigs and use the crown's mean coverage instead.
+    const shadowTexel = uv().fwidth().length().mul(2 * atlas.radius);
+    const overhead = atlas.foliage.meshTier === 'full' ? shadowTexel.sub(.2).mul(2).clamp(0, 1).mul(-.14).add(.45) : .31;
+    shadowCoverage = vLocal.y.clamp(0, 1).pow(2).mul(overhead).add(.53);
+  }
+  if (atlas.foliage?.playingHeight && atlas.foliage.key === 'bjork') shadowCoverage = .55;
+  // The reduced woodland spruce has open combs of needles. Its distant
+  // silhouette keeps those gaps in the baked coverage without the much
+  // higher overhead cutoff of the earlier, denser spruce model.
+  if (atlas.foliage?.woodland && atlas.foliage.key === 'gran' && atlas.foliage.meshTier === 'full') shadowCoverage = .55;
+  const shadowCut = coverage.greaterThan(atlas.shadowThreshold ?? shadowCoverage);
   material.maskShadowNode = fade ? shadowCut.and(treeFadeMask()) : shadowCut;
   material.shadowSide = THREE.DoubleSide;
   /* the crown takes the species' base colour (the birch its season), the
@@ -496,7 +583,7 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
     /* the mesh crowns' back-light (foliageBackLight): how squarely the eye looks
        at the sun through the tree, at the edge weight's mean over a crown */
     const crownColour = paintedFoliageColour({key:atlas.foliage.key,normal:nWorld,sunDirection,
-      tint:tint.xyz,seed:tint.w,autumn,
+      tint:tint.xyz,seed:tint.w,autumn,realistic:atlas.foliage.realistic,
       backLight:backLight ? foliageFacingSun(view.negate(), sunDirection).mul(IMPOSTOR_BACK_EDGE) : null, sunlit,
       /* the painted canopy's tones, per pixel from the baked normal; the crown's depth is already in the baked albedo */
       canopy});

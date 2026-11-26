@@ -5,11 +5,9 @@ import { describe, expect, it } from 'vitest';
 import { SAND_BOWL } from './ground-material-core.mjs';
 
 describe('the bunker\'s hollow', () => {
-  it('keeps its shade within bounds and its slope gentle', () => {
-    expect(SAND_BOWL.range[0]).toBeGreaterThan(0.5);
-    expect(SAND_BOWL.range[1]).toBeLessThan(1.3);
-    /* the steepest slope of the bowl, 1.5 x depth / reach, stays under 25 degrees */
-    expect(Math.atan(1.5 * SAND_BOWL.depth / SAND_BOWL.reach) * 180 / Math.PI).toBeLessThan(25);
+  it('keeps contact shade local to the lip and leaves face slopes to the terrain', () => {
+    expect(SAND_BOWL).not.toHaveProperty('depth');
+    expect(SAND_BOWL.lipShadowMax).toBeLessThanOrEqual(1);
     expect(SAND_BOWL.lipShade).toBeLessThan(0.5);
     expect(SAND_BOWL.farLip).toBeLessThan(1);
     expect(SAND_BOWL.sunLip).toBeGreaterThan(1);

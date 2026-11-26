@@ -10,6 +10,7 @@
    field of their own position, the shared corners welded so the shading is soft. */
 import * as THREE from 'three/webgpu';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import shrub from '../data/woodland-shrub.json' with { type: 'json' };
 
 const field = (x, y, z, seed) =>
   Math.sin(x * 4.1 + seed) * Math.sin(y * 3.7 + seed * 1.7) * Math.sin(z * 4.3 + seed * 0.6)
@@ -40,6 +41,16 @@ function soften(geometry, { lump, seed, lean = 0, up = 0 }) {
 export function puffyBushGeometry() {
   const g = soften(new THREE.IcosahedronGeometry(0.62, 1), { lump: 0.1, seed: 1.3, lean: 0.55, up: 0.18 });
   g.scale(1, 0.62, 1); g.translate(0, 0.34, 0);
+  return g;
+}
+
+/** Thirty Blender-authored sprigs, fitted to the ground-cover template. */
+export function woodlandShrubGeometry() {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(shrub.position, 3));
+  g.setAttribute('normal', new THREE.Float32BufferAttribute(shrub.normal, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(shrub.uv, 2));
+  g.setIndex(shrub.index);
   return g;
 }
 

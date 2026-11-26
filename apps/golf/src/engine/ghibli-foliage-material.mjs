@@ -79,6 +79,17 @@ export function foliageBackLight({normal,sunDirection}){
    hour and under the midnight sun (docs/visual-lighting-2026-09-25.md). */
 export const IMPOSTOR_BACK_EDGE=.34;
 
+// Reflectance in shade, diffuse daylight and on exposed shoots. The modelled
+// sprigs supply the finer pigment, independently of the light and season.
+const REALISTIC_FOLIAGE = {
+  tall: [0x213b31, 0x526d47, 0x91a16a],
+  martall: [0x21352f, 0x4c6052, 0x849378],
+  gran: [0x1a332c, 0x3d6047, 0x79916a],
+  bjork: [0x344b2b, 0x6e8946, 0xabb968],
+  al: [0x29422d, 0x52764c, 0x91aa72],
+  ek: [0x37472c, 0x78864a, 0xb0b16d],
+};
+
 // The two noise terms are broad (3.3 m and 1.4 m wavelengths) and small, so
 // they are evaluated per vertex and interpolated: per pixel they were 20-25% of
 // a 1080p frame in tree views (docs/performance-plan-2026-09-23.md, 3.3). The
@@ -95,8 +106,8 @@ function foliageNoise(position,noisePerPixel){
 // per vertex): in a cloud's shade its direct light, highlight and back-light
 // give way to the sky's, as on its own shaded side, and it dims as open ground
 // does (foliageCloudShade). Without it, the before.
-export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false,backLight=null,sunlit=null,canopy=false,openness=null,perVertex=false,throughScale=null}){
-  const palette=FOLIAGE_PALETTES[key];
+export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false,backLight=null,sunlit=null,canopy=false,openness=null,perVertex=false,throughScale=null,realistic=false}){
+  const palette=(realistic ? REALISTIC_FOLIAGE : FOLIAGE_PALETTES)[key];
   if(!palette)throw new Error(`Unknown foliage palette: ${key}`);
   const seasonal=AUTUMN_FOLIAGE[key];
   const family=fract(seed.mul(7.13).add(.17));
@@ -122,6 +133,17 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
   const pigment=noise?noise.y.mul(.0125).add(1):float(1);
   let lightTint=mix(foliageShadow,foliageSun,lit);
   let body=mix(mix(shades[0],shades[1],lit),shades[2],highlight);
+  if(realistic){
+    // Diffuse transmission through thin outer leaves also occurs in high
+    // sun. The atlas masks wood; the baked crown occlusion attenuates the
+    // interior, and the existing view-dependent rim handles low backlight.
+    const needles=key==='tall'||key==='martall'||key==='gran';
+    const transmitted=alignment.negate().max(0).mul(direct).mul(needles ? .105 : .19);
+    body=body.add(shades[1].mul(transmitted).mul(throughScale ?? 1));
+    // A tree's seed is shared by every mesh tier and its distant billboard.
+    const warmth=family.sub(.5);
+    body=body.mul(vec3(warmth.mul(.13).add(1),1,float(1).sub(warmth.mul(.20))));
+  }
   if(canopy){
     const C=CANOPY,[b0,b1,b2,b3]=C.bands;
     const wrap=alignment.add(C.wrap).div(1+C.wrap);
@@ -168,8 +190,11 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
 export const REALISTIC_BARK=Object.freeze({share:.9,relief:1,reliefBy:Object.freeze({ek:2.4,al:2.2})});
 export function barkSurface({bark,key=null}){
   const t=texture(bark.normals);
-  const pigment=mix(vec3(1),texture(bark.map).rgb.div(vec3(...(bark.mean??[.8,.8,.8]))),REALISTIC_BARK.share);
-  return {pigment,normal:leafNormal({normals:bark.normals,texel:t,strength:REALISTIC_BARK.reliefBy[key]??REALISTIC_BARK.relief})};
+  const reflectance=texture(bark.map).rgb.div(vec3(...(bark.mean??[.8,.8,.8])));
+  const pigment=mix(vec3(1),reflectance,REALISTIC_BARK.share);
+  // Pale bark plates catch a broad highlight; recessed fissures stay matte.
+  const roughness=mix(float(.98),float(key==='bjork' ? .67 : .78),smoothstep(.70,1.25,reflectance.g));
+  return {pigment,roughness,normal:leafNormal({normals:bark.normals,texel:t,strength:REALISTIC_BARK.reliefBy[key]??REALISTIC_BARK.relief})};
 }
 export function foliageSurfacePigment(texel,realistic=false,mean=null){
   if(realistic)return realisticLeafPigment(texel,mean);
@@ -184,6 +209,21 @@ export const REALISTIC_LEAVES=Object.freeze({mean:.75,share:.85,bias:-.6,normal:
 /* `mean`: the atlas's own mean over its leaves (the manifest's), or the drawn atlases' */
 export function realisticLeafPigment(texel,mean=null){
   return mix(vec3(1),texel.rgb.div(mean?vec3(...mean):vec3(REALISTIC_LEAVES.mean)),REALISTIC_LEAVES.share);
+}
+
+// The undergrowth shares the broadleaf sprigs already resident for the trees.
+// Its standard material receives the same sun and canopy shadows as the turf.
+export function shadeShrubSprigs(material,{map,mean},coverage){
+  const texel=texture(map);
+  material.side=DoubleSide;
+  material.colorNode=material.colorNode.mul(realisticLeafPigment(texel,mean));
+  material.opacityNode=texel.a;
+  material.alphaTest=.42;
+  if(coverage){
+    coverOpaqueBackdrop(material);
+    material.alphaTestNode=centredCoverageCut(texel.a,material.alphaTest);
+  }
+  material.maskShadowNode=texture(map).level(0).a.greaterThan(material.alphaTest);
 }
 /* THE LEAVES' OWN NORMALS (the modelled sprigs, sprig_atlas.py): each card's crown normal tilted by the normal of
    the leaf, needle or twig under the pixel, in the card's own frame -- its uv's directions on the surface, from
@@ -224,7 +264,7 @@ export function leafNormal({normals,normal=normalWorldGeometry,strength=REALISTI
    each of their triangles into a green orb in the trees (Veckefjärden's 13th under the
    midnight sun). Per pixel, from the same per-vertex noise, they stay in their range: a few
    smoothsteps a crown pixel. ?canopybands=vertex is the before. */
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true,canopy=false,bandsPerVertex=false,realistic=false,normals=null,mean=null}){
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true,canopy=false,bandsPerVertex=false,realistic=false,normals=null,mean=null,woodland=false}){
   /* the realistic crowns are lit as a volume, without the painted canopy's bands */
   if(realistic)canopy=false;
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
@@ -234,12 +274,23 @@ export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn
   /* the crown-depth bake's openness rides in the vertex colours the material already multiplies */
   m.colorNode=paintedFoliageColour({key,normal:lightNormal,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel,
     backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null,sunlit,
-    canopy,openness:canopy?vertexColor().r:null,perVertex:canopy&&!noisePerPixel&&bandsPerVertex,throughScale:nTexel?nTexel.b:null});
+    canopy,openness:canopy?vertexColor().r:null,perVertex:canopy&&!noisePerPixel&&bandsPerVertex,throughScale:nTexel?nTexel.b:null,realistic});
   if(map){
     /* the realistic sprigs are read half a mip sharper: their leaves blurred into streaks at the
        distance a crown is seen from, and the temporal AA steadies what the sharper mip adds */
     const texel=realistic?texture(map).bias(REALISTIC_LEAVES.bias):texture(map);
     m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel,realistic,mean));m.opacityNode=texel.a;
+    if(woodland&&nTexel){
+      // Sky-facing leaf cuticles catch a soft, neutral highlight. The sprig
+      // bake masks wood, and the crown-depth bake shields the interior. Fade
+      // the lobe before individual shoots become subpixel in a moving view.
+      const eye=cameraPosition.sub(positionWorld);
+      const near=float(1).sub(smoothstep(14,40,eye.length()));
+      const halfVector=normalize(normalize(eye).add(sunDirection).add(vec3(0,.0001,0)));
+      const shine=pow(saturate(lightNormal.dot(halfVector)),key==='bjork'||key==='al'?17:11)
+        .mul(saturate(lightNormal.dot(sunDirection))).mul(nTexel.b).mul(near).mul(.045);
+      m.colorNode=m.colorNode.add(foliageSun.mul(shine).mul(foliageDirect).mul(sunlit??1).mul(vertexColor().g));
+    }
     m.alphaTest=.5;
     if(coverage){coverOpaqueBackdrop(m);m.alphaTestNode=centredCoverageCut(texel.a,m.alphaTest);}
     else m.alphaToCoverage=false;

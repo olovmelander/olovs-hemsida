@@ -75,14 +75,17 @@ function mergeParts(list) {
   return out;
 }
 
-async function fetchGlb(url, expect, fetchImpl = fetch, prepareCrown = null) {
+async function fetchGlb(url, expect, fetchImpl = fetch, prepareCrown = null, retainVerified = null) {
+  const controlledAtRequest = retainVerified && Boolean(globalThis.navigator?.serviceWorker?.controller);
   const res = await fetchImpl(url);
   if (!res.ok) throw new Error(`Ghibli tree asset ${url}: HTTP ${res.status}`);
+  const retainable = retainVerified && !controlledAtRequest && globalThis.caches ? res.clone() : null;
   const bytes = await res.arrayBuffer();
   if (bytes.byteLength !== expect.bytes) throw new Error(`Ghibli tree asset ${url}: ${bytes.byteLength} bytes, manifest says ${expect.bytes}`);
   const sha = await digest(bytes);
   if (sha !== expect.sha256) throw new Error(`Ghibli tree asset ${url}: sha256 mismatch`);
   inspectBuildingGlb(bytes);
+  if (retainable) await retainVerified(url, retainable, controlledAtRequest);
   const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
   const gltf = await new GLTFLoader().parseAsync(bytes, '');
   let crown = null; const trunks = [];
@@ -124,12 +127,16 @@ function validateAsset(rec, extension) {
 
 /* `linear`: the realistic sprigs' normal and light-through atlas, data rather than colour */
 /* `repeat`: the bark, which wraps round a trunk and repeats up it */
-async function loadFoliageAtlas(base, rec, fetchImpl, { linear = false, repeat = false } = {}) {
+async function loadFoliageAtlas(base, rec, fetchImpl, { linear = false, repeat = false, retainVerified = null } = {}) {
   validateAsset(rec, 'png');
-  const response = await fetchImpl(base + rec.file);
+  const url = base + rec.file;
+  const controlled = Boolean(globalThis.navigator?.serviceWorker?.controller);
+  const response = await fetchImpl(url);
   if (!response.ok) throw new Error(`Ghibli foliage atlas: HTTP ${response.status}`);
   const bytes = await response.arrayBuffer();
   if (bytes.byteLength !== rec.bytes || await digest(bytes) !== rec.sha256) throw new Error('Ghibli foliage atlas checksum mismatch');
+  if (retainVerified && !controlled && globalThis.caches)
+    await retainVerified(url, new Response(bytes, { headers: { 'Content-Type': 'image/png' } }), controlled);
   const blob = new Blob([bytes], { type: 'image/png' });
   const finish = map => {
     map.colorSpace = linear ? THREE.NoColorSpace : THREE.SRGBColorSpace;map.name = `ghibli-foliage-${rec.sha256}`;
@@ -147,9 +154,9 @@ async function loadFoliageAtlas(base, rec, fetchImpl, { linear = false, repeat =
       return finish(new THREE.Texture(bitmap));
     } catch { /* fall back to the image path below */ }
   }
-  const url = URL.createObjectURL(blob);
-  try { return finish(await new THREE.TextureLoader().loadAsync(url)); }
-  finally { URL.revokeObjectURL(url); }
+  const objectUrl = URL.createObjectURL(blob);
+  try { return finish(await new THREE.TextureLoader().loadAsync(objectUrl)); }
+  finally { URL.revokeObjectURL(objectUrl); }
 }
 
 // The study's reduced models have different extents (larger spray cards in

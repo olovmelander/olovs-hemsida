@@ -58,7 +58,7 @@ export const CIRRUS=Object.freeze({
   opacity:.34,
 });
 export const cirrusFor=name=>CIRRUS.presets[name]??0;
-export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBase=null,groundHaze,deterministic,drift=null,sunLit=false,cirrus=false}){
+export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBase=null,groundHaze,deterministic,drift=null,sunLit=false,cirrus=false,cloudDome=null}){
   const exposure=uniform(1);
   const sunGlow=uniform(new Color(0xffffff)),sunGlowStrength=uniform(0),hazeGlow=uniform(0),cloudGlow=uniform(new Color(0,0,0));
   const cloudSun=uniform(0);
@@ -119,11 +119,12 @@ export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBa
     const span=smoothstep(.04,.2,up).mul(float(1).sub(smoothstep(.72,.97,up)));
     const glare=float(1).sub(sunward.mul(sunward).mul(.8));
     const paint=mix(cloudLit,sunGlow,sunward.mul(.55));
-    clear=mix(clear,paint,wisps.mul(span).mul(glare).mul(cirrusShare).mul(CIRRUS.opacity));
+    clear=mix(clear,paint,wisps.mul(span).mul(glare).mul(cirrusShare).mul(cloudDome ? .065 : CIRRUS.opacity));
   }
   const painted=mix(clear,shining,coverage).mul(exposure);
   // The band under the horizon is the ground's haze, warmed toward the sun as
   // the aerial perspective warms it (aerial-perspective.mjs), so they still meet.
   const haze=mix(groundHaze,sunGlow,sunward.mul(hazeGlow));
-  return{node:vec4(mix(haze,painted,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength,hazeGlow,cloudGlow,cloudSun,cirrusShare};
+  const skyColour = cloudDome ? cloudDome.colour(clear.mul(exposure),direction,true) : painted;
+  return{node:vec4(mix(haze,skyColour,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength,hazeGlow,cloudGlow,cloudSun,cirrusShare};
 }

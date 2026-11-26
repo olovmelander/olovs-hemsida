@@ -15,7 +15,7 @@ describe('the water that mirrors its shores', () => {
   it('marches from a hand off the water out past the far shore of the largest lake', () => {
     const t = schedule();
     expect(t[0]).toBeLessThan(0.5);
-    /* the fjärd's far shore lies some 1.5 km off; the march must reach it before its hit fades */
+    /* the fjÃ¤rd's far shore lies some 1.5 km off; the march must reach it before its hit fades */
     expect(t.at(-1)).toBeGreaterThan(WATER_REFLECTION.reachFade[1]);
     expect(WATER_REFLECTION.reachFade[1]).toBeLessThanOrEqual(WATER_REFLECTION.background[1]);
     /* the noise scales the whole schedule by up to a step: each pixel's steps fall a different share along */
@@ -58,7 +58,7 @@ describe('the water that mirrors its shores', () => {
     expect(main).toContain("const WATER_REFLECTION = TEMPORAL_AA && new URLSearchParams(location.search).get('waterreflect') !== '0'");
     expect(main).toContain('WATER_REFLECTION?.setTarget(scenePass.renderTarget);');
     expect(main).toContain('WATER_REFLECTION?.setActive(!lowfx);');
-    expect(main).toContain('reflection: WATER_REFLECTION, lightScale: paintedWaterLight');
+    expect(main).toContain('reflection: WATER_REFLECTION, measuredBank, lightScale: paintedWaterLight');
     const shading = fs.readFileSync(new URL('./water-shading.mjs', import.meta.url), 'utf8');
     const traced = shading.indexOf('reflection.trace('), mixed = shading.indexOf('let c = mix(body, skyC'), road = shading.indexOf('c = c.add(');
     expect(traced).toBeGreaterThan(0);

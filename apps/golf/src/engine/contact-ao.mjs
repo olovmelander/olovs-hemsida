@@ -4,13 +4,13 @@
    sun's map is far too coarse to say so at a metre. GTAO reads it from the
    depth alone (normals rebuilt from depth, so the scene pass needs no second
    target; r187 reads the reversed depth buffer), at half resolution within a
-   0.9 m world radius. Without temporal filtering its samples are grainy, so a
-   3 x 3 box takes the grain out, and only real contact darkens the colour
+   0.9 m world radius. A depth-aware reconstruction keeps the half-resolution
+   contact on the receiving surface, and only real contact darkens the colour
    (`contact`): the slight occlusion every flat wall and lawn reads is cut away,
    which also keeps the painted planes clean. At most `strength` of the colour.
    High quality only, as the rest of the pipeline; the runtime drop draws
    without it. +0.1-0.5 ms at 1080p on the RTX 5080. ?ao=0 is the before. */
-import { float, getViewPosition, int, screenUV, smoothstep, uniform, vec4 } from 'three/tsl';
+import { abs, float, floor, fract, mix, perspectiveDepthToViewZ, reference, screenUV, smoothstep, textureSize, uniform, vec2, vec4 } from 'three/tsl';
 
 export const CONTACT_AO = Object.freeze({
   /* GTAO's own terms: its world radius, metres, the samples, the thickness and its falloff */
@@ -42,11 +42,28 @@ export async function createContactAO({ depthNode, camera }) {
   node.distanceFallOff.value = A.distanceFallOff;
   node.scale.value = A.scale;
   const uStrength = uniform(A.strength);
-  const { boxBlur } = await import('three/addons/tsl/display/boxBlur.js');
-  /* GTAO without temporal filtering is grainy: a 3 x 3 box takes the grain out */
-  const occlusion = boxBlur(node.getTextureNode(), { size: int(1), separation: int(1) }).r;
-  const darken = smoothstep(A.contact[0], A.contact[1], float(1).sub(occlusion)).mul(uStrength);
-  const eye = getViewPosition(screenUV, depthNode.sample(screenUV).r, uniform(camera.projectionMatrixInverse)).length();
+  const aoMap = node.getTextureNode();
+  const size = vec2(textureSize(aoMap));
+  const pixel = screenUV.mul(size).sub(.5);
+  const blend = fract(pixel);
+  const origin = floor(pixel).add(.5);
+  const near = reference('near', 'float', camera), far = reference('far', 'float', camera);
+  const eyeDepth = uv => perspectiveDepthToViewZ(depthNode.sample(uv).r, near, far).negate();
+  const eye = eyeDepth(screenUV);
+  // A box filter also averages a foreground pin or leaf into the distant
+  // green behind it. Reconstruct from the four actual GTAO texel centres.
+  // Give a thin object with no matching sample the open-sky value.
+  let total = float(.001), contact = float(0);
+  const tolerance = eye.mul(.003).clamp(.10, A.radius);
+  for (const [x, y] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
+    const uv = origin.add(vec2(x, y)).div(size);
+    const difference = abs(eyeDepth(uv).sub(eye));
+    const similar = float(1).sub(smoothstep(tolerance, tolerance.mul(2), difference));
+    const weight = mix(blend.x.oneMinus(), blend.x, float(x)).mul(mix(blend.y.oneMinus(), blend.y, float(y))).mul(similar);
+    contact = contact.add(aoMap.sample(uv).r.oneMinus().mul(weight));
+    total = total.add(weight);
+  }
+  const darken = smoothstep(A.contact[0], A.contact[1], contact.div(total)).mul(uStrength);
   const factor = float(1).sub(darken.mul(smoothstep(A.near[0], A.near[1], eye)));
   return {
     node, factor,

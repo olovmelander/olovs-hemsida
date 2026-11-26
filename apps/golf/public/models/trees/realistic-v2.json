@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "kind": "ghibli-trees",
   "design": "realistic-v2",
-  "revision": "realistic-v2-2026-11-03",
+  "revision": "realistic-v2-2026-11-26",
   "budgets": {
     "hero": 6500,
     "full": 2552
@@ -20,19 +20,19 @@
       "foliage": {
         "key": "tall",
         "atlas": {
-          "file": "realistic-v2/df72c6e944d54376250233b6ebb7ff87f4622d2f045851f0602c5e8aa6618e72.png",
-          "bytes": 529134,
-          "sha256": "df72c6e944d54376250233b6ebb7ff87f4622d2f045851f0602c5e8aa6618e72"
+          "file": "realistic-v2/b989e52685df7e0e0f62faf6a92d5a6f3ee203a40f8386244adb9ae89325b49a.png",
+          "bytes": 645570,
+          "sha256": "b989e52685df7e0e0f62faf6a92d5a6f3ee203a40f8386244adb9ae89325b49a"
         },
         "normals": {
-          "file": "realistic-v2/e54b2e579bad9811b8da88f511d0ae25916c83d94ca61ac1287997f5463f2f1e.png",
-          "bytes": 191370,
-          "sha256": "e54b2e579bad9811b8da88f511d0ae25916c83d94ca61ac1287997f5463f2f1e"
+          "file": "realistic-v2/6fb1547375706d94d148622772fbd8b16a4ad23c25f2694eb6d34cee154aa74e.png",
+          "bytes": 263808,
+          "sha256": "6fb1547375706d94d148622772fbd8b16a4ad23c25f2694eb6d34cee154aa74e"
         },
         "mean": [
-          0.8179,
-          0.8506,
-          0.8084
+          0.7969,
+          0.8202,
+          0.8033
         ]
       },
       "bark": {
@@ -60,15 +60,15 @@
           "templateRadius": 10.910284042358398,
           "tiers": {
             "hero": {
-              "file": "realistic-v2/0358f4f0b25e4ed079384f25dddb0e31049ab79c74d59d24f8cb2c7135d58c60.glb",
-              "bytes": 174024,
-              "sha256": "0358f4f0b25e4ed079384f25dddb0e31049ab79c74d59d24f8cb2c7135d58c60",
-              "tris": 4814
+              "file": "realistic-v2/dcae23e0c010fbfd4a8a0a7b930e1dd37d34379d42169f9017cb1416cbfa0f11.glb",
+              "bytes": 171712,
+              "sha256": "dcae23e0c010fbfd4a8a0a7b930e1dd37d34379d42169f9017cb1416cbfa0f11",
+              "tris": 4752
             },
             "full": {
-              "file": "realistic-v2/ed964ac4675a0616b8b7c2dd6099c473252d642ec189911fe672dd4f20871e92.glb",
+              "file": "realistic-v2/62841647b7ee306736a2fb285a06b47e2ccd76ebecb98d2a8ae252c1825b2d8f.glb",
               "bytes": 58736,
-              "sha256": "ed964ac4675a0616b8b7c2dd6099c473252d642ec189911fe672dd4f20871e92",
+              "sha256": "62841647b7ee306736a2fb285a06b47e2ccd76ebecb98d2a8ae252c1825b2d8f",
               "tris": 1578
             }
           }
@@ -79,15 +79,15 @@
           "templateRadius": 10.910284042358398,
           "tiers": {
             "hero": {
-              "file": "realistic-v2/ab80fbc08a68646d091c6b902ab1f603eaa46913e57b88b6919a9cfaf41b9850.glb",
-              "bytes": 166216,
-              "sha256": "ab80fbc08a68646d091c6b902ab1f603eaa46913e57b88b6919a9cfaf41b9850",
-              "tris": 4574
+              "file": "realistic-v2/327c1e7f1694910794f9ad06617f3574a94b409e1ed70e65ca82730a8fbbdb67.glb",
+              "bytes": 167428,
+              "sha256": "327c1e7f1694910794f9ad06617f3574a94b409e1ed70e65ca82730a8fbbdb67",
+              "tris": 4610
             },
             "full": {
-              "file": "realistic-v2/3a7789b822cfafc3b0d34c9cf5b2261c6f7a52e71a75731793f617db2af4b0ac.glb",
-              "bytes": 58756,
-              "sha256": "3a7789b822cfafc3b0d34c9cf5b2261c6f7a52e71a75731793f617db2af4b0ac",
+              "file": "realistic-v2/f73748a44bae596031018476c926e28bc2a0a7d907d73d7d419cf2bf01da04b5.glb",
+              "bytes": 58768,
+              "sha256": "f73748a44bae596031018476c926e28bc2a0a7d907d73d7d419cf2bf01da04b5",
               "tris": 1578
             }
           }
@@ -98,15 +98,15 @@
           "templateRadius": 10.910284042358398,
           "tiers": {
             "hero": {
-              "file": "realistic-v2/7df5ae64f003137165b1d5d0fa4138679a4c55a80e19bdf49649e6c24049eb0d.glb",
-              "bytes": 175024,
-              "sha256": "7df5ae64f003137165b1d5d0fa4138679a4c55a80e19bdf49649e6c24049eb0d",
-              "tris": 4862
+              "file": "realistic-v2/74c2d2cfa581824b3bb5d27ecbb2c9e1ddc0be9e120890301830322851ca1f2d.glb",
+              "bytes": 179632,
+              "sha256": "74c2d2cfa581824b3bb5d27ecbb2c9e1ddc0be9e120890301830322851ca1f2d",
+              "tris": 4988
             },
             "full": {
-              "file": "realistic-v2/038da4242f12b60c1e621fd68c7908360679185a5a92159dd558ab758c7065a5.glb",
-              "bytes": 57592,
-              "sha256": "038da4242f12b60c1e621fd68c7908360679185a5a92159dd558ab758c7065a5",
+              "file": "realistic-v2/071021118d1c92811810c78b6c86b705ff4ecd83e865b9c56195f0e54e4a6c70.glb",
+              "bytes": 57624,
+              "sha256": "071021118d1c92811810c78b6c86b705ff4ecd83e865b9c56195f0e54e4a6c70",
               "tris": 1542
             }
           }

@@ -21,11 +21,13 @@
    (water-reflection.mjs): the opaque world's own pixels along the reflected ray,
    laid over the sky reflection where the march finds them; `lightScale` is the
    factor the caller multiplies the colour by (the found pixels are already lit). */
-import { attribute, cameraPosition, color, float, mix, normalize, oneMinus, positionWorld, pow, reflect, saturate, smoothstep, texture, time, vec2, vec3 } from 'three/tsl';
+import { attribute, cameraPosition, color, float, max, mix, normalize, oneMinus, positionWorld, pow, reflect, saturate, smoothstep, texture, time, vec2, vec3, vec4 } from 'three/tsl';
 import { paintedWaterShallow, paintedWaterDeep, paintedWaterSparkle } from './painted-world-lighting.mjs';
-import { NORDIC_WATER, SLOPE_SCALE, expectedGlitter, reflectedSunGlow, treeLineShare, waterSun, waterSkyGlow, waterTreeLine,
+import { NORDIC_WATER, SLOPE_SCALE, expectedGlitter, reflectedSunGlow, waterSun, waterSkyGlow,
   waterFlow, waterChop, waterPatchChop } from './nordic-water.mjs';
 import { sunRoad, mirrorShare, bodyRelief } from './water-road.mjs';
+import { reflectedBank } from './measured-bank-reflection.mjs';
+import { WATER_REFLECTION } from './water-reflection.mjs';
 import { bodySunlit, bodyCloudShade, waterRoughness, waterLanes } from './water-above.mjs';
 
 /* the bank's reflection and shade inside the waterline (waterShading's `bank`) */
@@ -42,8 +44,8 @@ export const WATER_SHORE_FADE = Object.freeze({ metres: 2.5 });
 
 export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, cloud = null, ocean = false, showBed = true, nordic = false, wind = false,
   road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false, longShadows = false, bank = false,
-  reflection = null, lightScale = null, shoreFade = false }) {
-  const uSun = sun, uWaterGlint = glint, uWaterChop = chop;
+  reflection = null, measuredBank = null, lightScale = null, shoreFade = false }) {
+  const uSun = sun, uWaterChop = chop;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
   const wp = positionWorld.xz;
@@ -74,49 +76,55 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   const fineWeight = near.mul(0.45).add(0.30).mul(uWaterChop), finestWeight = near.mul(0.30).add(0.16).mul(uWaterChop);
   const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16))).mul(uWaterChop)
                    .add(n2.mul(0.7)).add(n4.mul(0.9)).mul(rippleAmp);
-  const waveSlope = ocean ? 0.4 : 0.55;
-  const N = normalize(vec3(ripple.x.mul(waveSlope), float(1), ripple.y.mul(waveSlope)));
+  // The four packed slope layers add together. Keep the resulting surface
+  // calm enough for reflected clouds and banks to remain identifiable.
+  const waveSlope = ocean || sea ? .25 : .17;
+  // Sheltered pond margins reflect a calmer sky and bank than open water.
+  const bankChop = bank && !sea && !ocean
+    ? mix(float(.48), float(1), max(smoothstep(.12, 2.7, aSh), aFoam)) : float(1);
+  const surfaceSlope = ripple.mul(bankChop);
+  const N = normalize(vec3(surfaceSlope.x.mul(waveSlope), float(1), surfaceSlope.y.mul(waveSlope)));
 
   const V = normalize(cameraPosition.sub(positionWorld));
-  const fres = pow(oneMinus(saturate(N.dot(V))), 4.2).mul(0.93).add(0.035);
+  // Air to freshwater at normal incidence reflects about 2.04 percent.
+  const viewCosine = saturate(N.dot(V));
+  const fres = pow(oneMinus(viewCosine), 5).mul(.9796).add(.0204);
 
   /* The preview uses the indirect-light palette for the analytic reflection.
      Angle, Fresnel, waves and the water body's own depth colours stay the same. */
   const R = reflect(V.negate(), N);
   const up = saturate(R.y);
   const sunUp = uSun.y.max(0.02);
-  let skyC = waterLighting.reflectedSkyColour(up, sunUp);
+  let skyC = waterLighting.reflectedSkyColour(up, sunUp, R);
   let glowShare = null;
   if (nordic) {
-    /* the sky's own sun glow, as the sky draws it, then the far shore's wood in front of it: a lake's in
-       full, a pond's half, none on the open sea (the ocean's sheets, and with `sea` every sea's) */
     glowShare = reflectedSunGlow({ R, up, sun: uSun });
     skyC = mix(skyC, waterSkyGlow, glowShare);
-    if (!ocean && !sea) {
-      /* the shore is read off a calmer surface: a quarter of the chop near, none far (nordic-water.mjs) */
-      const { calm, calmFarMetres } = NORDIC_WATER.treeLine;
-      const shoreTilt = oneMinus(smoothstep(calmFarMetres[0], calmFarMetres[1], cd)).mul(waveSlope * calm);
-      const Rs = reflect(V.negate(), normalize(vec3(ripple.x.mul(shoreTilt), float(1), ripple.y.mul(shoreTilt))));
-      skyC = mix(skyC, waterTreeLine, treeLineShare({ R: Rs, up: saturate(Rs.y) }).mul(mix(float(NORDIC_WATER.treeLine.pond), float(1), aFoam)));
-    }
   }
 
   /* THE WORLD IN THE WATER (water-reflection.mjs): the shores, trees, banks and hills the reflected ray
      finds on screen, read off a calmer surface than the chop's (its own share of the wave slope, less far
-     off), laid over the sky's reflection by the share it found; where it finds the world, the water
-     mirrors more of its Fresnel than the painted sky did; the sun's glow and road stay on top */
-  let found = null;
-  if (reflection) {
-    const { tilt, tiltMetres } = reflection.params;
+     off), blended with the sky using the confidence of the depth hit. The water
+     reflects either source through the same Fresnel term. */
+  if (reflection || (bank && measuredBank)) {
+    const params = reflection?.params ?? WATER_REFLECTION;
+    const { tilt, tiltMetres } = params;
     const k = mix(float(tilt[0]), float(tilt[1]), smoothstep(tiltMetres[0], tiltMetres[1], cd)).mul(waveSlope);
-    const Rm = reflect(V.negate(), normalize(vec3(ripple.x.mul(k), float(1), ripple.y.mul(k))));
-    const hit = reflection.trace(positionWorld, normalize(vec3(Rm.x, Rm.y.max(0.02), Rm.z)));
-    found = hit.a;
+    const Rm = reflect(V.negate(), normalize(vec3(surfaceSlope.x.mul(k), float(1), surfaceSlope.y.mul(k))));
+    const ray = normalize(vec3(Rm.x, Rm.y.max(0.02), Rm.z));
+    const hit = reflection ? reflection.trace(positionWorld, ray) : vec4(0);
+    if (bank && measuredBank) {
+      const bankHit = reflectedBank(measuredBank, { point: positionWorld, direction: ray, screenWeight: hit.a,
+        shore: aSh, sun: uSun, lighting: waterLighting, cloud });
+      const bankColour = lightScale ? bankHit.rgb.div(lightScale.max(.05)) : bankHit.rgb;
+      skyC = mix(skyC, bankColour, bankHit.a);
+    }
+    const found = hit.a.mul(params.strength);
     /* what the calm ray finds stands in front of the sky's sun glow, as the far shore's band did; the
        ripples' steeper facets still mirror some of the bright sky round a low sun past it, so a share of
        the glow (`glowOver`) lies over what is found and the road's glitter path keeps its light */
     const world = lightScale ? hit.rgb.div(lightScale.max(0.05)) : hit.rgb;
-    skyC = mix(skyC, glowShare ? mix(world, waterSkyGlow, glowShare.mul(reflection.params.glowOver)) : world, found);
+    skyC = mix(skyC, glowShare ? mix(world, waterSkyGlow, glowShare.mul(params.glowOver)) : world, found);
   }
 
   /* depth: the bed falls away from the bank, so the shallows keep their own colour.
@@ -124,7 +132,7 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
      pond whose whole radius is ten metres it kept every pixel pale */
   /* the deep body is the blue the club's aerials show, not steel grey */
   const depth = smoothstep(0.0, 1.0, saturate(aSh.div(ocean ? float(14) : mix(float(7), float(30), aFoam))));
-  /* the regulated fjärd's bottom reading up through thin water: pale silt in the
+  /* the regulated fjÃƒÂ¤rd's bottom reading up through thin water: pale silt in the
      shallowest film, then the dark olive weed the close aerial shows */
   const aDp = attribute('aDepth', 'float');
   // A surface-only DTM supplies no bed observation. Keep its water shader
@@ -142,6 +150,16 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
 
   // Teal shallows, blue depths and the active atmosphere's reflected sky.
   let body = mix(paintedWaterShallow, paintedWaterDeep, depth);
+  if (showBed) {
+    // A refracted ray travels farther through the water on an oblique view.
+    // Absorb red first so the shallow bed's warm colour gives way to the
+    // water's deep tint. Only surfaces with bed data sample aDepth here.
+    const underCosine = float(1).sub(oneMinus(viewCosine.mul(viewCosine)).mul(1 / (1.333 * 1.333))).sqrt();
+    const path = aDp.max(0).div(underCosine);
+    const transmission = vec3(-.90, -.53, -.43).mul(path).exp();
+    const transmitted = mix(paintedWaterDeep, paintedWaterShallow, transmission);
+    body = mix(body, transmitted, .7);
+  }
   body = mix(body, bedCol, bed.mul(0.6));
   /* THE BANK IN THE WATER (2 November). A pond's body ran in one flat colour up
      to its waterline, and from the course's high views every pond read as a
@@ -150,7 +168,7 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
      (WATER_BANK), fading out by `reach` metres from the shore. Not on the open
      sea. The sky's reflection, laid over the body below by the fresnel term,
      still takes the grazing views. ?waterbank=0 is the before. */
-  if (bank && !ocean && !sea) {
+  if (bank && !ocean && !sea && !measuredBank) {
     const rim = oneMinus(smoothstep(WATER_BANK.reach[0], WATER_BANK.reach[1], aSh)).mul(WATER_BANK.share);
     body = mix(body, body.mul(vec3(...WATER_BANK.tint)), rim);
   }
@@ -161,10 +179,17 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   if (shade) body = body.mul(shade);
   if (rough) body = body.mul(waterLanes({ chop: patchChop, V }));
   /* toward a low sun the water mirrors more of its glowing sky (water-road.mjs) */
-  const skyShare = mirror && glowShare ? mirrorShare({ fres, glow: glowShare }) : fres.mul(0.42);
-  let c = mix(body, skyC, found ? mix(skyShare, fres.mul(reflection.params.strength).max(skyShare), found) : skyShare);
+  const skyShare = mirror && glowShare
+    ? fres.add(oneMinus(fres).mul(mirrorShare({ fres, glow: glowShare })).mul(glowShare).mul(.22)) : fres;
+  let c = mix(body, skyC, skyShare);
   /* the sun's own reflection -- the single thing that says a surface is moving */
   const H = normalize(V.add(uSun));
+  // Short-fetch water has a tight sun reflection. Filter the edge of that
+  // lobe over the actual pixel footprint as the view or wind moves.
+  const nh = saturate(N.dot(H));
+  const pixelLobe = nh.fwidth().min(.0035);
+  const pondGlint = smoothstep(float(.996).sub(pixelLobe), float(.9995).add(pixelLobe), nh);
+  const uWaterGlint = ocean || sea ? glint : glint.mul(mix(pondGlint, float(1), aFoam));
   /* painted sparkle: dabs of white where the ripple faces the sun, not a pinpoint glint */
   /* a cloud's shade puts the sparkle out (`sunlit`, above) */
   const dabs = smoothstep(0.985, 0.996, saturate(N.dot(H)));
@@ -199,6 +224,10 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
                       mix(float(0.62), float(0.97), depth), aFoam)
                     .add(foam.mul(0.2)).sub(bed.mul(0.28)).clamp(0.4, 1);
   /* in from nothing at the shore (WATER_SHORE_FADE) */
-  if (shoreFade) opacity = opacity.mul(smoothstep(0, WATER_SHORE_FADE.metres, aSh));
+  if (shoreFade) {
+    // A creek can be narrower than the lake's entire shoreline fade.
+    const shoreWidth = mix(float(.38), float(WATER_SHORE_FADE.metres), aFoam);
+    opacity = opacity.mul(smoothstep(0, shoreWidth, aSh));
+  }
   return { colour: c, opacity, wp };
 }

@@ -129,7 +129,7 @@ export default defineConfig(({ mode }) => {
         manifestTransforms: [mapOffline.manifestTransform],
         /* Precache the shell only: markup, engine, styles, fonts, icons.
            Course data arrives on demand and stays available offline. */
-        globPatterns: ['index.html', 'registerSW.js', 'assets/*.{js,css}', 'favicon.svg', 'icons/*.png', 'fonts/**'],
+        globPatterns: ['index.html', 'registerSW.js', 'assets/*.{js,css}', 'assets/cloud-radiance-*.webp', 'assets/bridge-relief-*.png', 'favicon.svg', 'icons/*.png', 'fonts/**'],
         /* All courses use v2. Load terrain and its matching surface code when
            opening a course, then cache it through runtime-code below. */
         globIgnores: [
@@ -155,6 +155,9 @@ export default defineConfig(({ mode }) => {
           'assets/stand-field-*.js',
           /* the supported Ghibli tree loader arrives when a course opens */
           'assets/ghibli-trees-*.js',
+          'assets/playing-height-tree-tiers-*.js',
+          'assets/course-surface-materials-*.js',
+          'assets/measured-bank-reflection-*.js',
         ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */
 
@@ -184,6 +187,15 @@ export default defineConfig(({ mode }) => {
         ],
 
         runtimeCaching: [
+          {
+            // Playing-height art is local to the two pilot layouts. Vite
+            // fingerprints these files; a visited course can reopen offline.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin
+              && /\/assets\/(?:(?:pigment|normal-roughness|canopy|bank-granite)-[\w-]+\.webp|bank-(?:bro-hof-stadium|norrfallsviken)-[\w-]+\.bin)$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'banvy-playing-height-art',
+              expiration: { maxEntries: 18, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
+          },
           {
             urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/clubs\/[a-z0-9-]+-[a-f0-9]{12}\.glb$/.test(url.pathname),
             handler: 'CacheFirst',
@@ -243,7 +255,7 @@ export default defineConfig(({ mode }) => {
               expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
           },
           {
-            // The painted props (the golf cart): content-addressed, verified on load.
+            // Immutable, verified prop geometry including the course hardware kit.
             urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/props\/[a-z0-9-]+-[a-f0-9]{64}\.glb$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'banvy-props',

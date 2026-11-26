@@ -1,0 +1,63 @@
+{
+  "before": {
+    "root": "tools/goldens/gfx/tree-player-review/reference",
+    "revision": "ca3308d080c511756c1695918ce5d5bed659d1f4507caf6deec24e4dae8c04cb",
+    "keys": 405,
+    "checkedFiles": 9810,
+    "count": {
+      "layouts": 15,
+      "groundGraphs": 11,
+      "groundChunks": {
+        "terrain": 5170,
+        "objects": 1943,
+        "stands": 2416
+      },
+      "startupPacks": 88,
+      "water": 12,
+      "waterFallback": 3,
+      "waterCells": 50380812,
+      "waterComponents": 939,
+      "runtimeTints": 30,
+      "archivedTints": 20,
+      "vista": 30,
+      "scatter": 24,
+      "emptyScatter": 6,
+      "treeTemplates": 15,
+      "fittedMeshTiers": 30
+    },
+    "maxHeightError": 0,
+    "maxRadiusError": 0,
+    "stale": []
+  },
+  "after": {
+    "root": "apps/golf/dist",
+    "revision": "798217f640f11d07908f4eb045fc5b5c879b2e79c9a8879390bf7622578a650f",
+    "keys": 405,
+    "checkedFiles": 9810,
+    "count": {
+      "layouts": 15,
+      "groundGraphs": 11,
+      "groundChunks": {
+        "terrain": 5170,
+        "objects": 1943,
+        "stands": 2416
+      },
+      "startupPacks": 88,
+      "water": 12,
+      "waterFallback": 3,
+      "waterCells": 50380812,
+      "waterComponents": 939,
+      "runtimeTints": 30,
+      "archivedTints": 20,
+      "vista": 30,
+      "scatter": 24,
+      "emptyScatter": 6,
+      "treeTemplates": 15,
+      "fittedMeshTiers": 30
+    },
+    "maxHeightError": 0,
+    "maxRadiusError": 0,
+    "stale": []
+  },
+  "changes": []
+}

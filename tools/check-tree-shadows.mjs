@@ -8,6 +8,10 @@
 
    node tools/check-tree-shadows.mjs --out output/tree-shadows --ref GIT_REF
      [--backend webgl2|webgpu] [--modes match,thin,colour,fade] [--tier hero|full] [--species 0,2] [--treeset v1] [--course visby]
+     [--woodland] [--variant 0|1|2] [--low] [--map-size 1024|2048]
+
+   A native WebGPU player allocates one shadow map per visit. Use --map-size
+   2048 on desktop, or --low --tier full --map-size 1024 for the phone preset.
 
    --ref names the build whose tree-impostor.mjs and ghibli-foliage-material.mjs
    are the reference: the colour passes must match it pixel for pixel, and
@@ -33,6 +37,12 @@ if (flag('species', null)) query.set('species', flag('species', ''));
 if (flag('treeset', null)) query.set('treeset', flag('treeset', ''));
 /* --course visby: that course's own catalogue */
 if (flag('course', null)) query.set('course', flag('course', ''));
+if (argv.includes('--playing-height')) query.set('playingHeight', '1');
+if (argv.includes('--woodland')) query.set('treeArt', '1');
+if (argv.includes('--low')) query.set('low', '1');
+if (flag('variant', null)) query.set('variant', flag('variant'));
+for (const key of ['views', 'pixels', 'cut']) if (flag(key, null)) query.set(key, flag(key));
+if (flag('map-size', null)) query.set('mapSize', flag('map-size'));
 if (backend === 'webgl2') query.set('gl', '1');
 const root = path.resolve('apps/golf'), engine = path.join(root, 'src/engine'), dist = path.join(out, 'dist'), models = path.join(root, 'public');
 fs.mkdirSync(out, { recursive: true });

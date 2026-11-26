@@ -32,15 +32,17 @@ export function deriveEnvironmentPalette(preset, enabled = true) {
   return palette;
 }
 
-function createEnvironmentBaker(renderer) {
+function createEnvironmentBaker(renderer, cloudDome) {
   let generator = null;
   const env = new THREE.Scene();
   const material = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide });
   const geometry = new THREE.SphereGeometry(100, 24, 16);
   const paletteNodes = Object.fromEntries(Object.keys(BASE).map(key => [key, uniform(new THREE.Color())]));
-  const up = normalize(positionLocal).y;
+  const direction = normalize(positionLocal);
+  const up = direction.y;
+  const clear = mix(paletteNodes.horizon, paletteNodes.zenith, pow(saturate(up), 0.5));
   material.colorNode = mix(paletteNodes.ground,
-    mix(paletteNodes.horizon, paletteNodes.zenith, pow(saturate(up), 0.5)),
+    cloudDome ? cloudDome.colour(clear, direction) : clear,
     smoothstep(-0.1, 0.05, up));
   env.add(new THREE.Mesh(geometry, material));
   return {
@@ -83,7 +85,8 @@ function createEnvironmentBaker(renderer) {
  */
 export function createLightingEnvironment(renderer, scene, {
   enabled = true,
-  baker = createEnvironmentBaker(renderer),
+  cloudDome = null,
+  baker = createEnvironmentBaker(renderer, enabled ? cloudDome : null),
   onBake,
 } = {}) {
   let current = null, currentKey = null, presetName = null;

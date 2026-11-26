@@ -16,6 +16,29 @@ describe('water bulkheads (timber & stone retaining walls)', () => {
   const waterList = [{ id: 'pond-17', level: 2.71, ring: [[-20, -20], [20, -20], [20, 20], [-20, 20]] }];
   const heightAt = () => 3.6;
 
+  it('keeps measured vertices and collisions when mapping granite around a bend', () => {
+    const walls = [
+      { kind: 'stone', line: [[0,0], [10,0], [10,8]] },
+      { kind: 'timber', line: [[20,0], [23,0]] },
+      { kind: 'boulders', line: [[26,0], [30,0]] },
+    ];
+    const base = buildBulkheadGeometry(walls, { heightAt, waterList });
+    const finish = buildBulkheadGeometry(walls, { heightAt, waterList, surfaceCoordinates: true });
+    const { wallCoordinates, ...geometry } = finish;
+    expect(geometry).toEqual(base);
+    expect(wallCoordinates).toHaveLength(base.positions.length);
+    const distances = [];
+    for (let i = 0; i < wallCoordinates.length; i += 3) {
+      const [along, across, stone] = wallCoordinates.slice(i, i + 3);
+      expect(Number.isFinite(across)).toBe(true);
+      if (stone) distances.push(along);
+      else expect(base.positions[i]).toBeGreaterThan(18);
+    }
+    expect(Math.min(...distances)).toBe(0);
+    expect(distances).toContain(10);
+    expect(Math.max(...distances)).toBe(18);
+  });
+
   it('builds bloom-safe opaque triangle geometry for both timber and stone bulkheads', () => {
     const bulkheads = [
       { id: 'bh-17-island', kind: 'stone', waterId: 'pond-17', line: [[0, 0], [10, 0], [10, 8]] },
