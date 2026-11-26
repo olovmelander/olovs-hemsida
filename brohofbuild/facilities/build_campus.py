@@ -15,9 +15,11 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import sys
 from pathlib import Path
 
+import bmesh
 import bpy
 import numpy as np
 
@@ -30,10 +32,15 @@ MATERIALS = {
     'iron': ((0.018, 0.019, 0.021), 0.5), 'gold': ((0.55, 0.36, 0.09), 0.35), 'stone': ((0.52, 0.50, 0.46), 0.9),
     'granite': ((0.22, 0.215, 0.205), 0.9), 'door': ((0.10, 0.115, 0.12), 0.5), 'hedge': ((0.035, 0.075, 0.022), 0.95),
     'timber': ((0.17, 0.115, 0.07), 0.85), 'clock': ((0.60, 0.585, 0.53), 0.7),
+    # the grounds' furniture (27 November): flags, parasols and the range's kit
+    'pole': ((0.68, 0.68, 0.66), 0.45), 'flag_blue': ((0.0, 0.13, 0.36), 0.8), 'flag_yellow': ((0.80, 0.52, 0.0), 0.8),
+    'flag_white': ((0.72, 0.72, 0.70), 0.85), 'flag_red': ((0.52, 0.03, 0.025), 0.8), 'canvas': ((0.70, 0.69, 0.65), 0.9),
+    'turf_strip': ((0.028, 0.07, 0.028), 0.95), 'turf_mat': ((0.05, 0.12, 0.042), 0.9), 'ball': ((0.72, 0.72, 0.69), 0.4),
+    'sign_green': ((0.012, 0.045, 0.022), 0.6), 'bag': ((0.022, 0.025, 0.03), 0.6), 'dispenser': ((0.03, 0.09, 0.045), 0.5),
 }
 
 
-TERRAIN = Path(__file__).resolve().parents[2] / 'packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings'
+TERRAIN = Path(os.environ.get('BROHOF_TERRAIN') or Path(__file__).resolve().parents[2] / 'packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings')
 _grid = None
 
 
@@ -698,7 +705,243 @@ def gate():
     return m
 
 
-_world = lambda origin, axis, pts: [(origin[0] + u * math.cos(axis) - v * math.sin(axis), origin[1] + u * math.sin(axis) + v * math.cos(axis)) for u, v in pts]
+# ------------------------------------------- the grounds' furniture (27 November, owner request:
+# "the range needs all the assets and props", "flags and things around the clubhouse")
+
+def merge(dst, src):
+    """Append another frame's faces (already on the map) to this mesh."""
+    for mat, (verts, faces) in src.parts.items():
+        dv, df = dst.parts.setdefault(mat, ([], []))
+        k = len(dv)
+        dv.extend(verts)
+        df.extend(tuple(k + i for i in f) for f in faces)
+    return dst
+
+
+def facing(fe, fn):
+    """(ux, uy) for a Mesh whose v is the facing (fe, fn) and whose u is the right hand of someone facing it."""
+    s = math.hypot(fe, fn)
+    return fn / s, -fe / s
+
+
+# Flags stand out toward the east, before Malardalen's prevailing westerly: one wind for them all, broadside to the
+# 18th's approach and the terrace (a north-easterly fly showed them edge-on from both).
+WIND = (1.0, 0.0)
+
+
+def flag_cloth(m, top, length, height, colour_at, phase=0.0, segments=12, hoist=0.05):
+    """A cloth flying out along u from a mast at the frame's origin, with a ripple that grows toward the fly and a
+    slight droop. `colour_at(x, y)` names the material at a point of the cloth (x from the hoist, y from the foot, 0..1);
+    its optional `xs` and `ys` are the seams the cloth must be cut along."""
+    xs = sorted(set([i / segments for i in range(segments + 1)] + list(getattr(colour_at, 'xs', ()))))
+    ys = sorted(set([0.0, 1.0] + list(getattr(colour_at, 'ys', ()))))
+
+    def at(x, y):
+        wave = 0.075 * length * x * math.sin(2 * math.pi * 1.3 * x + phase)
+        return (hoist + x * length, wave, top - (1 - y) * height - 0.06 * length * x * x)
+    for i in range(len(xs) - 1):
+        for j in range(len(ys) - 1):
+            x0, x1, y0, y1 = xs[i], xs[i + 1], ys[j], ys[j + 1]
+            m.face(colour_at((x0 + x1) / 2, (y0 + y1) / 2), at(x0, y0), at(x1, y0), at(x1, y1), at(x0, y1))
+
+
+def swedish(x, y):
+    """The Swedish flag, 5:2:9 along and 4:2:4 across."""
+    return 'flag_yellow' if 5 / 16 <= x < 7 / 16 or 0.4 <= y < 0.6 else 'flag_blue'
+
+
+swedish.xs, swedish.ys = (5 / 16, 7 / 16), (0.4, 0.6)
+
+
+def plain(mat):
+    return lambda x, y: mat
+
+
+_GLYPHS = {}
+
+
+def glyphs(text):
+    """The text's filled outline in Blender's built-in font, as triangles in its own plane: centred, one unit tall."""
+    if text not in _GLYPHS:
+        curve = bpy.data.curves.new('BroHofDigits', 'FONT')
+        curve.body, curve.align_x, curve.align_y = text, 'CENTER', 'CENTER'
+        obj = bpy.data.objects.new('BroHofDigits', curve)
+        bpy.context.scene.collection.objects.link(obj)
+        depsgraph = bpy.context.evaluated_depsgraph_get()
+        evaluated = obj.evaluated_get(depsgraph)
+        bm = bmesh.new()
+        bm.from_mesh(evaluated.to_mesh())
+        bmesh.ops.triangulate(bm, faces=bm.faces[:])
+        tris = [tuple((v.co.x, v.co.y) for v in f.verts) for f in bm.faces]
+        bm.free()
+        evaluated.to_mesh_clear()
+        bpy.data.objects.remove(obj)
+        bpy.data.curves.remove(curve)
+        ys = [p[1] for t in tris for p in t]
+        tall, mid = max(ys) - min(ys), (max(ys) + min(ys)) / 2
+        _GLYPHS[text] = [tuple((x / tall, (y - mid) / tall) for x, y in t) for t in tris]
+    return _GLYPHS[text]
+
+
+# The flagpoles round the sunken putting green south-west of the terrace and along the path below it. Each foot is where
+# its shadow begins on the 2025-06-14 photo; each height is its shadow's length at that photo's sun (08:58 UTC, 48.8 deg
+# up), so +-0.5 m. The club's aerial photograph shows a Swedish flag on the pole by the path and white flags on the
+# rest; whatever is printed on those is not drawn. It shows one or two poles more, north of the green, that no shadow
+# on the photo confirms: not placed.
+FLAGPOLES = [((648584.3, 6598141.6), 10.4, 'white'), ((648588.3, 6598122.4), 9.8, 'white'),
+             ((648602.8, 6598108.9), 8.5, 'sweden'), ((648618.6, 6598101.9), 8.3, 'white'), ((648636.9, 6598101.0), 8.3, 'white')]
+
+
+def flagpoles():
+    m = Mesh(*FLAGPOLES[0][0], 1, 0)
+    for k, ((e, n), height, flag) in enumerate(FLAGPOLES):
+        p, g = Mesh(e, n, *WIND), ground(e, n)
+        p.lathe('pole', 0, 0, [(g - 0.3, 0.075), (g + 0.05, 0.075), (g + height, 0.045)], 10)
+        p.lathe('gold', 0, 0, [(g + height - 0.01, 0.0), (g + height + 0.03, 0.065), (g + height + 0.1, 0.075),
+                               (g + height + 0.17, 0.05), (g + height + 0.2, 0.0)], 10, cap=False)
+        length = height / 4                     # the Swedish rule of thumb: a flag a quarter of its pole
+        flag_cloth(p, g + height - 0.12, length, length * 10 / 16, swedish if flag == 'sweden' else plain('flag_white'), phase=1.7 * k)
+        merge(m, p)
+    return m
+
+
+# The terrace's six square parasols, white on the 2025 photo, square to the castle; the tables under them are not seen.
+PARASOLS = [(648623.9, 6598156.0), (648628.7, 6598152.9), (648624.5, 6598150.0), (648633.8, 6598151.5),
+            (648638.3, 6598149.7), (648642.2, 6598147.0)]
+TERRACE_FLOOR = 15.1
+
+
+def parasols():
+    m = Mesh(*PARASOLS[0], 1, 0)
+    z = TERRACE_FLOOR
+    for e, n in PARASOLS:
+        p = Mesh(e, n, math.cos(AXIS), math.sin(AXIS))
+        h, eave, apex = 1.95, z + 2.3, z + 3.0
+        p.lathe('pole', 0, 0, [(z, 0.03), (z + 3.05, 0.025)], 8)
+        corners = [(-h, -h), (h, -h), (h, h), (-h, h)]
+        for (a, b), (c, d) in zip(corners, corners[1:] + corners[:1]):
+            p.face('canvas', (a, b, eave), (c, d, eave), (0, 0, apex))
+            p.face('canvas', (a, b, eave - 0.18), (c, d, eave - 0.18), (c, d, eave), (a, b, eave))
+        p.lathe('pole', 0, 0, [(z, 0.25), (z + 0.03, 0.2), (z + 0.1, 0.04), (z + 0.72, 0.04)], 8, cap=False)
+        p.lathe('flag_white', 0, 0, [(z + 0.72, 0.45), (z + 0.76, 0.45)], 14)
+        merge(m, p)
+    return m
+
+
+# Cups on the two practice greens below the terrace: no photo resolves a cup, so these are placed, three a green.
+PRACTICE_CUPS = [(648597.0, 6598137.5), (648601.5, 6598127.0), (648604.5, 6598117.5),
+                 (648627.0, 6598110.0), (648636.5, 6598106.0), (648646.0, 6598109.0)]
+
+
+def practice_flags():
+    m = Mesh(*PRACTICE_CUPS[0], 1, 0)
+    for k, (e, n) in enumerate(PRACTICE_CUPS):
+        p, g = Mesh(e, n, *WIND), ground(e, n)
+        p.lathe('pole', 0, 0, [(g - 0.05, 0.009), (g + 0.76, 0.009)], 6)
+        flag_cloth(p, g + 0.75, 0.3, 0.2, plain('flag_yellow'), phase=k, segments=4, hoist=0.009)
+        merge(m, p)
+    return m
+
+
+# THE RANGE. Its year-round tee is a strip of artificial turf along the path (both photos, 2021-04-16 and 2025-06-14),
+# with a ball pile at every bay; the grass tee west of it is used in summer, and the 2025 photo has golfers along its
+# north edge. The strip's ends are read off the photo; its 30 bays at 3 m are counted on the 2021 photo, where the
+# piles show best.
+MAT_LINE = ((648380.0, 6598114.8), (648449.7, 6598176.0))
+MAT_MIDDLE = ((MAT_LINE[0][0] + MAT_LINE[1][0]) / 2, (MAT_LINE[0][1] + MAT_LINE[1][1]) / 2)
+BAYS, BAY_PITCH = 30, 3.0
+DISPENSER = (648446.0, 6598181.0)
+
+
+def range_mats():
+    (e0, n0), (e1, n1) = MAT_LINE
+    length = math.hypot(e1 - e0, n1 - n0)
+    te, tn = (e1 - e0) / length, (n1 - n0) / length
+    m = Mesh(e0, n0, te, tn)                    # u along the line, v toward the field (north-west)
+    at = lambda u, v: ground(e0 + u * te - v * tn, n0 + u * tn + v * te)
+    back, front, lift = -1.5, 1.7, 0.04
+    stations = [length * i / 31 for i in range(32)]
+    for u0, u1 in zip(stations, stations[1:]):
+        a, b, c, d = (u0, back), (u1, back), (u1, front), (u0, front)
+        m.face('turf_strip', *[(u, v, at(u, v) + lift) for u, v in (a, b, c, d)])
+        for p, q in ((d, c), (b, a)):           # its front and back edges, down into the ground
+            m.face('turf_strip', (*p, at(*p) - 0.1), (*q, at(*q) - 0.1), (*q, at(*q) + lift), (*p, at(*p) + lift))
+    start = (length - (BAYS - 1) * BAY_PITCH) / 2
+    for k in range(BAYS):
+        u = start + k * BAY_PITCH
+        z = at(u, 0.4) + lift
+        m.box('turf_mat', u - 0.75, u + 0.75, -0.35, 1.15, z, z + 0.025)
+        m.lathe('ball', u - 0.55, -0.8, [(z, 0.24), (z + 0.08, 0.2), (z + 0.13, 0.12), (z + 0.155, 0.0)], 8)
+        if k % 4 == 1:                          # a bag on its stand in some of the bays
+            m.lathe('bag', u + 0.6, -1.15, [(z, 0.11), (z + 0.82, 0.13), (z + 0.92, 0.09)], 8)
+    d = Mesh(*DISPENSER, *facing(tn, -te))     # its front to the path, south-east
+    g = ground(*DISPENSER)
+    d.box('dispenser', -0.55, 0.55, -0.4, 0.4, g - 0.2, g + 1.85)
+    d.box('pole', -0.32, 0.32, 0.4, 0.43, g + 0.95, g + 1.45)
+    d.box('iron', -0.12, 0.12, 0.4, 0.62, g + 0.62, g + 0.7)
+    d.box('slate', -0.62, 0.62, -0.47, 0.47, g + 1.85, g + 1.95)
+    return merge(m, d)
+
+
+GRASS_LINE = ((648331.0, 6598117.5), (648364.0, 6598117.5))
+
+
+def range_grass_tee():
+    """The summer tee: a ball pile at each station along the 2025 photo's line of golfers, and a rope on stakes in front."""
+    (e0, n0), (e1, n1) = GRASS_LINE
+    m = Mesh(e0, n0, 1, 0)                      # u east, v north toward the field
+    stations = int(round((e1 - e0) / BAY_PITCH))
+    for k in range(stations + 1):
+        u = k * BAY_PITCH
+        g = ground(e0 + u, n0)
+        if k < stations:
+            m.lathe('ball', u + 1.0, -0.6, [(g, 0.24), (g + 0.08, 0.2), (g + 0.13, 0.12), (g + 0.155, 0.0)], 8)
+            if k % 3 == 0:
+                m.lathe('bag', u + 2.1, -1.0, [(g, 0.11), (g + 0.82, 0.13), (g + 0.92, 0.09)], 8)
+        gs = ground(e0 + u, n0 + 1.6)
+        m.box('pole', u - 0.025, u + 0.025, 1.575, 1.625, gs - 0.15, gs + 0.55)
+        if k < stations:
+            gn = ground(e0 + u + BAY_PITCH, n0 + 1.6)
+            m.face('flag_yellow', (u, 1.6, gs + 0.46), (u + BAY_PITCH, 1.6, gn + 0.46), (u + BAY_PITCH, 1.6, gn + 0.49), (u, 1.6, gs + 0.49))
+    return m
+
+
+# The range's eight target greens: the five traced ones (their centroids) and three the 2025 photo shows on its east side
+# with their bunkers, which were not traced. Each has a flag and a board with its distance in metres from the middle of
+# the mat line, rounded to 5 m: the club's own boards are in no source.
+RANGE_TARGETS = [(648386.4, 6598207.0), (648323.3, 6598209.7), (648265.7, 6598232.9), (648324.6, 6598272.6),
+                 (648397.0, 6598294.0), (648412.0, 6598347.0), (648280.6, 6598354.8), (648392.0, 6598372.0)]
+TARGET_FLAGS = ['flag_red', 'flag_white', 'flag_yellow', 'flag_blue']
+
+
+def target_distance(e, n):
+    return int(5 * round(math.hypot(e - MAT_MIDDLE[0], n - MAT_MIDDLE[1]) / 5))
+
+
+def range_targets():
+    m = Mesh(*RANGE_TARGETS[0], 1, 0)
+    for k, (e, n) in enumerate(sorted(RANGE_TARGETS, key=lambda p: target_distance(*p))):
+        p, g = Mesh(e, n, *WIND), ground(e, n)
+        p.lathe('pole', 0, 0, [(g - 0.1, 0.02), (g + 2.6, 0.017)], 6)
+        flag_cloth(p, g + 2.58, 0.75, 0.5, plain(TARGET_FLAGS[k % len(TARGET_FLAGS)]), phase=0.9 * k, segments=6, hoist=0.02)
+        merge(m, p)
+        # the board, six metres short of the flag toward the mats and two to its right, facing the mats
+        de, dn = MAT_MIDDLE[0] - e, MAT_MIDDLE[1] - n
+        s = math.hypot(de, dn)
+        de, dn = de / s, dn / s
+        be, bn = e + 6 * de + 2 * dn, n + 6 * dn - 2 * de
+        b, gb = Mesh(be, bn, *facing(de, dn)), ground(be, bn)
+        for side in (-0.6, 0.6):
+            b.box('timber', side - 0.04, side + 0.04, -0.04, 0.04, gb - 0.3, gb + 1.8)
+        b.box('sign_green', -0.85, 0.85, -0.03, 0.03, gb + 0.9, gb + 1.78)
+        for tri in glyphs(str(target_distance(e, n))):
+            # read from in front: the reader's right is the board's -u
+            b.face('flag_white', *[(-x * 0.62, 0.034, gb + 1.34 + y * 0.62) for x, y in tri])
+        merge(m, b)
+    return m
+
+
+_world = lambda origin, axis, pts:[(origin[0] + u * math.cos(axis) - v * math.sin(axis), origin[1] + u * math.sin(axis) + v * math.cos(axis)) for u, v in pts]
 CASTLE = (648636.91, 6598165.06)
 CASTLE_UV = [(-19.79, 6.2), (-3.75, 6.2), (-3.75, 10.05), (4.0, 10.05), (4.0, 6.62), (19.79, 6.62), (19.79, -7.81), (14.15, -7.82), (14.15, -8.82), (4.2, -8.82), (4.2, -9.78), (-4.2, -9.78), (-4.2, -8.82), (-14.15, -8.82), (-14.15, -7.86), (-19.79, -7.86)]
 TERRACE_UV = [(-14.6, -8.8), (-14.6, -12.4), (-19.9, -12.4), (-19.9, -19.2), (-14.6, -19.2), (-14.6, -21.0), (-4.4, -21.0), (-4.4, -27.9), (1.9, -27.9), (1.9, -21.0), (13.9, -21.0), (13.9, -19.6), (17.5, -19.6), (17.5, -12.4), (13.9, -12.4), (13.9, -8.8)]
@@ -725,6 +968,21 @@ FACILITIES = [
          evidence=dict(plan='orthophoto 2025-06-14', height='estimated from the entrance photo')),
     dict(id='avenue-gate', node='BroHof-Gate', build=gate, sources=[], anchor=(648741.95, 6598396.25), plants=True,
          evidence=dict(plan='orthophoto 2025-06-14', order='Wikimedia Commons Bro Hof Slott Entre.jpg (CC BY-SA 4.0, reference only)')),
+    dict(id='flagpoles', node='BroHof-Flagpoles', build=flagpoles, sources=[], anchor=(648602.8, 6598108.9), plants=True,
+         evidence=dict(position='orthophoto 2025-06-14: each foot where its shadow begins', height='each shadow at the photo sun, 08:58 UTC, 48.8 deg',
+                       flags='the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white flags on the rest; their prints are not drawn')),
+    dict(id='terrace-parasols', node='BroHof-TerraceParasols', build=parasols, sources=[], anchor=(648632.0, 6598151.5), plants=True,
+         evidence=dict(position='orthophoto 2025-06-14', size='orthophoto', height='estimated', tables='estimated')),
+    dict(id='practice-green-flags', node='BroHof-PracticeGreenFlags', build=practice_flags, sources=[], anchor=(648620.0, 6598118.0), plants=True,
+         evidence=dict(greens='orthophoto 2025-06-14', cups='estimated: no photo resolves a cup')),
+    dict(id='range-mat-line', node='BroHof-RangeMatLine', build=range_mats, sources=[], anchor=MAT_MIDDLE, plants=True,
+         evidence=dict(line='orthophoto 2021-04-16 and 2025-06-14: the artificial-turf strip and a ball pile at each bay', bays='30 at 3 m, counted on the 2021 photo',
+                       dispenser='orthophoto 2025-06-14, its form estimated', bags='estimated')),
+    dict(id='range-grass-tee', node='BroHof-RangeGrassTee', build=range_grass_tee, sources=[], anchor=(648347.5, 6598117.5), plants=True,
+         evidence=dict(line='orthophoto 2025-06-14: the golfers along the grass tee', rope='estimated')),
+    dict(id='range-targets', node='BroHof-RangeTargets', build=range_targets, sources=[], anchor=(648330.0, 6598290.0), plants=True,
+         evidence=dict(greens='the five traced target greens and three more on the orthophoto 2025-06-14', flags='estimated',
+                       distances='metres from the middle of the mat line, rounded to 5 m; the club boards are in no source')),
 ]
 
 

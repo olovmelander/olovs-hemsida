@@ -13,9 +13,9 @@
   "heightDatum": "RH2000"
  },
  "asset": {
-  "url": "models/bro-hof/facilities-d635ad371740eab2c7e61c20f07f6dd585d665c6d8045e576536afbdf1a167ac.glb",
-  "sha256": "d635ad371740eab2c7e61c20f07f6dd585d665c6d8045e576536afbdf1a167ac",
-  "bytes": 1125432
+  "url": "models/bro-hof/facilities-6dc07defea419f899546d1bbe568f1608432c527df0202d37137b803e9d0140a.glb",
+  "sha256": "6dc07defea419f899546d1bbe568f1608432c527df0202d37137b803e9d0140a",
+  "bytes": 1526568
  },
  "replacesRangeFacilities": false,
  "replacesCourtyard": false,
@@ -645,6 +645,294 @@
    "evidence": {
     "plan": "orthophoto 2025-06-14",
     "order": "Wikimedia Commons Bro Hof Slott Entre.jpg (CC BY-SA 4.0, reference only)"
+   }
+  },
+  {
+   "id": "flagpoles",
+   "nodeName": "BroHof-Flagpoles",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -510.27,
+     467.58
+    ],
+    [
+     -455.47,
+     467.58
+    ],
+    [
+     -455.47,
+     426.71
+    ],
+    [
+     -510.27,
+     426.71
+    ]
+   ],
+   "groundAnchorLocal": [
+    -491.7,
+    459.6
+   ],
+   "groundAnchorRh2000M": 11.82,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -510.275,
+     11.139,
+     426.715
+    ],
+    "max": [
+     -455.475,
+     22.039,
+     467.577
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 720,
+   "evidence": {
+    "position": "orthophoto 2025-06-14: each foot where its shadow begins",
+    "height": "each shadow at the photo sun, 08:58 UTC, 48.8 deg",
+    "flags": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white flags on the rest; their prints are not drawn"
+   }
+  },
+  {
+   "id": "terrace-parasols",
+   "nodeName": "BroHof-TerraceParasols",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -473.18,
+     424.08
+    ],
+    [
+     -449.72,
+     424.08
+    ],
+    [
+     -449.72,
+     409.92
+    ],
+    [
+     -473.18,
+     409.92
+    ]
+   ],
+   "groundAnchorLocal": [
+    -462.5,
+    417
+   ],
+   "groundAnchorRh2000M": 12.25,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -473.181,
+     15.1,
+     409.919
+    ],
+    "max": [
+     -449.719,
+     18.15,
+     424.081
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 732,
+   "evidence": {
+    "position": "orthophoto 2025-06-14",
+    "size": "orthophoto",
+    "height": "estimated",
+    "tables": "estimated"
+   }
+  },
+  {
+   "id": "practice-green-flags",
+   "nodeName": "BroHof-PracticeGreenFlags",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -497.51,
+     462.51
+    ],
+    [
+     -448.19,
+     462.51
+    ],
+    [
+     -448.19,
+     430.98
+    ],
+    [
+     -497.51,
+     430.98
+    ]
+   ],
+   "groundAnchorLocal": [
+    -474.5,
+    450.5
+   ],
+   "groundAnchorRh2000M": 12.17,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -497.509,
+     11.954,
+     430.979
+    ],
+    "max": [
+     -448.191,
+     13.401,
+     462.511
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 144,
+   "evidence": {
+    "greens": "orthophoto 2025-06-14",
+    "cups": "estimated: no photo resolves a cup"
+   }
+  },
+  {
+   "id": "range-mat-line",
+   "nodeName": "BroHof-RangeMatLine",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -715.62,
+     454.83
+    ],
+    [
+     -643.81,
+     454.83
+    ],
+    [
+     -643.81,
+     386.74
+    ],
+    [
+     -715.62,
+     386.74
+    ]
+   ],
+   "groundAnchorLocal": [
+    -679.65,
+    423.1
+   ],
+   "groundAnchorRh2000M": 7.46,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -715.622,
+     7.227,
+     386.738
+    ],
+    "max": [
+     -643.81,
+     9.377,
+     454.827
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 2030,
+   "evidence": {
+    "line": "orthophoto 2021-04-16 and 2025-06-14: the artificial-turf strip and a ball pile at each bay",
+    "bays": "30 at 3 m, counted on the 2021 photo",
+    "dispenser": "orthophoto 2025-06-14, its form estimated",
+    "bags": "estimated"
+   }
+  },
+  {
+   "id": "range-grass-tee",
+   "nodeName": "BroHof-RangeGrassTee",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -763.53,
+     452.13
+    ],
+    [
+     -730.47,
+     452.13
+    ],
+    [
+     -730.47,
+     449.38
+    ],
+    [
+     -763.53,
+     449.38
+    ]
+   ],
+   "groundAnchorLocal": [
+    -747,
+    451
+   ],
+   "groundAnchorRh2000M": 8.22,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -763.525,
+     7.904,
+     449.375
+    ],
+    "max": [
+     -730.475,
+     9.188,
+     452.13
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 734,
+   "evidence": {
+    "line": "orthophoto 2025-06-14: the golfers along the grass tee",
+    "rope": "estimated"
+   }
+  },
+  {
+   "id": "range-targets",
+   "nodeName": "BroHof-RangeTargets",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -828.82,
+     368.17
+    ],
+    [
+     -681.73,
+     368.17
+    ],
+    [
+     -681.73,
+     196.45
+    ],
+    [
+     -828.82,
+     196.45
+    ]
+   ],
+   "groundAnchorLocal": [
+    -764.5,
+    278.5
+   ],
+   "groundAnchorRh2000M": 6.49,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -828.82,
+     5.963,
+     196.453
+    ],
+    "max": [
+     -681.73,
+     11.825,
+     368.169
+    ]
+   },
+   "excludeVegetation": false,
+   "triangles": 1940,
+   "evidence": {
+    "greens": "the five traced target greens and three more on the orthophoto 2025-06-14",
+    "flags": "estimated",
+    "distances": "metres from the middle of the mat line, rounded to 5 m; the club boards are in no source"
    }
   }
  ]
