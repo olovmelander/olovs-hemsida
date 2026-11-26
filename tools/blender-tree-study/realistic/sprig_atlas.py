@@ -226,25 +226,38 @@ def broadleaf_sprig(sp, key, rnd):
 
 
 def pine_sprig(sp, rnd):
-    twig_col = tuple(MEAN * c * 0.95 for c in TWIG)
-    tufts = [(0.5, 0.38, 0.62), (0.27, 0.5, 0.48), (0.73, 0.52, 0.5), (0.42, 0.7, 0.44), (0.62, 0.73, 0.42)]
-    for (tx, ty, s) in tufts:
-        cx = tx + (rnd.random() - 0.5) * 0.06; cy = ty + (rnd.random() - 0.5) * 0.06
-        shoots = 9 + int(rnd.random() * 3)
-        for k in range(shoots):
-            a = math.pi / 2 + (k / (shoots - 1) - 0.5) * 2.6 + (rnd.random() - 0.5) * 0.3
-            L = s * (0.2 + rnd.random() * 0.12)
-            root = Vector((cx, cy - s * 0.08, 0)); end = Vector((cx + math.cos(a) * L, cy + math.sin(a) * L, rnd.uniform(0, 0.03)))
-            sp.tube([root, end], [0.006, 0.003], twig_col, sides=4)
-            for i in range(82):
-                t = 0.35 + 0.65 * math.pow(rnd.random(), 0.7)
-                p = root.lerp(end, t)
-                na = a + (rnd.random() - 0.5) * 1.9 * (0.45 + 0.55 * t)
-                nl = s * (0.11 + rnd.random() * 0.07)
-                up = rnd.uniform(-0.25, 0.5)
-                q = p + Vector((math.cos(na) * nl, math.sin(na) * nl, up * nl))
-                tone = 0.86 + rnd.random() * 0.3
-                needle(sp, p, q, 0.0068, (MEAN * 0.98 * tone, MEAN * 1.02 * tone, MEAN * 0.97 * tone), rnd)
+    """Forked Scots pine shoots. Paired needles spiral around the wood in three dimensions."""
+    base = Vector((0.5, 0.065, 0))
+    leader = Vector((rnd.uniform(0.42, 0.58), 0.85, 0.07))
+    shoots = [(base, leader)]
+    for side in (-1, 1):
+        for level in range(3):
+            root = base.lerp(leader, 0.16 + level * 0.22)
+            reach = (0.33 - level * 0.055) * rnd.uniform(0.87, 1.03)
+            end = root + Vector((side * reach, rnd.uniform(0.20, 0.27), rnd.uniform(-0.07, 0.07)))
+            shoots.append((root, end))
+            fork = root.lerp(end, 0.51)
+            shoots.append((fork, fork + Vector((side * reach * 0.26, 0.21, 0.07))))
+    for root, tip in shoots:
+        axis = (tip - root).normalized()
+        right = axis.cross(Vector((0, 0, 1))).normalized()
+        out = right.cross(axis).normalized()
+        length = (tip - root).length
+        count = round(185 * length)
+        sp.tube([root, tip], [0.009, 0.0024], (0.40, 0.34, 0.26), sides=6)
+        phase = rnd.uniform(0, 2 * math.pi)
+        for i in range(count):
+            t = (i + rnd.random()) / count
+            centre = root.lerp(tip, t)
+            phase += 2.39996
+            reach = (0.078 + 0.050 * math.sin(math.pi * t)) * rnd.uniform(0.8, 1.12)
+            light = rnd.uniform(0.84, 1.06) + 0.06 * t
+            pigment = (MEAN * light * 0.99, MEAN * light * 1.02, MEAN * light)
+            for split in (-0.17, 0.17):
+                angle = phase + split
+                radial = right * math.cos(angle) + out * math.sin(angle)
+                direction = (axis * (0.65 + t * 0.30) + radial * (0.94 - t * 0.42)).normalized()
+                needle(sp, centre, centre + direction * reach, 0.0067, pigment, rnd)
 
 
 def coastal_sprig(sp, rnd):

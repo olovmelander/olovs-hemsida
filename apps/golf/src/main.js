@@ -43,6 +43,7 @@ import {
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
+import { createDaylightClouds, loadCloudMap } from './engine/daylight-clouds.mjs';
 import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
 import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
@@ -67,7 +68,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
-import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting, foliageBack, barkSurface } from './engine/ghibli-foliage-material.mjs';
+import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting, foliageBack, barkSurface, shadeShrubSprigs } from './engine/ghibli-foliage-material.mjs';
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
 import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine/dev-overlay.mjs';
@@ -93,7 +94,7 @@ import { coastalWorldBounds, seaLevelInWorld, excludeOceanFromFlatWater } from '
 import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface, isTurfRangeTarget, mappedLineHalfWidth } from './engine/surface-features.mjs';
 import { roadSurface, parkingSurface, splitRoadCoverage } from './engine/road-surface.mjs';
-import { createRoadAsphalt, createRoadGravel } from './engine/road-material.mjs';
+import { createRoadAsphalt, createRoadGravel, createBridgeFinish, loadBridgeRelief, createRetainingWallFinish, loadBankGranite } from './engine/road-material.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
 import {
@@ -128,7 +129,7 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
-import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET, HERON_ASSET, PYLON_ASSET } from './engine/golf-cart-prop.mjs';
+import { loadGolfCart, placeGolfCarts, loadPaintedProp, loadPropGeometries, COURSE_HARDWARE_ASSET, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET, HERON_ASSET, PYLON_ASSET } from './engine/golf-cart-prop.mjs';
 import { planSwans, createSwans } from './engine/swans.mjs';
 import { planHerons } from './engine/herons.mjs';
 import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
@@ -145,7 +146,7 @@ import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { createFallingLeaves } from './engine/falling-leaves.mjs';
 import { createRain } from './engine/rain.mjs';
-import { puffyBushGeometry, roundedStoneGeometry } from './engine/cover-shapes.mjs';
+import { puffyBushGeometry, roundedStoneGeometry, woodlandShrubGeometry } from './engine/cover-shapes.mjs';
 import { cirrusFor } from './engine/painted-sky.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
 import { warmFramePipelines } from './engine/warm-pipelines.mjs';
@@ -190,6 +191,7 @@ import { decodeFlagCloth, sampleFlagCloth, flagClothHang } from './engine/flag-c
 import { FLAG_CLOTH_ASSET } from './engine/flag-cloth-asset.mjs';
 import { FLAG_DEFAULT_MS, createFlagMotion, stepFlagMotion, flagBandBlend, flagWindYaw, poseDrawnFlag, turnFlagCloth } from './engine/flag-motion.mjs';
 import { FLAG_GRID, FLAG_POLE_PROFILE, createFlagAtlas, createFlagMaterial, createFlagGeometry, anchorFlagHoist, clearFlagPole } from './engine/flag-appearance.mjs';
+import { flagstickFinish, distancePlateFinish, addFootContacts } from './engine/course-hardware-finish.mjs';
 import { createFlagDynamics, stepFlagDynamics } from './engine/flag-dynamics.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
@@ -214,6 +216,10 @@ import { CAMERA_CYCLE, createShortcutKeys, nextInCycle } from './engine/keyboard
    hand-maintained source, so the parity contract lives here as a runtime switch
    instead of a special build. */
 const DET = new URLSearchParams(location.search).get('det') === '1';
+const cloudMapReady = new URLSearchParams(location.search).get('cloudlight') === '0' ? Promise.resolve(null) : loadCloudMap().catch(error => {
+  console.warn('Cloud photograph unavailable, using procedural atmosphere.', error);
+  return null;
+});
 const surfaceDebugMode = requestedSurfaceDebugMode(location.search);
 const time = DET ? float(3.25) : __liveTime;
 
@@ -239,6 +245,11 @@ const FLAG_CLOTH_READY = new URLSearchParams(location.search).get('flagcloth') =
     return null;
   }
 })();
+
+const hardwareReady = loadPropGeometries({
+  asset: COURSE_HARDWARE_ASSET, baseUrl: import.meta.env.BASE_URL,
+  signal: globalThis.AbortSignal?.timeout?.(10000),
+}).catch(error => { console.warn('Course hardware:', error.message); return null; });
 
 let MODEL_PREP_STARTED = 0;
 /* ------------------------------------------------------------------ boot ui */
@@ -316,6 +327,20 @@ const RENDERER_LOADING = new URLSearchParams(location.search).get('startup') ===
 
 const COURSE = await loadCourse(rawBana);
 const CMETA = COURSE.meta;
+// The two grounds reviewed from playing height. The comparison uses the same
+// course, camera and normal rendering pipeline with ?playerArt=0.
+const PLAYER_ART_PILOT = ['norrfallsviken', 'bro-hof-stadium'].includes(CMETA.slug)
+  && new URLSearchParams(location.search).get('playerArt') !== '0';
+const surfaceMaterialsReady = PLAYER_ART_PILOT && new URLSearchParams(location.search).get('turf') !== 'painted'
+  ? import('./engine/course-surface-materials.mjs').then(module => module.loadCourseSurfaceMaterials()).catch(error => {
+    console.warn('Playing-height surface materials:', error.message);
+    return null;
+  }) : null;
+const bankReflectionReady = PLAYER_ART_PILOT
+  ? import('./engine/measured-bank-reflection.mjs').then(module => module.loadMeasuredBankReflection(CMETA.slug)).catch(error => {
+    console.warn('Measured bank reflection:', error.message);
+    return null;
+  }) : null;
 const PACK = COURSE.pack;
 /* The land-cover record: what the ground IS out to +-6.4 km, read off
    Lantmäteriet's orthophoto per 12 m cell (tools/build-landcover.mjs). It is
@@ -460,6 +485,9 @@ let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = MODEL;
+const bridgeReliefReady = M.infra.bridges?.length ? loadBridgeRelief().catch(() => null) : null;
+const bankGraniteReady = PLAYER_ART_PILOT && M.infra.bulkheads?.some(wall => wall.kind === 'stone')
+  ? loadBankGranite().catch(() => null) : null;
 // Source corrections precede every consumer of the inherited pack, including
 // the atlas, tint, natural-ground classifier and measured-tree exclusions.
 SCENERY?.applyGroundSurfaceReview?.(M, GEO);
@@ -2083,7 +2111,9 @@ const startGhibliLoad = async () => {
        quality -- every phone -- at about 40% of Hero's triangles, fitted to
        the same height and radius. ?treemesh=hero|full overrides for
        comparison; old ?hero=0 links change nothing. No Lite downloads. */
-    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
+    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug, playingHeight: PLAYER_ART_PILOT,
+      treeArt: !['treeArt', 'playerArt'].some(key => new URLSearchParams(location.search).get(key) === '0'),
+      shrubSprigs: M.infra.vegetationPlacement !== 'measured-only' && new URLSearchParams(location.search).get('covershapes') !== '0',
       tier: playerTreeMeshTier(location.search, LOWQ),
       /* the realistic catalogue (engine/ghibli-trees.mjs); ?treeset=v1 is the before, the painted one */
       treeset: playerTreeSet(location.search),
@@ -2333,7 +2363,10 @@ let contactAO = null;
 let lakeMist = null;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
+const cloudMap = await cloudMapReady;
+const cloudDome = cloudMap ? createDaylightClouds(cloudMap, ONE_WIND_ON ? skyDrift : null) : null;
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
+  cloudDome,
   /* high cirrus above the clouds (engine/painted-sky.mjs CIRRUS); ?cirrus=0 is the before */
   cirrus: new URLSearchParams(location.search).get('cirrus') !== '0',
   /* after the opaque world, so hidden sky is never shaded; ?skyorder=first is the before */
@@ -2387,10 +2420,12 @@ const skyPreset = (p, name) => ({ ...p, skyCirrus: cirrusFor(name),
   ...(HAZE_WARM ? {} : { hazeGlow: 0 }),
   ...(CLOUD_GLOW_ON && !LOWQ && !lowfx ? {} : { skyCloudGlow: 0 }) });
 setAtmospherePreset(skyMesh, skyPreset(INITIAL_ATMOSPHERE, INITIAL_PRESET));
-const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH });
+cloudDome?.setPreset(INITIAL_ATMOSPHERE);
+const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH, cloudDome });
 waterLighting.setPreset(INITIAL_ATMOSPHERE);
 const lightingEnvironment = createLightingEnvironment(renderer, scene, {
   enabled: GRAPHICS_POLISH,
+  cloudDome,
   onBake: ({ preset: name, started }) => span('PMREM environment', started, { preset: name }),
 });
 lightingEnvironment.setPreset(INITIAL_NU ? `${INITIAL_PRESET}:${JSON.stringify(INITIAL_NU.overrides)}` : INITIAL_PRESET, INITIAL_ATMOSPHERE);
@@ -2436,9 +2471,13 @@ function setPreset(name, overrides = null, choice = null) {
   preset = p;
   presetName = PRESETS[name] ? name : 'golden';
   lightChoice = choice ?? presetName;
+  cloudDome?.setPreset(p);
   lightingEnvironment.setPreset(overrides ? `${presetName}:${JSON.stringify(overrides)}` : presetName, p);
   waterLighting.setPreset(p);
   sun.color.setHex(p.sun); sun.intensity = p.int;
+  // Hazy and overcast light has a broader effective source. The existing
+  // shadow filter adjusts its footprint without sampling more shadow texels.
+  sun.shadow.radius = 1.05 + p.cloud * Math.min(1, p.cloudDensity) * 1.35;
   if (shadowTint) shadowTintFor(p, shadowTint.tint.value);
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
@@ -3498,6 +3537,7 @@ if (TERRAIN_PREVIEW.ready) {
     turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON, sandBowl: SAND_BOWL_ON,
     /* the tour turf's grain and bump (turf-look.mjs); ?turf=painted is the before */
     turf: TOUR_TURF,
+    surfaceMaterials: await surfaceMaterialsReady,
     /* the grain's screen-derivative bump: off, since on detail finer than a pixel it sparkled
        (measured 3 November: 6x the aliasing of the grain alone); ?turfbump=1 draws it */
     turfBump: new URLSearchParams(location.search).get('turfbump') === '1',
@@ -4229,8 +4269,8 @@ function buildRoad(runs, asphalt) {
 
 /* asphalt with its paint in the shader: aMow.y is across-the-road in half-widths,
    so the edge line sits at 0.90 on every road regardless of its width */
-function makeAsphalt() { return createRoadAsphalt(DETAIL); }
-function makeGravel() { return createRoadGravel(DETAIL); }
+function makeAsphalt() { return createRoadAsphalt(DETAIL, { pebbles: TOUR_TURF }); }
+function makeGravel() { return createRoadGravel(DETAIL, { pebbles: TOUR_TURF }); }
 
 {
   const asphaltRuns = [], gravelRuns = [], dirtRuns = [], paintRuns = [];
@@ -4298,9 +4338,7 @@ function makeGravel() { return createRoadGravel(DETAIL); }
   for (const path of M.infra.paths) addRoad(path, 'paths');
   const asphaltMat = nudged(2, makeAsphalt);
   const gravelMat = nudged(2, makeGravel);
-  // Dirt uses the same matte finish, with its own soil vertex colour. The
-  // turf shader would add grass detail and multiply the colour again.
-  const dirtMat = nudged(2, makeGravel);
+  const dirtMat = nudged(2, () => createRoadGravel(DETAIL, { pebbles: TOUR_TURF, earth: true }));
   const paintMat = nudged(2, () => createRoadAsphalt(DETAIL, { paintOnly: true }));
   for (const [runs, asphalt, mat, name] of [[asphaltRuns, true, asphaltMat, 'asphalt'],
       [gravelRuns, false, gravelMat, 'gravel'], [dirtRuns, false, dirtMat, 'dirt'],
@@ -4378,6 +4416,7 @@ await tick('fyller vattnet', 0.52);
    surface runs out into foam -- and writes the answer. */
 /* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
+const measuredBank = await bankReflectionReady;
 function makeWater({ mask = null, showBed = true, ocean = false, sea = false, freezes = !ocean && !sea } = {}) {
   /* no bed to see through to -> nothing to be see-through for (see the policy) */
   const opaque = waterSheetIsOpaque({ ocean, showBed });
@@ -4395,7 +4434,7 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false, fr
     bank: new URLSearchParams(location.search).get('waterbank') !== '0',
     /* in from nothing at the shore (engine/water-shading.mjs WATER_SHORE_FADE); ?shorefade=0 is the before */
     shoreFade: new URLSearchParams(location.search).get('shorefade') !== '0',
-    reflection: WATER_REFLECTION, lightScale: paintedWaterLight });
+    reflection: WATER_REFLECTION, measuredBank, lightScale: paintedWaterLight });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
@@ -4742,11 +4781,12 @@ if (COASTAL_WATER?.indices.length) {
   stats.draws++;
 }
 
+const mappedDeckFootprints = new Grid();
 /* Confirmed bridge decks use their observed footprints and end axes. Only the
    horizontal geometry is mapped: elevation, deck thickness and the neutral
    material below are rendering estimates. Unmeasured rails are left undetailed. */
 {
-  const V = [], K = [], rendered = [];
+  const V = [], K = [], deckCoords = [], timbers = [], rendered = [];
   const topColour = L(0x8a8b86), sideColour = L(0x666964);
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
   const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
@@ -4775,12 +4815,15 @@ if (COASTAL_WATER?.indices.length) {
     };
     const faces = triangulate(ring);
     if (!faces.length) continue;
+    const deckStart = V.length;
     for (const [i, j, k] of faces) tri(point(ring[i]), point(ring[k]), point(ring[j]), deckTop);
+    const skirtStart = V.length;
     const skirtDrop = isStone ? 0.95 : isTimber ? 0.22 : 0.18;
     for (let i = 0; i < ring.length; i++) {
       const p = ring[i], q = ring[(i + 1) % ring.length];
       quad(point(p, skirtDrop), point(q, skirtDrop), point(q), point(p), deckSide);
     }
+    const curbStart = V.length;
     // Timber / stone low edge curb or side rail along the span edges
     if (isTimber || isStone) {
       const halfW = (bridge.w || 2.6) * 0.5;
@@ -4798,6 +4841,17 @@ if (COASTAL_WATER?.indices.length) {
         quad(lift(pA0), lift(pB0), lift(pB1), lift(pA1), deckTop);
       }
     }
+    mappedDeckFootprints.add(ring, ringBBox(ring), 0);
+    // Grain runs across the deck and along its edge boards. These UVs
+    // follow the existing local span; they never feed back into a vertex.
+    for (let i = deckStart; i < V.length; i += 3) {
+      const x = V[i] - a[0], z = V[i + 2] - a[1];
+      const along = ux * x + uz * z, across = ux * z - uz * x;
+      if (i < skirtStart) deckCoords.push(along, across);
+      else if (i < curbStart) deckCoords.push(V[i + 1] - ha, along);
+      else deckCoords.push(across, along);
+      timbers.push(isTimber ? 1 : 0);
+    }
     rendered.push({ id: bridge.id, kind: bridge.kind || 'mapped', railsObserved: bridge.railsObserved === true,
       verticalDimensions: 'estimated', deckThicknessM: skirtDrop, approachLiftM: approachLift,
       elevationSource: 'rendered terrain sampled at visible deck ends and approaches',
@@ -4808,9 +4862,9 @@ if (COASTAL_WATER?.indices.length) {
     g.setAttribute('position', new THREE.Float32BufferAttribute(V, 3));
     g.setAttribute('color', new THREE.Float32BufferAttribute(K, 3));
     g.computeVertexNormals();
-    const mesh = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
-      vertexColors: true, roughness: 0.9, metalness: 0, flatShading: true, side: THREE.DoubleSide,
-    }));
+    g.setAttribute('deckCoord', new THREE.Float32BufferAttribute(deckCoords, 2));
+    g.setAttribute('timber', new THREE.Float32BufferAttribute(timbers, 1));
+    const mesh = new THREE.Mesh(g, createBridgeFinish(DETAIL, await bridgeReliefReady));
     mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 7;
     mesh.userData = { tag: 'mapped-bridge-footprints', features: rendered };
     scene.add(mesh); stats.draws++;
@@ -4821,15 +4875,15 @@ if (COASTAL_WATER?.indices.length) {
 
   // Water-hazard retaining bulkheads (timber sleeper walls & granite masonry edges)
   if ((M.infra.bulkheads || []).length) {
-    const bh = buildBulkheadGeometry(M.infra.bulkheads, { waterList: M.water || [], heightAt: meshH, linear: L });
+    const granite = await bankGraniteReady;
+    const bh = buildBulkheadGeometry(M.infra.bulkheads, { waterList: M.water || [], heightAt: meshH, linear: L, surfaceCoordinates: !!granite });
     if (bh.positions.length) {
       const g = new THREE.BufferGeometry();
       g.setAttribute('position', new THREE.Float32BufferAttribute(bh.positions, 3));
       g.setAttribute('color', new THREE.Float32BufferAttribute(bh.colors, 3));
       g.computeVertexNormals();
-      const mesh = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
-        vertexColors: true, roughness: 0.92, metalness: 0, flatShading: true, side: THREE.DoubleSide,
-      }));
+      if (granite) g.setAttribute('wallSurface', new THREE.Float32BufferAttribute(bh.wallCoordinates, 3));
+      const mesh = new THREE.Mesh(g, createRetainingWallFinish(granite));
       mesh.castShadow = true; mesh.receiveShadow = true; mesh.renderOrder = 0;
       mesh.userData = { tag: 'water-bulkheads', features: bh.rendered };
       scene.add(mesh); stats.draws++;
@@ -5016,7 +5070,7 @@ span('tree models (waiting for them)', GHIBLI_WAIT_STARTED);
    underside keeps trees out of the authored buildings), so a Full crown,
    which hangs lower than Hero's, is tested as the crown it is. */
 const SPECIES = GHIBLI.species.map((g, s) => ({
-  crown: g.mesh.crown, trunk: g.mesh.trunk,
+  crown: g.mesh.crown, trunk: g.mesh.trunk, placement: g.placement,
   cc: GHIBLI.colours[s].cc, tc: GHIBLI.colours[s].tc,
   sc: [[0.85, 1.5], [0.72, 1.34], [0.60, 1.06]][s] || GHIBLI.colours[s].sc,
 }));
@@ -5025,8 +5079,9 @@ const SPECIES = GHIBLI.species.map((g, s) => ({
 for (const spec of SPECIES) {
   spec.crown.computeBoundingBox();
   const box = spec.crown.boundingBox;
-  spec.templateHeight = box.max.y;
-  spec.templateRadius = Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);
+  spec.templateHeight = spec.placement?.height ?? box.max.y;
+  spec.templateRadius = spec.placement?.radius ?? Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);
+  spec.crownBase = spec.placement?.base ?? box.min.y;
 }
 
 /* coverAt (the satellite canopy raster) is decoded up by classify(), because the
@@ -5461,7 +5516,7 @@ lap('v2 vegetation: plan individuals + stand trees');
     const sk = s * (kindScrub ? 0.42 : 1);
     if (authoredFacilityView && SCENERY?.isFacilityLegacyTreeObstruction?.({ x: px, y: h - .25, z: pz,
       height: SPECIES[sp].templateHeight * sk, radius: SPECIES[sp].templateRadius * sk },
-    h - .25 + SPECIES[sp].crown.boundingBox.min.y * sk)) {
+    h - .25 + SPECIES[sp].crownBase * sk)) {
       stats.facilityExcludedTrees = (stats.facilityExcludedTrees || 0) + 1;
       continue;
     }
@@ -5484,7 +5539,7 @@ if (V2_VEG_PLAN) {
     // Display exclusion only: measured roof returns must not grow through the
     // authored buildings. Keep the underlying vegetation source unchanged.
     const facilityCollision = SCENERY?.isFacilityTreeObstruction
-      ? SCENERY.isFacilityTreeObstruction(t, t.y - .25 + spec.crown.boundingBox.min.y * t.height / spec.templateHeight)
+      ? SCENERY.isFacilityTreeObstruction(t, t.y - .25 + spec.crownBase * t.height / spec.templateHeight)
       : SCENERY?.isFacilityInterior?.(t.x, t.z);
     if (authoredFacilityView && facilityCollision) {
       stats.facilityExcludedTrees = (stats.facilityExcludedTrees || 0) + 1;
@@ -5620,8 +5675,6 @@ const TREE_LOD = {
   debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
 {
-  // The drawn near mesh (Hero, or Full at low quality) also supplies the distant impostor atlases.
-  const near = GHIBLI.species.map(s => s.mesh);
   const crownMaterial = (s, sway) => {
     const foliage = GHIBLI.species[s].foliage;
     const tint = attribute('aTint', 'vec4');
@@ -5632,6 +5685,7 @@ const TREE_LOD = {
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
       backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON, realistic: foliage.realistic === true,
+      woodland: foliage.woodland,
       /* the modelled sprigs' normals and light through, and the atlas's own leaf mean (engine/ghibli-foliage-material.mjs); ?leafnormals=0 is the before */
       normals: new URLSearchParams(location.search).get('leafnormals') !== '0' ? foliage.normals ?? null : null, mean: foliage.mean ?? null,
       /* ?canopybands=vertex is the before: the canopy's bands per vertex, which blew up near a low sun */
@@ -5652,6 +5706,7 @@ const TREE_LOD = {
       const surface = barkSurface({ bark, key: GHIBLI.species[s].foliage.key });
       mat.colorNode = mat.colorNode.mul(surface.pigment);
       mat.normalNode = transformNormalByViewMatrix(surface.normal, cameraViewMatrix);
+      mat.roughnessNode = surface.roughness;
     }
     if (sway) { mat.positionNode = windSway(false); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
@@ -5710,19 +5765,23 @@ const TREE_LOD = {
          and the bake cannot read that -- so the atlas takes the measured mean
          instead (engine/ghibli-trees.mjs). Without it every impostor pine drew
          a white pole. */
-      const bakeTrunk = new THREE.Color(...GHIBLI.species[s].trunkMean).multiply(new THREE.Color(SPECIES[s].tc));
-      const bakeArgs = { crown: near[s].crown, trunk: near[s].trunk, trunkColor: bakeTrunk, foliage: GHIBLI.species[s].foliage };
-      const atlas = bakeImpostorAtlas(renderer, bakeArgs);
-      TREE_LOD.atlases.push(atlas);
-      /* a broadleaf's impostors are baked again from its wood alone when winter takes its leaves (applyBareTrees) */
-      if (isBroadleaf(GHIBLI.species[s].foliage.key)) WINTER.impostors.push({ atlas, args: bakeArgs });
+      const species = GHIBLI.species[s];
+      const forms = GHIBLI.summary.woodland ? species.variants : [species];
+      const atlases = forms.map(form => {
+        const trunkColor = new THREE.Color(...form.trunkMean).multiply(new THREE.Color(SPECIES[s].tc));
+        const args = { ...form.mesh, trunkColor, foliage: form.foliage };
+        const atlas = bakeImpostorAtlas(renderer, args);
+        if (isBroadleaf(form.foliage.key)) WINTER.impostors.push({ atlas, args });
+        return atlas;
+      });
+      TREE_LOD.atlases.push(atlases);
     }
     TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
-    span(`tree impostor atlases (${SPECIES.length} species, 64 views each)`, bakeStarted);
+    span(`tree impostor atlases (${TREE_LOD.atlases.flat().length} forms)`, bakeStarted);
   }
-  const impostorBatch = (s, capacity, label) => {
+  const impostorBatch = (s, atlas, capacity, label) => {
     const geo = createImpostorGeometry(capacity);
-    const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
+    const mat = createImpostorMaterial(atlas, {
       /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
       crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
       backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON && !GHIBLI.species[s].foliage.realistic,
@@ -5742,8 +5801,8 @@ const TREE_LOD = {
      one per (species, variant). Each draws the subset of its species' trees
      hashed to its variant, and every variant is rescaled (ky, kxz) so a
      measured tree keeps the laser height the species template gave it. The
-     tier machinery below works per template; placement (trees[], treeWhy[])
-     and the impostor atlases (per species) are untouched. */
+     tier machinery below works per template. The same form also supplies the
+     distant silhouette, including its own anchors and crown proportions. */
   const TEMPLATES = [];
   for (let s = 0; s < SPECIES.length; s++) {
     const vars = GHIBLI.species[s].variants;
@@ -5755,7 +5814,6 @@ const TREE_LOD = {
         ky: SPECIES[s].templateHeight / g.templateHeight, kxz: SPECIES[s].templateRadius / g.templateRadius });
     }
   }
-  const variantOf = (x, z, nv) => nv > 1 ? Math.min(nv - 1, Math.floor(hash2(x * 0.13 + 3.3, z * 0.17 + 7.7) * nv)) : 0;
   const cellOf = new Map();
   const cell = (x, z) => {
     const i = Math.floor((x - MIDR.x0) / TREE_LOD.cell), j = Math.floor((z - MIDR.z0) / TREE_LOD.cell);
@@ -5797,6 +5855,8 @@ const TREE_LOD = {
   const boundsScratch = new THREE.Box3(), boundsCentre = new THREE.Vector3();
   for (let ti = 0; ti < TEMPLATES.length; ti++) {
     const tpl = TEMPLATES[ti], s = tpl.s;
+    const exactForm = TREE_LOD.atlases[s][tpl.v];
+    const atlas = exactForm ?? TREE_LOD.atlases[s][0];
     const T = trees[s], W = treeWhy[s];
     const nAll = T.length / 6;
     /* the trees this template draws: all of the species, or its variant's share */
@@ -5841,11 +5901,12 @@ const TREE_LOD = {
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
       mtx.compose(pos, q, scl).toArray(mats, j * 16);
       imp[j * 6] = pos.x; imp[j * 6 + 1] = pos.y; imp[j * 6 + 2] = pos.z;
-      imp[j * 6 + 3] = T[k * 6 + 4]; imp[j * 6 + 4] = sxz; imp[j * 6 + 5] = sy * varied;
+      const impXZ = exactForm ? scl.x : sxz, impY = exactForm ? scl.y : sy * varied;
+      imp[j * 6 + 3] = T[k * 6 + 4]; imp[j * 6 + 4] = impXZ; imp[j * 6 + 5] = impY;
       treeTint(pos.x, pos.z, tint, j * 4, STAND_TINT_ON);
       const c = cell(pos.x, pos.z);
       c.lists[ti].push(j);
-      includeTreeBounds(c.box, templateBox, TREE_LOD.atlases[s], mtx, pos, sxz, sy * varied,
+      includeTreeBounds(c.box, templateBox, atlas, mtx, pos, impXZ, impY,
         boundsScratch, boundsCentre);
     }
     if (!n) { TREE_LOD.tiers.push(null); continue; }
@@ -5902,7 +5963,7 @@ const TREE_LOD = {
         // A reserved counter keeps existing captures/tools readable, with zero
         // geometry, materials or instance buffers for the removed mesh tier.
         tier([], 'reserved-lite'),
-        impostorBatch(s, initialCapacity, 't3')],
+        impostorBatch(s, atlas, initialCapacity, 't3')],
     };
     for (let i = 1; i <= 4; i++) rec.t[i].idx = i;
     TREE_LOD.tiers.push(rec);
@@ -5917,11 +5978,16 @@ const TREE_LOD = {
   if (TREE_GPU_CULL) {
     treeGpuCull = createTreeGpuCull({ renderer, scene, sun });
     for (const rec of TREE_LOD.tiers) {
-      const hero = rec?.t[1], atlas = rec ? TREE_LOD.atlases[rec.species] : null;
+      const hero = rec?.t[1], atlases = rec && TREE_LOD.atlases[rec.species];
+      const atlas = atlases && (atlases[rec.variant] ?? atlases[0]);
       if (hero?.parts.length === 2 && atlas) treeGpuCull.register(hero, { centreY: atlas.centreY, halfHeight: atlas.height / 2, radius: atlas.radius });
     }
   }
   TREE_LOD.ready = true;
+}
+
+function variantOf(x, z, count) {
+  return count > 1 ? Math.min(count - 1, Math.floor(hash2(x * 0.13 + 3.3, z * 0.17 + 7.7) * count)) : 0;
 }
 
 /* A tree is drawn by up to two tiers at once: its IN tier (tierOf, where)
@@ -6597,7 +6663,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
     /* the same pictures the planted forest fades into, so the far ring and
        the middle ring are one forest: a cone that stood 12 m x s becomes a
        tree of the same height, species by hash, yaw by hash */
-    const perSpecies = SPECIES.map(() => []);
+    const vistaForms = TREE_LOD.atlases.map(atlases => atlases.map(() => []));
     /* THE HORIZON IS THE SAME FOREST AS THE COURSE. This used to be the
        engine's own pine-led hash on every ground, so a course whose planter
        follows its own species rule changed species at the coverage box:
@@ -6631,19 +6697,21 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
         if (Number.isInteger(got) && got >= 0 && got < SPECIES.length) sp = got;
       }
       if (sp === null) sp = defaultTreeSpecies(r);
-      perSpecies[sp].push(k);
+      const groups = vistaForms[sp];
+      groups[variantOf(pts[k * 4], pts[k * 4 + 2], groups.length)].push(k);
     }
     /* what the horizon is made of, so the mix is a number a harness can read
        rather than something argued over screenshots of two different holes */
-    stats.vistaSpecies = Object.fromEntries(perSpecies.map((l, s) => [SPECIES_NAMES[s], l.length]));
-    for (let s = 0; s < SPECIES.length; s++) {
-      const list = perSpecies[s];
+    stats.vistaSpecies = Object.fromEntries(vistaForms.map((groups, s) =>
+      [SPECIES_NAMES[s], groups.reduce((total, group) => total + group.length, 0)]));
+    for (const [s, groups] of vistaForms.entries()) for (const [v, list] of groups.entries()) {
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON && !GHIBLI.species[s].foliage.realistic });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s][v], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON && !GHIBLI.species[s].foliage.realistic });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
-      const th = SPECIES[s].templateHeight || 13;
-      const tr = SPECIES[s].templateRadius || 4;
+      const form = GHIBLI.species[s].variants[v];
+      const th = GHIBLI.summary.woodland ? form.templateHeight : SPECIES[s].templateHeight || 13;
+      const tr = GHIBLI.summary.woodland ? form.templateRadius : SPECIES[s].templateRadius || 4;
       const P = posA.array, Q = parA.array, tintA = geo.getAttribute('aTint').array;
       list.forEach((k, i) => {
         const s0 = pts[k * 4 + 3];
@@ -6652,7 +6720,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
            radius over the template's (the tier code's own convention) */
         const size = ptsSize[k];
         const sy = size ? size[0] / th : 12 * s0 * (0.85 + (k % 5) * 0.07) / th;
-        const sxz = size ? size[1] / tr : s0 * 0.9;
+        const sxz = size ? size[1] / tr : s0 * 0.9 * SPECIES[s].templateRadius / tr;
         /* written in place: a throwaway array per tree was most of this loop */
         P[i * 3] = pts[k * 4]; P[i * 3 + 1] = pts[k * 4 + 1]; P[i * 3 + 2] = pts[k * 4 + 2];
         Q[i * 4] = hash2(k * 31 + 7, k * 17 + 5) * TAU; Q[i * 4 + 1] = sxz; Q[i * 4 + 2] = sy; Q[i * 4 + 3] = 0;
@@ -6663,7 +6731,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const mesh = new THREE.Mesh(geo, mat);
       mesh.castShadow = false; mesh.receiveShadow = false; mesh.frustumCulled = false;
       mesh.userData.tag = 'vista';
-      mesh.name = `vista-${SPECIES_NAMES[s]}-impostor`;
+      mesh.name = `vista-${SPECIES_NAMES[s]}-impostor${v ? '-' + v : ''}`;
       VISTA_SHADOW_CASTERS.push(mesh);
       scene.add(mesh);
       stats.draws++;
@@ -6722,8 +6790,12 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   })();
   /* the bushes and stones as painted forms (engine/cover-shapes.mjs); ?covershapes=0 is the before, the faceted gems */
   const COVER_SHAPES_ON = new URLSearchParams(location.search).get('covershapes') !== '0';
+  const shrubSprigs = COVER_SHAPES_ON && (GHIBLI.shrubSprigs ?? GHIBLI.species.find(s => s.key === 'al' && s.foliage.realistic)?.foliage);
   let bush, stone;
-  if (COVER_SHAPES_ON) { bush = puffyBushGeometry(); stone = roundedStoneGeometry(); }
+  if (COVER_SHAPES_ON) {
+    bush = shrubSprigs ? woodlandShrubGeometry() : puffyBushGeometry();
+    stone = roundedStoneGeometry();
+  }
   else {
     bush = new THREE.IcosahedronGeometry(0.62, 0);
     bush.scale(1, 0.62, 1); bush.translate(0, 0.34, 0);
@@ -6908,6 +6980,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const leaf = texture(DETAIL, positionWorld.xz.mul(0.017)).g;
     bushMat.colorNode = mix(color(PAINTED_SCENERY.bush[0]),
       mix(color(PAINTED_SCENERY.bush[1]), color(0xb8894c), uAutumn), COVER_COLOUR_ON ? leaf.mul(COVER_TUNED_SHARE) : leaf);
+    if (shrubSprigs) shadeShrubSprigs(bushMat, shrubSprigs, CROWN_COVERAGE_ON);
   }
   /* a reviewed ground's photographed stone (Johannesberg), where it has one */
   const reviewedStone = SCENERY?.groundAppearance?.palette?.rock;
@@ -6985,7 +7058,8 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
     ground: { relief: GROUND_RELIEF_ON, wear: GROUND_WEAR_ON, grain: TURF_GRAIN_ON, gloss: SURFACE_GLOSS },
     groundAt: (x, z) => {
       const h = terrainH(x, z);
-      return { h, grass: Number.isFinite(h) && !wetAt(x, z, h) };
+      const underDeck = stats.mappedBridges > 0 && mappedDeckFootprints.at(x, z).some(ring => inRing(x, z, ring));
+      return { h, grass: Number.isFinite(h) && !underDeck && !wetAt(x, z, h) };
     },
   });
   scene.add(nearGrass.mesh);
@@ -7351,15 +7425,14 @@ const instancedFurniture = (geo, mat, list, { cast = false, colour = false, into
   into.add(im);
   return im;
 };
+const hardware = await hardwareReady;
 const furnitureGroup = new THREE.Group();
 scene.add(furnitureGroup);
 const plateSites = [];
 if (M.infra.objectPlacement !== 'mapped-only') {
-  const plateGeo = new THREE.BoxGeometry(0.4, 0.28, 0.06);
-  plateGeo.translate(0, 0.62, 0);
-  const postGeo = new THREE.CylinderGeometry(0.03, 0.035, 0.62, 5);
-  postGeo.translate(0, 0.31, 0);
-  const postMat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x6b6154), roughness: 0.9 });
+  const plateGeo = hardware?.distance_plate ?? new THREE.BoxGeometry(0.4, 0.28, 0.06).translate(0, 0.62, 0);
+  const postGeo = hardware?.distance_post ?? new THREE.CylinderGeometry(0.03, 0.035, 0.62, 5).translate(0, 0.31, 0);
+  const postMat = new THREE.MeshStandardNodeMaterial({ color: 0x6b6154, vertexColors: !!hardware, roughness: 0.79 });
   const PLATES = [[100, 0xd8443c], [150, 0xe8c33a], [200, 0xf2f0e8]];
   const plateInst = new Map(PLATES.map(([, col]) => [col, []])), postInst = [];
   /* A yardage plate states the STRAIGHT-LINE distance to the middle of the
@@ -7420,9 +7493,12 @@ if (M.infra.objectPlacement !== 'mapped-only') {
       }
     }
   }
-  for (const [, col] of PLATES) instancedFurniture(plateGeo, new THREE.MeshStandardNodeMaterial({
-    color: new THREE.Color(col), roughness: 0.5, emissive: new THREE.Color(col), emissiveIntensity: 0.1 }), plateInst.get(col), { cast: true, into: furnitureGroup, tag: 'plates' });
-  instancedFurniture(postGeo, postMat, postInst, { into: furnitureGroup, tag: 'plates' });
+  for (const [metres, col] of PLATES) {
+    if (plateInst.get(col).length) instancedFurniture(plateGeo, distancePlateFinish(metres, col, !!hardware),
+      plateInst.get(col), { cast: true, into: furnitureGroup, tag: 'plates' });
+  }
+  instancedFurniture(postGeo, postMat, postInst, { cast: true, into: furnitureGroup, tag: 'plates' });
+  if (FURNITURE_SHADOW) addFootContacts(furnitureGroup, postInst, 0.09, meshH, DEPTH_SIGN);
   /* a small sign at each green pointing at the next tee, so the walk reads */
   const signPlate = new THREE.BoxGeometry(0.5, 0.2, 0.05);
   signPlate.translate(0, 1.02, 0);
@@ -7596,8 +7672,8 @@ function poseFlagCloths(dt) {
 /* Diameters 4.5 -> 3.5 cm; the shifted cloth hoist stays inside the sleeve. */
 // Continue the flagstick down into the cup instead of ending it at turf level.
 const poleProfile = FLAG_POLE_PROFILE.map(([r, y], i) => new THREE.Vector2(r, i < 2 ? y - CUP.depth : y));
-instancedFurniture(new THREE.LatheGeometry(poleProfile, 10),
-  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2f4f2), roughness: 0.35, metalness: 0.5 }), FURN.poles, { cast: true, into: flagGroup, tag: 'pins' });
+instancedFurniture(hardware?.flagstick ?? new THREE.LatheGeometry(poleProfile, 10), flagstickFinish(!!hardware),
+  FURN.poles, { cast: true, into: flagGroup, tag: 'pins' });
 if (cupGeometries.length) {
   const geometry = mergeGeometries(cupGeometries);
   for (const part of cupGeometries) part.dispose();
@@ -7612,7 +7688,7 @@ if (cupGeometries.length) {
    24 x 16, its base settled a little into the turf, and the matte paint of a
    moulded marker rather than polished metal. ?teemarkers=before is the before. */
 const TEE_MARKER_BEFORE = new URLSearchParams(location.search).get('teemarkers') === 'before';
-const teeMarkerGeometry = TEE_MARKER_BEFORE ? new THREE.SphereGeometry(0.13, 8, 6) : (() => {
+const teeMarkerGeometry = TEE_MARKER_BEFORE ? new THREE.SphereGeometry(0.13, 8, 6) : hardware?.tee_marker ?? (() => {
   const g = new THREE.SphereGeometry(0.13, 24, 16);
   /* a ball resting on turf: the lowest tenth flattened onto its seat */
   const p = g.attributes.position;
@@ -7622,7 +7698,8 @@ const teeMarkerGeometry = TEE_MARKER_BEFORE ? new THREE.SphereGeometry(0.13, 8, 
 })();
 instancedFurniture(teeMarkerGeometry,
   new THREE.MeshStandardNodeMaterial(TEE_MARKER_BEFORE ? { color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }
-    : { color: new THREE.Color(0xffffff), roughness: 0.62, metalness: 0 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
+    : { color: 0xffffff, vertexColors: !!hardware, roughness: 0.49 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
+if (FURNITURE_SHADOW) addFootContacts(flagGroup, FURN.markers, 0.18, meshH, DEPTH_SIGN);
 
 /* Mapped OSM point identities, anchored to their source coordinates. Generic
    dimensions and orientations below are rendering estimates, not measurements.
@@ -13361,14 +13438,15 @@ window.V3D = {
   /* the impostor atlases as the GPU holds them, for the harness: one
      frame of one species' albedo or normal target, decoded to floats
      (row 0 is whichever row the backend's readback puts first) */
-  treeAtlas: async (s, kind = 'albedo', i = 0, j = 0) => {
-    const atlas = TREE_LOD.atlases[s];
+  treeAtlas: async (s, kind = 'albedo', i = 0, j = 0, variant = 0) => {
+    const atlas = TREE_LOD.atlases[s]?.[variant];
     if (!atlas) return null;
     const rt = atlas.targets[kind === 'normal' ? 1 : 0], fs = atlas.frameSize;
     const raw = await renderer.readRenderTargetPixelsAsync(rt, i * fs, j * fs, fs, fs);
     const half = h => { const e = (h >> 10) & 31, m = h & 1023, sg = h & 0x8000 ? -1 : 1;
       return e === 0 ? sg * m * 2 ** -24 : e === 31 ? (m ? NaN : sg * Infinity) : sg * (1 + m / 1024) * 2 ** (e - 15); };
-    const data = raw instanceof Uint16Array ? Array.from(raw, half) : Array.from(raw);
+    const data = raw instanceof Uint16Array ? Array.from(raw, half)
+      : raw instanceof Uint8Array ? Array.from(raw, (x, k) => x / 255 * (kind === 'albedo' && k % 4 !== 3 ? 2 : 1)) : Array.from(raw);
     return { frameSize: fs, framesPerSide: atlas.framesPerSide, size: atlas.size, radius: atlas.radius,
              centreY: atlas.centreY, height: atlas.height, data };
   },

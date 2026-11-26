@@ -58,10 +58,17 @@ describe('the water road pass', () => {
     expect(shading).toMatch(/const sigma = nordic && !road \?/);
     /* the road takes the clouds inside sunRoad, so not a second time */
     expect(shading).toMatch(/c = c\.add\(sunlit && !road \? sparkle\.mul\(sunlit\) : sparkle\);/);
-    expect(shading).toMatch(/const skyShare = mirror && glowShare \? mirrorShare\(\{ fres, glow: glowShare \}\) : fres\.mul\(0\.42\);/);
-    /* without the mirror of the shores (water-reflection.mjs) the share is the sky's alone */
-    expect(shading).toMatch(/let c = mix\(body, skyC, found \? mix\(skyShare, fres\.mul\(reflection\.params\.strength\)\.max\(skyShare\), found\) : skyShare\);/);
-    expect(shading).toMatch(/if \(!ocean && !sea\) \{/);
+    expect(shading).toContain('mirrorShare({ fres, glow: glowShare })');
+    expect(shading).toContain('const params = reflection?.params ?? WATER_REFLECTION;');
+    expect(shading).toContain('const hit = reflection ? reflection.trace(positionWorld, ray) : vec4(0);');
+    expect(shading).toContain('const found = hit.a.mul(params.strength);');
+    // A surveyed bank fills a screen miss. On a screen hit, the scene colour
+    // still wins and the low sun's glow remains in front at its original share.
+    const bankBlend = shading.indexOf('skyC = mix(skyC, bankColour, bankHit.a)');
+    const screenBlend = shading.indexOf('skyC = mix(skyC, glowShare ? mix(world, waterSkyGlow, glowShare.mul(params.glowOver)) : world, found)');
+    expect(bankBlend).toBeGreaterThan(0);
+    expect(screenBlend).toBeGreaterThan(bankBlend);
+    expect(shading).toContain('let c = mix(body, skyC, skyShare);');
     /* the relief takes the water from above's cloud shade and patches only with them (water-above.mjs) */
     expect(shading).toMatch(/if \(relief\) body = body\.mul\(bodyRelief\(\{ N, sun: uSun, sunlit: bodySun, rough \}\)\);/);
   });

@@ -6,12 +6,13 @@ import * as THREE from 'three/webgpu';
 import {
   float, vec2, vec3, attribute, texture, positionWorld, cameraPosition,
   mix, smoothstep, clamp, abs, sin, oneMinus, fwidth, dFdx, dFdy,
-  saturate, step, max, vec4, select, floor, normalize,
+  saturate, step, max, vec4, select, floor, normalize, cameraViewMatrix, cos,
 } from 'three/tsl';
 
 import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
 import { groundReliefTier } from './ground-surface-relief.mjs';
 import { TURF_LOOK, flipStripes, tourGradeOf, tourTurf } from './turf-look.mjs';
+import { courseSurfaceFinish } from './course-surface-materials.mjs';
 
 const MIGRATED = [
   SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN,
@@ -586,24 +587,14 @@ export const GROUND_DETAIL = Object.freeze({ TURF_GRAIN, TURF_BROAD_LIFT, NEAR_T
   DIVOT_CREST, DIVOT_SAND, DIVOT_SHARE, WEAR_BAND_METRES, WEAR_TINT, WEAR_THIN, DAMP_SHELTER, DAMP_SHADE, DAMP_COOL, ROUGH_CLUMP_AMPLITUDE });
 /* how dark the bank is at the waterline, and how far up the bank it reaches */
 const BANK_SHADE = 0.24, BANK_FALLOFF_METRES = 0.9;
-/* a rake's pass, its depth of tone, and how much damper the low middle stands */
-const SAND_RAKE_METRES = 0.32, SAND_RAKE_AMPLITUDE = 0.035, SAND_LOW_SHADE = 0.07;
-/* THE BUNKER'S HOLLOW (sandBowl, 2 November). A bunker lies 25 mm under its
-   surround, so the terrain lit it as flat or as a swell, and the lip's dark band
-   round a bright middle read as a pillow. The sand is painted as the hollow it
-   is: a bowl `depth` metres deep reached `reach` metres in from the lip, whose
-   slope follows the sand's own distance field (two more taps of its channel,
-   `step` metres apart) and is lit by the sun against flat ground (shade within
-   `range`), and a
-   lip `lipHeight` high throws a crescent of shade onto the sand on the sun's
-   side, as long as a low sun makes it, at `lipShade`. Gone before a pixel
-   outgrows it. ?sandbowl=0 is the before. */
-export const SAND_BOWL = Object.freeze({ depth: 0.55, reach: 2.4, step: 0.6, range: Object.freeze([0.62, 1.22]),
-  lipHeight: 0.32, lipShade: 0.34, lipShadowMax: 4, fade: Object.freeze([0.7, 2.2]),
+/* The measured terrain owns the bunker faces. The distance field locates only
+   the cut edge and its short contact shadow. */
+export const SAND_BOWL = Object.freeze({ step: 0.6,
+  lipHeight: 0.10, lipShade: 0.34, lipShadowMax: 0.9, fade: Object.freeze([0.25, 1.2]),
   /* the lip's band (BUNKER_LIP_SHADE) on the lit far face and under the sunward lip */
   farLip: 0.45, sunLip: 1.25,
   /* the sand's colour, warmed toward cream and a little less bright */
-  warm: Object.freeze([0.95, 0.915, 0.84]) });
+  warm: Object.freeze([0.93, 0.855, 0.73]) });
 /* the bunker lip's band at its edge: darker, and warmest where blue falls most */
 const BUNKER_LIP_SHADE = [0.10, 0.16, 0.26];
 /* a path's edges take up to this share of the ground beside it; its middle is this much paler */
@@ -611,7 +602,7 @@ const GROWN_EDGE_SURFACES = [SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT];
 const PATH_EDGE_GRASS = 0.6, PATH_WORN_LIFT = 0.08;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null, turfBump = true }, shading) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null, turfBump = true, surfaceMaterials = null }, shading) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -675,7 +666,11 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     /* One pixel's footprint on the ground, from the WORLD POSITION and not from
        the distance: fwidth of a bilinearly filtered field is piecewise constant
        per texel and jumps at every texel border. */
-    const pixelHalf = exactEdges ? fwidth(wp).length().mul(0.7).max(CUT_EDGE_FLOOR_METRES) : null;
+    // The nearest view can resolve small variations in cut length. Feather
+    // both sides symmetrically, retaining the surveyed zero crossing and
+    // sharing the same width between adjoining cuts.
+    const edgeFloor = turf && taps ? taps.near.g.mul(.068).add(CUT_EDGE_FLOOR_METRES) : CUT_EDGE_FLOOR_METRES;
+    const pixelHalf = exactEdges ? fwidth(wp).length().mul(0.7).max(edgeFloor) : null;
     /* ACROSS THE EDGE. That footprint is the pixel's WHOLE extent, and seen low
        it is tens of metres deep down the view however few centimetres it spans
        across it. So an edge running away from the camera -- a fairway's side
@@ -694,7 +689,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        ?groundedges=0 is the before. */
     const pixelAcross = exactEdges && acrossEdges ? sdfs.map(sdf => fwidth(sdf)) : null;
     const halfOf = pixelAcross
-      ? pixelAcross.map(slope => slope.mul(0.7).max(CUT_EDGE_FLOOR_METRES).min(pixelHalf.min(EDGE_REACH_METRES))) : null;
+      ? pixelAcross.map(slope => slope.mul(0.7).max(edgeFloor).min(pixelHalf.min(EDGE_REACH_METRES))) : null;
     /* A CUT class is a mown or a laid surface. Its edge is a line WHATEVER lies
        beside it: the first version of this kept "the wider of the pair" for
        every pair, so a road running along forest floor took the forest's 0.45 m
@@ -844,7 +839,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     const ringDistance = fields.g.mul(255 * atlas.data.ringStepMetres);
     const routeValid = lateral ? float(1) : oneMinus(step(0.999, fields.r));
     const diagonal = wp.x.sub(wp.y).mul(0.70710678);
-    let mowNode;
+    let mowNode, materialSlope = null;
     if (exactEdges && mowStrength > 0 && atlas.data.mowDirections) {
       /* THE MOWING, AS IT IS DONE. A stripe is grass laid toward you or away from
          you, and this engine drew it as a soft sine wave at +/-2-4% in the
@@ -935,6 +930,19 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       const toCameraXZ = vec2(toCamera.x, toCamera.z);
       const greenPasses = vec2(acrossBearing.mul(0.8192).sub(dir.mul(0.5736)).y.negate(), acrossBearing.mul(0.8192).sub(dir.mul(0.5736)).x);
       const flips = turf ? { hole: flipStripes(toCameraXZ, dir), green: flipStripes(toCameraXZ, greenPasses) } : null;
+      // A freshly laid pass tilts the average blade normal a few degrees.
+      // Use the unflipped, filtered cut here so the highlight stays attached
+      // to the grass when the camera crosses a pass or turns around.
+      if (turf && material.normalNode) {
+        const share = sid => {
+          const i = classes.indexOf(sid);
+          return i < 0 ? float(0) : weights[i].mul(patterns[sid]);
+        };
+        const holeLay = share(SURFACE.FAIRWAY).mul(.046).add(share(SURFACE.SEMI).mul(.027))
+          .add(share(SURFACE.TEE).mul(.032));
+        const greenLay = share(SURFACE.GREEN).mul(.018).mul(oneMinus(cleanUp));
+        materialSlope = dir.mul(holeLay).add(greenPasses.mul(greenLay)).mul(max(settled, ranged)).mul(mowStrength);
+      }
       const amplitudeOf = sid => (turf ? TURF_LOOK.stripes[sid] : MOW_AMPLITUDE[sid]);
       /* the grass is not uniform along a pass */
       const wander = (taps ? taps.wander.g : texture(DETAIL, wp.mul(0.017)).g).mul(0.7).add(0.65);
@@ -1050,21 +1058,36 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
           .mul(oneMinus(pavingWeight)).mul(oneMinus(smoothstep(0.6, 2.5, pixel)));
         litBase = litBase.mul(oneMinus(damp));
       }
-      /* A BUNKER IS RAKED, AND DAMPER IN ITS LOW MIDDLE. The rake follows the edge
-         in, a third of a metre a pass -- seen only from beside it, faded out long
-         before it could moire -- and the sand a few metres in from the lip holds
-         the wet. The sand's own distance channel is both coordinates. */
+      /* Rake teeth leave fine grooves across a stroke. The line curves
+         gently in world metres and keeps running beyond the four-metre
+         range of the lip field. Only the mapped sand receives it. */
       const sandIndex = channels.indexOf(SURFACE.SAND);
-      /* the rake and the lip follow the sand's edge: the pixel across it */
+      /* Projected pixel width across the surveyed lip. */
       const sandPixel = sandIndex >= 0 && pixelAcross ? pixelAcross[sandIndex].min(footprint) : footprint;
       /* how squarely the nearest lip faces the sun (the hollow, below): the lip's band takes it */
       let lipFacing = null;
       if (sandIndex >= 0) {
         const inSand = sdfs[sandIndex].max(0);
-        const k = 2 * Math.PI / SAND_RAKE_METRES;
-        const rake = sin(inSand.mul(k)).mul(oneMinus(smoothstep(0.5, 1.4, sandPixel.mul(k))));
-        const low = smoothstep(1.2, 3.6, inSand).mul(SAND_LOW_SHADE);
-        litBase = litBase.mul(float(1).add(rake.mul(SAND_RAKE_AMPLITUDE * display).sub(low).mul(cutTone).mul(weights[sandIndex])));
+        const bearing = vec2(.8, .6), tangent = vec2(-.6, .8);
+        const turn = wp.dot(tangent).mul(.39);
+        const across = wp.dot(bearing).add(sin(turn).mul(.38));
+        const phase = across.mul(2 * Math.PI / .058);
+        const resolved = oneMinus(smoothstep(.65, 2.5, fwidth(phase)));
+        const rake = resolved.mul(weights[sandIndex]).mul(cutTone);
+        if (surfaceMaterials) {
+          // A rake head leaves a broad zone of packed grains between strokes.
+          // Keep this small contrast visible after the fine grooves disappear.
+          const strokePhase = across.mul(2 * Math.PI / .56).add(cos(turn.mul(.48)).mul(1.4));
+          const stroke = cos(strokePhase).mul(oneMinus(smoothstep(.55, 2.4, fwidth(strokePhase))));
+          const compaction = stroke.mul(.034).add(clumpAt().mul(.13));
+          litBase = litBase.mul(float(1).add(compaction.mul(weights[sandIndex])));
+        }
+        litBase = litBase.mul(float(1).add(cos(phase).mul(.038 * display).mul(rake)));
+        if (turf && material.normalNode) {
+          const rakeSlope = bearing.add(tangent.mul(cos(turn).mul(.38 * .39)))
+            .mul(sin(phase).mul(.115).mul(rake));
+          materialSlope = materialSlope ? materialSlope.add(rakeSlope) : rakeSlope;
+        }
         if (sandBowl && uSun) {
           const B = SAND_BOWL;
           /* the sand field's slope on the ground, from two more taps of its own
@@ -1077,12 +1100,6 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
           const raw = fieldSdfs[sandIndex];
           const toEdge = vec2(sdfAt(du).sub(raw), sdfAt(dv).sub(raw)).div(B.step);
           const L = normalize(uSun);
-          /* the bowl: down `depth` by `reach` in (a smoothstep), so its slope is that curve's along the field's own */
-          const t = inSand.div(B.reach).clamp(0, 1);
-          const slope = toEdge.mul(t.mul(oneMinus(t)).mul(6 * B.depth / B.reach));
-          const normal = normalize(vec3(slope.x, 1, slope.y));
-          const flat = L.y.max(0).mul(0.75).add(0.25);
-          const bowl = normal.dot(L).max(0).mul(0.75).add(0.25).div(flat).clamp(B.range[0], B.range[1]);
           /* the lip's crescent: where the edge lies toward the sun, nearer than the lip's shadow reaches */
           const sunXZ = vec2(L.x, L.z), sunFlat = sunXZ.length().max(1e-4);
           const facing = toEdge.div(toEdge.length().max(1e-4)).dot(sunXZ.div(sunFlat)).negate().max(0);
@@ -1091,7 +1108,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
           const lipShadow = oneMinus(smoothstep(reachLip.mul(facing).mul(0.6), reachLip.mul(facing).add(0.05), inSand))
             .mul(smoothstep(0, 0.25, facing)).mul(B.lipShade);
           const near = oneMinus(smoothstep(B.fade[0], B.fade[1], sandPixel)).mul(weights[sandIndex]).mul(cutTone);
-          litBase = litBase.mul(mix(float(1), bowl.mul(oneMinus(lipShadow)), near));
+          litBase = litBase.mul(oneMinus(lipShadow.mul(near)));
           /* and a warmer, less papery sand at every distance: from above at noon the bunkers read as white paper */
           litBase = litBase.mul(mix(vec3(1), vec3(...B.warm), weights[sandIndex].mul(cutTone)));
         }
@@ -1109,6 +1126,14 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
              an even ring round a bright middle read as a cushion */
           const lipBand = lipFacing ? lip.mul(mix(float(SAND_BOWL.farLip), float(SAND_BOWL.sunLip), lipFacing)) : lip;
           litBase = litBase.mul(oneMinus(lipBand.mul(vec3(...BUNKER_LIP_SHADE))));
+          if (surfaceMaterials) {
+            // Root fibres and exposed soil sit directly under the cut edge.
+            // Use only the inside of the surveyed lip; the grass stays intact.
+            const edge = oneMinus(smoothstep(.02, .125, sdfs[sandIndex].max(0)));
+            const roots = edge.mul(weights[sandIndex]).mul(oneMinus(smoothstep(.07, .38, sandPixel)))
+              .mul(nearTap().g.mul(.42).add(.48)).mul(cutTone);
+            litBase = mix(litBase, vec3(...(C.soil || C.rough)).mul(.64), roots);
+          }
         }
         /* A PATH IS WORN IN ITS MIDDLE AND GROWN IN AT ITS EDGES. Feet and carts
            keep the middle bare and a little paler; grass creeps in from both
@@ -1168,6 +1193,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       }
     }
     /* THE TOUR TURF (turf-look.mjs): the turf's own grain and its bump, by class. ?turf=painted is the before */
+    let fineFinish = null;
     if (turf && exactEdges && material.normalNode) {
       let dir = null;
       if (atlas.data.mowDirections) {
@@ -1175,9 +1201,25 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         const length = raw.length();
         dir = select(length.greaterThan(0.2), raw.div(length.max(1e-3)), vec2(1, 0));
       }
+      if (surfaceMaterials) {
+        fineFinish = courseSurfaceFinish({ classes, weights, wp, dir, map: surfaceMaterials,
+          normal: material.normalNode });
+      }
       const tour = tourTurf({ classes, weights, wp, dir, detail: turf, normal: material.normalNode, display: shading.toneExponent });
-      litBase = litBase.mul(tour.lit);
-      if (turfBump) material.normalNode = tour.normal;
+      if (fineFinish) {
+        // The baked swatch owns the surface inside its mapped footprint.
+        // Retain legacy hard-ground detail where a class has no swatch.
+        litBase = litBase.mul(mix(tour.lit, fineFinish.pigment, fineFinish.share));
+        material.normalNode = fineFinish.normal;
+      } else {
+        litBase = litBase.mul(tour.lit);
+        if (turfBump) material.normalNode = tour.normal;
+      }
+      if (materialSlope) {
+        const n = normalize(material.normalNode);
+        const tilt = cameraViewMatrix.mul(vec4(materialSlope.x, 0, materialSlope.y, 0)).xyz;
+        material.normalNode = normalize(n.add(tilt.sub(n.mul(n.dot(tilt)))));
+      }
     }
     /* ?groundrelief=0 is the before: the relief is baked, and not read */
     if (groundRelief) litBase = applyGroundRelief(litBase, roughTint.a, meta.a);
@@ -1187,6 +1229,11 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       broadLift: oneMinus(meta.g.max(meta.b).max(meta.a)).mul(TURF_BROAD_LIFT) } : {};
     shading.finishV2({ material, litBase, wp, DETAIL, uSun, mow: mowNode,
       shade, meta, graphicsPolish, surfaceRelief, seasonal: meta.a, surfaceGloss, ...finishTaps });
+    if (fineFinish && material.roughnessNode) {
+      material.userData.courseSurfaceSwatches = true;
+      const dry = fineFinish.roughness.sub((shading.wetness ?? float(0)).mul(.12));
+      material.roughnessNode = mix(material.roughnessNode, dry, fineFinish.coverage.mul(.82));
+    }
     material.metalness = 0;
     /* the atlas owns its textures; nothing was created here to dispose */
     material.userData.terrainPreviewTextures = [];
@@ -1201,7 +1248,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null, turfBump = true }, shading) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null, turfBump = true, surfaceMaterials = null }, shading) {
   if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
   if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
   if (!['across', 'iso'].includes(mowFade)) throw new TypeError(`unknown mowing fade: ${mowFade}`);
@@ -1232,7 +1279,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround, sandBowl, turf, turfBump }, shading),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround, sandBowl, turf, turfBump, surfaceMaterials }, shading),
       atlas,
     );
   }

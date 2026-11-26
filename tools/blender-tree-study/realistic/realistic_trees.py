@@ -493,6 +493,11 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
             else:         # laid along the branch, facing up and out; in the crest it stands as the branch does
                 face = (UP * 0.9 * (1 - crest) + out * (0.5 + 0.6 * crest) + jitter * 0.25).normalized()
                 want = d
+        elif key == 'tall':
+            # Needle shoots rise out of each pine pad. Keep outward sprays edge-on
+            # to the sky and upper sprays oblique, so a pad has depth from below.
+            face = (out * 0.71 + d * 0.49 + jitter * 0.36).normalized()
+            want = UP + radial * 0.45
         else:
             face = (d * 0.7 + radial * 0.3 + jitter * 0.15).normalized()
             want = Vector((rnd.uniform(-1, 1), rnd.uniform(-0.3, 0.3), rnd.uniform(-1, 1))) - UP * Cd['hang']
@@ -560,7 +565,7 @@ def preview(scene, tree, offset, row=0.0):
         ob = bpy.data.objects.new(me.name, me)
         scene.collection.objects.link(ob)
 
-def build_catalogue(outdir, with_preview=True):
+def build_catalogue(outdir, with_preview=True, keys=None):
     os.makedirs(outdir, exist_ok=True)
     scene = None
     if bpy and with_preview:
@@ -570,7 +575,7 @@ def build_catalogue(outdir, with_preview=True):
                 me = ob.data; bpy.data.objects.remove(ob)
                 if me and me.users == 0: bpy.data.meshes.remove(me)
     report = {}
-    for i, key in enumerate(SPECIES):
+    for i, key in enumerate(keys or SPECIES):
       for v in range(VARIANTS):
         for tier in TIERS:
             tree = fitted(key, tier, v)

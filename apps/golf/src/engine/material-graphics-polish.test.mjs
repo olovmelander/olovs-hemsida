@@ -166,3 +166,29 @@ describe.each(['class-sdf-v1', 'pair-sdf-v1'])('%s graphics polish', representat
     mask.map.dispose();
   });
 });
+
+it('applies the baked swatches to the exact mapped terrain without changing its vertex positions or atlas ownership', () => {
+  const { atlas, DETAIL } = resources('pair-sdf-v1');
+  atlas.exactEdges = { channels: [SURFACE.GREEN, SURFACE.SAND, SURFACE.SEMI],
+    texSdf: atlas.texSdf, texF: atlas.texF, lateralStepMetres: .25, ringStepMetres: .16 };
+  const swatches = new THREE.DataArrayTexture(new Uint8Array(17 * 4), 1, 1, 17);
+  const material = new THREE.MeshStandardNodeMaterial();
+  const measuredPosition = vec3(21, 4, 18), measuredNormal = vec3(.06, .99, -.04);
+  material.positionNode = measuredPosition;
+  material.normalNode = measuredNormal;
+  try {
+    const decorate = createPaintedDecorator({ atlas, DETAIL, C, SHADE, uSun: vec3(.4,.7,.3), turf: DETAIL,
+      turfBump: false, cutTone: 1, mowStrength: 1, surfaceMaterials: swatches });
+    decorate(material);
+    expect(decorate.v2SurfaceAuthority).toBe(atlas);
+    expect(material.positionNode).toBe(measuredPosition);
+    expect(material.userData.courseSurfaceSwatches).toBe(true);
+    const samples = textureSamples([material.colorNode, material.normalNode, material.roughnessNode], swatches);
+    expect([...samples].filter(node => node.depthNode)).toHaveLength(3);
+    expect(textureSamples([material.positionNode], swatches).size).toBe(0);
+    expect(material.userData.terrainPreviewTextures).not.toContain(swatches);
+  } finally {
+    for (const tex of [swatches, DETAIL, atlas.texF, atlas.texID, ...atlas.texSdf]) tex.dispose();
+    material.dispose();
+  }
+});

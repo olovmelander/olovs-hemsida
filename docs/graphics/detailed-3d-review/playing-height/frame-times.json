@@ -1,0 +1,193 @@
+{
+  "units": "milliseconds per rendered frame",
+  "desktopAdapter": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 Laptop GPU (0x00002C59) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "desktopResolution": [
+    1920,
+    1080
+  ],
+  "phoneViewportResolution": [
+    393,
+    852
+  ],
+  "phoneAdapter": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 Laptop GPU (0x00002C59) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "rows": [
+    {
+      "shot": "norrfallsviken-tee",
+      "desktopBeforeP95": [
+        10.9,
+        12
+      ],
+      "desktopAfterP95": [
+        10.5,
+        39.5
+      ],
+      "desktopAfterMedian": [
+        7.4,
+        16
+      ],
+      "phoneBeforeP95": 3,
+      "phoneAfterP95": 3
+    },
+    {
+      "shot": "norrfallsviken-approach",
+      "desktopBeforeP95": [
+        9.5,
+        8.9
+      ],
+      "desktopAfterP95": [
+        8.4,
+        15.6
+      ],
+      "desktopAfterMedian": [
+        6.6,
+        12.1
+      ],
+      "phoneBeforeP95": 3.5,
+      "phoneAfterP95": 2.9
+    },
+    {
+      "shot": "norrfallsviken-green",
+      "desktopBeforeP95": [
+        13.2,
+        9.4
+      ],
+      "desktopAfterP95": [
+        9,
+        16.3
+      ],
+      "desktopAfterMedian": [
+        7.2,
+        14
+      ],
+      "phoneBeforeP95": 3.5,
+      "phoneAfterP95": 4.4
+    },
+    {
+      "shot": "bro-hof-stadium-bunker",
+      "desktopBeforeP95": [
+        24,
+        8.8
+      ],
+      "desktopAfterP95": [
+        8.2,
+        8
+      ],
+      "desktopAfterMedian": [
+        5.6,
+        5.7
+      ],
+      "phoneBeforeP95": 4.5,
+      "phoneAfterP95": 3
+    },
+    {
+      "shot": "bro-hof-stadium-shore",
+      "desktopBeforeP95": [
+        12.5,
+        8.4
+      ],
+      "desktopAfterP95": [
+        9.9,
+        9
+      ],
+      "desktopAfterMedian": [
+        4.8,
+        5
+      ],
+      "phoneBeforeP95": 3.7,
+      "phoneAfterP95": 2.1
+    },
+    {
+      "shot": "bro-hof-stadium-approach",
+      "desktopBeforeP95": [
+        11.5,
+        9.6
+      ],
+      "desktopAfterP95": [
+        8.8,
+        8.3
+      ],
+      "desktopAfterMedian": [
+        5.9,
+        6.2
+      ],
+      "phoneBeforeP95": 4.5,
+      "phoneAfterP95": 3.4
+    },
+    {
+      "shot": "bro-hof-stadium-green",
+      "desktopBeforeP95": [
+        11.2,
+        9.7
+      ],
+      "desktopAfterP95": [
+        10.4,
+        8
+      ],
+      "desktopAfterMedian": [
+        6.8,
+        6.3
+      ],
+      "phoneBeforeP95": 4.1,
+      "phoneAfterP95": 4
+    },
+    {
+      "shot": "bro-hof-stadium-putt",
+      "desktopBeforeP95": [
+        12.5,
+        15.8
+      ],
+      "desktopAfterP95": [
+        16.3,
+        16.8
+      ],
+      "desktopAfterMedian": [
+        11,
+        12.8
+      ],
+      "phoneBeforeP95": 10.2,
+      "phoneAfterP95": 11.7
+    }
+  ],
+  "teeRepeats": {
+    "before": [
+      {
+        "samples": 452,
+        "median": 8.7,
+        "p95": 12.4,
+        "p99": 14.9
+      },
+      {
+        "samples": 418,
+        "median": 9,
+        "p95": 11.7,
+        "p99": 14.4
+      },
+      {
+        "samples": 463,
+        "median": 8.1,
+        "p95": 10.8,
+        "p99": 14.2
+      }
+    ],
+    "pilot": [
+      {
+        "samples": 438,
+        "median": 8.7,
+        "p95": 12.5,
+        "p99": 14.1
+      },
+      {
+        "samples": 411,
+        "median": 9.3,
+        "p95": 11.9,
+        "p99": 15.1
+      },
+      {
+        "samples": 443,
+        "median": 8.4,
+        "p95": 11.1,
+        "p99": 14.5
+      }
+    ]
+  }
+}

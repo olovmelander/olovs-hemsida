@@ -83,7 +83,7 @@ export const TURF_LOOK = Object.freeze({
   wild: Object.freeze([S.ROUGH, S.FOREST, S.HEATH, S.WETLAND]),
   velvet: Object.freeze([0.84, 1.14]), velvetTip: Object.freeze([1.06, 1.04, 0.86]),
   /* the stripes' display amplitude either side, per class (the painted ground's MOW_AMPLITUDE before) */
-  stripes: Object.freeze({ [S.FAIRWAY]: 0.11, [S.SEMI]: 0.05, [S.GREEN]: 0.07, [S.FRINGE]: 0.05, [S.TEE]: 0.08 }),
+  stripes: Object.freeze({ [S.FAIRWAY]: 0.064, [S.SEMI]: 0.032, [S.GREEN]: 0.034, [S.FRINGE]: 0.026, [S.TEE]: 0.045 }),
 });
 
 /** A class's tour grade (linear RGB multipliers), or null where it has none. */

@@ -16,7 +16,7 @@ import { bakePuffNormals, CROWN_PUFFS } from './crown-puffs.mjs';
    (tools/blender-tree-study/realistic/). The default since 4 November (owner request);
    ?treeset=v1 is the before, the painted catalogue. Visby has its own of each, with its coastal
    pine: the same growth forms and boxes as the painted one the owner kept. */
-export const REALISTIC_TREE_REVISION = 'realistic-v2-2026-11-03';
+export const REALISTIC_TREE_REVISION = 'realistic-v2-2026-11-26';
 export const REALISTIC_VISBY_REVISION = 'realistic-visby-2026-11-04';
 export const PLAYER_TREE_SETS = Object.freeze(['v1', 'v2']);
 /** The catalogue a visit draws: the realistic one, or ?treeset=v1 the painted one; any other value is ignored. */
@@ -42,10 +42,15 @@ export function playerTreeMeshTier(search = '', lowQuality = false) {
 /* relief loads the realistic catalogue's leaf normals and bark maps; false leaves them out and
    draws what ?leafnormals=0&bark=0 draws, the models and the leaves' own colours. */
 /* bandTier also loads that tier's meshes as `band`, for the trees further from the holes (main.js TREE_BANDS) */
-export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false, treeset = 'v1', relief = true, bandTier = null } = {}) {
+export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false, treeset = 'v1', relief = true, bandTier = null, playingHeight = false, treeArt = false, shrubSprigs = false } = {}) {
   if (!PLAYER_TREE_MESH_TIERS.includes(tier)) throw new Error(`Ghibli trees: the player draws no ${tier} tier`);
   const coastalPine = courseSlug === 'visby';
   const realistic = treeset === 'v2';
+  const [woodland, pilot] = await Promise.all([
+    treeArt && realistic ? import('../data/woodland-trees.mjs').then(m => m.woodlandTrees(coastalPine), () => null) : null,
+    playingHeight && realistic ? import('../data/playing-height-tree-tiers.mjs').then(m => m.default, () => null) : null,
+  ]);
+  const tierOverrides = woodland?.tiers ?? pilot;
   const base = `${baseUrl}models/trees/`;
   const catalogue = realistic ? (coastalPine ? 'realistic-visby.json' : 'realistic-v2.json') : coastalPine ? 'ghibli-visby.json' : 'ghibli-fluffy.json';
   const revision = realistic ? (coastalPine ? REALISTIC_VISBY_REVISION : REALISTIC_TREE_REVISION) : coastalPine ? VISBY_PINE_REVISION : GHIBLI_FOLIAGE_REVISION;
@@ -58,7 +63,8 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
   const byKey = Object.fromEntries(manifest.species.map(s => [s.key, s]));
   const out = { manifest, species: [], colours: GHIBLI_COLOURS, foliage: true,
     summary: { design: manifest.design || 'fluffy', revision: manifest.revision || null, treeset: realistic ? 'v2' : 'v1',
-      variants, tier, hero: tier === 'hero', files: 0, bytes: 0 } };
+      variants, tier, hero: tier === 'hero', woodland: !!woodland, pineSprigs: false, playingHeight: false, playingHeightMeshes: 0, playingHeightFallbacks: 0,
+      playingHeightCatalogueUnavailable: !!playingHeight && realistic && !tierOverrides, files: 0, bytes: 0 } };
   const jobs = [];
   const species = [];
   for (const key of GHIBLI_SPECIES) {
@@ -68,9 +74,48 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
     validateAsset(entry.foliage.atlas, 'png');
     /* `realistic`: the material reads the sprigs' own leaf colours (ghibli-foliage-material.mjs) */
     /* the modelled sprigs (sprig_atlas.py) add their normals and light through, and every realistic atlas its leaves' mean */
-    const foliage = { key: entry.foliage.key, map: null, realistic, normals: null, mean: realistic ? entry.foliage.mean ?? null : null };
-    jobs.push(async () => { foliage.map = await loadFoliageAtlas(base, entry.foliage.atlas, fetchImpl); });
-    out.summary.files++; out.summary.bytes += entry.foliage.atlas.bytes;
+    const foliage = { key: entry.foliage.key, map: null, realistic, woodland: !!woodland, playingHeight: !!tierOverrides?.[key], meshTier: tier,
+      normals: null, mean: realistic ? entry.foliage.mean ?? null : null };
+    const sprigs = woodland?.sprigs[key];
+    jobs.push(async () => {
+      // Publish the paired maps and their reflectance together. A missing
+      // relief map must never light one shoot using a different shoot's normals.
+      const loadSprigs = async (records, retainVerified) => {
+        const map = await loadFoliageAtlas(base, records.atlas, fetchImpl, { retainVerified });
+        let normals = null;
+        try {
+          if (realistic && relief && records.normals)
+            normals = await loadFoliageAtlas(base, records.normals, fetchImpl, { linear: true, retainVerified });
+        } catch (error) {
+          map.dispose();
+          map.image?.close?.();
+          throw error;
+        }
+        Object.assign(foliage, { map, normals, mean: realistic ? records.mean ?? null : null });
+        out.summary.files += normals ? 2 : 1;
+        out.summary.bytes += records.atlas.bytes + (normals ? records.normals.bytes : 0);
+      };
+      if (sprigs) {
+        try {
+          const { retainPlayingHeightArt } = await import('./playing-height-art-cache.mjs');
+          if (tier === 'full' && !relief && sprigs.lowAtlas) {
+            try { await loadSprigs({ ...sprigs, atlas: sprigs.lowAtlas }, retainPlayingHeightArt); }
+            catch { /* A returning visit may have the full-resolution cutout cached. */ }
+          }
+          if (!foliage.map) await loadSprigs(sprigs, retainPlayingHeightArt);
+          if (key === 'tall') out.summary.pineSprigs = true;
+        } catch { /* Both sets use the same four shoot UV islands. */ }
+      }
+      if (!foliage.map) await loadSprigs(entry.foliage, null);
+      else if (key === 'al' && shrubSprigs) {
+        // Ground-cover meshes use the earlier alder UVs and leaf scale.
+        const { retainPlayingHeightArt } = await import('./playing-height-art-cache.mjs');
+        const map = await loadFoliageAtlas(base, entry.foliage.atlas, fetchImpl, { retainVerified: retainPlayingHeightArt });
+        out.shrubSprigs = { map, mean: entry.foliage.mean };
+        out.summary.bytes += entry.foliage.atlas.bytes;
+        out.summary.files++;
+      }
+    });
     /* the modelled bark (bark_atlas.py): its colour and relief, wrapping round the trunk */
     if (realistic && relief && entry.bark) {
       validateAsset(entry.bark.atlas, 'png'); validateAsset(entry.bark.normals, 'png');
@@ -79,26 +124,48 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
       jobs.push(async () => { foliage.bark.normals = await loadFoliageAtlas(base, entry.bark.normals, fetchImpl, { linear: true, repeat: true }); });
       out.summary.files += 2; out.summary.bytes += entry.bark.atlas.bytes + entry.bark.normals.bytes;
     }
-    if (realistic && relief && entry.foliage.normals) {
-      validateAsset(entry.foliage.normals, 'png');
-      jobs.push(async () => { foliage.normals = await loadFoliageAtlas(base, entry.foliage.normals, fetchImpl, { linear: true }); });
-      out.summary.files++; out.summary.bytes += entry.foliage.normals.bytes;
-    }
     const list = [];
+    const originalCrown = pilot?.[key]?.[0]?.[tier] ?? entry.variants[0]?.tiers[tier];
+    const placement = woodland?.placementCrowns[originalCrown?.sha256] ?? null;
     for (let v = 0; v < Math.min(variants, entry.variants.length); v++) {
-      const variant = entry.variants[v], rec = variant.tiers[tier];
-      validateAsset(rec, 'glb');
-      out.summary.files++; out.summary.bytes += rec.bytes;
+      const variant = entry.variants[v], original = variant.tiers, overrides = tierOverrides?.[key]?.[v];
+      const tiers = overrides ? { ...original, ...overrides } : original;
+      variant.tiers = tiers;
       /* `mesh` is the drawn template whichever tier it is; it is also filed
          under the tier's own name, so a Full visit carries no `hero` */
-      const item = { key, variant: v, seed: variant.seed, foliage, tier,
+      const item = { key, variant: v, seed: variant.seed, foliage, tier, placement, playingHeight: false,
         templateHeight: variant.templateHeight, templateRadius: variant.templateRadius,
         trunkMean: null, mesh: null, band: null,
-        tris: Object.fromEntries(Object.entries(variant.tiers).map(([t, r]) => [t, r.tris])) };
+        tris: Object.fromEntries(Object.entries(tiers).map(([t, r]) => [t, r.tris])) };
       list.push(item);
-      jobs.push(async () => {
-        const mesh = await fetchGlb(`${base}${rec.file}`, rec, fetchImpl);
+      // An offline course can already have the standard mesh for this exact
+      // variant. Both paths verify the model's digest, bounds and GLB format.
+      const loadTier = async name => {
+        let rec = tiers[name], mesh;
+        if (overrides?.[name]) {
+          try {
+            validateAsset(rec, 'glb');
+            const { retainPlayingHeightArt } = await import('./playing-height-art-cache.mjs');
+            mesh = await fetchGlb(base + rec.file, rec, fetchImpl, null, retainPlayingHeightArt);
+            out.summary.playingHeightMeshes++;
+            if (name === tier) item.playingHeight = true;
+          } catch {
+            rec = original[name];
+            tiers[name] = rec;
+            item.tris[name] = rec.tris;
+            out.summary.playingHeightFallbacks++;
+          }
+        }
+        if (!mesh) {
+          validateAsset(rec, 'glb');
+          mesh = await fetchGlb(base + rec.file, rec, fetchImpl);
+        }
+        out.summary.files++; out.summary.bytes += rec.bytes;
         fitFoliageTier(mesh, variant.templateHeight, variant.templateRadius);
+        return mesh;
+      };
+      jobs.push(async () => {
+        const mesh = await loadTier(tier);
         if (!mesh.crown.attributes.uv) throw new Error(`Ghibli foliage ${key}/${tier} lacks UVs`);
         if (crownDepth) bakeCrownDepth(mesh.crown);
         if (puffs) bakePuffNormals(mesh.crown, key === 'gran'
@@ -106,13 +173,10 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
           : { puffs: CROWN_PUFFS.puffs[tier] ?? CROWN_PUFFS.puffs.full });
         item.mesh = mesh; item[tier] = mesh; item.trunkMean = mesh.trunkMean;
       });
-      const bandRec = bandTier && bandTier !== tier ? variant.tiers[bandTier] : null;
+      const bandRec = bandTier && bandTier !== tier ? tiers[bandTier] : null;
       if (bandRec) {
-        validateAsset(bandRec, 'glb');
-        out.summary.files++; out.summary.bytes += bandRec.bytes;
         jobs.push(async () => {
-          const mesh = await fetchGlb(`${base}${bandRec.file}`, bandRec, fetchImpl);
-          fitFoliageTier(mesh, variant.templateHeight, variant.templateRadius);
+          const mesh = await loadTier(bandTier);
           if (crownDepth) bakeCrownDepth(mesh.crown);
           item.band = mesh;
         });
@@ -130,6 +194,10 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
       try { await job(); } catch (error) { failed = true; throw error; }
     }
   }));
+  out.summary.playingHeight = out.summary.playingHeightMeshes > 0;
+  for (const list of species) for (const item of list) {
+    if (item.foliage.playingHeight && !item.playingHeight) item.foliage = { ...item.foliage, playingHeight: false };
+  }
   out.species = species.map(list => ({ ...list[0], variants: list }));
   return out;
 }

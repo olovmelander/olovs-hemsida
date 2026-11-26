@@ -13,7 +13,7 @@ describe('the bank in the water', () => {
   });
   it('is off on the open sea and switched in main.js', () => {
     const shading = fs.readFileSync(new URL('./water-shading.mjs', import.meta.url), 'utf8');
-    expect(shading).toMatch(/if \(bank && !ocean && !sea\)/);
+    expect(shading).toMatch(/if \(bank && !ocean && !sea && !measuredBank\)/);
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toMatch(/bank: new URLSearchParams\(location\.search\)\.get\('waterbank'\) !== '0'/);
   });

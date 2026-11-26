@@ -75,18 +75,23 @@ function nearestWaterLevel(pt, waterList, waterId) {
  * triangle vertex + vertex-colour arrays (all linear luminances < 0.45,
  * strictly bloom-safe across all 10 lighting presets).
  */
-export function buildBulkheadGeometry(bulkheads, { waterList = [], heightAt, linear = hexLinear } = {}) {
+export function buildBulkheadGeometry(bulkheads, { waterList = [], heightAt, linear = hexLinear, surfaceCoordinates = false } = {}) {
   const positions = [];
   const colors = [];
   const rendered = [];
+  const wallCoordinates = surfaceCoordinates ? [] : null;
+  let stoneUV = null, capTop = false;
 
   if (!Array.isArray(bulkheads) || !bulkheads.length || typeof heightAt !== 'function') {
-    return { positions, colors, rendered };
+    return { positions, colors, rendered, ...(wallCoordinates && { wallCoordinates }) };
   }
 
   const tri = (a, b, c, col) => {
     positions.push(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2]);
     colors.push(col[0], col[1], col[2], col[0], col[1], col[2], col[0], col[1], col[2]);
+    if (wallCoordinates) {
+      for (const p of [a, b, c]) wallCoordinates.push(...(stoneUV ? stoneUV(p) : [0, 0, 0]));
+    }
   };
   const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
   const vary = (base, amt, seed) => {
@@ -107,6 +112,7 @@ export function buildBulkheadGeometry(bulkheads, { waterList = [], heightAt, lin
     const pts = bh?.line;
     if (!Array.isArray(pts) || pts.length < 2) continue;
     const kind = bulkheadKind(bh.kind);
+    stoneUV = null;
     const waterLevel = nearestWaterLevel(pts[0], waterList, bh.waterId);
     if (kind === 'boulders') {
       let rocks = 0;
@@ -139,6 +145,7 @@ export function buildBulkheadGeometry(bulkheads, { waterList = [], heightAt, lin
     const capOverhang = kind === 'stone' ? 0.04 : 0.05;
     const capH = kind === 'stone' ? 0.16 : 0.14;
     let segCount = 0;
+    let along = 0;
 
     for (let i = 0; i < pts.length - 1; i++) {
       const [ax, az] = pts[i], [bx, bz] = pts[i + 1];
@@ -147,6 +154,15 @@ export function buildBulkheadGeometry(bulkheads, { waterList = [], heightAt, lin
       if (segLen < 0.05) continue;
       const nx = -dz / segLen, nz = dx / segLen;
       const steps = Math.max(1, Math.round(segLen / stepLen));
+      if (wallCoordinates && kind === 'stone') {
+        // Metres along the surveyed wall give it a continuous grain around bends.
+        // Fold the same scan over the coping without stretching a vertical row.
+        stoneUV = ([x,y,z]) => [
+          along + ((x-ax)*dx + (z-az)*dz) / segLen,
+          capTop ? (x-ax)*nx + (z-az)*nz : y - (waterLevel ?? 0),
+          1,
+        ];
+      }
 
       for (let s = 0; s < steps; s++) {
         const t0 = s / steps, t1 = (s + 1) / steps;
@@ -199,18 +215,21 @@ export function buildBulkheadGeometry(bulkheads, { waterList = [], heightAt, lin
         const cb0R = [x0 - nx * ch, top0 - capH, z0 - nz * ch];
         const cb1R = [x1 - nx * ch, top1 - capH, z1 - nz * ch];
 
+        capTop = true;
         quad(c0L, c1L, c1R, c0R, capCol);       // Top cap surface
+        capTop = false;
         quad(cb0L, cb1L, c1L, c0L, capCol);     // Left cap lip
         quad(cb1R, cb0R, c0R, c1R, sideCol);    // Right cap lip
         segCount++;
       }
+      along += segLen;
     }
     if (segCount > 0) {
       rendered.push({ id: bh.id || null, kind, segments: segCount, waterLevel });
     }
   }
 
-  return { positions, colors, rendered };
+  return { positions, colors, rendered, ...(wallCoordinates && { wallCoordinates }) };
 }
 
 /**

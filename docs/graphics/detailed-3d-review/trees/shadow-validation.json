@@ -1,0 +1,137 @@
+{
+  "backend": "WebGL2",
+  "testAdapter": "SwiftShader",
+  "shadowComparisons": 576,
+  "colourComparisons": 180,
+  "pass": true,
+  "rows": [
+    {
+      "family": "inland",
+      "form": 0,
+      "tier": "hero",
+      "shadowComparisons": 80,
+      "colourComparisons": 25,
+      "minGatedIoU": 0.814,
+      "ok": true
+    },
+    {
+      "family": "inland",
+      "form": 0,
+      "tier": "full",
+      "shadowComparisons": 80,
+      "colourComparisons": 25,
+      "minGatedIoU": 0.805,
+      "ok": true
+    },
+    {
+      "family": "inland",
+      "form": 1,
+      "tier": "hero",
+      "shadowComparisons": 80,
+      "colourComparisons": 25,
+      "minGatedIoU": 0.768,
+      "ok": true
+    },
+    {
+      "family": "inland",
+      "form": 1,
+      "tier": "full",
+      "shadowComparisons": 80,
+      "colourComparisons": 25,
+      "minGatedIoU": 0.843,
+      "ok": true
+    },
+    {
+      "family": "inland",
+      "form": 2,
+      "tier": "hero",
+      "shadowComparisons": 80,
+      "colourComparisons": 25,
+      "minGatedIoU": 0.784,
+      "ok": true
+    },
+    {
+      "family": "inland",
+      "form": 2,
+      "tier": "full",
+      "shadowComparisons": 80,
+      "colourComparisons": 25,
+      "minGatedIoU": 0.791,
+      "ok": true
+    },
+    {
+      "family": "coastal",
+      "form": 0,
+      "tier": "hero",
+      "shadowComparisons": 16,
+      "colourComparisons": 5,
+      "minGatedIoU": 0.859,
+      "ok": true
+    },
+    {
+      "family": "coastal",
+      "form": 0,
+      "tier": "full",
+      "shadowComparisons": 16,
+      "colourComparisons": 5,
+      "minGatedIoU": 0.855,
+      "ok": true
+    },
+    {
+      "family": "coastal",
+      "form": 1,
+      "tier": "hero",
+      "shadowComparisons": 16,
+      "colourComparisons": 5,
+      "minGatedIoU": 0.84,
+      "ok": true
+    },
+    {
+      "family": "coastal",
+      "form": 1,
+      "tier": "full",
+      "shadowComparisons": 16,
+      "colourComparisons": 5,
+      "minGatedIoU": 0.828,
+      "ok": true
+    },
+    {
+      "family": "coastal",
+      "form": 2,
+      "tier": "hero",
+      "shadowComparisons": 16,
+      "colourComparisons": 5,
+      "minGatedIoU": 0.789,
+      "ok": true
+    },
+    {
+      "family": "coastal",
+      "form": 2,
+      "tier": "full",
+      "shadowComparisons": 16,
+      "colourComparisons": 5,
+      "minGatedIoU": 0.796,
+      "ok": true
+    }
+  ],
+  "nativeWebGPU": [
+    {
+      "tier": "hero",
+      "variant": 2,
+      "fixedShadowMap": 2048,
+      "adapter": "hardware",
+      "shadows": 60,
+      "colours": 25,
+      "pass": true
+    },
+    {
+      "tier": "full",
+      "variant": 2,
+      "fixedShadowMap": 1024,
+      "adapter": "hardware",
+      "shadows": 20,
+      "colours": 25,
+      "pass": true
+    }
+  ]
+}

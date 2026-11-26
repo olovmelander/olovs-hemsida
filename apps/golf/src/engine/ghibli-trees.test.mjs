@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import * as THREE from 'three';
 import {loadGhibliTrees,playerTreeMeshTier,PLAYER_TREE_MESH_TIERS,GHIBLI_FOLIAGE_REVISION,VISBY_PINE_REVISION} from './ghibli-trees.mjs';
+import { fetchGlb } from './ghibli-tree-assets.mjs';
+import { retainPlayingHeightArt } from './playing-height-art-cache.mjs';
 import {preparedTintAllowed} from './prepared-ground-tint.mjs';
 import {preparedWaterAllowed} from './prepared-water.mjs';
 import {preparedVistaAllowed} from './prepared-vista.mjs';
@@ -39,6 +41,138 @@ describe('approved Ghibli foliage assets',()=>{
 describe('production foliage loader',()=>{
   beforeEach(()=>vi.spyOn(THREE.TextureLoader.prototype,'loadAsync').mockImplementation(async()=>new THREE.Texture()));
   afterEach(()=>vi.restoreAllMocks());
+  it.each([['puttom',false], ['bro-hof-stadium',true], ['visby',false]])('uses the authored forms and original planting clearances on %s', async (courseSlug, playingHeight) => {
+    const options = { courseSlug, playingHeight, treeset: 'v2', relief: false, tier: 'hero', bandTier: 'full', crownDepth: false };
+    const before = await loadGhibliTrees({ ...options, fetchImpl: assetFetch });
+    const fetchImpl = vi.fn(assetFetch);
+    const after = await loadGhibliTrees({ ...options, treeArt: true, fetchImpl });
+    expect(after.summary).toMatchObject({ woodland: true, pineSprigs: true, playingHeightMeshes: 30, playingHeightFallbacks: 0 });
+    expect(fetchImpl.mock.calls.filter(([url]) => url.endsWith('.png'))).toHaveLength(5);
+    for (const [s, sp] of after.species.entries()) {
+      const crown = before.species[s].mesh.crown;
+      crown.computeBoundingBox();
+      const { min, max } = crown.boundingBox;
+      expect(sp.placement).toEqual({ height: max.y, radius: Math.max(-min.x, max.x, -min.z, max.z), base: min.y });
+      expect(sp.foliage.normals).toBeNull();
+      expect(sp.foliage.bark).toBeUndefined();
+      for (const [v, form] of sp.variants.entries()) {
+        const previous = before.species[s].variants[v];
+        expect([form.seed, form.templateHeight, form.templateRadius]).toEqual([previous.seed, previous.templateHeight, previous.templateRadius]);
+        for (const mesh of [form.mesh, form.band]) {
+          const box = new THREE.Box3();
+          for (const part of [mesh.crown, mesh.trunk]) { part.computeBoundingBox(); box.union(part.boundingBox); }
+          // Buried cards vanish below terrain but used to appear as extra
+          // foliage in distant spruce shadows, especially on the reduced LOD.
+          expect(mesh.crown.boundingBox.min.y).toBeGreaterThanOrEqual(-.001);
+          expect(box.max.y).toBeCloseTo(form.templateHeight, 4);
+          expect(Math.max(-box.min.x, box.max.x, -box.min.z, box.max.z)).toBeCloseTo(form.templateRadius, 4);
+        }
+      }
+    }
+  });
+  it('recovers a missing pine relief texture using the matching verified colour and relief pair', async () => {
+    const { default: pine } = await import('../data/scots-pine-assets.mjs');
+    const catalogue = JSON.parse(fs.readFileSync(new URL('realistic-visby.json', root)));
+    const former = catalogue.species.find(s => s.key === 'tall').foliage;
+    const fetchImpl = url => url.endsWith(pine.coastal.foliage.normals.file) ? new Response(null, { status: 404 }) : assetFetch(url);
+    const after = await loadGhibliTrees({ courseSlug: 'visby', treeset: 'v2', treeArt: true, relief: true,
+      tier: 'full', variants: 1, fetchImpl });
+    expect(after.summary).toMatchObject({ woodland: true, pineSprigs: false, playingHeightMeshes: 5 });
+    const { map, normals, mean } = after.species[1].foliage;
+    expect(map.name).toContain(former.atlas.sha256);
+    expect(normals.name).toContain(former.normals.sha256);
+    expect(mean).toEqual(former.mean);
+  });
+  it('uses coverage-preserving small leaves on low quality and retains the original alder for shrubs', async () => {
+    const { default: sprigs } = await import('../data/woodland-sprigs.mjs');
+    const { species, shrubSprigs } = await loadGhibliTrees({ treeset: 'v2', treeArt: true, relief: false,
+      shrubSprigs: true, tier: 'full', variants: 1, fetchImpl: assetFetch });
+    for (const [key, records] of Object.entries(sprigs)) {
+      const form = species.find(sp => sp.key === key);
+      expect(form.foliage.map.name).toContain(records.lowAtlas.sha256);
+      expect(form.foliage.normals).toBeNull();
+    }
+    const base = JSON.parse(fs.readFileSync(new URL('realistic-v2.json', root)));
+    expect(shrubSprigs.map.name).toContain(base.species.find(s => s.key === 'al').foliage.atlas.sha256);
+  });
+  it('retains verified first-visit pilot bytes when the service worker takes control during the request', async () => {
+    const { default: overrides } = await import('../data/playing-height-tree-tiers.mjs');
+    const rec = overrides.gran[0].hero;
+    const url = `/models/trees/${rec.file}`, put = vi.fn();
+    const serviceWorker = { controller: null }, open = vi.fn(async () => ({ put }));
+    vi.stubGlobal('navigator', { serviceWorker });
+    vi.stubGlobal('caches', { open });
+    vi.stubGlobal('location', new URL('https://banvy.test/'));
+    try {
+      await fetchGlb(url, rec, async input => {
+        serviceWorker.controller = {};
+        return assetFetch(input);
+      }, null, retainPlayingHeightArt);
+      expect(open).toHaveBeenCalledWith('banvy-ghibli-foliage-assets');
+      const [[storedUrl, response]] = put.mock.calls;
+      expect(storedUrl).toBe('https://banvy.test' + url);
+      expect(digest(Buffer.from(await response.arrayBuffer()))).toBe(rec.sha256);
+      serviceWorker.controller = null;
+      await expect(fetchGlb(url, rec, async () => new Response(new Uint8Array(rec.bytes)), null, retainPlayingHeightArt))
+        .rejects.toThrow(/sha256 mismatch/);
+      expect(put).toHaveBeenCalledTimes(1);
+    } finally { vi.unstubAllGlobals(); }
+  });
+  it('recovers unavailable and damaged pilot meshes from verified same-variant standard assets', async () => {
+    const base = JSON.parse(fs.readFileSync(new URL('realistic-v2.json', root)));
+    const { default: overrides } = await import('../data/playing-height-tree-tiers.mjs');
+    const original = base.species.find(s => s.key === 'gran').variants[0];
+    const replacement = overrides.gran[0];
+    const options = { treeset: 'v2', playingHeight: true, tier: 'hero', bandTier: 'full',
+      relief: false, crownDepth: false, variants: 1 };
+    const unavailable = async url => {
+      if (url.endsWith(replacement.hero.file)) return new Response(null, { status: 404 });
+      if (url.endsWith(replacement.full.file)) return new Response(new Uint8Array(replacement.full.bytes));
+      return assetFetch(url);
+    };
+    const loaded = await loadGhibliTrees({ ...options, fetchImpl: unavailable });
+    const standard = await loadGhibliTrees({ ...options, playingHeight: false, fetchImpl: assetFetch });
+    expect(loaded.summary.playingHeightFallbacks).toBe(2);
+    expect(loaded.summary.playingHeightMeshes).toBe(6);
+    expect(loaded.species[0].foliage.playingHeight).toBe(false);
+    expect(loaded.manifest.species.find(s => s.key === 'gran').variants[0].tiers).toEqual(original.tiers);
+    for (const name of ['mesh', 'band']) expect(loaded.species[0][name].crown.attributes.position.array)
+      .toEqual(standard.species[0][name].crown.attributes.position.array);
+    const withoutStandard = url => url.endsWith(original.tiers.hero.file) ? new Response(null, { status: 404 }) : unavailable(url);
+    await expect(loadGhibliTrees({ ...options, fetchImpl: withoutStandard })).rejects.toThrow(/HTTP 404/);
+  });
+  for (const courseSlug of ['puttom', 'visby']) it(`fits both playing-height mesh tiers to every measured template (${courseSlug})`, async () => {
+    const baseFile = courseSlug === 'visby' ? 'realistic-visby.json' : 'realistic-v2.json';
+    const base = JSON.parse(fs.readFileSync(new URL(baseFile, root)));
+    const { default: overrides } = await import('../data/playing-height-tree-tiers.mjs');
+    const loaded = await loadGhibliTrees({ courseSlug, treeset: 'v2', tier: 'hero', bandTier: 'full',
+      playingHeight: true, relief: false, crownDepth: false, fetchImpl: assetFetch });
+    expect(loaded.summary.playingHeight).toBe(true);
+    for (const sp of loaded.species) {
+      const baseline = base.species.find(s => s.key === sp.key);
+      const selected = loaded.manifest.species.find(s => s.key === sp.key);
+      expect(sp.foliage.playingHeight).toBe(sp.key !== 'tall');
+      expect(sp.variants).toHaveLength(baseline.variants.length);
+      for (const v of sp.variants) {
+        const original = baseline.variants[v.variant];
+        expect([v.seed, v.templateHeight, v.templateRadius]).toEqual([original.seed, original.templateHeight, original.templateRadius]);
+        expect(selected.variants[v.variant].tiers).toEqual(overrides[sp.key]?.[v.variant] ?? original.tiers);
+        for (const [tier, mesh] of [['hero', v.mesh], ['full', v.band]]) {
+          const bounds = new THREE.Box3();
+          let triangles = 0;
+          for (const geo of [mesh.crown, mesh.trunk]) {
+            geo.computeBoundingBox();
+            bounds.union(geo.boundingBox);
+            triangles += geo.index.count / 3;
+          }
+          expect(triangles).toBeLessThanOrEqual(original.tiers[tier].tris);
+          expect(triangles).toBe(v.tris[tier]);
+          expect(bounds.max.y).toBeCloseTo(original.templateHeight, 4);
+          expect(Math.max(-bounds.min.x, bounds.max.x, -bounds.min.z, bounds.max.z)).toBeCloseTo(original.templateRadius, 4);
+        }
+      }
+    }
+  });
   it('overlaps at most three asset fetches while retaining catalogue and variant order',async()=>{
     let active=0,peak=0;
     const fetchImpl=async(url)=>{

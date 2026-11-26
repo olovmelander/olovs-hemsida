@@ -69,6 +69,14 @@ export const PYLON_ASSET = Object.freeze({
   phases: Object.freeze([Object.freeze([-3.2, 19.5]), Object.freeze([3.2, 19.5]), Object.freeze([0, 22.4])]),
 });
 
+/* Blender-built hardware in the player's metric furniture frames. */
+export const COURSE_HARDWARE_ASSET = Object.freeze({
+  url: 'models/props/course-hardware-c5f0716beedd675830e5893f93dfcffa701eed904928f16e92806e72b6094c9c.glb',
+  sha256: 'c5f0716beedd675830e5893f93dfcffa701eed904928f16e92806e72b6094c9c',
+  bytes: 61024,
+  meshes: Object.freeze(['tee_marker', 'flagstick', 'distance_plate', 'distance_post']),
+});
+
 const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(b => b.toString(16).padStart(2, '0')).join('');
 
@@ -76,9 +84,19 @@ const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-25
 export const loadGolfCart = options => loadPaintedProp({ asset: GOLF_CART_ASSET, ...options });
 
 /** A painted prop's two geometries ({ body: <name>_body, trim: <name>_trim }), verified. */
-export async function loadPaintedProp({ baseUrl = '/', fetchImpl = fetch, asset } = {}) {
+export async function loadPaintedProp(options) {
+  const parts = await loadPropGeometries(options);
+  const entries = Object.entries(parts);
+  const body = entries.find(([name]) => name.endsWith('_body'))?.[1];
+  const trim = entries.find(([name]) => name.endsWith('_trim'))?.[1];
+  if (!body || !trim) throw new Error('Painted prop needs a body and trim');
+  return { body, trim };
+}
+
+/** Load each named, vertex-coloured component in its authored local frame. */
+export async function loadPropGeometries({ baseUrl = '/', fetchImpl = fetch, asset, signal } = {}) {
   const label = asset.url.split('/').pop().replace(/-[0-9a-f]{64}\.glb$/, '');
-  const res = await fetchImpl(baseUrl + asset.url);
+  const res = await fetchImpl(baseUrl + asset.url, { signal });
   if (!res.ok) throw new Error(`${label}: HTTP ${res.status}`);
   const bytes = await res.arrayBuffer();
   if (bytes.byteLength !== asset.bytes) throw new Error(`${label}: ${bytes.byteLength} bytes, the record says ${asset.bytes}`);
@@ -99,9 +117,9 @@ export async function loadPaintedProp({ baseUrl = '/', fetchImpl = fetch, asset 
       for (let i = 0; i < c.count; i++) { rgb[i * 3] = c.getX(i); rgb[i * 3 + 1] = c.getY(i); rgb[i * 3 + 2] = c.getZ(i); }
       g.setAttribute('color', new THREE.BufferAttribute(rgb, 3));
     }
-    parts[node.name.endsWith('_body') ? 'body' : 'trim'] = g;
+    parts[node.name] = g;
   });
-  if (!parts.body || !parts.trim) throw new Error(`${label}: needs a body and trim`);
+  if (asset.meshes.some(name => !parts[name])) throw new Error(`${label}: missing geometry`);
   return parts;
 }
 

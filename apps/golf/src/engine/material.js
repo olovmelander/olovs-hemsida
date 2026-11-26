@@ -1,5 +1,4 @@
-/* The production ground is always painted/Ghibli. Historical material finishes
- * live in studies/ground-material.mjs and are not imported by the player. */
+/* Ground and close grass share the course palette, weather and cut response. */
 import { float, vec3, texture, mix, smoothstep, saturate, normalWorld, oneMinus } from 'three/tsl';
 import { windSheenAt, WIND_SHEEN } from './one-wind.mjs';
 import { paintedDirect, paintedSeason, paintedTurfStrength, paintedGrassSheen, paintedWet } from './painted-world-lighting.mjs';
@@ -25,7 +24,7 @@ export function setWindSheen(on) { WIND_SHEEN_ON = !!on; }
 export const TOUR_TURF_FINISH = Object.freeze({ flatten: 0.8 });
 let TOUR_TURF_ON = false;
 export function setTourTurf(on) { TOUR_TURF_ON = !!on; }
-export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1), seasonal = float(0), gloss = null, taps = null, broadLift = null, laid: laidAt = null }) {
+export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1), seasonal = float(0), gloss = null, sand = null, taps = null, broadLift = null, laid: laidAt = null }) {
   const blotchA = (taps ? taps.a : texture(DETAIL, wp.mul(0.012)).b).sub(0.5);
   const blotchB = (taps ? taps.b : texture(DETAIL, wp.mul(0.038)).g).sub(0.5);
   const blotchC = (taps ? taps.c : texture(DETAIL, wp.mul(0.11)).r).sub(0.5);
@@ -58,6 +57,13 @@ export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = f
   const seasonTone = mix(vec3(1), vec3(...SEASON_OCHRE), paintedSeason.mul(seasonal).mul(turf));
   let c = base.mul(float(1).add(blotch).add(mow.mul(0.55))).mul(tone).mul(seasonTone)
     .mul(mix(float(1), paintedTurfStrength, turf));
+  if (TOUR_TURF_ON) {
+    // Short cuts reveal a little pale leaf and thatch among green blades.
+    // Preserve luminance as the saturation changes, including in tree shade.
+    const luminance = c.dot(vec3(.2126, .7152, .0722));
+    const straw = mix(vec3(1), vec3(1.06, 1.005, .91), seasonal);
+    c = mix(c, vec3(luminance).mul(straw), turf.mul(.16));
+  }
   if (WIND_SHEEN_ON) {
     /* long grass lays over most: the rough all of it, a fairway about a third, a green nothing */
     const length = gloss ? oneMinus(smoothstep(0.08, 0.40, gloss)) : float(1);
@@ -69,6 +75,21 @@ export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = f
   // Reuse the existing blotch/mowing samples; no glints, normal map or pass.
   /* winter's snow over all of it, thinner on mown turf and steep faces (snow.mjs) */
   c = snowOnGround({ colour: c, normal: normalWorld, turf, gloss, blotch: blotchA });
+  if (TOUR_TURF_ON && gloss) {
+    // Short, rolled cuts have a narrower highlight even in dry conditions.
+    // The renderer lights it with the measured normal and the shadow map.
+    const shortCut = smoothstep(.06, .43, gloss);
+    const cutRoughness = mix(float(.92), float(.53), shortCut)
+      .add(blotchB.mul(.065)).sub(mow.mul(.065))
+      .sub(paintedGrassSheen.mul(shortCut).mul(.08))
+      .sub(paintedWet.mul(shortCut).mul(.10)).clamp(.38, .96);
+    let roughness = mix(float(.94), cutRoughness, turf);
+    if (sand) {
+      const sandRoughness = float(.86).add(blotchB.mul(.07)).sub(paintedWet.mul(.13));
+      roughness = mix(roughness, sandRoughness, sand);
+    }
+    return { colorNode: c, roughnessNode: roughness };
+  }
   const sheenRoughness = float(.59).add(blotchA.mul(.12)).sub(mow.mul(.35)).clamp(.52,.68);
   const sheen = glossy ? paintedGrassSheen.mul(turf).mul(glossy) : paintedGrassSheen.mul(turf);
   return { colorNode: c, roughnessNode: mix(float(.96),sheenRoughness,sheen) };
@@ -83,11 +104,11 @@ export const PAINTED_SHADING = {
   finishGround({ material, col, wp, DETAIL, uSun, gls, strength, band, sandWeight, hardWeight, surfaceGloss = false }) {
     Object.assign(material, paintedGround({ base: col, wp, DETAIL, uSun,
       mow: band.mul(strength.min(1.8)).mul(0.05), turf: oneMinus(sandWeight.max(hardWeight)),
-      gloss: surfaceGloss ? gls : null }));
+      gloss: surfaceGloss ? gls : null, sand: sandWeight }));
   },
   finishV2({ material, litBase, wp, DETAIL, uSun, mow, meta, seasonal, shade, surfaceGloss = false, taps = null, broadLift = null }) {
     Object.assign(material, paintedGround({ base: litBase, wp, DETAIL, uSun, mow,
-      turf: oneMinus(meta.g.max(meta.b)), seasonal, gloss: surfaceGloss ? shade.z : null, taps, broadLift }));
+      turf: oneMinus(meta.g.max(meta.b)), seasonal, gloss: surfaceGloss ? shade.z : null, sand: meta.g, taps, broadLift }));
   },
 };
 

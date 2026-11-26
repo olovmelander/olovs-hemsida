@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banvy · Detailed 3D graphics review</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { color-scheme: dark; }
+    body { font: 16px/1.5 system-ui, sans-serif; margin: auto; max-width: 1600px; background: #161b18; color: #f4f4ef; padding: clamp(16px,3vw,44px); }
+    h1 { font-size: clamp(27px,4vw,48px); margin: 0 0 .3em; }
+    h2 { font-size: clamp(22px,3vw,32px); margin: .25em 0; }
+    article h3 { font-size: 1.35rem; margin: 0; }
+    p { max-width: 80ch; margin: .15em 0 .65em; color: #d4dbd1; }
+    article { margin: 26px 0 50px; --position: 50%; }
+    .frame { position: relative; aspect-ratio: 16/9; overflow: hidden; }
+    .frame img { width: 100%; height: 100%; position: absolute; }
+    .frame .new { clip-path: inset(0 0 0 var(--position)); }
+    .frame i { position: absolute; top: 0; bottom: 0; left: var(--position); width: 2px; background: white; pointer-events: none; }
+    label { display: flex; gap: 12px; align-items: center; margin: 9px 0; }
+    input { flex: 1; accent-color: #d0e4b9; }
+    a { color: #dcebc9; text-underline-offset: .15em; }
+    nav ul, .links { display: flex; flex-wrap: wrap; gap: .35em 1.25em; list-style: none; padding: 0; }
+    section { margin-top: 40px; }
+    .metric { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Banvy · Detailed 3D graphics review</h1>
+  <nav aria-label="Sections"><ul><li><a href="#trees">Trees at playing height</a></li><li><a href="#course">Turf, sand and water</a></li><li><a href="#measurements">Measurements</a></li></ul></nav>
+  <section id="trees">
+    <h2>Trees at playing height</h2>
+    <p>Drag each divider to compare the earlier build on the left with the release on the right. Every pair uses the same surveyed tee or fairway position, the same daylight preset and a 1.65 m eye height.</p>
+    <p><a href="trees/tree-comparison.mp4">Watch the spruce, oak and treeline passes side by side</a> · 12 seconds</p>
+
+    <article><h3>Scots pine</h3><p>Norrfällsviken · Hole 4 · tee · 24.3 m from tree</p><div class="frame"><img class="old" loading="lazy" src="trees/before/pine.jpg" alt="Earlier Scots pine"/><img class="new" loading="lazy" src="trees/after/pine.jpg" alt="Updated Scots pine"/><i></i></div><label>Compare <input type="range" min="0" max="100" value="50" aria-label="Position of the Scots pine comparison divider" oninput="this.closest('article').style.setProperty('--position',this.value+'%')"></label><p class="metric">95th-percentile frame time 8.8 → 9.2 ms. GPU median 0.8 → 0.8 ms.</p></article>
+    <article><h3>Norway spruce</h3><p>Norrfällsviken · Hole 8 · tee · 6.1 m from tree</p><div class="frame"><img class="old" loading="lazy" src="trees/before/spruce.jpg" alt="Earlier Norway spruce"/><img class="new" loading="lazy" src="trees/after/spruce.jpg" alt="Updated Norway spruce"/><i></i></div><label>Compare <input type="range" min="0" max="100" value="50" aria-label="Position of the Norway spruce comparison divider" oninput="this.closest('article').style.setProperty('--position',this.value+'%')"></label><p class="metric">95th-percentile frame time 5.9 → 5.5 ms. GPU median 0.7 → 0.8 ms.</p></article>
+    <article><h3>Fairway treeline</h3><p>Norrfällsviken · Hole 12 · fairway · 48.9 m from tree</p><div class="frame"><img class="old" loading="lazy" src="trees/before/treeline.jpg" alt="Earlier Fairway treeline"/><img class="new" loading="lazy" src="trees/after/treeline.jpg" alt="Updated Fairway treeline"/><i></i></div><label>Compare <input type="range" min="0" max="100" value="50" aria-label="Position of the Fairway treeline comparison divider" oninput="this.closest('article').style.setProperty('--position',this.value+'%')"></label><p class="metric">95th-percentile frame time 10.3 → 8.7 ms. GPU median 0.7 → 0.7 ms.</p></article>
+    <article><h3>Birch</h3><p>Bro Hof Stadium · Hole 2 · tee · 36.3 m from tree</p><div class="frame"><img class="old" loading="lazy" src="trees/before/birch.jpg" alt="Earlier Birch"/><img class="new" loading="lazy" src="trees/after/birch.jpg" alt="Updated Birch"/><i></i></div><label>Compare <input type="range" min="0" max="100" value="50" aria-label="Position of the Birch comparison divider" oninput="this.closest('article').style.setProperty('--position',this.value+'%')"></label><p class="metric">95th-percentile frame time 9.5 → 10.6 ms. GPU median 0.5 → 0.6 ms.</p></article>
+    <article><h3>Oak</h3><p>Bro Hof Stadium · Hole 1 · fairway · 12.4 m from tree</p><div class="frame"><img class="old" loading="lazy" src="trees/before/oak.jpg" alt="Earlier Oak"/><img class="new" loading="lazy" src="trees/after/oak.jpg" alt="Updated Oak"/><i></i></div><label>Compare <input type="range" min="0" max="100" value="50" aria-label="Position of the Oak comparison divider" oninput="this.closest('article').style.setProperty('--position',this.value+'%')"></label><p class="metric">95th-percentile frame time 9.9 → 9.7 ms. GPU median 0.5 → 0.5 ms.</p></article>
+    <article><h3>Alder</h3><p>Bro Hof Stadium · Hole 2 · fairway · 29.8 m from tree</p><div class="frame"><img class="old" loading="lazy" src="trees/before/alder.jpg" alt="Earlier Alder"/><img class="new" loading="lazy" src="trees/after/alder.jpg" alt="Updated Alder"/><i></i></div><label>Compare <input type="range" min="0" max="100" value="50" aria-label="Position of the Alder comparison divider" oninput="this.closest('article').style.setProperty('--position',this.value+'%')"></label><p class="metric">95th-percentile frame time 10.5 → 10.7 ms. GPU median 0.6 → 0.6 ms.</p></article>
+    <article><h3>Coastal Scots pine</h3><p>Visby · Hole 12 · fairway · 19.3 m from tree</p><div class="frame"><img class="old" loading="lazy" src="trees/before/coastal-pine.jpg" alt="Earlier Coastal Scots pine"/><img class="new" loading="lazy" src="trees/after/coastal-pine.jpg" alt="Updated Coastal Scots pine"/><i></i></div><label>Compare <input type="range" min="0" max="100" value="50" aria-label="Position of the Coastal Scots pine comparison divider" oninput="this.closest('article').style.setProperty('--position',this.value+'%')"></label><p class="metric">95th-percentile frame time 10.0 → 8.3 ms. GPU median 0.6 → 0.7 ms.</p></article>
+  </section>
+  <section id="course">
+    <h2>Turf, sand and water</h2>
+    <p>These two earlier playing-height comparisons follow the ball from the tee and into the green complexes.</p>
+    <ul>
+      <li><a href="playing-height/norrfallsviken-comparison.mp4">Norrfällsviken, hole 1</a> · Tee, approach and green</li>
+      <li><a href="playing-height/bro-hof-stadium-comparison.mp4">Bro Hof Stadium, hole 18</a> · Greenside bunker, shoreline, approach and putt</li>
+    </ul>
+  </section>
+  <section id="measurements">
+    <h2>Measurements</h2>
+    <p>Frame times were recorded on an NVIDIA GeForce RTX 5080 Laptop GPU. The phone-sized measurements use a 393 × 852 viewport on that same laptop.</p>
+    <h3>Tree release</h3>
+    <ul class="links">
+      <li><a href="trees/frame-times.json">Frame times</a></li>
+      <li><a href="trees/camera-parity.json">Camera and placement checks</a></li>
+      <li><a href="trees/template-bounds.json">Model dimensions and trunk normals</a></li>
+      <li><a href="trees/shadow-validation.json">Canopy silhouette and shadow checks</a></li>
+      <li><a href="trees/course-audit.json">Full course audit</a></li>
+    </ul>
+    <h3>Playing-height release</h3>
+    <ul class="links">
+      <li><a href="playing-height/frame-times.json">Frame times</a></li>
+      <li><a href="playing-height/course-audit.json">Full course audit</a></li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

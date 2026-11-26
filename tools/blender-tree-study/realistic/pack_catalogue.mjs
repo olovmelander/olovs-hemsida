@@ -22,7 +22,7 @@ fs.mkdirSync(outDir, { recursive: true });
 const approved = JSON.parse(fs.readFileSync(path.join(root, 'ghibli-fluffy.json')));
 const atlasRecord = JSON.parse(fs.readFileSync(path.join(atlasDir, 'atlas.json')));
 const sha = b => createHash('sha256').update(b).digest('hex');
-export const REVISION = 'realistic-v2-2026-11-03';
+export const REVISION = 'realistic-v2-2026-11-26';
 
 const write = (bytes, ext) => {
   const h = sha(bytes), file = `realistic-v2/${h}.${ext}`;
