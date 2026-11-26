@@ -83,6 +83,20 @@ describe('the water the ground holds', () => {
     for (const [x] of reach.outline) expect(x).toBeLessThan(57);
   });
 
+  it('draws no reach for a lake its caps would sample coarser than the far cell, but still fits its level', () => {
+    /* a lake 2.4 km across: the sample cap takes its lattice past 5 m, where the sheet's
+       outline would end in steps of a cell (Malaren at Bro Hof, 7.6 m) */
+    const big = Array.from({ length: 64 }, (_, i) => [Math.cos(i / 64 * Math.PI * 2) * 1200, Math.sin(i / 64 * Math.PI * 2) * 1200]);
+    const flat = (x, z) => (Math.hypot(x, z) <= 1210 ? 10 : 10 + (Math.hypot(x, z) - 1210) * 0.1);
+    expect(waterReach({ ring: big, level: 10.06, heightAt: flat, near: () => false })).toBeNull();
+    const fitted = waterReach({ ring: big, heightAt: flat, near: () => false, surface: 10, fit: true });
+    expect(fitted.cell).toBeGreaterThan(WATER_REACH.farCellMetres);
+    expect(fitted.fitted.level).toBeGreaterThanOrEqual(10);
+    /* a far lake the caps leave at the far cell is still reached */
+    const pond = waterReach({ ring: octagon, level: 10.06, heightAt: bowl, near: () => false });
+    expect(pond.cell).toBe(WATER_REACH.farCellMetres);
+  });
+
   it('leaves an island dry and the bed off it', () => {
     const ground = (x, z) => (Math.hypot(x - 20, z) < 8 ? 11 : bowl(x, z));
     const reach = waterReach({ ring: octagon, level: 10.06, heightAt: ground });

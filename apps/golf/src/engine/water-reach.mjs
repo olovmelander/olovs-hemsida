@@ -213,6 +213,16 @@ export function waterReach({ ring, level, heightAt, near = () => true, surface =
     cols = Math.ceil((box.x1 - box.x0 + 2 * margin) / cell) + 1;
     rows = Math.ceil((box.z1 - box.z0 + 2 * margin) / cell) + 1;
   }
+  /* A LATTICE TOO COARSE TO DRAW A SHORE (27 November, owner report: "some parts close to
+     the water look a bit squared", Bro Hof). The caps above coarsen a very large lake's
+     lattice past the far cell: Malaren's ring at Bro Hof, 5 km2, came out at 7.6 m. The
+     sheet's outline is the mask's own boundary, tucked two nodes (15 m there) under the
+     bank, so wherever the shore is flat at the water's level -- reed beds, shallows, a spit
+     -- the sheet ended in 7.6 m steps, and the wet mask carved the bed in 7.6 m blocks the
+     sheet did not cover. Such a lake keeps its traced ring as the sheet, as it did before
+     the reach. The level's fit (water-level.mjs, `fit`) still reads the same lattice: it
+     measures an overlap, which the cell size does not bias, and draws nothing. */
+  if (!fit && cell > o.farCellMetres * (1 + 1e-9)) return null;
   const x0 = box.x0 - margin, z0 = box.z0 - margin;
   const n = cols * rows;
   const inside = fillRing(ring, x0, z0, cell, cols, rows);
