@@ -356,8 +356,14 @@ Generate the ground's walkthrough first if it has none; it works on every publis
 
 After any of them: the quality gate, the walkthrough (`--check`), a first look at the holes that changed, and
 the rehearsal. A ground built with its own older builder keeps that builder for small fixes; its walkthrough,
-the quality gate and the map test work on it as they are. The ring sheets need a `trace-config.json`, which
-only the grounds traced from decisions have.
+the quality gate and the map test work on it as they are. The looks work on it too (Ängsö, 27 November 2026):
+`packages/course-geo/mapping/export-model-surfaces.mjs --build <build> --migration <its migration record> --slug <slug>`
+writes its published outlines and tee marks in EPSG:3006 as `playing-surfaces.geojson`, marked as an export (it is
+not a trace, and the ground stays "own builder"); a `trace-config.json` without decisions points the ring sheets, the
+deck check and the sand audit at its photos and terrain, and the ring review, the second look and the walkthrough's
+card column read it as they read a traced ground. A tee or outline is then fixed in the builder's own records, which
+is where a fault found this way is put right; at Ängsö that was a decision file read after the review
+(`angsobuild/mapping/tee-decisions.json`, [its walkthrough](courses/angso-walkthrough.md)).
 
 ## What catches what
 
@@ -477,7 +483,7 @@ Written by `node tools/course-walkthrough.mjs --catalogue`; a test fails when it
 <!-- generated:catalogue -->
 | Ground | Holes | Outlines | Ring review | Trees | Quality gate | Walkthrough | Release |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `angso` | 18 | own builder | no record | automatic | 0 errors, 1 warnings | none | advisory, 3 open |
+| `angso` | 18 | own builder | recorded | automatic | 0 errors, 1 warnings | [yes](courses/angso-walkthrough.md) | advisory, 3 open |
 | `bro-hof` | 18 + 18 | decisions as data | recorded | one by one (review-2026-11-24) | 0 errors, 1 warnings | [yes](courses/bro-hof-walkthrough.md) | owner acceptance, 4 open |
 | `johannesberg` | 18 + 9 | own builder | no record | one by one (review-2026-11-08) | 0 errors, 0 warnings | none | advisory, 4 open |
 | `lidingo` | 18 | own builder | no record | automatic | 4 errors, 1 warnings | [yes](courses/lidingo-walkthrough.md) | advisory, 4 open |

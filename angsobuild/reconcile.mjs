@@ -16,7 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { applyReviewedOrthophoto } from './mapping/reviewed-orthophoto.mjs';
+import { applyReviewedOrthophoto, applyTeeDecisions } from './mapping/reviewed-orthophoto.mjs';
 import {
   ORIGIN, M_PER_LAT, M_PER_LON,
   polyLen, polyArea, centroid, pointInPoly, distToLine,
@@ -378,6 +378,9 @@ let model = {
 const reviewFile = path.join(HERE, 'mapping/orthophoto-review.json');
 if (fs.existsSync(reviewFile)) {
   model = applyReviewedOrthophoto(model, readJSON(reviewFile));
+  /* Pipeline v2's tee decisions (27 November 2026): the card, four photo years and the laser, after the review. */
+  const teeDecisionFile = path.join(HERE, 'mapping/tee-decisions.json');
+  if (fs.existsSync(teeDecisionFile)) model = applyTeeDecisions(model, readJSON(teeDecisionFile));
   for (const h of model.holes) {
     h.elev = { tee: r1(terr(...h.line[0])), green: r1(terr(...h.green.c)) };
     h.elev.rise = r1(h.elev.green - h.elev.tee);

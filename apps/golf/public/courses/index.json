@@ -31,13 +31,13 @@
    },
    "photos": 5,
    "scorecard": {
-    "url": "courses/angso/scorecard-05b2df33ea49b6365f726c42e20e4070c954dcfa39cf78eb054ed4125263144c.json",
+    "url": "courses/angso/scorecard-472431b9aa0cc1366ec7a3d18b73ba86316221256b46b0c58cd8020e94ee665f.json",
     "bytes": 6080,
-    "sha256": "05b2df33ea49b6365f726c42e20e4070c954dcfa39cf78eb054ed4125263144c"
+    "sha256": "472431b9aa0cc1366ec7a3d18b73ba86316221256b46b0c58cd8020e94ee665f"
    },
    "packUrl": "courses/angso/pack.bin",
-   "bytes": 481863,
-   "sha256": "778f8b2933599fbf9145f57d8ab2608c222ce501b275a39c913aadbe1e504c09",
+   "bytes": 480935,
+   "sha256": "0502ddb72be939d34a4ecdbe1c79b4b602dc5337261cd525fc9c559e0c3b264d",
    "landcover": {
     "url": "courses/angso/landcover.json",
     "bytes": 138815,
@@ -48,82 +48,22 @@
     "bytes": 172789,
     "sha256": "b16d53c9c4de48017a1b9fe8201d842c59e65f7058a22158d0e2520ab7db0c46"
    },
+   "preparedWater": {
+    "identity": "ed3da5130c5f151fcfbfb86adc3164109cd1b2692bfd166a654393494d02a4f4",
+    "url": "courses/angso/prepared/water-b2484d444da190528f23e768f9c5ad0116c4fb50c8977952feb7c6a1bbf6400d.bin",
+    "bytes": 436750,
+    "decodedBytes": 63054965,
+    "sha256": "b2484d444da190528f23e768f9c5ad0116c4fb50c8977952feb7c6a1bbf6400d",
+    "decodedSha256": "5f305ca40ea1d9b9aec838492d6b29e9fe609ffea5d9c7f46a278fb6366f3d25"
+   },
    "preparedTint": {
-    "natural-hi": {
-     "identity": "00c5f059906870d411b4df80ec71879424d1879a56c6b2091b94a0729aecee22",
-     "url": "courses/angso/prepared/tint-ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac.bin",
-     "bytes": 404742,
-     "decodedBytes": 3052072,
-     "sha256": "ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac",
-     "decodedSha256": "bf6859ee5ecf2b6a301c52983b73819fea949b302bdf6035d0d3cb9a5b63a75e",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 707,
-       "dx": 24,
-       "bounds": {
-        "x0": -8484,
-        "z0": -8484,
-        "x1": 8484,
-        "z1": 8484
-       },
-       "offset": 1052676,
-       "bytes": 1999396
-      }
-     ]
-    },
-    "natural-lo": {
-     "identity": "defea60297e9ad827d792348fbdec8d754e433b6320514967c3d9dee0e67d26f",
-     "url": "courses/angso/prepared/tint-ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac.bin",
-     "bytes": 404742,
-     "decodedBytes": 3052072,
-     "sha256": "ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac",
-     "decodedSha256": "bf6859ee5ecf2b6a301c52983b73819fea949b302bdf6035d0d3cb9a5b63a75e",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 707,
-       "dx": 24,
-       "bounds": {
-        "x0": -8484,
-        "z0": -8484,
-        "x1": 8484,
-        "z1": 8484
-       },
-       "offset": 1052676,
-       "bytes": 1999396
-      }
-     ]
-    },
     "painted-hi": {
-     "identity": "1cb8b8ecadc1e7c4cfff377ad68bc4ac22ff0184a04d8b8d1680053263d26291",
-     "url": "courses/angso/prepared/tint-93312539de0fe8492ac01951e288f2e9f58adcb10859234a09c2f5017e3d0574.bin",
-     "bytes": 1257867,
+     "identity": "7563ad123c51348dadd323867a235b923a4bb52a533890092316b223cc079641",
+     "url": "courses/angso/prepared/tint-450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f.bin",
+     "bytes": 1257835,
      "decodedBytes": 3052072,
-     "sha256": "93312539de0fe8492ac01951e288f2e9f58adcb10859234a09c2f5017e3d0574",
-     "decodedSha256": "535bde512c77260e311f30bd49421ee1cfe453d5289be0520f99dbaba044c19d",
+     "sha256": "450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f",
+     "decodedSha256": "3216fc697d47baca1db5212cc58f13ee00b975c8e0efb3843efe77d778c190a3",
      "layers": [
       {
        "n": 513,
@@ -152,12 +92,12 @@
      ]
     },
     "painted-lo": {
-     "identity": "9cd0d5fa2491d8e0cb4d0d51cce0edd993042ebac26e19e1b9c352016648565d",
-     "url": "courses/angso/prepared/tint-93312539de0fe8492ac01951e288f2e9f58adcb10859234a09c2f5017e3d0574.bin",
-     "bytes": 1257867,
+     "identity": "2ec3fdc34921f89ef60460b55a4578581310c1fd3e12a6e2ece1fe582e1b9f3c",
+     "url": "courses/angso/prepared/tint-450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f.bin",
+     "bytes": 1257835,
      "decodedBytes": 3052072,
-     "sha256": "93312539de0fe8492ac01951e288f2e9f58adcb10859234a09c2f5017e3d0574",
-     "decodedSha256": "535bde512c77260e311f30bd49421ee1cfe453d5289be0520f99dbaba044c19d",
+     "sha256": "450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f",
+     "decodedSha256": "3216fc697d47baca1db5212cc58f13ee00b975c8e0efb3843efe77d778c190a3",
      "layers": [
       {
        "n": 513,
@@ -186,17 +126,9 @@
      ]
     }
    },
-   "preparedWater": {
-    "identity": "41960dca11b6767d115e2db44d1ec67dbdab7b5478595e186320907e30e78e80",
-    "url": "courses/angso/prepared/water-89f270c270e48b8f4c3f5e55424c4079391676f8eef16d3c9dad9bf5833ab57c.bin",
-    "bytes": 436746,
-    "decodedBytes": 63054965,
-    "sha256": "89f270c270e48b8f4c3f5e55424c4079391676f8eef16d3c9dad9bf5833ab57c",
-    "decodedSha256": "79d4a8c7adf45cf5ef479e95133fd42f4b6177f045aecaf4a19308ed41d614e8"
-   },
    "preparedVista": {
     "vista-hi": {
-     "identity": "1b4cba50f4bebff34947ac9d6be42b4e640200bdb351baddc90826ecf29ee0ed",
+     "identity": "09e952f6847d477a7522317e040230a00fa124cfa17daf650cb513bad0a2f773",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
      "url": "courses/angso/prepared/vista-e893049092297a825248f48635267064c8c02b1189024ca0892cd8ff2ec92023.bin",
      "bytes": 111788,
@@ -209,7 +141,7 @@
      "points": 283097
     },
     "vista-lo": {
-     "identity": "bce0149d28699e1073436129528aa820a224e65b8a4fb88d886c57355a32a1d2",
+     "identity": "592d3d289cbe18f27f42e8d64a4aee9456f538346d4ea4c58bd8c316b82cebe7",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
      "url": "courses/angso/prepared/vista-cf0a2f8fc2b648118e1e232a435e6e4246b6aea52dfdaca617bb55936842c431.bin",
      "bytes": 64767,
@@ -224,24 +156,24 @@
    },
    "preparedScatter": {
     "scatter-hi": {
-     "identity": "f8d1cee701f389a630175f9b30fa02975728e11dde6e8d09b6ff10a76245e91c",
+     "identity": "f7c6a11b4da104f236773f45d88a7a67a33b1511747e3e0e52ae1b3af871d18b",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
-     "url": "courses/angso/prepared/scatter-55ad5248ea6d795673eac0bc6a9391d4bd02a9d5e5ff9b1bdf0f96c4cedcc387.bin",
-     "bytes": 25737,
+     "url": "courses/angso/prepared/scatter-a12927359789fc1d30ec511403a9075d8c80bc2ba7fcba9e2ffce69bd9569c88.bin",
+     "bytes": 25751,
      "decodedBytes": 804843,
-     "sha256": "55ad5248ea6d795673eac0bc6a9391d4bd02a9d5e5ff9b1bdf0f96c4cedcc387",
-     "decodedSha256": "0554b4e7181068185ede718bcb3848b1322bb0d49e1940e8f6579fa352f6f61b",
+     "sha256": "a12927359789fc1d30ec511403a9075d8c80bc2ba7fcba9e2ffce69bd9569c88",
+     "decodedSha256": "eb4f585917d534a2dd0788b8e286ad082f536e462627e9d1aa262b7ab1d2d0eb",
      "sections": {
       "reeds": {
        "candidates": 3348936,
        "offset": 0,
-       "digest": "e857f914442fabbbdba46bee6a6f9ed832782acb0f71a563a04f7fa13659a9f9",
+       "digest": "b9f42a821946f71e07dd28b14c4ee1c25e6e03d55c7a1ea0d206d507d217f082",
        "extra": {}
       },
       "cover": {
        "candidates": 357840,
        "offset": 418617,
-       "digest": "8c265132dda30c6a150407a60f43ab18970fd471cf2c8b1cd468e6a7c3c462d0",
+       "digest": "8ec7b5fe49b0c25bf0b8d14700133557791ab33b9d548e89e18695f22a38bc01",
        "extra": {
         "facilityExcludedClutter": 137
        }
@@ -255,24 +187,24 @@
      }
     },
     "scatter-lo": {
-     "identity": "5bbc2ed3a9757e0f049c619ce550e83e593775eab9c7d934e9fd6b9d933c3c05",
+     "identity": "aac5eec8be8abf0381d7d792415d8de7eebaee21ca7833644389ca2a3b38dd87",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
-     "url": "courses/angso/prepared/scatter-275f7db56934abc53efc08ca9c8cb0d6c80e9eb0cf3e70317ce5e80b0dc12d66.bin",
-     "bytes": 24625,
+     "url": "courses/angso/prepared/scatter-4f65c11267401b19f7a44543d7ae82168e971dad36629bba45486c2e12526009.bin",
+     "bytes": 24618,
      "decodedBytes": 804843,
-     "sha256": "275f7db56934abc53efc08ca9c8cb0d6c80e9eb0cf3e70317ce5e80b0dc12d66",
-     "decodedSha256": "082f1c9d2a93171903be437d0df286c5650b571c7f9a347b4d87e1dfce6d19f9",
+     "sha256": "4f65c11267401b19f7a44543d7ae82168e971dad36629bba45486c2e12526009",
+     "decodedSha256": "947d2a434487d8f8b53c1a3220d8d4af5a40ed3d8bc3824559a4c77b7fcd9398",
      "sections": {
       "reeds": {
        "candidates": 3348936,
        "offset": 0,
-       "digest": "e30b91ec9edc6c667b750c369d23d2d237177f2877d580d38a58a24651692283",
+       "digest": "6187ce2b6f66a3e0e2badcd2c7b190beb6d97ff8c6584230aa4f6bcf136f6c3d",
        "extra": {}
       },
       "cover": {
        "candidates": 357840,
        "offset": 418617,
-       "digest": "4eb3424f4a48ec1d2108ffebb268bb1477c9925c27c17af1e616b0d4ce3b5dde",
+       "digest": "e7d9b40b795bdfea68e29147a9bfb0944131063145797ee698ec06a89b920bc9",
        "extra": {
         "facilityExcludedClutter": 53
        }

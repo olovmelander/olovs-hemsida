@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "why": "Angso is built with its own builder (angsobuild/reconcile.mjs from the reviewed orthophoto records), and is not traced from decisions. This configuration lets pipeline v2's looks read it: the ring sheets, the deck check and the photo windows read the published outlines from playing-surfaces.geojson, which packages/course-geo/mapping/export-model-surfaces.mjs writes from the model's migration record. The tracer is never run on it.",
+  "box": [
+    605118.4,
+    6604537.6,
+    606213.6,
+    6606905.6
+  ],
+  "imagery": {
+    "sourceId": "orto-o2-2025",
+    "captured": "2025-04-24",
+    "rasters": [
+      "angsobuild/cache/ortho/2025/north-2025.tif",
+      "angsobuild/cache/ortho/2025/south-2025.tif"
+    ]
+  },
+  "compare": {
+    "why": "The other photo years over the same box (angsobuild/run-ortho-intake.mjs): pass one as --compare.",
+    "2023-05-11": [
+      "angsobuild/cache/ortho/2023/north-2023.tif",
+      "angsobuild/cache/ortho/2023/south-2023.tif"
+    ],
+    "2021-04-14": [
+      "angsobuild/cache/ortho/2021/course-2021.tif"
+    ],
+    "2019-07-14": [
+      "angsobuild/cache/ortho/2019/course-2019.tif"
+    ]
+  },
+  "terrain": {
+    "path": "packages/course-geo/toolchain/.cache/acquisition/angso-ground-rings/l0.f32",
+    "sha256": "d810d06bb671dedf0ffa5f9b1cd10f4a24e711906bb77e83a750ee7aea1099c7",
+    "side": 4097,
+    "firstEasting": 603617.5,
+    "firstNorthing": 6607769.5,
+    "why": "Read again on 2026-11-26 with build-ground-rings.mjs --ground angso --only 0. Lantmateriet republished item 660_60 on 2026-09-14, so its checksum is not the 2026-09-04 one in ground-rings.json; against the published terrain it differs by 2 mm on average and 6 cm at its worst sample (98 of 16.9 million samples outside the quantum)."
+  },
+  "sand": {
+    "measured": "Angso's raked sand is tan, not white: on the 2025-04-24 photo the 33 reviewed bunkers, read 0.6 m in from their edge, have brightness 95-152 (median 123), NDVI -0.16 to -0.04 (median -0.13) and warmth 6-25 (median 14), against the turf 3-8 m round them at brightness 74-114, NDVI +0.09 to +0.36 and warmth -7 to 16 (5th to 95th percentile; measured 2026-11-27).",
+    "bunker": {
+      "core": {
+        "brightness": [
+          108,
+          190
+        ],
+        "ndviBelow": -0.11,
+        "warmth": [
+          8,
+          28
+        ]
+      },
+      "grow": {
+        "brightness": [
+          95,
+          200
+        ],
+        "ndviBelow": -0.06,
+        "warmth": [
+          4,
+          32
+        ]
+      }
+    },
+    "bands": "Core is the inner half of the measured sand (brightness 108-190, NDVI under -0.11, warmth 8-28), so that the gravel paths (grey, warmth under 8), red roofs (warmth over 28) and bare spring soil (NDVI near 0) the looser bands found do not read as sand; a patch grows over the looser band."
+  },
+  "courses": [
+    {
+      "slug": "angso",
+      "prefix": "angso",
+      "card": "angsobuild/card.json",
+      "outDir": "angsobuild/mapping"
+    }
+  ]
+}

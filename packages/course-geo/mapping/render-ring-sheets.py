@@ -80,12 +80,16 @@ def main():
     for course in cfg['courses']:
         where = ROOT / course['outDir']
         scores = {}
-        for row in load_json(where / 'trace-report.json')['rows']:
+        # an older ground's exported outlines (export-model-surfaces.mjs) have no trace report, and so no scores
+        report = where / 'trace-report.json'
+        for row in (load_json(report)['rows'] if report.exists() else []):
             rid = row.get('id') or f"{course['prefix']}-{row['kind']}-{row['hole']:02d}"
             if 'dPrime' in row:
                 scores[rid] = (row['dPrime'], row.get('kept'))
         rings = []
         for f in load_json(where / 'playing-surfaces.geojson')['features']:
+            if f['geometry']['type'] not in ('Polygon', 'MultiPolygon'):
+                continue  # an exported tee mark that stands on no deck is a point, not a ring
             p = f['properties']
             score = scores.get(f['id'])
             rings.append(dict(id=f['id'], kind=p['kind'], hole=p.get('hole') or 0, poly=largest(shape(f['geometry'])), tees=p.get('teeIds') or [],
