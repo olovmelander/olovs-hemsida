@@ -1,0 +1,509 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "EPSG:3006"
+  }
+ },
+ "status": "traced-awaiting-review",
+ "provenance": {
+  "imagery": "orto-o2-2025",
+  "imagerySha256": {
+   "south-w-2025.tif": "eeec2ebbc494e645d81db98169e8055140eaeeb5560cb88531f09837e754695a",
+   "south-e-2025.tif": "c2e396136c9fcc4e774721a727a4afd3e781350a626aba39653edaeab9483a26",
+   "mid-w-2025.tif": "48edbea849d5986d47b06d361daba8faa557691923fcbb8e6ebf5899c20b52e3",
+   "mid-e-2025.tif": "075980abc0201eb6cee3804d8f95956b22324fb86d696237b96c3d62873cdf06",
+   "north-w-2025.tif": "5a9e61f9af0d828d77a255cea057bcd72bf899c45af5b2e2fe2597d6c32b043e",
+   "north-e-2025.tif": "1ec910c758c02245440ed615f863c301d202796c9c4405f05f588b483c79f4f2",
+   "overview-2025.tif": "dfe919e4a3436c5a40f57bacaab3b02aab6b60e876b4ac8c24b23595d0a01b36"
+  },
+  "terrainSha256": "1440dad3d3c6b2a322c16719e56f937399b40d3abd8cbbe101e53b593555aecb",
+  "osmSha256": "f7ca15ba4ee23169517c1ceb660a60f5df6c9db735237b7811aaae69cc501932",
+  "tool": "packages/course-geo/mapping/trace-course-surfaces.py",
+  "fairwayImagery": "orto-o2-2025+orto-o2-2023+orto-o2-2021",
+  "fairwayImagerySha256": {
+   "south-w-2025.tif": "eeec2ebbc494e645d81db98169e8055140eaeeb5560cb88531f09837e754695a",
+   "south-e-2025.tif": "c2e396136c9fcc4e774721a727a4afd3e781350a626aba39653edaeab9483a26",
+   "mid-w-2025.tif": "48edbea849d5986d47b06d361daba8faa557691923fcbb8e6ebf5899c20b52e3",
+   "mid-e-2025.tif": "075980abc0201eb6cee3804d8f95956b22324fb86d696237b96c3d62873cdf06",
+   "north-w-2025.tif": "5a9e61f9af0d828d77a255cea057bcd72bf899c45af5b2e2fe2597d6c32b043e",
+   "north-e-2025.tif": "1ec910c758c02245440ed615f863c301d202796c9c4405f05f588b483c79f4f2",
+   "overview-2025.tif": "dfe919e4a3436c5a40f57bacaab3b02aab6b60e876b4ac8c24b23595d0a01b36",
+   "course-2023.tif": "bf5927d108d1b2a8271f1b65c84414849a34296b9edc7c8ef2419238e75fcb60",
+   "overview-2021.tif": "e7422c4fec23fc629b34b940392f1d58559b7c01619716738e085c9251ffde35"
+  },
+  "fairwayTraining": {
+   "training": "decision-lines",
+   "skipHoles": [
+    4
+   ],
+   "ndviAbove": 0,
+   "fit": "settled"
+  }
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": "tjusta-route-01",
+   "properties": {
+    "kind": "hole",
+    "hole": 1,
+    "par": 4,
+    "lengthMetres": 399.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669117.95,
+      6611460.0
+     ],
+     [
+      669250,
+      6611580
+     ],
+     [
+      669468.58,
+      6611615.58
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-02",
+   "properties": {
+    "kind": "hole",
+    "hole": 2,
+    "par": 4,
+    "lengthMetres": 370.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669426.8,
+      6611686.06
+     ],
+     [
+      669490,
+      6611790
+     ],
+     [
+      669560,
+      6611900
+     ],
+     [
+      669601.76,
+      6612010.4
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-03",
+   "properties": {
+    "kind": "hole",
+    "hole": 3,
+    "par": 3,
+    "lengthMetres": 133.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669626.82,
+      6612057.46
+     ],
+     [
+      669657.74,
+      6611928.08
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-04",
+   "properties": {
+    "kind": "hole",
+    "hole": 4,
+    "par": 4,
+    "lengthMetres": 260.4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669687.49,
+      6611889.36
+     ],
+     [
+      669536.95,
+      6611676.86
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-05",
+   "properties": {
+    "kind": "hole",
+    "hole": 5,
+    "par": 5,
+    "lengthMetres": 436.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669515.31,
+      6611615.41
+     ],
+     [
+      669467.35,
+      6611182.08
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-06",
+   "properties": {
+    "kind": "hole",
+    "hole": 6,
+    "par": 3,
+    "lengthMetres": 126.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669453.34,
+      6611141.46
+     ],
+     [
+      669373.8,
+      6611240.28
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-07",
+   "properties": {
+    "kind": "hole",
+    "hole": 7,
+    "par": 5,
+    "lengthMetres": 505.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669323.39,
+      6611194.83
+     ],
+     [
+      669403.89,
+      6610696.15
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-08",
+   "properties": {
+    "kind": "hole",
+    "hole": 8,
+    "par": 4,
+    "lengthMetres": 307.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669380.47,
+      6610661.05
+     ],
+     [
+      669079.56,
+      6610722.5
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-09",
+   "properties": {
+    "kind": "hole",
+    "hole": 9,
+    "par": 4,
+    "lengthMetres": 393.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669122.67,
+      6610847.55
+     ],
+     [
+      669069,
+      6611064
+     ],
+     [
+      669146.2,
+      6611215.44
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-10",
+   "properties": {
+    "kind": "hole",
+    "hole": 10,
+    "par": 4,
+    "lengthMetres": 346.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      668977.97,
+      6611247.7
+     ],
+     [
+      668772,
+      6611333
+     ],
+     [
+      668709.26,
+      6611227.11
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-11",
+   "properties": {
+    "kind": "hole",
+    "hole": 11,
+    "par": 5,
+    "lengthMetres": 506.4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      668694.25,
+      6611164.02
+     ],
+     [
+      668625,
+      6610810
+     ],
+     [
+      668637,
+      6610734
+     ],
+     [
+      668699.88,
+      6610706.23
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-12",
+   "properties": {
+    "kind": "hole",
+    "hole": 12,
+    "par": 3,
+    "lengthMetres": 130.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      668713.25,
+      6610672.05
+     ],
+     [
+      668587.52,
+      6610639.15
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-13",
+   "properties": {
+    "kind": "hole",
+    "hole": 13,
+    "par": 4,
+    "lengthMetres": 323.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      668583.17,
+      6610594.24
+     ],
+     [
+      668773,
+      6610500
+     ],
+     [
+      668848,
+      6610485
+     ],
+     [
+      668880.27,
+      6610497.4
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-14",
+   "properties": {
+    "kind": "hole",
+    "hole": 14,
+    "par": 4,
+    "lengthMetres": 365.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669015.49,
+      6610564.9
+     ],
+     [
+      669376.23,
+      6610621.13
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-15",
+   "properties": {
+    "kind": "hole",
+    "hole": 15,
+    "par": 4,
+    "lengthMetres": 332.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669378.34,
+      6610671.88
+     ],
+     [
+      669247.63,
+      6610977.06
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-16",
+   "properties": {
+    "kind": "hole",
+    "hole": 16,
+    "par": 5,
+    "lengthMetres": 394.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669161.74,
+      6610855.63
+     ],
+     [
+      669165,
+      6610950
+     ],
+     [
+      669180,
+      6611150
+     ],
+     [
+      669241.97,
+      6611228.4
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-17",
+   "properties": {
+    "kind": "hole",
+    "hole": 17,
+    "par": 3,
+    "lengthMetres": 180.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669317.66,
+      6611347.51
+     ],
+     [
+      669420.98,
+      6611494.85
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "tjusta-route-18",
+   "properties": {
+    "kind": "hole",
+    "hole": 18,
+    "par": 4,
+    "lengthMetres": 369.7
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      669429.81,
+      6611552.31
+     ],
+     [
+      669272,
+      6611393
+     ],
+     [
+      669129.39,
+      6611421.8
+     ]
+    ]
+   }
+  }
+ ]
+}

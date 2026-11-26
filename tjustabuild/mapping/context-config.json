@@ -1,0 +1,22 @@
+{
+ "schemaVersion": 1,
+ "groundId": "tjusta",
+ "frame": {
+  "easting": 669130.5,
+  "northing": 6611250.5
+ },
+ "context": "geo_data/course-v2/tjusta/reference/osm-context-epsg3006.geojson",
+ "water": "tjustabuild/mapping/water.geojson",
+ "innerHalfMetres": 1300,
+ "outerHalfMetres": 2040,
+ "dropIds": [],
+ "out": "tjustabuild/mapping/context.geojson",
+ "farOut": "tjustabuild/mapping/far-buildings.json",
+ "tagOverrides": {
+  "w48232863": {
+   "name": "Tjusta Gård klubbhus",
+   "amenity": "clubhouse"
+  }
+ },
+ "extraBuildings": []
+}

@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "horizontalCrs": "EPSG:3006",
+  "attribution": "\u00a9 Lantm\u00e4teriet (Ortofoto Nedladdning RGBI)",
+  "terms": "CC-BY-4.0 with Lantm\u00e4teriet special access / GDPR terms \u2014 offline measurement & review only; never published as runtime textures.",
+  "generatedAt": "2026-11-26T11:41:27.076618Z",
+  "windows": [
+    {
+      "id": "overview-2025",
+      "rasterFile": "overview-2025.tif",
+      "sha256": "dfe919e4a3436c5a40f57bacaab3b02aab6b60e876b4ac8c24b23595d0a01b36",
+      "bytes": 198739051,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        668350.0,
+        6608950.0,
+        670300.0,
+        6612250.0
+      ],
+      "width": 6094,
+      "height": 10312,
+      "geoTransform": [
+        668350.0,
+        0.31998687233344275,
+        0.0,
+        6612250.0,
+        0.0,
+        -0.3200155159038014
+      ],
+      "resolutionMetres": 0.32,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 38.77,
+        "solarAzimuthDeg": 111.7,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66100_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:41Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66075_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:25Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66075_6700_25_mr25",
+          "capturedAt": "2025-06-14T07:15:13Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66100_6700_25_mr25",
+          "capturedAt": "2025-06-14T07:14:49Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "south-w-2025",
+      "rasterFile": "south-w-2025.tif",
+      "sha256": "eeec2ebbc494e645d81db98169e8055140eaeeb5560cb88531f09837e754695a",
+      "bytes": 134289931,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        668350.0,
+        6608950.0,
+        669350.0,
+        6610100.0
+      ],
+      "width": 6250,
+      "height": 7188,
+      "geoTransform": [
+        668350.0,
+        0.16,
+        0.0,
+        6610100.0,
+        0.0,
+        -0.15998887033945464
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 38.77,
+        "solarAzimuthDeg": 111.68,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66100_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:41Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66075_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:25Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "south-e-2025",
+      "rasterFile": "south-e-2025.tif",
+      "sha256": "c2e396136c9fcc4e774721a727a4afd3e781350a626aba39653edaeab9483a26",
+      "bytes": 138547019,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        669300.0,
+        6608950.0,
+        670300.0,
+        6610100.0
+      ],
+      "width": 6250,
+      "height": 7188,
+      "geoTransform": [
+        669300.0,
+        0.16,
+        0.0,
+        6610100.0,
+        0.0,
+        -0.15998887033945464
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 38.78,
+        "solarAzimuthDeg": 111.7,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66100_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:41Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66075_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:25Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66075_6700_25_mr25",
+          "capturedAt": "2025-06-14T07:15:13Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66100_6700_25_mr25",
+          "capturedAt": "2025-06-14T07:14:49Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "mid-w-2025",
+      "rasterFile": "mid-w-2025.tif",
+      "sha256": "48edbea849d5986d47b06d361daba8faa557691923fcbb8e6ebf5899c20b52e3",
+      "bytes": 137325343,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        668350.0,
+        6610050.0,
+        669350.0,
+        6611200.0
+      ],
+      "width": 6250,
+      "height": 7188,
+      "geoTransform": [
+        668350.0,
+        0.16,
+        0.0,
+        6611200.0,
+        0.0,
+        -0.15998887033945464
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 38.77,
+        "solarAzimuthDeg": 111.69,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66100_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:41Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "mid-e-2025",
+      "rasterFile": "mid-e-2025.tif",
+      "sha256": "075980abc0201eb6cee3804d8f95956b22324fb86d696237b96c3d62873cdf06",
+      "bytes": 141883795,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        669300.0,
+        6610050.0,
+        670300.0,
+        6611200.0
+      ],
+      "width": 6250,
+      "height": 7188,
+      "geoTransform": [
+        669300.0,
+        0.16,
+        0.0,
+        6611200.0,
+        0.0,
+        -0.15998887033945464
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 38.78,
+        "solarAzimuthDeg": 111.7,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66100_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:41Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66100_6700_25_mr25",
+          "capturedAt": "2025-06-14T07:14:49Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "north-w-2025",
+      "rasterFile": "north-w-2025.tif",
+      "sha256": "5a9e61f9af0d828d77a255cea057bcd72bf899c45af5b2e2fe2597d6c32b043e",
+      "bytes": 126427825,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        668350.0,
+        6611150.0,
+        669350.0,
+        6612250.0
+      ],
+      "width": 6250,
+      "height": 6875,
+      "geoTransform": [
+        668350.0,
+        0.16,
+        0.0,
+        6612250.0,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 38.77,
+        "solarAzimuthDeg": 111.69,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66100_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:41Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "north-e-2025",
+      "rasterFile": "north-e-2025.tif",
+      "sha256": "1ec910c758c02245440ed615f863c301d202796c9c4405f05f588b483c79f4f2",
+      "bytes": 128490485,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        669300.0,
+        6611150.0,
+        670300.0,
+        6612250.0
+      ],
+      "width": 6250,
+      "height": 6875,
+      "geoTransform": [
+        669300.0,
+        0.16,
+        0.0,
+        6612250.0,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 38.78,
+        "solarAzimuthDeg": 111.71,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66100_6675_25_mr25",
+          "capturedAt": "2025-06-14T07:19:41Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66100_6700_25_mr25",
+          "capturedAt": "2025-06-14T07:14:49Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    }
+  ]
+}

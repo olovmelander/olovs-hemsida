@@ -35,6 +35,8 @@ export const GALLERY = [
   { id: 'bro-hof-stadium-h18-green-dag', slug: 'bro-hof-stadium', hole: 18, vy: 'green', ljus: 'dag' },
   { id: 'bro-hof-stadium-h17-tee-kvall', slug: 'bro-hof-stadium', hole: 17, vy: 'tee', ljus: 'kvall' },
   { id: 'bro-hof-castle-h9-ovan-sommar', slug: 'bro-hof-castle', hole: 9, vy: 'ovan', ljus: 'sommar' },
+  { id: 'tjusta-h18-green-kvall', slug: 'tjusta', hole: 18, vy: 'green', ljus: 'kvall' },
+  { id: 'tjusta-h12-tee-dag', slug: 'tjusta', hole: 12, vy: 'tee', ljus: 'dag' },
 ];
 
 const args = process.argv.slice(2);

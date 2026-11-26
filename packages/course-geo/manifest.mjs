@@ -20,7 +20,8 @@ export const EXPECTED_GROUNDS = Object.freeze({
   visby: ['visby'],
   tortuna: ['tortuna'],
   veckefjarden: ['veckefjarden', 'veckefjarden-korthalsbanan'],
-  'bro-hof': ['bro-hof-stadium', 'bro-hof-castle'],
+  "bro-hof": ['bro-hof-stadium', 'bro-hof-castle'],
+  tjusta: ['tjusta'],
 });
 
 const SHA256 = /^[a-f0-9]{64}$/;

@@ -1,0 +1,430 @@
+{
+  "$schema": "../../../packages/course-geo/source-manifest.schema.json",
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "groundName": "Tjusta Golfklubb",
+  "courseSlugs": [
+    "tjusta"
+  ],
+  "targetBboxWgs84": [
+    17.982,
+    59.584,
+    18.018,
+    59.614
+  ],
+  "legacyFrame": {
+    "buildDirectory": "tjustabuild",
+    "originWgs84": {
+      "latitude": 59.60510013186263,
+      "longitude": 17.997252241795543
+    },
+    "metresPerLatitude": 111320,
+    "metresPerLongitude": 56323.13,
+    "heightReference": "Absolute RH 2000 from Lantmäteriet native 1 m DTM; independent local controls pending",
+    "frame": "local metres from EPSG:3006; east +x, north -z; origin E669130.5 N6611250.5; heights RH 2000",
+    "projectedOriginEpsg3006": {
+      "easting": 669130.5,
+      "northing": 6611250.5,
+      "axisMapping": {
+        "worldX": "easting - originEasting",
+        "worldZ": "originNorthing - northing"
+      }
+    }
+  },
+  "canonicalFrame": {
+    "compoundCrs": "EPSG:5845",
+    "horizontalCrs": "EPSG:3006",
+    "verticalCrs": "EPSG:5613",
+    "originStatus": "pending-control-approval",
+    "origin": {
+      "easting": null,
+      "northing": null,
+      "heightRH2000": null
+    },
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldZ": "originNorthing - northing",
+      "worldY": "heightRH2000 - originHeightRH2000"
+    }
+  },
+  "sources": [
+    {
+      "id": "terrain-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "terrain",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m660_66.tif",
+      "localPath": "geo_data/course-v2/tjusta/acquisition/ground-rings.json",
+      "bboxWgs84": [
+        17.982,
+        59.584,
+        18.018,
+        59.614
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": "2025-06-14",
+      "checksum": "43445533482a0bae9efe3221e04d73c9e464ff855cf5b3be72fdc1067494dd6e",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Seven nested ring levels (LOD0 1 m over 4,096 m through LOD6 64 m over 16,384 m) read from Lantmäteriet dtm-cog items 660_66, 660_67, 661_66, 661_67 (crosses E=670,000 and N=6,610,000). The date is the mosaic's newest patch: the items' flights run 2021-03-23 to 2025-06-14 (d2-discovery.json). LOD0 9.7-62.7 m RH 2000. CC BY 4.0, © Lantmäteriet."
+    },
+    {
+      "id": "water-breaks-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "hydrology",
+        "topography"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m660_66_brytgeometri.gpkg",
+      "localPath": "geo_data/course-v2/tjusta/mapping/water-breakgeometry-epsg3006.geojson",
+      "bboxWgs84": [
+        17.982,
+        59.584,
+        18.018,
+        59.614
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": "2025-06-14",
+      "checksum": "7ffcf645baba6c60f818a0b8309dfd9f8ffd3822137bb96d85dde4863f4355ea",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "29 RH 2000 water polygons clipped to the LOD0 square from SHA-256 verified brytgeometri.gpkg files of the four terrain items (tjustabuild/acquire-water-breaklines.mjs). Inland ground: ponds and wetland only."
+    },
+    {
+      "id": "imagery-lm-ortho-2025",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
+      "localPath": "geo_data/course-v2/tjusta/acquisition/orthophoto-review.json",
+      "bboxWgs84": [
+        17.982,
+        59.584,
+        18.018,
+        59.614
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": "2025-06-14",
+      "checksum": "3cef7bd241bd1cf19c5c5469e0f22fff46c601a4ac9a061e8374e72891162d6a",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "orto-o2-2025 (2025-06-14T07:14-07:20Z, native 0.16 m 4-band RGBI): six 0.16 m windows over the 18 holes and one 0.32 m overview (tjustabuild/run-ortho-intake.mjs). Raw GeoTIFFs stay in ignored tjustabuild/cache/ortho/2025/."
+    },
+    {
+      "id": "imagery-lm-ortho-2021-leafoff",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
+      "localPath": "geo_data/course-v2/tjusta/acquisition/orthophoto-leafoff-2021.json",
+      "bboxWgs84": [
+        17.982,
+        59.584,
+        18.018,
+        59.614
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": "2021-04-18",
+      "checksum": "2260f82696ecb185c24c2fbd1e017e596a3436313e2a3a4282c674f073f20a34",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "orto-o2-2021 (2021-04-18, leaf-off spring RGBI, the day after the laser flight): one 0.32 m overview of the course box. The mown turf stands out green and striped against the dry ground: the routing was first read from it, it is one of the three flights whose agreement draws the fairways, and the fairways' edges are measured on it. Kept in ignored tjustabuild/cache/ortho/2021/."
+    },
+    {
+      "id": "imagery-lm-ortho-2023",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
+      "localPath": "geo_data/course-v2/tjusta/acquisition/orthophoto-spring-2023.json",
+      "bboxWgs84": [
+        17.982,
+        59.584,
+        18.018,
+        59.614
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": "2023-05-10",
+      "checksum": "00d84d48aaefb24fc8f434b9f47c83847e5b6a00ba61c62f9efd52adce5ae870",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "orto-o2-2023 (2023-05-10, the grass started and the rough not): one 0.25 m window over the 18 holes. One of the three flights whose agreement draws the fairways, and the photo that showed the 4th hole's yellow tee deck. Kept in ignored tjustabuild/cache/ortho/2023/."
+    },
+    {
+      "id": "imagery-lm-ortho-2019",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
+      "localPath": "geo_data/course-v2/tjusta/acquisition/orthophoto-summer-2019.json",
+      "bboxWgs84": [
+        17.982,
+        59.584,
+        18.018,
+        59.614
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": "2019-07-20",
+      "checksum": "724de44ef50d61802fa00e10e0d8cc0d399f48797a32163dd3d8ba1c84ae924a",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "orto-o2-2019 (2019-07-20, an ordinary summer): one 0.25 m window over the 18 holes. Looked at beside the other three years for the tees on 4 and 18; tried for the fairways and left out, since it added nothing to the three later flights. Kept in ignored tjustabuild/cache/ortho/2019/."
+    },
+    {
+      "id": "laser-lm-skog",
+      "productId": "lantmateriet-laserdata-skog",
+      "roles": [
+        "canopy",
+        "object",
+        "control"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://api.lantmateriet.se/stac-hojd/v1/",
+      "localPath": "geo_data/course-v2/tjusta/acquisition/laser-campaigns.json",
+      "bboxWgs84": [
+        17.982,
+        59.584,
+        18.018,
+        59.614
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": "2021-04-17",
+      "checksum": "1d6a2ec5da6b7190acb09ffa5589d2b9944c7e3c4fc1ca364000606b3aa89757",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "One leaf-off campaign, 21c038 (2021-04-17), four COPC tiles (55.2 M points, 1.48-2.24 returns/m2) covering the whole box; seams at E 670,000 and N 6,610,000. Pinned with record-laser-campaigns.mjs --skip-scan-metadata (no Skogsstyrelsen data)."
+    },
+    {
+      "id": "tjusta-osm-2026-11-26",
+      "productId": "openstreetmap",
+      "roles": [
+        "routing",
+        "topography",
+        "object"
+      ],
+      "lifecycle": "acquired",
+      "use": "supporting",
+      "sourceUri": "https://overpass-api.de/api/interpreter",
+      "localPath": "geo_data/course-v2/tjusta/reference/osm-golf-epsg3006.geojson",
+      "bboxWgs84": [
+        17.96,
+        59.579,
+        18.04,
+        59.62
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": "2026-11-26",
+      "checksum": "f7ca15ba4ee23169517c1ceb660a60f5df6c9db735237b7811aaae69cc501932",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Primary Overpass snapshot. The course is OSM way 171945030, misspelt 'Tjulsta Golfklubb' (website tjustagolf.se); its outline also takes in the separate, unnamed golf facility south of Tjusta (around E 669,600 N 6,610,370), whose features are not Tjusta's and are not used. Inside it OSM has 19 greens, 6 tees, 8 fairways and 4 bunkers traced from Bing (about 2012) and no golf=hole ways. ODbL-1.0."
+    },
+    {
+      "id": "tjusta-club-2026-11-26",
+      "productId": "tjusta-club-media",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://tjustagolf.se/banan/",
+      "localPath": "geo_data/course-v2/tjusta/reference/club-source-ledger.json",
+      "bboxWgs84": [
+        17.982,
+        59.584,
+        18.018,
+        59.614
+      ],
+      "acquiredAt": "2026-11-26",
+      "capturedAt": null,
+      "checksum": "7d00f54ebe1463ae4c2c6b7ec5d754ce74962bf97b11fb1da5eea5c666ff09ff",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "66 club, guide and scorecard sources harvested into ignored tjustabuild/cache/club-sources/: the club's pages, the SGF slope tables (par 72, rated 2020-08-01), the 2023 local rules and the club's photographs; Golf i Sverige's scorecard and 18 hole plates and Caddee's card and hole previews (the par-72 card used, identical in both); and Hole19's, All Square's and GolfPass's cards. The club publishes no hole-by-hole card and no hole map."
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "source-intake-plan",
+      "kind": "acquisition",
+      "path": "course-workflows/tjusta/intake-plan.json",
+      "sha256": "030861b5f9e3a1f687cd73e9d634b79897b856894498fea87a3011c53ed12787",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho-2025",
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Initial acquisition scope from the workflow initializer; contains no measurements."
+    },
+    {
+      "id": "d2-discovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tjusta/acquisition/d2-discovery.json",
+      "sha256": "aa71d622e9c00423d127b9c88b5cbde38e6b2c38c32bc7da0d1e928145622b17",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "laser-lm-skog",
+        "imagery-lm-ortho-2025"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Public Lantmäteriet STAC discovery: 100% DTM, laser and orthophoto coverage of the target box (discover-ground.mjs, 2026-11-26)."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tjusta/acquisition/ground-rings.json",
+      "sha256": "43445533482a0bae9efe3221e04d73c9e464ff855cf5b3be72fdc1067494dd6e",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 7 standard resolution rings (1 m .. 64 m, 16,384 m root) read from dtm-cog items 660_66, 660_67, 661_66, 661_67."
+    },
+    {
+      "id": "laser-campaigns",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tjusta/acquisition/laser-campaigns.json",
+      "sha256": "1d6a2ec5da6b7190acb09ffa5589d2b9944c7e3c4fc1ca364000606b3aa89757",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pinned Laserdata Skog COPC inventory, campaign 21c038, four 2.5 km tiles."
+    },
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "tjustabuild/course-model.json",
+      "sha256": "e026b78e46473151b0c1ad2f33164b30c824397e8823f0d6aefe0edd0bc76e76",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "imagery-lm-ortho-2023",
+        "imagery-lm-ortho-2019",
+        "laser-lm-skog",
+        "tjusta-osm-2026-11-26",
+        "tjusta-club-2026-11-26"
+      ],
+      "use": "migration-only",
+      "notes": "Compiled from EPSG:3006 layers by compile-grid-course.mjs: exact projected local metres and RH 2000 heights. Survey gates remain open."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/tjusta/migration/course-model.epsg3006.json",
+      "sha256": "f27ee2c98264198669d3e5f80d7ea20de5e016bc5499bfdbf9b9c204f6ea6e4b",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "imagery-lm-ortho-2023",
+        "imagery-lm-ortho-2019",
+        "laser-lm-skog",
+        "tjusta-osm-2026-11-26",
+        "tjusta-club-2026-11-26"
+      ],
+      "use": "migration-only",
+      "notes": "Exact translation back to EPSG:3006, preserving source coordinates and RH 2000 heights."
+    },
+    {
+      "id": "migration-residual-report",
+      "kind": "control",
+      "path": "geo_data/course-v2/tjusta/migration/residual-report.json",
+      "sha256": "72a755021170e78a5d2c117e3e4db7088c91b3e3796b98b59bc27706bb450f22",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "water-breaks-lm-1m",
+        "imagery-lm-ortho-2025",
+        "imagery-lm-ortho-2021-leafoff",
+        "imagery-lm-ortho-2023",
+        "imagery-lm-ortho-2019",
+        "laser-lm-skog",
+        "tjusta-osm-2026-11-26",
+        "tjusta-club-2026-11-26"
+      ],
+      "use": "migration-only",
+      "notes": "Deterministic frame translation audit, not independent survey controls."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "canonical-control-pending",
+      "severity": "release-blocking",
+      "description": "Independent horizontal and RH 2000 ground control points are not yet acquired.",
+      "exitGate": "Acquire independent controls and approve residuals."
+    },
+    {
+      "id": "routing-unconfirmed",
+      "severity": "release-blocking",
+      "description": "The club publishes no hole map and no hole-by-hole card: the routing is read from four photo years and the laser's tee decks against the par-72 card Golf i Sverige and Caddee print alike, the local rules, and Golf i Sverige's 18 hole plates registered on the photo (16 fit; the two par 3s were read by eye). The red tees of holes 4 and 18 are on no plate.",
+      "exitGate": "The owner, the club or a recorded round confirms the hole order and the tees."
+    },
+    {
+      "id": "surface-intake-pending",
+      "severity": "release-blocking",
+      "description": "The traced surfaces have their recorded ring review and a blind second look with every doubt answered (26 November 2026); the owner's paired overlay review of all 18 holes is still to come. Seven outlines are stated faults: six bunkers and the 18th tee's extension are newer than the laser's ground.",
+      "exitGate": "Complete paired RGBI source-overlay review and owner acceptance."
+    },
+    {
+      "id": "media-rights-review",
+      "severity": "quality",
+      "description": "Club photographs and third-party scorecards remain in the ignored local reference cache.",
+      "exitGate": "Keep club and third-party media out of committed assets and runtime bundles."
+    }
+  ]
+}

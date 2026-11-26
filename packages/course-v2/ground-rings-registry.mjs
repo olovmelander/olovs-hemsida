@@ -18,6 +18,7 @@ import { LIDINGO_GROUND_RINGS } from './lidingo-ground-rings.mjs';
 import { NORRFALLSVIKEN_GROUND_RINGS } from './norrfallsviken-ground-rings.mjs';
 import { PUTTOM_GROUND_RINGS } from './puttom-ground-rings.mjs';
 import { RIBBINGSFORS_GROUND_RINGS } from './ribbingsfors-ground-rings.mjs';
+import { TJUSTA_GROUND_RINGS } from './tjusta-ground-rings.mjs';
 import { TORTUNA_GROUND_RINGS } from './tortuna-ground-rings.mjs';
 import { UPSALA_GROUND_RINGS } from './upsala-ground-rings.mjs';
 import { VECKEFJARDEN_GROUND_RINGS } from './veckefjarden-ground-rings.mjs';
@@ -32,6 +33,7 @@ export const GROUND_RINGS = Object.freeze({
   norrfallsviken: NORRFALLSVIKEN_GROUND_RINGS,
   puttom: PUTTOM_GROUND_RINGS,
   ribbingsfors: RIBBINGSFORS_GROUND_RINGS,
+  tjusta: TJUSTA_GROUND_RINGS,
   tortuna: TORTUNA_GROUND_RINGS,
   upsala: UPSALA_GROUND_RINGS,
   veckefjarden: VECKEFJARDEN_GROUND_RINGS,

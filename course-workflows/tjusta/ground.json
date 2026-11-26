@@ -1,0 +1,67 @@
+{
+ "schemaVersion": 1,
+ "groundId": "tjusta",
+ "club": {
+  "id": "tjusta",
+  "name": "Tjusta Golfklubb"
+ },
+ "boot": "Tjusta Gård · Rosersberg",
+ "place": {
+  "lat": 59.60595,
+  "lng": 17.99705,
+  "region": "Mälardalen",
+  "regionTag": "Rosersberg · Gård & Äng",
+  "city": "Rosersberg",
+  "iconName": "tree",
+  "basis": "The clubhouse, the red barn at Tjusta Gård (E 669115 N 6611345, SWEREF 99 TM, read on the 2025-06-14 photo and the club's photos), projected with packages/course-geo/chmv2/projection.mjs; not a survey control."
+ },
+ "search": {
+  "category": "skog",
+  "places": "Rosersberg Sigtuna Arlanda Märsta Upplands Väsby Stockholm Uppland"
+ },
+ "routings": [
+  {
+   "slug": "tjusta",
+   "build": "tjustabuild",
+   "name": "Tjusta",
+   "title": "Tjusta Golfklubb — Banan i 3D",
+   "tag": "Tjusta Gård",
+   "tees": [
+    {
+     "name": "Gul",
+     "colour": "#f0c93a"
+    },
+    {
+     "name": "Röd",
+     "colour": "#e0574a"
+    }
+   ],
+   "teesHiddenFrom": 3,
+   "searchLabel": "Rosersberg · Gård & Äng",
+   "line": "Par 72 runt Tjusta Gård nära Arlanda: skogs- och ängspartier, åkerkanten längs elvan och trettonan och hemgång runt gårdsdammen mot klubbhuset i den röda ladan.",
+   "signature": {
+    "poster": 1,
+    "description": "Hemgång runt gårdsdammen på hål 18"
+   },
+   "posters": {
+    "holes": [18, 12, 7],
+    "why": "The home hole round the farm pond to the barn (the club's own photo of 18), the par 3 over the edge of the west pond, and the par 5 down the meadow. Chosen at the first registration (2026-11-26) from the photo; the owner may choose others after the first look.",
+    "framings": [
+     { "hole": 18, "cam": "orbit", "preset": "golden" },
+     { "hole": 12, "cam": "orbit", "preset": "golden" },
+     { "hole": 7, "cam": "orbit", "preset": "host" },
+     { "hole": 18, "cam": "top", "preset": "noon" },
+     { "hole": 12, "cam": "tee", "preset": "dawn" }
+    ]
+   },
+   "gallery": [
+    { "hole": 18, "vy": "green", "ljus": "kvall" },
+    { "hole": 12, "vy": "tee", "ljus": "dag" }
+   ],
+   "mapGallery": [
+    { "hole": 18 },
+    { "course": true }
+   ]
+  }
+ ]
+}

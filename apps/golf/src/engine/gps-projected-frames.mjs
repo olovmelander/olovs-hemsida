@@ -64,4 +64,12 @@ export const PROJECTED_GPS_FRAMES = Object.freeze([
     legacyOriginEpsg3006: { easting: 597400.5, northing: 6614899.5 },
     bridgeMode: "epsg3006-local-rh2000",
   },
+  {
+    slug: "tjusta",
+    packFrame: "local metres from EPSG:3006; east +x, north -z; origin E669130.5 N6611250.5; heights RH 2000",
+    packOriginWgs84: { latitude: 59.60510013186263, longitude: 17.997252241795543 },
+    packMetresPerLongitude: 56323.13,
+    legacyOriginEpsg3006: { easting: 669130.5, northing: 6611250.5 },
+    bridgeMode: "epsg3006-local-rh2000",
+  },
 ].map(Object.freeze));

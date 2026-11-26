@@ -12,7 +12,8 @@ and a rehearsal of CI in a clean worktree before the pull request. Each ground h
 walkthrough (`node tools/course-walkthrough.mjs --ground <id>`): its numbers are generated,
 its known faults are written by hand, and a test fails when it is stale. Start an upgrade
 there. Bro Hof (24 November) is the first ground built this way; see
-[its walkthrough](docs/courses/bro-hof-walkthrough.md). Since 25 November the steps are tools
+[its walkthrough](docs/courses/bro-hof-walkthrough.md); Tjusta (26 November) is the second, and the first
+with no club hole map ([its walkthrough](docs/courses/tjusta-walkthrough.md)). Since 25 November the steps are tools
 in the repository: `tools/course-rebuild.mjs --ground <id>` runs them in their one order
 (`--dry-run` lists them), a ground's hand-chosen facts live in its card
 (`course-workflows/<id>/ground.json`, held to every table by `ground-card.mjs --check`), a
@@ -26,7 +27,7 @@ owner's look is a local page
 <id>` (every record of the ground, sorted into broken, to do, the owner's and known), or hand
 the work to `.claude/agents/course-builder.md`. Never import a gallery or poster tool to read
 its table: importing one starts a browser.
-The catalogue currently has 15 layouts on 11 grounds using the common 469-tile
+The catalogue currently has 16 layouts on 12 grounds using the common 469-tile
 terrain/ring contract. Historical course builders are evidence, not templates
 for new courses.
 

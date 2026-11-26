@@ -1,0 +1,181 @@
+{
+ "schemaVersion": 1,
+ "groundId": "tjusta",
+ "horizontalCrs": "EPSG:3006",
+ "reviewedOn": "2026-11-26",
+ "reviewer": "Claude Opus 5.5 (agent), on the 2025-06-14 0.16 m RGBI orthophoto",
+ "note": "Candidates of extract_sand with Tjusta's own bunker bands (trace-config sand): 285 bunker and 24 waste candidates over the box, every one looked at on the 2025 photo. Kept: the 14 raked bunkers below. Left out: the field strips and wheel tracks north of the course, the ditch banks along 11 and 13, paths and the farm road, the farm yards and roofs, the gravel yard by Kimstavägen, bare soil at wood edges, rock outcrops in the rough (north of 1, by 2), the worn oval north of the west pond (S159, 62 m2) and a small smooth patch by the path west of the wide field (S269 at 669085 6610580, 32 m2): it looks raked but lies where no hole plays; the sand audit names it for a verdict. No waste areas.",
+ "keep": [
+  {
+   "at": [
+    669458.2,
+    6611601.8
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 1,
+   "material": "tan-sand",
+   "areaM2": 97.8,
+   "why": "short left of the 1st green"
+  },
+  {
+   "at": [
+    669534.2,
+    6611695.8
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 4,
+   "material": "tan-sand",
+   "areaM2": 57.3,
+   "why": "behind the 4th green, west"
+  },
+  {
+   "at": [
+    669552.7,
+    6611688.2
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 4,
+   "material": "tan-sand",
+   "areaM2": 116.7,
+   "why": "behind the 4th green, east"
+  },
+  {
+   "at": [
+    669404.8,
+    6611225.5
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 6,
+   "material": "tan-sand",
+   "areaM2": 55.4,
+   "why": "south of the 6th green, east"
+  },
+  {
+   "at": [
+    669378.2,
+    6611221.3
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 6,
+   "material": "tan-sand",
+   "areaM2": 67.5,
+   "why": "south of the 6th green, west"
+  },
+  {
+   "at": [
+    669350.5,
+    6610930.7
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 7,
+   "material": "tan-sand",
+   "areaM2": 102.1,
+   "why": "round bunker in the 7th fairway",
+   "trimMetres": 2.2,
+   "trimWhy": "a bare patch 3.5 m across on the north-west lip read as sand and hung on the ring as a knob (the blind look of 26 November named it); the sand is a disc 10 m across"
+  },
+  {
+   "at": [
+    669406.6,
+    6610719.9
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 7,
+   "material": "tan-sand",
+   "areaM2": 66,
+   "why": "short of the 7th green"
+  },
+  {
+   "at": [
+    669222.5,
+    6611221.5
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 16,
+   "material": "tan-sand",
+   "areaM2": 79.2,
+   "why": "short left of the 16th green (the plates put 16, not 9, on this green)"
+  },
+  {
+   "at": [
+    668648.5,
+    6610780
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 11,
+   "material": "tan-sand",
+   "areaM2": 43.9,
+   "why": "in the 11th fairway"
+  },
+  {
+   "at": [
+    668782,
+    6610522
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 13,
+   "material": "tan-sand",
+   "areaM2": 37.3,
+   "why": "in the 13th fairway, north"
+  },
+  {
+   "at": [
+    668774.4,
+    6610481.3
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 13,
+   "material": "tan-sand",
+   "areaM2": 90.9,
+   "why": "in the 13th fairway, south"
+  },
+  {
+   "at": [
+    669143.8,
+    6611431.2
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 18,
+   "material": "tan-sand",
+   "areaM2": 27.1,
+   "why": "right of the 18th green"
+  },
+  {
+   "at": [
+    669136.2,
+    6611403.1
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": 18,
+   "material": "tan-sand",
+   "areaM2": 72.3,
+   "why": "short of the 18th green"
+  },
+  {
+   "at": [
+    669053.7,
+    6611666.8
+   ],
+   "kind": "bunker",
+   "course": "tjusta",
+   "hole": null,
+   "material": "tan-sand",
+   "areaM2": 94.1,
+   "why": "by the target green on the driving range"
+  }
+ ],
+ "add": []
+}

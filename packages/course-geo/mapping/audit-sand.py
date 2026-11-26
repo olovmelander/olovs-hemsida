@@ -52,6 +52,25 @@ SAND = {
     'waste_sand': dict(core=lambda br, nd, w: (br > 120) & (br < 188) & (nd < -0.12) & (w > 13), grow=lambda br, nd, w: (br > 104) & (nd < -0.02) & (w > 5),
                        res=0.5, blur=1.0, opened=1, closed=2, core_m2=120, min_m2=250, tile=500, pad=300),
 }
+
+
+def band_test(bands):
+    """turf_tracing.band_test, repeated here because this tool runs without scipy."""
+    lo, hi = (float(v) for v in bands['brightness'])
+    wlo, whi = (float(v) for v in bands['warmth'])
+    below = float(bands['ndviBelow'])
+    return lambda br, nd, w: (br > lo) & (br < hi) & (nd < below) & (w > wlo) & (w < whi)
+
+
+def measured_sand(cfg):
+    """A ground whose sand is not Bro Hof's colour states its own bands (`sand` in trace-config.json); the audit
+    reads the sand the tracer read."""
+    for kind, bands in (cfg.get('sand') or {}).items():
+        for part in ('core', 'grow'):
+            if part in bands:
+                SAND[kind][part] = band_test(bands[part])
+
+
 SAND_SHARE_LINE = 0.6   # a ring with less sand inside it than this is named
 SPILL_LINE_M2 = 4.0     # and so is one with this much sand joined to it outside its line,
 SPILL_LINE_SHARE = 0.02 # or this share of its own area, whichever is more (a waste area is thousands of square metres)
@@ -216,6 +235,7 @@ def main():
     ap.add_argument('--compare-captured', help='the day the first --compare photo was taken (YYYY-MM-DD)')
     args = ap.parse_args()
     cfg = load_json(args.config)
+    measured_sand(cfg)
     home = Path(cfg['courses'][0]['outDir']).parent
     builds = [Path(c['outDir']).parent for c in cfg['courses']]
     imagery = Imagery([ROOT / p for p in cfg['imagery']['rasters']])

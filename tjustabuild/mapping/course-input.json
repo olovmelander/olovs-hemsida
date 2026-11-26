@@ -1,0 +1,52 @@
+{
+ "groundId": "tjusta",
+ "slug": "tjusta",
+ "frame": {
+  "easting": 669130.5,
+  "northing": 6611250.5,
+  "latitude": 59.60510013186263,
+  "longitude": 17.997252241795543,
+  "text": "local metres from EPSG:3006; east +x, north -z; origin E669130.5 N6611250.5; heights RH 2000"
+ },
+ "seaLevel": 0,
+ "card": "../reference/club-scorecard.json",
+ "guideNotes": "../guide-notes.json",
+ "routes": "routes.geojson",
+ "surfaces": "playing-surfaces.geojson",
+ "facilities": "facilities.geojson",
+ "water": "water.geojson",
+ "infrastructure": "infrastructure.geojson",
+ "context": "context.geojson",
+ "farBuildings": "far-buildings.json",
+ "fineTerrain": {
+  "path": "../../packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l0.f32",
+  "sha256": "1440dad3d3c6b2a322c16719e56f937399b40d3abd8cbbe101e53b593555aecb",
+  "side": 4097,
+  "spacing": 1,
+  "originEasting": 667082.5,
+  "originNorthing": 6613298.5
+ },
+ "vistaTerrain": {
+  "path": "../../packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l5.f32",
+  "sha256": "b0638ba1420ad4f62c3275bf76361d0b2ace83be2d811c5c7fc480a34578192f",
+  "side": 513,
+  "spacing": 32,
+  "originEasting": 660938.5,
+  "originNorthing": 6619442.5
+ },
+ "hf0SpanMetres": 4096,
+ "defaultTeeIndex": 0,
+ "placement": {
+  "objectPlacement": null,
+  "vegetationPlacement": null,
+  "terrainPlacement": null,
+  "bridgePlacement": "mapped-only"
+ },
+ "evidence": {
+  "imagerySourceId": "orto-o2-2025",
+  "imageryCaptured": "2025-06-14",
+  "flagPositions": "virtual green targets",
+  "colouredTeePositions": "representative starts on named platforms at the card distance"
+ },
+ "outDir": ".."
+}

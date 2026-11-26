@@ -358,7 +358,9 @@ def main(argv=None) -> int:
         'windows': windows,
     }
     args.acquisition_out.parent.mkdir(parents=True, exist_ok=True)
-    args.acquisition_out.write_text(json.dumps(acquisition, indent=2) + '\n', encoding='utf-8')
+    # LF on every platform: the record's checksum is pinned in the source manifest, and text mode on Windows
+    # would write CRLF.
+    args.acquisition_out.write_text(json.dumps(acquisition, indent=2) + '\n', encoding='utf-8', newline='\n')
     print(json.dumps({
         'groundId': args.ground,
         'windows': len(windows),

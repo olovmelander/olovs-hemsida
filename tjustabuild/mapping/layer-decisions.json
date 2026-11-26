@@ -1,0 +1,51 @@
+{
+ "schemaVersion": 1,
+ "groundId": "tjusta",
+ "horizontalCrs": "EPSG:3006",
+ "reviewedOn": "2026-11-26",
+ "reviewer": "Claude Opus 5.5 (agent), on the 2025-06-14 0.16 m RGBI orthophoto and the club's own pages and photos",
+ "note": "The practice ground is the club's 'komplett övningsområde': a driving range west of Kimstavägen hit from a mat strip with nets by the car park, a putting green beside the range and a chipping green east of the road (the club: 'närspelsområde ... rakt fram vid första tee', 'puttingreen ... bredvid rangen'). The four shorter-cut target circles on the range are not drawn. No retaining walls, revetments or bridges on any hole on the 2025 photo; no cart paths in OSM. Every pond is in Lantmäteriet's break geometry, so no pond is added from the photo.",
+ "cartPathWidth": 2.2,
+ "newPonds": [],
+ "facilities": [
+  {
+   "id": "driving-range",
+   "kind": "range_field",
+   "why": "the mown field between the ditch, the wood and the scrub, hit westwards from the mat strip",
+   "reach": 0,
+   "ring": [[668842, 6611560], [668870, 6611537], [668960, 6611546], [669070, 6611548], [669088, 6611560], [669082, 6611600], [669052, 6611640], [669038, 6611662], [668998, 6611680], [668955, 6611726], [668900, 6611730]]
+  },
+  {
+   "id": "range-tee-mats",
+   "kind": "range_tee_pad",
+   "material": "mats",
+   "parent": "driving-range",
+   "why": "the gravel strip with mats and net posts along the range's east edge by the car park",
+   "reach": 0,
+   "ring": [[669086, 6611538], [669091, 6611538], [669102, 6611586], [669097, 6611588]]
+  },
+  {
+   "id": "practice-green-range",
+   "kind": "practice_green",
+   "material": "putting-green",
+   "why": "the putting green beside the range, west of Kimstavägen (an OSM green no hole plays to)",
+   "seed": [669108.5, 6611609],
+   "class": "green",
+   "cap": 25
+  },
+  {
+   "id": "practice-green-chipping",
+   "kind": "practice_green",
+   "material": "putting-green",
+   "why": "the chipping green east of the road, north of the first tee (an OSM green no hole plays to)",
+   "seed": [669156.2, 6611572.1],
+   "class": "green",
+   "cap": 25
+  }
+ ],
+ "walls": [],
+ "boulders": [],
+ "cartParks": [],
+ "bridges": [],
+ "mergeWater": []
+}

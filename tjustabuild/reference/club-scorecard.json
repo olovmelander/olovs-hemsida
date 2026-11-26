@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "slug": "tjusta",
+  "courseName": "Tjusta GK",
+  "source": {
+    "primary": "https://www.golfisverige.com/klubb/tjusta-golf/",
+    "primaryEdition": "Golf i Sverige's par-72 scorecard and hole plates (read 2026-11-26): par, index, Röd and Gul per hole. The club publishes no hole-by-hole card.",
+    "secondary": "https://www.caddee.se/klubb/tjusta-golf",
+    "secondaryEdition": "Caddee's par-72 card (read 2026-11-26): the same par, index and lengths on every hole.",
+    "slopeMenPdf": "https://tjustagolf.se/wp-content/uploads/2023/03/TJUSTA_Golf_Course_Men-1.pdf",
+    "slopeWomenPdf": "https://tjustagolf.se/wp-content/uploads/2023/03/TJUSTA_Golf_Course_Women-1.pdf",
+    "sgfRatedOn": "2020-08-01",
+    "retrievedOn": "2026-11-26",
+    "notes": "Par 72 is the SGF's own (both slope tables, rated 2020-08-01). Golf i Sverige and Caddee agree cell for cell; Hole19's par-72 card (Röd 5011 m, Gul 5906 m) differs on 16 of 18 indexes and on Röd 4, 6 and 16 and Gul 16, and the older par-71 card (All Square, GolfPass, 18Birdies) has 16 as a par 4. The two guide publishers are kept as the card; club-scorecard-hole19.json and club-scorecard-par71.json keep the others."
+  },
+  "par": { "front": 36, "back": 36, "total": 72 },
+  "tees": [
+    { "id": "gul", "name": "Gul", "color": "#f2c53d", "front": 2931, "back": 2947, "total": 5878, "ratingMen": { "cr": 71.2, "slope": 127 }, "ratingWomen": { "cr": 77.3, "slope": 142 } },
+    { "id": "rod", "name": "Röd", "color": "#d63333", "front": 2518, "back": 2441, "total": 4959, "ratingMen": { "cr": 66.9, "slope": 117 }, "ratingWomen": { "cr": 71.9, "slope": 130 } }
+  ],
+  "holes": [
+    { "number": 1,  "par": 4, "index": 5,  "lengths": { "gul": 400, "rod": 355 } },
+    { "number": 2,  "par": 4, "index": 11, "lengths": { "gul": 370, "rod": 318 } },
+    { "number": 3,  "par": 3, "index": 15, "lengths": { "gul": 133, "rod": 128 } },
+    { "number": 4,  "par": 4, "index": 13, "lengths": { "gul": 257, "rod": 201 } },
+    { "number": 5,  "par": 5, "index": 9,  "lengths": { "gul": 436, "rod": 374 } },
+    { "number": 6,  "par": 3, "index": 17, "lengths": { "gul": 127, "rod": 121 } },
+    { "number": 7,  "par": 5, "index": 3,  "lengths": { "gul": 505, "rod": 424 } },
+    { "number": 8,  "par": 4, "index": 7,  "lengths": { "gul": 310, "rod": 262 } },
+    { "number": 9,  "par": 4, "index": 1,  "lengths": { "gul": 393, "rod": 335 } },
+    { "number": 10, "par": 4, "index": 8,  "lengths": { "gul": 346, "rod": 281 } },
+    { "number": 11, "par": 5, "index": 2,  "lengths": { "gul": 500, "rod": 425 } },
+    { "number": 12, "par": 3, "index": 18, "lengths": { "gul": 130, "rod": 105 } },
+    { "number": 13, "par": 4, "index": 14, "lengths": { "gul": 323, "rod": 257 } },
+    { "number": 14, "par": 4, "index": 4,  "lengths": { "gul": 365, "rod": 323 } },
+    { "number": 15, "par": 4, "index": 12, "lengths": { "gul": 332, "rod": 280 } },
+    { "number": 16, "par": 5, "index": 16, "lengths": { "gul": 395, "rod": 350 } },
+    { "number": 17, "par": 3, "index": 6,  "lengths": { "gul": 180, "rod": 120 } },
+    { "number": 18, "par": 4, "index": 10, "lengths": { "gul": 376, "rod": 300 } }
+  ]
+}

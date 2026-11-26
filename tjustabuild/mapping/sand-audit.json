@@ -1,0 +1,1373 @@
+{
+ "schemaVersion": 1,
+ "groundId": "tjusta",
+ "imagery": {
+  "sourceId": "orto-o2-2025",
+  "captured": "2025-06-14"
+ },
+ "reachMetres": 80,
+ "lines": {
+  "sandShare": 0.6,
+  "sandOutsideM2": 4,
+  "sandOutsideShare": 0.02
+ },
+ "surfaces": {
+  "tjusta": "74eee9781cf5e9b09014ff61f6514d8368a97cc5d521286cf68386c1d65d4489"
+ },
+ "modelled": {
+  "bunker": 14,
+  "waste_sand": 0
+ },
+ "rings": [],
+ "areas": [
+  {
+   "kind": "bunker",
+   "at": [
+    669556,
+    6611989.6
+   ],
+   "areaM2": 51,
+   "slug": "tjusta",
+   "hole": 2,
+   "metresFromHole": 26.3,
+   "on": null,
+   "id": "sand-001",
+   "verdict": "field edge and wheel track along the 2nd hole's field: bare soil"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669532.2,
+    6611955.8
+   ],
+   "areaM2": 20.6,
+   "slug": "tjusta",
+   "hole": 2,
+   "metresFromHole": 43.7,
+   "on": null,
+   "id": "sand-002",
+   "verdict": "field edge along the 2nd hole: bare soil"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669524.7,
+    6611945.1
+   ],
+   "areaM2": 19.2,
+   "slug": "tjusta",
+   "hole": 2,
+   "metresFromHole": 46.6,
+   "on": null,
+   "id": "sand-003",
+   "verdict": "wheel track at the field edge along the 2nd"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669442.1,
+    6611759.1
+   ],
+   "areaM2": 56.1,
+   "slug": "tjusta",
+   "hole": 2,
+   "metresFromHole": 15.3,
+   "on": null,
+   "id": "sand-004",
+   "verdict": "rock outcrop and bare ground in the rough west of the 2nd tee"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669529.5,
+    6611465
+   ],
+   "areaM2": 20.8,
+   "slug": "tjusta",
+   "hole": 5,
+   "metresFromHole": 28.7,
+   "on": null,
+   "id": "sand-005",
+   "verdict": "dry reeds and grass beside the wetland east of the 5th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669534.9,
+    6611417.9
+   ],
+   "areaM2": 18.6,
+   "slug": "tjusta",
+   "hole": 5,
+   "metresFromHole": 36.4,
+   "on": null,
+   "id": "sand-006",
+   "verdict": "dry reeds and grass beside the wetland east of the 5th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669493.1,
+    6611281.2
+   ],
+   "areaM2": 85,
+   "slug": "tjusta",
+   "hole": 5,
+   "metresFromHole": 4.7,
+   "on": null,
+   "id": "sand-007",
+   "verdict": "bare ground and path round the shed east of the 5th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669502.7,
+    6611218
+   ],
+   "areaM2": 180.4,
+   "slug": "tjusta",
+   "hole": 5,
+   "metresFromHole": 19.2,
+   "on": null,
+   "id": "sand-008",
+   "verdict": "the ditch's bare bank east of the 5th green"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669545,
+    6611147.1
+   ],
+   "areaM2": 646.9,
+   "slug": "tjusta",
+   "hole": 5,
+   "metresFromHole": 59.1,
+   "on": null,
+   "id": "sand-009",
+   "verdict": "gravel yard with logs and machines by Kimstavägen"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669404.4,
+    6611157.1
+   ],
+   "areaM2": 3041.4,
+   "slug": "tjusta",
+   "hole": 6,
+   "metresFromHole": 7.9,
+   "on": null,
+   "id": "sand-010",
+   "verdict": "the gravel service road south of the 6th green"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669427.3,
+    6611147
+   ],
+   "areaM2": 128.7,
+   "slug": "tjusta",
+   "hole": 6,
+   "metresFromHole": 13.8,
+   "on": null,
+   "id": "sand-011",
+   "verdict": "timber stack in the gravel yard by Kimstavägen"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669440.5,
+    6611126.9
+   ],
+   "areaM2": 41.4,
+   "slug": "tjusta",
+   "hole": 6,
+   "metresFromHole": 16,
+   "on": null,
+   "id": "sand-012",
+   "verdict": "timber stack in the gravel yard by Kimstavägen"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669419.8,
+    6611122.5
+   ],
+   "areaM2": 62.3,
+   "slug": "tjusta",
+   "hole": 6,
+   "metresFromHole": 35.5,
+   "on": null,
+   "id": "sand-013",
+   "verdict": "timber stack in the gravel yard by Kimstavägen"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669437,
+    6611106.1
+   ],
+   "areaM2": 76.7,
+   "slug": "tjusta",
+   "hole": 6,
+   "metresFromHole": 33,
+   "on": null,
+   "id": "sand-014",
+   "verdict": "bare ground in the gravel yard by Kimstavägen"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669126,
+    6610698.3
+   ],
+   "areaM2": 103.2,
+   "slug": "tjusta",
+   "hole": 8,
+   "metresFromHole": 7.7,
+   "on": null,
+   "id": "sand-015",
+   "verdict": "bare ground along the wood edge east of the 8th green, on both photos"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669247,
+    6610693.6
+   ],
+   "areaM2": 171.2,
+   "slug": "tjusta",
+   "hole": 8,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-016",
+   "verdict": "rough with bare patches north of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669033.9,
+    6610691.8
+   ],
+   "areaM2": 104.6,
+   "slug": "tjusta",
+   "hole": 8,
+   "metresFromHole": 38.7,
+   "on": null,
+   "id": "sand-017",
+   "verdict": "the path and its verge in the wood north of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669053.8,
+    6610679.8
+   ],
+   "areaM2": 10.3,
+   "slug": "tjusta",
+   "hole": 8,
+   "metresFromHole": 40.4,
+   "on": null,
+   "id": "sand-018",
+   "verdict": "the path in the wood north of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669312.9,
+    6610658.9
+   ],
+   "areaM2": 19.6,
+   "slug": "tjusta",
+   "hole": 8,
+   "metresFromHole": 14.4,
+   "on": null,
+   "id": "sand-019",
+   "verdict": "worn track across the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669341.9,
+    6610655.3
+   ],
+   "areaM2": 111,
+   "slug": "tjusta",
+   "hole": 8,
+   "metresFromHole": 4.1,
+   "on": null,
+   "id": "sand-020",
+   "verdict": "worn track across the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669074.2,
+    6611315.1
+   ],
+   "areaM2": 5724.2,
+   "slug": "tjusta",
+   "hole": 9,
+   "metresFromHole": 16.4,
+   "on": null,
+   "id": "sand-021",
+   "verdict": "the farm yard and its gravel south of the barns"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669175.8,
+    6611286.5
+   ],
+   "areaM2": 62.7,
+   "slug": "tjusta",
+   "hole": 9,
+   "metresFromHole": 59.5,
+   "on": null,
+   "id": "sand-022",
+   "verdict": "the bale stack by the farm road"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669070.9,
+    6610969.7
+   ],
+   "areaM2": 22.8,
+   "slug": "tjusta",
+   "hole": 9,
+   "metresFromHole": 17.6,
+   "on": null,
+   "id": "sand-023",
+   "verdict": "bare wood edge by the 9th fairway (the west corridor)"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668999.8,
+    6610887.9
+   ],
+   "areaM2": 296.9,
+   "slug": "tjusta",
+   "hole": 9,
+   "metresFromHole": 56,
+   "on": null,
+   "id": "sand-024",
+   "verdict": "the forest path north of the 9th tees"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668714.9,
+    6611378.6
+   ],
+   "areaM2": 13,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 69.5,
+   "on": null,
+   "id": "sand-025",
+   "verdict": "the ditch's bare bank west of the 10th green"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668713.2,
+    6611329.5
+   ],
+   "areaM2": 59.3,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 41.1,
+   "on": null,
+   "id": "sand-026",
+   "verdict": "the ditch's bare bank along the 10th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668808.2,
+    6611316.9
+   ],
+   "areaM2": 64.1,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-027",
+   "verdict": "worn bare patch on the raised oval north of the west pond, not raked sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669002.3,
+    6611309.4
+   ],
+   "areaM2": 156.7,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 57.5,
+   "on": null,
+   "id": "sand-028",
+   "verdict": "gravel farm yard between the houses"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668974.2,
+    6611291.9
+   ],
+   "areaM2": 17.6,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 36.7,
+   "on": null,
+   "id": "sand-029",
+   "verdict": "paving in front of a farm house"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668664.8,
+    6611190.6
+   ],
+   "areaM2": 55.7,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 21.5,
+   "on": null,
+   "id": "sand-030",
+   "verdict": "the ditch's bare bank along the 11th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668657.2,
+    6611190.7
+   ],
+   "areaM2": 18.8,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 42.9,
+   "on": null,
+   "id": "sand-031",
+   "verdict": "dry, sparse field west of the ditch, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668647.3,
+    6611127
+   ],
+   "areaM2": 15.1,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 37.9,
+   "on": null,
+   "id": "sand-032",
+   "verdict": "the ditch's bare bank along the 11th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668629.5,
+    6611071.5
+   ],
+   "areaM2": 9.7,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 44.4,
+   "on": null,
+   "id": "sand-033",
+   "verdict": "the ditch's bare bank along the 11th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668599.8,
+    6611011
+   ],
+   "areaM2": 66,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 59.2,
+   "on": null,
+   "id": "sand-034",
+   "verdict": "dry field west of the ditch, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668607,
+    6610999.1
+   ],
+   "areaM2": 215,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 46.1,
+   "on": null,
+   "id": "sand-035",
+   "verdict": "the ditch's bare bank along the 11th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668587.5,
+    6610990.5
+   ],
+   "areaM2": 99.5,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 62.2,
+   "on": null,
+   "id": "sand-036",
+   "verdict": "dry field west of the ditch, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668573.1,
+    6610951.6
+   ],
+   "areaM2": 20.6,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 75.9,
+   "on": null,
+   "id": "sand-037",
+   "verdict": "dry field west of the ditch, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668572.5,
+    6610929.9
+   ],
+   "areaM2": 93.7,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 69.1,
+   "on": null,
+   "id": "sand-038",
+   "verdict": "dry field and ditch bank west of the ditch, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668564.7,
+    6610911.1
+   ],
+   "areaM2": 43.6,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 73.9,
+   "on": null,
+   "id": "sand-039",
+   "verdict": "dry field west of the ditch, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668585.6,
+    6610903.1
+   ],
+   "areaM2": 27.3,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 54.8,
+   "on": null,
+   "id": "sand-040",
+   "verdict": "the ditch's bare bank on the 11th side"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668569.6,
+    6610891.6
+   ],
+   "areaM2": 45.1,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 66.6,
+   "on": null,
+   "id": "sand-041",
+   "verdict": "the ditch's bare bank west of the ditch"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668581.9,
+    6610887.6
+   ],
+   "areaM2": 16.7,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 55.3,
+   "on": null,
+   "id": "sand-042",
+   "verdict": "the ditch's bare bank on the 11th side"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668546.3,
+    6610853.6
+   ],
+   "areaM2": 284,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 78.9,
+   "on": null,
+   "id": "sand-043",
+   "verdict": "dry, sparse field west of the ditch along the 11th, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668556.2,
+    6610843.4
+   ],
+   "areaM2": 109.1,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 70.4,
+   "on": null,
+   "id": "sand-044",
+   "verdict": "the ditch's bare bank west of the ditch"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668564.7,
+    6610817.1
+   ],
+   "areaM2": 56.2,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 56,
+   "on": null,
+   "id": "sand-045",
+   "verdict": "dry field west of the ditch, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668581.2,
+    6610811.9
+   ],
+   "areaM2": 35,
+   "slug": "tjusta",
+   "hole": 11,
+   "metresFromHole": 39.5,
+   "on": null,
+   "id": "sand-046",
+   "verdict": "dry field west of the ditch, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668544,
+    6610715.1
+   ],
+   "areaM2": 12,
+   "slug": "tjusta",
+   "hole": 12,
+   "metresFromHole": 71.9,
+   "on": null,
+   "id": "sand-047",
+   "verdict": "the ditch's bare bank by the 12th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668533.4,
+    6610714
+   ],
+   "areaM2": 55.7,
+   "slug": "tjusta",
+   "hole": 12,
+   "metresFromHole": 72,
+   "on": null,
+   "id": "sand-048",
+   "verdict": "dry field west of the ditch by the 12th, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668532.9,
+    6610679
+   ],
+   "areaM2": 59.3,
+   "slug": "tjusta",
+   "hole": 12,
+   "metresFromHole": 46.1,
+   "on": null,
+   "id": "sand-049",
+   "verdict": "dry field west of the ditch by the 12th, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668538.9,
+    6610645.6
+   ],
+   "areaM2": 174.2,
+   "slug": "tjusta",
+   "hole": 12,
+   "metresFromHole": 25.4,
+   "on": null,
+   "id": "sand-050",
+   "verdict": "dry field and ditch bank west of the 12th green, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668541,
+    6610608.8
+   ],
+   "areaM2": 14.8,
+   "slug": "tjusta",
+   "hole": 12,
+   "metresFromHole": 41.7,
+   "on": null,
+   "id": "sand-051",
+   "verdict": "bare patch in the scrub south of the 12th green"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668551.7,
+    6610599
+   ],
+   "areaM2": 160.2,
+   "slug": "tjusta",
+   "hole": 13,
+   "metresFromHole": 26.9,
+   "on": null,
+   "id": "sand-052",
+   "verdict": "the ditch's bare bank by the 13th tees"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668627.2,
+    6610552.1
+   ],
+   "areaM2": 152.8,
+   "slug": "tjusta",
+   "hole": 13,
+   "metresFromHole": 13.5,
+   "on": null,
+   "id": "sand-053",
+   "verdict": "bare patches beside the 13th tees"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668589.8,
+    6610539.3
+   ],
+   "areaM2": 1005.8,
+   "slug": "tjusta",
+   "hole": 13,
+   "metresFromHole": 22.1,
+   "on": null,
+   "id": "sand-054",
+   "verdict": "cleared bare ground south-west of the 13th tees, outside the course"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668720.2,
+    6610471.8
+   ],
+   "areaM2": 38.1,
+   "slug": "tjusta",
+   "hole": 13,
+   "metresFromHole": 41.7,
+   "on": null,
+   "id": "sand-055",
+   "verdict": "the ditch's bare bank along the 13th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668736.3,
+    6610452.3
+   ],
+   "areaM2": 27.5,
+   "slug": "tjusta",
+   "hole": 13,
+   "metresFromHole": 55.8,
+   "on": null,
+   "id": "sand-056",
+   "verdict": "a bare patch round a shrub in the rough beside the ditch south of the 13th fairway, not on the 2021 photo; no raked edge"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669074.1,
+    6610645.1
+   ],
+   "areaM2": 426.9,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 39.5,
+   "on": null,
+   "id": "sand-057",
+   "verdict": "gravel and rock by the path at the west end of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669059.3,
+    6610605.2
+   ],
+   "areaM2": 62,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 26.8,
+   "on": null,
+   "id": "sand-058",
+   "verdict": "the path's edge west of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669040.1,
+    6610585.8
+   ],
+   "areaM2": 178,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 6.9,
+   "on": null,
+   "id": "sand-059",
+   "verdict": "the path's edge west of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669086.9,
+    6610580.4
+   ],
+   "areaM2": 26.6,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 0.7,
+   "on": null,
+   "id": "sand-060",
+   "verdict": "a small sand heap or store beside the path west of the wide field, white on the 2021 photo too; no hole plays to it"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668997.8,
+    6610573.1
+   ],
+   "areaM2": 46.9,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 13.9,
+   "on": null,
+   "id": "sand-061",
+   "verdict": "the path's edge west of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669419.1,
+    6610571.1
+   ],
+   "areaM2": 8.7,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 52.5,
+   "on": null,
+   "id": "sand-062",
+   "verdict": "a stone in the rough by the 14th green"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668979.4,
+    6610570.8
+   ],
+   "areaM2": 26.2,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 31.5,
+   "on": null,
+   "id": "sand-063",
+   "verdict": "the path's edge west of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668958.4,
+    6610560
+   ],
+   "areaM2": 251.5,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 21.7,
+   "on": null,
+   "id": "sand-064",
+   "verdict": "the path and its edge at the west end of the wide field"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669217.5,
+    6610974.5
+   ],
+   "areaM2": 165.4,
+   "slug": "tjusta",
+   "hole": 15,
+   "metresFromHole": 14.6,
+   "on": null,
+   "id": "sand-065",
+   "verdict": "the gravel path behind the 15th green"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669324.4,
+    6610756
+   ],
+   "areaM2": 20.6,
+   "slug": "tjusta",
+   "hole": 15,
+   "metresFromHole": 15,
+   "on": null,
+   "id": "sand-066",
+   "verdict": "worn track in the meadow by the 15th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669345.2,
+    6610704.4
+   ],
+   "areaM2": 109.2,
+   "slug": "tjusta",
+   "hole": 15,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-067",
+   "verdict": "worn track beside the 7th green"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669223.7,
+    6611289.8
+   ],
+   "areaM2": 78.6,
+   "slug": "tjusta",
+   "hole": 16,
+   "metresFromHole": 47.8,
+   "on": null,
+   "id": "sand-068",
+   "verdict": "timber stack along the farm road south of the farm"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669244,
+    6611260.7
+   ],
+   "areaM2": 593.7,
+   "slug": "tjusta",
+   "hole": 16,
+   "metresFromHole": 12.7,
+   "on": null,
+   "id": "sand-069",
+   "verdict": "timber stacks along the farm road south of the farm"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669266.5,
+    6611196.1
+   ],
+   "areaM2": 15.4,
+   "slug": "tjusta",
+   "hole": 16,
+   "metresFromHole": 24.1,
+   "on": null,
+   "id": "sand-070",
+   "verdict": "bare ground by the bale stack south of the farm"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669157.4,
+    6610879.5
+   ],
+   "areaM2": 158.2,
+   "slug": "tjusta",
+   "hole": 16,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-071",
+   "verdict": "the gravel path across the south end of the corridors"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669362.1,
+    6611407.3
+   ],
+   "areaM2": 9.2,
+   "slug": "tjusta",
+   "hole": 17,
+   "metresFromHole": 1.1,
+   "on": null,
+   "id": "sand-072",
+   "verdict": "worn track through the rough near the 17th tee"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669346.9,
+    6611390.6
+   ],
+   "areaM2": 20,
+   "slug": "tjusta",
+   "hole": 17,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-073",
+   "verdict": "worn track through the rough near the 17th tee"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669329.4,
+    6611376.1
+   ],
+   "areaM2": 30.7,
+   "slug": "tjusta",
+   "hole": 17,
+   "metresFromHole": 4.4,
+   "on": null,
+   "id": "sand-074",
+   "verdict": "worn track through the rough near the 17th tee"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669359,
+    6611332.6
+   ],
+   "areaM2": 217.3,
+   "slug": "tjusta",
+   "hole": 17,
+   "metresFromHole": 21.3,
+   "on": null,
+   "id": "sand-075",
+   "verdict": "bare rock and ground in the rough west of the 17th tee"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669379.7,
+    6611507.1
+   ],
+   "areaM2": 47.8,
+   "slug": "tjusta",
+   "hole": 18,
+   "metresFromHole": 0.8,
+   "on": null,
+   "id": "sand-076",
+   "verdict": "worn track through the rough by the 18th tees"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669264.8,
+    6611489.9
+   ],
+   "areaM2": 52,
+   "slug": "tjusta",
+   "hole": 18,
+   "metresFromHole": 70.1,
+   "on": null,
+   "id": "sand-077",
+   "verdict": "a shrub or heap in the rough south of the 1st fairway, bare in 2021 too, not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669099.8,
+    6611377.7
+   ],
+   "areaM2": 10.8,
+   "slug": "tjusta",
+   "hole": 18,
+   "metresFromHole": 40.6,
+   "on": null,
+   "id": "sand-078",
+   "verdict": "a roof edge at the clubhouse barn"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669099.1,
+    6611363
+   ],
+   "areaM2": 86,
+   "slug": "tjusta",
+   "hole": 18,
+   "metresFromHole": 51.9,
+   "on": null,
+   "id": "sand-079",
+   "verdict": "gravel yard by the clubhouse barn"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669223.6,
+    6611339.5
+   ],
+   "areaM2": 191.2,
+   "slug": "tjusta",
+   "hole": 18,
+   "metresFromHole": 55.3,
+   "on": null,
+   "id": "sand-080",
+   "verdict": "a soil heap in the farm yard"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    669544.8,
+    6611147
+   ],
+   "areaM2": 783.8,
+   "slug": "tjusta",
+   "hole": 5,
+   "metresFromHole": 58.3,
+   "on": null,
+   "id": "sand-081",
+   "verdict": "the gravel yard by Kimstavägen east of the 5th"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    669404.8,
+    6611156
+   ],
+   "areaM2": 3699.2,
+   "slug": "tjusta",
+   "hole": 6,
+   "metresFromHole": 7.6,
+   "on": null,
+   "id": "sand-082",
+   "verdict": "the gravel service road south of the 6th green"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    668590.5,
+    6610539.2
+   ],
+   "areaM2": 1464,
+   "slug": "tjusta",
+   "hole": 13,
+   "metresFromHole": 22.5,
+   "on": null,
+   "id": "sand-083",
+   "verdict": "cleared bare ground south-west of the 13th tees, outside the course"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    669069.2,
+    6610622.8
+   ],
+   "areaM2": 949.2,
+   "slug": "tjusta",
+   "hole": 14,
+   "metresFromHole": 6.7,
+   "on": null,
+   "id": "sand-084",
+   "verdict": "the gravel road along the wood edge by the 8th green"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    669073.8,
+    6611314.2
+   ],
+   "areaM2": 7297,
+   "slug": "tjusta",
+   "hole": 16,
+   "metresFromHole": 12.7,
+   "on": null,
+   "id": "sand-085",
+   "verdict": "the farm yard round the barns"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669095,
+    6611555.3
+   ],
+   "areaM2": 171.2,
+   "slug": "tjusta",
+   "hole": 1,
+   "metresFromHole": 67.3,
+   "on": "a practice surface",
+   "id": "sand-086",
+   "verdict": "gravel strip with net posts at the range's east edge by the car park, not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669111.4,
+    6611499.9
+   ],
+   "areaM2": 149.7,
+   "slug": "tjusta",
+   "hole": 1,
+   "metresFromHole": 17.1,
+   "on": "a road or a path",
+   "id": "sand-087",
+   "verdict": "gravel path by the car park"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    669519.6,
+    6611409.2
+   ],
+   "areaM2": 120.2,
+   "slug": "tjusta",
+   "hole": 5,
+   "metresFromHole": 23.2,
+   "on": "a shore",
+   "id": "sand-088",
+   "verdict": "dry reed bank of the wetland east of the 5th"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668952.4,
+    6611328.2
+   ],
+   "areaM2": 13,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 59.3,
+   "on": "a building",
+   "id": "sand-089",
+   "verdict": "gravel by a farm house"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    668946,
+    6611295.5
+   ],
+   "areaM2": 71.1,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 22.8,
+   "on": "a road or a path",
+   "id": "sand-090",
+   "verdict": "gravel path west of the farm"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    669027.2,
+    6611312.2
+   ],
+   "areaM2": 377.2,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 61.4,
+   "on": "a building",
+   "id": "sand-091",
+   "verdict": "the roof of a farm house west of the barn"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    668981.5,
+    6611295.5
+   ],
+   "areaM2": 319.8,
+   "slug": "tjusta",
+   "hole": 10,
+   "metresFromHole": 36.3,
+   "on": "a building",
+   "id": "sand-092",
+   "verdict": "the roof of a farm house south of the yard"
+  }
+ ],
+ "before": {
+  "captured": "2021-04-18",
+  "levels": {
+   "sandBrightness": 176,
+   "turfBrightness": 98,
+   "sandNdvi": -0.1,
+   "turfNdvi": 0.24
+  },
+  "lines": {
+   "wasSand": 0.85,
+   "wasGrass": 0.1,
+   "shade": 0.3
+  },
+  "bunkers": 14,
+  "wasSand": 8,
+  "changed": [
+   {
+    "id": "tjusta-bunker-07-1",
+    "slug": "tjusta",
+    "hole": 7,
+    "wasSand": 0,
+    "wasGrass": 0.92
+   },
+   {
+    "id": "tjusta-bunker-07-2",
+    "slug": "tjusta",
+    "hole": 7,
+    "wasSand": 0,
+    "wasGrass": 1
+   },
+   {
+    "id": "tjusta-bunker-11-1",
+    "slug": "tjusta",
+    "hole": 11,
+    "wasSand": 0,
+    "wasGrass": 1
+   },
+   {
+    "id": "tjusta-bunker-13-1",
+    "slug": "tjusta",
+    "hole": 13,
+    "wasSand": 0,
+    "wasGrass": 1
+   },
+   {
+    "id": "tjusta-bunker-13-2",
+    "slug": "tjusta",
+    "hole": 13,
+    "wasSand": 0,
+    "wasGrass": 1
+   },
+   {
+    "id": "tjusta-bunker-16-1",
+    "slug": "tjusta",
+    "hole": 16,
+    "wasSand": 0,
+    "wasGrass": 0.99
+   }
+  ],
+  "shaded": []
+ }
+}

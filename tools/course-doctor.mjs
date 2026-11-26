@@ -45,6 +45,46 @@ export function grounds() {
   return [...new Set(json('apps/golf/public/courses/v2-index.json').courses.map(course => course.groundId))];
 }
 
+/** A ground being built (a workflow, not yet in the catalogue): where it stands in the stages, from its own records. */
+export function buildingFindings(groundId) {
+  const out = [], say = (level, about, text, run) => out.push({ level, about, text, ...(run ? { run } : {}) });
+  const workflow = `course-workflows/${groundId}/workflow.json`;
+  if (!exists(workflow)) return [{ level: 'broken', about: 'workflow', text: `no ${workflow}: start with packages/course-workflow/cli.mjs init` }];
+  const card = exists(groundCardPath(groundId)) ? json(groundCardPath(groundId)) : null;
+  const cardErrors = card ? groundCardErrors(card) : ['no card'];
+  say(cardErrors.length ? 'todo' : 'ok', 'card', cardErrors.length ? cardErrors.join('; ') : `whole, ${card.routings.length} routing(s); the tables are filled at stage 5`,
+    `node packages/course-workflow/ground-card.mjs --ground ${groundId} --rows`);
+  const manifest = `geo_data/course-v2/${groundId}/source-manifest.json`;
+  if (!exists(manifest)) say('todo', 'sources', `no ${manifest}`);
+  else {
+    const sources = json(manifest).sources;
+    const planned = sources.filter(s => s.lifecycle === 'planned').map(s => s.id);
+    say(planned.length ? 'todo' : 'ok', 'sources', planned.length ? `planned, not acquired: ${planned.join(', ')}` : `${sources.length} sources acquired, dated and checksummed`,
+      'node packages/course-geo/check-manifests.mjs');
+  }
+  const builds = card ? card.routings.map(r => r.build) : [];
+  const config = builds.map(b => `${b}/mapping/trace-config.json`).find(exists);
+  if (!config) { say('todo', 'outlines', 'no trace-config.json yet (stage 3)'); return out; }
+  try {
+    const { config: cfg, files } = loadDecisionFiles(config);
+    const errors = decisionErrors(cfg, files);
+    say(errors.length ? 'broken' : 'ok', 'decisions', errors.length ? errors.join('; ') : 'can be traced', `node packages/course-geo/mapping/check-decisions.mjs --config ${config}`);
+  } catch (error) { say('broken', 'decisions', error.message); }
+  for (const build of [...new Set(builds)]) {
+    if (!exists(`${build}/mapping/playing-surfaces.geojson`)) { say('todo', 'trace', `${build}: not traced`); continue; }
+    for (const [about, errors, run] of [
+      ['ring review', ringReviewErrors(build), `node packages/course-geo/mapping/ring-review.mjs --build ${build}`],
+      ['decks', deckGroundErrors(build), `node packages/course-geo/mapping/deck-ground.mjs --config ${config} --record`],
+      ['sand', sandAuditOf(build).errors, `node packages/course-geo/mapping/sand-audit.mjs --build ${build}`],
+    ]) say(errors.length ? 'todo' : 'ok', about, errors.length ? errors.join('; ') : `${build}: holds`, run);
+    say(exists(`${build}/course-model.json`) ? 'ok' : 'todo', 'model', exists(`${build}/course-model.json`) ? `${build}: compiled` : `${build}: not compiled (stage 4)`,
+      `node packages/course-geo/mapping/compile-grid-course.mjs --config ${build}/mapping/course-input.json`);
+  }
+  if (!exists(`course-workflows/${groundId}/production.json`)) say('todo', 'production', 'no production.json yet: stage 5 starts here (pin, the six stages, promote, register)');
+  say('owner', 'release', 'not in the catalogue: stages 5 to 9 are still to come (docs/pipeline-v2.md)');
+  return out;
+}
+
 /** The ground's water bodies near play that stand unlike every accepted pond (two seconds a routing, on the CPU). */
 export function waterFindings(facts) {
   const file = path.join(os.tmpdir(), `course-doctor-water-${process.pid}.json`);
@@ -224,7 +264,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     console.log(`\n${megabytes(bytes)} in all. A ground with nothing listed keeps no private data here: it cannot be rebuilt from its sources on this machine.`);
   } else if (argv.includes('--machine')) print('This machine', machine());
   else if (groundId) {
-    const findings = await examine(groundId, undefined, { water: true });
+    const findings = grounds().includes(groundId) ? await examine(groundId, undefined, { water: true }) : buildingFindings(groundId);
     print(`${groundId}`, findings);
     const count = level => findings.filter(finding => finding.level === level).length;
     console.log(`\n${count('broken')} broken, ${count('todo')} to do, ${count('owner')} for the owner, ${count('known')} known faults, ${count('ok')} hold.`);

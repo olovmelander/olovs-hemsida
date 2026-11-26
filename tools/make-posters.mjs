@@ -140,6 +140,8 @@ const PLAN = {
      largest sand (10), the waste carry on 4 and the home hole round its pond. */
   'bro-hof-stadium':               { sig: 17, s2: 18, s3: 15 },
   'bro-hof-castle':                { sig: 10, s2: 4, s3: 18 },
+  /* The home hole round the farm pond to the barn (the club's own photo of 18), the par 3 over the edge of the west pond, and the par 5 down the meadow. Chosen at the first registration (2026-11-26) from the photo; the owner may choose others after the first look. */
+  tjusta:                          { sig: 18, s2: 12, s3: 7 },
 };
 
 /* Eight framings per course: the signature hole from all four cameras, then the
@@ -301,6 +303,16 @@ const POSTERS = {
     { hole: 18, cam: 'orbit', preset: 'host' },
     { hole: 8, cam: 'top', preset: 'noon' },
     { clubhouse: true, turn: 55, preset: 'golden' },
+  ],
+  /* home round the farm pond leads, the pond catching the evening; then the short 12th over the west pond, the
+     7th down the meadow in autumn, the 18th from above, and the 12th's tee at dawn. No clubhouse card: the barn
+     is drawn as a plain red block until it is modelled */
+  tjusta: [
+    { hole: 18, cam: 'orbit', preset: 'golden' },
+    { hole: 12, cam: 'orbit', preset: 'golden' },
+    { hole: 7, cam: 'orbit', preset: 'host' },
+    { hole: 18, cam: 'top', preset: 'noon' },
+    { hole: 12, cam: 'tee', preset: 'dawn' },
   ],
   /* the par 3 by the pond leads, then home on 18, the drop on the 2nd */
   lidingo: [

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "horizontalCrs": "EPSG:3006",
+  "attribution": "\u00a9 Lantm\u00e4teriet (Ortofoto Nedladdning RGBI)",
+  "terms": "CC-BY-4.0 with Lantm\u00e4teriet special access / GDPR terms \u2014 offline measurement & review only; never published as runtime textures.",
+  "generatedAt": "2026-11-26T14:32:06.514932Z",
+  "windows": [
+    {
+      "id": "course-2019",
+      "rasterFile": "course-2019.tif",
+      "sha256": "047966d7c0fcd9d598b382b50dcdbaa824de04098a75a51057ffc32a6e67b5a5",
+      "bytes": 128015095,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        668450.0,
+        6610350.0,
+        669810.0,
+        6612150.0
+      ],
+      "width": 5440,
+      "height": 7200,
+      "geoTransform": [
+        668450.0,
+        0.25,
+        0.0,
+        6612150.0,
+        0.0,
+        -0.25
+      ],
+      "resolutionMetres": 0.25,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2019",
+      "leafState": "leaf-on",
+      "solar": {
+        "solarElevationDeg": 34.32,
+        "solarAzimuthDeg": 108.15,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66100_6675_25_mr19",
+          "capturedAt": "2019-07-20T07:05:46Z",
+          "collection": "orto-o2-2019"
+        }
+      ]
+    }
+  ]
+}

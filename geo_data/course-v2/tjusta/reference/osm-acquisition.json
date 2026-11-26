@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tjusta",
+  "provider": "OpenStreetMap contributors",
+  "licence": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "endpoint": "https://lz4.overpass-api.de/api/interpreter",
+  "retrievedAt": "2026-11-26T11:40:09.665Z",
+  "timestampOsmBase": "2026-11-26T11:38:54Z",
+  "bboxWgs84": [
+    17.96,
+    59.579,
+    18.04,
+    59.62
+  ],
+  "rawResponse": {
+    "bytes": 1135641,
+    "sha256": "31f4f7666adb792e81e6212c146c36fd0cc7ed1819e0b9c2596ecff0e07d3241",
+    "elementCount": 924
+  },
+  "outputs": {
+    "golf": {
+      "file": "osm-golf-epsg3006.geojson",
+      "bytes": 76772,
+      "sha256": "f7ca15ba4ee23169517c1ceb660a60f5df6c9db735237b7811aaae69cc501932"
+    },
+    "context": {
+      "file": "osm-context-epsg3006.geojson",
+      "bytes": 1447533,
+      "sha256": "f64593d80cc5a96e9037ed07e6ac3914fb19e9c95902e136da679a1aa82d79b8"
+    }
+  },
+  "report": {
+    "targetBoundary": {
+      "type": "way",
+      "id": 171945030,
+      "name": "Tjulsta Golfklubb",
+      "bboxEpsg3006": [
+        668561.107,
+        6609133.73,
+        670062.824,
+        6612073.84
+      ]
+    },
+    "neighbourBoundaries": [],
+    "excludedNeighbourGolfCount": 0,
+    "golfCounts": {
+      "golf_course": 1,
+      "tee": 6,
+      "green": 19,
+      "fairway": 8,
+      "bunker": 4,
+      "path": 4
+    },
+    "contextFeatureCount": 882,
+    "expectedHoleCount": 18,
+    "mappedHoleCount": 0,
+    "missingHoleRefs": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ]
+  }
+}

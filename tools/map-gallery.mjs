@@ -41,6 +41,8 @@ export const VIEWS = [
   { id: 'bro-hof-stadium-h17', slug: 'bro-hof-stadium', hole: 17 },
   { id: 'bro-hof-stadium-bana', slug: 'bro-hof-stadium', course: true },
   { id: 'bro-hof-castle-h5', slug: 'bro-hof-castle', hole: 5 },
+  { id: 'tjusta-h18', slug: 'tjusta', hole: 18 },
+  { id: 'tjusta-bana', slug: 'tjusta', course: true },
   { id: 'upsala-mellanbanan-h2', slug: 'upsala-mellanbanan', hole: 2 },
   { id: 'johannesberg-9-h1', slug: 'johannesberg-9', hole: 1 },
   { id: 'veckefjarden-korthalsbanan-h4', slug: 'veckefjarden-korthalsbanan', hole: 4 },
@@ -63,7 +65,9 @@ for (const view of views) {
   const context = await browser.newContext({ viewport, deviceScaleFactor: 2, hasTouch: true, isMobile: true });
   const page = await context.newPage();
   const problems = [];
-  page.on('console', message => { if (message.type() === 'error') problems.push(message.text()); });
+  /* a static server has no /api/health, and the app's probe of it is not the map's error (check-gpu-clean-boot.mjs
+     makes the same exception): counted, it failed every view of every course */
+  page.on('console', message => { if (message.type() === 'error' && !(message.location()?.url ?? '').endsWith('/api/health')) problems.push(message.text()); });
   page.on('pageerror', error => problems.push(error.message));
   const started = Date.now();
   const query = `?bana=${view.slug}&karta=1${view.hole ? `&hal=${view.hole}` : ''}${view.course ? '&vy=bana' : ''}${flag('query', '')}`;

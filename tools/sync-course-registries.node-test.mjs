@@ -17,7 +17,7 @@ test('live repository course registries are synchronized with zero drift', async
   assert.equal(report.ok, true, JSON.stringify(report.drift, null, 2));
   assert.equal(report.driftCount, 0);
   assert.equal(report.groundsChecked, state.derivedGrounds.size);
-  assert.deepEqual([...report.gridAuthoredSlugs].sort(), ['bro-hof-castle', 'bro-hof-stadium', 'lidingo', 'ribbingsfors', 'tortuna', 'visby']);
+  assert.deepEqual([...report.gridAuthoredSlugs].sort(), ['bro-hof-castle', 'bro-hof-stadium', 'lidingo', 'ribbingsfors', 'tjusta', 'tortuna', 'visby']);
 });
 
 test('checkRegistries detects drift when a new grid-authored ground is missing from downstream registries', async () => {
