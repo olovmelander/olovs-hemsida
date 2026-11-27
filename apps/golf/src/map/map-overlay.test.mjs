@@ -10,7 +10,7 @@ const hole = {
 
 function draw(guidance, options = {}) {
   let path = [], dash = [];
-  const strokes = [], labels = [];
+  const strokes = [], labels = [], texts = [];
   const ctx = {
     setTransform() {}, clearRect() {}, closePath() {}, fill() {}, ellipse() {}, arc() {}, roundRect() {},
     beginPath() { path = []; },
@@ -19,7 +19,7 @@ function draw(guidance, options = {}) {
     setLineDash(pattern) { dash = pattern; },
     stroke() { strokes.push({ path: [...path], dash, colour: this.strokeStyle }); },
     measureText(text) { return { width: text.length * 8 }; },
-    fillText(text) { labels.push(text); },
+    fillText(text, x, y) { labels.push(text); texts.push({ text, x, y }); },
   };
   const overlay = createOverlay({ getContext: () => ctx });
   overlay.resize(412, 915, 1);
@@ -29,7 +29,7 @@ function draw(guidance, options = {}) {
   });
   const primary = strokes.filter(s => s.colour === '#ffd23f' && s.path.length);
   const later = strokes.filter(s => s.dash.length && s.colour.startsWith('rgba(255,210,63,'));
-  return { primary, later, labels };
+  return { primary, later, labels, texts };
 }
 
 const plan = {
@@ -77,5 +77,34 @@ describe('active shot overlay', () => {
     expect(primary[0].path.at(-1)).toEqual(target);
     expect(later).toEqual([]);
     expect(labels).toEqual([]);
+  });
+});
+
+describe('hazard pills', () => {
+  /* The line of play runs on screen from the tee (90, 300) toward the pin (360, 150). */
+  const sand = (x, z) => [[x - 6, z - 5], [x + 6, z - 5], [x + 6, z + 5], [x - 6, z + 5]];
+  const bunker = (x, z, side) => ({ kind: 'bunker', at: [x, z], outline: sand(x, z), front: 95, carry: 108, side });
+  const pillOf = hazard => draw(null, { hazards: [hazard] }).texts.find(({ text }) => text === '95–108 m');
+
+  it('stands a bunker\'s distances beside its sand, on the side away from the line, never on the sand', () => {
+    const right = pillOf(bunker(300, 260, 'höger'));
+    expect(right.x).toBeGreaterThan(306);
+    expect(Math.abs(right.y - 0.5 - 260)).toBeLessThan(1);
+    const left = pillOf(bunker(120, 200, 'vänster'));
+    expect(left.x).toBeLessThan(114);
+  });
+
+  it('takes the side from the screen, so a turned map keeps the pill off the sand', () => {
+    /* Called right of play, yet drawn left of the line on this screen. */
+    expect(pillOf(bunker(120, 200, 'höger')).x).toBeLessThan(114);
+  });
+
+  it('stands the pill above a bunker on the line', () => {
+    expect(pillOf(bunker(200, 237, 'mitt')).y).toBeLessThan(232);
+  });
+
+  it('keeps a hazard without an outline on its middle', () => {
+    const water = pillOf({ kind: 'water', at: [250, 240], front: 95, carry: 108, side: 'höger' });
+    expect(water.x).toBe(250);
   });
 });

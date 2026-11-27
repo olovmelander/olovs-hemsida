@@ -264,6 +264,24 @@ Far crowns settle too: between 400 m and 2.5 km a tree's own tone and its sunlit
 ease toward the wood's, so a forest seen from far off reads as a wood, not as glitter
 on the painted canopy. Trees round a hole are untouched. `?treecalm=0` is the before.
 
+Three faults the blind review of Bro Hof found on 27 November, put right in the map alone:
+
+- **The shallows have no seams.** A lake runs teal near its shore and deep in the open, and
+  that tone is read off one shore field for the whole ground (`map-paint.mjs`
+  `shoreField`: the ground's water picture, each lake out to its shore, the outlines, with
+  the played surfaces taken out, 8 m a pixel), over the same 16 m everywhere. Read off each
+  tile's own mask, a shore near a tile's edge was seen on one side of the edge only, and
+  the lake changed colour along straight lines (Stadium 13, 15 and 17).
+  `?watertone=before` is the tile's own mask at a fixed mip.
+- **A bunker's distances stand beside its sand.** The pill goes on the side of the sand
+  away from the line of play as the screen shows it, so a turned map keeps it off the
+  sand, and above a bunker on the line (`map-overlay.mjs`; Castle 2's greenside bunkers
+  were hidden under it). `?hazardpills=before` is the pill on the group's middle.
+- **Near crowns keep their colour.** The tree atlases reach the GPU premultiplied, as the
+  shader that divides by coverage expects: WebGL ignores the premultiply flag for an
+  `ImageBitmap`, so near birches were drawn pale lime with glowing rims (Stadium 2,
+  Castle 18). `?treeedges=before` is the straight atlas.
+
 ## How it stays light
 
 - **Every 1 m sample reaches the screen through the pixel, not the mesh.** Each tile

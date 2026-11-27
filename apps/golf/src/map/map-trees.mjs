@@ -143,6 +143,8 @@ export function plantTile({ node, heights, stand, objects, ground, rules, ground
 
 export { canopyAlpha } from './map-canopy.mjs';
 
+const STRAIGHT_COLOURS = typeof location !== 'undefined' && new URLSearchParams(location.search).get('treeedges') === 'before';
+
 /* The baked pictures: colour and normals per species, as bitmaps a texture array
    takes. A tree that fails to load leaves the map its painted canopy. */
 export async function loadTreeAtlases(catalogue, count, fetchFile) {
@@ -152,7 +154,11 @@ export async function loadTreeAtlases(catalogue, count, fetchFile) {
   };
   const wanted = catalogue.species.slice(0, count);
   const [colours, normals] = await Promise.all([
-    Promise.all(wanted.map(entry => decode(entry.colour, 'none'))),
+    /* Premultiplied as decoded: the shader takes the colours as premultiplied and divides by coverage, and
+       WebGL ignores UNPACK_PREMULTIPLY_ALPHA_WEBGL for an ImageBitmap, so a straight bitmap reached the GPU
+       straight and every partly covered texel came out brightened: near birch crowns drawn pale lime with
+       glowing rims (the blind review, Bro Hof Stadium 2 and Castle 18, 27 November). ?treeedges=before. */
+    Promise.all(wanted.map(entry => decode(entry.colour, STRAIGHT_COLOURS ? 'none' : 'premultiply'))),
     Promise.all(wanted.map(entry => decode(entry.normal, 'none'))),
   ]);
   const shapes = Array.from({ length: 6 }, (_, k) => {

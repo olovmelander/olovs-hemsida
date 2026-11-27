@@ -228,3 +228,32 @@ describe('the shores as published', () => {
     expect(stor.outsideWetSquareMetres).toBeGreaterThan(3000);
   });
 });
+
+describe('the shallows\' tone', () => {
+  const gl = fs.readFileSync(path.join(HERE, 'map-gl.mjs'), 'utf8');
+  const paint = fs.readFileSync(path.join(HERE, 'map-paint.mjs'), 'utf8');
+
+  it('is read off one field for the whole ground, in world metres, never a tile\'s own mask alone', () => {
+    /* A tile's mip sees no shore past its edge: the lake turned tone along straight seams
+       (the blind review, Bro Hof Stadium 13, 15 and 17, 27 November). */
+    expect(gl).toMatch(/textureLod\(uShoreField, shoreAt,/);
+    expect(gl).toMatch(/vec2 shoreAt = \(vWorld\.xz - uShore\.xy\)/);
+    expect(paint).toMatch(/shoreField: paintShoreField/);
+  });
+
+  it('takes the same water as the tiles\' masks: the picture, the lakes to their shores, the outlines', () => {
+    const field = paint.slice(paint.indexOf('function paintShoreField'));
+    for (const part of ['land.water', 'drawShores(pictureCtx, shores.picture, lakeShores)', 'layers.water, layers.basins', 'layers.streams', 'of mown']) {
+      expect(field, part).toContain(part);
+    }
+  });
+});
+
+describe('the map\'s tree atlases', () => {
+  it('reach the GPU premultiplied, as the shader that divides by coverage expects', () => {
+    /* WebGL ignores UNPACK_PREMULTIPLY_ALPHA_WEBGL for an ImageBitmap: a straight atlas drew near
+       crowns pale with glowing rims (Bro Hof Stadium 2 and Castle 18, 27 November). */
+    const trees = fs.readFileSync(path.join(HERE, 'map-trees.mjs'), 'utf8');
+    expect(trees).toMatch(/decode\(entry\.colour, STRAIGHT_COLOURS \? 'none' : 'premultiply'\)/);
+  });
+});
