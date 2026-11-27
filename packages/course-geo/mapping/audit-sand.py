@@ -66,6 +66,8 @@ def measured_sand(cfg):
     """A ground whose sand is not Bro Hof's colour states its own bands (`sand` in trace-config.json); the audit
     reads the sand the tracer read."""
     for kind, bands in (cfg.get('sand') or {}).items():
+        if kind not in SAND or not isinstance(bands, dict):
+            continue  # `measured` is the ground's note on how the bands were read, not a band
         for part in ('core', 'grow'):
             if part in bands:
                 SAND[kind][part] = band_test(bands[part])

@@ -486,7 +486,7 @@ Written by `node tools/course-walkthrough.mjs --catalogue`; a test fails when it
 | `ribbingsfors` | 9 | own builder | no record | automatic | 1 errors, 1 warnings | [yes](courses/ribbingsfors-walkthrough.md) | advisory, 3 open |
 | `tjusta` | 18 | decisions as data | recorded | automatic | 0 errors, 0 warnings | [yes](courses/tjusta-walkthrough.md) | owner acceptance, 5 open |
 | `tortuna` | 18 | own builder | no record | automatic | 0 errors, 0 warnings | none | advisory, 3 open |
-| `upsala` | 18 + 9 | own builder | no record | automatic | 0 errors, 0 warnings | none | advisory, 3 open |
+| `upsala` | 18 + 9 | decisions as data | recorded | automatic | 0 errors, 0 warnings | [yes](courses/upsala-walkthrough.md) | advisory, 3 open |
 | `veckefjarden` | 18 + 9 | own builder | no record | automatic | 3 errors, 1 warnings | [yes](courses/veckefjarden-walkthrough.md) | advisory, 3 open |
 | `visby` | 18 | own builder | no record | automatic | 1 errors, 0 warnings | [yes](courses/visby-walkthrough.md) | advisory, 7 open |
 <!-- /generated:catalogue -->
@@ -501,8 +501,9 @@ the best place to start improving it.
   accepted, not derived, and the audit reckons each level itself, so it cannot see the engine getting a level
   wrong. The drawn-once test lifts the sheet rule out of `main.js` as text. Both want the engine's own rules in
   a module a check can call: an engine edit, and so a bake of every course. Do it with the next engine change.
-- The water lines name two ponds on published grounds that nobody has looked at yet: Upsala 4 (the outline
-  misses its basin by 0.33 m) and Johannesberg 11 (it stands at the height of its bank).
+- The water lines name two ponds on published grounds. Upsala's by the 4th (the outline misses its basin by 0.33 m)
+  was looked at on 27 November: it is a creek drawn as a pond, partly off its channel, and its walkthrough keeps it
+  as a fault for the layers step. Johannesberg 11 (it stands at the height of its bank) has not been looked at yet.
 - The tracer does not stop on a low score by itself; the recorded review is what holds it.
 - The deck check names a deck that is not on level ground; it cannot tell a ring off its deck from a deck newer
   than the terrain. The ground's age is read from three signs (a deck not level, a bunker without a bowl, a

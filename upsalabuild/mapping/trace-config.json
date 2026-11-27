@@ -1,0 +1,195 @@
+{
+ "schemaVersion": 1,
+ "groundId": "upsala",
+ "box": [
+  639200,
+  6635450,
+  641100,
+  6636850
+ ],
+ "imagery": {
+  "sourceId": "orto-o2-2025",
+  "captured": "2025-06-14",
+  "rasters": [
+   "upsalabuild/cache/ortho/2025/south-w-2025.tif",
+   "upsalabuild/cache/ortho/2025/south-m-2025.tif",
+   "upsalabuild/cache/ortho/2025/south-e-2025.tif",
+   "upsalabuild/cache/ortho/2025/north-w-2025.tif",
+   "upsalabuild/cache/ortho/2025/north-m-2025.tif",
+   "upsalabuild/cache/ortho/2025/north-e-2025.tif",
+   "upsalabuild/cache/ortho/2025/overview-2025.tif"
+  ]
+ },
+ "terrain": {
+  "path": "packages/course-geo/toolchain/.cache/acquisition/upsala-ground-rings/l0.f32",
+  "sha256": "d112a9c364239afda755f820a756d5dc096406f1464cc4b9545e0e818f7f93c9",
+  "side": 4097,
+  "firstEasting": 638095.5,
+  "firstNorthing": 6638193.5
+ },
+ "osm": "geo_data/course-v2/upsala/reference/osm-golf-epsg3006.geojson",
+ "water": "geo_data/course-v2/upsala/mapping/water-epsg3006.geojson",
+ "sandDecisions": "upsalabuild/mapping/sand-decisions.json",
+ "sand": {
+  "measured": "Upsala has two sands. Stora banan's raked bunkers are white, as Bro Hof's: inside its 53 bunkers of the reviewed model (eroded 1 m) the 2025-06-14 photo reads brightness 218-229 (quartiles), NDVI -0.13 to -0.12, warmth 7-10. Mellanbanan's, and a few of Stora's, are tan, as Tjusta's: inside 21 of OSM's bunkers that the white bands found no sand in, brightness 145-159, NDVI -0.21 to -0.19, warmth 23-27. Turf round both reads brightness 78-94 and NDVI +0.22 to +0.36. One set of bands holds both: the core is bright (128 and up), clearly bare (NDVI under -0.09) and between neutral and warm (warmth 2-36); it grows over ground at least 112 bright with NDVI under 0.",
+  "bunker": {
+   "core": {
+    "brightness": [
+     128,
+     256
+    ],
+    "ndviBelow": -0.09,
+    "warmth": [
+     2,
+     36
+    ]
+   },
+   "grow": {
+    "brightness": [
+     112,
+     256
+    ],
+    "ndviBelow": 0,
+    "warmth": [
+     -4,
+     45
+    ]
+   }
+  }
+ },
+ "fairways": {
+  "why": "OSM has one fairway here and no hole ways, so each flight's model is taught from the holes' own lines, as at Tjusta, and the fairway is what three flights agree on: mid-June 2025 (the tracing flight), May 2023 and April 2021.",
+  "training": "decision-lines",
+  "fit": "settled",
+  "fitWhy": "Fairway against rough taught from hole lines does not settle in the tracer's fixed steps (Tjusta, 26 November); fitted to convergence it does.",
+  "ndviAbove": 0,
+  "holeReachMetres": 55,
+  "holeReachWhy": "Holes lie side by side in open parkland (Stora banan and Mellanbanan share the ground): each piece of mown turf goes to the hole whose line is nearest, and none beyond 55 m of a line.",
+  "flights": [
+   {
+    "sourceId": "orto-o2-2025",
+    "captured": "2025-06-14",
+    "rasters": [
+     "upsalabuild/cache/ortho/2025/south-w-2025.tif",
+     "upsalabuild/cache/ortho/2025/south-m-2025.tif",
+     "upsalabuild/cache/ortho/2025/south-e-2025.tif",
+     "upsalabuild/cache/ortho/2025/north-w-2025.tif",
+     "upsalabuild/cache/ortho/2025/north-m-2025.tif",
+     "upsalabuild/cache/ortho/2025/north-e-2025.tif",
+     "upsalabuild/cache/ortho/2025/overview-2025.tif"
+    ]
+   },
+   {
+    "sourceId": "orto-o2-2023",
+    "captured": "2023-05-11",
+    "rasters": [
+     "upsalabuild/cache/ortho/2023/course-2023.tif"
+    ]
+   },
+   {
+    "sourceId": "orto-o2-2021",
+    "captured": "2021-04-16",
+    "rasters": [
+     "upsalabuild/cache/ortho/2021/course-2021.tif"
+    ]
+   }
+  ]
+ },
+ "courses": [
+  {
+   "slug": "upsala",
+   "prefix": "stora",
+   "decisions": "upsalabuild/mapping/decisions.json",
+   "card": "upsalabuild/reference/club-scorecard.json",
+   "outDir": "upsalabuild/mapping"
+  },
+  {
+   "slug": "upsala-mellanbanan",
+   "prefix": "mellan",
+   "decisions": "upsalamellanbuild/mapping/decisions.json",
+   "card": "upsalamellanbuild/reference/club-scorecard.json",
+   "outDir": "upsalamellanbuild/mapping"
+  }
+ ],
+ "fairwayExcludeWhy": "The practice grounds are mown like fairway and lie within 55 m of hole lines, so the turf model gave them to holes: the range (its hitting strip south of the range building and the target ground with its discs and bunkers) to Stora 15, the putting green west of the 1st tee to Stora 1, and the short-game green with two bunkers south of the clubhouse road to Stora 10 and Mellanbanan 1. Each is masked out, read off the 2025 photo; they belong to the practice layer.",
+ "fairwayExclude": [
+  [
+   [
+    639585,
+    6636305
+   ],
+   [
+    639700,
+    6636302
+   ],
+   [
+    639760,
+    6636292
+   ],
+   [
+    639785,
+    6636240
+   ],
+   [
+    639785,
+    6636120
+   ],
+   [
+    639620,
+    6636120
+   ],
+   [
+    639585,
+    6636200
+   ],
+   [
+    639585,
+    6636305
+   ]
+  ],
+  [
+   [
+    639730,
+    6636285
+   ],
+   [
+    639802,
+    6636285
+   ],
+   [
+    639802,
+    6636335
+   ],
+   [
+    639730,
+    6636335
+   ],
+   [
+    639730,
+    6636285
+   ]
+  ],
+  [
+   [
+    639955,
+    6636440
+   ],
+   [
+    640032,
+    6636440
+   ],
+   [
+    640032,
+    6636492
+   ],
+   [
+    639955,
+    6636492
+   ],
+   [
+    639955,
+    6636440
+   ]
+  ]
+ ]
+}

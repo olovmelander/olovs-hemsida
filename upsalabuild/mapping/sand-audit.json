@@ -1,0 +1,4263 @@
+{
+ "schemaVersion": 1,
+ "groundId": "upsala",
+ "imagery": {
+  "sourceId": "orto-o2-2025",
+  "captured": "2025-06-14"
+ },
+ "reachMetres": 80,
+ "lines": {
+  "sandShare": 0.6,
+  "sandOutsideM2": 4,
+  "sandOutsideShare": 0.02
+ },
+ "surfaces": {
+  "upsala": "cdbb9f94bf6229dea49d6761e3c1bcaa8ee0454ae4473fa7162e70f6f9989e83",
+  "upsala-mellanbanan": "3bef5de812d9e563f12db7b4a7f63ca9ecef46ac65ada5c9d9c887d633bc6edf"
+ },
+ "modelled": {
+  "bunker": 80,
+  "waste_sand": 0
+ },
+ "rings": [
+  {
+   "id": "mellan-bunker-01-4",
+   "kind": "bunker",
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "areaM2": 25.4,
+   "sandShare": 0.5,
+   "sandOutsideM2": 0,
+   "verdict": "the ring stands: a pot bunker of tan sand about 5 m across, half in a tree's shadow on the 2025 photo and whole on the May 2023 one (drawn by hand, sand-decisions.json)"
+  },
+  {
+   "id": "mellan-bunker-06-5",
+   "kind": "bunker",
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "areaM2": 53.3,
+   "sandShare": 0.35,
+   "sandOutsideM2": 0,
+   "verdict": "the ring stands: the bunker is an oval 7 m by 10 m, lit whole on the May 2023 photo; on the 2025 photo its southern two-thirds lie in a tree's shadow, which the audit cannot read as sand (drawn by hand, sand-decisions.json)"
+  }
+ ],
+ "areas": [
+  {
+   "kind": "bunker",
+   "at": [
+    639795.4,
+    6636354.5
+   ],
+   "areaM2": 23.7,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 64.2,
+   "on": null,
+   "id": "sand-001",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639805,
+    6636347.3
+   ],
+   "areaM2": 21.7,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 54.4,
+   "on": null,
+   "id": "sand-002",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639808.9,
+    6636346
+   ],
+   "areaM2": 6.6,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 55.2,
+   "on": null,
+   "id": "sand-003",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639797,
+    6636331.7
+   ],
+   "areaM2": 46.2,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 43.3,
+   "on": null,
+   "id": "sand-004",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639785.1,
+    6636324.6
+   ],
+   "areaM2": 14.5,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 44.7,
+   "on": null,
+   "id": "sand-005",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639835.9,
+    6636318.9
+   ],
+   "areaM2": 25.6,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 31.7,
+   "on": null,
+   "id": "sand-006",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639819.8,
+    6636299.2
+   ],
+   "areaM2": 199.6,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 1.7,
+   "on": null,
+   "id": "sand-007",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639829.4,
+    6636287.7
+   ],
+   "areaM2": 7.2,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 3.8,
+   "on": null,
+   "id": "sand-008",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640105.9,
+    6636109.5
+   ],
+   "areaM2": 15.4,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 32.5,
+   "on": null,
+   "id": "sand-009",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640080.6,
+    6636210.6
+   ],
+   "areaM2": 17.2,
+   "slug": "upsala",
+   "hole": 2,
+   "metresFromHole": 15.3,
+   "on": null,
+   "id": "sand-010",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640133.4,
+    6636167.6
+   ],
+   "areaM2": 394.5,
+   "slug": "upsala",
+   "hole": 2,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-011",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640217.8,
+    6636186.9
+   ],
+   "areaM2": 20.7,
+   "slug": "upsala",
+   "hole": 3,
+   "metresFromHole": 7.3,
+   "on": null,
+   "id": "sand-012",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640275.1,
+    6635899.5
+   ],
+   "areaM2": 29.5,
+   "slug": "upsala",
+   "hole": 3,
+   "metresFromHole": 19.3,
+   "on": null,
+   "id": "sand-013",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639892.5,
+    6635920.4
+   ],
+   "areaM2": 36.6,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 68.1,
+   "on": null,
+   "id": "sand-014",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639897.7,
+    6635893.7
+   ],
+   "areaM2": 279.2,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 54.7,
+   "on": null,
+   "id": "sand-015",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639889.1,
+    6635766.9
+   ],
+   "areaM2": 8,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 23.9,
+   "on": null,
+   "id": "sand-016",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639512.4,
+    6635844.9
+   ],
+   "areaM2": 7.5,
+   "slug": "upsala",
+   "hole": 7,
+   "metresFromHole": 21.5,
+   "on": null,
+   "id": "sand-017",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639551.9,
+    6635770.8
+   ],
+   "areaM2": 9.1,
+   "slug": "upsala",
+   "hole": 7,
+   "metresFromHole": 27.1,
+   "on": null,
+   "id": "sand-018",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639554.1,
+    6635751.2
+   ],
+   "areaM2": 14.2,
+   "slug": "upsala",
+   "hole": 7,
+   "metresFromHole": 17.7,
+   "on": null,
+   "id": "sand-019",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639529.9,
+    6635722.9
+   ],
+   "areaM2": 28.5,
+   "slug": "upsala",
+   "hole": 7,
+   "metresFromHole": 15.7,
+   "on": null,
+   "id": "sand-020",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639387.1,
+    6636117.7
+   ],
+   "areaM2": 14.8,
+   "slug": "upsala",
+   "hole": 8,
+   "metresFromHole": 28.4,
+   "on": null,
+   "id": "sand-021",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639378,
+    6636088.3
+   ],
+   "areaM2": 334.7,
+   "slug": "upsala",
+   "hole": 8,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-022",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639981.4,
+    6636580.9
+   ],
+   "areaM2": 10,
+   "slug": "upsala",
+   "hole": 9,
+   "metresFromHole": 20.7,
+   "on": null,
+   "id": "sand-023",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639811.1,
+    6636488.9
+   ],
+   "areaM2": 11.9,
+   "slug": "upsala",
+   "hole": 9,
+   "metresFromHole": 30.9,
+   "on": null,
+   "id": "sand-024",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639779.7,
+    6636412
+   ],
+   "areaM2": 25.9,
+   "slug": "upsala",
+   "hole": 9,
+   "metresFromHole": 38.1,
+   "on": null,
+   "id": "sand-025",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639789.9,
+    6636383.7
+   ],
+   "areaM2": 11.5,
+   "slug": "upsala",
+   "hole": 9,
+   "metresFromHole": 61.4,
+   "on": null,
+   "id": "sand-026",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639781.2,
+    6636377.3
+   ],
+   "areaM2": 261.7,
+   "slug": "upsala",
+   "hole": 9,
+   "metresFromHole": 45.6,
+   "on": null,
+   "id": "sand-027",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640146.1,
+    6636689.4
+   ],
+   "areaM2": 11.2,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 49.2,
+   "on": null,
+   "id": "sand-028",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640021.6,
+    6636598.4
+   ],
+   "areaM2": 21.6,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 18,
+   "on": null,
+   "id": "sand-029",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640080.8,
+    6636583.9
+   ],
+   "areaM2": 128,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 30.2,
+   "on": null,
+   "id": "sand-030",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640034.3,
+    6636583.3
+   ],
+   "areaM2": 13.5,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-031",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640063,
+    6636577.8
+   ],
+   "areaM2": 22.8,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 20.6,
+   "on": null,
+   "id": "sand-032",
+   "verdict": "a pale object standing on the ground (a cart, a tank or a trailer), not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640038.1,
+    6636558.1
+   ],
+   "areaM2": 9.7,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 16.2,
+   "on": null,
+   "id": "sand-033",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639979.4,
+    6636479.1
+   ],
+   "areaM2": 35.7,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 31.7,
+   "on": null,
+   "id": "sand-034",
+   "verdict": "a bunker of the short-game practice green south of the clubhouse road. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639997.2,
+    6636470.7
+   ],
+   "areaM2": 26,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 44.3,
+   "on": null,
+   "id": "sand-035",
+   "verdict": "a bunker of the short-game practice green south of the clubhouse road. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640110,
+    6636754.3
+   ],
+   "areaM2": 13.6,
+   "slug": "upsala",
+   "hole": 11,
+   "metresFromHole": 42.1,
+   "on": null,
+   "id": "sand-036",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640074.8,
+    6636742
+   ],
+   "areaM2": 18,
+   "slug": "upsala",
+   "hole": 11,
+   "metresFromHole": 31.5,
+   "on": null,
+   "id": "sand-037",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640030.7,
+    6636735.8
+   ],
+   "areaM2": 91.8,
+   "slug": "upsala",
+   "hole": 11,
+   "metresFromHole": 33.7,
+   "on": null,
+   "id": "sand-038",
+   "verdict": "the bare bank of the ditch along the field west of the course; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640102.2,
+    6636730.7
+   ],
+   "areaM2": 7.4,
+   "slug": "upsala",
+   "hole": 11,
+   "metresFromHole": 17.8,
+   "on": null,
+   "id": "sand-039",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640010.7,
+    6636723.3
+   ],
+   "areaM2": 78.5,
+   "slug": "upsala",
+   "hole": 11,
+   "metresFromHole": 27.3,
+   "on": null,
+   "id": "sand-040",
+   "verdict": "the bare bank of the ditch along the field west of the course; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640139.2,
+    6636700.7
+   ],
+   "areaM2": 45.4,
+   "slug": "upsala",
+   "hole": 11,
+   "metresFromHole": 32.4,
+   "on": null,
+   "id": "sand-041",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640128.1,
+    6636695.9
+   ],
+   "areaM2": 54.3,
+   "slug": "upsala",
+   "hole": 11,
+   "metresFromHole": 27.2,
+   "on": null,
+   "id": "sand-042",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639793.4,
+    6636699.4
+   ],
+   "areaM2": 79.6,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 10.3,
+   "on": null,
+   "id": "sand-043",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639703.2,
+    6636659.5
+   ],
+   "areaM2": 108.6,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 8.5,
+   "on": null,
+   "id": "sand-044",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639432.5,
+    6636480.1
+   ],
+   "areaM2": 35.4,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 50.5,
+   "on": null,
+   "id": "sand-045",
+   "verdict": "the bare bank of the ditch along the field west of the course; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639386,
+    6636473.5
+   ],
+   "areaM2": 46.5,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 68.2,
+   "on": null,
+   "id": "sand-046",
+   "verdict": "the bare bank of the ditch along the field west of the course; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639424.4,
+    6636469.3
+   ],
+   "areaM2": 18.9,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 51.7,
+   "on": null,
+   "id": "sand-047",
+   "verdict": "the bare bank of the ditch along the field west of the course; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639419.6,
+    6636455
+   ],
+   "areaM2": 20.2,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 44.3,
+   "on": null,
+   "id": "sand-048",
+   "verdict": "the bare bank of the ditch along the field west of the course; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639515.4,
+    6636446.2
+   ],
+   "areaM2": 39.4,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 28.9,
+   "on": null,
+   "id": "sand-049",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639508.3,
+    6636441.1
+   ],
+   "areaM2": 34.9,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 25.7,
+   "on": null,
+   "id": "sand-050",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639416.2,
+    6636437.4
+   ],
+   "areaM2": 82,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 28,
+   "on": null,
+   "id": "sand-051",
+   "verdict": "the bare bank of the ditch along the field west of the course; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639393.9,
+    6636404.3
+   ],
+   "areaM2": 16.9,
+   "slug": "upsala",
+   "hole": 12,
+   "metresFromHole": 16.3,
+   "on": null,
+   "id": "sand-052",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639610.5,
+    6636526.3
+   ],
+   "areaM2": 95,
+   "slug": "upsala",
+   "hole": 13,
+   "metresFromHole": 38.3,
+   "on": null,
+   "id": "sand-053",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639616.7,
+    6636502.6
+   ],
+   "areaM2": 37.9,
+   "slug": "upsala",
+   "hole": 13,
+   "metresFromHole": 20.4,
+   "on": null,
+   "id": "sand-054",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639607.9,
+    6636489
+   ],
+   "areaM2": 34.8,
+   "slug": "upsala",
+   "hole": 13,
+   "metresFromHole": 18.2,
+   "on": null,
+   "id": "sand-055",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639579.8,
+    6636469
+   ],
+   "areaM2": 67.8,
+   "slug": "upsala",
+   "hole": 13,
+   "metresFromHole": 19.2,
+   "on": null,
+   "id": "sand-056",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639538.1,
+    6636454.3
+   ],
+   "areaM2": 36.7,
+   "slug": "upsala",
+   "hole": 13,
+   "metresFromHole": 30.6,
+   "on": null,
+   "id": "sand-057",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639536.4,
+    6636435.4
+   ],
+   "areaM2": 9.6,
+   "slug": "upsala",
+   "hole": 13,
+   "metresFromHole": 21.5,
+   "on": null,
+   "id": "sand-058",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639496.9,
+    6636402.5
+   ],
+   "areaM2": 404.1,
+   "slug": "upsala",
+   "hole": 13,
+   "metresFromHole": 6.8,
+   "on": null,
+   "id": "sand-059",
+   "verdict": "floating weed on the pond in June 2025, open water on the April 2021 photo; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639734.5,
+    6636460.7
+   ],
+   "areaM2": 8,
+   "slug": "upsala",
+   "hole": 14,
+   "metresFromHole": 17.5,
+   "on": null,
+   "id": "sand-060",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639698.7,
+    6636327.4
+   ],
+   "areaM2": 29,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 14.1,
+   "on": null,
+   "id": "sand-061",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639674.9,
+    6636308.5
+   ],
+   "areaM2": 30,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 14.8,
+   "on": null,
+   "id": "sand-062",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639698.4,
+    6636308.4
+   ],
+   "areaM2": 13.2,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 29,
+   "on": null,
+   "id": "sand-063",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639682.2,
+    6636293.1
+   ],
+   "areaM2": 44,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 28.5,
+   "on": null,
+   "id": "sand-064",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639646.7,
+    6636265.2
+   ],
+   "areaM2": 38.1,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 35.5,
+   "on": null,
+   "id": "sand-065",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639690.8,
+    6636263.7
+   ],
+   "areaM2": 11.2,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 62.4,
+   "on": null,
+   "id": "sand-066",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639655.1,
+    6636262.2
+   ],
+   "areaM2": 52.9,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 39.5,
+   "on": null,
+   "id": "sand-067",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639673.3,
+    6636256.8
+   ],
+   "areaM2": 11.6,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 57.9,
+   "on": null,
+   "id": "sand-068",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639575.3,
+    6636189.1
+   ],
+   "areaM2": 69.5,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 45.6,
+   "on": null,
+   "id": "sand-069",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639581,
+    6636166.7
+   ],
+   "areaM2": 168.4,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 66.5,
+   "on": null,
+   "id": "sand-070",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639420,
+    6636133.1
+   ],
+   "areaM2": 34.6,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 26.5,
+   "on": null,
+   "id": "sand-071",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639446.3,
+    6636101.3
+   ],
+   "areaM2": 33.3,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 15.5,
+   "on": null,
+   "id": "sand-072",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639500.5,
+    6636100.4
+   ],
+   "areaM2": 13.8,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 28.9,
+   "on": null,
+   "id": "sand-073",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639536,
+    6636056.5
+   ],
+   "areaM2": 488.4,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 0.3,
+   "on": null,
+   "id": "sand-074",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639559.6,
+    6636001.5
+   ],
+   "areaM2": 57.2,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 5.5,
+   "on": null,
+   "id": "sand-075",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639565.4,
+    6635980
+   ],
+   "areaM2": 22.7,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 14.8,
+   "on": null,
+   "id": "sand-076",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639604.2,
+    6635931
+   ],
+   "areaM2": 51.5,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 5.6,
+   "on": null,
+   "id": "sand-077",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639584.8,
+    6635921
+   ],
+   "areaM2": 12.7,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 29.1,
+   "on": null,
+   "id": "sand-078",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639603.8,
+    6635916.5
+   ],
+   "areaM2": 44.6,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 5.2,
+   "on": null,
+   "id": "sand-079",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639612.1,
+    6635750.2
+   ],
+   "areaM2": 22.6,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 20.6,
+   "on": null,
+   "id": "sand-080",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639603.8,
+    6635700.7
+   ],
+   "areaM2": 17,
+   "slug": "upsala",
+   "hole": 16,
+   "metresFromHole": 13.9,
+   "on": null,
+   "id": "sand-081",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639748.5,
+    6635876
+   ],
+   "areaM2": 26,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 21.4,
+   "on": null,
+   "id": "sand-082",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639730.6,
+    6635725.7
+   ],
+   "areaM2": 22.1,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 21.1,
+   "on": null,
+   "id": "sand-083",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639732.5,
+    6635711.1
+   ],
+   "areaM2": 31.8,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 28.2,
+   "on": null,
+   "id": "sand-084",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639737.4,
+    6636265.4
+   ],
+   "areaM2": 11.8,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 71.2,
+   "on": null,
+   "id": "sand-085",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639742.1,
+    6636255.4
+   ],
+   "areaM2": 33.7,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 62.1,
+   "on": null,
+   "id": "sand-086",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639732.8,
+    6636218.6
+   ],
+   "areaM2": 40.2,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 67.7,
+   "on": null,
+   "id": "sand-087",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639748,
+    6636214.6
+   ],
+   "areaM2": 44.8,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 57.1,
+   "on": null,
+   "id": "sand-088",
+   "verdict": "the range: its hitting strip, a target disc or a target bunker. The practice grounds are not traced (fairwayExclude); they belong to the practice layer"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640019.5,
+    6636457.1
+   ],
+   "areaM2": 43.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 41.2,
+   "on": null,
+   "id": "sand-089",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640078.7,
+    6636433.7
+   ],
+   "areaM2": 6.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 35.7,
+   "on": null,
+   "id": "sand-090",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640074.9,
+    6636430.5
+   ],
+   "areaM2": 34.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 29.9,
+   "on": null,
+   "id": "sand-091",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640324.9,
+    6636494.8
+   ],
+   "areaM2": 19.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 69.9,
+   "on": null,
+   "id": "sand-092",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640253.7,
+    6636482
+   ],
+   "areaM2": 16.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 51.5,
+   "on": null,
+   "id": "sand-093",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640277.8,
+    6636476.6
+   ],
+   "areaM2": 303.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 26.2,
+   "on": null,
+   "id": "sand-094",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640369.7,
+    6636466.8
+   ],
+   "areaM2": 89.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 63,
+   "on": null,
+   "id": "sand-095",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640292.6,
+    6636466.3
+   ],
+   "areaM2": 17.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 32.8,
+   "on": null,
+   "id": "sand-096",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640423,
+    6636441.5
+   ],
+   "areaM2": 19.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 76.8,
+   "on": null,
+   "id": "sand-097",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640270.5,
+    6636421.4
+   ],
+   "areaM2": 23.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 10.6,
+   "on": null,
+   "id": "sand-098",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640527.5,
+    6636387.3
+   ],
+   "areaM2": 16.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 67.7,
+   "on": null,
+   "id": "sand-099",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640430.7,
+    6636371.8
+   ],
+   "areaM2": 24.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 19.9,
+   "on": null,
+   "id": "sand-100",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640539.3,
+    6636321.9
+   ],
+   "areaM2": 15.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 4.9,
+   "on": null,
+   "id": "sand-101",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640566.1,
+    6636267.3
+   ],
+   "areaM2": 8.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 28.1,
+   "on": null,
+   "id": "sand-102",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640555.3,
+    6636257.6
+   ],
+   "areaM2": 111.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 33,
+   "on": null,
+   "id": "sand-103",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640532.9,
+    6636255.1
+   ],
+   "areaM2": 125,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 41.3,
+   "on": null,
+   "id": "sand-104",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640779.5,
+    6636474.6
+   ],
+   "areaM2": 26.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 77,
+   "on": null,
+   "id": "sand-105",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640577.2,
+    6636436.7
+   ],
+   "areaM2": 225.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 37.2,
+   "on": null,
+   "id": "sand-106",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640584.3,
+    6636407.8
+   ],
+   "areaM2": 29.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 68.4,
+   "on": null,
+   "id": "sand-107",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640871,
+    6636401.5
+   ],
+   "areaM2": 36.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 46.7,
+   "on": null,
+   "id": "sand-108",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640894.4,
+    6636389.1
+   ],
+   "areaM2": 101.1,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 37,
+   "on": null,
+   "id": "sand-109",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640747.7,
+    6636346.3
+   ],
+   "areaM2": 23.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 45.4,
+   "on": null,
+   "id": "sand-110",
+   "verdict": "the pond's bare stony shore; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640933.4,
+    6636329.9
+   ],
+   "areaM2": 14.1,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 10.1,
+   "on": null,
+   "id": "sand-111",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640644.9,
+    6636342.7
+   ],
+   "areaM2": 8.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 58.1,
+   "on": null,
+   "id": "sand-112",
+   "verdict": "a pale object standing on the ground (a cart, a tank or a trailer), not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640672.9,
+    6636333.7
+   ],
+   "areaM2": 34.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 34,
+   "on": null,
+   "id": "sand-113",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640666.2,
+    6636333.1
+   ],
+   "areaM2": 43.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 35.4,
+   "on": null,
+   "id": "sand-114",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640688.5,
+    6636325.1
+   ],
+   "areaM2": 55.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 23.3,
+   "on": null,
+   "id": "sand-115",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640682.4,
+    6636311.5
+   ],
+   "areaM2": 11.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 14.9,
+   "on": null,
+   "id": "sand-116",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640649.7,
+    6636225
+   ],
+   "areaM2": 25.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 47.5,
+   "on": null,
+   "id": "sand-117",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640762.1,
+    6636190.9
+   ],
+   "areaM2": 84.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 59.2,
+   "on": null,
+   "id": "sand-118",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640735.7,
+    6636184.7
+   ],
+   "areaM2": 16.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 77,
+   "on": null,
+   "id": "sand-119",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640772.1,
+    6636179.1
+   ],
+   "areaM2": 10.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 74.9,
+   "on": null,
+   "id": "sand-120",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640624.4,
+    6636251.1
+   ],
+   "areaM2": 12317,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 10.7,
+   "on": null,
+   "id": "sand-121",
+   "verdict": "the public road through the course, gravel, and its verges; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640537.8,
+    6636246.9
+   ],
+   "areaM2": 15.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 54.7,
+   "on": null,
+   "id": "sand-122",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640547.8,
+    6636241.5
+   ],
+   "areaM2": 20,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 45.4,
+   "on": null,
+   "id": "sand-123",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640536.6,
+    6636218.8
+   ],
+   "areaM2": 60.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 26.4,
+   "on": null,
+   "id": "sand-124",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640576.9,
+    6636213.1
+   ],
+   "areaM2": 14.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 6,
+   "on": null,
+   "id": "sand-125",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640535.6,
+    6636198.3
+   ],
+   "areaM2": 10.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 14.2,
+   "on": null,
+   "id": "sand-126",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640599,
+    6636140.1
+   ],
+   "areaM2": 44,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 57.9,
+   "on": null,
+   "id": "sand-127",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640531.7,
+    6636069.8
+   ],
+   "areaM2": 138.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 76.7,
+   "on": null,
+   "id": "sand-128",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640547,
+    6636061.2
+   ],
+   "areaM2": 299.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 67.4,
+   "on": null,
+   "id": "sand-129",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640648.5,
+    6636045.7
+   ],
+   "areaM2": 321.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 46.8,
+   "on": null,
+   "id": "sand-130",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640542.3,
+    6636037.3
+   ],
+   "areaM2": 9.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 68.3,
+   "on": null,
+   "id": "sand-131",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640669.6,
+    6636028.2
+   ],
+   "areaM2": 37.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 57.4,
+   "on": null,
+   "id": "sand-132",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640542.1,
+    6636027.4
+   ],
+   "areaM2": 22.1,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 60.2,
+   "on": null,
+   "id": "sand-133",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640642.1,
+    6636024.5
+   ],
+   "areaM2": 24,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 33.7,
+   "on": null,
+   "id": "sand-134",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640562.2,
+    6635978.6
+   ],
+   "areaM2": 20,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 16.1,
+   "on": null,
+   "id": "sand-135",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640685.8,
+    6635976.3
+   ],
+   "areaM2": 51.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 75.9,
+   "on": null,
+   "id": "sand-136",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640653.2,
+    6635968.7
+   ],
+   "areaM2": 40.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 53,
+   "on": null,
+   "id": "sand-137",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640660.9,
+    6635951.1
+   ],
+   "areaM2": 47,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 70.2,
+   "on": null,
+   "id": "sand-138",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640466.6,
+    6635947.8
+   ],
+   "areaM2": 38.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 69.3,
+   "on": null,
+   "id": "sand-139",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640484.8,
+    6635936.4
+   ],
+   "areaM2": 121.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 40.6,
+   "on": null,
+   "id": "sand-140",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640622,
+    6635931.1
+   ],
+   "areaM2": 76.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 47.4,
+   "on": null,
+   "id": "sand-141",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640476.8,
+    6635930.8
+   ],
+   "areaM2": 20,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 51,
+   "on": null,
+   "id": "sand-142",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640510.7,
+    6635923.5
+   ],
+   "areaM2": 78.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 22.4,
+   "on": null,
+   "id": "sand-143",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640566.2,
+    6635912.8
+   ],
+   "areaM2": 95.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 12.6,
+   "on": null,
+   "id": "sand-144",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640609.2,
+    6635909.7
+   ],
+   "areaM2": 48.1,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 53.2,
+   "on": null,
+   "id": "sand-145",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640627.5,
+    6635906.1
+   ],
+   "areaM2": 90.1,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 71.3,
+   "on": null,
+   "id": "sand-146",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640556.3,
+    6635903.7
+   ],
+   "areaM2": 19.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 19.4,
+   "on": null,
+   "id": "sand-147",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640586,
+    6635888.2
+   ],
+   "areaM2": 115.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 39.7,
+   "on": null,
+   "id": "sand-148",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640580.5,
+    6635838.8
+   ],
+   "areaM2": 8.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 78.7,
+   "on": null,
+   "id": "sand-149",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640532.2,
+    6635827.3
+   ],
+   "areaM2": 99.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 39.9,
+   "on": null,
+   "id": "sand-150",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640569.1,
+    6635825.5
+   ],
+   "areaM2": 24.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 77.2,
+   "on": null,
+   "id": "sand-151",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640525.5,
+    6635818.6
+   ],
+   "areaM2": 61.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 42.7,
+   "on": null,
+   "id": "sand-152",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640348.7,
+    6635920.3
+   ],
+   "areaM2": 80.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 12.3,
+   "on": null,
+   "id": "sand-153",
+   "verdict": "a gravel cart path that no map has (neither OSM nor the context holds a path here); not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640325.7,
+    6635916.1
+   ],
+   "areaM2": 27.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 36.8,
+   "on": null,
+   "id": "sand-154",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640327.4,
+    6635907.7
+   ],
+   "areaM2": 17.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 29.5,
+   "on": null,
+   "id": "sand-155",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640405.4,
+    6635843.7
+   ],
+   "areaM2": 32.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 32.2,
+   "on": null,
+   "id": "sand-156",
+   "verdict": "a flat granite slab in the rough, grey-white on both photo years where every bunker here is white or tan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640309.7,
+    6635835.1
+   ],
+   "areaM2": 12.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 11.7,
+   "on": null,
+   "id": "sand-157",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640286.6,
+    6635825.7
+   ],
+   "areaM2": 6.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 13.5,
+   "on": null,
+   "id": "sand-158",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640453.2,
+    6636282
+   ],
+   "areaM2": 7.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 8,
+   "metresFromHole": 14,
+   "on": null,
+   "id": "sand-159",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640508.3,
+    6636240.9
+   ],
+   "areaM2": 164.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 8,
+   "metresFromHole": 44.8,
+   "on": null,
+   "id": "sand-160",
+   "verdict": "a house's roof, patio, pool surround or garden by Mellanbanan; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640343.8,
+    6635974.3
+   ],
+   "areaM2": 12.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 8,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-161",
+   "verdict": "a footbridge over the creek; not sand"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640321,
+    6635929.7
+   ],
+   "areaM2": 14.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 8,
+   "metresFromHole": 32.4,
+   "on": null,
+   "id": "sand-162",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639969.7,
+    6636336.1
+   ],
+   "areaM2": 5.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 64.2,
+   "on": null,
+   "id": "sand-163",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640102.3,
+    6636316.6
+   ],
+   "areaM2": 28.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-164",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639984.7,
+    6636280.9
+   ],
+   "areaM2": 28.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 36.2,
+   "on": null,
+   "id": "sand-165",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640037.6,
+    6636245
+   ],
+   "areaM2": 21.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 32.3,
+   "on": null,
+   "id": "sand-166",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640023.3,
+    6636228.1
+   ],
+   "areaM2": 83.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 52.2,
+   "on": null,
+   "id": "sand-167",
+   "verdict": "a granite outcrop in the rough, grey and mottled with lichen, the same on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    639843.8,
+    6636363.8
+   ],
+   "areaM2": 2318,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 30.7,
+   "on": null,
+   "id": "sand-168",
+   "verdict": "the clubhouse's gravel yards, paths and roofs; not a bunker"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    639960,
+    6636306.8
+   ],
+   "areaM2": 2321,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 35.9,
+   "on": null,
+   "id": "sand-169",
+   "verdict": "the clubhouse's gravel yards, paths and roofs; not a bunker"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    639897.8,
+    6635892.2
+   ],
+   "areaM2": 268,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 55.3,
+   "on": null,
+   "id": "sand-170",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    639892.6,
+    6636487.5
+   ],
+   "areaM2": 707.2,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 42.8,
+   "on": null,
+   "id": "sand-171",
+   "verdict": "the clubhouse's gravel yards, paths and roofs; not a bunker"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    639721.5,
+    6636294.8
+   ],
+   "areaM2": 271.5,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 45.5,
+   "on": null,
+   "id": "sand-172",
+   "verdict": "bare ground (a worn patch, a soil heap or a field edge), the same kind of ground on the April 2021 photo; not a bunker"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    640638,
+    6636595.2
+   ],
+   "areaM2": 2566.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 69,
+   "on": null,
+   "id": "sand-173",
+   "verdict": "a building site by the houses north of Mellanbanan 3, bare soil and gravel; not a bunker"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639939.6,
+    6636365.5
+   ],
+   "areaM2": 11842,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-174"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639807,
+    6636299
+   ],
+   "areaM2": 19.6,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 10.4,
+   "on": "a road or a path",
+   "id": "sand-175"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639796.3,
+    6636296.3
+   ],
+   "areaM2": 108.4,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 20.9,
+   "on": "a road or a path",
+   "id": "sand-176"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640029.6,
+    6636193.5
+   ],
+   "areaM2": 22.4,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 40.7,
+   "on": "a road or a path",
+   "id": "sand-177"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640048.9,
+    6636171.9
+   ],
+   "areaM2": 50.9,
+   "slug": "upsala",
+   "hole": 1,
+   "metresFromHole": 38.4,
+   "on": "a road or a path",
+   "id": "sand-178"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640133,
+    6636252.3
+   ],
+   "areaM2": 12.4,
+   "slug": "upsala",
+   "hole": 2,
+   "metresFromHole": 24.5,
+   "on": "a road or a path",
+   "id": "sand-179"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640160.4,
+    6636249.1
+   ],
+   "areaM2": 41.6,
+   "slug": "upsala",
+   "hole": 2,
+   "metresFromHole": 31.1,
+   "on": "a road or a path",
+   "id": "sand-180"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640069,
+    6636241.8
+   ],
+   "areaM2": 367.9,
+   "slug": "upsala",
+   "hole": 2,
+   "metresFromHole": 6.8,
+   "on": "a road or a path",
+   "id": "sand-181"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640226.5,
+    6636204.6
+   ],
+   "areaM2": 274,
+   "slug": "upsala",
+   "hole": 3,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-182"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639880.9,
+    6636202.8
+   ],
+   "areaM2": 24,
+   "slug": "upsala",
+   "hole": 4,
+   "metresFromHole": 29,
+   "on": "a road or a path",
+   "id": "sand-183"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639880.1,
+    6636120.9
+   ],
+   "areaM2": 306.9,
+   "slug": "upsala",
+   "hole": 4,
+   "metresFromHole": 17.8,
+   "on": "a road or a path",
+   "id": "sand-184"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639917.4,
+    6636090.3
+   ],
+   "areaM2": 7.6,
+   "slug": "upsala",
+   "hole": 4,
+   "metresFromHole": 29.1,
+   "on": "a road or a path",
+   "id": "sand-185"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640165.1,
+    6635935.5
+   ],
+   "areaM2": 111,
+   "slug": "upsala",
+   "hole": 4,
+   "metresFromHole": 20.4,
+   "on": "a road or a path",
+   "id": "sand-186"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640283.3,
+    6635894.9
+   ],
+   "areaM2": 237.4,
+   "slug": "upsala",
+   "hole": 4,
+   "metresFromHole": 8.3,
+   "on": "a road or a path",
+   "id": "sand-187"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639934.4,
+    6635978.3
+   ],
+   "areaM2": 582.8,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 12.3,
+   "on": "a road or a path",
+   "id": "sand-188"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639894.7,
+    6635861.5
+   ],
+   "areaM2": 208.3,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 54.6,
+   "on": "a road or a path",
+   "id": "sand-189"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639800.1,
+    6635748
+   ],
+   "areaM2": 186.2,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 58.9,
+   "on": "a road or a path",
+   "id": "sand-190"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639804.2,
+    6635673.3
+   ],
+   "areaM2": 21.5,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 13.3,
+   "on": "a road or a path",
+   "id": "sand-191"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639787.8,
+    6635662.8
+   ],
+   "areaM2": 19.7,
+   "slug": "upsala",
+   "hole": 5,
+   "metresFromHole": 10.4,
+   "on": "a road or a path",
+   "id": "sand-192"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639678.4,
+    6635696.9
+   ],
+   "areaM2": 1544.7,
+   "slug": "upsala",
+   "hole": 6,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-193"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639537.5,
+    6635628.7
+   ],
+   "areaM2": 59.4,
+   "slug": "upsala",
+   "hole": 6,
+   "metresFromHole": 22.5,
+   "on": "a road or a path",
+   "id": "sand-194"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639553,
+    6635722.9
+   ],
+   "areaM2": 148.5,
+   "slug": "upsala",
+   "hole": 7,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-195"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639538.7,
+    6636294.9
+   ],
+   "areaM2": 124.6,
+   "slug": "upsala",
+   "hole": 8,
+   "metresFromHole": 24,
+   "on": "a road or a path",
+   "id": "sand-196"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639443.9,
+    6636193.6
+   ],
+   "areaM2": 262.1,
+   "slug": "upsala",
+   "hole": 8,
+   "metresFromHole": 18.3,
+   "on": "a road or a path",
+   "id": "sand-197"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639379.2,
+    6636140.2
+   ],
+   "areaM2": 72.4,
+   "slug": "upsala",
+   "hole": 8,
+   "metresFromHole": 10.1,
+   "on": "a road or a path",
+   "id": "sand-198"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639974,
+    6636578.3
+   ],
+   "areaM2": 91.8,
+   "slug": "upsala",
+   "hole": 9,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-199"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639744.6,
+    6636446.7
+   ],
+   "areaM2": 517.8,
+   "slug": "upsala",
+   "hole": 9,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-200"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639795.8,
+    6636425.5
+   ],
+   "areaM2": 95,
+   "slug": "upsala",
+   "hole": 9,
+   "metresFromHole": 34.6,
+   "on": "a road or a path",
+   "id": "sand-201"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640066.3,
+    6636553.1
+   ],
+   "areaM2": 761.2,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 8.2,
+   "on": "a road or a path",
+   "id": "sand-202"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639973.9,
+    6636506
+   ],
+   "areaM2": 13.1,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 5.8,
+   "on": "a road or a path",
+   "id": "sand-203"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640004.7,
+    6636503.8
+   ],
+   "areaM2": 16.4,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 25.8,
+   "on": "a road or a path",
+   "id": "sand-204"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640020.3,
+    6636501.1
+   ],
+   "areaM2": 65.3,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 35.4,
+   "on": "a road or a path",
+   "id": "sand-205"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640041.4,
+    6636496.9
+   ],
+   "areaM2": 34.6,
+   "slug": "upsala",
+   "hole": 10,
+   "metresFromHole": 50.6,
+   "on": "a road or a path",
+   "id": "sand-206"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640034.4,
+    6636692.5
+   ],
+   "areaM2": 166.7,
+   "slug": "upsala",
+   "hole": 11,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-207"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639680.6,
+    6636389.7
+   ],
+   "areaM2": 313.8,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 4.7,
+   "on": "a road or a path",
+   "id": "sand-208"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639691.7,
+    6636340.5
+   ],
+   "areaM2": 24,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-209"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639647.5,
+    6636333.4
+   ],
+   "areaM2": 313.2,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 14.9,
+   "on": "a road or a path",
+   "id": "sand-210"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639682.6,
+    6636317.7
+   ],
+   "areaM2": 74.6,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 1.1,
+   "on": "a road or a path",
+   "id": "sand-211"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639699,
+    6636300.2
+   ],
+   "areaM2": 14.5,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 34.9,
+   "on": "a building",
+   "id": "sand-212"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639517.6,
+    6636265
+   ],
+   "areaM2": 17.2,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 41.5,
+   "on": "a road or a path",
+   "id": "sand-213"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639503.1,
+    6636244.7
+   ],
+   "areaM2": 88.5,
+   "slug": "upsala",
+   "hole": 15,
+   "metresFromHole": 34.2,
+   "on": "a road or a path",
+   "id": "sand-214"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639763.6,
+    6635925.7
+   ],
+   "areaM2": 75.9,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 13.4,
+   "on": "a road or a path",
+   "id": "sand-215"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639759.4,
+    6635889.7
+   ],
+   "areaM2": 16.6,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 10.3,
+   "on": "a road or a path",
+   "id": "sand-216"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639855.4,
+    6635822.9
+   ],
+   "areaM2": 41,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 79.6,
+   "on": "a road or a path",
+   "id": "sand-217"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639833.3,
+    6635805.2
+   ],
+   "areaM2": 106.1,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 69.5,
+   "on": "a road or a path",
+   "id": "sand-218"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639814,
+    6635788.2
+   ],
+   "areaM2": 8.2,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 74.2,
+   "on": "a road or a path",
+   "id": "sand-219"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639667.6,
+    6635682.5
+   ],
+   "areaM2": 42.2,
+   "slug": "upsala",
+   "hole": 17,
+   "metresFromHole": 11.2,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-220"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639847.1,
+    6636048.3
+   ],
+   "areaM2": 18.6,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 49.1,
+   "on": "a road or a path",
+   "id": "sand-221"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639819.6,
+    6636008.2
+   ],
+   "areaM2": 120,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 39.9,
+   "on": "a road or a path",
+   "id": "sand-222"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639786.8,
+    6635965.9
+   ],
+   "areaM2": 122,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 26.9,
+   "on": "a road or a path",
+   "id": "sand-223"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639748.6,
+    6635920.9
+   ],
+   "areaM2": 13.2,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 18.4,
+   "on": "a road or a path",
+   "id": "sand-224"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639702.4,
+    6635857.1
+   ],
+   "areaM2": 7.9,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 23.2,
+   "on": "a road or a path",
+   "id": "sand-225"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639700,
+    6635845.9
+   ],
+   "areaM2": 213.2,
+   "slug": "upsala",
+   "hole": 18,
+   "metresFromHole": 27.9,
+   "on": "a road or a path",
+   "id": "sand-226"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640086,
+    6636463.1
+   ],
+   "areaM2": 563.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 44.8,
+   "on": "a road or a path",
+   "id": "sand-227"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640201.8,
+    6636444.2
+   ],
+   "areaM2": 18.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 59.7,
+   "on": "a road or a path",
+   "id": "sand-228"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639918.8,
+    6636438.7
+   ],
+   "areaM2": 16.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 60,
+   "on": "a road or a path",
+   "id": "sand-229"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640175.9,
+    6636435.7
+   ],
+   "areaM2": 137,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 48.3,
+   "on": "a road or a path",
+   "id": "sand-230"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640150.9,
+    6636431.5
+   ],
+   "areaM2": 21.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 47.6,
+   "on": "a road or a path",
+   "id": "sand-231"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639987.8,
+    6636400.5
+   ],
+   "areaM2": 13.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 15.7,
+   "on": "a road or a path",
+   "id": "sand-232"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640005.6,
+    6636396.1
+   ],
+   "areaM2": 13.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 15.7,
+   "on": "a road or a path",
+   "id": "sand-233"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640040,
+    6636394.5
+   ],
+   "areaM2": 34.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 8.5,
+   "on": "a road or a path",
+   "id": "sand-234"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640287.9,
+    6636382.7
+   ],
+   "areaM2": 10,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 16.3,
+   "on": "a road or a path",
+   "id": "sand-235"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639973.3,
+    6636366.6
+   ],
+   "areaM2": 93,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 39.2,
+   "on": "a road or a path",
+   "id": "sand-236"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640247.9,
+    6636338.1
+   ],
+   "areaM2": 14.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 1,
+   "metresFromHole": 26.4,
+   "on": "a road or a path",
+   "id": "sand-237"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640288.1,
+    6636481.1
+   ],
+   "areaM2": 9.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 44.2,
+   "on": "a building",
+   "id": "sand-238"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640310.6,
+    6636465.1
+   ],
+   "areaM2": 1186.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-239"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640233.9,
+    6636455.9
+   ],
+   "areaM2": 110.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 34.9,
+   "on": "a road or a path",
+   "id": "sand-240"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640271.7,
+    6636452.6
+   ],
+   "areaM2": 114.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 13.8,
+   "on": "a road or a path",
+   "id": "sand-241"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640213.7,
+    6636448.8
+   ],
+   "areaM2": 49.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 60.6,
+   "on": "a road or a path",
+   "id": "sand-242"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640562.6,
+    6636400.3
+   ],
+   "areaM2": 190.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 65.9,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-243"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640577.6,
+    6636390.1
+   ],
+   "areaM2": 33.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 56.7,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-244"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640584,
+    6636353.9
+   ],
+   "areaM2": 53.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 17.7,
+   "on": "a road or a path",
+   "id": "sand-245"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640562.9,
+    6636536.3
+   ],
+   "areaM2": 9.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 63.4,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-246"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640583.1,
+    6636508.9
+   ],
+   "areaM2": 10.1,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 29.1,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-247"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640512.8,
+    6636488.1
+   ],
+   "areaM2": 19.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 78.7,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-248"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640536.2,
+    6636460.7
+   ],
+   "areaM2": 5.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 3,
+   "metresFromHole": 61.6,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-249"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640649.9,
+    6636320.1
+   ],
+   "areaM2": 22,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 31.2,
+   "on": "a building",
+   "id": "sand-250"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640666.3,
+    6636320.1
+   ],
+   "areaM2": 19.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 27.5,
+   "on": "a building",
+   "id": "sand-251"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640999.5,
+    6636240.5
+   ],
+   "areaM2": 21.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 21.7,
+   "on": "a road or a path",
+   "id": "sand-252"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640755.8,
+    6636236
+   ],
+   "areaM2": 17.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 24,
+   "on": "a road or a path",
+   "id": "sand-253"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640721.8,
+    6636232.9
+   ],
+   "areaM2": 145.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 26.8,
+   "on": "a road or a path",
+   "id": "sand-254"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640695.6,
+    6636228.8
+   ],
+   "areaM2": 15.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 41.2,
+   "on": "a road or a path",
+   "id": "sand-255"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640786.6,
+    6636222.7
+   ],
+   "areaM2": 25.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 31.5,
+   "on": "a road or a path",
+   "id": "sand-256"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640939.2,
+    6636215.5
+   ],
+   "areaM2": 49,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 41.6,
+   "on": "a road or a path",
+   "id": "sand-257"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640990.8,
+    6636209.2
+   ],
+   "areaM2": 12.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 53.2,
+   "on": "a road or a path",
+   "id": "sand-258"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640957.6,
+    6636207.9
+   ],
+   "areaM2": 28.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 53.4,
+   "on": "a road or a path",
+   "id": "sand-259"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640979,
+    6636205.9
+   ],
+   "areaM2": 22,
+   "slug": "upsala-mellanbanan",
+   "hole": 4,
+   "metresFromHole": 57,
+   "on": "a road or a path",
+   "id": "sand-260"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640552.8,
+    6636185.4
+   ],
+   "areaM2": 24.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-261"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640564.1,
+    6636185.2
+   ],
+   "areaM2": 14,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 4.5,
+   "on": "a road or a path",
+   "id": "sand-262"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640586.7,
+    6636162
+   ],
+   "areaM2": 8.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 37.5,
+   "on": "a road or a path",
+   "id": "sand-263"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640570.4,
+    6636144.7
+   ],
+   "areaM2": 14.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 42,
+   "on": "a road or a path",
+   "id": "sand-264"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640562.9,
+    6636127.3
+   ],
+   "areaM2": 121.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 47.5,
+   "on": "a road or a path",
+   "id": "sand-265"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640603,
+    6636125.1
+   ],
+   "areaM2": 90.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 64,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-266"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640585.4,
+    6636124
+   ],
+   "areaM2": 15.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 67.5,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-267"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640594.4,
+    6636117.1
+   ],
+   "areaM2": 22.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 77.4,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-268"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640444,
+    6636111.8
+   ],
+   "areaM2": 19.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 62.2,
+   "on": "a road or a path",
+   "id": "sand-269"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640596.6,
+    6636110.7
+   ],
+   "areaM2": 60.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 74.2,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-270"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640563,
+    6636092.6
+   ],
+   "areaM2": 88.1,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 63.4,
+   "on": "a road or a path",
+   "id": "sand-271"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640573,
+    6636062.5
+   ],
+   "areaM2": 133.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 50,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-272"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640560.2,
+    6636051.1
+   ],
+   "areaM2": 39.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 60.8,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-273"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640584.4,
+    6635986.1
+   ],
+   "areaM2": 284,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 1,
+   "on": "a road or a path",
+   "id": "sand-274"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640491.2,
+    6635983.9
+   ],
+   "areaM2": 67.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 58.2,
+   "on": "a road or a path",
+   "id": "sand-275"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640527.1,
+    6635959.9
+   ],
+   "areaM2": 22.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 31.1,
+   "on": "a road or a path",
+   "id": "sand-276"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640535.8,
+    6635948.3
+   ],
+   "areaM2": 128.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 14.9,
+   "on": "a road or a path",
+   "id": "sand-277"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640287.2,
+    6635802.5
+   ],
+   "areaM2": 8.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 14.3,
+   "on": "a road or a path",
+   "id": "sand-278"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640448.5,
+    6635928.5
+   ],
+   "areaM2": 11.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 74,
+   "on": "a road or a path",
+   "id": "sand-279"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640440.4,
+    6635902.3
+   ],
+   "areaM2": 16.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 53.9,
+   "on": "a road or a path",
+   "id": "sand-280"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640433.6,
+    6635885.7
+   ],
+   "areaM2": 58.2,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 32.4,
+   "on": "a road or a path",
+   "id": "sand-281"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640394.5,
+    6635862.8
+   ],
+   "areaM2": 70.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 11.8,
+   "on": "a road or a path",
+   "id": "sand-282"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640379,
+    6635840.9
+   ],
+   "areaM2": 66,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 22.8,
+   "on": "a road or a path",
+   "id": "sand-283"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640289.2,
+    6635840.4
+   ],
+   "areaM2": 81.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-284"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640345.1,
+    6635834.9
+   ],
+   "areaM2": 6.9,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 27.2,
+   "on": "a road or a path",
+   "id": "sand-285"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640324.4,
+    6635829.6
+   ],
+   "areaM2": 18.4,
+   "slug": "upsala-mellanbanan",
+   "hole": 7,
+   "metresFromHole": 21.5,
+   "on": "a road or a path",
+   "id": "sand-286"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640373.7,
+    6636253.9
+   ],
+   "areaM2": 170.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 8,
+   "metresFromHole": 47.4,
+   "on": "a road or a path",
+   "id": "sand-287"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640397.7,
+    6636150.5
+   ],
+   "areaM2": 525.3,
+   "slug": "upsala-mellanbanan",
+   "hole": 8,
+   "metresFromHole": 0,
+   "on": "a road or a path",
+   "id": "sand-288"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640004.5,
+    6636332.1
+   ],
+   "areaM2": 153.8,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 8.3,
+   "on": "a road or a path",
+   "id": "sand-289"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640049.8,
+    6636262.3
+   ],
+   "areaM2": 26.7,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 20.7,
+   "on": "a road or a path",
+   "id": "sand-290"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    640015.8,
+    6636260.3
+   ],
+   "areaM2": 27.1,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 23.9,
+   "on": "a road or a path",
+   "id": "sand-291"
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    639996.7,
+    6636253.5
+   ],
+   "areaM2": 16.6,
+   "slug": "upsala-mellanbanan",
+   "hole": 9,
+   "metresFromHole": 40.4,
+   "on": "a road or a path",
+   "id": "sand-292"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    640271.5,
+    6636479.2
+   ],
+   "areaM2": 455,
+   "slug": "upsala-mellanbanan",
+   "hole": 2,
+   "metresFromHole": 26.6,
+   "on": "a building",
+   "id": "sand-293"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    640594.6,
+    6636124.8
+   ],
+   "areaM2": 263.5,
+   "slug": "upsala-mellanbanan",
+   "hole": 5,
+   "metresFromHole": 63.9,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-294"
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    640681.8,
+    6636013.2
+   ],
+   "areaM2": 623,
+   "slug": "upsala-mellanbanan",
+   "hole": 6,
+   "metresFromHole": 46.6,
+   "on": "a yard, a building site or bare rock",
+   "id": "sand-295"
+  }
+ ],
+ "before": {
+  "captured": "2021-04-16",
+  "levels": {
+   "sandBrightness": 225,
+   "turfBrightness": 95,
+   "sandNdvi": -0.02,
+   "turfNdvi": 0.26
+  },
+  "lines": {
+   "wasSand": 0.85,
+   "wasGrass": 0.1,
+   "shade": 0.3
+  },
+  "bunkers": 80,
+  "wasSand": 50,
+  "changed": [
+   {
+    "id": "stora-bunker-08-1",
+    "slug": "upsala",
+    "hole": 8,
+    "wasSand": 0.03,
+    "wasGrass": 0.96
+   },
+   {
+    "id": "stora-bunker-15-1",
+    "slug": "upsala",
+    "hole": 15,
+    "wasSand": 0.81,
+    "wasGrass": 0.17
+   },
+   {
+    "id": "stora-bunker-15-2",
+    "slug": "upsala",
+    "hole": 15,
+    "wasSand": 0.83,
+    "wasGrass": 0.16
+   },
+   {
+    "id": "mellan-bunker-03-1",
+    "slug": "upsala-mellanbanan",
+    "hole": 3,
+    "wasSand": 0.01,
+    "wasGrass": 0.1
+   }
+  ],
+  "shaded": [
+   {
+    "id": "stora-bunker-10-1",
+    "slug": "upsala",
+    "hole": 10,
+    "wasSand": 0.36,
+    "wasGrass": 0
+   },
+   {
+    "id": "stora-bunker-10-5",
+    "slug": "upsala",
+    "hole": 10,
+    "wasSand": 0.1,
+    "wasGrass": 0
+   },
+   {
+    "id": "stora-bunker-12-2",
+    "slug": "upsala",
+    "hole": 12,
+    "wasSand": 0.41,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-01-1",
+    "slug": "upsala-mellanbanan",
+    "hole": 1,
+    "wasSand": 0.05,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-01-2",
+    "slug": "upsala-mellanbanan",
+    "hole": 1,
+    "wasSand": 0.36,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-01-3",
+    "slug": "upsala-mellanbanan",
+    "hole": 1,
+    "wasSand": 0.25,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-01-4",
+    "slug": "upsala-mellanbanan",
+    "hole": 1,
+    "wasSand": 0,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-02-1",
+    "slug": "upsala-mellanbanan",
+    "hole": 2,
+    "wasSand": 0.28,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-03-2",
+    "slug": "upsala-mellanbanan",
+    "hole": 3,
+    "wasSand": 0.33,
+    "wasGrass": 0.02
+   },
+   {
+    "id": "mellan-bunker-04-1",
+    "slug": "upsala-mellanbanan",
+    "hole": 4,
+    "wasSand": 0.26,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-04-2",
+    "slug": "upsala-mellanbanan",
+    "hole": 4,
+    "wasSand": 0.59,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-05-1",
+    "slug": "upsala-mellanbanan",
+    "hole": 5,
+    "wasSand": 0.64,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-05-2",
+    "slug": "upsala-mellanbanan",
+    "hole": 5,
+    "wasSand": 0.25,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-05-4",
+    "slug": "upsala-mellanbanan",
+    "hole": 5,
+    "wasSand": 0.65,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-06-1",
+    "slug": "upsala-mellanbanan",
+    "hole": 6,
+    "wasSand": 0.25,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-06-2",
+    "slug": "upsala-mellanbanan",
+    "hole": 6,
+    "wasSand": 0.33,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-06-3",
+    "slug": "upsala-mellanbanan",
+    "hole": 6,
+    "wasSand": 0.16,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-06-4",
+    "slug": "upsala-mellanbanan",
+    "hole": 6,
+    "wasSand": 0,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-06-5",
+    "slug": "upsala-mellanbanan",
+    "hole": 6,
+    "wasSand": 0.05,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-07-1",
+    "slug": "upsala-mellanbanan",
+    "hole": 7,
+    "wasSand": 0.22,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-07-2",
+    "slug": "upsala-mellanbanan",
+    "hole": 7,
+    "wasSand": 0.16,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-09-1",
+    "slug": "upsala-mellanbanan",
+    "hole": 9,
+    "wasSand": 0.03,
+    "wasGrass": 0
+   },
+   {
+    "id": "mellan-bunker-09-2",
+    "slug": "upsala-mellanbanan",
+    "hole": 9,
+    "wasSand": 0.37,
+    "wasGrass": 0
+   }
+  ]
+ }
+}
