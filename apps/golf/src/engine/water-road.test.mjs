@@ -81,7 +81,8 @@ describe('the water road pass', () => {
     expect(main).toMatch(/const WATER_RELIEF_ON = new URLSearchParams\(location\.search\)\.get\('waterrelief'\) !== '0';/);
     expect(main).toMatch(/road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,\n/);
     expect(main).toMatch(/setNordicWaterPreset\(p, [^\n]*\n[^\n]*\n\s+setWaterRoadPreset\(p\);/);
-    expect(main).toMatch(/const openSeaMat = OPEN_SEA_ON && HAS_SEA \? makeWater\(\{ showBed: M\.infra\.terrainPlacement !== 'measured-only', sea: true \}\) : waterMat;/);
+    /* with the measured sea's own shore where the ground has one (coastal-water.mjs SEA_SHORE) */
+    expect(main).toMatch(/const openSeaMat = OPEN_SEA_ON && HAS_SEA \? makeWater\(\{ showBed: M\.infra\.terrainPlacement !== 'measured-only', sea: true,\n\s+seaShore: COASTAL_TERRAIN_MASK\?\.shoreMap \? \{ shore: SEA_SHORE_FIELD, map: COASTAL_TERRAIN_MASK\.shoreMap \} : null \}\) : waterMat;/);
     /* the sea's rings, the Lidingö sea without its coverage, the coastal extension and the horizon sheet */
     expect(main).toMatch(/new THREE\.Mesh\(g, seaSheetFor\(w\.level, w\.isSea\)\)/);
     expect(main).toMatch(/: isSea \? openSeaMat : waterMat;/);

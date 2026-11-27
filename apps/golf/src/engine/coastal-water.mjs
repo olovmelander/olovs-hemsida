@@ -1,4 +1,4 @@
-import { inRingIndexed } from './ring-index.mjs';
+import { inRingIndexed, ringSDIndexed } from './ring-index.mjs';
 import { squaredDistanceTransform } from '../../../../packages/course-v2/distance-transform.mjs';
 import { waterShoreDistance } from './water-shore.mjs';
 
@@ -166,4 +166,112 @@ export function buildCoastalWater({ bounds, sourceBounds, bodies, heightAt,
     shoreDistances: coastDistance ? Float32Array.from(shoreDistances) : null,
     width, height, terrainCoverage, maximumCoveredTerrainHeight: seaLevel + tolerance,
     bounds: { ...bounds }, sourceBounds: { ...sourceBounds } };
+}
+
+/* THE SEA'S OWN SHORE, IN METRES (27 November, owner report on Visby: "square shapes
+   in the water" and "the jigsaw pattern close to the water").
+
+   Inside the mapped window the terrain mask worked in the extension's 32 m cells and
+   kept the laser's flat sea plate (0.23 m, 6 cm under the sheet) in every cell within
+   a cell's diagonal of a shore. The water's reflection (water-reflection.mjs) finds
+   that plate under the sheet and reads its dark colour, so every kept cell drew as a
+   darker square: a 32 m staircase along the whole coast, gone with ?waterreflect=0.
+   And the sheet was opaque to its polygon's edge, so the waterline was wherever it cut
+   the laser's own coast -- the 1 m raster step from the flattened sea (0.23 m) to the
+   land (0.6 m), drawn by the terrain's triangles as a sawtooth.
+
+   This is the distance to the mapped sea's shore at `spacing` metres over the window,
+   signed (into the sea positive, onto the land negative), from the same polygons the
+   sheets draw. The mask removes the plate wherever the sea lies `plateMargin` past its
+   shore, so only a thin strip under the sheet's faded edge keeps it; the sheet comes
+   in from nothing over its first `fadeMetres`; and the ground just above the sea takes
+   the lakes' damp bank (water-reach.mjs SHORE_DAMP) where it lies within `dampReach`
+   of the sea. Bilinear in the shader, so the lines it draws are curves, not cells.
+   ?seashore=0 is the before. */
+export const SEA_SHORE = Object.freeze({ spacing: 3, plateMargin: 4.5, fadeMetres: 3, dampReach: 6, rangeMetres: 32 });
+
+/** The signed distance to the mapped sea's shore over `sourceBounds`, as bytes for a
+    texture (128 the shore, 4 a metre, into the sea upward) and a CPU sampler. */
+export function buildSeaShoreField({ sourceBounds, bodies, spacing = SEA_SHORE.spacing } = {}) {
+  const b = sourceBounds;
+  if (!b || !['x0', 'x1', 'z0', 'z1'].every(k => Number.isFinite(b[k])) || b.x1 <= b.x0 || b.z1 <= b.z0)
+    throw new TypeError('The sea shore field needs finite ordered bounds');
+  if (!(spacing > 0)) throw new TypeError('The sea shore field needs a positive spacing');
+  const seas = (bodies ?? []).filter(w => w.isSea && w.ring?.length >= 3);
+  if (!seas.length) return null;
+  const width = Math.ceil((b.x1 - b.x0) / spacing), height = Math.ceil((b.z1 - b.z0) / spacing);
+  if (width * height > 1.7e7) throw new RangeError('The sea shore field exceeds its boot budget');
+  /* every texel centre inside a sea ring, by scanline (the rings are simple: islands are
+     partitioned out of them, so a centre inside any ring is sea) */
+  const inside = new Uint8Array(width * height);
+  for (const { ring } of seas) {
+    let zMin = Infinity, zMax = -Infinity;
+    for (const p of ring) { zMin = Math.min(zMin, p[1]); zMax = Math.max(zMax, p[1]); }
+    const r0 = Math.max(0, Math.floor((zMin - b.z0) / spacing - 0.5)), r1 = Math.min(height - 1, Math.ceil((zMax - b.z0) / spacing - 0.5));
+    const xs = [];
+    for (let row = r0; row <= r1; row++) {
+      const z = b.z0 + (row + 0.5) * spacing;
+      xs.length = 0;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const zi = ring[i][1], zj = ring[j][1];
+        if ((zi > z) !== (zj > z)) xs.push(ring[i][0] + (z - zi) / (zj - zi) * (ring[j][0] - ring[i][0]));
+      }
+      xs.sort((p, q) => p - q);
+      for (let k = 0; k + 1 < xs.length; k += 2) {
+        const c0 = Math.max(0, Math.ceil((xs[k] - b.x0) / spacing - 0.5));
+        const c1 = Math.min(width - 1, Math.floor((xs[k + 1] - b.x0) / spacing - 0.5));
+        for (let col = c0; col <= c1; col++) inside[row * width + col] = 1;
+      }
+    }
+  }
+  /* a texel's distance to the nearest texel of the other kind, less half a texel, so
+     the two either side of a shore read +-half a texel and the zero lies on their edge.
+     The window's own edge is no shore: nothing beyond it is counted as land. */
+  const toLand = squaredDistanceTransform(width, height, i => inside[i] === 0);
+  const toSea = squaredDistanceTransform(width, height, i => inside[i] === 1);
+  const range = SEA_SHORE.rangeMetres;
+  /* ...and exact within a few texels of the coast, where the fade and the mask's margin are read:
+     the texel's own distance to the sea's shoreline (its source shore lines, so a partition's cut
+     or a source tile's edge is never a shore; else its ring), since a centre-sampled raster puts
+     the coast up to half a texel off */
+  const near = 3 * spacing;
+  const boxes = seas.map(w => {
+    let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
+    for (const p of w.ring) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]); }
+    return { w, x0: x0 - near, x1: x1 + near, z0: z0 - near, z1: z1 + near };
+  });
+  const exactShore = (x, z) => {
+    let best = Infinity;
+    for (const box of boxes) {
+      if (x < box.x0 || x > box.x1 || z < box.z0 || z > box.z1) continue;
+      const w = box.w;
+      best = Math.min(best, w.shoreline ? waterShoreDistance(x, z, w) : Math.abs(ringSDIndexed(x, z, w.ring)));
+    }
+    return best;
+  };
+  const bytes = new Uint8Array(width * height);
+  let seaTexels = 0;
+  for (let i = 0; i < bytes.length; i++) {
+    const d = inside[i] ? Math.sqrt(toLand[i]) : -Math.sqrt(toSea[i]);
+    let metres = Number.isFinite(d) ? Math.sign(d) * Math.max(0, Math.abs(d) - 0.5) * spacing : (inside[i] ? range : -range);
+    if (Math.abs(metres) <= near) {
+      const exact = exactShore(b.x0 + (i % width + 0.5) * spacing, b.z0 + (Math.floor(i / width) + 0.5) * spacing);
+      if (Number.isFinite(exact) && exact < near + spacing) metres = inside[i] ? exact : -exact;
+    }
+    bytes[i] = Math.max(0, Math.min(255, Math.round(128 + Math.max(-range, Math.min(range, metres)) * 4)));
+    seaTexels += inside[i];
+  }
+  const decode = v => (v - 128) / 4;
+  /** metres into the sea (negative on land), bilinear as the shader reads it; `outside` beyond the window */
+  const distanceAt = (x, z, outside = -range) => {
+    const u = (x - b.x0) / spacing - 0.5, v = (z - b.z0) / spacing - 0.5;
+    if (u < -0.5 || v < -0.5 || u > width - 0.5 || v > height - 0.5) return outside;
+    const c = Math.max(0, Math.min(width - 1, Math.floor(u))), r = Math.max(0, Math.min(height - 1, Math.floor(v)));
+    const c1 = Math.min(width - 1, c + 1), r1 = Math.min(height - 1, r + 1);
+    const fu = Math.max(0, Math.min(1, u - c)), fv = Math.max(0, Math.min(1, v - r));
+    const at = (cc, rr) => decode(bytes[rr * width + cc]);
+    return (at(c, r) * (1 - fu) + at(c1, r) * fu) * (1 - fv) + (at(c, r1) * (1 - fu) + at(c1, r1) * fu) * fv;
+  };
+  return { bytes, width, height, spacing, x0: b.x0, z0: b.z0, rangeMetres: range,
+    sizeX: width * spacing, sizeZ: height * spacing, seaTexels, distanceAt };
 }

@@ -963,18 +963,18 @@
         "status": "projected-source-frame-pending-independent-control",
         "source": "legacyFrame.projectedOriginEpsg3006"
       },
-      "coordinatePairCount": 17921,
+      "coordinatePairCount": 17992,
       "outsideCourseVicinity5km": 0,
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 9799,
+          "coordinatePairCount": 9750,
           "directFrameDelta": {
-            "count": 9799,
+            "count": 9750,
             "biasMetres": {
               "x": -0.000001,
               "z": 0
             },
-            "rmseMetres": 0.000028,
+            "rmseMetres": 0.000029,
             "p50Metres": 0,
             "p95Metres": 0,
             "p99Metres": 0,
@@ -988,12 +988,12 @@
               "z": 0
             },
             "residuals": {
-              "count": 9799,
+              "count": 9750,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 0.000028,
+              "rmseMetres": 0.000029,
               "p50Metres": 0.000001,
               "p95Metres": 0.000001,
               "p99Metres": 0.000001,
@@ -1002,9 +1002,9 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 17921,
+          "coordinatePairCount": 17992,
           "directFrameDelta": {
-            "count": 17921,
+            "count": 17992,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -1017,13 +1017,13 @@
           },
           "bestFitSimilarity": {
             "scale": 1,
-            "rotationDegrees": 1e-9,
+            "rotationDegrees": 2e-9,
             "translationMetres": {
               "x": 0,
               "z": 0
             },
             "residuals": {
-              "count": 17921,
+              "count": 17992,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -1037,9 +1037,9 @@
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 17921,
+          "coordinatePairCount": 17992,
           "directFrameDelta": {
-            "count": 17921,
+            "count": 17992,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -1052,13 +1052,13 @@
           },
           "bestFitSimilarity": {
             "scale": 1,
-            "rotationDegrees": 1e-9,
+            "rotationDegrees": 2e-9,
             "translationMetres": {
               "x": 0,
               "z": 0
             },
             "residuals": {
-              "count": 17921,
+              "count": 17992,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -1074,12 +1074,12 @@
       },
       "report": {
         "path": "geo_data/course-v2/tjusta/migration/residual-report.json",
-        "sha256": "72a755021170e78a5d2c117e3e4db7088c91b3e3796b98b59bc27706bb450f22"
+        "sha256": "488240d0c604c565b00041450d03703b0aaaa7aecb97a21e6f2dda42c6d66561"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/tjusta/migration/course-model.epsg3006.json",
-          "sha256": "f27ee2c98264198669d3e5f80d7ea20de5e016bc5499bfdbf9b9c204f6ea6e4b"
+          "sha256": "48503e223938c4b5d4b9ffc3a7e277208586b7b638f790ea07304e237addada1"
         }
       ]
     },

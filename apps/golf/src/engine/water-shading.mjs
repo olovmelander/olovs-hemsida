@@ -21,13 +21,15 @@
    (water-reflection.mjs): the opaque world's own pixels along the reflected ray,
    laid over the sky reflection where the march finds them; `lightScale` is the
    factor the caller multiplies the colour by (the found pixels are already lit). */
-import { attribute, cameraPosition, color, float, max, mix, normalize, oneMinus, positionWorld, pow, reflect, saturate, smoothstep, texture, time, vec2, vec3, vec4 } from 'three/tsl';
+import { attribute, cameraPosition, color, float, max, mix, normalize, oneMinus, positionWorld, pow, reflect, saturate, select, smoothstep, texture, time, vec2, vec3, vec4 } from 'three/tsl';
 import { paintedWaterShallow, paintedWaterDeep, paintedWaterSparkle } from './painted-world-lighting.mjs';
 import { NORDIC_WATER, SLOPE_SCALE, expectedGlitter, reflectedSunGlow, waterSun, waterSkyGlow,
   waterFlow, waterChop, waterPatchChop } from './nordic-water.mjs';
 import { sunRoad, mirrorShare, bodyRelief } from './water-road.mjs';
 import { reflectedBank } from './measured-bank-reflection.mjs';
 import { WATER_REFLECTION } from './water-reflection.mjs';
+import { shoreDistanceNode } from './coastal-terrain-mask.mjs';
+import { SEA_SHORE } from './coastal-water.mjs';
 import { bodySunlit, bodyCloudShade, waterRoughness, waterLanes } from './water-above.mjs';
 
 /* the bank's reflection and shade inside the waterline (waterShading's `bank`) */
@@ -44,11 +46,24 @@ export const WATER_SHORE_FADE = Object.freeze({ metres: 2.5 });
 
 export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, cloud = null, ocean = false, showBed = true, nordic = false, wind = false,
   road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false, longShadows = false, bank = false,
-  reflection = null, measuredBank = null, lightScale = null, shoreFade = false }) {
+  reflection = null, measuredBank = null, lightScale = null, shoreFade = false, seaShore = null }) {
   const uSun = sun, uWaterChop = chop;
-  const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
   const wp = positionWorld.xz;
+  /* metres to the shore: the sheet's own per vertex, or inside a measured sea's window the
+     shore field's per pixel (coastal-water.mjs SEA_SHORE), so the shallows, foam and fade
+     follow the coast and not the sheet's long triangles */
+  let aSh = attribute('aShore', 'float');
+  let seaFade = null;
+  if (seaShore) {
+    const sea = shoreDistanceNode(seaShore.shore, seaShore.map, wp);
+    aSh = select(sea.inside, sea.metres.max(0), aSh);
+    /* THE SEA'S WATERLINE, SOFT: a measured sea is opaque, and its edge was wherever the
+       sheet cut the laser's 1 m step from sea plate to land, a sawtooth. Inside the window
+       it comes in from nothing over its first metres from the mapped shore, a curve, over
+       the strip of plate the terrain mask keeps for it. Beyond the window it stays opaque. */
+    seaFade = select(sea.inside, smoothstep(0, SEA_SHORE.fadeMetres, sea.metres), float(1));
+  }
   const t = time;
 
   /* Four wave scales crossing at four angles. One scrolling layer repeats visibly;
@@ -229,5 +244,5 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
     const shoreWidth = mix(float(.38), float(WATER_SHORE_FADE.metres), aFoam);
     opacity = opacity.mul(smoothstep(0, shoreWidth, aSh));
   }
-  return { colour: c, opacity, wp };
+  return { colour: c, opacity, wp, seaFade };
 }

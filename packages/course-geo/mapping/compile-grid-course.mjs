@@ -407,6 +407,24 @@ export function compileGridCourse({
   if (facilitiesGeoJson) {
     for (const f of requireEpsg3006Collection(facilitiesGeoJson, 'facilities')) {
       const p = f.properties || {};
+      /* A range's tee line, as a line: the engine lays a strip, a mat in every bay and a divider between bays along it
+         (scenery.rangeFacilities.bays), and the phone map draws a mat at each bay. Kept as points one bay apart, so both
+         read the same bays. */
+      if (p.kind === 'range_bay_line') {
+        if (f.geometry.type !== 'LineString' || f.geometry.coordinates.length < 2) throw new Error(`${f.id}: a bay line is a LineString`);
+        const pitch = Number.isFinite(p.bayPitch) && p.bayPitch > 1 ? p.bayPitch : 3;
+        const line = f.geometry.coordinates.map(local);
+        const bays = [line[0]];
+        let carry = 0;
+        for (let i = 1; i < line.length; i++) {
+          const [a, b] = [line[i - 1], line[i]], length = Math.hypot(b[0] - a[0], b[1] - a[1]);
+          for (let s = pitch - carry; s <= length + 1e-9; s += pitch) bays.push([a[0] + (b[0] - a[0]) * s / length, a[1] + (b[1] - a[1]) * s / length]);
+          carry = (carry + length) % pitch;
+        }
+        scenery.rangeFacilities = { ...(scenery.rangeFacilities || {}), bays: bays.map(([x, z]) => [Math.round(x * 100) / 100, Math.round(z * 100) / 100]),
+          bayPitch: pitch, prov: p.sourceId || 'mapped', evidence: `${f.id}: traced on the orthophoto` };
+        continue;
+      }
       const polygons = f.geometry.type === 'MultiPolygon' ? f.geometry.coordinates : [f.geometry.coordinates];
       for (let part = 0; part < polygons.length; part++) {
         const id = polygons.length === 1 ? f.id : `${f.id}-part-${part + 1}`;
