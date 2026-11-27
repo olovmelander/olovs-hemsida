@@ -1,0 +1,1139 @@
+{
+ "schemaVersion": 1,
+ "groundId": "angso",
+ "imagery": {
+  "sourceId": "orto-o2-2025",
+  "captured": "2025-04-24"
+ },
+ "reachMetres": 80,
+ "lines": {
+  "sandShare": 0.6,
+  "sandOutsideM2": 4,
+  "sandOutsideShare": 0.02
+ },
+ "surfaces": {
+  "angso": "c30af7625e2e1ecf94d86a618ea26b61b674348ce976dffad43edef893785385"
+ },
+ "modelled": {
+  "bunker": 33,
+  "waste_sand": 0
+ },
+ "rings": [
+  {
+   "id": "angso-bunker-11-3",
+   "kind": "bunker",
+   "slug": "angso",
+   "hole": 11,
+   "areaM2": 22.2,
+   "sandShare": 0.57,
+   "sandOutsideM2": 0,
+   "verdict": "The ring follows the sand on both photo years (render-ring-sheets.py); the sand reads darker at its edge on the spring photo, wet or shaded, which is why only 57% passes the bands."
+  },
+  {
+   "id": "angso-bunker-16-1",
+   "kind": "bunker",
+   "slug": "angso",
+   "hole": 16,
+   "areaM2": 68.2,
+   "sandShare": 0.7,
+   "sandOutsideM2": 14.2,
+   "verdict": "The ring follows the sand on both photo years; the 14 m2 outside it is the shaded, darker lip on the April photo, which the 2019 photo shows as turf."
+  },
+  {
+   "id": "angso-bunker-16-2",
+   "kind": "bunker",
+   "slug": "angso",
+   "hole": 16,
+   "areaM2": 74.1,
+   "sandShare": 0.54,
+   "sandOutsideM2": 0,
+   "verdict": "The ring follows the sand on both photo years; the sand reads darker toward its shaded west edge on the spring photo, which is why only 54% passes the bands."
+  }
+ ],
+ "areas": [
+  {
+   "kind": "bunker",
+   "at": [
+    605716.8,
+    6605121.9
+   ],
+   "areaM2": 128.3,
+   "slug": "angso",
+   "hole": 1,
+   "metresFromHole": 38.7,
+   "on": null,
+   "id": "sand-001",
+   "verdict": "A bright heap in the ground felled after 2021 north-east of hole 1's new back tee, 38 m from the hole: no bunker shape, forest on the 2019 photo; spoil or chippings from the clearing."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605583.9,
+    6605087.5
+   ],
+   "areaM2": 54.2,
+   "slug": "angso",
+   "hole": 1,
+   "metresFromHole": 73.6,
+   "on": null,
+   "id": "sand-002",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605608.2,
+    6605081.1
+   ],
+   "areaM2": 78,
+   "slug": "angso",
+   "hole": 1,
+   "metresFromHole": 43.3,
+   "on": null,
+   "id": "sand-003",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605576.6,
+    6605057.1
+   ],
+   "areaM2": 88.8,
+   "slug": "angso",
+   "hole": 1,
+   "metresFromHole": 69.1,
+   "on": null,
+   "id": "sand-004",
+   "verdict": "A roof: red or brown tiles or a shed, in the sand's colour on this photo."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605614.9,
+    6605037.4
+   ],
+   "areaM2": 1044.7,
+   "slug": "angso",
+   "hole": 1,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-005",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605692.8,
+    6605011.9
+   ],
+   "areaM2": 37.8,
+   "slug": "angso",
+   "hole": 1,
+   "metresFromHole": 38.7,
+   "on": null,
+   "id": "sand-006",
+   "fault": "A bunker of 38 m2 by a green east of hole 1's tees that belongs to no hole: a practice green and its bunker, on both photo years. The model has no practice green or bunker at all (scenery.greens and scenery.bunkers are empty). Add the practice area to the model's scenery from the 2025 photo, then rebuild the ground's surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605504.7,
+    6604721.9
+   ],
+   "areaM2": 53.8,
+   "slug": "angso",
+   "hole": 1,
+   "metresFromHole": 39.9,
+   "on": null,
+   "id": "sand-007",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605379.9,
+    6604896.1
+   ],
+   "areaM2": 4600.9,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 48.1,
+   "on": null,
+   "id": "sand-008",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605889.5,
+    6604735.1
+   ],
+   "areaM2": 735,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 6.8,
+   "on": null,
+   "id": "sand-009",
+   "verdict": "Pond t1 by hole 2's green, which the model holds as water; its water is brown on the spring photo."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605618.1,
+    6604708.9
+   ],
+   "areaM2": 714.8,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 15.1,
+   "on": null,
+   "id": "sand-010",
+   "verdict": "Bare rock and stones on hole 2's bank, on both photo years."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605583.7,
+    6604687.9
+   ],
+   "areaM2": 122.2,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 8.6,
+   "on": null,
+   "id": "sand-011",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605625.1,
+    6604669.9
+   ],
+   "areaM2": 29.7,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 6.7,
+   "on": null,
+   "id": "sand-012",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605504.5,
+    6604643.9
+   ],
+   "areaM2": 25.2,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 48.4,
+   "on": null,
+   "id": "sand-013",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605504.5,
+    6604627.9
+   ],
+   "areaM2": 25.2,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 55,
+   "on": null,
+   "id": "sand-014",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605506.3,
+    6604612.8
+   ],
+   "areaM2": 64,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 62.4,
+   "on": null,
+   "id": "sand-015",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605506.1,
+    6604587.6
+   ],
+   "areaM2": 143,
+   "slug": "angso",
+   "hole": 2,
+   "metresFromHole": 76.4,
+   "on": null,
+   "id": "sand-016",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605739.2,
+    6604863.5
+   ],
+   "areaM2": 11.4,
+   "slug": "angso",
+   "hole": 3,
+   "metresFromHole": 15.9,
+   "on": null,
+   "id": "sand-017",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605770.4,
+    6604970
+   ],
+   "areaM2": 29.6,
+   "slug": "angso",
+   "hole": 4,
+   "metresFromHole": 2.3,
+   "on": null,
+   "id": "sand-018",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605801.1,
+    6604921.9
+   ],
+   "areaM2": 24.2,
+   "slug": "angso",
+   "hole": 4,
+   "metresFromHole": 49.2,
+   "on": null,
+   "id": "sand-019",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605760.2,
+    6604909.5
+   ],
+   "areaM2": 72.8,
+   "slug": "angso",
+   "hole": 4,
+   "metresFromHole": 10.9,
+   "on": null,
+   "id": "sand-020",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605814.1,
+    6604860
+   ],
+   "areaM2": 2822.9,
+   "slug": "angso",
+   "hole": 4,
+   "metresFromHole": 29.3,
+   "on": null,
+   "id": "sand-021",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605894.1,
+    6605167.4
+   ],
+   "areaM2": 169.8,
+   "slug": "angso",
+   "hole": 5,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-022",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605886.4,
+    6605145
+   ],
+   "areaM2": 108,
+   "slug": "angso",
+   "hole": 5,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-023",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605861.9,
+    6605058.7
+   ],
+   "areaM2": 443.9,
+   "slug": "angso",
+   "hole": 5,
+   "metresFromHole": 3.7,
+   "on": null,
+   "id": "sand-024",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    606013,
+    6604799.6
+   ],
+   "areaM2": 43.2,
+   "slug": "angso",
+   "hole": 5,
+   "metresFromHole": 43.3,
+   "on": null,
+   "id": "sand-025",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    606003.5,
+    6604740.1
+   ],
+   "areaM2": 893.1,
+   "slug": "angso",
+   "hole": 5,
+   "metresFromHole": 62.5,
+   "on": null,
+   "id": "sand-026",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605978.9,
+    6606034.2
+   ],
+   "areaM2": 86388.8,
+   "slug": "angso",
+   "hole": 7,
+   "metresFromHole": 46.2,
+   "on": null,
+   "id": "sand-027",
+   "verdict": "A dormant field or the driving range on the April photo: hectares of pale turf, not sand."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    606005.5,
+    6605464.8
+   ],
+   "areaM2": 48631.9,
+   "slug": "angso",
+   "hole": 7,
+   "metresFromHole": 41,
+   "on": null,
+   "id": "sand-028",
+   "verdict": "A dormant field or the driving range on the April photo: hectares of pale turf, not sand."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605799.4,
+    6605699.2
+   ],
+   "areaM2": 49.6,
+   "slug": "angso",
+   "hole": 8,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-029",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605819.2,
+    6605668.2
+   ],
+   "areaM2": 56.6,
+   "slug": "angso",
+   "hole": 8,
+   "metresFromHole": 18.9,
+   "on": null,
+   "id": "sand-030",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605797.4,
+    6605607.5
+   ],
+   "areaM2": 22.4,
+   "slug": "angso",
+   "hole": 8,
+   "metresFromHole": 15.8,
+   "on": null,
+   "id": "sand-031",
+   "verdict": "A pale patch with a tail under a tree beside hole 8, in shade on 2019: bare soil under the crown, not a bunker shape."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605660.8,
+    6605291.1
+   ],
+   "areaM2": 36.8,
+   "slug": "angso",
+   "hole": 9,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-032",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605608.4,
+    6605252.9
+   ],
+   "areaM2": 56.7,
+   "slug": "angso",
+   "hole": 9,
+   "metresFromHole": 25.3,
+   "on": null,
+   "id": "sand-033",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605673,
+    6605783.7
+   ],
+   "areaM2": 37.2,
+   "slug": "angso",
+   "hole": 10,
+   "metresFromHole": 22.2,
+   "on": null,
+   "id": "sand-034",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605573.9,
+    6605245.7
+   ],
+   "areaM2": 79.7,
+   "slug": "angso",
+   "hole": 10,
+   "metresFromHole": 14.7,
+   "on": null,
+   "id": "sand-035",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605529.9,
+    6605240.8
+   ],
+   "areaM2": 641.2,
+   "slug": "angso",
+   "hole": 10,
+   "metresFromHole": 9.6,
+   "on": null,
+   "id": "sand-036",
+   "verdict": "The car park and the roads round the clubhouse, gravel and asphalt."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605479.3,
+    6605175.3
+   ],
+   "areaM2": 3639.8,
+   "slug": "angso",
+   "hole": 10,
+   "metresFromHole": 42.6,
+   "on": null,
+   "id": "sand-037",
+   "verdict": "The car park and the roads round the clubhouse, gravel and asphalt."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605733.9,
+    6606121.9
+   ],
+   "areaM2": 86.1,
+   "slug": "angso",
+   "hole": 11,
+   "metresFromHole": 23,
+   "on": null,
+   "id": "sand-038",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605677.2,
+    6606024.6
+   ],
+   "areaM2": 443.7,
+   "slug": "angso",
+   "hole": 11,
+   "metresFromHole": 28.9,
+   "on": null,
+   "id": "sand-039",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605681.2,
+    6605920.2
+   ],
+   "areaM2": 70.6,
+   "slug": "angso",
+   "hole": 11,
+   "metresFromHole": 15.3,
+   "on": null,
+   "id": "sand-040",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605631.5,
+    6605904.6
+   ],
+   "areaM2": 8.6,
+   "slug": "angso",
+   "hole": 11,
+   "metresFromHole": 68.3,
+   "on": null,
+   "id": "sand-041",
+   "verdict": "A roof: red or brown tiles or a shed, in the sand's colour on this photo."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605709,
+    6605858.8
+   ],
+   "areaM2": 203.4,
+   "slug": "angso",
+   "hole": 11,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-042",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605733.2,
+    6605812.9
+   ],
+   "areaM2": 32.1,
+   "slug": "angso",
+   "hole": 11,
+   "metresFromHole": 29.8,
+   "on": null,
+   "id": "sand-043",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605697.3,
+    6605812.1
+   ],
+   "areaM2": 41.7,
+   "slug": "angso",
+   "hole": 11,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-044",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605622.6,
+    6606319.4
+   ],
+   "areaM2": 30.4,
+   "slug": "angso",
+   "hole": 12,
+   "metresFromHole": 24,
+   "on": null,
+   "id": "sand-045",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605684.6,
+    6606293.3
+   ],
+   "areaM2": 240.2,
+   "slug": "angso",
+   "hole": 12,
+   "metresFromHole": 67.7,
+   "on": null,
+   "id": "sand-046",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605594.2,
+    6606290.7
+   ],
+   "areaM2": 53.6,
+   "slug": "angso",
+   "hole": 12,
+   "metresFromHole": 37.9,
+   "on": null,
+   "id": "sand-047",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605564.8,
+    6606284.7
+   ],
+   "areaM2": 58.6,
+   "slug": "angso",
+   "hole": 12,
+   "metresFromHole": 47.2,
+   "on": null,
+   "id": "sand-048",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605650.8,
+    6606252.2
+   ],
+   "areaM2": 50.5,
+   "slug": "angso",
+   "hole": 12,
+   "metresFromHole": 79.3,
+   "on": null,
+   "id": "sand-049",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605174.4,
+    6606808.3
+   ],
+   "areaM2": 16683.8,
+   "slug": "angso",
+   "hole": 14,
+   "metresFromHole": 17.7,
+   "on": null,
+   "id": "sand-050",
+   "verdict": "A dormant field or the driving range on the April photo: hectares of pale turf, not sand."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605164.3,
+    6606616.3
+   ],
+   "areaM2": 18078.9,
+   "slug": "angso",
+   "hole": 14,
+   "metresFromHole": 38.5,
+   "on": null,
+   "id": "sand-051",
+   "verdict": "A dormant field or the driving range on the April photo: hectares of pale turf, not sand."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605227.9,
+    6606402.1
+   ],
+   "areaM2": 67.2,
+   "slug": "angso",
+   "hole": 15,
+   "metresFromHole": 68.7,
+   "on": null,
+   "id": "sand-052",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605428.3,
+    6606379.9
+   ],
+   "areaM2": 122.2,
+   "slug": "angso",
+   "hole": 15,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-053",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605364.5,
+    6606354.5
+   ],
+   "areaM2": 317,
+   "slug": "angso",
+   "hole": 15,
+   "metresFromHole": 9,
+   "on": null,
+   "id": "sand-054",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605395.4,
+    6606349.9
+   ],
+   "areaM2": 17.5,
+   "slug": "angso",
+   "hole": 15,
+   "metresFromHole": 33.3,
+   "on": null,
+   "id": "sand-055",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605417.8,
+    6606344.3
+   ],
+   "areaM2": 8.8,
+   "slug": "angso",
+   "hole": 15,
+   "metresFromHole": 47.8,
+   "on": null,
+   "id": "sand-056",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605309.7,
+    6606299.3
+   ],
+   "areaM2": 205,
+   "slug": "angso",
+   "hole": 15,
+   "metresFromHole": 7.9,
+   "on": null,
+   "id": "sand-057",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605431,
+    6606301.7
+   ],
+   "areaM2": 449.6,
+   "slug": "angso",
+   "hole": 16,
+   "metresFromHole": 14.9,
+   "on": null,
+   "id": "sand-058",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605321,
+    6606272.3
+   ],
+   "areaM2": 126.8,
+   "slug": "angso",
+   "hole": 16,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-059",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605476.4,
+    6606139.7
+   ],
+   "areaM2": 27.4,
+   "slug": "angso",
+   "hole": 16,
+   "metresFromHole": 15.8,
+   "on": null,
+   "id": "sand-060",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605354.2,
+    6606004.2
+   ],
+   "areaM2": 19.1,
+   "slug": "angso",
+   "hole": 17,
+   "metresFromHole": 44.1,
+   "on": null,
+   "id": "sand-061",
+   "verdict": "A roof: red or brown tiles or a shed, in the sand's colour on this photo."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605381.2,
+    6605770
+   ],
+   "areaM2": 63.1,
+   "slug": "angso",
+   "hole": 17,
+   "metresFromHole": 14.7,
+   "on": null,
+   "id": "sand-062",
+   "verdict": "Dead grass, bare soil or reeds in the rough on the April photo (pale and without a vegetation signal in early spring); no sand on the 2019 summer photo either."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605455.2,
+    6605682.1
+   ],
+   "areaM2": 626.5,
+   "slug": "angso",
+   "hole": 17,
+   "metresFromHole": 14.6,
+   "on": null,
+   "id": "sand-063",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605385.1,
+    6605542.3
+   ],
+   "areaM2": 24.3,
+   "slug": "angso",
+   "hole": 18,
+   "metresFromHole": 55.5,
+   "on": null,
+   "id": "sand-064",
+   "verdict": "A roof: red or brown tiles or a shed, in the sand's colour on this photo."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605467.5,
+    6605328.3
+   ],
+   "areaM2": 78.8,
+   "slug": "angso",
+   "hole": 18,
+   "metresFromHole": 62.5,
+   "on": null,
+   "id": "sand-065",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605467.2,
+    6605295.7
+   ],
+   "areaM2": 158.5,
+   "slug": "angso",
+   "hole": 18,
+   "metresFromHole": 54.7,
+   "on": null,
+   "id": "sand-066",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605456.4,
+    6605113.4
+   ],
+   "areaM2": 169.6,
+   "slug": "angso",
+   "hole": 18,
+   "metresFromHole": 13.5,
+   "on": null,
+   "id": "sand-067",
+   "verdict": "The car park and the roads round the clubhouse, gravel and asphalt."
+  },
+  {
+   "kind": "bunker",
+   "at": [
+    605477.8,
+    6605065.6
+   ],
+   "areaM2": 80.9,
+   "slug": "angso",
+   "hole": 18,
+   "metresFromHole": 59.1,
+   "on": null,
+   "id": "sand-068",
+   "fault": "A kidney-shaped bunker of 81 m2 by the clubhouse, 72 m from the 18th green, on both photo years: the practice bunker. Not in the model, which has no practice bunker. Add it to the model's scenery from the 2025 photo, then rebuild the ground's surfaces."
+  },
+  {
+   "kind": "waste_sand",
+   "at": [
+    605693,
+    6605009.8
+   ],
+   "areaM2": 748.8,
+   "slug": "angso",
+   "hole": 1,
+   "metresFromHole": 0,
+   "on": null,
+   "id": "sand-069",
+   "verdict": "A gravel path, its turning place or a crossing: on the 2025-04-24 spring photo the paths' gravel reads in the sand's colour; the map holds the paths as infrastructure, not as play surfaces."
+  }
+ ],
+ "before": {
+  "captured": "2019-07-14",
+  "levels": {
+   "sandBrightness": 134,
+   "turfBrightness": 97,
+   "sandNdvi": -0.22,
+   "turfNdvi": 0.17
+  },
+  "lines": {
+   "wasSand": 0.85,
+   "wasGrass": 0.1,
+   "shade": 0.3
+  },
+  "bunkers": 33,
+  "wasSand": 16,
+  "changed": [
+   {
+    "id": "angso-bunker-01-4",
+    "slug": "angso",
+    "hole": 1,
+    "wasSand": 0.76,
+    "wasGrass": 0.14
+   },
+   {
+    "id": "angso-bunker-06-2",
+    "slug": "angso",
+    "hole": 6,
+    "wasSand": 0.82,
+    "wasGrass": 0.18
+   }
+  ],
+  "shaded": [
+   {
+    "id": "angso-bunker-01-1",
+    "slug": "angso",
+    "hole": 1,
+    "wasSand": 0.46,
+    "wasGrass": 0
+   },
+   {
+    "id": "angso-bunker-01-3",
+    "slug": "angso",
+    "hole": 1,
+    "wasSand": 0.65,
+    "wasGrass": 0
+   },
+   {
+    "id": "angso-bunker-02-1",
+    "slug": "angso",
+    "hole": 2,
+    "wasSand": 0.46,
+    "wasGrass": 0
+   },
+   {
+    "id": "angso-bunker-04-1",
+    "slug": "angso",
+    "hole": 4,
+    "wasSand": 0,
+    "wasGrass": 0.02
+   },
+   {
+    "id": "angso-bunker-06-1",
+    "slug": "angso",
+    "hole": 6,
+    "wasSand": 0.4,
+    "wasGrass": 0.02
+   },
+   {
+    "id": "angso-bunker-08-1",
+    "slug": "angso",
+    "hole": 8,
+    "wasSand": 0.65,
+    "wasGrass": 0
+   },
+   {
+    "id": "angso-bunker-09-1",
+    "slug": "angso",
+    "hole": 9,
+    "wasSand": 0.33,
+    "wasGrass": 0
+   },
+   {
+    "id": "angso-bunker-09-2",
+    "slug": "angso",
+    "hole": 9,
+    "wasSand": 0.25,
+    "wasGrass": 0
+   },
+   {
+    "id": "angso-bunker-11-2",
+    "slug": "angso",
+    "hole": 11,
+    "wasSand": 0.01,
+    "wasGrass": 0.02
+   },
+   {
+    "id": "angso-bunker-13-3",
+    "slug": "angso",
+    "hole": 13,
+    "wasSand": 0.51,
+    "wasGrass": 0
+   },
+   {
+    "id": "angso-bunker-16-2",
+    "slug": "angso",
+    "hole": 16,
+    "wasSand": 0.62,
+    "wasGrass": 0.01
+   },
+   {
+    "id": "angso-bunker-17-1",
+    "slug": "angso",
+    "hole": 17,
+    "wasSand": 0.44,
+    "wasGrass": 0
+   }
+  ]
+ }
+}

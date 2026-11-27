@@ -1,0 +1,17 @@
+{
+ "schemaVersion": 1,
+ "groundId": "upsala",
+ "frame": {
+  "easting": 640143.5,
+  "northing": 6636145.5
+ },
+ "context": "geo_data/course-v2/upsala/reference/osm-context-epsg3006.geojson",
+ "water": "geo_data/course-v2/upsala/mapping/water-epsg3006.geojson",
+ "innerHalfMetres": 1300,
+ "outerHalfMetres": 2040,
+ "dropIds": [],
+ "out": "upsalabuild/mapping/context.geojson",
+ "farOut": "upsalabuild/mapping/far-buildings.json",
+ "tagOverrides": {},
+ "extraBuildings": []
+}

@@ -1,0 +1,359 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "EPSG:3006"
+  }
+ },
+ "status": "traced-awaiting-review",
+ "provenance": {
+  "imagery": "orto-o2-2025",
+  "imagerySha256": {
+   "south-w-2025.tif": "4de25898e07723463e4843b788c9c1005008ddf45daa210b73f4d34cc6014b53",
+   "south-m-2025.tif": "ef8a2fabe08d121c6a997736b731d10370eafacffcde5fd0da2d5a50fd73afc2",
+   "south-e-2025.tif": "9b60284fa4b6187ac49b9bebe35831b5066233ed71fd6345b42579cc718ae712",
+   "north-w-2025.tif": "e4b0a5996356468584912710415889d628e2d6e1d72315ec5c86f1b299bb1d2c",
+   "north-m-2025.tif": "6133a509c744030b978ebc1c7414936208f30ffe3feaa6745b5707fb12a6a0d6",
+   "north-e-2025.tif": "fe96f65bf56bcc25e960c8c375faca5cc616215e5a38bacc97fb20e48138abe3",
+   "overview-2025.tif": "95e30c0cb8802cf86d4dcd429a6fe5f25aef688e98020387301c03b0b02a9460"
+  },
+  "terrainSha256": "d112a9c364239afda755f820a756d5dc096406f1464cc4b9545e0e818f7f93c9",
+  "osmSha256": "30acea0d7e82dfdf0f7a38cf12a4e41983f9e664882677a79627fee0c60111e2",
+  "tool": "packages/course-geo/mapping/trace-course-surfaces.py",
+  "fairwayImagery": "orto-o2-2025+orto-o2-2023+orto-o2-2021",
+  "fairwayImagerySha256": {
+   "south-w-2025.tif": "4de25898e07723463e4843b788c9c1005008ddf45daa210b73f4d34cc6014b53",
+   "south-m-2025.tif": "ef8a2fabe08d121c6a997736b731d10370eafacffcde5fd0da2d5a50fd73afc2",
+   "south-e-2025.tif": "9b60284fa4b6187ac49b9bebe35831b5066233ed71fd6345b42579cc718ae712",
+   "north-w-2025.tif": "e4b0a5996356468584912710415889d628e2d6e1d72315ec5c86f1b299bb1d2c",
+   "north-m-2025.tif": "6133a509c744030b978ebc1c7414936208f30ffe3feaa6745b5707fb12a6a0d6",
+   "north-e-2025.tif": "fe96f65bf56bcc25e960c8c375faca5cc616215e5a38bacc97fb20e48138abe3",
+   "overview-2025.tif": "95e30c0cb8802cf86d4dcd429a6fe5f25aef688e98020387301c03b0b02a9460",
+   "course-2023.tif": "bebcff556b1a53f1a42af0f4ba75c71bef18303536ff473e6596f65c4be0a483",
+   "course-2021.tif": "e23bea875e7155ac1334f75d84cb0c003a345d5ce92ce908a4e18247bace6d6a"
+  },
+  "fairwayTraining": {
+   "training": "decision-lines",
+   "ndviAbove": 0,
+   "fit": "settled"
+  }
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": "mellan-route-01",
+   "properties": {
+    "kind": "hole",
+    "hole": 1,
+    "par": 4,
+    "lengthMetres": 285.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639979.13,
+      6636420.14
+     ],
+     [
+      640136.6,
+      6636381.2
+     ],
+     [
+      640237.7,
+      6636382.5
+     ],
+     [
+      640256.9,
+      6636380.2
+     ],
+     [
+      640253.93,
+      6636381.62
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mellan-route-02",
+   "properties": {
+    "kind": "hole",
+    "hole": 2,
+    "par": 4,
+    "lengthMetres": 335.3
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640278.45,
+      6636435.02
+     ],
+     [
+      640459.8,
+      6636327.3
+     ],
+     [
+      640562.7,
+      6636310.1
+     ],
+     [
+      640578.7,
+      6636312
+     ],
+     [
+      640574.81,
+      6636311.61
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mellan-route-03",
+   "properties": {
+    "kind": "hole",
+    "hole": 3,
+    "par": 5,
+    "lengthMetres": 426.7
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640596.53,
+      6636480.53
+     ],
+     [
+      640839.8,
+      6636350.7
+     ],
+     [
+      640975.4,
+      6636339.4
+     ],
+     [
+      640986.8,
+      6636335.3
+     ],
+     [
+      640985.43,
+      6636337.72
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mellan-route-04",
+   "properties": {
+    "kind": "hole",
+    "hole": 4,
+    "par": 4,
+    "lengthMetres": 307.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640986.91,
+      6636264.74
+     ],
+     [
+      640772.9,
+      6636257.5
+     ],
+     [
+      640701.8,
+      6636276.6
+     ],
+     [
+      640686.1,
+      6636282.9
+     ],
+     [
+      640683.78,
+      6636283.02
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mellan-route-05",
+   "properties": {
+    "kind": "hole",
+    "hole": 5,
+    "par": 3,
+    "lengthMetres": 111.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640591.63,
+      6636211.79
+     ],
+     [
+      640550.1,
+      6636185
+     ],
+     [
+      640507.7,
+      6636176.3
+     ],
+     [
+      640506.5,
+      6636162
+     ],
+     [
+      640502.62,
+      6636163.1
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mellan-route-06",
+   "properties": {
+    "kind": "hole",
+    "hole": 6,
+    "par": 5,
+    "lengthMetres": 454.3
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640608.87,
+      6636007.64
+     ],
+     [
+      640447.1,
+      6635801.9
+     ],
+     [
+      640269.7,
+      6635784.7
+     ],
+     [
+      640258.8,
+      6635780.6
+     ],
+     [
+      640256.21,
+      6635781.22
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mellan-route-07",
+   "properties": {
+    "kind": "hole",
+    "hole": 7,
+    "par": 3,
+    "lengthMetres": 155.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640231.81,
+      6635824.71
+     ],
+     [
+      640318.6,
+      6635852
+     ],
+     [
+      640357.4,
+      6635878
+     ],
+     [
+      640372.6,
+      6635881.4
+     ],
+     [
+      640371.22,
+      6635882.45
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mellan-route-08",
+   "properties": {
+    "kind": "hole",
+    "hole": 8,
+    "par": 4,
+    "lengthMetres": 337.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640341.71,
+      6635957.14
+     ],
+     [
+      640353,
+      6636151.4
+     ],
+     [
+      640433.5,
+      6636245.5
+     ],
+     [
+      640445.7,
+      6636255.3
+     ],
+     [
+      640442.14,
+      6636256.81
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mellan-route-09",
+   "properties": {
+    "kind": "hole",
+    "hole": 9,
+    "par": 3,
+    "lengthMetres": 180.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640217.39,
+      6636329.5
+     ],
+     [
+      640094.8,
+      6636315.3
+     ],
+     [
+      640061.8,
+      6636304.7
+     ],
+     [
+      640041.8,
+      6636297.1
+     ],
+     [
+      640042.66,
+      6636298.31
+     ]
+    ]
+   }
+  }
+ ]
+}

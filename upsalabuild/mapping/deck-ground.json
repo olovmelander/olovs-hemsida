@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "slug": "upsala",
+ "surfacesSha256": "cdbb9f94bf6229dea49d6761e3c1bcaa8ee0454ae4473fa7162e70f6f9989e83",
+ "terrainSha256": "d112a9c364239afda755f820a756d5dc096406f1464cc4b9545e0e818f7f93c9",
+ "line": {
+  "slopePercent": 3,
+  "offPlaneMetres": 0.08
+ },
+ "decks": 65,
+ "measured": 65,
+ "tooSmall": [],
+ "level": 61,
+ "off": [
+  {
+   "id": "stora-tee-05-5",
+   "hole": 5,
+   "tees": [
+    "42"
+   ],
+   "cells": 6,
+   "slope": 9.1,
+   "offPlane": 0.01,
+   "aboveRim": -0.07
+  },
+  {
+   "id": "stora-tee-07-5",
+   "hole": 7,
+   "tees": [
+    "42"
+   ],
+   "cells": 7,
+   "slope": 3.6,
+   "offPlane": 0.02,
+   "aboveRim": -0.07
+  },
+  {
+   "id": "stora-tee-14-2",
+   "hole": 14,
+   "tees": [
+    "47",
+    "42"
+   ],
+   "cells": 24,
+   "slope": 3.5,
+   "offPlane": 0.02,
+   "aboveRim": 0.1
+  },
+  {
+   "id": "stora-tee-15-3",
+   "hole": 15,
+   "tees": [
+    "42"
+   ],
+   "cells": 7,
+   "slope": 4.9,
+   "offPlane": 0,
+   "aboveRim": -0.07
+  }
+ ],
+ "bunkers": {
+  "line": {
+   "bowlMetres": 0.15
+  },
+  "count": 58,
+  "measured": 58,
+  "bowled": 55,
+  "flat": [
+   {
+    "id": "stora-bunker-08-1",
+    "hole": 8,
+    "cells": 55,
+    "depth": 0.08
+   },
+   {
+    "id": "stora-bunker-12-1",
+    "hole": 12,
+    "cells": 70,
+    "depth": 0.13
+   },
+   {
+    "id": "stora-bunker-15-3",
+    "hole": 15,
+    "cells": 60,
+    "depth": 0.12
+   }
+  ]
+ }
+}

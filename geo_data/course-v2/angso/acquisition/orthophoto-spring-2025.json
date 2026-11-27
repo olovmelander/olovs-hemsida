@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "groundId": "angso",
+  "horizontalCrs": "EPSG:3006",
+  "attribution": "\u00a9 Lantm\u00e4teriet (Ortofoto Nedladdning RGBI)",
+  "terms": "CC-BY-4.0 with Lantm\u00e4teriet special access / GDPR terms \u2014 offline measurement & review only; never published as runtime textures.",
+  "generatedAt": "2026-11-26T23:09:39.759593Z",
+  "windows": [
+    {
+      "id": "south-2025",
+      "rasterFile": "south-2025.tif",
+      "sha256": "4cf00b7d438afa8a3dc014b181be6735331ecf6453ba45e34e380c8d49b15171",
+      "bytes": 159387051,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        605118.4,
+        6604537.6,
+        606213.6,
+        6605761.6
+      ],
+      "width": 6845,
+      "height": 7650,
+      "geoTransform": [
+        605118.4,
+        0.1599999999999932,
+        0.0,
+        6605761.6,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-off",
+      "solar": {
+        "solarElevationDeg": 37.11,
+        "solarAzimuthDeg": 138.61,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66025_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:39:56Z",
+          "collection": "orto-o2-2025"
+        },
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    },
+    {
+      "id": "north-2025",
+      "rasterFile": "north-2025.tif",
+      "sha256": "2164a2c61303ebe8606947c5698a7b324209552f29655e87f636109ff5b22c67",
+      "bytes": 156461665,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        605118.4,
+        6605681.6,
+        606213.6,
+        6606905.6
+      ],
+      "width": 6845,
+      "height": 7650,
+      "geoTransform": [
+        605118.4,
+        0.1599999999999932,
+        0.0,
+        6606905.6,
+        0.0,
+        -0.16
+      ],
+      "resolutionMetres": 0.16,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2025",
+      "leafState": "leaf-off",
+      "solar": {
+        "solarElevationDeg": 37.13,
+        "solarAzimuthDeg": 138.71,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66050_6050_25_mr25",
+          "capturedAt": "2025-04-24T08:40:14Z",
+          "collection": "orto-o2-2025"
+        }
+      ]
+    }
+  ]
+}
