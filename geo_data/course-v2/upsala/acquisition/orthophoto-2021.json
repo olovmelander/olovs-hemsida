@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "horizontalCrs": "EPSG:3006",
+  "attribution": "\u00a9 Lantm\u00e4teriet (Ortofoto Nedladdning RGBI)",
+  "terms": "CC-BY-4.0 with Lantm\u00e4teriet special access / GDPR terms \u2014 offline measurement & review only; never published as runtime textures.",
+  "generatedAt": "2026-11-26T23:13:34.752117Z",
+  "windows": [
+    {
+      "id": "course-2021",
+      "rasterFile": "course-2021.tif",
+      "sha256": "e23bea875e7155ac1334f75d84cb0c003a345d5ce92ce908a4e18247bace6d6a",
+      "bytes": 144149175,
+      "validFraction": 1,
+      "boundsEpsg3006": [
+        639200.0,
+        6635450.0,
+        641100.0,
+        6636850.0
+      ],
+      "width": 7600,
+      "height": 5600,
+      "geoTransform": [
+        639200.0,
+        0.25,
+        0.0,
+        6636850.0,
+        0.0,
+        -0.25
+      ],
+      "resolutionMetres": 0.25,
+      "bands": [
+        "R",
+        "G",
+        "B",
+        "NIR"
+      ],
+      "vintage": "2021",
+      "leafState": "leaf-off",
+      "solar": {
+        "solarElevationDeg": 39.45,
+        "solarAzimuthDeg": 167.59,
+        "timeAssumedUtcNoon": false
+      },
+      "sources": [
+        {
+          "id": "o66350_6375_25_mr21",
+          "capturedAt": "2021-04-16T10:11:12Z",
+          "collection": "orto-o2-2021"
+        },
+        {
+          "id": "o66350_6400_25_mr21",
+          "capturedAt": "2021-04-16T10:19:40Z",
+          "collection": "orto-o2-2021"
+        }
+      ]
+    }
+  ]
+}

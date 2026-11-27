@@ -59,6 +59,24 @@ const along = (line, step) => {
   if (line.length) out.push(line.at(-1));
   return out;
 };
+/** The tracer's remaining(): from a tee mark straight to the first bend 25 m or more ahead, then along the hole line. */
+function remainingLength(line, p) {
+  let s = 0, gap = Infinity, cum = 0;
+  for (let i = 0; i + 1 < line.length; i++) {
+    const a = line[i], b = line[i + 1], l = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const t = l > 0 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * (b[0] - a[0]) + (p[1] - a[1]) * (b[1] - a[1])) / (l * l))) : 0;
+    const g = Math.hypot(p[0] - a[0] - (b[0] - a[0]) * t, p[1] - a[1] - (b[1] - a[1]) * t);
+    if (g < gap) { gap = g; s = cum + t * l; }
+    cum += l;
+  }
+  let k = line.length - 1;
+  cum = 0;
+  for (let i = 1; i < line.length; i++) { cum += Math.hypot(line[i][0] - line[i - 1][0], line[i][1] - line[i - 1][1]); if (cum > s + 25) { k = i; break; } }
+  let r = Math.hypot(line[k][0] - p[0], line[k][1] - p[1]);
+  for (let i = k + 1; i < line.length; i++) r += Math.hypot(line[i][0] - line[i - 1][0], line[i][1] - line[i - 1][1]);
+  return r;
+}
+
 /** Whether any of `points` lies within `reach` metres of a closed ring (or inside it) or of an open line. */
 function reaches(points, shape, reach, closed) {
   const b = shape.box;
@@ -80,6 +98,16 @@ function routingFacts(row, quality) {
   const second = secondLookSummary(review?.second);
   const holeOf = id => { const m = /-(?:tee|bunker)-(\d+)-\d+$|-green-(\d+)$/.exec(id); return m ? Number(m[1] ?? m[2]) : null; };
   const routes = new Map((trace?.rows ?? []).filter(r => r.kind === 'route').map(r => [r.hole, r.cardResidual]));
+  // An older ground whose outlines are exported for the looks (export-model-surfaces.mjs) has no trace report: its
+  // marks are measured against the card from the model, by the tracer's own rule.
+  if (!trace && surfaces?.status === 'exported-from-model') {
+    for (const hole of model.holes) {
+      const marks = Array.isArray(hole.tees) ? [] : hole.tees?.marks ?? [];
+      if (hole.line?.length >= 2 && marks.length) {
+        routes.set(hole.n, Object.fromEntries(marks.map((mark, i) => [row.tees.names[i] ?? `tee${i}`, Math.round((remainingLength(hole.line, mark.c) - hole.t[i]) * 10) / 10])));
+      }
+    }
+  }
   const lakes = (model.water ?? []).filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ points: w.ring, box: box(w.ring) }));
   const creeks = [...(model.streams ?? []), ...(model.water ?? []).filter(w => w.stream)].filter(s => s.line?.length >= 2)
     .map(s => ({ points: s.line, box: box(s.line) }));

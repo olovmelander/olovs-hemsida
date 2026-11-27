@@ -319,7 +319,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "43bd0a4441d8a9b128b49a9163195dd845807ba555706d0738c719fb4644cf9b",
+      "sha256": "56e3c03e4389f42647013ffcde26be7546ed33605b54578e8ce7e28949ce8abc",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -368,7 +368,7 @@
       "id": "legacy-marking",
       "kind": "composite",
       "path": "angsobuild/marking.json",
-      "sha256": "c0a3d8867a1d234319df115936abf3cbdd9f4f8e94c34ac41daf596caa3c987f",
+      "sha256": "0d444e31057e080b8b762b4bec9b88e0b1d0023473d82a2c0cd6a819618456cc",
       "derivedFrom": [
         "club-guide-legacy",
         "esri-imagery-legacy",
@@ -416,7 +416,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
-      "sha256": "1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf",
+      "sha256": "1f3afae38df8dd25c79d53e25905ff52fe4d07bbf2ee744aaf38a6c4a77e7907",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -445,7 +445,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/angso/migration/residual-report.json",
-      "sha256": "c1c67de2b487bcaf3f86cf1a495ac853a19804951106a531d09c3db3240d93e5",
+      "sha256": "75fb8a5a39aaab8d8abd2f146891d18352e8a6dda8ad3e176e1ab9a200b7f853",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -688,7 +688,7 @@
       "path": "angsobuild/mapping/tee-coordinate-audit.json",
       "use": "discovery-evidence",
       "notes": "Independent native-pixel, PROJ, pack, camera and routing checks for all colour references; checks actual rendered marker pairs against the assigned mown surface. Explicit unresolved identities remain documented.",
-      "sha256": "8970b342b0ce6e7a54890fc23f755855f1ce1acc79898a63d611b19741d72432",
+      "sha256": "8365a1e63fd88dae1176610f413986f3a4eba68e758769f4e0c090f5ab4d6314",
       "derivedFrom": [
         "imagery-lm-ortho",
         "club-guide-legacy"

@@ -1,0 +1,646 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "EPSG:3006"
+  }
+ },
+ "status": "traced-awaiting-review",
+ "provenance": {
+  "imagery": "orto-o2-2025",
+  "imagerySha256": {
+   "south-w-2025.tif": "4de25898e07723463e4843b788c9c1005008ddf45daa210b73f4d34cc6014b53",
+   "south-m-2025.tif": "ef8a2fabe08d121c6a997736b731d10370eafacffcde5fd0da2d5a50fd73afc2",
+   "south-e-2025.tif": "9b60284fa4b6187ac49b9bebe35831b5066233ed71fd6345b42579cc718ae712",
+   "north-w-2025.tif": "e4b0a5996356468584912710415889d628e2d6e1d72315ec5c86f1b299bb1d2c",
+   "north-m-2025.tif": "6133a509c744030b978ebc1c7414936208f30ffe3feaa6745b5707fb12a6a0d6",
+   "north-e-2025.tif": "fe96f65bf56bcc25e960c8c375faca5cc616215e5a38bacc97fb20e48138abe3",
+   "overview-2025.tif": "95e30c0cb8802cf86d4dcd429a6fe5f25aef688e98020387301c03b0b02a9460"
+  },
+  "terrainSha256": "d112a9c364239afda755f820a756d5dc096406f1464cc4b9545e0e818f7f93c9",
+  "osmSha256": "30acea0d7e82dfdf0f7a38cf12a4e41983f9e664882677a79627fee0c60111e2",
+  "tool": "packages/course-geo/mapping/trace-course-surfaces.py",
+  "fairwayImagery": "orto-o2-2025+orto-o2-2023+orto-o2-2021",
+  "fairwayImagerySha256": {
+   "south-w-2025.tif": "4de25898e07723463e4843b788c9c1005008ddf45daa210b73f4d34cc6014b53",
+   "south-m-2025.tif": "ef8a2fabe08d121c6a997736b731d10370eafacffcde5fd0da2d5a50fd73afc2",
+   "south-e-2025.tif": "9b60284fa4b6187ac49b9bebe35831b5066233ed71fd6345b42579cc718ae712",
+   "north-w-2025.tif": "e4b0a5996356468584912710415889d628e2d6e1d72315ec5c86f1b299bb1d2c",
+   "north-m-2025.tif": "6133a509c744030b978ebc1c7414936208f30ffe3feaa6745b5707fb12a6a0d6",
+   "north-e-2025.tif": "fe96f65bf56bcc25e960c8c375faca5cc616215e5a38bacc97fb20e48138abe3",
+   "overview-2025.tif": "95e30c0cb8802cf86d4dcd429a6fe5f25aef688e98020387301c03b0b02a9460",
+   "course-2023.tif": "bebcff556b1a53f1a42af0f4ba75c71bef18303536ff473e6596f65c4be0a483",
+   "course-2021.tif": "e23bea875e7155ac1334f75d84cb0c003a345d5ce92ce908a4e18247bace6d6a"
+  },
+  "fairwayTraining": {
+   "training": "decision-lines",
+   "ndviAbove": 0,
+   "fit": "settled"
+  }
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": "stora-route-01",
+   "properties": {
+    "kind": "hole",
+    "hole": 1,
+    "par": 4,
+    "lengthMetres": 373.7
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639816.94,
+      6636289.1
+     ],
+     [
+      639906.1,
+      6636232.4
+     ],
+     [
+      639999,
+      6636162.8
+     ],
+     [
+      640109.53,
+      6636058.53
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-02",
+   "properties": {
+    "kind": "hole",
+    "hole": 2,
+    "par": 3,
+    "lengthMetres": 146.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640156.22,
+      6636100.41
+     ],
+     [
+      640126.2,
+      6636165.6
+     ],
+     [
+      640096.86,
+      6636234.78
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-03",
+   "properties": {
+    "kind": "hole",
+    "hole": 3,
+    "par": 4,
+    "lengthMetres": 324.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640215.51,
+      6636256.23
+     ],
+     [
+      640234.8,
+      6636159.7
+     ],
+     [
+      640244,
+      6636049.9
+     ],
+     [
+      640268.4,
+      6635937.1
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-04",
+   "properties": {
+    "kind": "hole",
+    "hole": 4,
+    "par": 4,
+    "lengthMetres": 396.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640219.92,
+      6635939.31
+     ],
+     [
+      640126.3,
+      6635979.4
+     ],
+     [
+      640034.1,
+      6636030
+     ],
+     [
+      639953.7,
+      6636087
+     ],
+     [
+      639911.59,
+      6636167.01
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-05",
+   "properties": {
+    "kind": "hole",
+    "hole": 5,
+    "par": 5,
+    "lengthMetres": 481.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639936.34,
+      6636064.63
+     ],
+     [
+      639964.1,
+      6635969.2
+     ],
+     [
+      639964.5,
+      6635854.1
+     ],
+     [
+      639928.2,
+      6635777.6
+     ],
+     [
+      639871.1,
+      6635695.4
+     ],
+     [
+      639805.44,
+      6635646.69
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-06",
+   "properties": {
+    "kind": "hole",
+    "hole": 6,
+    "par": 3,
+    "lengthMetres": 204.3
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639735.34,
+      6635603.98
+     ],
+     [
+      639629.1,
+      6635596.1
+     ],
+     [
+      639532.07,
+      6635583.91
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-07",
+   "properties": {
+    "kind": "hole",
+    "hole": 7,
+    "par": 4,
+    "lengthMetres": 414.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639586.1,
+      6635678.9
+     ],
+     [
+      639513,
+      6635774
+     ],
+     [
+      639475.7,
+      6635882.8
+     ],
+     [
+      639437.7,
+      6635948.9
+     ],
+     [
+      639402.98,
+      6636046.64
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-08",
+   "properties": {
+    "kind": "hole",
+    "hole": 8,
+    "par": 5,
+    "lengthMetres": 467.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639316.87,
+      6636113.98
+     ],
+     [
+      639361.4,
+      6636135.8
+     ],
+     [
+      639419.1,
+      6636238.9
+     ],
+     [
+      639481,
+      6636303
+     ],
+     [
+      639558.7,
+      6636347.9
+     ],
+     [
+      639659.12,
+      6636414.58
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-09",
+   "properties": {
+    "kind": "hole",
+    "hole": 9,
+    "par": 4,
+    "lengthMetres": 346.4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639732.89,
+      6636409.26
+     ],
+     [
+      639777.4,
+      6636506.8
+     ],
+     [
+      639882,
+      6636576.7
+     ],
+     [
+      639943.3,
+      6636584.8
+     ],
+     [
+      639983.32,
+      6636617.3
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-10",
+   "properties": {
+    "kind": "hole",
+    "hole": 10,
+    "par": 3,
+    "lengthMetres": 183.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639974.24,
+      6636513.03
+     ],
+     [
+      640095.26,
+      6636651.57
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-11",
+   "properties": {
+    "kind": "hole",
+    "hole": 11,
+    "par": 4,
+    "lengthMetres": 376.2
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      640097.65,
+      6636711.58
+     ],
+     [
+      639979.3,
+      6636683.8
+     ],
+     [
+      639870.5,
+      6636644.6
+     ],
+     [
+      639786,
+      6636624.4
+     ],
+     [
+      639736.33,
+      6636608.63
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-12",
+   "properties": {
+    "kind": "hole",
+    "hole": 12,
+    "par": 5,
+    "lengthMetres": 521.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639796.69,
+      6636720.76
+     ],
+     [
+      639689,
+      6636669.8
+     ],
+     [
+      639579.1,
+      6636605.6
+     ],
+     [
+      639524,
+      6636523.4
+     ],
+     [
+      639476.7,
+      6636446.6
+     ],
+     [
+      639419.51,
+      6636382.98
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-13",
+   "properties": {
+    "kind": "hole",
+    "hole": 13,
+    "par": 4,
+    "lengthMetres": 333.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639424.08,
+      6636338.62
+     ],
+     [
+      639479.6,
+      6636372
+     ],
+     [
+      639548.1,
+      6636415.6
+     ],
+     [
+      639616.3,
+      6636468.4
+     ],
+     [
+      639645.3,
+      6636498.4
+     ],
+     [
+      639668.24,
+      6636552.81
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-14",
+   "properties": {
+    "kind": "hole",
+    "hole": 14,
+    "par": 3,
+    "lengthMetres": 152.9
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639695.45,
+      6636614.37
+     ],
+     [
+      639702.22,
+      6636461.64
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-15",
+   "properties": {
+    "kind": "hole",
+    "hole": 15,
+    "par": 4,
+    "lengthMetres": 337.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639710.05,
+      6636356.09
+     ],
+     [
+      639632.6,
+      6636301.7
+     ],
+     [
+      639564.4,
+      6636249.3
+     ],
+     [
+      639506.2,
+      6636195.5
+     ],
+     [
+      639460.68,
+      6636133.24
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-16",
+   "properties": {
+    "kind": "hole",
+    "hole": 16,
+    "par": 5,
+    "lengthMetres": 468.7
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639468.18,
+      6636082.89
+     ],
+     [
+      639571.2,
+      6636016.5
+     ],
+     [
+      639614.5,
+      6635931
+     ],
+     [
+      639627.2,
+      6635806.3
+     ],
+     [
+      639639.4,
+      6635721.7
+     ],
+     [
+      639628.77,
+      6635683.68
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-17",
+   "properties": {
+    "kind": "hole",
+    "hole": 17,
+    "par": 4,
+    "lengthMetres": 270.1
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639664.91,
+      6635639.96
+     ],
+     [
+      639704.3,
+      6635729.1
+     ],
+     [
+      639736.6,
+      6635805.5
+     ],
+     [
+      639781.17,
+      6635883.34
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "stora-route-18",
+   "properties": {
+    "kind": "hole",
+    "hole": 18,
+    "par": 4,
+    "lengthMetres": 382.0
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      639705.67,
+      6635882.14
+     ],
+     [
+      639741.1,
+      6635950.8
+     ],
+     [
+      639781.5,
+      6636024.4
+     ],
+     [
+      639812.7,
+      6636101.7
+     ],
+     [
+      639823,
+      6636174.2
+     ],
+     [
+      639816.62,
+      6636238.03
+     ]
+    ]
+   }
+  }
+ ]
+}

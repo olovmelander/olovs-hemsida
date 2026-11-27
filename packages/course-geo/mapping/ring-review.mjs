@@ -36,6 +36,13 @@ const read = file => fs.readFileSync(path.join(ROOT, file));
 const json = file => JSON.parse(read(file).toString('utf8'));
 
 export const reviewPath = build => `${build}/mapping/ring-review.json`;
+/** A build's trace report; an older ground's exported outlines (export-model-surfaces.mjs) have none, and so no scores. */
+export function traceOf(build) {
+  if (fs.existsSync(path.join(ROOT, `${build}/mapping/trace-report.json`))) return json(`${build}/mapping/trace-report.json`);
+  const surfaces = json(`${build}/mapping/playing-surfaces.geojson`);
+  if (surfaces.status !== 'exported-from-model') throw new Error(`${build}: no trace report, and its outlines are not an export of its model`);
+  return { slug: surfaces.slug, rows: [] };
+}
 export const surfacesSha256 = build => createHash('sha256').update(read(`${build}/mapping/playing-surfaces.geojson`)).digest('hex');
 
 /** The tees and greens whose edge the photo did not bear out, by ring id. */
@@ -54,7 +61,7 @@ export function ringCounts(surfaces) {
 
 /** Why a build's ring review does not hold, as a list (empty when it holds). */
 export function reviewErrors(build) {
-  const surfaces = json(`${build}/mapping/playing-surfaces.geojson`), trace = json(`${build}/mapping/trace-report.json`);
+  const surfaces = json(`${build}/mapping/playing-surfaces.geojson`), trace = traceOf(build);
   if (!fs.existsSync(path.join(ROOT, reviewPath(build)))) return [`${build}: no ring review; draw the sheets, look at them and record it`];
   const review = json(reviewPath(build)), errors = [];
   if (review.schemaVersion !== 1 || review.slug !== trace.slug) errors.push(`${build}: the ring review belongs to another course`);
@@ -105,6 +112,14 @@ export function secondLookSummary(second) {
     cannotTell: Object.keys(second.cannotTell ?? {}).length };
 }
 
+/** The older grounds' builds whose published outlines are exported for the looks (export-model-surfaces.mjs). */
+export function exportedBuilds() {
+  return [...new Set(json('apps/golf/public/courses/index.json').courses.map(c => c.build))].filter(build => {
+    const file = path.join(ROOT, `${build}/mapping/playing-surfaces.geojson`);
+    return fs.existsSync(file) && !fs.existsSync(path.join(ROOT, `${build}/mapping/trace-report.json`)) && JSON.parse(fs.readFileSync(file, 'utf8')).status === 'exported-from-model';
+  });
+}
+
 /** The builds traced with the shared tracer, from the published catalogue. */
 export function tracedBuilds() {
   return json('apps/golf/public/courses/index.json').courses.map(c => c.build).filter(build => fs.existsSync(path.join(ROOT, `${build}/mapping/trace-report.json`)));
@@ -114,7 +129,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const argv = process.argv.slice(2), flag = name => { const i = argv.indexOf(`--${name}`); return i < 0 ? null : argv[i + 1]; };
   const build = flag('build');
   if (!build) throw new Error('usage: ring-review.mjs --build <build dir> [--record --reviewer "<who, on what>" [--redrawn id,id] [--accept id="why" ...]]');
-  const surfaces = json(`${build}/mapping/playing-surfaces.geojson`), trace = json(`${build}/mapping/trace-report.json`);
+  const surfaces = json(`${build}/mapping/playing-surfaces.geojson`), trace = traceOf(build);
   if (flag('second') || flag('resolve') || flag('fault')) {
     const review = json(reviewPath(build)), ids = new Set(surfaces.features.map(f => f.id));
     if (flag('second')) review.second = secondLook(JSON.parse(fs.readFileSync(flag('second'), 'utf8')), surfacesSha256(build), ids);
