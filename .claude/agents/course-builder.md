@@ -1,6 +1,6 @@
 ---
 name: course-builder
-description: Builds a new golf ground, or improves a published one, with Banvy's staged pipeline (docs/pipeline-v2.md) - from the doctor's report through sources, outlines, the looks and measurements, the model and the six production stages - stopping at every gate that is the owner's. Use it when a course is to be added or a fault on a published course is to be put right.
+description: Builds a new golf ground, or improves a published one, with Banvy's staged pipeline (docs/pipeline-v2.md) - from the doctor's report through sources, outlines, the looks and measurements, the model and the six production stages to its release on the course-reviewer's verdict - stopping only at a gate that is still the owner's. Use it when a course is to be added or a fault on a published course is to be put right.
 tools: Read, Write, Edit, Glob, Grep, Bash, PowerShell
 ---
 
@@ -64,7 +64,14 @@ and say so in your report. A `known` fault is kept on purpose: change it only by
    copies: `bake-map-land.mjs` and `bake-map-buildings.mjs` (the rebuild's `map-land` and `map-buildings`
    steps); the rebuild's `register` step writes every table, the map's frame among them. Both modes draw the same records; the doctor's
    `phone map`, `map pictures` and `map buildings` lines say what is behind.
-6. The first look: ask the owner for a short GPU sitting before any bake.
+6. The look: build the app, then the rebuild's `pictures` step draws every hole in both modes
+   (`tools/course-review-pictures.mjs`), and its `look` step runs the course-reviewer blind
+   (`tools/course-review-run.mjs --record`: its own Claude, in a folder outside the repository, so no
+   CLAUDE.md or memory reaches it; never start that reviewer from this session, which is not blind), then
+   fix what it doubts and draw again, or answer each doubt with `--resolve` or `--fault`, and give each open
+   release item its reason with `--open`. The `verdict` step passes when the ground is admitted: the
+   course releases on that verdict alone (the owner's decision, 27 November 2026). Never write an
+   acceptance in the owner's name.
 7. Trees: their own sitting, with the `tree-placement` agent.
 8. Release build, and the rehearsal of CI in a clean worktree.
 9. Ship, then look at the live site.

@@ -3,9 +3,9 @@ import { execFileSync } from 'node:child_process';
 import { assertWorkflow } from './standard.mjs';
 import { readJson, safePath } from './io.mjs';
 import { releaseCheck } from './release.mjs';
-import { admitAccepted } from './acceptance.mjs';
+import { admitAdvisory } from './visual-review.mjs';
 
-export function checkNewCourses(root, baseRef, { checkRelease = releaseCheck, checkAcceptance = admitAccepted } = {}) {
+export function checkNewCourses(root, baseRef, { checkRelease = releaseCheck, checkAcceptance = admitAdvisory } = {}) {
   if (!/^[a-f0-9]{40}$/.test(baseRef || '')) throw new Error('--base-ref must be a resolved full commit SHA');
   const baseRead = p => JSON.parse(execFileSync('git', ['show', `${baseRef}:${p}`], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 8 * 1024 * 1024 }));
   const previous = baseRead('apps/golf/public/courses/v2-index.json');
@@ -36,7 +36,8 @@ export function checkNewCourses(root, baseRef, { checkRelease = releaseCheck, ch
     try {
       const w = assertWorkflow(readJson(root, `course-workflows/${groundId}/workflow.json`));
       if (w.groundId !== groundId) throw new Error('new or previously qualified courses require a matching mandatory workflow');
-      // A ground that is new here, never one that was mandatory, may come in on the owner's recorded acceptance.
+      // A ground that is new here, never one that was mandatory, comes in on the reviewer's verdict (owner's
+      // decision, 27 November 2026) or on an owner's recorded acceptance: visual-review.mjs admitAdvisory.
       if (w.releasePolicy === 'advisory' && !mandatory.has(groundId)) { results.push(checkAcceptance(root, w, { publicRoot: 'apps/golf/public' })); continue; }
       if (w.releasePolicy !== 'required') throw new Error('new or previously qualified courses require a matching mandatory workflow');
       results.push(checkRelease(root, w, { publicRoot: 'apps/golf/public' }));

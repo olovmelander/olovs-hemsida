@@ -6,7 +6,7 @@
    node tools/course-rebuild.mjs --ground <id> [--compare <older-photo.tif> --compare-captured <YYYY-MM-DD>]
 
    card  decisions  trace  decks  sand  sheets  review  layers  compile  tests  inventory  pin  configure  stages  promote
-   register  prune  roofs  quality  map-land  map-buildings  walkthrough
+   register  prune  roofs  quality  map-land  map-buildings  walkthrough  pictures  look  verdict
 
    Changing one tee deck means re-running most of this, and each step reads what the one before it wrote. At Bro
    Hof the order lived in a shell script outside the repository, and was run six times. Here it is derived from
@@ -107,6 +107,13 @@ export function rebuildPlan(groundId, { from = null, to = null, compare = [], co
     step('map-land', 'the phone map\'s water and forest', when(hasProfile || published, [node('tools/bake-map-land.mjs')])),
     step('map-buildings', 'the phone map\'s copy of the club\'s own buildings', when(hasProfile || published, [node('tools/bake-map-buildings.mjs')])),
     step('walkthrough', 'the walkthrough\'s generated parts', when(hasProfile || published, [node('tools/course-walkthrough.mjs', '--ground', groundId), node('tools/course-walkthrough.mjs', '--catalogue')])),
+    /* The release: every hole drawn in both modes on the GPU (a build of what is published must be in apps/golf/dist),
+       the course-reviewer's blind look, run as its own Claude in a folder outside the repository so no CLAUDE.md or
+       memory reaches it, recorded; then each doubt is fixed and drawn again, or answered (visual-review.mjs --resolve
+       / --fault), and the verdict step checks that it admits the ground (the owner's decision, 27 November 2026). */
+    step('pictures', 'every hole in both modes, for the reviewer (on the GPU; needs a build of what is published)', when(hasProfile, [node('tools/course-review-pictures.mjs', '--ground', groundId)])),
+    step('look', 'the course-reviewer\'s blind look at every sheet, recorded', when(hasProfile, [node('tools/course-review-run.mjs', '--ground', groundId, '--record')])),
+    step('verdict', 'the reviewer\'s verdict admits the ground', when(hasProfile, [node('packages/course-workflow/visual-review.mjs', '--ground', groundId, '--check')])),
   ].filter(s => typeof s.commands === 'function' || s.commands.length);
   const index = (id, fallback) => { if (!id) return fallback; const i = plan.findIndex(s => s.id === id); if (i < 0) throw new Error(`${groundId} has no step ${id} (it has: ${plan.map(s => s.id).join(', ')})`); return i; };
   const first = index(from, 0), last = index(to, plan.length - 1);

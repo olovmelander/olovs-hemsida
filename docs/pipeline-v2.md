@@ -326,7 +326,18 @@ bake.
 
 ### 6. The first look
 
-A short GPU sitting, before any bake.
+A short GPU sitting, before any bake. Since 27 November 2026 the look that releases a course is the
+course-reviewer's, not the owner's (the owner's decision: the reviewer's verdict alone releases a
+course): `tools/course-review-pictures.mjs --ground <ground>` draws every hole of every routing in
+Detaljerad 3D from the tee and from above, in Lätt 3D's view of the hole and on the photo with its
+outlines; `tools/course-review-run.mjs` has `.claude/agents/course-reviewer.md` look at every sheet blind,
+as its own headless Claude in a folder outside the repository (a session inside it is given CLAUDE.md and
+the project's memory, which name the known faults: the first reviewer asked saw them and stopped);
+`visual-review.mjs --record`
+binds the look to the generation and to every sheet's bytes; each doubt is fixed and drawn again, or
+answered with a resolution or a fault; and `visual-review.mjs --check` (the rebuild's `verdict` step)
+passes when the ground is admitted. CI's `check-new` admits a new ground on that verdict as on an
+owner's acceptance.
 
 ```sh
 node tools/course-walkthrough.mjs --ground <ground> --pictures     # prints the commands; it starts nothing
@@ -361,7 +372,7 @@ written into it. An unseen sample can be used once.
 | Every course's prepared water, tints, vista and scatter, then the boots | `BANVY_GPU=1 node tools/gpu-pass.mjs` (one sitting; `--dry-run` shows the order; it takes the first free port by itself and says which, so a pass beside another session's never serves or bakes the other checkout's build) |
 | Posters, then the catalogue row and scorecard | `tools/make-posters.mjs --candidates` then `--write`; `packages/course-pack/emit-manifest.mjs --only=<slug>` |
 | The walkthrough | `node tools/course-walkthrough.mjs --ground <ground>`, then write its hand parts |
-| Release | `cli.mjs release`, or the owner's recorded acceptance: `acceptance.mjs --ground <ground>` prints what is open, and `--record --accepted-on <date> --basis "<what the owner was asked and answered>" --reasons <file>` writes the record, refusing one that leaves an open item out |
+| Release | The reviewer's verdict: `tools/course-review-pictures.mjs`, `tools/course-review-run.mjs --record` (the blind look), `--resolve`/`--fault` each doubt, `--open` each open item, `--check` (the rebuild's `pictures` and `verdict` steps). Earlier grounds: `cli.mjs release`, or the owner's recorded acceptance: `acceptance.mjs --ground <ground>` prints what is open, and `--record --accepted-on <date> --basis "<what the owner was asked and answered>" --reasons <file>` writes the record, refusing one that leaves an open item out |
 
 **Gate:** the rehearsal, which is one command: `node tools/course-rehearsal.mjs --ground <ground>`. It makes a
 clean worktree of the commit to be pushed, with no private caches, and runs there what the pull request's two

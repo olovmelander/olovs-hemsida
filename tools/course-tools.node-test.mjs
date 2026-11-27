@@ -99,7 +99,7 @@ test('every published ground\'s decision files can be traced, and a broken one s
 test('a rebuild runs the ground\'s own steps in the one order, with the ring review as a gate before the layers', () => {
   const ids = plan => plan.map(step => step.id);
   const full = rebuildPlan('bro-hof');
-  assert.deepEqual(ids(full), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'layers', 'compile', 'tests', 'inventory', 'pin', 'configure', 'stages', 'promote', 'register', 'prune', 'roofs', 'quality', 'map-land', 'map-buildings', 'walkthrough']);
+  assert.deepEqual(ids(full), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'layers', 'compile', 'tests', 'inventory', 'pin', 'configure', 'stages', 'promote', 'register', 'prune', 'roofs', 'quality', 'map-land', 'map-buildings', 'walkthrough', 'pictures', 'look', 'verdict']);
   assert.ok(full.find(step => step.id === 'review').gate);
   // the sheets hold the rings a look still owes, and no others
   const render = (blind, only) => [blind ? 'blind' : 'scored', only ? only.join(',') : 'every ring'];
@@ -441,6 +441,16 @@ test('the rebuild registers a promoted ground in every table, the phone map\'s f
   assert.ok(shown.some(text => text.includes('ground-card.mjs --ground tjusta --apply')), shown.join(' | '));
   assert.ok(shown.some(text => text.includes('sync-course-registries.mjs --write')), shown.join(' | '));
   assert.ok(shown.some(text => text.includes('sync-course-registries.mjs --check')), shown.join(' | '));
+});
+
+test('the reviewer that releases a course looks blind: its own Claude, outside the repository, with the pictures and nothing else', async () => {
+  const { blindFolderProblems, briefOf } = await import('./course-review-run.mjs');
+  const source = fs.readFileSync(path.join(ROOT, 'tools/course-review-run.mjs'), 'utf8');
+  for (const guard of ['--restricted', '--strict-mcp-config', '--no-session-persistence', "'Read', 'Glob', 'Write'"]) assert.ok(source.includes(guard), `the run keeps ${guard}`);
+  assert.ok(/mkdtempSync\(path\.join\(os\.tmpdir\(\)/.test(source), 'the review folder is a fresh one outside the repository');
+  assert.ok(blindFolderProblems(path.join(ROOT, 'tools', 'x')).some(problem => /CLAUDE\.md/.test(problem)), 'a folder inside the repository is refused: its CLAUDE.md would reach the reviewer');
+  const brief = briefOf(fs.readFileSync(path.join(ROOT, '.claude/agents/course-reviewer.md'), 'utf8'));
+  assert.ok(!brief.startsWith('---') && /verdicts|doubts/.test(brief) && /stop/.test(brief), 'the brief is the agent\'s, without its header, and still tells it to stop when it is not blind');
 });
 
 test('the rehearsal runs what the pull request\'s pipelines run, and says what it leaves out and why', () => {
