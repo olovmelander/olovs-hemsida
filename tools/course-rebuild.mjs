@@ -6,7 +6,7 @@
    node tools/course-rebuild.mjs --ground <id> [--compare <older-photo.tif> --compare-captured <YYYY-MM-DD>]
 
    card  decisions  trace  decks  sand  sheets  review  layers  compile  tests  inventory  pin  configure  stages  promote
-   prune  roofs  quality  map-land  map-buildings  walkthrough
+   register  prune  roofs  quality  map-land  map-buildings  walkthrough
 
    Changing one tee deck means re-running most of this, and each step reads what the one before it wrote. At Bro
    Hof the order lived in a shell script outside the repository, and was run six times. Here it is derived from
@@ -89,6 +89,15 @@ export function rebuildPlan(groundId, { from = null, to = null, compare = [], co
     step('configure', 'the workflow\'s stage inputs', when(hasProfile, [node('packages/course-workflow/production.mjs', '--ground', groundId, '--configure')])),
     step('stages', 'the six production stages', when(hasProfile, [toolchainNode('packages/course-workflow/cli.mjs', 'run', '--ground', groundId, '--through', 'validate')])),
     step('promote', 'the validated candidate into the published tree', when(hasProfile, [node('packages/course-workflow/promote.mjs', '--ground', groundId)])),
+    /* Every table that names a ground, the phone map's frame among them, written from the card and the frontier
+       registry: it adds what is missing and changes no row (owner, 27 November: no hand step between a ground
+       and its release). */
+    step('register', 'every table that names the ground, the phone map\'s frame among them', when(hasCard && hasProfile, [
+      node('packages/course-workflow/ground-card.mjs', '--ground', groundId, '--apply'),
+      node('tools/sync-course-registries.mjs', '--write'),
+      node('packages/course-workflow/ground-card.mjs', '--ground', groundId, '--check'),
+      node('tools/sync-course-registries.mjs', '--check'),
+    ])),
     step('prune', 'files no published generation names (listed, not removed)', when(hasProfile, [node('packages/course-workflow/promote.mjs', '--ground', groundId, '--prune')])),
     // What follows needs a published ground. A republished pack moves the pin of the measured roof colours; the
     // step refuses when a footprint changed, and the roofs are then measured again (roof-colours.py).

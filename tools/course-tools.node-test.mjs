@@ -99,7 +99,7 @@ test('every published ground\'s decision files can be traced, and a broken one s
 test('a rebuild runs the ground\'s own steps in the one order, with the ring review as a gate before the layers', () => {
   const ids = plan => plan.map(step => step.id);
   const full = rebuildPlan('bro-hof');
-  assert.deepEqual(ids(full), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'layers', 'compile', 'tests', 'inventory', 'pin', 'configure', 'stages', 'promote', 'prune', 'roofs', 'quality', 'map-land', 'map-buildings', 'walkthrough']);
+  assert.deepEqual(ids(full), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'layers', 'compile', 'tests', 'inventory', 'pin', 'configure', 'stages', 'promote', 'register', 'prune', 'roofs', 'quality', 'map-land', 'map-buildings', 'walkthrough']);
   assert.ok(full.find(step => step.id === 'review').gate);
   // the sheets hold the rings a look still owes, and no others
   const render = (blind, only) => [blind ? 'blind' : 'scored', only ? only.join(',') : 'every ring'];
@@ -431,6 +431,16 @@ test('the rebuild bakes the phone map\'s pictures and the club\'s buildings afte
   const { rebuildPlan } = await import('./course-rebuild.mjs');
   const ids = rebuildPlan('tjusta').map(step => step.id);
   assert.ok(ids.indexOf('map-buildings') > ids.indexOf('map-land') && ids.indexOf('map-land') > ids.indexOf('promote'), ids.join(' '));
+});
+
+test('the rebuild registers a promoted ground in every table, the phone map\'s frame among them, with no hand step', async () => {
+  const { rebuildPlan, commandsOf } = await import('./course-rebuild.mjs');
+  const plan = rebuildPlan('tjusta'), ids = plan.map(step => step.id);
+  assert.equal(ids.indexOf('register'), ids.indexOf('promote') + 1, ids.join(' '));
+  const shown = commandsOf(plan.find(step => step.id === 'register')).map(command => command.join(' '));
+  assert.ok(shown.some(text => text.includes('ground-card.mjs --ground tjusta --apply')), shown.join(' | '));
+  assert.ok(shown.some(text => text.includes('sync-course-registries.mjs --write')), shown.join(' | '));
+  assert.ok(shown.some(text => text.includes('sync-course-registries.mjs --check')), shown.join(' | '));
 });
 
 test('the rehearsal runs what the pull request\'s pipelines run, and says what it leaves out and why', () => {
