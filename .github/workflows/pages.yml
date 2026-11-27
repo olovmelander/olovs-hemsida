@@ -1,13 +1,19 @@
-# Publish the site to GitHub Pages.
-#
-# Vite publishes the supported app and seven tiny legacy-URL redirects.
-# The root HTML sources remain validation fixtures and must not overwrite those
-# generated redirects. BANVY_BASE preserves this site's repository subpath.
+# GitHub Pages' last publication. Banvy lives on Cloudflare since 27 November 2026
+# (owner): this site no longer serves the app. Every old address under
+# /olovs-hemsida/ answers with one page that sends the visitor to the same place on
+# the main site with their own data, and sw.js clears an installed copy of the old
+# app (tools/pages-moved-site.mjs; docs/pages-retired.md). It needs no build and
+# no dependencies, and runs only when that page changes.
 name: pages
 
 on:
   push:
     branches: [main]
+    paths:
+      - .github/workflows/pages.yml
+      - tools/pages-moved-site.mjs
+      - apps/golf/src/shell/pages-move.mjs
+      - apps/golf/src/shell/backup-keys.mjs
   workflow_dispatch:
 
 permissions:
@@ -34,33 +40,17 @@ jobs:
         with:
           enablement: true
 
-      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
-
-      # base_path from configure-pages is "/olovs-hemsida" (no trailing slash);
-      # Vite wants one, and BASE_URL is documented to always end in a slash.
-      - name: Build the app for this site's base path
-        env:
-          BANVY_BASE: ${{ steps.pages.outputs.base_path }}/
-        run: pnpm --filter @banvy/golf build
-
-      - name: Verify prepared data matches the complete course build
-        run: node tools/check-prepared-startup.mjs --public apps/golf/dist
-
-      - name: Assemble the site
+      # base_path from configure-pages is "/olovs-hemsida" (no trailing slash).
+      - name: Write the page that moves every old address to Cloudflare
         run: |
           set -euo pipefail
-          rm -rf _site && mkdir -p _site
-          cp -r apps/golf/dist/. _site/
-          # Pages is served by a Jekyll-free static host; the marker stops any
-          # future underscore-prefixed file from being silently dropped
-          touch _site/.nojekyll
-          echo "--- published ---" && ls _site
+          rm -rf _site
+          node tools/pages-moved-site.mjs _site --base "${{ steps.pages.outputs.base_path }}/"
+          echo "--- published ---" && ls -a _site
 
       - uses: actions/upload-pages-artifact@v3
         with:

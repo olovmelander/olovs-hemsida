@@ -23,7 +23,7 @@ import { DECK_OFF_PLANE_LINE } from '../packages/course-geo/mapping/deck-ground.
 import { sandAuditSummary } from '../packages/course-geo/mapping/sand-audit.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SITE = 'https://olovmelander.github.io/olovs-hemsida/';
+const SITE = 'https://banvy.olovmelander.workers.dev/';
 const PROMPT = '_To write:';
 const TREE_GATE = 0.9, CARD_FLAG_METRES = 5, WATER_REACH_METRES = 30, CREEK_REACH_METRES = 15;
 

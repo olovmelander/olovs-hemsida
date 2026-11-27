@@ -1,7 +1,10 @@
 # Historical URLs enter the supported player
 
 Vite now emits seven small HTML redirect documents into `apps/golf/dist`.
-The Pages workflow publishes that directory without copying root HTML over it.
+The Cloudflare workflow publishes that directory without copying root HTML over it.
+GitHub Pages, where these names were first published, is retired: its last page
+sends each of them, with the visitor's data, to the same name on Cloudflare
+([GitHub Pages retired](pages-retired.md)).
 The same documents work at a domain root and a repository subpath, without
 Cloudflare-specific rewrites. Vite's development server serves them too.
 

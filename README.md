@@ -17,9 +17,10 @@ below are historical implementations, not new-course templates.
 
 ## The app
 
-<https://banvy.olovmelander.workers.dev/> is the main site, on Cloudflare, with
-sign-in and sync across devices. GitHub Pages publishes the same build at
-<https://olovmelander.github.io/olovs-hemsida/>, without them.
+<https://banvy.olovmelander.workers.dev/>, on Cloudflare, with sign-in and sync
+across devices. The old address, <https://olovmelander.github.io/olovs-hemsida/>,
+is retired: every link to it moves to the same place here, bringing the visitor's
+rounds and settings along ([GitHub Pages retired](docs/pages-retired.md)).
 
 Pick a course from the front door, or deep-link straight into one:
 
@@ -31,21 +32,21 @@ The full grammar is `bana hal vy ljus tee skylt ren kiosk q gl`.
 
 ## Historical links
 
-These seven URLs now open the corresponding course in the v2 + Ghibli app,
-preserving hole, camera, lighting, tee, marker and quality/backend settings.
-The original HTML sources remain in the repository for data validation and
-historical comparisons; they are no longer published as separate renderers.
-The same names open their course on the main site too, with or without `.html`:
+These seven page names, first published on GitHub Pages, open the corresponding
+course in the v2 + Ghibli app, preserving hole, camera, lighting, tee, marker and
+quality/backend settings, with or without `.html`. Links to them on the old address
+move here. The original HTML sources remain in the repository for data validation
+and historical comparisons; they are no longer published as separate renderers:
 
 | | |
 |---|---|
-| [Veckefjärdens GC](https://olovmelander.github.io/olovs-hemsida/veckefjarden3d.html) | Mästerskapsbanan at the fjärd, and the island 14th |
-| [Norrfällsvikens GK](https://olovmelander.github.io/olovs-hemsida/norrfallsviken3d.html) | seaside links character on the High Coast |
-| [Puttom (Örnsköldsviks GK)](https://olovmelander.github.io/olovs-hemsida/puttom3d.html) | forest and parkland between two lakes |
-| [Ängsö GK](https://olovmelander.github.io/olovs-hemsida/angso3d.html) | the Mälaren peninsula north of Ängsön |
-| [Upsala GK](https://olovmelander.github.io/olovs-hemsida/upsala3d.html) | Håmö gård, west of Uppsala |
-| [Johannesberg G&CC](https://olovmelander.github.io/olovs-hemsida/johannesberg3d.html) | the manor course at Gottröra |
-| [Veckefjärdens GC (2023)](https://olovmelander.github.io/olovs-hemsida/veckefjardensgc.html) | opens the current Mästerskapsbanan |
+| [Veckefjärdens GC](https://banvy.olovmelander.workers.dev/veckefjarden3d.html) | Mästerskapsbanan at the fjärd, and the island 14th |
+| [Norrfällsvikens GK](https://banvy.olovmelander.workers.dev/norrfallsviken3d.html) | seaside links character on the High Coast |
+| [Puttom (Örnsköldsviks GK)](https://banvy.olovmelander.workers.dev/puttom3d.html) | forest and parkland between two lakes |
+| [Ängsö GK](https://banvy.olovmelander.workers.dev/angso3d.html) | the Mälaren peninsula north of Ängsön |
+| [Upsala GK](https://banvy.olovmelander.workers.dev/upsala3d.html) | Håmö gård, west of Uppsala |
+| [Johannesberg G&CC](https://banvy.olovmelander.workers.dev/johannesberg3d.html) | the manor course at Gottröra |
+| [Veckefjärdens GC (2023)](https://banvy.olovmelander.workers.dev/veckefjardensgc.html) | opens the current Mästerskapsbanan |
 
 ## Building and checking
 

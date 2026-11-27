@@ -9,6 +9,16 @@ import { clubIdFor } from './shell/course-clubs.mjs';
 import { hubUrl, legacyTarget, mapUrl } from './shell/router.js';
 import { coursePreview } from './course-previews.mjs';
 import { supportedVisualSearch } from './engine/look-mode.mjs';
+import { MOVE_PARAM } from './shell/pages-move.mjs';
+
+/* Banvy left GitHub Pages: a visitor from an old address may bring their data in
+   the fragment. It leaves the address first, then Inställningar offers it. */
+if (location.hash.startsWith(`#${MOVE_PARAM}=`)) {
+  const { receiveMove } = await import('./shell/move-in.mjs');
+  let storage = null;
+  try { storage = localStorage; } catch { /* the move is offered every time */ }
+  await receiveMove({ location, history, storage, base: import.meta.env.BASE_URL });
+}
 
 /* The browser offers to install the app once, early, before the start menu has
    loaded: kept here, so the menu can offer it as its own "Installera". */

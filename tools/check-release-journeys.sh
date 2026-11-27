@@ -36,6 +36,9 @@ node tools/check-release-assets.mjs "$origin/"
 echo '::group::Bookmarks and policy pages as the Worker serves them'
 node tools/check-legacy-links.mjs --url "$origin/"
 echo '::endgroup::'
+echo '::group::A visitor moved from the retired GitHub Pages address'
+node tools/check-pages-move.mjs --receive "$origin/"
+echo '::endgroup::'
 for journey in hub-journeys lobby-scale club-sorting course-loading session-navigation stats-history play-concurrency play-session map-round map-field-recovery map-offline-first live-handoff; do
   echo "::group::Browser journey $journey"
   node "tools/check-$journey.mjs" "$origin/"

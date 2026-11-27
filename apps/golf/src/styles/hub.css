@@ -983,6 +983,7 @@
 .set-danger.is-armed { background: #d9503f; border-color: #d9503f; color: #fff; }
 .set-primary:focus-visible, .set-danger:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .set-primary:active, .set-danger:active { transform: scale(0.98); }
+a.set-primary { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
 .set-metric { font: 600 28px/1 var(--bv-font); font-variant-numeric: tabular-nums; color: #fff; }
 .set-inline { display: flex; align-items: center; gap: 14px; }
 .set-link {
