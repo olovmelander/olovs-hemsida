@@ -5,12 +5,12 @@
  "reviewer": "mechanical screen with an agent spot check (Claude, 2026-11-24): 3 of 8 chip sheets of the suspects looked at; not a field check and not a crown-by-crown review",
  "screen": "placed crowns of the candidates (round r1) that the June 2025 photo does not show; the 1,737 crowns held on a mapped building or with no June 2025 vegetation have NO verdict here and stay held (not placed)",
  "verdicts": {
-  "absent": "stood when the laser was flown, gone in the photo: not placed / removed (the owner confirms the list)"
+  "absent": "stood when the laser was flown, gone in the photo: not placed / removed (the owner confirms the list)",
+  "not-tree": "a pole, mast or lamp the laser read as a crown: removed"
  },
  "counts": {
   "spot:absent": 392,
-  "near": 229,
-  "woodland": 163
+  "spot:not-tree": 8
  },
  "decisions": {
   "648191.3_6598101.8": {
@@ -2756,6 +2756,71 @@
    "easting": 648447.75,
    "northing": 6597573.75,
    "note": "mechanical screen: no crown in the June 2025 photo at any position it could draw this one (texture 3.5, dark share 0, presence 0.822); not looked at one by one"
+  },
+  "648586.3_6598159.8": {
+   "kind": "spot",
+   "verdict": "not-tree",
+   "easting": 648586.3,
+   "northing": 6598159.8,
+   "record": "tree-bro-hof-014041",
+   "note": "the flagpole north of the sunken putting green: a pole's thin shadow with a flag at its end on open lawn on the 2025 photo, no crown; the pole top on the 2021 photo (the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos; owner report 2026-11-27)"
+  },
+  "648584.8_6598140.8": {
+   "kind": "spot",
+   "verdict": "not-tree",
+   "easting": 648584.8,
+   "northing": 6598140.8,
+   "record": "tree-bro-hof-014308",
+   "note": "a flagpole on the west rim of the sunken putting green: a pole's thin shadow with a flag at its end on open lawn on the 2025 photo, no crown; the pole top on the 2021 photo (the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos; owner report 2026-11-27)"
+  },
+  "648589.8_6598122.3": {
+   "kind": "spot",
+   "verdict": "not-tree",
+   "easting": 648589.8,
+   "northing": 6598122.3,
+   "record": "tree-bro-hof-014011",
+   "note": "a flagpole on the south-west rim of the sunken putting green: a pole's thin shadow with a flag at its end on open lawn on the 2025 photo, no crown; the pole top on the 2021 photo (the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos; owner report 2026-11-27)"
+  },
+  "648603.8_6598108.3": {
+   "kind": "spot",
+   "verdict": "not-tree",
+   "easting": 648603.8,
+   "northing": 6598108.3,
+   "record": "tree-bro-hof-014115",
+   "note": "the flagpole by the path below the terrace (the Swedish flag): a pole's thin shadow with a flag at its end on open lawn on the 2025 photo, no crown; the pole top on the 2021 photo (the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos; owner report 2026-11-27)"
+  },
+  "648618.8_6598100.8": {
+   "kind": "spot",
+   "verdict": "not-tree",
+   "easting": 648618.8,
+   "northing": 6598100.8,
+   "record": "tree-bro-hof-014034",
+   "note": "a flagpole on the south rim of the practice green below the terrace: a pole's thin shadow with a flag at its end on open lawn on the 2025 photo, no crown; the pole top on the 2021 photo (the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos; owner report 2026-11-27)"
+  },
+  "648638.3_6598100.8": {
+   "kind": "spot",
+   "verdict": "not-tree",
+   "easting": 648638.3,
+   "northing": 6598100.8,
+   "record": "tree-bro-hof-014528",
+   "note": "a flagpole on the south rim of the practice green below the terrace: a pole's thin shadow with a flag at its end on open lawn on the 2025 photo, no crown; the pole top on the 2021 photo (the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos; owner report 2026-11-27)"
+  },
+  "648655.3_6598109.8": {
+   "kind": "spot",
+   "verdict": "not-tree",
+   "easting": 648655.3,
+   "northing": 6598109.8,
+   "record": "tree-bro-hof-014012",
+   "note": "a flagpole by the hedge south-east of the castle: a pole's thin shadow with a flag at its end on open lawn on the 2025 photo, no crown; the pole top on the 2021 photo (the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos; owner report 2026-11-27)"
+  },
+  "648668.8_6598123.3": {
+   "kind": "spot",
+   "verdict": "not-tree",
+   "easting": 648668.8,
+   "northing": 6598123.3,
+   "record": "tree-bro-hof-014116",
+   "note": "a flagpole by the path east of the castle: a pole's thin shadow with a flag at its end on open lawn on the 2025 photo, no crown; the pole top on the 2021 photo (the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos; owner report 2026-11-27)"
   }
- }
+ },
+ "roundR1b": "the eight flagpoles round the castle recorded as spot not-tree on 2026-11-27 (scripts/record-pole-review.mjs)"
 }

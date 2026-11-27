@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "stage": "mapping",
   "status": "passed",
-  "startedAt": "2026-11-24T22:14:58.432Z",
-  "finishedAt": "2026-11-24T22:15:00.385Z",
+  "startedAt": "2026-11-27T09:01:25.336Z",
+  "finishedAt": "2026-11-27T09:01:27.051Z",
   "command": [
     "node",
     "packages/course-workflow/production.mjs",
@@ -31,9 +31,9 @@
     "brohofcastlebuild/mapping/decisions.json": "1af6a067046c0692e4e9734258e6981be3888b8c319f0d0dae392ef884c57b35",
     "brohofcastlebuild/mapping/trace-report.json": "008f44b98ab4db2e80ce540ce9bacd3efa06dd4325411c42c256064a720e508c",
     "brohofcastlebuild/reference/club-scorecard.json": "091b94a9289514f376b9f6245dffb5ea901f73c8935d87e6ca081fbf0ed1ae29",
-    "course-workflows/bro-hof/production.json": "e35437a21f8f17f966fe8f739e9e898ec5bb43b33b5f721cb5ea8319f01996df",
+    "course-workflows/bro-hof/production.json": "484c5ee074392e5bb60542191172465e207ca029e37caa5bdf607570068d2e32",
     "geo_data/course-v2/bro-hof/source-manifest.json": "f3728a4260072ca291b3dd104feb4dc0c54f0ee21ecf0b9f8240d7cb532d3cbb",
-    "output/course-workflow/bro-hof/stages/sources/sources.json": "ae1e1da3dfc3e9f9a228a0438081a3013089e538c8e19446a528792776dcaaba",
+    "output/course-workflow/bro-hof/stages/sources/sources.json": "76ecf0edd9869bcb6719519aae645076f6db7c37f8ef26e8243a5e8b8f236a83",
     "output/course-workflow/bro-hof/stages/terrain/compilation.json": "3742356c11003f992d0427a7ab396c9f54ce470afced761515e3a9fe27935123",
     "output/course-workflow/bro-hof/stages/terrain/grounds/bro-hof/terrain/0127df6ca25c32ff2305f5c7dfeae3869f70ed013fe87bb78a010eb3b6f3770f.bvch": "0127df6ca25c32ff2305f5c7dfeae3869f70ed013fe87bb78a010eb3b6f3770f",
     "output/course-workflow/bro-hof/stages/terrain/grounds/bro-hof/terrain/01d22b048bcf5aee76f59abdb726736b8eb16b4ff35d128822482abfaf115dd8.bvch": "01d22b048bcf5aee76f59abdb726736b8eb16b4ff35d128822482abfaf115dd8",
@@ -507,7 +507,7 @@
     "output/course-workflow/bro-hof/stages/terrain/grounds/bro-hof/terrain/ffeb2e91e655d45e92f96b30479e14cd04278cddfd3628db0877ea46f4e8e90f.bvch": "ffeb2e91e655d45e92f96b30479e14cd04278cddfd3628db0877ea46f4e8e90f",
     "output/course-workflow/bro-hof/stages/terrain/terrain-report.json": "a979007b8f20a02f21a4f2a326e27cd7fc80833f2d55cfc3a2caedc1289bd112"
   },
-  "fingerprint": "25b8a377c8c6b0837e6f3a1b2281c6d11e3eb0c45864a2e2494b70c4fcb7a225",
+  "fingerprint": "4404fa812825c929ea9c31097fb028f46901f67639c2814935030a00a6a088ed",
   "outputs": {
     "output/course-workflow/bro-hof/stages/mapping/mapping-report.json": "b1eff7b933d2817a9732eabcc29a6967ac5366be761800782a45788e65a09b97",
     "output/course-workflow/bro-hof/stages/mapping/models/bro-hof-castle.epsg3006.json": "856932cac0923f30807bc7afd421fa254098f85cbe847ef24f3dfdc766151808",

@@ -75,32 +75,33 @@
   },
   "notPlacedOrRemovedByReview": {
     "not-placed:felled after 2020/2021": 369,
-    "remove:felled after 2020/2021": 23
+    "remove:felled after 2020/2021": 23,
+    "not-placed:not a tree": 10
   },
   "candidates": {
     "total": 17767,
     "byDecision": {
-      "add": 14537,
-      "not-placed": 369,
-      "hold": 2079,
+      "add": 14530,
+      "not-placed": 379,
+      "hold": 2076,
       "adjust": 520,
       "retain": 149,
       "remove": 23,
       "merge": 90
     },
-    "placedTrees": 15206,
+    "placedTrees": 15199,
     "placedByType": {
       "unknown": 3039,
-      "broadleaf": 6281,
-      "conifer": 5886
+      "broadleaf": 6282,
+      "conifer": 5878
     },
     "placedBySource": {
-      "detector": 15021,
+      "detector": 15014,
       "sparse-laser-recovery": 185
     },
     "holdByReason": {
       "no June 2025 vegetation (unreviewed)": 1529,
-      "pole-like crown": 186,
+      "pole-like crown": 183,
       "on a mapped building": 142,
       "felling screen": 164,
       "structure suspect": 8,
@@ -122,7 +123,10 @@
     },
     "screened": 204,
     "byVerdict": {
-      "unreviewed": 204
+      "unreviewed": 194,
+      "unclear": 7,
+      "not-tree": 2,
+      "tree": 1
     }
   },
   "bank": {
@@ -172,16 +176,16 @@
     "near|unknown": {
       "add": 1706,
       "adjust": 69,
-      "hold": 148,
+      "hold": 147,
       "retain": 12,
-      "not-placed": 42,
+      "not-placed": 43,
       "remove": 2,
       "merge": 34
     },
     "near|broadleaf": {
-      "add": 2946,
+      "add": 2947,
       "adjust": 121,
-      "hold": 98,
+      "hold": 97,
       "retain": 42,
       "not-placed": 66,
       "remove": 6
@@ -211,9 +215,9 @@
       "retain": 2
     },
     "near|conifer": {
-      "add": 2563,
-      "not-placed": 108,
-      "hold": 253,
+      "add": 2555,
+      "not-placed": 117,
+      "hold": 252,
       "adjust": 51,
       "retain": 3,
       "remove": 5
@@ -238,7 +242,7 @@
   "identity": {
     "matchedWithin15m": 436,
     "matchedWithin3m": 285,
-    "newIds": 16575,
+    "newIds": 16565,
     "nextSequence": 20266,
     "previousGenerationRecords": 0,
     "previousGenerationLineageCarried": 0
@@ -255,7 +259,7 @@
     "sparseLaserWithoutPhotoCrown": 70,
     "photoOnlyCanopy": 26
   },
-  "elapsedSeconds": 40.1,
+  "elapsedSeconds": 27.5,
   "typeCheck": {
     "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, evaluation was not",
     "calibration": {

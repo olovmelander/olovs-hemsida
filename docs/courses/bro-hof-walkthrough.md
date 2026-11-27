@@ -24,10 +24,10 @@ build's own records, and a test fails when they fall behind. Everything else is 
 | Tee decks on level ground in the terrain | 78 of 84 measured | 58 of 70 measured |
 | Posters, prepared data, scorecard | 5, 4 of 4, yes | 5, 4 of 4, yes |
 
-- **Ground:** 469 terrain tiles (terrain a mosaic of flights from 2010-11-06 to 2025-06-14, photo 2025-06-14, laser 2021-03-23), 44 lakes and ponds, 48 creeks and ditches, 8 bridges, water edges: 2 stone and 4 boulders. Generation `30268b63b950`.
+- **Ground:** 469 terrain tiles (terrain a mosaic of flights from 2010-11-06 to 2025-06-14, photo 2025-06-14, laser 2021-03-23), 44 lakes and ponds, 48 creeks and ditches, 8 bridges, water edges: 2 stone and 4 boulders. Generation `a78474a435dd`.
 - **The ground's age:** where the course is newer than the terrain under it, by what was measured. Stadium 2 (1 bunker without a bowl in the terrain); Castle 7 (4 bunkers built or reshaped since the 2021-04-16 photo, 1 bunker without a bowl in the terrain, 4 decks not on level ground); Castle 16 (2 bunkers built or reshaped since the 2021-04-16 photo); Castle 17 (1 bunker built or reshaped since the 2021-04-16 photo). Tee decks only: Stadium 5 (1), Stadium 9 (1), Stadium 10 (2), Stadium 17 (1), Stadium 18 (1), Castle 1 (1), Castle 2 (1), Castle 5 (1), Castle 6 (1), Castle 10 (1), Castle 11 (1), Castle 18 (2). A deck that is not level is newer than the terrain or off its deck; both photo years say which. The older photo cannot say for 4 bunkers in shade.
 - **Sand:** the 2025-06-14 photo was read round every hole against the model's 120 bunkers and waste areas: 3 of them hold little sand or have sand outside their line, and 20 areas of bright sand are not in the model, 9 of those on nothing the map holds. Each has a verdict; 1 is kept as a fault.
-- **Trees:** 15,206 placed one by one (review-2026-11-24); on unseen trees precision 0.784, recall 0.807, F1 0.795: the 90% gate is **missed**; 2,079 doubtful trees held back. [Review](../../geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/README.md).
+- **Trees:** 15,199 placed one by one (review-2026-11-24); on unseen trees precision 0.784, recall 0.807, F1 0.795: the 90% gate is **missed**; 2,076 doubtful trees held back. [Review](../../geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/README.md).
 - **Buildings:** 467 mapped, 459 with a roof colour measured on the photo; an authored campus of 22 parts (castle, castle-terrace, pavilion, halfway-stadium, halfway-stadium-walls, halfway-castle, halfway-castle-garden, courtyard, avenue-gate, flagpole-a, flagpole-b, flagpole-c, flagpole-d, flagpole-e, flagpole-f, flagpole-g, flagpole-h, terrace-parasols, practice-green-flags, range-mat-line, range-grass-tee, range-targets), 27,087 triangles; 26 golf carts in 3 rows.
 - **Quality gate:** 0 errors, 1 warnings (`tools/check-course-quality.mjs`); each is on its hole below.
 - **Release:** on the owner's acceptance of 2026-11-24, with 4 items open:
@@ -99,11 +99,18 @@ build's own records, and a test fails when they fall behind. Everything else is 
 - **Parts of the campus are estimated:** the south façade, railings and the halfway houses' walls; the list is in its
   [README](../../brohofbuild/facilities/README.md). The courtyard wings, the long red-tiled building and the range
   shelter are house-kit drawings on their footprints.
-- **The tree pipeline took the castle's eight flagpoles for trees.** In the laser they are thin "conifers" 8.7-9.4 m
-  tall with 1.1-1.6 m crowns, each where the June 2025 photo has a pole's shadow with a flag. Since 27 November the
-  poles stand at those records, and each pole's campus part keeps the false tree from being drawn (1.2 m round it);
-  the tree data itself still holds them, so the next tree round should drop them. Other lone thin "conifers" near the
-  castle may be lamp posts, not looked at one by one.
+- **Trees felled since the laser still stand on the western building site.** Round the new road and the building
+  site west of Castle 18 (about E 648070-648390, N 6597800-6598450), and in the works yard by Castle 13's tee, the
+  2021 photo has woodland and the 2025 photo bare ground, gravel or low scrub. Crowns the laser measured there in
+  2020-21 are still placed. The scrub reads as vegetation, so the gone screen kept them; tall trees still stand among
+  it, so the clearing cannot be outlined by eye. Lantmäteriet's 2025 photo-matched surface model would decide it, but
+  the account is refused it until "Ythöjdmodell" is added on Geotorget (round r1b in the
+  [tree review](../../geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/README.md)).
+- **Poles and lamp posts (round r1b, 27 November).** The castle's eight flagpoles were in the tree data as thin
+  conifers; they are now decided not-tree and the campus models the poles at those records. Every placed crown was
+  screened for poles and none is left. Lamp posts are narrower than a metre and were never placed; the ten held
+  pole-like crowns round the castle, range and car parks are decided. The other 194 pole-like crowns in the window
+  stay held.
 - **The rest of the grounds' furniture (27 November) is placed from the photos, not surveyed:** the range's distance
   boards give metres from the middle of the mat line, not the club's own figures, and its flags' colours, the practice
   greens' and the putting course's cups and the bags in the bays are invented.

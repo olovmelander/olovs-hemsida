@@ -5,12 +5,12 @@
  "groundId": "bro-hof",
  "reviewId": "review-2026-11-24",
  "round": null,
- "ranAt": "2026-11-24T21:46:29.675Z",
+ "ranAt": "2026-11-27T08:59:55.639Z",
  "node": "v24.20.0",
  "config": {
   "path": "course-workflows/bro-hof/trees.json",
-  "bytes": 7918,
-  "sha256": "dcea73509878d8fc484da4593c5223bb82205d01ab667a7b2a5852b1cf7d4051"
+  "bytes": 9616,
+  "sha256": "b08c70a101c82ebf49c053f9bb62668f9227779e2022aaf69e87605ef9ad3805"
  },
  "options": {},
  "code": {
@@ -18,7 +18,7 @@
   "tools/tree-pipeline/config.mjs": "0d4325b9401da1c814db9b5478d4416989052cd27afcd15717d4aff9ce3c1f2f",
   "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
   "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
-  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/source-policy.mjs": "9250cc8657000a1c3d4d432ed2e329b50ac528c8dacaa364511399946e0c35d2",
   "tools/tree-pipeline/receipts.mjs": "6d7adc7b9eae9686d4adbfc43887b9b8d74d479498508d0c8df34c5760aafe70",
   "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
   "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
@@ -61,9 +61,14 @@
    "sha256": "2759416d0855be7c451a295dd40557eaf92478d98d687e405a9787630e13921a"
   },
   {
+   "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/pole-review.json",
+   "bytes": 2326,
+   "sha256": "4ae2f5f09e28d56ae438c1deaf736c32d3b2f823214eea1f9cd57bf3cb1df124"
+  },
+  {
    "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/hold-review.json",
-   "bytes": 117830,
-   "sha256": "218c94496e8f98923e7a8319e4db6590f3b4ca06d8886f7f93b04e2f1e23266e"
+   "bytes": 121757,
+   "sha256": "89c90ba23bca96af1c11de7ad2ec44d45b1bb991cf8ebee30707f82f8b7f5eb5"
   },
   {
    "path": "brohofbuild/cache/trees-2026-11-24/rasters/chm-pitfree-050.bin",
@@ -79,13 +84,13 @@
  "outputs": [
   {
    "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/candidates.csv",
-   "bytes": 2012903,
-   "sha256": "105da8bc6705662f02379c19c59ba4557bd33b7ab591ec34f9edef577df184c1"
+   "bytes": 2015445,
+   "sha256": "1eda10da9afced66b1d05b55ed680be47778dd4b0827260d943b7bac4ea5edde"
   },
   {
    "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/candidates-summary.json",
-   "bytes": 6823,
-   "sha256": "e369aa2c361ffc1b07381b3cf640245f4f77ca22f0a2bc3b2496fd6d7d19d9c7"
+   "bytes": 6914,
+   "sha256": "c2aea78261199609475af03885b84ea12871618fb031c388baaedbf936024278"
   },
   {
    "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/unresolved.json",
@@ -94,13 +99,13 @@
   },
   {
    "path": "brohofbuild/cache/trees-2026-11-24/candidates/candidates-full.json",
-   "bytes": 18921911,
-   "sha256": "a50fd57fec281b3181b4090a5820b6fdec1339f8d25e78031d70a8bf3faf8ba3"
+   "bytes": 18924562,
+   "sha256": "1516abfd5e51326d09b4970c11b23430869cf94a325f1ac609ee8a3972fe54ec"
   },
   {
    "path": "brohofbuild/cache/trees-2026-11-24/candidates/candidates-outlines.geojson",
-   "bytes": 9130847,
-   "sha256": "33c96a0fae48109f297bbb1ea11fcc8d608eec290a6cbf8448a417efecd00a49"
+   "bytes": 9133379,
+   "sha256": "1fcb4ccbdf993dd24c8542828e9bd79a0b6bd95459979e5e57c3477f346f9c21"
   },
   {
    "path": "brohofbuild/cache/trees-2026-11-24/candidates/felling-screen.json",
@@ -109,8 +114,8 @@
   },
   {
    "path": "brohofbuild/cache/trees-2026-11-24/candidates/pole-screen.json",
-   "bytes": 33073,
-   "sha256": "39fc2ca9cf4e2d9477289fc3b882a42a03543758cdbd039bb35d89d01ba3a3df"
+   "bytes": 33042,
+   "sha256": "82a95e41a26c72dda7ccaa269ba7545e880952e8cdce003897535c7af1dac696"
   },
   {
    "path": "brohofbuild/cache/trees-2026-11-24/rasters/residual-chm-050.bin",
@@ -126,9 +131,9 @@
  "result": {
   "round": "r1",
   "byDecision": {
-   "add": 14537,
-   "not-placed": 369,
-   "hold": 2079,
+   "add": 14530,
+   "not-placed": 379,
+   "hold": 2076,
    "adjust": 520,
    "retain": 149,
    "remove": 23,
@@ -136,8 +141,8 @@
   },
   "placedByType": {
    "unknown": 3039,
-   "broadleaf": 6281,
-   "conifer": 5886
+   "broadleaf": 6282,
+   "conifer": 5878
   },
   "fellingScreen": {
    "screened": 178,
@@ -152,7 +157,10 @@
    },
    "screened": 204,
    "byVerdict": {
-    "unreviewed": 204
+    "unreviewed": 194,
+    "unclear": 7,
+    "not-tree": 2,
+    "tree": 1
    }
   }
  }

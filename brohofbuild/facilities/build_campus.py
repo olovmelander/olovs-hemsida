@@ -787,8 +787,8 @@ def glyphs(text):
 # castle's south-east corner. The laser (Laserdata Skog 2020-11-06) holds every one: the tree pipeline took them for
 # conifers 8.7-9.4 m tall with crowns 1.1-1.6 m across (review-2026-11-24, candidates.csv), and each stands where the
 # 2025-06-14 photo has a pole's thin shadow with a flag at its end, on open lawn. So the poles stand at those records'
-# positions and heights, and each one's part clears the false tree under it (excludeVegetation: a display exclusion; the
-# tree data is unchanged). The club's aerial photograph shows a Swedish flag on the pole by the path and white flags on
+# positions and heights, and each one's part keeps a 1.2 m clearing (excludeVegetation); since tree round r1b the eight
+# records are decided not-tree in the tree data too. The club's aerial photograph shows a Swedish flag on the pole by the path and white flags on
 # the rest; whatever is printed on those is not drawn. (27 November, owner: "the flags are standing exactly where there
 # are trees"; the first five poles were read off the photo, 1.0-1.5 m from these, and drew beside their own trees.)
 FLAGPOLES = [

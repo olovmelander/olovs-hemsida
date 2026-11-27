@@ -1,6 +1,6 @@
 # Bro Hof tree placement (review 2026-11-24)
 
-**Status: published 2026-11-24 in ground generation `30268b63`, below its gate. The 90% held-out gate is MISSED** (P 0.784 / R 0.807 / F1 0.795 on 166 unseen crowns). There is no owner exception in `trees.json`, and none was written. The machine-v1 first generation scores lower on the same sample (P 0.662 / R 0.530 / F1 0.589). The owner's decision of 2026-11-24, relayed by the main session, is to publish the placed trees despite a miss only if they beat machine-v1 on the same held-out sample, with the score and the miss recorded. They do, and the main session promoted them on that answer (production.json, `reviewed-candidates-v1`).
+**Status: published 2026-11-24 in ground generation `30268b63`, below its gate; round r1b (2026-11-27, poles the laser read as trees, see below) in generation `a78474a4`. The 90% held-out gate is MISSED** (P 0.784 / R 0.807 / F1 0.795 on 166 unseen crowns). There is no owner exception in `trees.json`, and none was written. The machine-v1 first generation scores lower on the same sample (P 0.662 / R 0.530 / F1 0.589). The owner's decision of 2026-11-24, relayed by the main session, is to publish the placed trees despite a miss only if they beat machine-v1 on the same held-out sample, with the score and the miss recorded. They do, and the main session promoted them on that answer (production.json, `reviewed-candidates-v1`).
 
 This was a run against the clock: the computer shuts down at 03:00. Several steps the method calls for were reduced or skipped (see Skipped and reduced). Read that section before the numbers.
 
@@ -79,11 +79,57 @@ Gate: FAIL (needs P and R of at least 0.90). [`benchmark.json`](benchmark.json),
 - `--stage publish` was not used (it refuses a failed gate with unreviewed screens). The candidates were staged by [`scripts/stage-reviewed.mjs`](scripts/stage-reviewed.mjs) with the same `compileReviewedVegetation`, and checked by [`scripts/verify-staging.mjs`](scripts/verify-staging.mjs): integrity true, 17,704 tree records (15,206 in the window, 2,498 outside kept from machine-v1). The startup packs were not rebuilt (the staging root is a light copy).
 - The live ground was re-promoted by another session while this review ran (`ground-v2-9ba61580`, `7f773bf1`, `bf788372`: same terrain and surface chunks in all 469 tiles; at most 1 object and 14 stand chunks apart). The canopy and detect stages read `9ba61580`; the benchmark read `7f773bf1` (scores of the machine-v1 method use that generation); the candidates and staging read `bf788372`. The course models changed twice as well; the candidates use `brohofbuild/course-model.json` ee50aed7… and `brohofcastlebuild/course-model.json` 0f7dc54f….
 
+## Round r1b (2026-11-27): poles the laser read as trees
+
+The owner saw flags standing where trees stand by the castle, and asked for the next round to drop them and to look at
+thin "conifers" that may be lamp posts. Round r1b is round r1 with review verdicts added. The detector, the sample, the
+benchmark and the scores do not change.
+
+- **The castle's eight flagpoles** stood in the laser (2020-11-06) as conifers 8.7-9.4 m tall with crowns 1.1-1.6 m
+  across. That is wider than the pole-like hold's 1 m, so they were placed. Each one stands where the 2025-06-14 photo
+  has a pole's thin shadow with a flag at its end, on open lawn, with no crown. The April 2021 photo shows the white
+  pole top. They are recorded as spot checks (`hold-review.json`, `not-tree`), and are no longer placed
+  (`tree-bro-hof-014041`, `014308`, `014011`, `014115`, `014034`, `014528`, `014012`, `014116`). The campus models the
+  poles at these records.
+- **How they were found, and that no others are placed.** Every placed crown was screened. A pole casts its own
+  shadow in June 2025 of under 0.2, and its crown disc is green lawn in April 2021 (contrast over 0.3); a leafless
+  crown or a needled one is darker. It is also under 2 m wide, with no other crown within 4 m. That screen caught all
+  eight poles and 20 more. Widened, and kept to crowns under 15 m with at most 30 laser returns, it gave 37. Each of
+  the 29 that are not the eight poles was looked at on 24 m chips of both photos, and none is a pole.
+- **Lamp posts were already out.** A lamp post is narrower than 1 m, so the pole-like hold keeps it unplaced. The ten
+  held pole-like crowns round the castle, the range and the car parks were decided on the same chips
+  (`pole-review.json`):
+  - not-tree: a lamp post by the path west of the castle, and a pole on the lawn by the putting course;
+  - tree: a small planted tree in the car park's strip, now placed;
+  - left held: seven, mostly second tops at the edges of broadleaf crowns.
+
+  The other 194 pole-like crowns in the window stay held and unreviewed.
+- **Result:** 15,199 trees placed (r1: 15,206), 2,076 held. `candidates.csv` changed in exactly 18 rows; the residual
+  canopy rasters are unchanged.
+
+**Found, not fixed: trees felled since the laser on the western building site.** Sixteen of the 29 crowns looked at
+stand where the 2021 photo has woodland and the 2025 photo has bare ground, a gravel yard or low scrub. That is round
+the new road and the building site west of Castle 18 (E 648070-648390, N 6597800-6598450), and the works yard by
+Castle 13's tee. The June 2025 scrub reads as vegetation, so the gone screen of round r1 kept them, and the clearing
+reaches past those sixteen.
+- **No rule separates them:** the terrain under most of them has not changed, and a tree in a closed stand casts no
+  shadow of its own either.
+- **Outlined by eye, it would take standing trees too:** in the strip between the four-lane road and the new road,
+  tall trees with long shadows still stand among the scrub.
+- **What would decide it** is the height Lantmäteriet's photo-matched surface model measured in June 2025
+  (`tools/tree-pipeline/surface-models.mjs`, allowed by the owner on 25 November). The account is still refused it
+  (HTTP 403 on 2026-11-27): "Ythöjdmodell" has to be added on Geotorget. The pins are recorded in
+  `acquisition/surface-models.json` (flights 2025-06-14, 2023-05-11, 2021-04-16 and 2019-07-19).
+
+Reproduce: `node geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/scripts/record-pole-review.mjs`, then
+`node tools/tree-pipeline.mjs --ground bro-hof --stage candidates`. Then re-pin and run the course workflow's stages
+(`tools/course-rebuild.mjs --ground bro-hof` from `pin`).
+
 ## For production.json
 
 Use `vegetation.reviewMode: "reviewed-candidates-v1"` with:
 
-- `reviewed.candidates`: `geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/candidates.csv`, sha256 `105da8bc6705662f02379c19c59ba4557bd33b7ab591ec34f9edef577df184c1`
+- `reviewed.candidates`: `geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/candidates.csv`, sha256 `1eda10da9afced66b1d05b55ed680be47778dd4b0827260d943b7bac4ea5edde (round r1b; r1 was `105da8bc…`)`
 - `reviewed.residualChm`: `brohofbuild/cache/trees-2026-11-24/rasters/residual-chm-050.bin`, sha256 `06cb244dbb387ece432377d8d23061e2a388929472670047272cbe369b965e5d`
 - `reviewed.residualLabels`: `brohofbuild/cache/trees-2026-11-24/rasters/residual-labels-050.bin`, sha256 `1ee0db39830c22af0f53aa3bc5da435f584d23245396f93e32466155bc2f9f75` (both cache files are ignored by git; their `.json` sidecars sit beside them)
 - `reviewed.scope`: `[648070.5, 6597544.5, 650118.5, 6599592.5]`
