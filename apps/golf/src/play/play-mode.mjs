@@ -31,7 +31,8 @@ import { loadGolfer, GOLF_SWINGS, GOLFER_CHARACTERS } from '../engine/golfer.mjs
 import { playsLike, greenDistances, lineHazards } from '../engine/rangefinder.js';
 import { GROUND_WETNESS } from '../engine/painted-world-lighting.mjs';
 import { LIGHTS, NOW_LIGHT, MAP_KEYS, readText } from '../shell/settings-store.mjs';
-import { detailedUrl, mapUrl } from '../shell/router.js';
+import { clubIdFor, clubLayouts, layoutLabel } from '../shell/course-clubs.mjs';
+import { detailedUrl, hubUrl, mapUrl, playUrl } from '../shell/router.js';
 import { launchState, simulateShot, seeded, BALL } from './ball-physics.mjs';
 import {
   playBag, launchFor, puttRangeFor, planPower, LIE_NAME, DIFFICULTY, SHOT_TYPES, SHAPES, HEIGHTS, SPINS, STOCK_SETUP,
@@ -78,7 +79,7 @@ function saveSettings({ difficulty, method, sound, flyover, bigMap }) {
   try { getPlayStorage()?.setItem(PLAY_KEYS.settings, JSON.stringify({ difficulty, method, sound, flyover, bigMap })); } catch {}
 }
 
-const KEY_HELP = 'Trycksving: mellanslag · Sikta ← → · Klubba ↑ ↓ · Slag T · Form Q E · Höjd W S · Spinn Z C · Repris R · Kamera V · Ljus L · Guide G · Karta M';
+const KEY_HELP = 'Trycksving: mellanslag · Sikta ← → · Klubba ↑ ↓ · Slag T · Form Q E · Höjd W S · Spinn Z X · Repris R · Kamera C · Green G · Banguide B · Karta M';
 const PAD_HELP = 'Vänster spak siktar · höger spak svingar · LB RB klubba · X slag · ←→ form · ↑↓ höjd · LT RT spinn · Y kamera · Back repris';
 /* The lights, as the course's drawer shows them: Nu first, each as its own sky. */
 const NOW_SKY = 'conic-gradient(from 200deg, #294885, #8295ba, #d3b89a, #568bc6, #294885)';
@@ -995,14 +996,25 @@ async function startPlay(h, query) {
       status.append(document.createElement('br'), action);
     }
   }
-  function leaveToSetup() {
+  let siblingLayouts = [];
+  fetch(`${import.meta.env.BASE_URL}courses/index.json`).then(r => r.ok ? r.json() : null).then(data => {
+    const list = Array.isArray(data) ? data : data?.courses;
+    if (Array.isArray(list)) siblingLayouts = clubLayouts(list, round.slug).filter(c => c.slug !== round.slug);
+  }).catch(() => {});
+
+  function leaveToSetup(target = 'club') {
     leaving = true;
-    location.replace(`${import.meta.env.BASE_URL}#spela/${encodeURIComponent(round.slug)}`);
+    if (target === 'lobby') { location.replace(hubUrl()); return; }
+    location.replace(hubUrl(`klubb/${encodeURIComponent(clubIdFor(round.slug))}?bana=${encodeURIComponent(round.slug)}&lage=spela`));
   }
   /* The other two modes open on this hole and tee once the game is saved, and the
      checkpoint brings the golfer back to the same ball (docs/ui-redesign-2026-11-25.md). */
   function leaveToMode(mode) {
     leaving = true;
+    if (typeof mode === 'object' && mode?.sibling) {
+      location.assign(`${import.meta.env.BASE_URL}${playUrl(mode.sibling)}`);
+      return;
+    }
     const place = { hole: round.current, tee: Number.isInteger(round.tee) ? round.tee + 1 : undefined };
     location.assign(`${import.meta.env.BASE_URL}${mode === 'map' ? mapUrl(round.slug, { ...place, preview: true }) : detailedUrl(round.slug, place)}`);
   }
@@ -1015,15 +1027,20 @@ async function startPlay(h, query) {
     const result = await (finish ? persistence.finish(round, next) : persistence.save(round, next));
     savingExit = false;
     box.inert = false;
-    if ((result === 'saved' || result === 'finished') && !detached) { if (mode) leaveToMode(mode); else leaveToSetup(); }
-    else {
+    if ((result === 'saved' || result === 'finished') && !detached) {
+      if (mode === 'lobby') leaveToSetup('lobby');
+      else if (mode) leaveToMode(mode);
+      else leaveToSetup('club');
+    } else {
       explainSaveError(box, detached ? 'account' : result);
       box.querySelector('[data-save-error] button, [data-confirm-end], [data-leave]')?.focus();
     }
   }
   function wireRoundActions(box) {
     box.querySelector('[data-leave]')?.addEventListener('click', () => saveAndExit(box, false));
+    box.querySelector('[data-leave-lobby]')?.addEventListener('click', () => saveAndExit(box, false, 'lobby'));
     for (const button of box.querySelectorAll('[data-switch-mode]')) button.addEventListener('click', () => saveAndExit(box, false, button.dataset.switchMode));
+    for (const button of box.querySelectorAll('[data-switch-sibling]')) button.addEventListener('click', () => saveAndExit(box, false, { sibling: button.dataset.switchSibling }));
     box.querySelector('[data-end]').addEventListener('click', () => {
       if (leaving || practice) return;
       const confirm = hud.openSheet(`<header class="pl-hero"><span class="pl-k">Simulator · hål ${round.current}</span>
@@ -1144,6 +1161,9 @@ async function startPlay(h, query) {
         <div class="pl-row"><span>Visa hålet i</span><div class="pl-switch">
           <button class="pl-btn pl-ghost" type="button" data-switch-mode="detailed" ${practice || state !== 'address' ? 'disabled' : ''}>Detaljerad 3D</button>
           <button class="pl-btn pl-ghost" type="button" data-switch-mode="map" ${practice || state !== 'address' ? 'disabled' : ''}>Lätt 3D</button></div></div>
+        ${siblingLayouts.length ? `<div class="pl-row"><span>Byt bana på klubben</span><div class="pl-switch">${siblingLayouts.map(other =>
+          `<button class="pl-btn pl-ghost" type="button" data-switch-sibling="${other.slug}" ${practice || state !== 'address' ? 'disabled' : ''}>${layoutLabel(other)}</button>`).join('')}</div></div>` : ''}
+        <div class="pl-row"><span>Klubblobby</span><button class="pl-btn pl-ghost" type="button" data-leave-lobby ${practice || state !== 'address' ? 'disabled' : ''}>Alla klubbar</button></div>
       </section>
       <section class="pl-menu" id="pl-panel-card" role="tabpanel" aria-labelledby="pl-tab-card" data-panel="card" ${tab === 'card' ? '' : 'hidden'}>
         ${scorecardHtml(round, h.holes, n => pointsOn(round, h.holes, n))}
@@ -1220,9 +1240,11 @@ async function startPlay(h, query) {
     if (clean) { if (key === 'Escape' || lower === 'h') { setClean(false); e.preventDefault(); } return; }
     if (e.repeat && (key === ' ' || key === 'Enter') && (e.target.closest?.('.pl-swing') || (state === 'address' && key === ' '))) { e.preventDefault(); return; }
     if ((key === ' ' || key === 'Enter') && e.target.closest?.('button,a')) return;
+    if (key === 'Escape' && hud.helpOpen) { hud.toggleHelp(false); e.preventDefault(); return; }
     if (key === 'Escape' && hud.setupOpen) { hud.toggleSetup(false); e.preventDefault(); return; }
     if (key === 'Escape' && hud.guideOpen) { hud.toggleGuide(false); e.preventDefault(); return; }
     if (key === 'Backspace' && targetDist != null) { clearTarget(); e.preventDefault(); return; }
+    if (key === '?') { hud.toggleHelp(); e.preventDefault(); return; }
     if (key === 'ArrowLeft' || key === 'ArrowRight') { turn((key === 'ArrowRight' ? 1 : -1) * (e.shiftKey ? .2 : 1)); e.preventDefault(); }
     else if (key === 'ArrowUp' || key === 'ArrowDown') { changeClub(key === 'ArrowUp' ? -1 : 1); e.preventDefault(); }
     else if (key === ' ') {
@@ -1237,12 +1259,15 @@ async function startPlay(h, query) {
     else if (lower === 'w') stepSetup('height', 1);
     else if (lower === 's') stepSetup('height', -1);
     else if (lower === 'z') stepSetup('spin', -1);
-    else if (lower === 'c') stepSetup('spin', 1);
+    else if (lower === 'x') stepSetup('spin', 1);
     else if (lower === 'r') startReplay();
-    else if (lower === 'v') cycleView();
+    else if (lower === 'c' || lower === 'v') cycleView();
+    else if (lower === 'g') setView(view === 'green' ? 'bakom' : 'green');
+    else if (lower === 'b') hud.toggleGuide();
     else if (lower === 'l') cycleLight();
-    else if (lower === 'g') hud.toggleGuide();
     else if (lower === 'm') { holeMap.setSmall(!holeMap.small); settings.bigMap = !holeMap.small; saveSettings(settings); }
+    else if (lower === 'p' && practice && state === 'address') { startHole(((round.current - 2 + h.holes.length) % h.holes.length) + 1); }
+    else if (lower === 'n' && practice && state === 'address') { startHole((round.current % h.holes.length) + 1); }
     else if (lower === 'h') setClean(true);
     else if (key === 'Escape') openMenu();
   }, { capture: true, signal: abort.signal });

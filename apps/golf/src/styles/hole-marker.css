@@ -73,9 +73,9 @@
 .hole-marker[data-mode="edge"] .hole-marker-arrow { display: block; }
 .hole-marker[data-mode="edge"] .hole-marker-card { background: #13251ef2; border-color: var(--marker-ink); }
 #tees .tee { color: inherit; font-family: inherit; }
-#tees .tee.on { border-color: #fff1c99c; background: #fff1c91a; box-shadow: inset 0 -2px 0 #fff1c9; }
-#tees .tee.on b { color: #fff1c9; }
-#tees .tee:focus-visible { outline: 2px solid #fff1c9; outline-offset: 3px; }
+#tees .tee.on { border-color: var(--bv-selected-border); background: var(--bv-surface-3); box-shadow: inset 0 -2px 0 var(--bv-action); }
+#tees .tee.on b { color: var(--bv-ink-1); }
+#tees .tee:focus-visible { outline: 2px solid var(--bv-focus); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   .hole-marker-point.just-selected i { animation: none; }
   .hole-marker-card { transition: none; }

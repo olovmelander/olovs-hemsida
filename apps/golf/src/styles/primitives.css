@@ -1,0 +1,301 @@
+/* Banvy shared UI primitives (design spec Section E3-E4).
+   Every colour, radius and font size comes strictly from styles/tokens.css
+   so the token ratchet stays clean and Natt/Dag materials work automatically. */
+
+/* ---- Floating HUD & overlay surfaces ---- */
+.bv-panel {
+  background: var(--bv-surface-glass);
+  backdrop-filter: blur(20px) saturate(1.25);
+  -webkit-backdrop-filter: blur(20px) saturate(1.25);
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-card);
+  box-shadow: var(--bv-shadow-hud);
+  color: var(--bv-ink-1);
+}
+
+.bv-panel-solid {
+  background: var(--bv-surface-solid);
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-card);
+  box-shadow: var(--bv-shadow-hud);
+  color: var(--bv-ink-1);
+}
+
+/* ---- Buttons ---- */
+.bv-btn-primary,
+.bv-btn-secondary,
+.bv-btn-ghost,
+.bv-icon-btn,
+.bv-toggle,
+.bv-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bv-space-2);
+  font-family: var(--bv-font);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  transition: background-color var(--bv-dur-state) var(--bv-ease),
+    border-color var(--bv-dur-state) var(--bv-ease),
+    color var(--bv-dur-state) var(--bv-ease),
+    transform var(--bv-dur-press) var(--bv-ease),
+    filter var(--bv-dur-press) var(--bv-ease);
+}
+
+.bv-btn-primary[hidden],
+.bv-btn-secondary[hidden],
+.bv-btn-ghost[hidden],
+.bv-icon-btn[hidden],
+.bv-toggle[hidden],
+.bv-pill[hidden] { display: none; }
+
+/* Sole primary CTA role: Flag Yellow (Natt) / Ink Black with yellow text (Dag) */
+.bv-btn-primary {
+  min-height: var(--bv-hit-comfort);
+  padding: 0 var(--bv-space-5);
+  border: 0;
+  border-radius: var(--bv-radius-control-touch);
+  background: var(--bv-action);
+  color: var(--bv-on-action);
+  font-size: var(--bv-type-headline);
+  font-weight: 750;
+  line-height: 1;
+  box-shadow: var(--bv-shadow-1);
+}
+
+.bv-btn-secondary {
+  min-height: var(--bv-hit);
+  padding: 0 var(--bv-space-4);
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-control);
+  background: var(--bv-surface-2);
+  color: var(--bv-ink-1);
+  font-size: var(--bv-type-body);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.bv-btn-ghost {
+  min-height: var(--bv-hit);
+  padding: 0 var(--bv-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--bv-radius-control);
+  background: transparent;
+  color: var(--bv-ink-2);
+  font-size: var(--bv-type-body);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.bv-icon-btn {
+  min-width: var(--bv-hit);
+  min-height: var(--bv-hit);
+  padding: 0;
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-pill);
+  background: var(--bv-surface-glass);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: var(--bv-shadow-hud);
+  color: var(--bv-ink-1);
+}
+
+.bv-pill {
+  min-height: var(--bv-hit);
+  padding: 0 var(--bv-space-3);
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-pill);
+  background: var(--bv-surface-glass);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: var(--bv-shadow-hud);
+  color: var(--bv-ink-1);
+  font-size: var(--bv-type-footnote);
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Stateful toggle: neutral surface, Turf Green status dot strictly when ON */
+.bv-toggle {
+  min-height: var(--bv-hit);
+  padding: 0 var(--bv-space-3);
+  border: 1px solid var(--bv-hairline);
+  border-radius: var(--bv-radius-control);
+  background: var(--bv-surface-2);
+  color: var(--bv-ink-2);
+  font-size: var(--bv-type-footnote);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.bv-toggle .bv-toggle-dot {
+  width: var(--bv-space-2);
+  height: var(--bv-space-2);
+  border-radius: var(--bv-radius-pill);
+  background: var(--bv-surface-3);
+  flex: none;
+  transition: background-color var(--bv-dur-state) var(--bv-ease), box-shadow var(--bv-dur-state) var(--bv-ease);
+}
+
+.bv-toggle[aria-pressed="true"],
+.bv-toggle.is-on {
+  background: var(--bv-surface-3);
+  border-color: var(--bv-selected-border);
+  color: var(--bv-ink-1);
+}
+
+.bv-toggle[aria-pressed="true"] .bv-toggle-dot,
+.bv-toggle.is-on .bv-toggle-dot {
+  background: var(--bv-turf);
+  box-shadow: 0 0 var(--bv-space-2) var(--bv-turf);
+}
+
+/* Segmented control: neutral raised thumb, never an accent box */
+.bv-seg {
+  display: inline-flex;
+  align-items: stretch;
+  gap: var(--bv-space-1);
+  padding: var(--bv-space-1);
+  border-radius: var(--bv-radius-control-touch);
+  background: var(--bv-surface-track);
+  border: 1px solid var(--bv-hairline);
+}
+
+.bv-seg > button,
+.bv-seg > label > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bv-space-1);
+  min-height: var(--bv-hit);
+  padding: 0 var(--bv-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--bv-radius-control);
+  background: transparent;
+  color: var(--bv-ink-2);
+  font-family: var(--bv-font);
+  font-size: var(--bv-type-footnote);
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color var(--bv-dur-state) var(--bv-ease),
+    border-color var(--bv-dur-state) var(--bv-ease),
+    color var(--bv-dur-state) var(--bv-ease);
+}
+
+.bv-seg > button[aria-selected="true"],
+.bv-seg > button[aria-pressed="true"],
+.bv-seg > button.is-active,
+.bv-seg > label:has(input:checked) > span {
+  background: var(--bv-surface-3);
+  border-color: var(--bv-selected-border);
+  color: var(--bv-ink-1);
+  font-weight: 700;
+  box-shadow: var(--bv-shadow-1);
+}
+
+/* Interactive states */
+.bv-btn-primary:active:not(:disabled),
+.bv-btn-secondary:active:not(:disabled),
+.bv-btn-ghost:active:not(:disabled),
+.bv-icon-btn:active:not(:disabled),
+.bv-toggle:active:not(:disabled),
+.bv-pill:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.bv-btn-primary:active:not(:disabled) {
+  filter: brightness(0.94);
+}
+
+.bv-btn-primary:disabled,
+.bv-btn-secondary:disabled,
+.bv-btn-ghost:disabled,
+.bv-icon-btn:disabled,
+.bv-toggle:disabled,
+.bv-pill:disabled,
+[aria-disabled="true"] {
+  opacity: 0.42;
+  cursor: default;
+  box-shadow: none;
+}
+
+.bv-btn-primary:focus-visible,
+.bv-btn-secondary:focus-visible,
+.bv-btn-ghost:focus-visible,
+.bv-icon-btn:focus-visible,
+.bv-toggle:focus-visible,
+.bv-pill:focus-visible,
+.bv-seg > button:focus-visible {
+  outline: 2px solid var(--bv-focus);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bv-btn-primary:hover:not(:disabled) { filter: brightness(1.06); }
+  .bv-btn-secondary:hover:not(:disabled),
+  .bv-icon-btn:hover:not(:disabled),
+  .bv-toggle:hover:not(:disabled),
+  .bv-pill:hover:not(:disabled) {
+    background: var(--bv-surface-3);
+    border-color: var(--bv-selected-border);
+    color: var(--bv-ink-1);
+  }
+  .bv-btn-ghost:hover:not(:disabled) {
+    background: var(--bv-surface-2);
+    color: var(--bv-ink-1);
+  }
+  .bv-seg > button:not([aria-selected="true"]):not([aria-pressed="true"]):hover {
+    color: var(--bv-ink-1);
+  }
+}
+
+/* ---- Anchored Popover ---- */
+.bv-popover {
+  position: fixed;
+  z-index: 48;
+  max-width: min(340px, calc(100vw - var(--bv-space-6)));
+  padding: var(--bv-space-3);
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-card);
+  background: var(--bv-surface-solid);
+  box-shadow: var(--bv-shadow-hud), var(--bv-shadow-2);
+  color: var(--bv-ink-1);
+  overscroll-behavior: contain;
+}
+
+.bv-popover[hidden] {
+  display: none;
+}
+
+/* ---- Responsive Sheet (bottom sheet portrait -> right side panel landscape) ---- */
+.bv-sheet {
+  background: var(--bv-surface-solid);
+  border: 1px solid var(--bv-hairline-strong);
+  border-radius: var(--bv-radius-sheet) var(--bv-radius-sheet) 0 0;
+  box-shadow: var(--bv-shadow-hud), var(--bv-shadow-2);
+  color: var(--bv-ink-1);
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+.bv-sheet[hidden] {
+  display: none;
+}
+
+/* ---- Live status pulse dot ---- */
+.bv-live-dot {
+  display: inline-block;
+  width: var(--bv-space-2);
+  height: var(--bv-space-2);
+  border-radius: var(--bv-radius-pill);
+  background: var(--bv-turf);
+  flex: none;
+}
+
+.bv-live-dot.is-warn { background: var(--bv-warn); }
+.bv-live-dot.is-danger { background: var(--bv-danger); }
+.bv-live-dot.is-neutral { background: var(--bv-ink-3); }

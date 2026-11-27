@@ -3,8 +3,10 @@
 /* The design tokens come first, so every route (start menu, map, player, game)
    reads one palette and one type scale (styles/tokens.css). */
 import './styles/tokens.css';
+import './styles/primitives.css';
 import { isPhone, navigationParams, opensMap } from './shell/map-default.mjs';
-import { legacyTarget, mapUrl } from './shell/router.js';
+import { clubIdFor } from './shell/course-clubs.mjs';
+import { hubUrl, legacyTarget, mapUrl } from './shell/router.js';
 import { coursePreview } from './course-previews.mjs';
 import { supportedVisualSearch } from './engine/look-mode.mjs';
 
@@ -39,18 +41,24 @@ if (legacy) {
      three.js before the chooser ran. */
   await import('./hub.js');
 } else {
-  // A failed graphics boot can still open the GPS map this golfer downloaded.
+  // A failed graphics boot can always fall back to Lätt 3D (no WebGPU/Three.js required),
+  // and to an offline saved copy when this course was cached on the device.
   addEventListener('banvy-boot-failed', async () => {
     const params = new URLSearchParams(location.search);
     const slug = params.get('bana');
     if (!slug) return;
+    const lite = document.getElementById('bootLite');
+    if (lite) {
+      lite.href = mapUrl(slug, { hole: params.get('hal'), tee: params.get('tee'), preview: true });
+      lite.hidden = false;
+    }
     try {
       const { savedCourseStatus } = await import('./map/map-offline-status.mjs');
       if (await savedCourseStatus(slug) !== 'ready') return;
       const link = document.getElementById('bootSaved');
       link.href = mapUrl(slug, { hole: params.get('hal'), tee: params.get('tee'), preview: true }) + '&kopia=1';
       link.hidden = false;
-    } catch { /* Reload and course setup work even if modules are unavailable. */ }
+    } catch { /* Reload and Lätt 3D fallback work even if offline helpers are unavailable. */ }
   }, { once: true });
   await Promise.all([
     /* The mouse and the keyboard move through the course by ui/camera-navigation.mjs,
@@ -70,10 +78,14 @@ function showLaunchContext(params, map) {
   const hole = params.get('hal');
   kicker.textContent = /^[1-9]\d*$/.test(hole) ? `${mode} · Hål ${hole}` : mode;
   kicker.hidden = false;
-  if (map) {
-    // Plain course links open the map on a phone, even without karta=1.
-    const back = document.getElementById('bootReturn');
-    back.hash = back.hash.replace(/^#3d\//, '#karta/');
+  const back = document.getElementById('bootReturn');
+  if (back) {
+    const modeRoute = map ? 'karta' : params.get('spela') === '1' ? 'spela' : '3d';
+    const q = new URLSearchParams({ bana: slug, lage: modeRoute });
+    for (const key of ['hal', 'tee']) if (/^[1-9]\d*$/.test(params.get(key))) q.set(key, params.get(key));
+    back.href = hubUrl(`klubb/${encodeURIComponent(clubIdFor(slug))}?${q}`);
+    back.textContent = 'Avbryt';
+    back.hidden = false;
   }
   try {
     const catalogue = JSON.parse(localStorage.getItem('banvy-hub-catalogue-v1'));

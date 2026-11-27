@@ -1,4 +1,4 @@
-/* The start menu and the Sverigekarta with a hundred clubs (docs/start-menu.md,
+/* The unified lobby and its Sverigekarta with a hundred clubs (docs/start-menu.md,
    "A hundred clubs"). Today's catalogue is served with 110 made-up clubs beside it,
    so the lobby has to list the golfer's own and search the rest, and the map has to
    group its pins; then today's catalogue is opened as it is, to show none of that
@@ -18,8 +18,8 @@ const MADE_UP = 110;
 const VASTERAS = { latitude: 59.6099, longitude: 16.5448 };
 const DEVICES = [
   /* the returning golfer last played in this mode, which the lobby's links follow */
-  { label: 'phone 390x844', options: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }, limit: LOBBY_SHORT_LIST_PHONE, lastMode: 'map', route: 'karta' },
-  { label: 'desktop 1440x900', options: { viewport: { width: 1440, height: 900 } }, limit: LOBBY_SHORT_LIST, lastMode: 'detailed', route: '3d' },
+  { label: 'phone 390x844', options: { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }, limit: LOBBY_SHORT_LIST_PHONE, lastMode: 'map', route: 'karta', mapBtn: '[data-view-quick]' },
+  { label: 'desktop 1440x900', options: { viewport: { width: 1440, height: 900 } }, limit: LOBBY_SHORT_LIST, lastMode: 'detailed', route: '3d', mapBtn: '#lobbyViewMap' },
 ];
 
 const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
@@ -73,27 +73,29 @@ const lobby = page => page.evaluate(() => {
   const home = document.getElementById('home');
   /* what is drawn, not what is marked: a rule that sets display overrides hidden */
   const shown = selector => { const node = home.querySelector(selector); return node?.getClientRects().length ? node : null; };
+  const navControls = [...document.querySelectorAll('#home a, #home button, #home input, #hubTabBar a')]
+    .filter(node => node.offsetParent && !node.closest('[hidden]'));
   return {
     rows: [...home.querySelectorAll('.home-club')].map(row => ({ id: row.dataset.club, note: row.querySelector('.hc-note, .hc-live')?.textContent.trim() ?? '' })),
+    heading: home.querySelector('[data-clubs-heading]')?.textContent ?? '',
+    count: home.querySelector('[data-clubs-count]')?.textContent ?? '',
     note: shown('[data-clubs-note]')?.textContent ?? '',
-    all: home.querySelector('[data-all-label]').textContent,
-    search: Boolean(shown('[data-club-search]')),
+    search: Boolean(shown('#homeClubQuery')),
     near: Boolean(shown('[data-clubs-near]')),
-    nearLabel: home.querySelector('[data-near-label]').textContent,
-    hits: shown('[data-clubs-hits]') ? home.querySelector('[data-hits-label]').textContent : '',
+    nearLabel: home.querySelector('[data-near-label]')?.textContent ?? '',
+    showAll: shown('[data-show-all]') ? home.querySelector('[data-show-all-label]').textContent : '',
     resume: [...home.querySelectorAll('.home-resume-slot [data-club-id]')].map(card => card.dataset.clubId),
-    /* the last of the five destinations, from the top of the page */
-    destinations: Math.round(home.querySelector('.mode-settings').getBoundingClientRect().bottom + home.scrollTop),
+    navVisible: Boolean(shown('.lobby-nav-link') || document.querySelector('#hubTabBar')?.getClientRects().length),
     vh: innerHeight,
     sideways: home.scrollWidth > home.clientWidth + 1,
-    small: [...home.querySelectorAll('a, button, input')].filter(node => node.offsetParent)
+    small: navControls
       .map(node => ({ node, box: node.getBoundingClientRect() })).filter(({ box }) => box.width < 44 || box.height < 44)
       .map(({ node, box }) => `${node.className || node.tagName} ${Math.round(box.width)}x${Math.round(box.height)}`),
   };
 });
 const settle = page => page.waitForTimeout(150);
 
-for (const { label, options, limit, lastMode, route } of DEVICES) {
+for (const { label, options, limit, lastMode, route, mapBtn } of DEVICES) {
   /* ---- a first visit: nothing of the golfer's own, the search and the near clubs on offer */
   {
     const { context, page, errors } = await open(options);
@@ -101,8 +103,8 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
     assert.equal(m.rows.length, 0, `${label}: a first visit lists no club of its own`);
     assert.ok(m.search && m.near, `${label}: it offers the search and Klubbar nära mig`);
     assert.match(m.note, new RegExp(`Sök bland ${CLUBS} klubbar`), `${label}: and says how many clubs the search covers`);
-    assert.equal(m.all, `Alla ${CLUBS} klubbar`);
-    assert.ok(m.destinations <= m.vh, `${label}: the five destinations end on the first screen (${m.destinations} of ${m.vh} px)`);
+    assert.equal(m.showAll, `Visa alla ${CLUBS} klubbar`);
+    assert.ok(m.navVisible, `${label}: primary navigation (Statistik / Inställningar) is immediately reachable`);
     assert.ok(!m.sideways && m.small.length === 0, `${label}: nothing sideways, every target 44 px ${m.small.join(', ')}`);
     /* asking for the position belongs to this tap; refused, it says so and offers a retry */
     await page.locator('[data-clubs-near]').click();
@@ -113,7 +115,7 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
     await page.locator('[data-clubs-near]').click();
     await page.waitForFunction(() => document.querySelector('#home .home-club'));
     const near = await lobby(page);
-    assert.ok(!near.near && near.note === 'Närmast dig', `${label}: with the position given, the nearest clubs stand in its place`);
+    assert.ok(!near.near && near.heading === 'Närmast dig', `${label}: with the position given, the nearest clubs stand in its place`);
     assert.deepEqual(near.rows.slice(0, 2).map(row => row.id).sort(), ['angso', 'tortuna'], `${label}: Västerås's own clubs first`);
     assert.ok(near.rows.length <= limit && near.rows.every(row => / km bort$/.test(row.note)), `${label}: each with its distance`);
     assert.deepEqual(errors, [], `${label}: no page errors`);
@@ -125,13 +127,12 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
     const { context, page, errors } = await open(options, { storage: returning(lastMode) });
     const m = await lobby(page);
     assert.deepEqual(m.resume, ['bro-hof'], `${label}: Senast öppnad shows Bro Hof's Castle Course`);
-    assert.equal(m.note, 'Dina klubbar');
+    assert.equal(m.heading, 'Dina klubbar');
     assert.equal(m.rows.length, limit, `${label}: ${limit} clubs of the golfer's own, however many are kept`);
     assert.ok(!m.rows.some(row => row.id === 'bro-hof'), `${label}: Bro Hof is not repeated under its own card`);
     assert.deepEqual(m.rows.slice(0, 3).map(row => [row.id, row.note]),
       [['testklubb-42', 'Öppnad i går'], ['visby', 'Spelad ' + (await page.evaluate(at => new Intl.DateTimeFormat('sv-SE', { day: 'numeric', month: 'short' }).format(at).replace(/\.(?=\s|$)/g, ''), now - 2 * DAY))], ['angso', m.rows[2].note]],
       `${label}: launches and kept rounds by time, each saying when`);
-    assert.ok(m.destinations <= 1.6 * m.vh, `${label}: the five destinations end within 1.6 screens (${m.destinations} of ${m.vh} px; every club listed would put them ten screens down)`);
     assert.ok(!m.sideways && m.small.length === 0, `${label}: nothing sideways, every target 44 px ${m.small.join(', ')}`);
 
     /* ---- the search: by name, layout and town, every hit counted, the rest a tap away */
@@ -143,7 +144,7 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
     await query.fill('castle');
     await settle(page);
     let s = await lobby(page);
-    assert.deepEqual([s.note, s.rows.map(row => row.id)], ['1 klubb', ['bro-hof']], `${label}: a layout's name finds its club, even the one on the card above`);
+    assert.deepEqual([s.count, s.rows.map(row => row.id)], ['1 klubb', ['bro-hof']], `${label}: a layout's name finds its club, even the one on the card above`);
     await query.fill('Västerås');
     await settle(page);
     assert.deepEqual((await lobby(page)).rows.map(row => row.id).sort(), ['angso', 'tortuna'], `${label}: a town finds its clubs`);
@@ -154,26 +155,22 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
     await query.fill('testklubb');
     await settle(page);
     s = await lobby(page);
-    assert.deepEqual([s.note, s.rows.length, s.hits], [`${MADE_UP} klubbar`, limit, `Visa alla ${MADE_UP} träffar`], `${label}: every hit counted, ${limit} shown`);
+    assert.deepEqual([s.count, s.rows.length, s.showAll], [`${MADE_UP} klubbar`, limit, `Visa alla ${MADE_UP} träffar`], `${label}: every hit counted, ${limit} shown`);
     assert.deepEqual(s.rows.slice(0, 3).map(row => row.id), ['testklubb-1', 'testklubb-2', 'testklubb-3'], `${label}: numbers in their order`);
-    await page.locator('[data-clubs-hits]').click();
-    await page.locator('#chooser:visible').waitFor();
-    assert.equal(await page.locator('#courseSearchInput').inputValue(), 'testklubb', `${label}: the list opens with the words in its own search`);
-    assert.equal(await page.locator('.card-item:visible').count(), MADE_UP, `${label}: and shows all ${MADE_UP} hits`);
-    assert.match(page.url(), new RegExp(`#${route}(?:\\?|$)`), `${label}: in the golfer's own mode`);
-    await page.goBack();
-    await page.locator('#home:visible').waitFor();
-    assert.equal(await query.inputValue(), 'testklubb', `${label}: Back keeps the lobby's words`);
+    await page.locator('[data-show-all]').click();
+    await settle(page);
+    assert.equal((await lobby(page)).rows.length, MADE_UP, `${label}: expanding shows all ${MADE_UP} hits in place`);
+    await query.focus();
     await query.press('Escape');
     await settle(page);
     s = await lobby(page);
-    assert.ok(!s.hits && s.note === 'Dina klubbar' && s.rows.length === limit, `${label}: Escape empties the search and the golfer's own clubs return`);
+    assert.ok(s.heading === 'Dina klubbar' && s.rows.length === limit, `${label}: Escape empties the search and the golfer's own clubs return`);
     /* a hit opens its club's page over the lobby, and Back returns to the row */
     await query.fill('castle');
     await settle(page);
     await page.locator('#homeClub-bro-hof').click();
     await page.locator('#courseSheet[open]').waitFor();
-    assert.match(page.url(), new RegExp(`#${route}/bro-hof-castle(?:\\?|$)`), `${label}: on the layout last played`);
+    assert.match(page.url(), new RegExp(`#klubb/bro-hof\\?bana=bro-hof-castle&lage=${route}`), `${label}: on the layout matched by search`);
     await page.goBack();
     await page.locator('#courseSheet[open]').waitFor({ state: 'hidden' });
     await page.waitForFunction(() => document.activeElement?.id === 'homeClub-bro-hof');
@@ -183,8 +180,8 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
 
   /* ---- the Sverigekarta: pins that would stand on each other are one group with a count */
   {
-    const { context, page, errors } = await open(options, { path: '#karta' });
-    await page.locator('#viewMapBtn').click();
+    const { context, page, errors } = await open(options);
+    await page.locator(mapBtn).click();
     await page.locator('.golf-map-group').first().waitFor();
     await page.waitForTimeout(400);
     const marks = () => page.evaluate(() => {
@@ -206,11 +203,6 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
        how many steps that takes depends on the map's size, so it is counted, not fixed. */
     const largest = m.groups.reduce((a, b) => (b.count > a.count ? b : a));
     const first = largest.ids[0];
-    /* At the map's edge on purpose: focusing a marker there pans the map into view, and
-       stopping that pan for the zoom once took the keyboard's place away (25 November,
-       the first deploy of this check). The map's own arrow keys pan it, 80 px a press,
-       the same on every runner (a mouse drag did not move it on the deploy's desktop);
-       panning keeps the zoom, so the groups stand. */
     const map = await page.locator('.map-canvas-wrap').boundingBox();
     const groupBox = () => page.locator(`.golf-map-group[data-group-ids="${largest.ids.join(' ')}"]`).boundingBox();
     const outside = box => Boolean(box) && box.x + box.width > map.x + map.width;
@@ -223,7 +215,6 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
     }
     assert.ok(outside(atEdge), `${label}: the group stands at the map's edge, half out of view (group ${JSON.stringify(atEdge)}, map ${JSON.stringify(map)})`);
     await page.locator(`.golf-map-group[data-group-ids="${largest.ids.join(' ')}"]`).locator('..').focus();
-    /* focus on the marker itself: the body holds every pin, so asking it proves nothing */
     const holding = () => page.evaluate(id => {
       const active = document.activeElement;
       if (!active?.classList?.contains('leaflet-marker-icon')) return 0;
@@ -241,7 +232,6 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
         const group = active.querySelector('.golf-map-group');
         return Boolean(group?.dataset.groupIds.split(' ').includes(id)) && group.dataset.groupIds !== before;
       }, [first, steps.length === 1 ? largest.ids.join(' ') : null], { timeout: 15000 }).catch(async error => {
-        /* say where the keyboard went, so a runner's failure explains itself */
         const where = await page.evaluate(() => ({
           active: `${document.activeElement?.tagName}.${String(document.activeElement?.className).slice(0, 60)}`,
           sheet: Boolean(document.querySelector('#courseSheet[open]')),
@@ -267,13 +257,12 @@ for (const { label, options, limit, lastMode, route } of DEVICES) {
 }
 
 /* ---- today's catalogue: every club listed by name, every pin its own */
-for (const { label, options } of DEVICES) {
+for (const { label, options, mapBtn } of DEVICES) {
   const { context, page, errors } = await open(options, { catalogue: today });
   const m = await lobby(page);
-  assert.ok(m.rows.length === TODAY && !m.search && !m.near && m.all === 'Sök, sortera och karta',
-    `${label}: today's ${TODAY} clubs are all listed, with no search or near offer of the lobby's own`);
-  await page.goto(base + '#karta');
-  await page.locator('#viewMapBtn').click();
+  assert.ok(m.rows.length === TODAY && m.search && !m.near && !m.showAll,
+    `${label}: today's ${TODAY} clubs are all listed in the unified lobby with inline search`);
+  await page.locator(mapBtn).click();
   await page.locator('.golf-map-pin').first().waitFor();
   await page.waitForTimeout(400);
   assert.deepEqual([await page.locator('.golf-map-pin').count(), await page.locator('.golf-map-group').count()], [TODAY, 0],

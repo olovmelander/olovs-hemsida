@@ -103,6 +103,7 @@ export function parentHubRoute(hash) {
     return path + (query.size ? '?' + query : '');
   }
   const parts = path.split('/').filter(Boolean);
+  if (parts[0] === 'klubb' && parts.length >= 2) return '';
   if (parts[1] === 'klubb' && parts.length === 3) return parts[0];
   parts.pop();
   const parent = parts.join('/');

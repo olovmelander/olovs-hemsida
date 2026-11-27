@@ -31,12 +31,13 @@ try {
       await page.locator('#bootMode').waitFor();
       assert.equal(await page.locator('#bootMode').textContent(), label + ' · Hål 4');
       assert.equal(await page.locator('#bootRetry').isVisible(), false);
-      const back = page.getByRole('link', { name: 'Till banans inställningar' });
-      const setupHash = '#' + mode + '/bro-hof-castle?' + selection;
+      const back = page.getByRole('link', { name: 'Avbryt' });
+      const setupHash = '#klubb/bro-hof?bana=bro-hof-castle&lage=' + mode + '&' + selection;
       assert.equal(new URL(await back.getAttribute('href'), base).hash, setupHash);
       await back.click();
       await page.locator('#courseSheet[open]').waitFor();
       assert.equal(new URL(page.url()).hash, setupHash);
+      assert.equal(await page.locator('#courseSheet input[name="cs-layout"]:checked').inputValue(), 'bro-hof-castle');
       console.log(label + ' returns to ' + setupHash + ' during loading.');
     } finally {
       release();

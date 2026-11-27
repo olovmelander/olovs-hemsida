@@ -1,8 +1,7 @@
 /* Club catalogue shared by the start menu and the in-course chooser. */
 import '../styles/shell.css';
-import { clubIdFor, groupCourses, layoutLabel } from './course-clubs.mjs';
-import { sortClubs, sortLayouts } from './club-sort.mjs';
-import { createClubPicker } from './club-picker.js';
+import { CLUB_LAYOUT_KEY, clubIdFor, clubLayouts, groupCourses, layoutLabel, preferredLayout } from './course-clubs.mjs';
+import { sortClubs } from './club-sort.mjs';
 import { createPanelHistory } from '../ui/panel-history.mjs';
 import { ICONS } from './icons.js';
 import { isPhone } from './map-default.mjs';
@@ -232,7 +231,10 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
       item.hidden = !layouts.length;
       if (!layouts.length) return;
       layoutCount += layouts.length;
-      const sortedLayouts = sortLayouts(layouts, sortOrder, leadSlug);
+      const orderedLayouts = clubLayouts(layouts, group.cover.slug);
+      const sortedLayouts = sortOrder === 'recent' && leadSlug && orderedLayouts.some(c => c.slug === leadSlug)
+        ? [orderedLayouts.find(c => c.slug === leadSlug), ...orderedLayouts.filter(c => c.slug !== leadSlug)]
+        : orderedLayouts;
       matches.set(group.id, sortedLayouts);
       const active = sessions.filter(session => session.mode === mode && layouts.some(c => c.slug === session.course.slug));
       const recent = layouts.find(c => c.slug === leadSlug);
@@ -428,11 +430,12 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
 
   applyFilters();
 
-  // The hub keeps its hash routes. Player panels use its existing viewer URL
-  // so Back can return to the same rendered hole and chooser.
-  let sheet = null, picker = null, playerSequence = 0;
+  // The hub keeps its hash routes. Player panels open #courseSheet directly
+  // (no legacy #clubPicker 3-modal stack) so switching Stadium <-> Castle stays inline.
+  let sheet = null, playerSequence = 0;
   function launchFromPlayer(slug, next, plan) {
     rememberLaunch(storage(), slug, next);
+    writeText(storage(), `${CLUB_LAYOUT_KEY}:${clubIdFor(slug)}`, slug);
     const params = new URLSearchParams(launchUrl(slug, next, { phone, settings: readSettings(storage()), plan }).slice(1));
     const from = new URLSearchParams(location.search);
     for (const key of ['det', 'hero', 'q', 'gl']) if (from.has(key) && !params.has(key)) params.set(key, from.get(key));
@@ -443,7 +446,6 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
       const version = ++playerSequence;
       const panel = path.at(-1);
       sheet?.close();
-      picker?.close();
       if (!panel) {
         const origin = previous[0];
         if (origin) el.focusCourse(origin.id || origin.slug);
@@ -456,17 +458,15 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
         await el.restore(panel.chooser);
         if (version !== playerSequence) return;
       }
-      if (panel.kind === 'club') {
-        picker ??= createClubPicker({ onSelect: pick, onDismiss: () => panels.back() });
-        const group = groupsById.get(panel.id);
-        if (group) picker.open({ ...group, courses: group.courses.filter(available) }, panel.mode, previous.at(-1)?.slug, el.getSort());
-        return;
-      }
       if (!sheet) {
         try {
           const { createCourseSheet } = await import('./course-sheet.js');
           if (version !== playerSequence) return;
-          sheet = createCourseSheet({ courses, lines: COURSE_LINES, onDismiss: () => panels.back(), onLaunch: launchFromPlayer,
+          sheet = createCourseSheet({
+            courses, lines: COURSE_LINES,
+            onDismiss: () => panels.back(),
+            onLaunch: launchFromPlayer,
+            onLayout: slug => writeText(storage(), `${CLUB_LAYOUT_KEY}:${clubIdFor(slug)}`, slug),
             onEdit: () => { if (sheet.isOpen()) panels.update({ setup: sheet.snapshot() }); },
           });
         } catch {
@@ -488,7 +488,7 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
   };
   if (panels) {
     document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && event.target.closest?.('#clubPicker[open], #courseSheet[open]')) event.stopPropagation();
+      if (event.key === 'Escape' && event.target.closest?.('#courseSheet[open]')) event.stopPropagation();
     });
     addEventListener('popstate', event => panels.restore(event.state));
     if (history.state?.banvyCatalogue) queueMicrotask(() => panels.restore(history.state));
@@ -497,8 +497,12 @@ export function buildRail({ courses, current, last = null, onPick, onPickClub, i
     const layouts = matches.get(id);
     if (!layouts?.length) return;
     if (layouts.length === 1) return pick(layouts[0].slug);
-    if (context === 'hub') onPickClub(id, mode);
-    else panels.open({ kind: 'club', id, mode, chooser: el.snapshot() });
+    if (context === 'hub') return onPickClub(id, mode);
+    const chosen = preferredLayout(layouts, {
+      sessions: sessions.filter(session => session.mode === mode),
+      remembered: readText(storage(), `${CLUB_LAYOUT_KEY}:${id}`, null) ?? leadSlug,
+    });
+    pick(chosen || layouts[0].slug);
   }
   el.querySelectorAll('.card').forEach(btn => {
     btn.addEventListener('click', () => pickClub(btn.dataset.clubId));

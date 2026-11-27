@@ -5,9 +5,9 @@
    lately, then the nearest -- and leaves the rest to its search and to the full
    list (docs/start-menu.md, "A hundred clubs"). Pure, so a catalogue of a hundred
    made-up clubs can be reasoned about without a browser. */
-import { clubIdFor, layoutLabel } from './course-clubs.mjs';
+import { clubIdFor, clubLayouts, layoutLabel } from './course-clubs.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
-import { courseSearchKey, layoutMatches, parseQuery, searchText } from './club-search.mjs';
+import { CATEGORIES, courseSearchKey, layoutMatches, parseQuery, searchText } from './club-search.mjs';
 import { sortClubs } from './club-sort.mjs';
 
 /* Every club stands in the lobby up to here: about a screen and a half of rows on
@@ -89,15 +89,26 @@ function rank(club, terms) {
 
 /* The clubs a search finds, best answers first, with the full count for the list.
    Null when nothing is typed. The words match as they do in the list (rail.js):
-   every word on one layout, a hole count or par read off the scorecard. */
-export function searchClubs(clubs, text, { limit = LOBBY_SHORT_LIST } = {}) {
+   every word on one layout, a hole count or par read off the scorecard. Each hit
+   also carries `matchedLayouts` in host-first order so a query like "castle"
+   can launch The Castle Course directly. */
+export function searchClubs(clubs, text, { limit = LOBBY_SHORT_LIST, filter = 'all' } = {}) {
   const query = parseQuery(text);
   if (!query.query) return null;
+  const catOf = course => CATEGORIES[course.slug]?.id || 'all';
   const hits = clubs
-    .filter(club => club.courses.some(course => layoutMatches(course, keyOf(course), query)))
-    .map(club => ({ club, rank: rank(club, query.terms) }))
+    .map(club => {
+      const ordered = clubLayouts(club.courses, club.cover.slug);
+      const matchedLayouts = ordered.filter(course =>
+        (filter === 'all' || catOf(course) === filter) && layoutMatches(course, keyOf(course), query));
+      return matchedLayouts.length ? { club, matchedLayouts, rank: rank(club, query.terms) } : null;
+    })
+    .filter(Boolean)
     .sort((a, b) => a.rank - b.rank || swedish.compare(a.club.name, b.club.name));
-  return { total: hits.length, rows: hits.slice(0, limit).map(({ club }) => ({ club, why: 'hit' })) };
+  return {
+    total: hits.length,
+    rows: hits.slice(0, limit).map(({ club, matchedLayouts }) => ({ club, why: 'hit', matchedLayouts })),
+  };
 }
 
 /* "i dag", "i går" or the date, for a row's note. */

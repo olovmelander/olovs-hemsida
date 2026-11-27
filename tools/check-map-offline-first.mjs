@@ -66,8 +66,9 @@ try {
     return keys.length;
   });
   async function openHubCourse() {
-    await page.goto(new URL('#karta', base).href, { waitUntil: 'domcontentloaded' });
-    await page.locator('#chooser .card[data-slug="visby"]').click();
+    await page.goto(new URL('', base).href, { waitUntil: 'domcontentloaded' });
+    await page.locator('#homeClub-visby').click();
+    await page.locator('#courseSheet[open]').waitFor();
   }
   await openHubCourse();
   await page.getByRole('button', { name: 'Reparera offlinebanan' }).waitFor();

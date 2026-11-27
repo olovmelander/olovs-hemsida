@@ -40,11 +40,17 @@ async function phone({ serviceWorkers = 'allow' } = {}) {
 }
 
 async function courseCard(page) {
-  await page.goto(new URL('#karta', base).href, { waitUntil: 'domcontentloaded' });
-  await tap(page, `#chooser .card[data-slug="${slug}"]`);
+  await page.goto(new URL('', base).href, { waitUntil: 'domcontentloaded' });
+  await tap(page, `#homeClub-${slug}`);
   await page.locator(sheet + '[open]').waitFor();
   /* Upsala's club page opens on its host course, the layout this round is on */
   assert.equal(await page.locator(`${sheet}[open] input[name="cs-layout"]:checked`).inputValue(), slug);
+}
+
+async function openScoreSheet(page) {
+  await tap(page, '[data-menu]');
+  await tap(page, '[data-menu-score]');
+  await page.locator('[data-score-sheet]').waitFor();
 }
 
 async function launch(page, button, intent, hole) {
@@ -157,7 +163,7 @@ try {
   assert.match(await railAction.innerText(), /^Starta runda\b/);
   const untouched = await storedRound(preview.page);
   const originalChoices = await choices(preview.page);
-  const scoreTool = preview.page.locator('[data-score]');
+  const scoreTool = preview.page.locator('[data-menu-score]');
   assert.ok(await scoreTool.isHidden());
   assert.ok(await preview.page.locator('[data-wheel-list]').isHidden());
   assert.equal(new URL(await preview.page.locator('[data-full]').getAttribute('href'), base).searchParams.get('hal'), '18');
@@ -194,7 +200,7 @@ try {
   await startSheet.locator('[data-start-go]').tap();
   await wait(preview.page, () => V3DMap.round().begunAt && V3DMap.round().playingHole === 18 && V3DMap.state.hole === 18);
   assert.match(await railAction.innerText(), /^Logga\b/);
-  assert.ok(await scoreTool.isVisible());
+  assert.equal(await scoreTool.getAttribute('hidden'), null);
   assert.ok(await preview.page.locator('[data-wheel-list]').isVisible());
   assert.match(await railAction.getAttribute('aria-label'), /^Logga slag\b/);
   assert.equal(await preview.page.evaluate(() => V3DMap.shots().length), 0);
@@ -203,7 +209,7 @@ try {
   previewURL.searchParams.set('hal', '7');
   await preview.page.goto(previewURL.href, { waitUntil: 'domcontentloaded' });
   await wait(preview.page, () => globalThis.V3DMap?.state.hole === 7 && V3DMap.state.previewOnly);
-  await scoreTool.tap();
+  await openScoreSheet(preview.page);
   assert.match(await preview.page.locator('[data-score-title]').innerText(), /^Hål 18\b/);
   await tap(preview.page, '[data-stroke-key="4"]');
   const scored = await storedRound(preview.page);
@@ -219,7 +225,7 @@ try {
   console.log('Course setup starts a new round on 10 with the chosen tee and handicap.');
   const original = await round(page);
   const coordinate = await gpsAtTee(page, context, 10);
-  await tap(page, '[data-hole]');
+  await tap(page, '[data-hole-text]');
   await tap(page, '[data-measure-hazard="0"]');
   await wait(page, () => V3DMap.state.guidance.mode === 'manual' && V3DMap.state.guidance.recommendedClub);
   const pin = await page.evaluate(() => [...V3DMap.state.guidance.target]);
@@ -249,13 +255,10 @@ try {
   await page.goBack();
   await menuSheet.waitFor({ state: 'hidden' });
   assert.ok(await page.locator('[data-menu]').evaluate(button => button === document.activeElement));
-  await tap(page, '[data-view-toggle]');
-  await page.goBack();
-  await page.locator('[data-view-menu]').waitFor({ state: 'hidden' });
-  await page.goForward();
-  await page.locator('[data-view-menu]').waitFor();
-  await tap(page, '[data-view="above"]');
-  await page.locator('[data-view-menu]').waitFor({ state: 'hidden' });
+  await tap(page, '[data-menu]');
+  await menuSheet.waitFor();
+  await tap(page, '[data-quick-view="above"]');
+  await menuSheet.waitFor({ state: 'hidden' });
   assert.equal(page.url(), mapAddress);
   assert.deepEqual(await page.evaluate(() => ({
     id: V3DMap.round().id, hole: V3DMap.state.playing, target: V3DMap.state.guidance?.target, shots: V3DMap.shots().length,
@@ -276,7 +279,7 @@ try {
 
   await tap(page, '[data-next]');
   await wait(page, () => V3DMap.state.hole === 11 && V3DMap.state.playing === 10);
-  await tap(page, '[data-score]');
+  await openScoreSheet(page);
   assert.match(await page.locator('[data-score-title]').innerText(), /^Hål 10\b/);
   const par = await page.evaluate(() => V3DMap.course.holes[9].par);
   await tap(page, `[data-stroke-key="${par + 1}"]`);
@@ -298,7 +301,7 @@ try {
   await wait(page, () => V3DMap.shots().length === 1);
   assert.equal(await page.evaluate(() => V3DMap.shots()[0].hole), 10);
   assert.equal(await page.evaluate(() => V3DMap.shots()[0].aim), undefined);
-  await tap(page, '[data-score]');
+  await openScoreSheet(page);
   await tap(page, `[data-stroke-key="${par + 2}"]`);
   await tap(page, '[data-score-sheet] [data-close]');
   await tap(page, '[data-locked-undo]');
@@ -338,7 +341,7 @@ try {
   assert.ok(!(await page.locator('#courseSheet [data-hcp]').isVisible()));
   await launch(page, '#courseSheet [data-go]', 'fortsatt', null);
   await tap(page, '[data-next]');
-  await tap(page, '[data-score]');
+  await openScoreSheet(page);
   assert.match(await page.locator('[data-score-title]').innerText(), /^Hål 10\b/);
   await tap(page, '[data-score-done]');
   await wait(page, () => V3DMap.round().playingHole === 11 && V3DMap.state.hole === 11);
@@ -352,14 +355,19 @@ try {
   console.log('Home and course Continue return to 10. Finishing its score while viewing 11 advances once and survives refresh.');
 
   await tap(page, '[data-next]');
-  await tap(page, '[data-hole]');
+  await tap(page, '[data-hole-text]');
   await tap(page, '[data-play-hole]');
   await wait(page, () => V3DMap.round().playingHole === 12);
   assert.equal((await storedRound(page)).playingHole, 12);
   assert.equal((await round(page)).scores[10].strokes, par + 2);
   assert.equal(await page.evaluate(() => V3DMap.shots().length), 1);
   console.log('Explicitly playing previewed hole 12 preserves the previous score and shot.');
-  if (await page.locator('[data-gps]').getAttribute('aria-pressed') === 'false') await tap(page, '[data-gps]');
+  if (await page.locator('[data-gps]').getAttribute('aria-pressed') === 'false') {
+    await tap(page, '[data-menu]');
+    await tap(page, '[data-menu-tab="runda"]');
+    await page.locator('[data-menu-gps]').check();
+    await tap(page, '[data-menu-sheet] [data-close]');
+  }
   const playing = (await round(page)).playingHole;
   const next = await page.evaluate(n => n % V3DMap.course.holes.length + 1, playing);
   await gpsAtTee(page, context, playing);
@@ -373,11 +381,14 @@ try {
   await wait(page, () => V3DMap.state.guidance.source === 'last-gps' && document.querySelector('[data-gps-label]').textContent === 'Tillåt GPS');
   assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.origin), lastOrigin);
   await tap(page, '[data-next]');
-  await tap(page, '[data-hole]');
+  await tap(page, '[data-hole-text]');
   await tap(page, '[data-play-hole]');
   await wait(page, n => V3DMap.state.playing === n && V3DMap.state.guidance.source === 'tee', next);
   await permission('granted');
-  await tap(page, '[data-gps]');
+  await tap(page, '[data-menu]');
+  await tap(page, '[data-menu-tab="runda"]');
+  await page.locator('[data-menu-gps]').check();
+  await tap(page, '[data-menu-sheet] [data-close]');
   await gpsAtTee(page, context, next);
   await wait(page, () => document.querySelector('[data-gps-label]').textContent === '±4 m');
   assert.equal(await page.evaluate(() => V3DMap.shots().length), 1);

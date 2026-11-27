@@ -49,7 +49,8 @@ try {
   await source.page.getByRole('button', { name: /^Logga slag/ }).click();
   await wait(source.page, () => V3DMap.shots().length === 1);
   await source.context.setOffline(true);
-  await source.page.locator('[data-score]').click();
+  await source.page.locator('[data-menu]').click();
+  await source.page.locator('[data-menu-score]').click();
   await source.page.locator('[data-stroke-key="5"]').click();
   await source.page.locator('[data-score-sheet] [data-close]').click();
   assert.equal(await source.page.evaluate(() => V3DMap.round().scores[10].strokes), 5);

@@ -10,7 +10,8 @@ import { createShortcutKeys, nextInCycle } from '../engine/keyboard-shortcuts.mj
 import { compassName as windCompass, fetchWeather, weatherWord } from '../engine/weather.js';
 import { isPhone } from '../shell/map-default.mjs';
 import { distanceText } from '../shell/nearest-course.mjs';
-import { detailedUrl, hubUrl, playUrl, reliveUrl } from '../shell/router.js';
+import { clubIdFor, clubLayouts, layoutLabel } from '../shell/course-clubs.mjs';
+import { detailedUrl, hubUrl, mapUrl, playUrl, reliveUrl } from '../shell/router.js';
 import { MODES, rememberLaunch } from '../shell/settings-store.mjs';
 import { getCloudState, initCloud, notifyLocalChange, savePlayerProfile } from '../shell/cloud.mjs';
 import { liveFrozen, liveGuardChange, publishLive } from '../shell/live-rounds.mjs';
@@ -161,8 +162,12 @@ root.innerHTML = `
   <header class="map-top">
     <div class="map-hole" data-hole-bar>
       <button data-prev aria-label="Föregående hål">‹</button>
-      <button class="map-hole-text" data-hole-text aria-label="Om hålet"><b data-hole-title></b><span data-hole-facts></span></button>
+      <button class="map-hole-text" data-hole-text aria-label="Om hålet">
+        <span class="map-hole-title-row"><b data-hole-title></b><em class="map-hole-score" data-hole-score hidden></em></span>
+        <span data-hole-facts></span>
+      </button>
       <button data-next aria-label="Nästa hål">›</button>
+      <span class="map-terrain-bar" data-terrain-bar aria-hidden="true"></span>
     </div>
   </header>
   <div class="map-side">
@@ -171,18 +176,24 @@ root.innerHTML = `
       <span class="map-green-row map-green-mid"><i>Mitt</i><span class="map-green-val"><b data-mid-number>–</b><u class="map-unit" aria-hidden="true">m</u></span></span>
       <span class="map-green-row"><i>Fram</i><span class="map-green-val"><b data-front-number>–</b><u class="map-unit" aria-hidden="true">m</u></span></span>
       <span class="map-green-plays" data-green-plays hidden></span>
-      <small data-from></small>
+      <span class="map-green-meta" data-green-meta>
+        <span class="map-green-wind" data-green-wind hidden><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true" data-green-wind-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg><span data-green-wind-text></span></span>
+        <span class="map-green-gps" data-green-gps><i class="map-gps-dot" data-gps-dot data-state="off" aria-hidden="true"></i><small data-from></small></span>
+      </span>
       <span class="map-green-cue" data-green-cue aria-hidden="true"><svg viewBox="0 0 16 16" width="11" height="11"><path d="M2 5.5h12M2 10.5h12M5.5 2v12M10.5 2v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="2" y="2" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span data-green-cue-text>Greenvy</span></span>
     </button>
     <button class="map-wind" data-wind hidden aria-label="Vind och väder">
-      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" data-wind-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" data-wind-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>
       <b data-wind-speed></b>
     </button>
+  </div>
+  <div class="map-thumb-cluster" data-thumb-cluster>
     <div class="map-wheel" data-wheel>
       <div class="map-wheel-band" aria-hidden="true"></div>
       <div class="map-wheel-list" data-wheel-list role="listbox" tabindex="0" aria-label="Klubba" aria-describedby="map-wheel-help"></div>
       <span class="map-sr" id="map-wheel-help">Välj klubba med piltangenterna eller genom att snurra. Tryck på Logga slag eller Enter för att logga slaget.</span>
     </div>
+    <button class="map-tool map-tool-primary map-log-fab" data-wheel-lock><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span data-wheel-lock-label>Logga slag</span></button>
   </div>
   <section class="map-bottom">
     <div class="map-float">
@@ -199,7 +210,6 @@ root.innerHTML = `
         </button>
       </div>
       <button class="map-gps-pill" data-gps aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-gps-label>GPS</span></button>
-      <button class="map-recentre" data-recentre hidden aria-label="Tillbaka till hålet"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
     <div class="map-locked" data-locked hidden>
       <b data-locked-text></b>
@@ -241,18 +251,18 @@ root.innerHTML = `
     </div>
     <p class="map-pending" data-pending-shot role="status" aria-atomic="true" hidden></p>
     <div class="map-tools">
-      <button class="map-tool map-tool-primary" data-wheel-lock><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span data-wheel-lock-label>Logga slag</span></button>
-      <button class="map-tool" data-hole aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 21V4l11 4.5L7 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg><span>Hålet</span></button>
-      <button class="map-tool" data-score aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-score-label>Score</span></button>
-      <button class="map-tool" data-menu aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Meny</span></button>
+      <button class="map-tool map-tool-menu" data-menu aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Meny</span><em class="map-menu-score-tag" data-menu-score-tag hidden></em></button>
+      <button class="map-recentre" data-recentre hidden aria-label="Tillbaka till hålet"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="map-tool map-tool-aux" data-hole aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 21V4l11 4.5L7 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg><span>Hålet</span></button>
+      <button class="map-tool map-tool-aux" data-score aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-score-label>Score</span></button>
     </div>
-    <p class="map-desk-hints" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd> Hål · <kbd>1–18</kbd> · <kbd>C</kbd> Vy · <kbd>G</kbd> Green · <kbd>H</kbd> Panel · <kbd>S</kbd> Score · <kbd>Esc</kbd> Rensa</p>
   </section>
   <aside class="map-desk-rail" data-desk-rail hidden aria-label="Sidopanel">
     <div class="map-desk-head">
-      <a class="map-desk-back" href="${hubUrl()}" aria-label="Till startmenyn">‹ Startmenyn</a>
+      <a class="map-desk-back" href="${hubUrl()}" data-leave-guard aria-label="Till klubbarna">‹ Klubbar</a>
       <strong class="map-desk-course" data-desk-course></strong>
-      <button type="button" class="map-desk-collapse" data-desk-collapse aria-label="Dölj sidopanel (H)" title="Dölj sidopanel (H)">‹</button>
+      <button type="button" class="map-desk-icon" data-shortcuts-btn aria-label="Kortkommandon (?)" aria-expanded="false" aria-controls="map-shortcuts-pop" title="Kortkommandon (?)">?</button>
+      <button type="button" class="map-desk-collapse" data-desk-collapse aria-label="Dölj sidopanel (I)" title="Dölj sidopanel (I)">‹</button>
     </div>
     <div class="map-desk-tabs" role="tablist" aria-label="Sidopanel">
       <button type="button" role="tab" data-desk-tab="hole" aria-selected="true">Hålet</button>
@@ -260,7 +270,27 @@ root.innerHTML = `
       <button type="button" role="tab" data-desk-tab="menu" aria-selected="false">Meny</button>
     </div>
   </aside>
-  <button type="button" class="map-desk-open" data-desk-open hidden aria-label="Visa sidopanel (H)" title="Visa sidopanel (H)">Panel ›</button>
+  <div class="map-desk-collapsed-bar" data-desk-collapsed-bar hidden>
+    <button type="button" class="map-desk-open" data-desk-open aria-label="Visa sidopanel (I)" title="Visa sidopanel (I)">Panel ›</button>
+    <button type="button" class="map-desk-icon" data-shortcuts-btn-alt aria-label="Kortkommandon (?)" aria-expanded="false" aria-controls="map-shortcuts-pop" title="Kortkommandon (?)">?</button>
+  </div>
+  <div class="bv-popover map-shortcuts-pop" id="map-shortcuts-pop" data-shortcuts-pop hidden role="dialog" aria-label="Tangentbordsgenvägar">
+    <div class="map-shortcuts-head"><strong>Kortkommandon</strong><button type="button" class="map-sheet-close" data-shortcuts-close aria-label="Stäng">×</button></div>
+    <ul class="map-facts">
+      <li><span>Föregående / nästa hål</span><b><kbd>←</kbd> <kbd>→</kbd> · <kbd>P</kbd> <kbd>N</kbd></b></li>
+      <li><span>Hoppa till hål</span><b><kbd>1</kbd>–<kbd>18</kbd></b></li>
+      <li><span>Byt kameravy</span><b><kbd>C</kbd></b></li>
+      <li><span>Greenvy på / av</span><b><kbd>G</kbd></b></li>
+      <li><span>Hålguide / Banguide</span><b><kbd>B</kbd></b></li>
+      <li><span>Centrera hålet</span><b><kbd>R</kbd></b></li>
+      <li><span>Sidopanel / Ren vy</span><b><kbd>I</kbd> · <kbd>H</kbd></b></li>
+      <li><span>Score / Meny</span><b><kbd>S</kbd> · <kbd>M</kbd></b></li>
+      <li><span>Solläge / Ljus</span><b><kbd>U</kbd> · <kbd>L</kbd></b></li>
+      <li><span>Ångra senaste</span><b><kbd>Z</kbd></b></li>
+      <li><span>Rensa / stäng</span><b><kbd>Esc</kbd></b></li>
+    </ul>
+  </div>
+  <button type="button" class="map-clean-exit" data-clean-exit hidden>Visa reglage</button>
   <div class="map-backdrop" data-backdrop hidden></div>
   <section class="map-sheet map-sheet-tall" data-score-sheet hidden aria-label="Scorekort">
     <div class="map-sheet-head">
@@ -364,8 +394,32 @@ root.innerHTML = `
     <div class="map-actions"><a class="map-action" data-leave-guard href="${hubUrl('installningar/bag')}">Redigera min bag</a></div>
   </section>
   <section class="map-sheet map-sheet-tall map-menu" data-menu-sheet hidden aria-label="Meny">
-    <div class="map-sheet-head"><b data-menu-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
-    <label class="map-row map-menu-sun"><span>Solläge<small>Ljusa paneler för starkt solljus</small></span><input type="checkbox" role="switch" data-sun></label>
+    <div class="map-sheet-head">
+      <a class="map-sheet-back" data-menu-lobby href="${hubUrl()}" aria-label="Till klubbarna">‹ Klubbar</a>
+      <b data-menu-title></b>
+      <button class="map-sheet-close" data-close aria-label="Stäng">×</button>
+    </div>
+    <div class="map-menu-quick" data-menu-quick>
+      <div class="map-menu-quick-actions">
+        <button type="button" class="map-quick-btn is-score" data-menu-score><span data-menu-score-label>Scorekort</span></button>
+        <button type="button" class="map-quick-btn" data-menu-hole>Hålguide & hinder</button>
+      </div>
+      <div class="bv-seg map-menu-views" data-menu-views role="group" aria-label="Kameravy">
+        <button type="button" data-quick-view="hole" aria-pressed="true">Hålet</button>
+        <button type="button" data-quick-view="green" aria-pressed="false">Green</button>
+        <button type="button" data-quick-view="above" aria-pressed="false">Ovan</button>
+        <button type="button" data-quick-view="course" aria-pressed="false">Banan</button>
+      </div>
+      <div class="map-menu-sun-row">
+        <span class="map-menu-sun-label">Skärmläge</span>
+        <div class="bv-seg map-sun-seg" data-sun-modes role="group" aria-label="Solläge">
+          <button type="button" data-sun-mode="dag" aria-pressed="false">☀ Dag</button>
+          <button type="button" data-sun-mode="auto" aria-pressed="true">Auto</button>
+          <button type="button" data-sun-mode="natt" aria-pressed="false">Natt</button>
+        </div>
+        <input type="checkbox" data-sun hidden tabindex="-1" aria-hidden="true">
+      </div>
+    </div>
     <div class="map-menu-tabs" role="tablist" aria-label="Menyflikar">
       <button type="button" role="tab" data-menu-tab="runda" aria-selected="true">Runda</button>
       <button type="button" role="tab" data-menu-tab="visning" aria-selected="false">Visning</button>
@@ -388,6 +442,8 @@ root.innerHTML = `
       <h3>Skärm & hand</h3>
       <label class="map-row"><span>Större text</span><input type="checkbox" role="switch" data-large></label>
       <label class="map-row"><span>Klubbhjulet till vänster</span><input type="checkbox" role="switch" data-left></label>
+      <label class="map-row"><span>Låt skärmen släckas mellan slagen<small>Sparar batteri i fickan</small></span><input type="checkbox" role="switch" data-allow-sleep></label>
+      <button type="button" class="map-row map-row-next" data-menu-clean><span>Ren vy</span><span class="map-row-value">Göm reglage</span></button>
       <h3>Ljus</h3>
       <div class="map-lights" data-lights></div>
       <h3>Kartan</h3>
@@ -395,30 +451,19 @@ root.innerHTML = `
       <label class="map-row"><span>Avståndscirklar<small>100, 150, 200 och 250 m på kartan</small></span><input type="checkbox" role="switch" data-rings></label>
       <label class="map-row"><span>Höjdkurvor</span><input type="checkbox" role="switch" data-contours></label>
       <div class="map-row"><span>Höjdskala</span><div class="map-chips" data-reliefs></div></div>
-      <div class="map-desk-shortcuts">
-        <h3>Tangentbordsgenvägar</h3>
-        <ul class="map-facts">
-          <li><span>Föregående / nästa hål</span><b><kbd>←</kbd> <kbd>→</kbd> · <kbd>P</kbd> <kbd>N</kbd></b></li>
-          <li><span>Hoppa till hål</span><b><kbd>1</kbd>–<kbd>18</kbd> · <kbd>0</kbd></b></li>
-          <li><span>Byt kameravy</span><b><kbd>C</kbd></b></li>
-          <li><span>Greenvy på / av</span><b><kbd>G</kbd></b></li>
-          <li><span>Centrera hålet</span><b><kbd>R</kbd></b></li>
-          <li><span>Sidopanel / Score / Meny</span><b><kbd>H</kbd> · <kbd>S</kbd> · <kbd>M</kbd></b></li>
-          <li><span>Solläge / Ljus</span><b><kbd>U</kbd> · <kbd>L</kbd></b></li>
-          <li><span>Ångra senaste</span><b><kbd>Z</kbd> / <kbd>Ctrl+Z</kbd></b></li>
-          <li><span>Rensa mätpunkt / stäng</span><b><kbd>Esc</kbd></b></li>
-        </ul>
-      </div>
     </div>
     <div class="map-menu-pane" data-menu-pane="bana" role="tabpanel" hidden>
+      <div class="map-sibling-section" data-sibling-section hidden>
+        <h3 data-sibling-title>Byt bana på klubben</h3>
+        <div class="map-siblings" data-siblings></div>
+      </div>
       <button class="map-action map-download" data-download>Spara banan för offline</button>
       <h3>Byt läge</h3>
       <a class="map-row map-row-next" data-full data-leave-guard>Detaljerad 3D</a>
       <a class="map-row map-row-next" data-play data-leave-guard>Öppna simulatorn</a>
       <h3>Navigering</h3>
-      <a class="map-row map-row-next" data-leave-guard href="${hubUrl(`${MODES.map.route}/${encodeURIComponent(slug)}`)}">Till banans översikt</a>
-      <a class="map-row map-row-next" data-leave-guard href="${hubUrl(MODES.map.route)}">Byt bana</a>
-      <a class="map-row map-row-next" data-home href="${hubUrl()}">Till startmenyn</a>
+      <a class="map-row map-row-next" data-club-overview href="${hubUrl(`klubb/${encodeURIComponent(clubIdFor(slug))}?bana=${encodeURIComponent(slug)}&lage=karta`)}">Till klubbsidan</a>
+      <a class="map-row map-row-next" data-home href="${hubUrl()}">Alla klubbar</a>
       <button class="map-action" data-diary hidden>Spara provrundans logg</button>
     </div>
   </section>
@@ -433,19 +478,24 @@ root.addEventListener('scroll', event => {
 }, { capture: true, passive: true });
 addEventListener('resize', () => root.querySelectorAll('.map-card-part').forEach(markCardOverflow));
 const ui = {
-  hole: $('[data-hole-title]'), facts: $('[data-hole-facts]'), prev: $('[data-prev]'), next: $('[data-next]'),
+  hole: $('[data-hole-title]'), holeScore: $('[data-hole-score]'), facts: $('[data-hole-facts]'), prev: $('[data-prev]'), next: $('[data-next]'),
   back: $('[data-back-number]'), mid: $('[data-mid-number]'), front: $('[data-front-number]'), greenPlays: $('[data-green-plays]'), greenCueText: $('[data-green-cue-text]'), from: $('[data-from]'),
+  greenWind: $('[data-green-wind]'), greenWindArrow: $('[data-green-wind-arrow]'), greenWindText: $('[data-green-wind-text]'), gpsDot: $('[data-gps-dot]'),
   reading: $('[data-reading]'), status: $('[data-status]'),
-  gps: $('[data-gps]'), gpsLabel: $('[data-gps-label]'), menuGps: $('[data-menu-gps]'), menuGpsSub: $('[data-menu-gps-sub]'), menu: $('[data-menu]'),
+  gps: $('[data-gps]'), gpsLabel: $('[data-gps-label]'), menuGps: $('[data-menu-gps]'), menuGpsSub: $('[data-menu-gps-sub]'), menu: $('[data-menu]'), menuScoreTag: $('[data-menu-score-tag]'),
+  menuScoreBtn: $('[data-menu-score]'), menuScoreLabel: $('[data-menu-score-label]'), menuHoleBtn: $('[data-menu-hole]'), menuViews: $('[data-menu-views]'),
+  sunModes: $('[data-sun-modes]'), allowSleep: $('[data-allow-sleep]'), menuClean: $('[data-menu-clean]'),
+  siblingSection: $('[data-sibling-section]'), siblingTitle: $('[data-sibling-title]'), siblings: $('[data-siblings]'), clubOverview: $('[data-club-overview]'),
   score: $('[data-score]'), scoreLabel: $('[data-score-label]'), holeTool: $('[data-hole]'), holeText: $('[data-hole-text]'), holeBar: $('[data-hole-bar]'),
   holeSheet: $('[data-hole-sheet]'), holeSheetTitle: $('[data-hole-sheet-title]'), hazardSection: $('[data-hazard-section]'), hazardList: $('[data-hazard-list]'),
   recentre: $('[data-recentre]'),
   prompt: $('[data-prompt]'), promptTitle: $('[data-prompt-title]'), promptKeys: $('[data-prompt-keys]'),
   legend: $('[data-legend]'), views: $('[data-views]'),
   viewWrap: $('[data-view-wrap]'), viewToggle: $('[data-view-toggle]'), viewLabel: $('[data-view-label]'), viewMenu: $('[data-view-menu]'),
-  tools: $('.map-tools'), backdrop: $('[data-backdrop]'),
+  tools: $('.map-tools'), backdrop: $('[data-backdrop]'), thumbCluster: $('[data-thumb-cluster]'),
   pendingShot: $('[data-pending-shot]'),
-  deskRail: $('[data-desk-rail]'), deskCourse: $('[data-desk-course]'), deskCollapse: $('[data-desk-collapse]'), deskOpen: $('[data-desk-open]'),
+  deskRail: $('[data-desk-rail]'), deskCourse: $('[data-desk-course]'), deskCollapse: $('[data-desk-collapse]'), deskOpen: $('[data-desk-open]'), deskCollapsedBar: $('[data-desk-collapsed-bar]'),
+  shortcutsPop: $('[data-shortcuts-pop]'), shortcutsBtns: [...root.querySelectorAll('[data-shortcuts-btn], [data-shortcuts-btn-alt]')], cleanExit: $('[data-clean-exit]'),
   wheel: $('[data-wheel]'), logShot: $('[data-wheel-lock]'), logShotLabel: $('[data-wheel-lock-label]'), walkedShot: $('[data-wheel-hint]'), hintNote: $('[data-hint-note]'), hintMetres: $('[data-hint-metres]'),
   promptMore: $('[data-prompt-more]'), holeNoteMore: $('[data-note-more]'), locked: $('[data-locked]'), lockedText: $('[data-locked-text]'), lockedPenalty: $('[data-locked-penalty]'), lockedEdit: $('[data-locked-edit]'), same: $('[data-same]'),
   clubsSheet: $('[data-clubs-sheet]'), clubs: $('[data-clubs]'), clubsNote: $('[data-clubs-note]'), clubsCount: $('[data-clubs-count]'),
@@ -486,25 +536,19 @@ function fitLayout() {
   root.classList.remove('is-compact', 'is-tight');
   ui.wheel.style.removeProperty('--rows');
   if (sideways.matches || isDesktop()) return;
-  /* Fitted for the slim right rail (Green + Wind + Club Wheel): with Logga slag in
-     the bottom dock and the elevation strip inside Hålet, the rail stays one column. */
+  /* Measure vertical room between the top-right Distance Card and the bottom-right
+     Thumb Cluster (Club Wheel + Logga slag) so they never touch even on compact phones. */
   const onGreen = ui.green.classList.contains('is-on');
   const heldPlays = [ui.greenPlays, ui.greenPlays.hidden, ui.greenPlays.textContent];
-  const held = [[ui.wind, ui.wind.hidden], [ui.green, ui.green.hidden]];
-  for (const [element] of held) element.hidden = false;
+  const greenWasHidden = ui.green.hidden;
+  ui.green.hidden = false;
   ui.greenPlays.hidden = false;
   if (!ui.greenPlays.textContent) ui.greenPlays.textContent = 'Spelas 000 m';
   ui.green.classList.remove('is-on');
-  const railBottom = () => Math.max(...[ui.green, ui.wind, ui.wheel]
-    .filter(el => getComputedStyle(el).visibility !== 'hidden').map(el => el.getBoundingClientRect().bottom));
-  const room = () => ui.tools.getBoundingClientRect().top - 10 - railBottom();
-  if (room() < PROMPT_ROOM_PIXELS) root.classList.add('is-compact');
-  const cardMeetsRail = () => {
-    const card = ui.reading.getBoundingClientRect();
-    return card.height > 0 && railBottom() + 6 > card.top;
-  };
-  root.classList.toggle('is-tight', room() < TWO_ROWS_PIXELS || cardMeetsRail());
-  for (const [element, hidden] of held) element.hidden = hidden;
+  const gapBetweenCorners = () => ui.thumbCluster.getBoundingClientRect().top - ui.green.getBoundingClientRect().bottom;
+  if (gapBetweenCorners() < 42) root.classList.add('is-compact');
+  if (gapBetweenCorners() < 16) root.classList.add('is-tight');
+  ui.green.hidden = greenWasHidden;
   heldPlays[0].hidden = heldPlays[1];
   heldPlays[0].textContent = heldPlays[2];
   ui.green.classList.toggle('is-on', onGreen);
@@ -577,8 +621,8 @@ async function fail(error) {
   const back = document.getElementById('bootReturn');
   const setup = new URLSearchParams();
   for (const key of ['hal', 'tee']) if (/^[1-9]\d*$/.test(params.get(key))) setup.set(key, params.get(key));
-  back.href = hubUrl(`${MODES.map.route}/${encodeURIComponent(slug)}${setup.size ? '?' + setup : ''}`);
-  back.textContent = 'Till banans översikt';
+  back.href = hubUrl(`klubb/${encodeURIComponent(clubIdFor(slug))}?bana=${encodeURIComponent(slug)}&lage=karta${setup.size ? '&' + setup : ''}`);
+  back.textContent = 'Till klubbsidan';
   document.getElementById('bootRecovery').hidden = false;
   if (!graphicsError && !params.has('kopia') && await savedCourseStatus(slug) === 'ready') {
     const saved = new URL(retry);
@@ -781,19 +825,19 @@ async function start() {
     const { width, height } = camera.state;
     const gap = 12;
     const top = Math.ceil(mapHeader.getBoundingClientRect().bottom) + gap;
-    const foot = Math.min(mapFoot.getBoundingClientRect().top, cameraButtons.getBoundingClientRect().top);
+    const footCandidates = [mapFoot.getBoundingClientRect().top];
+    const floatBox = cameraButtons.getBoundingClientRect();
+    if (floatBox.height > 0) footCandidates.push(floatBox.top);
+    const foot = Math.min(...footCandidates);
     const room = { top, bottom: height - Math.max(top + 48, Math.floor(foot) - gap), left: gap, right: gap };
     if (root.classList.contains('is-desk-open')) {
       const rail = ui.deskRail.getBoundingClientRect();
       if (rail.width) room.left = Math.max(room.left, Math.ceil(rail.right) + gap);
     }
-    /* The wheel changes sides with handedness and occupies the opposite rail
-       from the green in landscape. Measure the controls after CSS has laid them out. */
-    for (const element of [ui.green, ui.wind, ui.wheel]) {
-      if (element === ui.wheel && root.classList.contains('is-map-preview')
-          && !isDesktop() && !state.target) continue;
+    /* Measure active corner controls after CSS layout so camera framing keeps fairway centred. */
+    for (const element of [ui.green, ui.wind, ui.thumbCluster]) {
       const box = element.getBoundingClientRect();
-      if (!box.width) continue;
+      if (!box.width || !box.height || getComputedStyle(element).display === 'none') continue;
       if (box.left + box.width / 2 < width / 2) room.left = Math.max(room.left, Math.ceil(box.right) + gap);
       else room.right = Math.max(room.right, width - Math.floor(box.left) + gap);
     }
@@ -969,10 +1013,25 @@ async function start() {
     /* A rough fix (under trees, or a phone just woken) says so where the numbers are
        read, at the length the shot log already stops trusting: they can be that far out. */
     const rough = state.player?.onCourse && state.player.accuracy > MEASURABLE_ACCURACY_METRES;
-    ui.from.textContent = position.source === 'tee' ? 'från tee' : position.source === 'last-gps'
-      ? 'senaste säkra GPS' : rough ? `±${Math.round(state.player.accuracy)} m` : 'från dig';
-    ui.from.classList.toggle('is-rough', position.source === 'last-gps' || (position.source === 'gps' && rough));
+    const dotState = gpsState === 'denied' || gpsState === 'unavailable' ? 'denied'
+      : gpsState === 'outside' ? 'outside'
+      : gpsState === 'searching' ? 'searching'
+      : position.source === 'last-gps' ? 'stale'
+      : position.source === 'gps' ? (rough ? 'rough' : 'live')
+      : 'off';
+    if (ui.gpsDot) ui.gpsDot.dataset.state = dotState;
+    ui.from.textContent = position.source === 'last-gps' ? 'från senaste säkra GPS'
+      : dotState === 'denied' ? 'Tillåt GPS'
+      : dotState === 'outside' ? 'Utanför'
+      : dotState === 'searching' ? 'Söker…'
+      : position.source === 'gps' ? `±${Math.max(1, Math.round(state.player.accuracy))} m`
+      : 'från tee';
+    ui.from.classList.toggle('is-rough', position.source === 'last-gps' || dotState === 'stale' || dotState === 'rough' || dotState === 'denied');
     ui.gps.classList.toggle('is-rough', Boolean(rough) || position.source === 'last-gps');
+    if (rough && roughNotedHole !== h.n) {
+      roughNotedHole = h.n;
+      status(`Osäker GPS (±${Math.round(state.player.accuracy)} m)`, 3200, true);
+    }
     const fromWords = greenSpokenFrom();
     const spoken = onTheGreen ? (position.source === 'last-gps' ? 'Senaste säkra positionen var på greenen.' : 'Du är på greenen.') : `Till greenen ${fromWords}: fram ${ui.front.textContent}, mitt ${ui.mid.textContent}, bak ${ui.back.textContent} meter.`;
     ui.green.setAttribute('aria-label', `${spoken} Tryck för att ${state.greenView ? 'gå tillbaka till hålet' : 'se greenen nära'}.`);
@@ -999,6 +1058,10 @@ async function start() {
     if (ui.full.getAttribute('href') !== detailedTarget) {
       ui.full.href = detailedTarget;
       ui.full.textContent = `Utforska hål ${h.n} i Detaljerad 3D`;
+    }
+    if (ui.clubOverview) {
+      const clubHref = hubUrl(`klubb/${encodeURIComponent(clubIdFor(slug))}?bana=${encodeURIComponent(slug)}&lage=karta&hal=${h.n}&tee=${state.tee + 1}`);
+      if (ui.clubOverview.getAttribute('href') !== clubHref) ui.clubOverview.href = clubHref;
     }
     ui.green.hidden = state.mode === 'course';
     ui.profile.hidden = state.mode === 'course';
@@ -1044,7 +1107,9 @@ async function start() {
   /* Floating camera & smart GPS/recentre controls above the bottom dock. */
   function refreshFloat() {
     const walking = gps.active;
-    root.classList.toggle('is-map-preview', canStartFromPreview());
+    const previewStart = canStartFromPreview();
+    root.classList.toggle('is-map-preview', previewStart);
+    if (ui.menuScoreBtn) ui.menuScoreBtn.hidden = previewStart;
     root.classList.toggle('has-map-target', Boolean(state.target));
     const say = (element, value) => { if (element.ariaLabel !== value) element.setAttribute('aria-label', value); };
     const elsewhere = state.hole !== state.playing || (state.previewOnly && roundUnderWay());
@@ -1057,14 +1122,22 @@ async function start() {
     /* Kept in the layout, so the wheel keeps its place while the course is shown. */
     ui.wheel.classList.toggle('is-away', state.mode !== 'hole');
     ui.logShot.disabled = state.mode !== 'hole' && !state.pendingLock;
-    const shownView = state.mode === 'course' ? null : state.greenView ? 'green' : state.view;
-    const viewName = VIEW_NAMES[state.mode === 'course' ? 'course' : shownView ?? 'hole'] ?? 'Hela hålet';
+    const shownView = state.mode === 'course' ? 'course' : state.greenView ? 'green' : state.view;
+    const viewName = VIEW_NAMES[shownView ?? 'hole'] ?? 'Hela hålet';
     if (ui.viewLabel.textContent !== viewName) ui.viewLabel.textContent = viewName;
     ui.viewToggle.setAttribute('aria-label', `Kameravy, ${viewName}`);
     for (const button of ui.views.querySelectorAll('[data-view]')) {
-      const pressed = String(button.dataset.view === shownView);
+      const pressed = String(button.dataset.view === (state.mode === 'course' ? null : shownView));
       if (button.getAttribute('aria-pressed') !== pressed) button.setAttribute('aria-pressed', pressed);
     }
+    if (ui.menuViews) {
+      for (const button of ui.menuViews.querySelectorAll('[data-quick-view]')) {
+        const pressed = String(button.dataset.quickView === shownView);
+        if (button.getAttribute('aria-pressed') !== pressed) button.setAttribute('aria-pressed', pressed);
+      }
+    }
+    /* Show contextual recentre icon whenever panned away from hole (including when GPS is active on mobile). */
+    ui.recentre.hidden = !needsRecentre;
   }
 
   /* The whole hole, tee to green, so it keeps its shape all the way round and the
@@ -1331,7 +1404,7 @@ async function start() {
     if (!guidanceFix.expiresAt) gps.ask();
   });
 
-  let gpsArmTimer = 0, gpsArmed = false, gpsState = 'off', lastAccuracyText = '', gpsMessage = '';
+  let gpsArmTimer = 0, gpsWaitTimer = 0, gpsArmed = false, gpsState = 'off', lastAccuracyText = '', gpsMessage = '', roughNotedHole = null;
   function gpsStatus(message, hold) {
     gpsMessage = message;
     status(message, hold);
@@ -1339,6 +1412,7 @@ async function start() {
   function setGpsState(next) {
     const recovered = next === 'live' && gpsState !== 'live';
     gpsState = next;
+    if (recovered || next !== 'searching') clearTimeout(gpsWaitTimer);
     if (recovered) {
       clearTimeout(gpsArmTimer);
       gpsArmed = false;
@@ -1363,6 +1437,7 @@ async function start() {
         ? (next === 'live' ? `Aktiv (${lastAccuracyText})` : labels[next] ?? 'Aktiv')
         : 'Följer din position under rundan';
     }
+    syncAutoSun();
   }
   function disarmGps() {
     clearTimeout(gpsArmTimer);
@@ -1372,6 +1447,7 @@ async function start() {
 
   function stopGps(reason = 'off') {
     clearTimeout(gpsArmTimer);
+    clearTimeout(gpsWaitTimer);
     clearTimeout(guidanceTimer);
     forgetTee();
     if (reason === 'off') clearPendingLock();
@@ -1395,12 +1471,16 @@ async function start() {
 
   function startGps() {
     clearTimeout(gpsArmTimer);
+    clearTimeout(gpsWaitTimer);
     gpsArmed = false;
     gps.start();
     if (!gps.active) return;
-    screenLock.hold();
+    if (!display.get('allowSleep')) screenLock.hold();
     state.follow = true;
     setGpsState('searching');
+    gpsWaitTimer = setTimeout(() => {
+      if (gps.active && gpsState === 'searching') gpsStatus('Väntar på GPS-signal…', 4500);
+    }, 8000);
   }
 
   ui.gps.onclick = () => {
@@ -1519,16 +1599,20 @@ async function start() {
   const stepHole = direction => pickHole(((state.hole - 1 + direction + course.holes.length) % course.holes.length) + 1);
   $('[data-prev]').onclick = () => stepHole(-1);
   $('[data-next]').onclick = () => stepHole(1);
-  /* A sideways swipe along the header turns the page, as on a watch. */
+  /* A sideways swipe along the header turns the page, guarded by a < 25 deg angle check. */
   let swipeFrom = null, swiped = false;
-  ui.holeBar.addEventListener('pointerdown', event => { swipeFrom = event.clientX; swiped = false; });
+  ui.holeBar.addEventListener('pointerdown', event => {
+    swipeFrom = { x: event.clientX, y: event.clientY };
+    swiped = false;
+  });
   ui.holeBar.addEventListener('pointerup', event => {
-    if (swipeFrom === null) return;
-    const travel = event.clientX - swipeFrom;
+    if (!swipeFrom) return;
+    const dx = event.clientX - swipeFrom.x;
+    const dy = event.clientY - swipeFrom.y;
     swipeFrom = null;
-    if (state.mode === 'course' || Math.abs(travel) < 44) return;
+    if (state.mode === 'course' || Math.abs(dx) < 48 || Math.abs(dy) >= Math.abs(dx) * 0.47) return;
     swiped = true;
-    stepHole(travel < 0 ? 1 : -1);
+    stepHole(dx < 0 ? 1 : -1);
   });
   ui.holeBar.addEventListener('pointercancel', () => { swipeFrom = null; });
   ui.holeBar.addEventListener('click', event => {
@@ -1536,6 +1620,77 @@ async function start() {
     swiped = false;
     event.stopPropagation();
     event.preventDefault();
+  }, true);
+  /* Prevent scroll/wheel on sheets and HUD rails from accidentally orbiting the 3D canvas. */
+  for (const el of root.querySelectorAll('.map-sheet, .map-desk-rail, .map-shortcuts-pop')) {
+    el.addEventListener('wheel', event => event.stopPropagation(), { passive: true });
+    el.addEventListener('pointerdown', event => event.stopPropagation());
+  }
+  /* Quick actions inside Meny: Scorekort, Hålguide, Kameravy, Clean View */
+  if (ui.menuScoreBtn) {
+    ui.menuScoreBtn.onclick = () => {
+      state.scoreHole = null;
+      showSheet(ui.scoreSheet, { opener: ui.menu, replace: true });
+    };
+  }
+  if (ui.menuHoleBtn) {
+    ui.menuHoleBtn.onclick = () => {
+      showSheet(ui.holeSheet, { opener: ui.menu, replace: true });
+    };
+  }
+  if (ui.menuViews) {
+    for (const button of ui.menuViews.querySelectorAll('[data-quick-view]')) {
+      button.onclick = () => {
+        const view = button.dataset.quickView;
+        if (!isDesktop() || !state.deskOpen) showSheet(null);
+        if (view === 'course') {
+          if (state.mode !== 'course') showCourse();
+          return;
+        }
+        state.mode = 'hole';
+        if (view === 'green') {
+          if (!state.greenView) frameGreen();
+          return;
+        }
+        state.view = view;
+        remember(VIEW_KEY, view);
+        state.follow = true;
+        frameHole(500);
+        refreshNumbers();
+      };
+    }
+  }
+  function setCleanView(on) {
+    const next = Boolean(on);
+    root.classList.toggle('is-clean', next);
+    ui.cleanExit.hidden = !next;
+    if (next) {
+      setShortcutsOpen(false);
+      if (panels.current) panels.close();
+      ui.cleanExit.focus({ preventScroll: true });
+    } else {
+      ui.menu.focus({ preventScroll: true });
+    }
+  }
+  ui.cleanExit.onclick = () => setCleanView(false);
+  if (ui.menuClean) ui.menuClean.onclick = () => setCleanView(true);
+  function setShortcutsOpen(open) {
+    const next = Boolean(open);
+    ui.shortcutsPop.hidden = !next;
+    for (const btn of ui.shortcutsBtns) btn.setAttribute('aria-expanded', String(next));
+    if (next) ui.shortcutsPop.querySelector('[data-shortcuts-close]')?.focus({ preventScroll: true });
+  }
+  for (const btn of ui.shortcutsBtns) {
+    btn.onclick = event => {
+      event.stopPropagation();
+      setShortcutsOpen(ui.shortcutsPop.hidden);
+    };
+  }
+  $('[data-shortcuts-close]').onclick = () => setShortcutsOpen(false);
+  document.addEventListener('pointerdown', event => {
+    if (!ui.shortcutsPop.hidden && !ui.shortcutsPop.contains(event.target) && !event.target.closest('[data-shortcuts-btn], [data-shortcuts-btn-alt]')) {
+      setShortcutsOpen(false);
+    }
   }, true);
   ui.overview.onclick = () => {
     setViewMenu(false);
@@ -1701,6 +1856,7 @@ async function start() {
     root.classList.toggle('is-desktop', desk);
     root.classList.toggle('is-desk-open', docked);
     ui.deskRail.hidden = !docked;
+    if (ui.deskCollapsedBar) ui.deskCollapsedBar.hidden = !desk || docked;
     ui.deskOpen.hidden = !desk || docked;
     const modalSheet = activeSheet === ui.startSheet;
     if (docked) {
@@ -1832,7 +1988,7 @@ async function start() {
         return;
       }
       if (action.type === 'clean') {
-        if (isDesktop()) toggleDeskRail(); else openTool(ui.holeSheet, ui.holeTool);
+        setCleanView(!root.classList.contains('is-clean'));
         return;
       }
       if (action.type === 'markers') {
@@ -1842,6 +1998,8 @@ async function start() {
   });
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
+      if (root.classList.contains('is-clean')) { event.preventDefault(); setCleanView(false); return; }
+      if (!ui.shortcutsPop.hidden) { event.preventDefault(); setShortcutsOpen(false); return; }
       if (panels.current) { event.preventDefault(); panels.back(); return; }
       if (state.target) { event.preventDefault(); setAim(null); refreshNumbers(); invalidate(); return; }
       if (state.greenView) { event.preventDefault(); recentre(); return; }
@@ -1873,18 +2031,21 @@ async function start() {
     }
     if (event.ctrlKey || event.metaKey || event.altKey) return;
     if (event.target?.closest?.('[data-wheel-list]') && (event.key === 'ArrowUp' || event.key === 'ArrowDown')) return;
+    if (event.key === '?') { event.preventDefault(); setShortcutsOpen(ui.shortcutsPop.hidden); return; }
+    if (lower === 'i') { event.preventDefault(); if (isDesktop()) toggleDeskRail(); else openTool(ui.holeSheet, ui.holeTool); return; }
+    if (lower === 'b') { event.preventDefault(); openTool(ui.holeSheet, ui.holeTool); return; }
     if (lower === 'g') { event.preventDefault(); if (state.mode === 'hole') { if (state.greenView) recentre(); else frameGreen(); } return; }
     if (lower === 'r') { event.preventDefault(); recentre(); return; }
     if (lower === 's') { event.preventDefault(); state.scoreHole = null; openTool(ui.scoreSheet, ui.score); return; }
     if (lower === 'u') {
       event.preventDefault();
       const next = !display.get('sun');
-      ui.sun.checked = next;
       display.set('sun', next);
+      syncSunUi();
       fitLayout();
       reframeForLayout();
       invalidate();
-      status(next ? 'Solläge på' : 'Solläge av', 1600, true);
+      status(next ? 'Dagläge på' : 'Nattläge på', 1600, true);
       return;
     }
     if (shortcuts.press(event.key)) event.preventDefault();
@@ -2141,15 +2302,94 @@ async function start() {
   }));
 
   /* Each takes effect at once. The picture is framed again: the column may have moved. */
+  function syncSunUi() {
+    const mode = display.get('sunMode');
+    if (ui.sun) ui.sun.checked = display.get('sun');
+    if (ui.sunModes) {
+      for (const btn of ui.sunModes.querySelectorAll('[data-sun-mode]')) {
+        btn.setAttribute('aria-pressed', String(btn.dataset.sunMode === mode));
+      }
+    }
+  }
+  function syncAutoSun() {
+    const elev = lightNow(state.lightClock ?? new Date(), course.geo.origin.lat, course.geo.origin.lon).elevationDegrees;
+    const active = gps.active || (typeof roundUnderWay === 'function' && roundUnderWay());
+    const changed = display.setAutoContext({ solarElevation: elev, activeRound: active });
+    syncSunUi();
+    if (changed) {
+      fitLayout();
+      reframeForLayout();
+      invalidate();
+    }
+  }
   for (const name of ['sun', 'large', 'left']) {
     ui[name].checked = display.get(name);
     ui[name].onchange = () => {
       display.set(name, ui[name].checked);
+      syncSunUi();
       fitLayout();
       diary.add('display', [name, ui[name].checked]);
       reframeForLayout();
       invalidate();
     };
+  }
+  if (ui.sunModes) {
+    for (const btn of ui.sunModes.querySelectorAll('[data-sun-mode]')) {
+      btn.onclick = () => {
+        display.set('sunMode', btn.dataset.sunMode);
+        syncSunUi();
+        fitLayout();
+        reframeForLayout();
+        invalidate();
+      };
+    }
+  }
+  if (ui.allowSleep) {
+    ui.allowSleep.checked = display.get('allowSleep');
+    ui.allowSleep.onchange = () => {
+      display.set('allowSleep', ui.allowSleep.checked);
+      if (ui.allowSleep.checked) screenLock.release();
+      else if (gps.active) screenLock.hold();
+    };
+  }
+  syncSunUi();
+  setInterval(() => { if (!document.hidden) syncAutoSun(); }, NOW_REFRESH_MS);
+
+  /* Sibling-course quick switcher (e.g. Bro Hof Stadium ⇄ Castle) inside Meny → Bana & läge. */
+  let siblingCourses = [];
+  fetch(`${BASE}courses/index.json`).then(r => r.ok ? r.json() : null).then(data => {
+    const list = Array.isArray(data) ? data : data?.courses;
+    if (!Array.isArray(list)) return;
+    siblingCourses = clubLayouts(list, course.slug).filter(item => item.slug !== course.slug);
+    if (!siblingCourses.length || !ui.siblingSection) return;
+    const host = list.find(item => item.slug === course.slug);
+    if (ui.siblingTitle) ui.siblingTitle.textContent = `Byt bana på ${host?.club || course.name}`;
+    ui.siblingSection.hidden = false;
+    renderSiblings();
+  }).catch(() => {});
+  function renderSiblings() {
+    if (!ui.siblings || !siblingCourses.length) return;
+    ui.siblings.replaceChildren(...siblingCourses.map(other => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'map-row map-row-next map-sibling-btn';
+      const label = layoutLabel(other);
+      const sub = `${other.holes || 18} hål · par ${other.par || 72}`;
+      btn.innerHTML = `<span>${label}<small>${sub}</small></span><span class="map-row-value">Öppna</span>`;
+      let armed = 0;
+      btn.onclick = () => {
+        if (roundUnderWay() && !armed) {
+          const val = btn.querySelector('.map-row-value');
+          if (val) val.textContent = `Pausa hål ${state.playing}? Tryck igen`;
+          armed = setTimeout(() => { armed = 0; if (val) val.textContent = 'Öppna'; }, 4500);
+          return;
+        }
+        clearTimeout(armed);
+        if (roundUnderWay()) saveRound();
+        location.href = `${BASE}${mapUrl(other.slug)}`;
+      };
+      return btn;
+    }));
   }
 
   function refreshMenu() {
@@ -2484,6 +2724,17 @@ async function start() {
     const toPar = toParText(totals.toPar);
     const scoreBadge = totals.strokes ? `Score ${toPar}` : 'Score';
     ui.scoreLabel.textContent = scoreBadge;
+    if (ui.holeScore) {
+      ui.holeScore.hidden = !totals.strokes;
+      ui.holeScore.textContent = totals.strokes ? toPar : '';
+    }
+    if (ui.menuScoreTag) {
+      ui.menuScoreTag.hidden = !totals.strokes;
+      ui.menuScoreTag.textContent = totals.strokes ? toPar : '';
+    }
+    if (ui.menuScoreLabel) {
+      ui.menuScoreLabel.textContent = totals.strokes ? `Scorekort · ${toPar}` : roundUnderWay() ? 'För score' : 'Scorekort';
+    }
     const deskScoreTab = ui.deskRail.querySelector('[data-desk-tab="score"]');
     if (deskScoreTab) deskScoreTab.textContent = scoreBadge;
     ui.scoreSum.textContent = totals.played
@@ -3333,8 +3584,11 @@ async function start() {
     state.weather = reading;
     const trusted = air();
     ui.wind.hidden = !trusted;
+    if (ui.greenWind) ui.greenWind.hidden = !trusted;
     if (trusted) {
-      ui.windSpeed.textContent = `${Math.round(trusted.windMs)} m/s`;
+      const text = `${Math.round(trusted.windMs)} m/s`;
+      ui.windSpeed.textContent = text;
+      if (ui.greenWindText) ui.greenWindText.textContent = text;
       ui.wind.setAttribute('aria-label', `Vind ${Math.round(trusted.windMs)} meter per sekund. Tryck för väder.`);
     }
     state.windTurn = null;
@@ -3574,7 +3828,7 @@ async function start() {
     if (box.width !== camera.state.width || box.height !== camera.state.height) resize();
     else { fitLayout(); reframeForLayout(); }
   });
-  for (const element of [root, mapHeader, mapFoot, cameraButtons, ui.deskRail, ui.green, ui.wind, ui.wheel]) hudSize.observe(element);
+  for (const element of [root, mapHeader, mapFoot, cameraButtons, ui.deskRail, ui.green, ui.wind, ui.thumbCluster]) hudSize.observe(element);
   document.addEventListener('visibilitychange', () => {
     state.pace.end = null;
     if (document.visibilityState === 'visible') invalidate();
@@ -3670,6 +3924,7 @@ async function start() {
         if (turn !== state.windTurn) {
           state.windTurn = turn;
           ui.windArrow.style.transform = `rotate(${turn}deg)`;
+          if (ui.greenWindArrow) ui.greenWindArrow.style.transform = `rotate(${turn}deg)`;
         }
       }
       /* Close up the map colours carry the surface and the light only models it;
@@ -3778,7 +4033,9 @@ async function start() {
     state.stats.lastDrawMs = performance.now() - started;
     const settlingOn = state.atEye ? eyeView(origin(), camera.state.bearing, state.eyePitch).y : shown(camera.state.x, camera.state.z);
     if (state.flight || backlog > 0 || shadesWaiting > 0 || Math.abs(settlingOn - camera.state.y) > 0.05) invalidate();
-    if (store.stats().busy === 0 && !state.flight) {
+    const busyTiles = store.stats().busy;
+    root.classList.toggle('is-streaming', busyTiles > 0);
+    if (busyTiles === 0 && !state.flight) {
       refreshProfile();
       refreshGreenPlays();
       /* Read once the 1 m ground under the green is in. */

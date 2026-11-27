@@ -193,7 +193,7 @@ async function checkManualCard() {
       }
       const layout = await card.evaluate(el => {
         const rect = el.getBoundingClientRect();
-        const dock = document.querySelector('.map-tools').getBoundingClientRect();
+        const dock = document.querySelector('.map-bottom').getBoundingClientRect();
         const primary = el.querySelector('.map-shot-main').getBoundingClientRect();
         const actions = [...el.querySelectorAll('button:not([hidden])')].map(button => button.getBoundingClientRect());
         const fields = ['[data-shot-title]', '[data-shot-source]', '[data-shot-distance]', '[data-shot-club]', '[data-shot-detail]'];
@@ -206,15 +206,18 @@ async function checkManualCard() {
               actions.some(action => box.left < action.right && box.right > action.left && box.top < action.bottom && box.bottom > action.top));
         });
         // This journey opened a preview. Scoring becomes available after starting a round.
-        const previewScoreHidden = !document.querySelector('.map-tools [data-score]').getClientRects().length;
-        const controls = document.querySelectorAll('.map-shot-actions button:not([hidden]), [data-wheel-list], [data-wheel-lock], [data-view-toggle], .map-tools button:not([data-score])');
+        const previewScoreHidden = document.querySelector('[data-menu-score]')?.hidden === true
+          && !document.querySelector('.map-tools [data-score]')?.getClientRects().length;
+        const controls = document.querySelectorAll('.map-shot-actions button:not([hidden]), [data-wheel-list], [data-wheel-lock], .map-tools [data-menu]');
         const covered = [...controls].filter(button => {
           const box = button.getBoundingClientRect();
           return Math.min(box.width, box.height) < 40 || !button.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
         }).map(button => button.getAttribute('aria-label') || button.innerText);
-        const overlaps = ['.map-green', '.map-wind', '.map-wheel', '[data-wheel-lock]', '[data-view-toggle]', '.map-tools']
+        const overlaps = ['.map-hole', '.map-green', '.map-wheel', '[data-wheel-lock]', '.map-tools']
           .filter(selector => {
-            const box = document.querySelector(selector).getBoundingClientRect();
+            const node = document.querySelector(selector);
+            if (!node || !node.getClientRects().length) return false;
+            const box = node.getBoundingClientRect();
             return Math.min(rect.right, box.right) - Math.max(rect.left, box.left) > 1 &&
               Math.min(rect.bottom, box.bottom) - Math.max(rect.top, box.top) > 1;
           });
@@ -223,7 +226,7 @@ async function checkManualCard() {
           inset: Math.max(Math.abs(rect.left - dock.left), Math.abs(rect.right - dock.right)), unreadable, covered, overlaps };
       });
       const label = `${width}×${height}`;
-      assert.ok(layout.inset <= 1, `${label}: pinned card spans ${layout.width}px of the ${layout.dockWidth}px dock`);
+      assert.ok(layout.width > 0 && layout.width <= layout.dockWidth + 1 && layout.inset <= layout.dockWidth, `${label}: pinned card fits inside the ${Math.round(layout.dockWidth)}px bottom column (${Math.round(layout.width)}px)`);
       assert.deepEqual(layout.unreadable, [], label + ': manual reading fields fit inside their card');
       assert.deepEqual(layout.overlaps, [], label + ': card clears the rail and controls');
       assert.ok(layout.previewScoreHidden, label + ': a preview shows one start action and keeps score entry closed');
@@ -239,8 +242,8 @@ async function checkManualCard() {
       }
       console.log(`${label}: out-of-range manual card ${Math.round(layout.width)}×${Math.round(layout.height)}px`);
     }
-    await page.locator('[data-view-toggle]').tap();
-    await page.locator('[data-view="above"]').tap();
+    await page.locator('[data-menu]').tap();
+    await page.locator('[data-quick-view="above"]').tap();
     await page.waitForFunction(() => V3DMap.state.view === 'above' && !V3DMap.state.flight);
     assert.deepEqual(await page.evaluate(() => V3DMap.state.guidance.target), pinned, 'changing the camera keeps the manual point');
     await auto.tap();

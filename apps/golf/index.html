@@ -38,9 +38,9 @@ canvas{display:block;position:fixed;inset:0}
 #bootMode{color:var(--turf);font:650 14px/1.4 Outfit,sans-serif;margin-bottom:5px}
 #bootStage{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
 .boot-recovery :is(a,button){display:inline-flex;align-items:center;justify-content:center;min-height:var(--touch-target);
-  border:1px solid var(--edge);border-radius:12px;background:#14291e;color:var(--ink);font:600 15px Outfit,sans-serif;
+  border:1px solid var(--edge);border-radius:var(--bv-radius-control);background:var(--bv-surface-card);color:var(--ink);font:600 var(--bv-type-body) var(--bv-font);
   padding:8px 16px;text-decoration:none;cursor:pointer}
-.boot-recovery button{background:var(--turf);color:#092314}
+.boot-recovery button{background:var(--bv-action);border-color:transparent;color:var(--bv-on-action);font-weight:750}
 /* THE COURSE BEHIND THE LOADING (2 November): eight to eleven seconds of a dark
    screen became the course's own picture, the chooser's poster, laid in dim and
    drifting slowly, with the progress in front of it. Still under reduced motion. */
@@ -101,26 +101,73 @@ canvas{display:block;position:fixed;inset:0}
 
 /* ---- panels ---- */
 .panel{position:fixed;z-index:20;background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);
-  -webkit-backdrop-filter:blur(22px) saturate(1.25);border:1px solid var(--edge);border-radius:15px;
-  box-shadow:0 18px 46px rgba(0,0,0,.45)}
+  -webkit-backdrop-filter:blur(22px) saturate(1.25);border:1px solid var(--edge);border-radius:var(--bv-radius-card);
+  box-shadow:var(--bv-shadow-hud)}
 
-/* card */
-#card{top:14px;left:50%;transform:translateX(-50%);padding:9px 12px;display:flex;gap:13px;align-items:center}
-#card .no{font-size:26px;font-weight:800;line-height:1;min-width:34px;text-align:center}
-#card .mid{display:flex;flex-direction:column;gap:2px}
-#card .nm{font-size:12.5px;font-weight:600;white-space:nowrap;max-width:min(38vw,340px);overflow:hidden;text-overflow:ellipsis}
-#card .pi{font-size:10px;color:var(--dim);letter-spacing:.05em}
-#tees{display:flex;gap:5px}
-.tee{padding:4px 7px;border-radius:8px;text-align:center;min-width:44px;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:all .15s}
-.tee b{display:block;font-size:12.5px;font-weight:700;font-family:var(--bv-font);font-variant-numeric:tabular-nums}
-/* the tee's name is what a golfer calls it ("58"): 8 px at 62% was a smudge under the length */
-.tee i{display:block;font-size:9.5px;font-weight:600;font-style:normal;letter-spacing:.04em;opacity:.78;margin-top:1px}
-.tee.on i{opacity:1}
-.tee.on{background:rgba(95,208,122,.16);border-color:rgba(95,208,122,.45)}
+/* Unified Top-Center Hole & Tee Stepper Pill (#card) */
+#card{top:calc(12px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:4px 6px;display:flex;gap:4px;align-items:center;border-radius:var(--bv-radius-pill);min-height:48px}
+.card-step{display:grid;place-items:center;width:36px;height:38px;border:0;border-radius:var(--bv-radius-pill);background:transparent;color:var(--dim);font:700 var(--bv-type-title2)/1 var(--bv-font);cursor:pointer;transition:background var(--bv-dur-press),color var(--bv-dur-press);touch-action:manipulation}
+.card-step:hover{background:var(--bv-surface-2);color:var(--ink)}
+.card-hole-trigger{display:inline-flex;align-items:center;gap:9px;min-height:38px;padding:2px 8px;border:0;border-radius:var(--bv-radius-pill);background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:background var(--bv-dur-press);touch-action:manipulation}
+.card-hole-trigger:hover{background:var(--bv-surface-2)}
+#card .no{font-size:var(--bv-type-title2);font-weight:800;line-height:1;min-width:24px;text-align:center;font-variant-numeric:tabular-nums}
+#card .mid{display:flex;flex-direction:column;gap:1px;min-width:0}
+#card .nm{font-size:var(--bv-type-footnote);font-weight:650;white-space:nowrap;max-width:min(28vw,220px);overflow:hidden;text-overflow:ellipsis}
+#card .pi{font-size:var(--bv-type-caption);color:var(--dim);letter-spacing:.04em}
+#tees{display:none}
+.card-tee-btn{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 10px;border:1px solid var(--bv-hairline-strong);border-radius:var(--bv-radius-pill);background:var(--bv-surface-2);color:var(--ink);font:650 var(--bv-type-footnote)/1 var(--bv-font);font-variant-numeric:tabular-nums;white-space:nowrap;cursor:pointer;transition:background var(--bv-dur-press),border-color var(--bv-dur-press);touch-action:manipulation}
+.card-tee-btn:hover,.card-tee-btn[aria-expanded="true"]{background:var(--bv-surface-3);border-color:var(--bv-selected-border)}
+.card-tee-dot{width:8px;height:8px;border-radius:var(--bv-radius-pill);flex:none}
+.card-tee-chev{font-size:var(--bv-type-caption);color:var(--dim)}
 
-/* right rail */
-#rail{top:14px;right:14px;padding:9px;display:flex;flex-direction:column;gap:7px;width:216px}
+/* Detailed 3D Shell Overlays (.det-hud) */
+.det-top-right{position:fixed;top:calc(12px + env(safe-area-inset-top));right:calc(14px + env(safe-area-inset-right));z-index:24;display:flex;align-items:center;gap:8px}
+.det-icon-btn{width:44px;height:44px;border-radius:var(--bv-radius-pill);background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);-webkit-backdrop-filter:blur(22px) saturate(1.25);border:1px solid var(--edge);box-shadow:var(--bv-shadow-hud);font:700 var(--bv-type-body)/1 var(--bv-font)}
+.det-icon-btn.is-active{background:var(--bv-surface-3);border-color:var(--bv-selected-border)}
+.det-cam-bar{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:22;display:inline-flex;align-items:center;gap:6px;padding:4px;border-radius:var(--bv-radius-pill);max-width:calc(100vw - 16px)}
+.det-cam-seg{background:transparent;border:0;padding:0;gap:3px}
+.det-cam-seg button{min-height:38px;padding:0 12px;border-radius:var(--bv-radius-pill);font-size:var(--bv-type-footnote)}
+.det-cam-short{display:none}
+.det-bar-btn{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 13px;border:1px solid var(--bv-hairline-strong);border-radius:var(--bv-radius-pill);background:var(--bv-surface-2);color:var(--ink);font:650 var(--bv-type-footnote)/1 var(--bv-font);white-space:nowrap;cursor:pointer;touch-action:manipulation;transition:background var(--bv-dur-press),border-color var(--bv-dur-press)}
+.det-bar-btn:hover,.det-bar-btn.is-on{background:var(--bv-surface-3);border-color:var(--bv-selected-border)}
+.det-tools-btn{display:none}
+
+/* Anchored Popovers (18-Hole Grid, Tee Picker, Shortcuts) */
+.det-pop{position:fixed;z-index:46;min-width:240px;max-width:min(340px,calc(100vw - 24px))}
+.det-pop[hidden]{display:none}
+.det-hole-pop,.det-tee-pop{top:calc(68px + env(safe-area-inset-top));left:50%;transform:translateX(-50%)}
+.det-shortcuts-pop{top:calc(64px + env(safe-area-inset-top));right:calc(14px + env(safe-area-inset-right));width:min(320px,calc(100vw - 24px))}
+.det-pop-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.det-pop-head strong{font:700 var(--bv-type-body)/1.2 var(--bv-font);color:var(--ink)}
+.det-pop-close{display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--bv-hairline);border-radius:var(--bv-radius-pill);background:var(--bv-surface-2);color:var(--ink);font:600 var(--bv-type-headline)/1 var(--bv-font);cursor:pointer}
+.det-hole-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
+.det-hole-cell{min-height:42px;border:1px solid var(--bv-hairline);border-radius:var(--bv-radius-control);background:var(--bv-surface-2);color:var(--ink);font:700 var(--bv-type-footnote)/1 var(--bv-font);font-variant-numeric:tabular-nums;cursor:pointer}
+.det-hole-cell:hover{background:var(--bv-surface-3)}
+.det-hole-cell.is-active{background:var(--bv-action);border-color:transparent;color:var(--bv-on-action)}
+.det-tee-list{display:grid;gap:5px}
+.det-tee-row{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:0 12px;border:1px solid var(--bv-hairline);border-radius:var(--bv-radius-control);background:var(--bv-surface-2);color:var(--ink);font:600 var(--bv-type-body)/1 var(--bv-font);cursor:pointer;text-align:left}
+.det-tee-row span:last-child{margin-left:auto;color:var(--dim);font-variant-numeric:tabular-nums}
+.det-tee-row.is-active{background:var(--bv-surface-3);border-color:var(--bv-selected-border)}
+.det-sc-list{list-style:none;display:grid;gap:4px}
+.det-sc-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0;border-top:1px solid var(--bv-hairline);font-size:var(--bv-type-footnote);color:var(--dim)}
+.det-sc-list li:first-child{border-top:0}
+.det-sc-list b{color:var(--ink);font-weight:600;white-space:nowrap}
+.det-sc-list kbd{display:inline-block;padding:1px 5px;border-radius:var(--bv-radius-chip);background:var(--bv-surface-3);border:1px solid var(--bv-hairline-strong);font:700 var(--bv-type-caption)/1.3 var(--bv-font);color:var(--ink)}
+
+/* Tabbed Right Inspector (#rail) */
+.det-rail-tabs{display:grid;grid-template-columns:1fr 1fr;width:100%}
+.det-rail-tabs button{min-height:34px;font-size:var(--bv-type-footnote)}
+#rail .grp.det-mobile-extras{display:none}
+#rail .rail-hole-summary,#rail [data-cam],#rail .lbl[title*="kameravy" i]{display:none}
+#rail .grp:has([data-cam]){display:none}
+#rail[data-rail-tab="tools"] #railLights{display:none}
+#rail[data-rail-tab="lights"] > :not(.det-rail-tabs):not(#railLights):not(.rail-hole-summary):not(#railCloseBtn){display:none}
+#rail[data-rail-tab="lights"] #railLights summary{display:none}
+body.hub .det-hud,body.course-map .det-hud,body.pl-on .det-hud,body.clean .det-hud,body.choosing .det-hud{display:none!important}
+.boot-cancel{background:var(--bv-surface-card)!important;border:1px solid var(--bv-hairline-strong)!important;color:var(--ink)!important;font-weight:650!important}
+
+/* right rail — calm collapsible Inspector sitting neatly below top-right [?] [◧] */
+#rail{top:calc(64px + env(safe-area-inset-top));right:calc(14px + env(safe-area-inset-right));padding:10px;display:flex;flex-direction:column;gap:7px;width:258px}
 /* The rail grows DOWN from the top-right and the minimap is pinned UP from the
    bottom-right, both sized by their own content, so nothing in the markup keeps
    them apart: on a window a little shorter than the two of them stacked, the
@@ -150,15 +197,15 @@ canvas{display:block;position:fixed;inset:0}
 :root{
   --mini-floor:140px; --mini-cap:232px; --rail-natural:572px;
   --mini-size:clamp(var(--mini-floor),
-    min(calc(100vh - 42px - var(--rail-natural)), calc(50vw - 351px)),
+    min(calc(100dvh - 42px - var(--rail-natural)), calc(50vw - 351px)),
     var(--mini-cap));
 }
 .grp{display:flex;gap:5px}
-.btn{flex:1;min-width:0;padding:6px 4px;border-radius:9px;border:1px solid rgba(255,255,255,.07);
-  background:rgba(255,255,255,.04);color:var(--dim);font:600 10px/1.2 Outfit,sans-serif;
-  cursor:pointer;text-align:center;letter-spacing:.04em;transition:.15s}
-.btn:hover{background:rgba(255,255,255,.09);color:var(--ink)}
-.btn.on{background:rgba(95,208,122,.17);border-color:rgba(95,208,122,.42);color:var(--turf)}
+.btn{flex:1;min-width:0;padding:6px 5px;border-radius:var(--bv-radius-control);border:1px solid var(--bv-hairline);
+  background:var(--bv-surface-2);color:var(--dim);font:600 var(--bv-type-caption)/1.2 var(--bv-font);
+  cursor:pointer;text-align:center;letter-spacing:.03em;transition:.15s}
+.btn:hover{background:var(--bv-surface-3);color:var(--ink)}
+.btn.on{background:var(--bv-surface-3);border-color:var(--bv-selected-border);color:var(--ink)}
 /* four light names in one row on the desktop rail: less side padding leaves
    Sommar room to fit (the short-window tiers below restate the rail's padding) */
 @media(min-width:769px){#rail .grp.tight .btn{padding-left:2px;padding-right:2px}}
@@ -166,12 +213,12 @@ canvas{display:block;position:fixed;inset:0}
    (54 px) ran out of the panel at 1440 x 900. Content widths fit in 188 of 198. */
 #rail .grp.fit .btn{flex:1 1 auto}
 .rail-lights{padding:0 2px}
-.rail-lights summary{padding:7px 0;font-size:12px;font-weight:650;color:var(--ink);cursor:pointer}
-.rail-lights summary span{float:right;margin-left:6px;color:var(--turf)}
+.rail-lights summary{padding:7px 0;font-size:var(--bv-type-footnote);font-weight:650;color:var(--ink);cursor:pointer}
+.rail-lights summary span{float:right;margin-left:6px;color:var(--dim)}
 .rail-lights .grp{margin:5px 0}
 @media(pointer:coarse){.rail-lights summary{min-height:44px;padding:13px 0}}
-.lbl{font-size:8.5px;color:var(--faint);letter-spacing:.15em;text-transform:uppercase;margin:2px 0 -1px}
-#facts{font-size:10px;color:var(--dim);line-height:1.55;padding-top:4px;border-top:1px solid rgba(255,255,255,.06)}
+.lbl{font-size:var(--bv-type-caption);color:var(--faint);letter-spacing:.12em;text-transform:uppercase;margin:2px 0 -1px}
+#facts{font-size:var(--bv-type-caption);color:var(--dim);line-height:1.55;padding-top:4px;border-top:1px solid var(--bv-hairline)}
 #facts b{color:var(--ink);font-family:var(--bv-font);font-variant-numeric:tabular-nums;font-weight:600}
 #facts .data-status{color:#e9bb6a;font-weight:600}
 
@@ -180,21 +227,7 @@ canvas{display:block;position:fixed;inset:0}
    change (hover, focus or a click opens it), so the course is the picture. */
 .rail-fold-btn,.rail-fold-label{display:none}
 @media(min-width:769px){
-  .rail-hole-summary{position:relative;padding-right:24px}
-  .rail-fold-btn{display:flex;align-items:center;justify-content:center;position:absolute;top:0;right:0;width:22px;height:22px;
-    border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--ink);cursor:pointer;
-    transition:transform .25s ease,background .2s ease}
-  .rail-fold-btn:hover{background:rgba(95,208,122,.18)}
-  .rail-fold-btn:focus-visible{outline:2px solid rgba(95,208,122,.8);outline-offset:2px}
-  body.rail-folded #rail>:not(.rail-hole-summary){display:none}
-  body.rail-folded #rail .rail-hole-summary{display:flex;flex-direction:column;margin:0;padding:0;border:0}
-  body.rail-folded #rail .rhs-main{display:none}
-  body.rail-folded .rail-fold-btn{position:static;order:-1;justify-content:space-between;gap:8px;width:100%;
-    min-height:44px;padding:4px;border:0;border-radius:8px;background:transparent;text-align:left}
-  body.rail-folded .rail-fold-btn::after{content:'';position:absolute;inset:0}
-  body.rail-folded .rail-fold-btn:hover{background:rgba(95,208,122,.12)}
-  body.rail-folded .rail-fold-label{display:block;font:700 11.5px/1.2 Outfit,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--turf)}
-  body.rail-folded .rail-fold-btn svg{transform:rotate(180deg)}
+  body.rail-folded #rail{display:none}
   #note.folded #ntx{display:none}
   #note.folded .panel-head-bar{margin-bottom:0}
   #note.folded{cursor:pointer}
@@ -221,7 +254,7 @@ canvas{display:block;position:fixed;inset:0}
   justify-content:center;cursor:pointer;transition:all .15s}
 .panel-close-btn:hover{background:rgba(255,255,255,.16);color:#fff}
 .mini-head{display:none;align-items:center;justify-content:space-between;padding:0 2px 6px}
-.mini-title{font:700 10.5px/1 Outfit,sans-serif;color:var(--turf);letter-spacing:.08em;text-transform:uppercase}
+.mini-title{font:700 var(--bv-type-caption)/1 var(--bv-font);color:var(--bv-ink-2);letter-spacing:.08em;text-transform:uppercase}
 .sheet-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:43;opacity:0;transition:opacity .25s ease;pointer-events:none}
 .sheet-backdrop.open{display:block;opacity:1;pointer-events:auto}
 
@@ -247,16 +280,16 @@ canvas{display:block;position:fixed;inset:0}
 .btn-toggle.on .btn-toggle-dot{background:#5fd07a;box-shadow:0 0 6px rgba(95,208,122,.8)}
 .btn-nav{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-color:rgba(255,255,255,.14)}
 .btn-nav svg{color:var(--turf)}
-.tool-hint{font-size:10px;line-height:1.35;color:var(--faint);padding:0 3px;margin:-2px 0 6px;letter-spacing:.01em}
-.debug-pipeline{opacity:.45;font-size:9.5px}
+.tool-hint{font-size:var(--bv-type-caption);line-height:1.35;color:var(--faint);padding:0 3px;margin:-2px 0 6px;letter-spacing:.01em}
+.debug-pipeline{opacity:.45;font-size:var(--bv-type-caption)}
 
-/* holes container & chevrons */
-.holes-wrap{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:6px}
+/* holes container retired visually in favor of Top-Center Stepper Pill + 18-Hole Popover Grid */
+.holes-wrap{display:none!important}
 #holes{position:static;transform:none;padding:6px;display:flex;gap:3px}
-.hb{width:29px;height:29px;border-radius:8px;border:1px solid transparent;background:transparent;
-  color:var(--faint);font:600 11px/1 Outfit,sans-serif;cursor:pointer;transition:.13s}
-.hb:hover{background:rgba(255,255,255,.07);color:var(--ink)}
-.hb.on{background:var(--turf);color:#04140a;font-weight:800}
+.hb{width:29px;height:29px;border-radius:var(--bv-radius-control);border:1px solid transparent;background:transparent;
+  color:var(--dim);font:600 var(--bv-type-caption)/1 var(--bv-font);cursor:pointer;transition:.13s}
+.hb:hover{background:var(--bv-surface-2);color:var(--ink)}
+.hb.on{background:var(--bv-action);color:var(--bv-on-action);font-weight:800}
 .hole-step-btn{width:29px;height:29px;border-radius:8px;background:var(--glass);backdrop-filter:blur(18px);
   -webkit-backdrop-filter:blur(18px);border:1px solid var(--edge);color:var(--dim);font:700 16px/1 Outfit,sans-serif;
   display:grid;place-items:center;cursor:pointer;transition:all .15s}
@@ -277,7 +310,7 @@ canvas{display:block;position:fixed;inset:0}
    being siblings. */
 #mini{bottom:14px;right:14px;width:var(--mini-size);height:var(--mini-size);padding:7px}
 @media(min-width:769px){
-  #rail{max-height:calc(100vh - 42px - var(--mini-size));overflow-y:auto;overscroll-behavior:contain;
+  #rail{max-height:calc(100dvh - 42px - var(--mini-size));overflow-y:auto;overscroll-behavior:contain;
     /* A scrollbar inside glass is louder than the panel it sits in. */
     scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
 }
@@ -299,9 +332,9 @@ canvas{display:block;position:fixed;inset:0}
 /* Shown for the first six seconds of a visit (main.js fades it), so it has to
    read straight away: a glass pill at the 12 px the drag hint needs on terrain,
    where 10 px faint text on the grass did not. */
-#hint{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:19;font-size:12px;
+#hint{position:fixed;bottom:calc(70px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:19;font-size:var(--bv-type-footnote);
   color:var(--dim);letter-spacing:.04em;pointer-events:none;transition:opacity .6s;
-  padding:5px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--edge);white-space:nowrap}
+  padding:5px 12px;border-radius:var(--bv-radius-pill);background:var(--glass);border:1px solid var(--edge);white-space:nowrap}
 
 /* Mobile HUD Quick Actions */
 .mobile-hud-cluster{display:none;position:fixed;z-index:21;right:calc(8px + env(safe-area-inset-right));
@@ -320,7 +353,7 @@ canvas{display:block;position:fixed;inset:0}
    screens (the start menu, the chooser and the settings), the bag editor the
    settings open, the boot cover and the toast, so no placeholder HUD shows
    through the glass or takes keyboard focus behind it. */
-body.hub>:not(#home):not(#chooser):not(#settings):not(#stats):not(#courseSheet):not(#clubPicker):not(#bagDialog):not(#boot):not(#toast):not(script){display:none!important}
+body.hub>:not(#home):not(#chooser):not(#settings):not(#stats):not(#courseSheet):not(#hubTabBar):not(#bagDialog):not(#boot):not(#toast):not(script){display:none!important}
 
 /* ren vy: everything fades, the landscape stays. The ghost button brings it back. */
 .panel,#hint,#uiToggle,#courseNav,.holes-wrap,.mobile-hud-cluster,#gpsStatus{transition:opacity .35s}
@@ -432,9 +465,9 @@ body.tour::before{top:0}body.tour::after{bottom:0}
   display: flex;
   justify-content: space-between;
   margin-top: 4px;
-  font: 700 9.5px/1 Outfit, sans-serif;
+  font: 700 var(--bv-type-caption)/1 var(--bv-font);
   color: var(--faint);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
 }
 @media (max-width: 620px) {
   #tourCard {
@@ -458,50 +491,50 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 #kikGreen{display:none;padding:7px 12px 6px;font-variant-numeric:tabular-nums}
 #kikGreen.show{display:flex;flex-direction:row-reverse;align-items:flex-end;gap:14px}
 .kg-row{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:44px}
-.kg-row i{font:600 8px/1 Outfit,sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.kg-row i{font:600 var(--bv-type-caption)/1 var(--bv-font);font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
 .kg-row b{font:600 17px/1.05 var(--bv-font);font-variant-numeric:tabular-nums;color:var(--ink)}
-.kg-row.mid i{color:var(--turf)}
-.kg-row.mid b{font-size:26px;color:#fff}
-.kg-row b em{font:600 9px/1 Outfit,sans-serif;font-style:normal;color:var(--dim);margin-left:2px}
+.kg-row.mid i{color:var(--bv-signal)}
+.kg-row.mid b{font-size:26px;color:var(--bv-signal)}
+.kg-row b em{font:600 var(--bv-type-caption)/1 var(--bv-font);font-style:normal;color:var(--dim);margin-left:2px}
 #kikTag{position:fixed;left:0;top:0;z-index:22;pointer-events:none;opacity:0;transition:opacity .15s;will-change:transform}
 #kikTag[hidden]{display:none}
-.kt-box{position:relative;transform:translate(-50%,calc(-100% - 20px));padding:6px 12px 6px;border-radius:13px;
+.kt-box{position:relative;transform:translate(-50%,calc(-100% - 20px));padding:6px 12px 6px;border-radius:var(--bv-radius-control-touch);
   background:var(--glass);backdrop-filter:blur(18px) saturate(1.25);-webkit-backdrop-filter:blur(18px) saturate(1.25);
-  border:1px solid rgba(255,223,138,.32);box-shadow:0 10px 26px rgba(0,0,0,.45);text-align:center;white-space:nowrap}
+  border:1px solid rgba(255,210,63,.38);box-shadow:var(--bv-shadow-hud);text-align:center;white-space:nowrap}
 .kt-box::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:20px;
-  background:linear-gradient(rgba(255,223,138,.95),rgba(255,223,138,0))}
-.kt-box b{display:block;font:700 23px/1 var(--bv-font);color:#fff;font-variant-numeric:tabular-nums}
-.kt-box b em{font:600 10px/1 Outfit,sans-serif;font-style:normal;color:var(--dim);margin-left:2px}
-.kt-box span{display:block;margin-top:4px;font:500 9.5px/1.2 Outfit,sans-serif;color:var(--dim)}
+  background:linear-gradient(rgba(255,210,63,.95),rgba(255,210,63,0))}
+.kt-box b{display:block;font:700 var(--bv-type-title2)/1 var(--bv-font);color:var(--bv-signal);font-variant-numeric:tabular-nums}
+.kt-box b em{font:600 var(--bv-type-caption)/1 var(--bv-font);font-style:normal;color:var(--dim);margin-left:2px}
+.kt-box span{display:block;margin-top:4px;font:500 var(--bv-type-caption)/1.2 var(--bv-font);color:var(--dim)}
 .kt-box span i{font-style:normal;font-family:var(--bv-font);font-variant-numeric:tabular-nums;color:var(--ink)}
-.kt-box span u{text-decoration:none;color:#ffdf8a}
+.kt-box span u{text-decoration:none;color:var(--bv-signal)}
 #kikOut{display:none;width:min(336px,calc(100vw - 28px));padding:0;
-  overflow:hidden;font-size:11px;line-height:1.55;color:var(--dim)}
+  overflow:hidden;font-size:var(--bv-type-caption);line-height:1.55;color:var(--dim)}
 #kikOut.show{display:block}
 #kikOut b{color:var(--ink);font-family:var(--bv-font);font-weight:600;font-variant-numeric:tabular-nums}
 .kik-grab{display:none}
-.kik-head{display:flex;align-items:center;gap:7px;padding:9px 11px 7px;border-bottom:1px solid rgba(255,255,255,.07)}
-.kik-head>b{font:750 12px/1 Outfit,sans-serif!important;letter-spacing:.02em}
-.kik-head>span{font-size:9.5px;color:var(--faint);margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kik-head{display:flex;align-items:center;gap:7px;padding:9px 11px 7px;border-bottom:1px solid var(--bv-hairline)}
+.kik-head>b{font:750 var(--bv-type-footnote)/1 var(--bv-font)!important;letter-spacing:.02em}
+.kik-head>span{font-size:var(--bv-type-caption);color:var(--faint);margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .kik-chev{display:none;width:22px;height:22px;flex:0 0 auto;color:var(--faint);transition:transform .2s}
-.kik-live{display:inline-flex;align-items:center;gap:5px;color:#9af0aa!important}
-.kik-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#66e58a;box-shadow:0 0 7px #66e58a;flex:0 0 auto}
+.kik-live{display:inline-flex;align-items:center;gap:5px;color:var(--bv-turf-hi)!important}
+.kik-live::before{content:"";width:6px;height:6px;border-radius:var(--bv-radius-pill);background:var(--bv-turf);box-shadow:0 0 7px var(--bv-turf);flex:0 0 auto}
 .kik-peek{padding:6px 11px 2px}
 .kik-body{padding:2px 11px 9px}
 .kik-row{padding:3px 0}
 .kik-line{display:flex;align-items:center;gap:8px;padding:3px 0 5px;color:var(--dim)}
 .kik-line>span{flex:1;min-width:0}
-.kik-line b{font-size:12px}
-.kik-recommend{display:flex;align-items:center;gap:10px;margin:3px 0 5px;padding:8px 9px;border-radius:10px;
-  background:linear-gradient(120deg,rgba(95,208,122,.17),rgba(95,208,122,.07));border:1px solid rgba(95,208,122,.28)}
-.kik-club{min-width:58px;font:800 17px/1 Outfit,sans-serif;color:#fff}
+.kik-line b{font-size:var(--bv-type-footnote)}
+.kik-recommend{display:flex;align-items:center;gap:10px;margin:3px 0 5px;padding:8px 9px;border-radius:var(--bv-radius-control);
+  background:var(--bv-surface-2);border:1px solid var(--bv-hairline-strong)}
+.kik-club{min-width:58px;font:800 var(--bv-type-title3)/1 var(--bv-font);color:var(--bv-signal)}
 .kik-club-copy{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;color:var(--dim);line-height:1.25}
-.kik-club-copy b{font:700 11px/1.2 Outfit,sans-serif!important}
-.kik-btn{border:1px solid rgba(255,255,255,.13);border-radius:8px;padding:5px 8px;background:rgba(255,255,255,.06);
-  color:var(--ink);font:650 9.5px/1 Outfit,sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto}
-.kik-btn:hover{border-color:rgba(95,208,122,.45);background:rgba(95,208,122,.12)}
-.kik-haz.water{color:#80d8f1}.kik-haz.sand{color:#f0dcaa}
-.kik-wx{margin-top:5px;padding-top:6px;border-top:1px solid rgba(255,255,255,.06);font-size:9.5px;color:var(--faint)}
+.kik-club-copy b{font:700 var(--bv-type-caption)/1.2 var(--bv-font)!important}
+.kik-btn{border:1px solid var(--bv-hairline-strong);border-radius:var(--bv-radius-control);padding:5px 8px;background:var(--bv-surface-2);
+  color:var(--ink);font:650 var(--bv-type-caption)/1 var(--bv-font);cursor:pointer;white-space:nowrap;flex:0 0 auto}
+.kik-btn:hover{border-color:var(--bv-selected-border);background:var(--bv-surface-3)}
+.kik-haz.water{color:var(--bv-water)}.kik-haz.sand{color:var(--bv-sand)}
+.kik-wx{margin-top:5px;padding-top:6px;border-top:1px solid var(--bv-hairline);font-size:var(--bv-type-caption);color:var(--faint)}
 
 /* GPS: permission is requested only from a deliberate button press. Live, the
    state is a small pill (pulse, hole, accuracy, a way out) and a round locate
@@ -511,16 +544,16 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 #gpsStatus{position:fixed;z-index:24;top:72px;left:14px;display:flex;align-items:center;gap:8px;
   max-width:min(430px,calc(100vw - 28px))}
 #gpsStatus[hidden]{display:none}
-.gps-pill{display:flex;align-items:center;gap:7px;min-width:0;min-height:32px;padding:0 5px 0 11px;border-radius:16px;
+.gps-pill{display:flex;align-items:center;gap:7px;min-width:0;min-height:32px;padding:0 5px 0 11px;border-radius:var(--bv-radius-pill);
   background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);-webkit-backdrop-filter:blur(22px) saturate(1.25);
-  border:1px solid var(--edge);box-shadow:0 12px 32px rgba(0,0,0,.4);font-size:10.5px;color:var(--dim)}
-.gps-pulse{width:8px;height:8px;border-radius:50%;background:#66e58a;box-shadow:0 0 0 0 rgba(102,229,138,.65);
+  border:1px solid var(--edge);box-shadow:var(--bv-shadow-hud);font-size:var(--bv-type-caption);color:var(--dim)}
+.gps-pulse{width:8px;height:8px;border-radius:var(--bv-radius-pill);background:var(--bv-turf);box-shadow:0 0 0 0 rgba(102,229,138,.65);
   flex:0 0 auto;animation:gpsPulse 1.8s ease-out infinite}
 #gpsStatus[data-state="waiting"] .gps-pulse{background:var(--amber);animation:gpsPulseWait 1.3s ease-in-out infinite}
-#gpsStatus[data-state="error"] .gps-pulse{background:#ef7c67;animation:none}
+#gpsStatus[data-state="error"] .gps-pulse{background:var(--bv-danger);animation:none}
 #gpsStatus[data-state="error"] .gps-pill{border-color:rgba(239,124,103,.4)}
 .gps-copy{min-width:0;display:flex;align-items:baseline;gap:6px}
-.gps-copy b{color:var(--ink);font-size:10.5px;letter-spacing:.04em}
+.gps-copy b{color:var(--ink);font-size:var(--bv-type-caption);letter-spacing:.04em}
 .gps-copy span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--bv-font);font-variant-numeric:tabular-nums}
 .gps-action{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.1);
   background:rgba(255,255,255,.06);color:var(--dim);font:500 15px/1 Outfit,sans-serif;cursor:pointer;flex:0 0 auto}
@@ -582,8 +615,8 @@ body.gps-on #v2TerrainBadge{top:118px}
   box-shadow:0 8px 28px rgba(0,0,0,.28);backdrop-filter:blur(16px) saturate(1.2);
   -webkit-backdrop-filter:blur(16px) saturate(1.2);pointer-events:none}
 #v2TerrainBadge[hidden],body.clean #v2TerrainBadge{display:none}
-#v2TerrainBadge b{font:700 10px/1.2 var(--bv-font);font-variant-numeric:tabular-nums;letter-spacing:.08em;color:#9af0aa}
-#v2TerrainBadge span{font-size:10px;line-height:1.25;color:var(--dim)}
+#v2TerrainBadge b{font:700 var(--bv-type-caption)/1.2 var(--bv-font);font-variant-numeric:tabular-nums;letter-spacing:.08em;color:var(--bv-turf-hi)}
+#v2TerrainBadge span{font-size:var(--bv-type-caption);line-height:1.25;color:var(--dim)}
 #v2TerrainBadge[data-state="fallback"]{border-color:rgba(226,178,89,.35)}
 #v2TerrainBadge[data-state="fallback"] b{color:#efc676}
 @media(max-width:700px){#v2TerrainBadge{left:8px;top:calc(64px + env(safe-area-inset-top));
@@ -592,84 +625,59 @@ body.gps-on #v2TerrainBadge{top:118px}
 /* Responsive Breakpoints & Mobile Intelligence */
 @media(max-width:980px){
   #mini,#note{display:none}
-  .mobile-hud-cluster{display:flex}
-  /* the quick actions are pressed mid-round with a thumb: 31 px was under every
-     touch guideline; the sheets above them (the binoculars, the overview, the
-     guide) moved up the 8 px the bar grew */
-  .m-hud-btn{min-height:44px}
+  .mobile-hud-cluster{display:none!important}
+  #rail .grp.det-mobile-extras{display:flex}
   #mini.mobile-open{display:flex;flex-direction:column;position:fixed;z-index:44;
-    bottom:calc(114px + env(safe-area-inset-bottom));right:calc(8px + env(safe-area-inset-right));
+    bottom:calc(74px + env(safe-area-inset-bottom));right:calc(8px + env(safe-area-inset-right));
     width:min(280px,calc(100vw - 16px),calc(100dvh - 126px - env(safe-area-inset-bottom) - env(safe-area-inset-top)));height:auto;aspect-ratio:1;padding:8px;
-    border-radius:18px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
+    border-radius:var(--bv-radius-sheet);box-shadow:var(--bv-shadow-2)}
   #mini.mobile-open .mini-head{display:flex}
   #mini.mobile-open canvas{flex:1;min-height:0;width:100%;height:100%;object-fit:contain}
-  #mini.mobile-open .panel-close-btn{display:flex;width:44px;height:44px;font-size:19px}
-  #leftStack #note.mobile-open{display:block;position:fixed;z-index:44;top:auto;bottom:calc(114px + env(safe-area-inset-bottom));
+  #mini.mobile-open .panel-close-btn{display:flex;width:44px;height:44px;font-size:var(--bv-type-title3)}
+  #leftStack #note.mobile-open{display:block;position:fixed;z-index:44;top:auto;bottom:calc(74px + env(safe-area-inset-bottom));
     left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));
     max-width:min(360px,calc(100vw - 16px));max-height:45vh;overflow-y:auto;padding:12px 14px;
-    border-radius:16px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
-  #leftStack #note.mobile-open .panel-close-btn{display:flex;width:44px;height:44px;font-size:19px}
+    border-radius:var(--bv-radius-card);box-shadow:var(--bv-shadow-2)}
+  #leftStack #note.mobile-open .panel-close-btn{display:flex;width:44px;height:44px;font-size:var(--bv-type-title3)}
 }
 
-/* the phone's tee strip edges (below): registered so a scroll timeline can move them */
-@property --tees-l{syntax:'<length>';inherits:false;initial-value:0px}
-@property --tees-r{syntax:'<length>';inherits:false;initial-value:0px}
-@keyframes tees-edges{0%{--tees-l:0px;--tees-r:22px}10%{--tees-l:16px}90%{--tees-r:22px}100%{--tees-l:16px;--tees-r:0px}}
 @media(max-width:768px){
-  /* Top HUD: Never collide #courseNav and #card. The reserve is the nav's own
-     width plus both margins and a gap: #menuToggle is capped at 144 px, it sits
-     8 px from the left and the card 8 px from the right, so 164 -- it read 156,
-     which is why the two overlapped by exactly 4 px at 390 wide. */
-  #card{top:calc(8px + env(safe-area-inset-top));left:auto;right:calc(8px + env(safe-area-inset-right));
-    transform:none;gap:8px;padding:6px 10px;max-width:calc(100vw - 164px);height:40px}
-  #card .no{font-size:19px;min-width:22px}
-  #card .mid{min-width:0;flex:0 1 auto}
-  #card .nm{font-size:11px;max-width:72px;overflow:hidden;text-overflow:ellipsis}
-  #card .pi{font-size:9px}
-  #tees{overflow-x:auto;flex:1;margin-left:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;display:flex;gap:4px}
-  #tees::-webkit-scrollbar{display:none}
-  #tees .tee{flex:0 0 auto;padding:2px 6px;min-width:38px;border-radius:6px}
-  #tees .tee b{font-size:11px}
-  #tees .tee i{font-size:8.5px}
-  /* The strip is swiped: an edge where more tees wait fades out, so a cut chip reads
-     as "more this way", not as a broken card. Driven by the strip's own scroll, so a
-     strip that fits (or a browser without scroll timelines) shows no fade at all. */
-  #tees{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--tees-l),#000 calc(100% - var(--tees-r)),transparent 100%);
-    mask-image:linear-gradient(90deg,transparent 0,#000 var(--tees-l),#000 calc(100% - var(--tees-r)),transparent 100%)}
-  @supports (animation-timeline:scroll()){
-    #tees{animation:tees-edges linear both;animation-timeline:scroll(self inline)}
-  }
+  /* Top bar on mobile: 44x44 [≡] top-left + unified Hole & Tee Stepper Pill top-right */
+  #card{top:calc(8px + env(safe-area-inset-top));left:calc(60px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));
+    transform:none;justify-content:space-between;gap:2px;padding:3px 5px;min-height:44px;max-width:none}
+  .card-step{width:34px;height:38px}
+  .card-hole-trigger{padding:2px 4px;gap:6px;min-width:0;flex:1;justify-content:center}
+  #card .no{font-size:var(--bv-type-title3);min-width:20px}
+  #card .nm{display:none}
+  #card .pi{font-size:var(--bv-type-caption);white-space:nowrap}
+  .card-tee-btn{padding:0 8px;min-height:36px;font-size:var(--bv-type-caption)}
+  .det-top-right{display:none}
+  .det-cam-bar{bottom:calc(10px + env(safe-area-inset-bottom));padding:4px;gap:4px}
+  .det-cam-seg button{min-height:40px;padding:0 9px;font-size:var(--bv-type-caption)}
+  .det-fly-btn{display:none}
+  .det-tools-btn{display:inline-flex;min-height:40px;padding:0 11px;font-size:var(--bv-type-caption)}
+  .det-cam-long{display:none}
+  .det-cam-short{display:inline}
 
   /* Mobile Sheet for Rail */
   #rail{display:none}
   #rail.open{display:flex;position:fixed;top:auto;left:0;right:0;bottom:0;width:100%;
-    max-height:76vh;overflow-y:auto;border-radius:22px 22px 0 0;border:1px solid var(--edge);border-bottom:none;
-    background:radial-gradient(130% 100% at 50% 0%,rgba(14,30,22,.97),rgba(5,12,9,.99) 70%,#020504);
-    padding:14px 18px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -14px 44px rgba(0,0,0,.75);
+    max-height:76dvh;overflow-y:auto;border-radius:var(--bv-radius-sheet) var(--bv-radius-sheet) 0 0;border:1px solid var(--edge);border-bottom:none;
+    background:var(--bv-surface-opaque);
+    padding:14px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:var(--bv-shadow-2);
     z-index:45;gap:9px}
-  #rail.open .btn{padding:11px 8px;min-height:44px;font-size:12px;border-radius:10px}
-  #rail.open .panel-close-btn{width:44px;height:44px;font-size:19px}
-  #rail.open #facts{display:block;font-size:11px;line-height:1.6;padding-top:8px;margin-top:4px}
+  #rail.open .rail-hole-summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;border-bottom:0;padding:0;margin-bottom:2px}
+  #rail.open .rail-hole-summary::before{content:'Verktyg & ljus';font:700 var(--bv-type-headline)/1 var(--bv-font);color:var(--ink)}
+  #rail.open .rhs-main,#rail.open .rhs-sub{display:none}
+  #rail.open .btn{padding:11px 8px;min-height:44px;font-size:var(--bv-type-footnote);border-radius:var(--bv-radius-control)}
+  #rail.open .panel-close-btn{position:static;display:flex;width:44px;height:44px;font-size:var(--bv-type-title3)}
+  #rail.open #facts{display:block;font-size:var(--bv-type-caption);line-height:1.6;padding-top:8px;margin-top:4px}
   #facts{display:none}
   #hint{display:none}
-
-  /* Bottom Hole Selector on Mobile: Smooth Carousel */
-  .holes-wrap{bottom:calc(8px + env(safe-area-inset-bottom));left:8px;right:8px;transform:none;
-    justify-content:center;max-width:none}
-  #holes{max-width:calc(100vw - 104px);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
-    scroll-snap-type:x mandatory;gap:4px;padding:4px 6px;border-radius:12px}
-  #holes::-webkit-scrollbar{display:none}
-  .hb{width:44px;height:44px;min-width:44px;border-radius:10px;font-size:13px;scroll-snap-align:center}
-  .hole-step-btn{width:44px;height:44px;min-width:44px;border-radius:10px;font-size:18px}
 }
 
 @media(max-width:480px){
   #card .nm{display:none}
-  .mobile-hud-cluster{left:8px;right:8px;justify-content:space-between;border-radius:16px}
-  .m-hud-btn{padding:8px 9px;flex:1;justify-content:center}
-}
-@media(max-width:380px){
-  .m-hud-btn{flex-direction:column;gap:3px;padding:5px 3px}
 }
 </style>
 </head>
@@ -692,9 +700,10 @@ body.gps-on #v2TerrainBadge{top:118px}
   <div class="boot-recovery">
     <span id="bootRecovery" hidden>
       <button type="button" id="bootRetry">Försök igen</button>
+      <a id="bootLite" hidden>Öppna i Lätt 3D</a>
       <a id="bootSaved" hidden>Öppna sparad karta</a>
     </span>
-    <a id="bootReturn" href="./" hidden>Till startmenyn</a>
+    <a id="bootReturn" href="./" hidden>Avbryt</a>
   </div>
 </div></div>
 
@@ -720,7 +729,7 @@ body.gps-on #v2TerrainBadge{top:118px}
       if (/^[1-9]\d*$/.test(params.get(key))) setup.set(key, params.get(key));
     });
     link.href = './#' + mode + '/' + encodeURIComponent(slug) + (setup.toString() ? '?' + setup : '');
-    link.textContent = 'Till banans inställningar';
+    link.textContent = 'Avbryt';
     link.hidden = false;
   }
   // This also works if the application entry module itself fails to load.
@@ -732,6 +741,7 @@ body.gps-on #v2TerrainBadge{top:118px}
     if (!actions.hidden) return;
     var title = document.getElementById('bootTitle');
     if (slug && title.textContent === 'Banvy 3D') title.textContent = slug.replace(/-/g, ' ');
+    link.textContent = 'Till klubbsidan';
     link.hidden = false;
     document.getElementById('bootRetry').onclick = function () { location.reload(); };
     actions.hidden = false;
