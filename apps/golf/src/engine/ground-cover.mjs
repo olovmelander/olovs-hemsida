@@ -158,3 +158,45 @@ export function inStillWater(waters, x, z, inside) {
   }
   return false;
 }
+
+/* NO REEDS ON A MOWN BANK (27 November 2026, the owner, for Bro Hof). The reed scan reads the ground's
+   level, not its turf, so it fringed course ponds whose banks the photo shows mown to the water. A ground
+   names those waters in its scenery module (`mownBanks`: each water's id, for the record, a point inside
+   its outline, since the pack keeps no ids, and, where the bank is mown only in part, the `stretch` of
+   ground where it is), judged one water at a time on its photo; a lake's natural shore and a pond with a
+   reed belt are not named. A reed belongs to the still water whose outline (or island) is nearest within
+   `reach`, and does not stand on that water's mown bank. Mapped beds keep theirs (main.js).
+   ?mownbanks=0 is the before. */
+
+/** The water records a ground's `mownBanks` names, each with the stretches its bank is mown in (true: all of it).
+    Returns { marked: Map(record -> true | [ring]), missed: [ids whose point no outline holds] }. */
+export function mownBankWaters(waters, banks, inside) {
+  const marked = new Map(), missed = [];
+  for (const bank of banks ?? []) {
+    const [x, z] = bank.at;
+    const q = waters.find(w => !w.stream && w.ring?.length >= 3 && inside(x, z, w.ring)
+      && !(w.innerRings ?? []).some(island => island?.length >= 3 && inside(x, z, island)));
+    if (!q) { missed.push(bank.id); continue; }
+    const before = marked.get(q);
+    if (!bank.stretch) marked.set(q, true);
+    else if (before !== true) marked.set(q, [...(before ?? []), bank.stretch]);
+  }
+  return { marked, missed };
+}
+
+/** Whether a reed stands on a mown bank: the still water nearest it (within `reach`) has one there. `waters` are
+    water index records ({ ring, innerRings, stream, mownBank: true | [ring] }); `signedDistance(x, z, ring, cutoff)`
+    is exact up to the cutoff, `inside(x, z, ring)` the crossing test. */
+export function onMownBank(waters, x, z, signedDistance, inside, { reach = REED_LAKE_REACH } = {}) {
+  let nearest = null, best = reach;
+  for (const q of waters) {
+    if (q.stream || !(q.ring?.length >= 3)) continue;
+    for (const ring of [q.ring, ...(q.innerRings ?? [])]) {
+      if (!(ring?.length >= 3)) continue;
+      const d = Math.abs(signedDistance(x, z, ring, reach));
+      if (d < best) { best = d; nearest = q; }
+    }
+  }
+  const mown = nearest?.mownBank;
+  return mown === true || (Array.isArray(mown) && mown.some(stretch => inside(x, z, stretch)));
+}

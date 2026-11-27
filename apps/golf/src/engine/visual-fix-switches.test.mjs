@@ -65,7 +65,7 @@ describe('the visual fixes\' before switches', () => {
   });
   it('plant and carve live for Bro Hof\'s review fixes\' befores: they move the reeds, the cover and the beds the prepared data hold', () => {
     for (const allowed of [preparedTintAllowed, preparedWaterAllowed, preparedVistaAllowed, preparedScatterAllowed]) {
-      for (const flag of ['reedbank=0', 'teecorridor=0', 'waterislands=0']) expect(allowed(`?bana=bro-hof-stadium&${flag}`)).toBe(false);
+      for (const flag of ['reedbank=0', 'teecorridor=0', 'waterislands=0', 'mownbanks=0']) expect(allowed(`?bana=bro-hof-stadium&${flag}`)).toBe(false);
     }
   });
   it('keep prepared startup for ?surfaceRelief=1, which the painted finish never read', () => {
