@@ -214,7 +214,7 @@ export function hazardsAhead({ origin, path, bunkers, waters, limit = 5 }) {
     const hit = nearestPointOnLine(group.c, path);
     if (hit.distance > CORRIDOR_METRES || hit.along <= start + 8) continue;
     const reaches = group.points.map(point => groundDistance(origin, point));
-    found.push({ kind: 'bunker', at: group.c, front: Math.min(...reaches), carry: Math.max(...reaches), side: sideOfPlay(group.c, path) });
+    found.push({ kind: 'bunker', at: group.c, outline: group.points, front: Math.min(...reaches), carry: Math.max(...reaches), side: sideOfPlay(group.c, path) });
   }
 
   const remaining = [origin, ...path.slice(segment + 1)];

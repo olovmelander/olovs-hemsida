@@ -213,7 +213,9 @@ houses) stand in for the footprints under them, simpler, from
 a club's buildings are republished. Its houses take the detailed course's measured roofs
 and walls' foot from the same records (`map-roof-colours.mjs`, restating the house kit's
 and building paint's rules, held equal by `map-roof-colours.test.mjs`), and far crowns
-settle toward their wood (`?roofs=palette`, `?wallfoot=0`, `?treecalm=0`). Never import
+settle toward their wood (`?roofs=palette`, `?wallfoot=0`, `?treecalm=0`). A lake's shallows are
+read off one shore field for the whole ground (`map-paint.mjs` `shoreField`), never off a tile's own
+mask, which drew straight seams across the lakes (`?watertone=before`). Never import
 a scenery module into the map (`engine/scenery/*.js` brings three.js; its `.json`
 records are data), and keep its work out of the folders the source revision
 hashes. Wider than a phone (760 px), its hole bar, dock and sheets keep to one centred

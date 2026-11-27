@@ -16,10 +16,30 @@ function along(line, step) {
   return out;
 }
 
+/* ?hazardpills=before stands a bunker's pill on its middle, as it was. */
+const pillsOnSand = typeof location !== 'undefined' && new URLSearchParams(location.search).get('hazardpills') === 'before';
+
 export function createOverlay(canvas) {
   const ctx = canvas.getContext('2d');
   let width = 1, height = 1, ratio = 1, emphasis = 1;
   const hits = [];
+
+  /* Where a bunker's pill stands: beside the sand's own outline on screen, on the side away from the line
+     of play as the screen shows it (the map turns), a pill's half-width clear of it; above a bunker on the
+     line. `from` and `to` are the line's ends on screen. */
+  function besideSand(hazard, middle, words, at, from, to) {
+    const points = hazard.outline.map(([x, z]) => at(x, z)).filter(p => Number.isFinite(p.x));
+    if (!points.length) return middle;
+    const xs = points.map(p => p.x), ys = points.map(p => p.y);
+    const left = Math.min(...xs), right = Math.max(...xs), top = Math.min(...ys), y = (top + Math.max(...ys)) / 2;
+    const half = (words.length * 3.7 + 12) * emphasis, gap = 6 * emphasis;
+    const above = { x: middle.x, y: top - gap - 12 * emphasis };
+    if (hazard.side === 'mitt') return above;
+    const along = Number.isFinite(from?.x) && Number.isFinite(to?.x) && Math.abs(to.y - from.y) > 1;
+    if (!along) return above;
+    const lineX = from.x + (to.x - from.x) * (y - from.y) / (to.y - from.y);
+    return (left + right) / 2 >= lineX ? { x: right + gap + half, y } : { x: left - gap - half, y };
+  }
 
   function pill(x, y, text, { fill = 'rgba(12,24,18,.92)', ink = '#fff', stroke = 'rgba(255,255,255,.32)', size = 13, weight = 700 } = {}) {
     const tall = size * emphasis;
@@ -323,13 +343,17 @@ export function createOverlay(canvas) {
         }
 
         for (const hazard of hazards) {
+          const front = `${hazard.approximate ? '≈' : ''}${Math.round(hazard.front)}`;
+          const words = hazard.carry === null ? `${front}${hazard.openWater ? '+' : ''} m` : `${front}–${Math.round(hazard.carry)} m`;
           let s = at(hazard.at[0], hazard.at[1]);
           if (!Number.isFinite(s.x)) continue;
+          /* A bunker's distances stand beside its sand, away from the line of play, never on it: on the
+             group's middle the pill hid a small greenside bunker (Bro Hof Castle 2, the blind review,
+             27 November). ?hazardpills=before is the pill on the middle. */
+          if (hazard.kind === 'bunker' && hazard.outline?.length && !pillsOnSand) s = besideSand(hazard, s, words, at, origin && at(origin[0], origin[1]), pin);
           if (onPin(s)) s = { x: s.x, y: s.y + 30 * emphasis };
           if (!inside(s) || placed.some(other => clash(other, s, 72))) continue;
           placed.push({ x: s.x, y: s.y });
-          const front = `${hazard.approximate ? '≈' : ''}${Math.round(hazard.front)}`;
-          const words = hazard.carry === null ? `${front}${hazard.openWater ? '+' : ''} m` : `${front}–${Math.round(hazard.carry)} m`;
           pill(s.x, s.y, words, hazard.kind === 'water'
             ? { fill: 'rgba(14,82,132,.96)', ink: '#fff', stroke: 'rgba(255,255,255,.65)', size: 12.5, weight: 700 }
             : { fill: '#f6ecd2', ink: '#141108', stroke: 'rgba(16,24,18,.9)', size: 12.5, weight: 700 });
