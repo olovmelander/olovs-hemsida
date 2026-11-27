@@ -42,11 +42,11 @@
     },
     "reviewMode": "reviewed-candidates-v1",
     "observedOn": "2026-11-24",
-    "reviewNote": "Round r1 of review-2026-11-24, published on the owner answer of 24 November 2026 (\"Publish if better\"): the 90% held-out gate is MISSED (P 0.784 / R 0.807 / F1 0.795 on 166 unseen reference crowns), and the same crowns score P 0.662 / R 0.530 / F1 0.589 for the automatic first generation (machine-v1 records and stand trees as the app draws them). In park and building windows precision is lower than in the first generation (0.419 against 0.467, recall 0.867 against 0.467). 15,206 placed trees in the inner 2,048 m frontier, 2,079 held and unreviewed and not placed, 392 crowns the June 2025 photo does not show removed by a mechanical screen; tiles outside the frontier keep the 2026-11-24 machine-v1 generation. Owner look not done.",
+    "reviewNote": "Round r1 of review-2026-11-24, published on the owner answer of 24 November 2026 (\"Publish if better\"): the 90% held-out gate is MISSED (P 0.784 / R 0.807 / F1 0.795 on 166 unseen reference crowns), and the same crowns score P 0.662 / R 0.530 / F1 0.589 for the automatic first generation (machine-v1 records and stand trees as the app draws them). In park and building windows precision is lower than in the first generation (0.419 against 0.467, recall 0.867 against 0.467). 15,199 placed trees in the inner 2,048 m frontier (round r1b of 27 November: the castle's eight flagpoles, a lamp post and a pole decided not-tree, one car-park tree placed), 2,076 held and not placed, 392 crowns the June 2025 photo does not show removed by a mechanical screen; tiles outside the frontier keep the 2026-11-24 machine-v1 generation. Owner look not done.",
     "reviewed": {
       "candidates": {
         "path": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/candidates.csv",
-        "sha256": "105da8bc6705662f02379c19c59ba4557bd33b7ab591ec34f9edef577df184c1"
+        "sha256": "1eda10da9afced66b1d05b55ed680be47778dd4b0827260d943b7bac4ea5edde"
       },
       "residualChm": {
         "path": "brohofbuild/cache/trees-2026-11-24/rasters/residual-chm-050.bin",
@@ -62,7 +62,7 @@
         650118.5,
         6599592.5
       ],
-      "review": "reviewed candidates, review-2026-11-24 round r1: the type-aware laser detector (20C028 of 2020-11-06 west of E 650000, 21C031 of 2021-03-23 east of it), tuned with a reduced search on the calibration windows only. The 90% held-out gate is MISSED: on 166 unseen reference crowns P 0.784 / R 0.807 / F1 0.795; the machine-v1 first generation (records and stand trees) scores P 0.662 / R 0.530 / F1 0.589 on the same sample. Agent-led reference interpretation (Claude), not a survey; mostly conifers and separate crowns, closed leafless broadleaf stands are not measured. Crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank); 392 crowns the June 2025 photo does not show removed by a mechanical screen spot-checked by the agent; every felling-screened, pole-like, no-vegetation and on-building crown is held, unreviewed, and not placed; broadleaf only where the April 2021 crown is leafless and the June 2025 crown in leaf, not spot-checked; no GPU photo detector and no human review"
+      "review": "reviewed candidates, review-2026-11-24 round r1b (r1 with the castle's eight flagpoles, a lamp post and a pole decided not-tree, 2026-11-27): the type-aware laser detector (20C028 of 2020-11-06 west of E 650000, 21C031 of 2021-03-23 east of it), tuned with a reduced search on the calibration windows only. The 90% held-out gate is MISSED: on 166 unseen reference crowns P 0.784 / R 0.807 / F1 0.795; the machine-v1 first generation (records and stand trees) scores P 0.662 / R 0.530 / F1 0.589 on the same sample. Agent-led reference interpretation (Claude), not a survey; mostly conifers and separate crowns, closed leafless broadleaf stands are not measured. Crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank); 392 crowns the June 2025 photo does not show removed by a mechanical screen spot-checked by the agent; every felling-screened, pole-like, no-vegetation and on-building crown is held, unreviewed, and not placed; broadleaf only where the April 2021 crown is leafless and the June 2025 crown in leaf, not spot-checked; no GPU photo detector and no human review"
     }
   },
   "courses": [

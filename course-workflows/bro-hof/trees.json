@@ -201,9 +201,15 @@
     "observedOn": "2026-11-24",
     "stagingRoot": "output/course-workflow/bro-hof/staging-public",
     "compileOut": "output/course-workflow/bro-hof/reviewed-compile",
-    "reviewStatement": "reviewed candidates, review-2026-11-24 round r1: the type-aware laser detector (20C028 of 2020-11-06 west of E 650000, 21C031 of 2021-03-23 east of it), tuned with a reduced search on the calibration windows only. The 90% held-out gate is MISSED: on 166 unseen reference crowns P 0.784 / R 0.807 / F1 0.795; the machine-v1 first generation (records and stand trees) scores P 0.662 / R 0.530 / F1 0.589 on the same sample. Agent-led reference interpretation (Claude), not a survey; mostly conifers and separate crowns, closed leafless broadleaf stands are not measured. Crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank); 392 crowns the June 2025 photo does not show removed by a mechanical screen spot-checked by the agent; every felling-screened, pole-like, no-vegetation and on-building crown is held, unreviewed, and not placed; broadleaf only where the April 2021 crown is leafless and the June 2025 crown in leaf, not spot-checked; no GPU photo detector and no human review"
+    "reviewStatement": "reviewed candidates, review-2026-11-24 round r1b (r1 with the castle's eight flagpoles, a lamp post and a pole decided not-tree, 2026-11-27): the type-aware laser detector (20C028 of 2020-11-06 west of E 650000, 21C031 of 2021-03-23 east of it), tuned with a reduced search on the calibration windows only. The 90% held-out gate is MISSED: on 166 unseen reference crowns P 0.784 / R 0.807 / F1 0.795; the machine-v1 first generation (records and stand trees) scores P 0.662 / R 0.530 / F1 0.589 on the same sample. Agent-led reference interpretation (Claude), not a survey; mostly conifers and separate crowns, closed leafless broadleaf stands are not measured. Crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank); 392 crowns the June 2025 photo does not show removed by a mechanical screen spot-checked by the agent; every felling-screened, pole-like, no-vegetation and on-building crown is held, unreviewed, and not placed; broadleaf only where the April 2021 crown is leafless and the June 2025 crown in leaf, not spot-checked; no GPU photo detector and no human review"
   },
   "ownerExceptions": [],
   "pendingOwnerApprovals": [],
-  "ownerDecisions": []
+  "ownerDecisions": [
+    {
+      "decidedOn": "2026-11-27",
+      "decision": "Round r1b: the owner saw flags standing where trees stand (\"It feels like the flags are standing exactly where there are trees, should it be trees or flags?\"), then asked \"Do the next tree round now\" to drop the eight false trees and to look at thin \"conifers\" that may be lamp posts. The eight flagpoles are recorded as spot not-tree in hold-review.json; of the ten held pole-like crowns round the castle, range and car parks, a lamp post and a pole are not-tree, a small car-park tree is placed and seven stay held (pole-review.json). No detector, sample or score changes.",
+      "record": "geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/README.md"
+    }
+  ]
 }

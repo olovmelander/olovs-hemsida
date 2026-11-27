@@ -1,0 +1,74 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pole-review",
+ "decisions": {
+  "648550.3_6598170.8": {
+   "verdict": "not-tree",
+   "easting": 648550.25,
+   "northing": 6598170.75,
+   "note": "a lamp post by the path west of the castle: a thin shadow ending in the lamp head on both photos"
+  },
+  "648776.8_6598012.8": {
+   "verdict": "not-tree",
+   "easting": 648776.75,
+   "northing": 6598012.75,
+   "note": "a pole on the lawn by the putting course: a straight thin shadow and no crown on the 2025 photo"
+  },
+  "648505.8_6598185.1": {
+   "verdict": "tree",
+   "easting": 648505.81,
+   "northing": 6598185.06,
+   "note": "a small planted tree in the car park strip: its own crown and shadow on the 2025 photo"
+  },
+  "648522.8_6598426.3": {
+   "verdict": "unclear",
+   "easting": 648522.75,
+   "northing": 6598426.25,
+   "note": "a second top at the edge of a broadleaf crown; left held"
+  },
+  "648568.3_6598178.3": {
+   "verdict": "unclear",
+   "easting": 648568.25,
+   "northing": 6598178.25,
+   "note": "at the edge of a broadleaf crown by the castle path; left held"
+  },
+  "648515.3_6598212.4": {
+   "verdict": "unclear",
+   "easting": 648515.35,
+   "northing": 6598212.36,
+   "note": "in the car park strip between small trees: a lamp or a young tree; left held"
+  },
+  "648542.9_6598242.6": {
+   "verdict": "unclear",
+   "easting": 648542.87,
+   "northing": 6598242.56,
+   "note": "a planted car park island; left held"
+  },
+  "648394.3_6597930.3": {
+   "verdict": "unclear",
+   "easting": 648394.25,
+   "northing": 6597930.25,
+   "note": "at the edge of a wood band; left held"
+  },
+  "648372.2_6598461.3": {
+   "verdict": "unclear",
+   "easting": 648372.19,
+   "northing": 6598461.29,
+   "note": "in scrub; left held"
+  },
+  "648747.3_6597953.8": {
+   "verdict": "unclear",
+   "easting": 648747.25,
+   "northing": 6597953.75,
+   "note": "among scrub and trees; left held"
+  }
+ },
+ "reviewedAt": "2026-11-27",
+ "reviewer": "the agent (Claude), 2026-11-27, on 24 m chips of the 2025-06-14 and 2021-04-16 orthophotos",
+ "scope": "the ten pole-like crowns (radius under 1 m, 5 m or taller, held) round the castle, the range and the car parks; the other 194 in the window stay unreviewed and held",
+ "verdicts": {
+  "tree": "placed",
+  "not-tree": "a pole, mast or lamp: not placed",
+  "unclear": "left held, not placed"
+ }
+}
