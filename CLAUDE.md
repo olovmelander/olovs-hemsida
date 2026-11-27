@@ -110,6 +110,29 @@ this guide or the current production workflow.
   (`body.hub`), and the menu's shortcut list renders from
   `keyboard-shortcuts.mjs`: add a key there, with its test. See
   [the r187 upgrade](docs/three-r187-upgrade-2026-11-02.md).
+- The mouse and the keyboard move through the detailed course by
+  `ui/camera-navigation.mjs` (owner request, 27 November), bound from `entry.js`
+  once the course is up. It is outside the hashed folders and reaches the course
+  only through `window.V3D`: grow it there, never in `main.js`.
+  - A left drag turns the world round the ground under the cursor (far ground and
+    the sky turn the eye in place), a right drag moves the ground, a middle drag
+    looks round, the wheel zooms toward the cursor, `W` `A` `S` `D` walk, `Q` and
+    `E` sink and rise, Shift is three times the pace.
+  - Touch, the tweens, the flights and Spela keep the stock orbit controls. A
+    gesture is announced as the controls' own `start`, which is what stops a
+    tween or a flight.
+  - The ground clamp is still the only thing that lifts the camera. Navigation
+    never steers the eye under standing height, and a movement begun near the
+    ground rides it by one share taken where it begins. Do not read that share
+    per frame: the clamp's lift ledger is then left owed.
+  - Its held keys are listed in `NAVIGATION_ROWS` there, not in
+    `keyboard-shortcuts.mjs`. Tune the feel in `NAVIGATION`, and measure it with
+    `tools/check-camera-navigation.mjs`, which makes every gesture twice on one
+    page, new and stock.
+  - `?nav=before` is the stock controls (it boots without the prepared tint, as
+    `?spela=1` does); `BANVY_NAV.setEnabled(false)` is the same on a running page.
+
+  See [moving through the course](docs/camera-navigation-2026-11-27.md).
 - The bare route is the start menu (`hub.js`, 7 November): Detaljerad 3D, Lätt 3D,
   Spela, Statistik and Inställningar as cards, with the course list for a mode at `#3d`,
   `#karta` or `#spela`, `#statistik` and `#installningar`. A launch says its mode in the URL

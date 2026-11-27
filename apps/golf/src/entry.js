@@ -52,7 +52,14 @@ if (legacy) {
       link.hidden = false;
     } catch { /* Reload and course setup work even if modules are unavailable. */ }
   }, { once: true });
-  await Promise.all([import('./main.js'), import('./ui/detailed-hud.mjs').then(({ installDetailedHud }) => installDetailedHud())]);
+  await Promise.all([
+    /* The mouse and the keyboard move through the course by ui/camera-navigation.mjs,
+       bound once the course is up. It is outside the hashed folders, like the HUD. */
+    import('./main.js').then(() => import('./ui/camera-navigation.mjs')
+      .then(({ installCameraNavigation }) => installCameraNavigation())
+      .catch(error => console.error('Navigation:', error))),
+    import('./ui/detailed-hud.mjs').then(({ installDetailedHud }) => installDetailedHud()),
+  ]);
 }
 
 function showLaunchContext(params, map) {
