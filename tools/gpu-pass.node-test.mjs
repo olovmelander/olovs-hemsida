@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { gpuPassPlan } from './gpu-pass.mjs';
+import net from 'node:net';
+import { DEFAULT_PORT, freePort, gpuPassPlan } from './gpu-pass.mjs';
 
 const ids = plan => plan.map(s => s.id);
 
@@ -29,4 +30,14 @@ test('a pass on its own port tells every step that port, and only that one', () 
     assert(step.command.some(a => a.includes('127.0.0.1:8693')), step.id);
     assert(!step.command.some(a => a.includes('127.0.0.1:8641')), step.id);
   }
+});
+
+test('a pass takes the first port nothing holds, so two sessions never share one', async t => {
+  assert.equal(await freePort(DEFAULT_PORT, 5, async port => port >= DEFAULT_PORT + 2), DEFAULT_PORT + 2, 'the first two are another session\'s');
+  await assert.rejects(freePort(DEFAULT_PORT, 3, async () => false), /no free port from 8641 to 8643/);
+  // against a real socket: a port that is held is passed over
+  const held = net.createServer();
+  const port = await new Promise(resolve => held.listen(0, '127.0.0.1', () => resolve(held.address().port)));
+  t.after(() => held.close());
+  assert.notEqual(await freePort(port, 20), port);
 });

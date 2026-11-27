@@ -15,7 +15,9 @@ A folder of contact sheets (`<build>/cache/ring-sheets-blind/*.jpg`). Each sheet
 side: on the left the tracing photo (summer, in leaf), on the right an older leaf-off photo of
 the same place. The ring under review is the white line. Thin pale-blue lines are neighbouring
 rings and are not under review. Under each pair is the ring's id and the width of the window in
-metres.
+metres. After a course has been traced again you may be given sheets named `...-zoom-N.jpg` instead:
+up to 12 rings each, drawn large with a 5 m grid. They are the rings that moved since the last
+second look, and they are all you are asked about.
 
 ## What you must not do
 

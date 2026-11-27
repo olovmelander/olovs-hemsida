@@ -7,11 +7,14 @@
 
 A contact sheet holds 40 rings; each ring is shown on the tracing photo and, with --compare, on an older one
 beside it (a deck rebuilt or a pond filled between the two shows at once). Tees and greens are ordered by
-their edge score from trace-report.json, lowest first. --only draws the named rings large, with a 5 m grid.
-The sheets are private (they are crops of the photo): they go under the build's cache, never into git.
+their edge score from trace-report.json, lowest first. --only draws the named rings large, with a 5 m grid,
+twelve to a sheet: after a new trace, ring-review.mjs prints the command with the rings that moved, and only
+those need a look. The sheets are private (they are crops of the photo): they go under the build's cache, never
+into git.
 
 --blind is for a second reviewer who has not seen the tracing: the rings come in hole order, and no score, no
-source and no tee colour is printed, so nothing on the sheet says which rings the first look doubted.
+source and no tee colour is printed, so nothing on the sheet says which rings the first look doubted. It holds
+with --only as well.
 
 Look at every sheet, then record the look with `node packages/course-geo/mapping/ring-review.mjs`.
 A ring that is wrong is fixed in decisions.json and traced again, never here.
@@ -95,16 +98,19 @@ def main():
             rings.append(dict(id=f['id'], kind=p['kind'], hole=p.get('hole') or 0, poly=largest(shape(f['geometry'])), tees=p.get('teeIds') or [],
                               order=(score[0] if score else 99.0), score=(f"dP {score[0]}{' kept ' + score[1] if score[1] else ''}" if score else '')))
         if only:
-            chosen = [r for r in rings if r['id'] in only]
-            if chosen:
-                written.append(sheet([tile(r, rings, sources, 440, True) for r in chosen], 2 if len(sources) == 1 else 1, out / f"{course['prefix']}-zoom.jpg"))
+            chosen = sorted((r for r in rings if r['id'] in only), key=lambda r: (r['kind'], r['hole'], r['id']) if args.blind else (r['order'], r['hole'], r['id']))
+            for k in range(0, len(chosen), 12):
+                tiles = [tile(r, rings, sources, 440, True, args.blind) for r in chosen[k:k + 12]]
+                written.append(sheet(tiles, 2 if len(sources) == 1 else 1, out / f"{course['prefix']}-zoom-{k // 12 + 1}.jpg"))
             continue
         for kind in args.kinds.split(','):
             chosen = sorted((r for r in rings if r['kind'] == kind), key=lambda r: (r['hole'], r['id']) if args.blind else (r['order'], r['hole'], r['id']))
             for k in range(0, len(chosen), 40):
                 tiles = [tile(r, rings, sources, 190, False, args.blind) for r in chosen[k:k + 40]]
                 written.append(sheet(tiles, 8 if len(sources) == 1 else 5, out / f"{course['prefix']}-{kind}-{k // 40 + 1}.jpg"))
-    print(json.dumps(dict(sheets=[str(p.relative_to(ROOT)).replace('\\', '/') for p in written]), indent=1))
+    # --out may name a folder outside the repository
+    shown = lambda p: str(p.relative_to(ROOT)).replace('\\', '/') if p.is_relative_to(ROOT) else str(p)
+    print(json.dumps(dict(sheets=[shown(p) for p in written]), indent=1))
 
 
 if __name__ == '__main__':

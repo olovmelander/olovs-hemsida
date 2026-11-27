@@ -16,9 +16,11 @@
    ONE PORT A CHECKOUT (27 November). Several sessions bake at once in their own worktrees, and the server
    check asked only whether something answered on 8641: a second pass started while another was running
    found the first one's server, its own failed to bind in silence, and it baked and booted the OTHER
-   checkout's build. Give each worktree its own --port (or BANVY_GPU_PASS_PORT); a port something already
-   answers on is refused, and a step's server must still be running when the step starts. */
+   checkout's build. A pass now takes the first free port from 8641 up by itself and says which; a port
+   named with --port (or BANVY_GPU_PASS_PORT) is used as named, and refused if something already answers
+   on it. A step's server must still be running when the step starts. */
 import fs from 'node:fs';
+import net from 'node:net';
 import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
@@ -63,6 +65,19 @@ const run = (command, log) => new Promise(resolve => {
 
 const answers = async base => { try { return (await fetch(`${base}/courses/index.json`)).ok; } catch { return false; } };
 
+const binds = port => new Promise(resolve => {
+  const probe = net.createServer();
+  probe.once('error', () => resolve(false));
+  probe.listen(port, '127.0.0.1', () => probe.close(() => resolve(true)));
+});
+// free means that it can be bound here and that nothing answers there (a server bound to every address may let a second bind through)
+const unheld = async port => (await binds(port)) && !(await answers(`http://127.0.0.1:${port}`));
+/** The first port from `from` up that nothing holds: another session's pass keeps its own. */
+export async function freePort(from = DEFAULT_PORT, tries = 40, isFree = unheld) {
+  for (let port = from; port < from + tries; port++) if (await isFree(port)) return port;
+  throw new Error(`no free port from ${from} to ${from + tries - 1}`);
+}
+
 async function serve(port) {
   const base = `http://127.0.0.1:${port}`;
   if (await answers(base)) throw new Error(`port ${port} is already served by another process (another checkout's pass?): use --port`);
@@ -82,11 +97,13 @@ async function main() {
   const args = process.argv.slice(2);
   const flag = (k, d = null) => { const i = args.indexOf(`--${k}`); return i < 0 ? d : args[i + 1]; };
   const list = k => (flag(k) ?? '').split(',').filter(Boolean);
-  const port = Number(flag('port') ?? process.env.BANVY_GPU_PASS_PORT ?? DEFAULT_PORT);
+  const named = flag('port') ?? process.env.BANVY_GPU_PASS_PORT ?? null, dry = args.includes('--dry-run');
+  const port = named === null ? (dry ? DEFAULT_PORT : await freePort()) : Number(named);
   if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error(`--port ${port} is not a port`);
   const plan = gpuPassPlan({ only: list('only'), steps: list('steps'), from: flag('from'), port });
-  if (args.includes('--dry-run')) { for (const s of plan) console.log(s.id.padEnd(15), s.command.slice(1).join(' ')); return; }
+  if (dry) { for (const s of plan) console.log(s.id.padEnd(15), s.command.slice(1).join(' ')); return; }
   if (process.env.BANVY_GPU !== '1') throw new Error('set BANVY_GPU=1: these steps need the real GPU (SwiftShader draws full courses black)');
+  console.log(`serving this checkout on port ${port}${named === null && port !== DEFAULT_PORT ? ` (${DEFAULT_PORT} is taken, by another session's pass?)` : ''}`);
   const dir = path.join(ROOT, 'output/gpu-pass', new Date().toISOString().replace(/[:.]/g, '-'));
   fs.mkdirSync(dir, { recursive: true });
   const results = [];

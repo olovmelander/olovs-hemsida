@@ -1,14 +1,25 @@
 #!/usr/bin/env python3
-"""Bro Hof's shared layers: water, facilities, infrastructure (EPSG:3006).
+"""A ground's layers beside its playing surfaces: water, facilities, infrastructure (EPSG:3006).
 
-    pixi run --manifest-path packages/course-geo/toolchain/pixi.toml -e mapping --frozen python brohofbuild/mapping/build-layers.py
+    pixi run --manifest-path packages/course-geo/toolchain/pixi.toml -e mapping --frozen \
+      python packages/course-geo/mapping/build-layers.py --config <build>/mapping/trace-config.json
 
-Water keeps Lantmäteriet's measured bodies and levels; its outline is the union with the
-2025-06-14 near-infrared water line, which is higher than the terrain's own capture. Facilities
-and stonework are traced on the same photo from `layer-decisions.json`.
+Water keeps Lantmäteriet's measured bodies and levels; its outline is the union with the tracing
+photo's near-infrared water line, which is higher than the terrain's own capture. Facilities, walls,
+boulders, bridges and cart parks are traced on the same photo from `layer-decisions.json`, beside the
+configuration; a ground that has none of a kind has an empty list of it.
+
+ONE BUILDER FOR EVERY GROUND (27 November 2026). Bro Hof's builder was copied to Tjusta with its names
+changed, 250 lines of which 30 differed, and the two then drifted: the copy learnt to pick the newest
+classifier and to keep a range's bay line, the original did not. Everything a ground brings is data:
+its trace configuration (the box, the photo, the builds, the ground's name), its layer decisions, and
+its source manifest for the name of its OpenStreetMap extract. It writes water.geojson,
+facilities.geojson and infrastructure.geojson beside the configuration, as the copies did.
 """
+import argparse
 import glob
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -18,18 +29,26 @@ from scipy import ndimage as nd
 from shapely.geometry import LineString, Point, Polygon, box, mapping, shape
 from shapely.ops import linemerge, unary_union
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / 'packages/course-geo/mapping'))
 import turf_tracing as tt  # noqa: E402
 
-HERE = Path(__file__).resolve().parent
+ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+ap.add_argument('--config', type=Path, required=True)
+HERE = ap.parse_args().config.resolve().parent
 cfg = tt.load_json(HERE / 'trace-config.json')
 dec = tt.load_json(HERE / 'layer-decisions.json')
 imagery = tt.Imagery([ROOT / p for p in cfg['imagery']['rasters']])
 BOX = cfg['box']
 IMG = cfg['imagery']['sourceId']
+YEAR = int(re.search(r'(\d{4})$', IMG).group(1))  # the photo's year, as its source is named (orto-o2-2025)
+GROUND = ROOT / 'geo_data/course-v2' / cfg['groundId']
+# the OpenStreetMap extract as the ground's source manifest names it (tjusta-osm-2026-11-26): the same day, under the licence's name
+_osm = [s['id'] for s in tt.load_json(GROUND / 'source-manifest.json')['sources'] if re.search(r'osm-\d{4}-\d{2}-\d{2}$', s['id'])]
+OSM_SOURCE = 'osm-odbl-' + _osm[0][-10:] if _osm else 'osm-odbl'
 
-cached = sorted(glob.glob(str(ROOT / 'brohofbuild/cache/mapping/trace-*.npz')))
+# The newest classifier: its name is a hash of what it read, so name order says nothing about which is current.
+cached = sorted(glob.glob(str(HERE.parent / 'cache/mapping/trace-*.npz')), key=lambda p: Path(p).stat().st_mtime)
 if not cached:
     raise SystemExit('run trace-course-surfaces.py first: the classifier raster is missing')
 prob = np.load(cached[-1], allow_pickle=False)['prob'].astype(np.float32)
@@ -63,10 +82,10 @@ for i, sl in enumerate(nd.find_objects(lab), 1):
             photo.append(q)
 window = box(*BOX)
 lm = tt.load_json(ROOT / cfg['water'])
-built = unary_union([shape(f['geometry']).buffer(1) for f in tt.load_json(ROOT / 'geo_data/course-v2/bro-hof/reference/osm-context-epsg3006.geojson')['features']
+built = unary_union([shape(f['geometry']).buffer(1) for f in tt.load_json(GROUND / 'reference/osm-context-epsg3006.geojson')['features']
                      if (f['properties'].get('tags') or {}).get('building') and f['geometry']['type'] == 'Polygon'])
-surfaces = unary_union([shape(f['geometry']).buffer(0.2) for d in ('brohofbuild', 'brohofcastlebuild')
-                        for f in tt.load_json(ROOT / d / 'mapping/playing-surfaces.geojson')['features']])
+surfaces = unary_union([shape(f['geometry']).buffer(0.2) for course in cfg['courses']
+                        for f in tt.load_json(ROOT / course['outDir'] / 'playing-surfaces.geojson')['features']])
 out_water, used = [], set()
 for f in lm['features']:
     geom = shape(f['geometry']).buffer(0)
@@ -93,7 +112,7 @@ for f in lm['features']:
         out_water.append({'type': 'Feature', 'id': f'{f["id"]}-{k + 1}' if geom.geom_type == 'MultiPolygon' else f['id'],
                           'properties': {'kind': 'water', 'heightRH2000': p['heightRH2000'], 'isLake': True, 'isSea': False,
                                          'waterKind': p['waterKind'], 'sourceId': p['sourceId'], 'photoGrowthM2': round(grown, 1),
-                                         'outline': 'lm-break-geometry-union-orto-o2-2025' if grown > 5 else 'lm-break-geometry'},
+                                         'outline': f'lm-break-geometry-union-{IMG}' if grown > 5 else 'lm-break-geometry'},
                           'geometry': {'type': 'Polygon', 'coordinates': tt.round_coords(merged)}})
 # Ponds the break geometry lacks: level is the terrain's own flat floor under them.
 t = cfg['terrain']
@@ -109,11 +128,11 @@ for spec in dec['newPonds']:
     level = round(float(np.percentile(zs, 25)), 2)
     out_water.append({'type': 'Feature', 'id': spec['id'],
                       'properties': {'kind': 'water', 'heightRH2000': level, 'isLake': True, 'isSea': False, 'waterKind': 'inland-pond',
-                                     'sourceId': IMG, 'outline': 'orto-o2-2025', 'levelMethod': 'lower quartile of the 1 m terrain inside the photo outline',
+                                     'sourceId': IMG, 'outline': IMG, 'levelMethod': 'lower quartile of the 1 m terrain inside the photo outline',
                                      'levelSpreadMetres': round(float(np.percentile(zs, 90) - np.percentile(zs, 10)), 2)},
                       'geometry': {'type': 'Polygon', 'coordinates': tt.round_coords(tt.largest(q.simplify(0.2)))}})
-# Bodies the sources cut in two: Mälaren at the 10 km tile seam (E 650 000) and the Stadium 6 pond. The higher
-# level of the two stands, so no flattened floor of the other part rises through the sheet.
+# Bodies the sources cut in two (at Bro Hof, Mälaren at a 10 km tile seam and the Stadium 6 pond). The higher level
+# of the two stands, so no flattened floor of the other part rises through the sheet.
 for ids in dec['mergeWater']:
     parts = [f for f in out_water if f['id'] in ids]
     if len(parts) != 2:
@@ -165,6 +184,13 @@ def add_facility(spec, poly, st):
 
 
 for spec in dec['facilities']:
+    if 'line' in spec:
+        # a line facility (the range's bay line) is kept as given: it is a reading off the photo, not an edge to snap
+        facilities.append({'type': 'Feature', 'id': spec['id'],
+                           'properties': {'kind': spec['kind'], 'parentFacilityId': spec.get('parent'), 'bayPitch': spec.get('bayPitch'),
+                                          'sourceId': IMG, 'edge': dict(start='as given')},
+                           'geometry': {'type': 'LineString', 'coordinates': [[round(e, 2), round(n, 2)] for e, n in spec['line']]}})
+        continue
     if 'osm' in spec:
         ring = next(shape(f['geometry']) for f in tt.load_json(ROOT / cfg['osm'])['features'] if f['id'] == spec['osm'])
         start = tt.largest(ring)
@@ -180,7 +206,7 @@ for spec in dec['facilities']:
         poly, st = start, {**(st or {}), 'kept': 'start'}
     add_facility(spec, poly, st)
 tt.write_json(HERE / 'facilities.geojson', tt.collection(facilities, status='traced-awaiting-review'))
-print('facilities', {f['id']: round(shape(f['geometry']).area) for f in facilities})
+print('facilities', {f['id']: round(shape(f['geometry']).area if f['geometry']['type'] != 'LineString' else shape(f['geometry']).length) for f in facilities})
 
 # ---------------------------------------------------------- infrastructure
 
@@ -225,7 +251,7 @@ for spec in dec['boulders']:
 for spec in dec['bridges']:
     line, moved = (LineString(spec['line']), 0.0) if len(spec['line']) == 2 else ridge(spec['line'], 1.2, spec['width'] * 0.7)
     infra.append({'type': 'Feature', 'id': spec['id'], 'properties': {'kind': 'bridge', 'style': spec['style'], 'width': spec['width'], 'sourceId': IMG,
-                                                                      'provenance': 'orthophoto-2025', 'observedYear': 2025, 'meanSnapMetres': round(moved, 2)},
+                                                                      'provenance': f'orthophoto-{YEAR}', 'observedYear': YEAR, 'meanSnapMetres': round(moved, 2)},
                   'geometry': {'type': 'LineString', 'coordinates': rnd(line.coords)}})
 for spec in dec.get('cartParks', []):
     infra.append({'type': 'Feature', 'id': spec['id'], 'properties': {'kind': 'cart_park', 'count': spec['count'], 'fleet': spec.get('fleet'), 'sourceId': IMG,
@@ -235,7 +261,7 @@ for f in tt.load_json(ROOT / cfg['osm'])['features']:
     tags = f['properties'].get('tags') or {}
     if tags.get('golf') == 'cartpath' and f['geometry']['type'] == 'LineString':
         infra.append({'type': 'Feature', 'id': f['id'], 'properties': {'kind': 'path', 'highway': 'cartpath', 'surface': tags.get('surface', 'asphalt'),
-                                                                      'width': float(tags.get('width', dec['cartPathWidth'])), 'sourceId': 'osm-odbl-2026-11-24'},
+                                                                      'width': float(tags.get('width', dec['cartPathWidth'])), 'sourceId': OSM_SOURCE},
                       'geometry': {'type': 'LineString', 'coordinates': rnd(f['geometry']['coordinates'])}})
 tt.write_json(HERE / 'infrastructure.geojson', tt.collection(infra, status='traced-awaiting-review'))
 kinds = {}

@@ -194,7 +194,7 @@ outlines). What exists, all of it records for the next sitting and none of it pu
   the recorded first look (`ring-review.json`) and a blind second look on the final outlines, each of its doubts
   answered.
 
-Still to do, in order: the layers (`build-layers.py` for water, paths, bridges, the practice grounds and the campus,
+Still to do, in order: the layers (a `layer-decisions.json` for the shared `packages/course-geo/mapping/build-layers.py`: water, paths, bridges, the practice grounds and the campus,
 from the September model's reviewed paths and municipal survey; water 22 out of the ponds), the compile, the
 production profile (`course-workflows/upsala/production.json`), the six stages and the promotion, the first look on
 the GPU, then a bake. The tree pipeline is its own sitting.

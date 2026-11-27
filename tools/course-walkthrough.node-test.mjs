@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { blocks, catalogueTable, groundFacts, merge, pictureList, scaffold } from './course-walkthrough.mjs';
+import { blocks, catalogueTable, groundFacts, merge, pictureList, picturePlan, practiceView, scaffold } from './course-walkthrough.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
@@ -49,4 +49,15 @@ test('the first pictures show each routing its first tee, last green, water, sho
   }
   assert.ok(views.some(view => /waste sand/.test(view.why)));
   assert.equal(new Set(views.map(view => `${view.slug}:${view.hole}:${view.vy}`)).size, views.length);
+});
+
+test('the first pictures include the practice ground, which no hole\'s view shows', () => {
+  const square = (x, z, size) => [[x, z], [x + size, z], [x + size, z + size], [x, z + size]];
+  assert.deepEqual(practiceView({ scenery: { range: [square(-300, -500, 200)], practiceGreens: [square(-20, -370, 20), square(40, -340, 15)] } }),
+    { ranges: 1, greens: 2, setView: 'V3D.setView(-122, 284, -187, -122, 0, -400)' }, 'above its middle, from the south: north is -z');
+  assert.equal(practiceView({ scenery: { range: [], practiceGreens: [] } }), null);
+  assert.equal(practiceView({}), null);
+  const plan = picturePlan(groundFacts('tjusta'));
+  assert.match(plan, /# 5\. The practice ground\./);
+  assert.match(plan, /\?bana=tjusta&hal=1 {3}V3D\.setView\(-?\d+, \d+, -?\d+, -?\d+, 0, -?\d+\) {3}\/\/ 1 range, 5 practice greens/);
 });
