@@ -135,12 +135,15 @@ build's own records, and a test fails when they fall behind. Everything else is 
   reeds.
 - **A ball on an island's low ground is still in the water** for the lie and Spela: they read the outer ring and the
   ground's height (land more than 0.3 m above the water is not water). No island is near play.
-- **Lätt 3D, from the blind look of 27 November after these fixes** (kept as faults in `visual-review.json`): the
-  sun's glitter on Castle 17's lake reads as static at the hole view's zoom (`map-gl.mjs`). The same look's cut-off
-  carry pills (Stadium 11, 13 and 16, Castle 12) were put right the same evening: every hazard pill whose middle is on
+- **From the blind look of 27 November after the mown banks** (kept as faults in `visual-review.json`): the sun's
+  glitter on Castle 17's lake reads as static in Lätt 3D at the hole view's zoom (`map-gl.mjs`). Since the review's
+  pictures draw Detaljerad 3D with the temporal AA, two views from above (Stadium 4 and 14) show a lake's mirror of
+  the sky's sun glow as a broad pale blotch on the sun's side; it is the same with `?waterreflect=0`, so it is the
+  water's own shading (`water-shading.mjs`), and it touches every course. The earlier look's cut-off carry pills
+  (Stadium 11, 13 and 16, Castle 12) were put right the same evening: every hazard pill whose middle is on
   the screen is shown whole, and a bunker's takes the side of its sand that fits (`map-overlay.mjs`); and the map
   draws the islands a lake holds as land (`map-course.mjs` `islands`, holes in the lake's path in `map-paint.mjs`;
-  `?waterislands=0` draws them under the water, as in the detailed course). The recorded look predates both.
+  `?waterislands=0` draws them under the water, as in the detailed course). This look doubted neither.
 - **Never looked at:** a real phone; the game (Spela) on either course; storm, mist, the blue hour and autumn by eye;
   low quality beyond a clean start.
 
