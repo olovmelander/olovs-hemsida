@@ -44,3 +44,29 @@ it('rejects a mismatched scorecard, a mixed shot log or an invalid hole', () => 
   expect(liveMutation(change(deviceA, 0, 'save', { ...snap, shots: [{ ...snap.shots[0], course: 'visby' }] }))).toBeNull();
   expect(liveMutation(change(deviceA, 0, 'save', { ...snap, card: { ...snap.card, playingHole: 0 } }))).toBeNull();
 });
+
+it('lets any device of the account take a round off the list, once, at the revision it was shown', async () => {
+  const db = database();
+  const send = input => changeLiveRound(db, 'u', liveMutation(input));
+  await send(change(deviceA, 0, 'save'));
+  /* Another device of the same golfer removes it; a stale revision changes nothing. */
+  expect((await send(change(deviceB, 7, 'dismiss'))).accepted).toBe(false);
+  expect(await listLiveRounds(db, 'u')).toHaveLength(1);
+  const dismissed = await send(change(deviceB, 1, 'dismiss'));
+  expect(dismissed.accepted).toBe(true);
+  expect(dismissed.row.status).toBe('ended');
+  expect(await listLiveRounds(db, 'u')).toEqual([]);
+  /* The recording phone's stale save does not bring it back. */
+  expect((await send(change(deviceA, 1, 'save'))).accepted).toBe(false);
+  expect(await listLiveRounds(db, 'u')).toEqual([]);
+  /* An offered round, which no device records, can be removed too. */
+  const other = { ...change(deviceA, 0, 'save'), id: 43, snapshot: { ...snap, card: { ...snap.card, id: 43 }, shots: [] } };
+  await send(other);
+  await send({ ...other, revision: 1, action: 'offer', operation: crypto.randomUUID() });
+  expect((await send({ ...change(deviceB, 2, 'dismiss'), id: 43 })).accepted).toBe(true);
+  expect(await listLiveRounds(db, 'u')).toEqual([]);
+  /* Another account's round is out of reach. */
+  await changeLiveRound(db, 'v', liveMutation({ ...change(deviceA, 0, 'save'), id: 44, snapshot: { ...snap, card: { ...snap.card, id: 44 }, shots: [] } }));
+  expect((await send({ ...change(deviceB, 1, 'dismiss'), id: 44 })).accepted).toBe(false);
+  expect(await listLiveRounds(db, 'v')).toHaveLength(1);
+});

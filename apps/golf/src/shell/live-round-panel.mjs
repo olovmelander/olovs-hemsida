@@ -1,5 +1,6 @@
 import { getCloudState, subscribeCloud } from './cloud.mjs';
-import { offerLive, reconcileLocalRounds, recordingDevice, remoteRounds, takeLive } from './live-rounds.mjs';
+import { discardLocalRound, dismissLive, offerLive, reconcileLocalRounds, recordingDevice, remoteRounds, takeLive } from './live-rounds.mjs';
+import { MORE_ICON, bindRoundActions, openRoundSheet, removalPending, removeWithUndo, roundsChanged } from './round-actions.mjs';
 import { mapUrl } from './router.js';
 
 const node = (tag, text) => {
@@ -39,7 +40,8 @@ export function showLiveRounds(panel, courses) {
       if (generation !== request || user !== getCloudState().user?.id || busy) return;
       reconcileLocalRounds(rows);
       if (stale) { stale = false; signature = null; status.textContent = ''; }
-      const next = rows.map(r => [r.course,r.id,r.revision].join('/')).join('|');
+      // A round on its way out (its undo showing) changes what is drawn, not what the server holds.
+      const next = rows.map(r => [r.course,r.id,r.revision].join('/') + (removalPending(r.course + '/' + r.id) ? '!' : '')).join('|');
       if (!force && next === signature) return;
       signature = next;
       const previous = new Map([...cards.querySelectorAll('details')].map(el => [el.dataset.id, el.open]));
@@ -50,6 +52,7 @@ export function showLiveRounds(panel, courses) {
       for (const row of rows) {
         const details = node('details');
         details.dataset.id = row.course + '/' + row.id;
+        if (removalPending(details.dataset.id)) continue;
         details.open = previous.get(details.dataset.id) ?? (location.hash === '#overlamna');
         const local = row.device === recordingDevice();
         let localCard;
@@ -59,7 +62,14 @@ export function showLiveRounds(panel, courses) {
         const card = row.snapshot.card;
         const name = courses.find(c => c.slug === row.course)?.name ?? row.course;
         const heading = offered ? 'Redo att tas över' : local ? 'Byt enhet' : 'Följ pågående runda';
-        details.append(node('summary', heading + ' · ' + name + ' · hål ' + card.playingHole));
+        const summary = node('summary', heading + ' · ' + name + ' · hål ' + card.playingHole);
+        const more = node('button');
+        more.type = 'button';
+        more.className = 'lr-more';
+        more.innerHTML = MORE_ICON;
+        more.setAttribute('aria-haspopup', 'dialog');
+        more.setAttribute('aria-label', 'Val för rundan på ' + name);
+        details.append(summary, more);
         const scores = Object.entries(card.scores).filter(([,s]) => s.picked || Number.isFinite(s.strokes));
         const strokes = scores.reduce((n,[,s]) => n + (s.strokes ?? 0), 0);
         details.append(node('p', scores.length + ' hål förda · ' + strokes + ' slag · Senast synkad ' + timeText(row.updatedAt)));
@@ -69,8 +79,9 @@ export function showLiveRounds(panel, courses) {
           details.append(list);
         }
         const canOffer = local && !offered && localCard?.id === row.id;
+        let primary = null;
         if (canOffer || local || offered) {
-          const button = node('button', canOffer ? 'Lämna över rundan' : 'Fortsätt på denna enhet');
+          const button = primary = node('button', canOffer ? 'Lämna över rundan' : 'Fortsätt på denna enhet');
           button.type = 'button';
           details.append(node('p', canOffer ? 'Efter överlämningen kan en annan inloggad enhet ta över scorekortet.' :
             'Scorekortet och de loggade slagen följer med.'), button);
@@ -90,6 +101,33 @@ export function showLiveRounds(panel, courses) {
             finally { busy = false; button.disabled = false; refresh(true); }
           };
         } else details.append(node('p', 'För att byta enhet, välj Lämna över rundan på enheten som för scorekortet.'));
+        /* The round's own sheet (round-actions.mjs): its action here, and removing it from the account. */
+        const played = scores.length === 1 ? '1 hål förda' : scores.length + ' hål förda';
+        const open = () => openRoundSheet({
+          title: name,
+          detail: heading + ' · hål ' + card.playingHole + ' · ' + played,
+          returnFocus: more,
+          actions: [
+            ...(primary ? [{ label: primary.textContent, run: () => primary.click() }] : []),
+            {
+              label: 'Ta bort rundan', danger: true,
+              note: !local && !offered ? 'Enheten som spelar rundan behåller sitt scorekort' : scores.length ? played + ' tas bort' : 'Inga hål är förda',
+              run: () => removeWithUndo({
+                key: details.dataset.id,
+                message: 'Rundan på ' + name + ' är borttagen',
+                hide: roundsChanged,
+                restore: roundsChanged,
+                commit: async () => {
+                  await dismissLive(row);
+                  if (local) discardLocalRound(row.course, row.id);
+                  roundsChanged();
+                },
+              }),
+            },
+          ],
+        });
+        more.onclick = open;
+        bindRoundActions(summary, open);
         cards.append(details);
         if (focusRow === details.dataset.id) (details.querySelector(focusTag) || details.querySelector('summary')).focus({ preventScroll: true });
       }

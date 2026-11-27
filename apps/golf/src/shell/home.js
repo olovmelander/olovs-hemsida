@@ -12,6 +12,8 @@ import { LOBBY_SHORT_LIST, LOBBY_SHORT_LIST_PHONE, catalogueIsLarge, dayText, lo
 import { ICONS } from './icons.js';
 import { subscribeCloud } from './cloud.mjs';
 import { showLiveRounds } from './live-round-panel.mjs';
+import { discardLocalRound, dismissLive, localRoundId } from './live-rounds.mjs';
+import { MORE_ICON, bindRoundActions, openRoundSheet, removalPending, removeWithUndo, roundsChanged } from './round-actions.mjs';
 
 const NEAR_METRES = 5000;
 const SORT_KEY = 'banvy-club-sort-v1';
@@ -596,7 +598,9 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
   }
 
   function renderResume(clubs, sessions, last) {
-    const featured = (phone ? ['map', 'play'] : ['play', 'map']).map(mode => sessions.find(s => s.mode === mode)).filter(Boolean);
+    /* A GPS round on its way out (its undo still showing) is not drawn again. */
+    const leaving = session => session.mode === 'map' && removalPending(`${session.course.slug}/${localRoundId(session.course.slug)}`);
+    const featured = (phone ? ['map', 'play'] : ['play', 'map']).map(mode => sessions.find(s => s.mode === mode && !leaving(s))).filter(Boolean);
     const courseCaption = course => {
       const title = layoutLabel(course);
       const club = clubs.find(group => group.id === clubIdFor(course.slug));
@@ -611,15 +615,24 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
         const action = gps ? 'Fortsätt GPS-rundan' : 'Fortsätt simuleringen';
         const completed = gps ? (session.holes === 1 ? '1 spelat hål' : `${session.holes} spelade hål`) : '';
         const where = [sessionPosition(session), completed, session.strokes ? `${session.strokes} slag` : ''].filter(Boolean).join(' · ');
-        return `<button class="home-resume${gps ? ' is-live' : ''}" id="homeResume-${session.mode}" type="button" data-resume="${session.mode}" data-club-id="${esc(clubIdFor(session.course.slug))}"${gps ? '' : ' data-simulation'}>
+        const card = `<button class="home-resume${gps ? ' is-live' : ''}" id="homeResume-${session.mode}" type="button" data-resume="${session.mode}" data-club-id="${esc(clubIdFor(session.course.slug))}"${gps ? '' : ' data-simulation'}>
           <span class="hr-thumb" style="background-image:url('${poster(session.course.slug)}')" aria-hidden="true"></span>
           <span class="hr-text"><span class="hr-kicker"><i class="hr-live" aria-hidden="true"></i>${action}</span>
             <span class="hr-name">${esc(courseCaption(session.course))}</span><span class="hr-sub">${esc(where)}</span></span>
           <span class="hr-go" aria-hidden="true">${ARROW}</span></button>`;
+        /* A GPS round has its own actions beside it (round-actions.mjs): end and keep it, or remove it. */
+        const more = gps ? `<button class="hr-more" type="button" id="homeResumeMore-map" data-round-more aria-haspopup="dialog" aria-label="Val för rundan på ${esc(courseCaption(session.course))}">${MORE_ICON}</button>` : '';
+        return `<div class="home-resume-item${gps ? ' is-live' : ''}">${card}${more}</div>`;
       }).join('');
       for (const session of featured) {
-        resumeSlot.querySelector(`[data-resume="${session.mode}"]`).onclick = () => onResume(session.course.slug, session.mode,
+        const card = resumeSlot.querySelector(`[data-resume="${session.mode}"]`);
+        card.onclick = () => onResume(session.course.slug, session.mode,
           session.mode === 'map' ? { round: 'resume' } : { sim: 'fortsatt', tee: session.tee, hole: session.hole });
+        if (session.mode !== 'map') continue;
+        const more = resumeSlot.querySelector('[data-round-more]');
+        const open = () => openLocalRound(session, courseCaption(session.course), more);
+        more.onclick = open;
+        bindRoundActions(card, open);
       }
       if (focusId) resumeSlot.querySelector('#' + CSS.escape(focusId))?.focus({ preventScroll: true });
       return;
@@ -639,6 +652,32 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     const btn = resumeSlot.querySelector('[data-resume]');
     btn.setAttribute('aria-label', `Öppna ${layoutLabel(course)} i ${MODES[mode].label}`);
     btn.addEventListener('click', () => onResume(course.slug, mode));
+  }
+
+  /* The sheet of this device's own GPS round: end it and keep it (when holes are played), or remove it. */
+  function openLocalRound(session, name, returnFocus) {
+    const slug = session.course.slug, id = localRoundId(slug);
+    if (id == null) return;
+    const holes = session.holes;
+    const played = holes === 1 ? '1 spelat hål' : `${holes} spelade hål`;
+    const actions = [];
+    if (holes > 0) actions.push({ label: 'Avsluta och spara rundan', note: `${played} sparas i statistiken`, run: () => onResume(slug, 'map', { round: 'end' }) });
+    actions.push({
+      label: 'Ta bort rundan', danger: true,
+      note: holes > 0 ? `${played} och scorekortet tas bort` : 'Inga hål är spelade',
+      run: () => removeWithUndo({
+        key: `${slug}/${id}`,
+        message: `Rundan på ${name} är borttagen`,
+        hide: roundsChanged,
+        restore: roundsChanged,
+        commit: async () => {
+          discardLocalRound(slug, id);
+          await dismissLive({ course: slug, id });
+          roundsChanged();
+        },
+      }),
+    });
+    openRoundSheet({ title: name, detail: [sessionPosition(session), played].filter(Boolean).join(' · '), actions, returnFocus });
   }
 
   let nearAsked = false;
@@ -709,6 +748,7 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     }
   });
   addEventListener('banvy-sync-changed', () => refresh());
+  addEventListener('banvy-rounds-changed', () => refresh());
 
   const installBtn = el.querySelector('[data-install]');
   const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
