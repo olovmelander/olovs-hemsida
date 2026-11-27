@@ -291,7 +291,7 @@ written into it. An unseen sample can be used once.
 | Final six stages and promotion | `cli.mjs run`, `promote.mjs` |
 | Files no published generation names | `promote.mjs --ground <ground> --prune` lists them; `--apply` removes them. The generation before stays whole, as the rollback. |
 | Map pictures, roof colours | `tools/bake-map-land.mjs`, `roof-colours.py` |
-| Every course's prepared water, tints, vista and scatter, then the boots | `BANVY_GPU=1 node tools/gpu-pass.mjs` (one sitting; `--dry-run` shows the order) |
+| Every course's prepared water, tints, vista and scatter, then the boots | `BANVY_GPU=1 node tools/gpu-pass.mjs` (one sitting; `--dry-run` shows the order; in a worktree beside other sessions, `--port` a port of its own) |
 | Posters, then the catalogue row and scorecard | `tools/make-posters.mjs --candidates` then `--write`; `packages/course-pack/emit-manifest.mjs --only=<slug>` |
 | The walkthrough | `node tools/course-walkthrough.mjs --ground <ground>`, then write its hand parts |
 | Release | `cli.mjs release`, or the owner's recorded acceptance: `acceptance.mjs --ground <ground>` prints what is open, and `--record --accepted-on <date> --basis "<what the owner was asked and answered>" --reasons <file>` writes the record, refusing one that leaves an open item out |
@@ -390,6 +390,7 @@ Each row is a fault that happened, and what stands in its way now.
 | Ponds standing low inside their banks because the engine read its level from carved ground | **a picture only** (the first look); `deferWaterBedToWorld` is the fix | 6 |
 | A mapped surface painted by the ground and laid as a sheet as well | `mapped-surface-once.test.mjs`, on every published course | 5 |
 | A surface wrong at a distance for another reason | **a picture only** | 6 |
+| The water's reflection finding ground under an opaque sheet (Visby's 32 m squares, 27 November) | **a picture only**; compare `?waterreflect=0` | 6 |
 | Trees of the wrong kind | **a picture only**; then the ground's species rule and its test | 6 |
 | Trees placed worse than they should be | the held-out benchmark | 7 |
 | Prepared data that no longer matches the code | `check-prepared-startup.mjs`, `check-prepared-water.mjs` | 8 |
@@ -473,6 +474,11 @@ them, and the app's bundles may not import from the workflow. It is the one plac
 - **The six stages take the whole app as their input.** One line changed under `apps/golf/src` is 40 minutes of
   stages again, and an edit while they run loses the run. Batch the app's edits between runs: register the
   terrain config before the first run, and take the first pictures before the second.
+- **Sessions in parallel share one machine.** On 27 November four sessions worked on four grounds at once, each in
+  its own worktree. The GPU pass served every checkout on port 8641, and its server check asked only whether
+  something answered there. A second pass would have baked and booted the first one's build. Give each worktree's
+  pass its own `--port`: a busy port is now refused. Whichever pull request with an engine change merges second
+  bakes again on the merged main.
 - **The practice ground is part of the course, and is looked at like one.** Tjusta's putting green came out with its
   collar, its chipping apron as a piece of the 1st fairway, its short-game area as rough and its tee line as a green
   strip, and no check saw any of it: the owner did, from the 1st tee. Draw each practice surface on the photo

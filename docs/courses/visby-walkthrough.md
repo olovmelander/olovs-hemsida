@@ -33,7 +33,17 @@ This list was drawn from the repository's records on 25 November 2026; nobody ha
 
 - **The outlines have never been checked ring by ring.** The ground was built with its own builder before the
   shared tracer, so it has no decision files, no ring sheets, no second look and no deck or sand measurement
-  (`course-doctor.mjs`: "known"). The fix is a trace from decisions under pipeline v2, stage 3.
+  (`course-doctor.mjs`: "known"). The fix is a trace from decisions under pipeline v2, stage 3. Its photos are
+  now on this machine. On 27 November `visbybuild/stac-ortho-discovery.mjs` found every Lantmäteriet flight
+  over Kronholmen from 2012 to 2026 readable with the account (September's dossier had the 2026 COGs refused).
+  `visbybuild/run-ortho-intake.mjs` fetched the 10 April 2026 leaf-off flight at 0.16 m in four windows with
+  a 0.32 m overview, the 14 May 2024 flight at 0.16 m, and the 4 June 2022 summer flight at 0.25 m: 876 MB in
+  `visbybuild/cache/ortho/`, with their records in `geo_data/course-v2/visby/acquisition/orthophoto-*.json`.
+  The records are not yet in the source manifest; they go in with the generation the trace makes. Still
+  missing for stage 3: a `trace-config.json` and the decision files. A look before any re-trace is nearer: the
+  Ängsö session's `packages/course-geo/mapping/export-model-surfaces.mjs` (branch `feat/angso-pipeline-v2`, not on
+  main on 27 November) writes an older ground's published outlines as a build's `playing-surfaces.geojson`, so the
+  ring sheets, `deck-ground.mjs`, `audit-sand.py` and the ring review can run on Visby's outlines as they stand.
 - **Sixteen of the eighteen greens are OpenStreetMap's outlines.** Only 3 and 9 were redrawn on the April 2026
   photo (`sourceIds` in `visbybuild/course-model.json`). [The photo pass](../../visbybuild/mapping/ORTHOPHOTO-2026.md)
   leaves the other greens' edges, most mowing lines and the fringes to review; bunker edges under crowns on 1, 5
@@ -41,7 +51,10 @@ This list was drawn from the repository's records on 25 November 2026; nobody ha
 - **Hole 12 has no tee deck.** No source shows its platform: the model says `unresolved-physical-platform`, all
   six marks stand on one approximate point on the fairway, and the line is 203 m against a card of 321 m
   ([dossier](visby-source-research.md): -36.7%). The GolfTraxx survey places the tee, but it is a cross-check
-  and moved nothing. It wants the deck found on the 2026 photo or on the ground, never a pad made up.
+  and moved nothing. It wants the deck found on the 2026 photo or on the ground, never a pad made up. On
+  27 November the 2024 and 2026 photos were looked at round the card's length, on the line's extension, which
+  is just east of hole 11's green (local 380, 297). No deck shows there: only the green's surround and worn
+  grass by the path. The next ways are the rounds (`tools/rounds-evidence.mjs`) or someone on the ground.
 - **33 of the 108 numbered tees are not tied to a deck.** 59 decks are mapped and 75 pairings corroborated
   ([tee review, 9 September](../../visbybuild/mapping/tee-alignment-review-2026-09-09.md)). Hole 15's deck across
   the path has no number, and on 13 and 14 the club's hole plans draw two tees where the card gives one length.
@@ -59,15 +72,23 @@ This list was drawn from the repository's records on 25 November 2026; nobody ha
 - **The coastal pine's shadow misses its gate at a low sun:** 0.795 and 0.785 against 0.80 at 9.4 degrees, kept
   as a known gap on 4 November ([realistic trees](../visual-trees-realistic-2026-11-03.md)). No fix is recorded;
   thicker pads moved it from 0.75 to 0.79.
-- **The sea has no bed, and its shore keeps two seams.** The laser gives the Baltic as a flat plate at 0.23 m and
-  a measured-only ground carves nothing, so the sheet is drawn opaque. Left open on 7 November: a straight colour
-  seam where the mapped window's shallows meet the sea beyond it, and a narrow plate where a mapped shore lies
-  inside the laser's ([the water's shores](../visual-water-shores-2026-11-07.md)). No fix is recorded.
+- **The sea has no bed, and one seam is left.** The laser gives the Baltic as a flat plate at 0.23 m and a
+  measured-only ground carves nothing, so the sheet is drawn opaque. Since 27 November the sea inside the mapped
+  window has its own shore field ([the sea's own shore](../visual-sea-shore-2026-11-27.md)). The plate under it
+  is masked past a 4.5 m strip, and the sheet fades in over 3 m from the mapped shore over a damp bank, so the
+  narrow plate left open on 7 November is now drawn as wet silt under the faded edge. Still open: the straight
+  colour seam where the window's shallows meet the extension's 32 m cells, about 2 km from the nearest hole, and
+  a coast beyond the window drawn with no fade ([the water's shores](../visual-water-shores-2026-11-07.md)). No
+  phone has seen the new shore.
 - **The campus trim is too bright, and parts of the campus are estimates.** The quality gate's one error is
-  "Visby / trim" at 0.869 linear luminance, over the 0.82 ceiling and the glow's own 0.86. A dimmer white means
+  "Visby / trim" at 0.869 linear luminance, over the 0.82 ceiling and the glow's own 0.86. The trim is
+  `f1f0e9` in `visbybuild/facilities/model_primitives.py`; `e8e7e0` reads 0.797. A dimmer white means
   rebuilding the model with [its builder](../../visbybuild/facilities/README.md) and validating it again, which
-  changes how the clubhouse looks; or it is accepted as it was looked at (pipeline v2, "Not done yet"). Eaves,
-  some roof heights and the 9 m net are estimates, and the net along the road is not modelled.
+  changes how the clubhouse looks; or it is accepted as it was looked at (pipeline v2, "Not done yet"). On
+  27 November it could not be rebuilt here. The builder needs its reference kit and the pinned
+  `terrain-1m.f32` from `visbybuild/cache/`, which this machine does not hold, and the Blender 4.5 it was
+  validated on (this machine has 5.3). Eaves, some roof heights and the 9 m net are estimates, and the net along
+  the road is not modelled.
 - **The release is advisory, with seven items open** (each has its exit gate in
   `geo_data/course-v2/visby/source-manifest.json`): no independent control for the frame or the routing, surfaces
   and boundaries not fully reviewed, no grant to use the club's, Caddee's or the municipal imagery in production,
@@ -138,6 +159,8 @@ check that did not exist; the last column says whether one exists now.
 | Dark 32 m rectangles along the whole coast: a see-through sea sheet with no bed under it | the owner's phone | after publication, 10 September | `waterSheetIsOpaque` and its test (`water-render-policy.test.mjs`) |
 | Hole 3 without its southern fairway bunker; 14 sand areas missing and two false ones | the bunker audit against the 0.16 m photo and the Caddee hole plans | 21 September | the dated bunker ledger, applied after every older overlay; tests sample the atlas at hole 3's five bunkers |
 | The coast beyond the mapped window a 32 m staircase, with about two dozen far trees in the sea | the owner, then the fix's own pictures | 7 November | `coastal-water-grow.test.mjs`; planting asks `isWaterAt` |
+| Darker 32 m squares in the sea along the whole coast inside the mapped window: the water's reflection finding the laser's plate under the sheet in every cell the mask kept within 45 m of a shore | the owner's screenshot of hole 1, Kväll; `?waterreflect=0` removed them | 27 November | the sea's shore field masks the plate past a 4.5 m strip (`coastal-water-shore.test.mjs`); a picture only for the reflection itself |
+| A sawtooth waterline with a pale rim: the opaque sheet cutting the laser's 1 m raster step from the flattened sea (0.23 m) to the land (0.64 m a metre inland) | the owner's screenshot of the south shore | 27 November | the sheet's 3 m fade and the damp bank (`water-road.test.mjs` holds the wiring); a picture only for how it looks |
 
 ## Decisions
 
@@ -151,6 +174,10 @@ The records attribute these to the owner (all 2026); none is an acceptance of th
 - **7 November:** no sharp lines in Visby's water in the distance or along the waterline; its coast now grows one
   32 m cell, masked by height.
 - **8 November:** the house kit and roofs measured on the photo for every course but Johannesberg, Visby among them.
+- **27 November:** the owner reported the squares in the sea and the jigsaw at the waterline, and asked for Visby
+  to be improved under the new pipeline. The same night the owner asked that nothing be put to them as a question
+  overnight. So the sea's shore was fixed on the recommendation recorded here, the photos for a stage-3 trace were
+  fetched, and the course model was left as it was.
 
 Still the owner's to decide or do: the trim (rebuild the campus with a dimmer white, or accept it and say so here);
 a look through the 18 holes and at a real phone on the coast; whether the ground is traced again under pipeline v2
@@ -175,6 +202,8 @@ The GPU and browser lines are the owner's to start (in PowerShell: `$env:BANVY_G
 
 ## Befores
 
+- `?seashore=0` draws the sea inside the mapped window as before 27 November: the plate kept in 32 m cells near
+  every shore, the sheet opaque to its polygon, and no damp bank.
 - `?waterreach=0` draws the coast beyond the mapped window in whole 32 m cells, and plants the far wood as before.
 - `?opensea=0` shades the sea as a lake, with a far shore's dark band; `?waterroad=0&watermirror=0&waterrelief=0`
   with it is the water as it was before the road pass of 25 September.

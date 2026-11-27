@@ -350,6 +350,11 @@ land cover's WATER class is a colour verdict: never paint from it. See
   [one way to stand the water](docs/visual-water-levels-2026-11-08.md).
   `?waterreach=0`, `?shorefade=0`, `?shoredamp=0` and `?waterlevel=before` are the
   befores. See [the water's shores](docs/visual-water-shores-2026-11-07.md).
+  Inside Visby's mapped window the sea has its own shore field (`coastal-water.mjs` `SEA_SHORE`,
+  27 November): the laser's sea plate is masked past a 4.5 m strip, so the water's reflection finds no
+  ground under the sheet (it drew 32 m squares), and the sheet fades in over 3 m from the mapped shore
+  over a damp bank instead of cutting the laser's 1 m step as a sawtooth. `?seashore=0` is the before;
+  see [the sea's own shore](docs/visual-sea-shore-2026-11-27.md).
 - The glow's threshold is per preset (`glow.mjs`). A low sun's sits just above
   its broad sky, cloud and haze paint (`skyPaintCeiling`), so none of that
   glows. Toward the sun the clouds' thick centres shine past it in the sun

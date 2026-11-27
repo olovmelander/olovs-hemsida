@@ -89,7 +89,7 @@ import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { canopySampler } from './engine/canopy-cover.mjs';
 import { LANDCOVER, decodeLandcover, landcoverSampler, isTreeClass, treeFraction } from './engine/landcover.mjs';
-import { buildCoastalWater } from './engine/coastal-water.mjs';
+import { buildCoastalWater, buildSeaShoreField, SEA_SHORE } from './engine/coastal-water.mjs';
 import { coastalWorldBounds, seaLevelInWorld, excludeOceanFromFlatWater } from './engine/coastal-runtime.mjs';
 import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface, isTurfRangeTarget, mappedLineHalfWidth } from './engine/surface-features.mjs';
@@ -2897,6 +2897,18 @@ const COASTAL_WATER = (() => {
   span('coastal water: connected extension', start, { cells: field.cells, grown: field.grownCells, quads: field.quads });
   return field;
 })();
+/* THE SEA'S OWN SHORE inside the mapped window (engine/coastal-water.mjs SEA_SHORE, 27 November):
+   the plate under the sea goes past a thin strip at the shore, so the water's reflection finds
+   no 32 m cells of it; the sheet fades in from its shore; the ground above it is damp.
+   ?seashore=0 is the before. */
+const SEA_SHORE_ON = new URLSearchParams(location.search).get('seashore') !== '0';
+const SEA_SHORE_FIELD = (() => {
+  if (!SEA_SHORE_ON || !COASTAL_WATER || CONTINUOUS_OCEAN) return null;
+  const start = performance.now();
+  const field = buildSeaShoreField({ sourceBounds: COASTAL_WATER.sourceBounds, bodies: M.water });
+  if (field) span('coastal water: the sea\'s own shore', start, { texels: field.width * field.height, sea: field.seaTexels });
+  return field;
+})();
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
 const FLAT_WATER_TINT = L(0x396f80);
@@ -3060,13 +3072,27 @@ function fillGroundTintTextures(tint, heightAt) {
   };
   /* the bank damp and the shallows' bed silt beside every lake read off its ground (engine/water-reach.mjs) */
   const reaches = SHORE_DAMP_ON ? M.water.filter(w => w.reach).map(w => w.reach) : [];
+  /* ...and beside the measured sea inside its window (SEA_SHORE): ground within dampReach of the
+     sea and under half a metre above its sheet is the lakes' damp bank, and the plate under the
+     sheet's faded edge their shallows' silt, so the laser's step at the waterline is drawn
+     between two wet colours instead of turquoise against a pale rim */
+  const seaSheetLevel = GEO.seaLevel + MEASURED_WATER_CLEARANCE_METRES;
+  const seaShoreWetness = (x, z, h) => {
+    if (!SEA_SHORE_FIELD || !Number.isFinite(h)) return null;
+    const into = SEA_SHORE_FIELD.distanceAt(x, z);
+    if (into < -SEA_SHORE.dampReach || into > SEA_SHORE.plateMargin + 2) return null;
+    const above = h - seaSheetLevel;
+    if (!(above < SHORE_DAMP.heightMetres)) return null;
+    const t = Math.min(1, Math.max(0, above / SHORE_DAMP.heightMetres));
+    return { under: above <= 0 ? 1 : 0, damp: above > 0 ? 1 - t * t * (3 - 2 * t) : 0 };
+  };
   fill(tint.near, (x, z, h = H(x, z)) => {
     if(CONTINUOUS_OCEAN?.isSeaAt(x,z))return SEA_TINT;
     if(CONTINUOUS_OCEAN?.isIslandAt?.(x,z)&&h<SEA_WORLD_LEVEL+3)return C.rock;
     /* this raster colours only the classes the ground material does not own */
     const base=groundAt(x,z,h,{surfacesOwned:true}).col,sand=OCEAN_SOURCE?.surfaces.sandWeight(x,z)??0;
     const col = sand>0?base.map((v,k)=>lerp(v,C.sand[k]*(.93+.05*fbm(x*.08,z*.08,2)),sand)):base;
-    const shore = reaches.length ? shoreWetness(reaches, x, z, h) : null;
+    const shore = (reaches.length ? shoreWetness(reaches, x, z, h) : null) ?? seaShoreWetness(x, z, h);
     if (!shore) return col;
     return col.map((v, k) => lerp(v, SHORE_BED[k], shore.under * SHORE_DAMP.bedShare) * (1 - SHORE_DAMP.darken * shore.damp));
   });
@@ -3515,7 +3541,7 @@ const SOURCE_WATER_COVERAGE = await (async () => {
   console.info(`source water coverage: ${field.polygons} polygons at or under ${field.seaLevel} m, ${field.hectares} ha of terrain masked at ${field.spacing} m`);
   return field;
 })();
-const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER ?? SOURCE_WATER_COVERAGE) : null;
+const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER ?? SOURCE_WATER_COVERAGE, { shore: SEA_SHORE_FIELD }) : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Every quality draws native terrain. ?terrainStride=2 is the reduced grid
      low WebGL2 drew until 24 September: ring grounds keep every native course
@@ -4417,7 +4443,7 @@ await tick('fyller vattnet', 0.52);
 /* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 const measuredBank = await bankReflectionReady;
-function makeWater({ mask = null, showBed = true, ocean = false, sea = false, freezes = !ocean && !sea } = {}) {
+function makeWater({ mask = null, showBed = true, ocean = false, sea = false, freezes = !ocean && !sea, seaShore = null } = {}) {
   /* no bed to see through to -> nothing to be see-through for (see the policy) */
   const opaque = waterSheetIsOpaque({ ocean, showBed });
   const m = new THREE.MeshBasicNodeMaterial({ transparent: !opaque, side: THREE.DoubleSide });
@@ -4426,7 +4452,7 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false, fr
     measuredOnly: ocean || M.infra.terrainPlacement === 'measured-only', depthSign: DEPTH_SIGN,
   });
   /* the colour and opacity (water-shading.mjs), with the water batch's light and ripples unless their befores are asked for */
-  const { colour, opacity: sheetOpacity, wp } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,
+  const { colour, opacity: sheetOpacity, wp, seaFade } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,
     cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON,
     road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,
     cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON,
@@ -4434,7 +4460,9 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false, fr
     bank: new URLSearchParams(location.search).get('waterbank') !== '0',
     /* in from nothing at the shore (engine/water-shading.mjs WATER_SHORE_FADE); ?shorefade=0 is the before */
     shoreFade: new URLSearchParams(location.search).get('shorefade') !== '0',
-    reflection: WATER_REFLECTION, measuredBank, lightScale: paintedWaterLight });
+    reflection: WATER_REFLECTION, measuredBank, lightScale: paintedWaterLight,
+    /* the measured sea's own shore inside its window (engine/coastal-water.mjs SEA_SHORE) */
+    seaShore });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
@@ -4461,6 +4489,9 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false, fr
     m.depthWrite = false;
   }
   m.opacityNode = opaque ? float(1) : opacity;
+  /* an opaque sea that fades in from its own shore (SEA_SHORE): drawn with the transparent
+     water, whole everywhere but its first metres, over the plate the terrain mask keeps there */
+  if (opaque && seaFade) { m.transparent = true; m.opacityNode = seaFade; }
   return m;
 }
 // Measured coastlines use physical clearance and normal depth testing. The
@@ -4468,7 +4499,8 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false, fr
 const waterMat = makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only' });
 /* The open sea is the lakes' water without their far shore: Visby's Baltic mirrored
    a wood across its whole horizon (engine/water-road.mjs; ?opensea=0 is the before). */
-const openSeaMat = OPEN_SEA_ON && HAS_SEA ? makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only', sea: true }) : waterMat;
+const openSeaMat = OPEN_SEA_ON && HAS_SEA ? makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only', sea: true,
+  seaShore: COASTAL_TERRAIN_MASK?.shoreMap ? { shore: SEA_SHORE_FIELD, map: COASTAL_TERRAIN_MASK.shoreMap } : null }) : waterMat;
 /* The sea a source-water coverage masks the terrain under is drawn OPAQUE, the
    way the Norrfällsviken ocean is: with the plate gone there is sky behind a
    transparent sheet, and a 14% window on the sky paled the whole fjärd. */

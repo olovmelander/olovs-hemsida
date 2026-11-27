@@ -22,3 +22,11 @@ test('one course narrows the bakes and the boots', () => {
   const plan = gpuPassPlan({ only: ['bro-hof-castle'] });
   for (const id of ['water', 'tints', 'vista', 'boot-hi']) assert(plan.find(s => s.id === id).command.includes('bro-hof-castle'), id);
 });
+
+test('a pass on its own port tells every step that port, and only that one', () => {
+  const plan = gpuPassPlan({ port: 8693 });
+  for (const step of plan) if (step.serves) {
+    assert(step.command.some(a => a.includes('127.0.0.1:8693')), step.id);
+    assert(!step.command.some(a => a.includes('127.0.0.1:8641')), step.id);
+  }
+});

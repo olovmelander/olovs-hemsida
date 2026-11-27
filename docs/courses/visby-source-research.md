@@ -233,7 +233,7 @@ without credentials** through the viewing service Min karta proxies:
 |---|---|---|---|
 | **Lantmäteriet `Ortofoto_0.16`** via `minkarta.lantmateriet.se/map/ortofoto` | **0.16 m** RGBI | **2026-04-10**, leaf-off | yes, no credentials |
 | **Region Gotland `Ortofoto_2022`** ImageServer | 0.25 m | summer, leaf-on | yes, open service |
-| Lantmäteriet `orto-f2-2026` COG on `dl1` | 0.16 m | same flight | **no** — 401/403 |
+| Lantmäteriet `orto-f2-2026` COG on `dl1` | 0.16 m | same flight | **no** — 401/403 (yes since at least 27 November 2026: see below) |
 | Esri World Imagery z18 | 0.3214 m | WorldView-2, **2016-08-24** | yes |
 | municipal 2022 image (what the model was traced from) | — | 2022 | retained |
 
@@ -251,6 +251,13 @@ accepting special terms; the proxy's capabilities carry no Fees or
 AccessConstraints element; Region Gotland's terms are likewise open. Both are
 used as tracing and review evidence, neither is redistributed, and no
 orthophoto is or becomes a runtime texture.
+
+**27 November 2026.** A STAC search over the course box with the same account
+(`visbybuild/stac-ortho-discovery.mjs`) found 46 items, and every orthophoto COG answered a range read with
+206. The flights are 2012 to 2026 (`orto-f2-2026`, 10 April; `orto-f2-2024`, 14 May; `orto-f2-2022`, 4 June;
+2020, 2018, 2016 and 2014) and the historical series back to 1958. The 2026, 2024 and 2022 flights were fetched
+for pipeline v2's trace (`visbybuild/run-ortho-intake.mjs`; records in `geo_data/course-v2/visby/acquisition/`).
+They are offline evidence under the same terms as above, and never a runtime texture.
 
 ### Measured vegetation, and a sixteen-kilometre ground
 
