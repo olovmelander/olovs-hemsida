@@ -31,7 +31,7 @@ fs.writeFileSync(cfg, `export default [{
        bundler has replaced them, so eslint has to be told they are there. Every
        key added to define in apps/golf/vite.config.js belongs here. Note this
        block is inside a template literal -- no backticks, no dollar-brace. */
-    __COURSE_SOURCE_REVISION__:'readonly', __GOLFER_LAB__:'readonly',
+    __COURSE_SOURCE_REVISIONS__:'readonly', __GOLFER_LAB__:'readonly',
   } },
   rules: { 'no-undef': 'error' },
 }];\n`);

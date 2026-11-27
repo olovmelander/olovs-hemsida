@@ -32,7 +32,7 @@ async function runVista(vegetationPlacement) {
        canonicalJson rightly refuses a foreign prototype, so copy across first */
     preparedVistaInputs: inputs => preparedVista.preparedVistaInputs(JSON.parse(JSON.stringify(inputs))),
     BAKE_VISTA: false, PREPARED_VISTA_LOADING: Promise.resolve(null), BOOT_PERF: {},
-    V2_SELECTION: { graph: null }, CMETA: { slug: 'test' }, __COURSE_SOURCE_REVISION__: '0'.repeat(64),
+    V2_SELECTION: { graph: null }, CMETA: { slug: 'test' }, COURSE_SOURCE_REVISION: '0'.repeat(64),
     landmarkArchitecture: null, SURR: null, MOWN_REC: null, terrainV2: {}, CONTINUOUS_OCEAN: null, COASTAL_WATER: null,
   };
   await runInNewContext(`(async () => { ${vistaPass} })()`, context);

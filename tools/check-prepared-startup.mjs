@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { inflateRawSync } from 'node:zlib';
-import { courseSourceRevision } from './course-source-revision.mjs';
+import { courseSourceRevisions } from './course-source-revision.mjs';
 import { groundTintIdentity } from '../apps/golf/src/engine/prepared-ground-tint.mjs';
 import { preparedWaterIdentity, decodePreparedWater } from '../apps/golf/src/engine/prepared-water.mjs';
 import { preparedVistaIdentity, validPreparedVistaReference, vistaVariant } from '../apps/golf/src/engine/prepared-vista.mjs';
@@ -14,7 +14,8 @@ import { preparedScatterIdentity, validPreparedScatterReference, scatterVariant 
 import { canonicalJson } from '../packages/course-v2/canonical-json.mjs';
 import { validateStartupManifest } from '../packages/course-v2/startup-manifest.mjs';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-export async function checkPreparedStartup(publicRoot, revision) {
+/** `revisions` is each course's source revision by slug (tools/course-source-revision.mjs). */
+export async function checkPreparedStartup(publicRoot, revisions) {
   const read = async relative => {
     assert.equal(typeof relative, 'string');
     const target = path.resolve(publicRoot, relative);
@@ -40,6 +41,7 @@ export async function checkPreparedStartup(publicRoot, revision) {
   const results = [];
   for (const meta of catalog.courses) {
     const entry = v2.courses.find(c => c.slug === meta.slug); assert.ok(entry, `${meta.slug}: missing v2`);
+    const revision = revisions[meta.slug]; assert.match(revision ?? '', /^[a-f0-9]{64}$/, `${meta.slug}: the build has no source revision for this course`);
     const course = JSON.parse(await verified(entry.manifest));
     const ground = JSON.parse(await verified(course.groundManifest));
     const startupBytes = await verified(meta.startup), startup = JSON.parse(startupBytes);
@@ -97,11 +99,11 @@ export async function checkPreparedStartup(publicRoot, revision) {
     results.push({ course: meta.slug, chunks: Object.keys(startup.entries).length, packages: startup.packs.length,
       tints, water: meta.preparedWater ? 'prepared' : 'verified unsupported path', vista, scatter });
   }
-  return { revision, courses: results };
+  return { revisions, courses: results };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const i = process.argv.indexOf('--public'), root = path.resolve(i < 0 ? 'apps/golf/dist' : process.argv[i + 1]);
-  const revision = JSON.parse(await fs.readFile(path.join(root, 'course-startup-build.json'))).revision;
-  assert.equal(revision, courseSourceRevision(process.cwd()), 'built revision differs from source');
-  console.log(JSON.stringify(await checkPreparedStartup(root, revision), null, 2));
+  const revisions = JSON.parse(await fs.readFile(path.join(root, 'course-startup-build.json'))).revisions;
+  assert.deepEqual(revisions, courseSourceRevisions(process.cwd()), 'built revisions differ from source');
+  console.log(JSON.stringify(await checkPreparedStartup(root, revisions), null, 2));
 }

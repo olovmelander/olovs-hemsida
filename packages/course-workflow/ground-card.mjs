@@ -58,9 +58,10 @@ export function groundCardErrors(card) {
   return errors;
 }
 
-/** Where `const NAME = <object or array literal>` lies in a source text: the literal's first and one past its last character. */
+/** Where `const NAME = <object or array literal>` lies in a source text: the literal's first and one past its last character.
+ * A frozen table (`Object.freeze([...])`) is read as its literal. */
 export function literalSpan(source, name) {
-  const found = new RegExp(`(?:^|\\n)(?:export )?const ${name} = `).exec(source);
+  const found = new RegExp(`(?:^|\\n)(?:export )?const ${name} = (?:Object\\.freeze\\()?`).exec(source);
   if (!found) return undefined;
   const start = found.index + found[0].length, open = source[start], close = open === '{' ? '}' : open === '[' ? ']' : null;
   if (!close) return undefined;

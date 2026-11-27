@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { checkPreparedStartup } from './check-prepared-startup.mjs';
-import { courseSourceRevision } from './course-source-revision.mjs';
+import { courseSourceRevisions } from './course-source-revision.mjs';
 
 async function alteredCatalog(mutate, run) {
   const source = path.resolve('apps/golf/public'), root = await fs.mkdtemp(path.join(os.tmpdir(), 'banvy-prepared-gate-'));
@@ -25,7 +25,7 @@ async function alteredCatalog(mutate, run) {
 }
 
 describe('prepared startup release gate', () => {
-  const revision = courseSourceRevision(process.cwd());
+  const revision = courseSourceRevisions(process.cwd());
   it('rejects a stale source identity rather than silently falling back', async () => {
     await alteredCatalog(c => { c.courses[0].preparedTint['painted-hi'].identity = '0'.repeat(64); },
       async root => { await expect(checkPreparedStartup(root, revision)).rejects.toThrow(/stale\/missing hi tint/); });
