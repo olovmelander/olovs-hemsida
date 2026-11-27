@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import zlib from 'node:zlib';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { pinnedFiles, pinProduction } from '../packages/course-workflow/pin-production.mjs';
@@ -326,4 +327,31 @@ test('the doctor reads a ground\'s records once and sorts what it finds, worst f
   const written = fs.existsSync(path.join(ROOT, 'docs/courses/ribbingsfors-walkthrough.md'));
   assert.ok(older.some(finding => finding.about === 'walkthrough' && finding.level === (written ? 'ok' : 'todo')), 'a walkthrough that is there and current holds; one that is missing is work to do');
   assert.ok(!older.some(finding => finding.about === 'ring review' || finding.about === 'sand'), 'no record is asked of a ground that never had the step');
+});
+
+test('white stakes never rule a shot onto a hole\'s own fairway or green out, as Spela reads them', async () => {
+  const { goodShotsCalledOut, spelaBoundaries } = await import('./out-of-bounds-shots.mjs');
+  /* Spela's handle in main.js gives the play mode exactly these two lists */
+  const main = fs.readFileSync(path.join(ROOT, 'apps/golf/src/main.js'), 'utf8');
+  assert.match(main, /boundaries: \(\) => \[\.\.\.\(M\.marking \|\| \[\]\)\.filter\(m => m\.c === 'w'\)\.map\(m => m\.pts\), \.\.\.\(M\.outOfBounds\?\.lines \|\| \[\]\)\.map\(l => l\.line\)\]/);
+  assert.deepEqual(spelaBoundaries({ marking: [{ c: 'r', pts: [[0, 0], [1, 1]] }, { c: 'w', pts: [[2, 2], [3, 3]] }], outOfBounds: { lines: [{ line: [[4, 4], [5, 5]] }] } }),
+    [[[2, 2], [3, 3]], [[4, 4], [5, 5]]]);
+  /* a par 3 played north (-z) onto a round green at the origin, 150 m from the tee */
+  const ring = Array.from({ length: 24 }, (_, i) => [12 * Math.sin(i / 24 * 2 * Math.PI), 12 * Math.cos(i / 24 * 2 * Math.PI)]);
+  const arc = (from, to) => Array.from({ length: 10 }, (_, i) => { const a = from + (to - from) * i / 9; return [30 * Math.sin(a), -30 * Math.cos(a)]; });
+  const hole = { n: 1, par: 3, line: [[0, 150], [0, 0]], pin: [0, 0], green: { ring, c: [0, 0] }, tees: { marks: [{ c: [0, 150] }] } };
+  const front = goodShotsCalledOut({ holes: [hole], marking: [{ c: 'w', pts: arc(Math.PI / 2, 3 * Math.PI / 2) }] })[0];
+  const behind = goodShotsCalledOut({ holes: [hole], marking: [{ c: 'w', pts: arc(-Math.PI / 2, Math.PI / 2) }] })[0];
+  assert.equal(front.out, front.shots, 'stakes across the front of the green rule every tee shot onto it out');
+  assert.equal(behind.out, 0, 'stakes behind the green rule none out');
+  /* Veckefjärden, where the owner found it: both layouts' published packs */
+  for (const slug of ['veckefjarden', 'veckefjarden-korthalsbanan']) {
+    const bytes = fs.readFileSync(path.join(ROOT, `apps/golf/public/courses/${slug}/pack.bin`));
+    const headerBytes = bytes.readUInt32LE(4), header = JSON.parse(bytes.subarray(8, 8 + headerBytes).toString('utf8'));
+    const at = 8 + headerBytes + header.HF0.bytes + header.HF1.bytes;
+    const vectors = JSON.parse(zlib.inflateRawSync(bytes.subarray(at, at + header.VEC.bytes)).toString('utf8'));
+    const report = goodShotsCalledOut(vectors);
+    assert.ok(report.every(r => r.shots > 0), `${slug}: every hole has shots to replay`);
+    assert.deepEqual(report.filter(r => r.out).map(r => r.hole), [], `${slug}: holes with good shots called out`);
+  }
 });
