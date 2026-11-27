@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "stage": "sources",
   "status": "passed",
-  "startedAt": "2026-11-26T18:40:21.775Z",
-  "finishedAt": "2026-11-26T18:40:30.439Z",
+  "startedAt": "2026-11-27T00:18:51.198Z",
+  "finishedAt": "2026-11-27T00:19:04.234Z",
   "command": [
     "node",
     "packages/course-workflow/production.mjs",
@@ -14,15 +14,15 @@
   ],
   "inputsBefore": {
     "course-workflows/tjusta/intake-plan.json": "030861b5f9e3a1f687cd73e9d634b79897b856894498fea87a3011c53ed12787",
-    "course-workflows/tjusta/production.json": "596a2715d9deae997f31ce874ad80420171a66161b4aa561e9749414318641e3",
+    "course-workflows/tjusta/production.json": "74a669d2bc26ca125ba2d8bb61f8ce0273690248555c77bf7da7619b29f294ec",
     "geo_data/course-v2/source-catalog.json": "674dd9eed798c45824427e87643eec16cb90e742fd6cbbeecdf50c8a39f6940b",
     "geo_data/course-v2/tjusta/acquisition/d2-discovery.json": "aa71d622e9c00423d127b9c88b5cbde38e6b2c38c32bc7da0d1e928145622b17",
     "geo_data/course-v2/tjusta/acquisition/ground-rings.json": "43445533482a0bae9efe3221e04d73c9e464ff855cf5b3be72fdc1067494dd6e",
     "geo_data/course-v2/tjusta/acquisition/laser-campaigns.json": "1d6a2ec5da6b7190acb09ffa5589d2b9944c7e3c4fc1ca364000606b3aa89757",
     "geo_data/course-v2/tjusta/acquisition/orthophoto-review.json": "3cef7bd241bd1cf19c5c5469e0f22fff46c601a4ac9a061e8374e72891162d6a",
-    "geo_data/course-v2/tjusta/migration/course-model.epsg3006.json": "f27ee2c98264198669d3e5f80d7ea20de5e016bc5499bfdbf9b9c204f6ea6e4b",
-    "geo_data/course-v2/tjusta/migration/residual-report.json": "72a755021170e78a5d2c117e3e4db7088c91b3e3796b98b59bc27706bb450f22",
-    "geo_data/course-v2/tjusta/source-manifest.json": "2b707df9268d1215df6fbd235f98237542d1c835c4838b2acaf5ab0ae7cd833f",
+    "geo_data/course-v2/tjusta/migration/course-model.epsg3006.json": "48503e223938c4b5d4b9ffc3a7e277208586b7b638f790ea07304e237addada1",
+    "geo_data/course-v2/tjusta/migration/residual-report.json": "488240d0c604c565b00041450d03703b0aaaa7aecb97a21e6f2dda42c6d66561",
+    "geo_data/course-v2/tjusta/source-manifest.json": "9f72408c724f35bf1419dfda45f09b7280988f73ad3de19498afa00709eeaa8e",
     "geo_data/course-v2/tjusta/vegetation/canopy-evidence.json": "7cc21e3216118488037e4079be74b9ac1ff3426fb99ae8e2476112b58135c07f",
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l0.f32": "1440dad3d3c6b2a322c16719e56f937399b40d3abd8cbbe101e53b593555aecb",
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l1.f32": "31a5677a4a8915dc7b0b559de6d67cfca92b62ef616476ada352f4cec88a1da6",
@@ -40,18 +40,18 @@
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6700-25.f32": "837f2f25322ad7fa99598a578723345f22bd869ca69008a1cd4d14e6c2b058b0",
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-vegetation/chm-21c038-66100-6700-25.json": "736cf1ed2f590eb00893df7230a79845c919dc5677af97f689d4f70145788407",
     "tjustabuild/card.json": "794051184589b9bd901cb662a030360f57e9d6615768bc5b7576c8d58cb5b931",
-    "tjustabuild/course-model.json": "e026b78e46473151b0c1ad2f33164b30c824397e8823f0d6aefe0edd0bc76e76",
+    "tjustabuild/course-model.json": "48198ed8ec8ed4d00a841998cfba6ed60a5146f9126051e4ebe61a3d18f11ca8",
     "tjustabuild/heightfields.json": "814bc438c0f23696a3334a374ab8a829ad7dc757b1e559dc862abbf44e887ec1",
     "tjustabuild/landcover.json": "625a3ea12659c91b68183d203f738d855a7989141168b06b0983d6e4a1cc69a4",
     "tjustabuild/mapping/decisions.json": "f6275e6d3b0c94f6f2f36bb4462c98506e308ca660c475f2bbeee60105f5bf0a",
     "tjustabuild/mapping/guide-plates.json": "65a9764f098e08a1e5e34220c8e409de58ed6f2f50808797e89e8910b31c572f",
-    "tjustabuild/mapping/layer-decisions.json": "b07be71de4a17d3d29c870015b61a8fafd0058c47e0000b906fa29829c97d578",
+    "tjustabuild/mapping/layer-decisions.json": "6f7cba5ffcf0a70cb6ab5f04a57a409f2b89d8c69e911325af5788f708e82e1c",
     "tjustabuild/mapping/sand-decisions.json": "7f9bb64593c5c0999625585502b110a33b1003d7d2f1f099c763cd9af3883f37",
-    "tjustabuild/mapping/trace-report.json": "4dcad4bc0553964ef34f73aa8df0a7ec34c3e78072d23d1b51b13677d1cd801a",
+    "tjustabuild/mapping/trace-report.json": "f61ecfb9a1850f2ff4f5f91c3c3816d8e42bef2fd5d28ef745b6cb7ea07f6625",
     "tjustabuild/reference/club-scorecard.json": "65ac97c876abc3135fd03948a8bc6856bb61bf4085263d7b98f114659d9945c1"
   },
-  "fingerprint": "0ad8077d97e0c5e32248377a0487b5624f5a2087ddb318ad986874ef60fe2435",
+  "fingerprint": "2c61a8f8deca46700afaba1b89a44e3673ed461f14a14a3c2a577d4a525df87d",
   "outputs": {
-    "output/course-workflow/tjusta/stages/sources/sources.json": "69252b2606c38ae301b937c5ec361ce25ae6eea5ec19e7d711f303e3c77a9a18"
+    "output/course-workflow/tjusta/stages/sources/sources.json": "067cb5260cc45408f42ecba90da317d32f2bd0bb42f174ef7e586328f2dc77d2"
   }
 }

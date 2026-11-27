@@ -13,17 +13,17 @@ years, the laser and a guide's hole plates, and nobody who has played it has loo
 | --- | --- |
 | Holes and par | 18, par 72 |
 | Tees on the card | Gul 5,878 m, Röd 4,959 m |
-| Greens, tee decks, fairways, bunkers | 18, 37, 36, 14 |
+| Greens, tee decks, fairways, bunkers | 18, 37, 35, 14 |
 | Waste areas | none |
 | Tee marks against the card | 36 marks, median 0.1 m, 32 within 5 m, worst 13.7 m (hole 18, rod) |
-| Outlines looked at ring by ring | 2026-11-26: 105 rings, 15 redrawn |
-| A second, blind look at them | 2026-11-26: 19 doubts, 12 stand, 7 kept as faults; 6 it could not judge |
+| Outlines looked at ring by ring | 2026-11-27: 104 rings, 15 redrawn |
+| A second, blind look at them | 2026-11-27: 15 doubts, 9 stand, 6 kept as faults; 4 it could not judge |
 | Tee decks on level ground in the terrain | 33 of 36 measured |
 | Posters, prepared data, scorecard | 5, 4 of 4, yes |
 
-- **Ground:** 469 terrain tiles (terrain a mosaic of flights from 2021-03-23 to 2025-06-14, photo 2025-06-14, laser 2021-04-17), 29 lakes and ponds, 26 creeks and ditches, 0 bridges. Generation `6ea14d821c3b`.
+- **Ground:** 469 terrain tiles (terrain a mosaic of flights from 2021-03-23 to 2025-06-14, photo 2025-06-14, laser 2021-04-17), 29 lakes and ponds, 26 creeks and ditches, 0 bridges. Generation `144cc658696e`.
 - **The ground's age:** where the course is newer than the terrain under it, by what was measured. Tjusta Gård 7 (2 bunkers built or reshaped since the 2021-04-18 photo, 2 bunkers without a bowl in the terrain); Tjusta Gård 11 (1 bunker built or reshaped since the 2021-04-18 photo, 1 bunker without a bowl in the terrain); Tjusta Gård 13 (2 bunkers built or reshaped since the 2021-04-18 photo, 2 bunkers without a bowl in the terrain); Tjusta Gård 16 (1 bunker built or reshaped since the 2021-04-18 photo, 1 bunker without a bowl in the terrain). Tee decks only: Tjusta Gård 4 (1), Tjusta Gård 10 (1), Tjusta Gård 18 (1). A deck that is not level is newer than the terrain or off its deck; both photo years say which.
-- **Sand:** the 2025-06-14 photo was read round every hole against the model's 14 bunkers and waste areas: 0 of them hold little sand or have sand outside their line, and 92 areas of bright sand are not in the model, 85 of those on nothing the map holds. Each has a verdict; 0 are kept as a fault.
+- **Sand:** the 2025-06-14 photo was read round every hole against the model's 14 bunkers and waste areas: 0 of them hold little sand or have sand outside their line, and 92 areas of bright sand are not in the model, 86 of those on nothing the map holds. Each has a verdict; 0 are kept as a fault.
 - **Trees:** automatic (169 object tiles, 179 stand tiles); not placed one by one.
 - **Buildings:** 216 mapped, 205 with a roof colour measured on the photo; an authored campus of 5 parts (clubhouse, clubhouse-terrace, machine-hall, grey-hall, range-shelter), 1,276 triangles.
 - **Quality gate:** 0 errors, 0 warnings (`tools/check-course-quality.mjs`); each is on its hole below.
@@ -34,7 +34,6 @@ years, the laser and a guide's hole plates, and nobody who has played it has loo
   - `routing-unconfirmed`: The club publishes no hole map and no hole-by-hole card. The routing is read from four photo years and the laser's tee decks against the card Golf i Sverige and Caddee print alike, and from Golf i Sverige's hole plates registered on the photo (16 of 18 fit; the two par 3s were read by eye). The red tees of holes 4 and 18 are on no plate and stand 8.9 and 13.7 m from the card. Nobody who has played the course has confirmed it.
   - `surface-intake-pending`: All 18 holes were traced on the 2025 orthophoto with three more photo years beside it; the agent's look at every ring is recorded, and a blind second look's 19 doubts are answered (12 stand, 7 are stated faults: six bunkers and the 18th tee's extension are newer than the 2021 laser). The 10th green's front shows on no photo. The owner has not reviewed the outlines.
 - **Faults the second look and the sand audit found, kept until they can be put right:**
-  - `tjusta-tee-18-1`: the deck was lengthened after the laser was flown: mown only in its north-east half in April 2021, over the whole ring from 2023. The terrain under its south-west half is the old ground (0.13 m off a plane). A newer laser flight puts it right
   - `tjusta-bunker-07-1`: built after the laser was flown (turf on the April 2021 photo, sand in 2025): the terrain has no bowl under it and it is drawn as flat sand. A newer laser flight puts it right
   - `tjusta-bunker-07-2`: built after the laser was flown (turf on the April 2021 photo, sand in 2025): flat sand on the old ground. A newer laser flight puts it right
   - `tjusta-bunker-11-1`: built after the laser was flown (rough on the April 2021 photo, sand in 2025): flat sand on the old ground. A newer laser flight puts it right
@@ -77,6 +76,10 @@ years, the laser and a guide's hole plates, and nobody who has played it has loo
   hall's main eaves rest on four returns. The other farm buildings are still the house kit's.
 - **The ditches were not checked one by one.** Water is drawn wherever the laser shows a cut channel (22 of 26),
   as wide as the channel and as blue as a pond; whether each holds water in summer was not looked at.
+- **The range's targets are the engine's, not the club's.** The photos of 2019 and 2021 show four targets in the
+  range field, at about 50, 100 and 150 m from the tee line (two at 150); the engine plants its own flags along the
+  field. The mats are its generic bays, one every 3 m along the measured line; their number on the photo is
+  about the same.
 - **No independent control.** The frame is Lantmäteriet's own grid and heights; no surveyed point has been held
   against it.
 
@@ -117,7 +120,7 @@ an empty cell is no promise that the hole is right.
 | 15 | Ut ur fältet | 4 | 12 | 332 m | 2 | 0 | water, creek | 0.0 m |  | [tee](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=15&vy=tee) · [green](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=15&vy=green) · [map](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=15&karta=1) |
 | 16 | Mittgången | 5 | 16 | 395 m | 2 | 1 |  | 0.9 m | second look: `tjusta-bunker-16-1` is a fault; `tjusta-bunker-16-1` has no bowl in the terrain: built after it was flown; `tjusta-bunker-16-1` was 99% grass on the 2021-04-18 photo: built or reshaped since | [tee](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=16&vy=tee) · [green](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=16&vy=green) · [map](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=16&karta=1) |
 | 17 | Rundgreenen | 3 | 6 | 180 m | 2 | 0 |  | 0.0 m |  | [tee](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=17&vy=tee) · [green](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=17&vy=green) · [map](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=17&karta=1) |
-| 18 | Hem runt gårdsdammen | 4 | 10 | 376 m | 3 | 2 | water | 13.7 m | rod tee -13.7 m against the card; gul deck not on level ground in the terrain (0.3% slope, 0.13 m off a plane); second look: `tjusta-tee-18-1` is a fault | [tee](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=18&vy=tee) · [green](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=18&vy=green) · [map](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=18&karta=1) |
+| 18 | Hem runt gårdsdammen | 4 | 10 | 376 m | 3 | 2 | water | 13.7 m | rod tee -13.7 m against the card; gul deck not on level ground in the terrain (0.3% slope, 0.13 m off a plane) | [tee](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=18&vy=tee) · [green](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=18&vy=green) · [map](https://olovmelander.github.io/olovs-hemsida/?bana=tjusta&hal=18&karta=1) |
 <!-- /generated:holes -->
 
 ## How each fault was found
@@ -139,6 +142,7 @@ is a check that did not exist; the last column says whether it exists now.
 | No land cover: beyond the 1 m core the map's ground was 92% forest, Arlanda included | the map's test on each ground's forest picture | 5 | that test; `sidecars.landcover` in the production profile |
 | The clubhouse drawn as a block of flats, forty windows in two rows | the first GPU picture, held against the club's photograph | 6 | the authored campus (26 November), and its test: the barn's ridge stands at the laser's 33.69 m |
 | The modelled wing's eaves stuck out across the barn's front; the shelter's dividing wall stood through its roof | the facility pipeline's CPU previews, before the model was published | 5 | the previews; nothing checks a part against its roof |
+| The practice ground drawn wrong: the putting green with its collar and the trees' shade (511 m2 for 294), the chipping green's mown apron as a diagonal piece of the 1st hole's fairway with a band of semi-rough round it, the short-game area north of the range as rough with none of its three target circles, and the tee line as a green strip with no mats | the owner, on a picture from the 1st tee (27 November) | 9 | the facility decisions, read on the 2025 and 2023 photos, and `fairwayExclude` over the apron in the trace config; the build test of the practice ground (its greens, its bays one every 3 m) |
 | The Sverigekarta lost the keyboard when a group was opened under reduced motion (the groups were drawn twice, the second time over the group just focused) | the Cloudflare pipeline's browser journey `check-lobby-scale.mjs`, on main | 9, after the merge: the deploy stopped | the groups are drawn only when the zoom changes (`map.js`); that journey; the pipeline's rule to run the journeys before the pull request |
 
 

@@ -479,6 +479,11 @@ them, and the app's bundles may not import from the workflow. It is the one plac
   something answered there. A second pass would have baked and booted the first one's build. Give each worktree's
   pass its own `--port`: a busy port is now refused. Whichever pull request with an engine change merges second
   bakes again on the merged main.
+- **The practice ground is part of the course, and is looked at like one.** Tjusta's putting green came out with its
+  collar, its chipping apron as a piece of the 1st fairway, its short-game area as rough and its tee line as a green
+  strip, and no check saw any of it: the owner did, from the 1st tee. Draw each practice surface on the photo
+  (`layer-decisions.json`), keep the fairway model out of the ones it is not (`fairwayExclude`), and give a range its
+  tee line as a `range_bay_line`, which the compiler turns into the bays the engine and the phone map draw.
 - **A new club is a change to the start menu.** Tjusta, the twelfth club, stayed in Bro Hof's group on the
   Sverigekarta a step longer than any club before it, and showed that opening a group lost the keyboard under
   reduced motion. Only the Cloudflare pipeline's journeys saw it, after the merge.
