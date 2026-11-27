@@ -60,7 +60,10 @@ and say so in your report. A `known` fault is kept on purpose: change it only by
    sheets, the recorded look, the blind second look, a verdict on everything the audits name. All of
    it is `tools/course-rebuild.mjs --ground <ground> --to review`, which runs from the card alone.
 4. Model: compile, the build's tests, the source inventory.
-5. A first course with automatic trees: pin, the six stages, promote, the quality gate.
+5. A first course with automatic trees: pin, the six stages, promote, the quality gate, then Lätt 3D's
+   copies: `bake-map-land.mjs` and `bake-map-buildings.mjs` (the rebuild's `map-land` and `map-buildings`
+   steps), and a new ground's frame in `MAP_GROUND_FRAMES`. Both modes draw the same records; the doctor's
+   `phone map`, `map pictures` and `map buildings` lines say what is behind.
 6. The first look: ask the owner for a short GPU sitting before any bake.
 7. Trees: their own sitting, with the `tree-placement` agent.
 8. Release build, and the rehearsal of CI in a clean worktree.
@@ -70,7 +73,8 @@ and say so in your report. A `known` fault is kept on purpose: change it only by
 
 Find the row in the upgrade table of `docs/pipeline-v2.md`, change the one file it names, and run
 `tools/course-rebuild.mjs --ground <ground> --from <step>`. After it: the quality gate, the walkthrough
-(`--check`), and the doctor again.
+(`--check`), and the doctor again. A republished club building is the campus test and then
+`bake-map-buildings.mjs`, so Lätt 3D draws the new one too.
 
 ## What you report
 

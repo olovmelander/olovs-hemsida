@@ -18,6 +18,7 @@
      ok       holds
 
    It starts no browser and no heavy job, and changes nothing. It is the place to begin a sitting. */
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -34,6 +35,8 @@ import { exportErrors, isExported } from '../packages/course-geo/mapping/export-
 import { pinProduction, pinnedFiles } from '../packages/course-workflow/pin-production.mjs';
 import { prunePlan } from '../packages/course-workflow/promote.mjs';
 import { waterOffTheLine } from './water-line.mjs';
+import { hasModelledBuildings } from './bake-map-buildings.mjs';
+import { MAP_GROUND_FRAMES } from '../apps/golf/src/map/map-frames.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const exists = file => fs.existsSync(path.join(ROOT, file));
@@ -200,7 +203,38 @@ export async function examine(groundId, facts = groundFacts(groundId), { water =
     const rows = json(review).holes.flatMap(hole => Object.values(hole.categories)), looked = rows.filter(row => row.status !== 'unknown').length;
     if (looked < rows.length) say('owner', 'the owner\'s look', `${looked} of ${rows.length} hole-by-hole verdicts given`, home ? `node tools/course-review-page.mjs --ground ${groundId} --overlays <dir>   (a local page to click through)` : undefined);
   }
+  out.push(...mapFindings(groundId));
   return out.sort((p, q) => LEVELS.indexOf(p.level) - LEVELS.indexOf(q.level));
+}
+
+/** Lätt 3D, the phone map, draws what the detailed course draws, from the same records, for a phone (the owner,
+ * 27 November 2026: one source, each mode drawn for its device). Its frame of the ground, its pictures of water and
+ * forest and its copy of the club's own buildings are each baked from records the pipeline republishes, so each can
+ * fall behind them: the rebuild's map-land and map-buildings steps bake them again. */
+export function mapFindings(groundId, root = ROOT) {
+  const out = [], say = (level, about, text, run) => out.push({ level, about, text, ...(run ? { run } : {}) });
+  const read = file => JSON.parse(fs.readFileSync(path.join(root, 'apps/golf/public', file), 'utf8'));
+  const entry = read('courses/v2-index.json').courses.find(course => course.groundId === groundId);
+  if (!entry) { say('todo', 'phone map', 'the ground is not published yet: the map reads the published ground'); return out; }
+  const groundManifest = read(entry.manifest.url).groundManifest, fingerprint = read(groundManifest.url).frame.fingerprint;
+  const frame = MAP_GROUND_FRAMES[groundId];
+  if (!frame) say('broken', 'phone map', 'no map frame for this ground: Lätt 3D cannot open it', 'add the ground to MAP_GROUND_FRAMES in apps/golf/src/map/map-frames.mjs');
+  else if (frame.frameFingerprint !== fingerprint) say('broken', 'phone map', 'its map frame was reviewed against another frame of the ground', 'review the ground in MAP_GROUND_FRAMES (apps/golf/src/map/map-frames.mjs)');
+  const land = read('models/map-land.json').grounds?.[groundId];
+  if (!land) say('todo', 'map pictures', 'none: the map\'s water and forest stop at the outlines', 'node tools/bake-map-land.mjs');
+  else if (land.ground !== fingerprint || land.terrain !== groundManifest.sha256) say('broken', 'map pictures', 'baked from terrain that is no longer the published one', 'node tools/bake-map-land.mjs');
+  else say('ok', 'map pictures', 'water and forest from the published terrain');
+  const club = read('models/map-buildings.json').grounds?.[groundId];
+  if (!club) {
+    if (hasModelledBuildings(groundId, root)) say('todo', 'map buildings', 'the club\'s own buildings have no Lätt 3D copy: the map draws their plain footprints', 'node tools/bake-map-buildings.mjs');
+    return out;
+  }
+  const sha = file => createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex');
+  const moved = club.sources.filter(source => !fs.existsSync(path.join(root, source.path)) || sha(source.path) !== source.sha256).map(source => source.path);
+  if (moved.length) say('broken', 'map buildings', `the copy is behind ${moved.length} republished source${moved.length === 1 ? '' : 's'} (${moved.slice(0, 2).join(', ')})`, 'node tools/bake-map-buildings.mjs');
+  else if (read(club.file).frame !== fingerprint) say('broken', 'map buildings', 'baked against another frame of the ground', 'node tools/bake-map-buildings.mjs');
+  else say('ok', 'map buildings', `${club.buildings} of the club's own buildings, from their current models`);
+  return out;
 }
 
 /** The private data a ground was built from: raw photos, laser and club material in the caches git ignores. They are

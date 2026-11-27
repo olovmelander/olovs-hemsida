@@ -6,7 +6,7 @@
    node tools/course-rebuild.mjs --ground <id> [--compare <older-photo.tif> --compare-captured <YYYY-MM-DD>]
 
    card  decisions  trace  decks  sand  sheets  review  layers  compile  tests  inventory  pin  configure  stages  promote
-   prune  roofs  quality  map-land  walkthrough
+   prune  roofs  quality  map-land  map-buildings  walkthrough
 
    Changing one tee deck means re-running most of this, and each step reads what the one before it wrote. At Bro
    Hof the order lived in a shell script outside the repository, and was run six times. Here it is derived from
@@ -96,6 +96,7 @@ export function rebuildPlan(groundId, { from = null, to = null, compare = [], co
       [node('tools/rebind-roof-colours.mjs', '--ground', groundId, '--slug', routings[0].slug, '--write')])),
     step('quality', 'the quality gate', when(hasProfile || published, [node('tools/check-course-quality.mjs', '--ground', groundId)])),
     step('map-land', 'the phone map\'s water and forest', when(hasProfile || published, [node('tools/bake-map-land.mjs')])),
+    step('map-buildings', 'the phone map\'s copy of the club\'s own buildings', when(hasProfile || published, [node('tools/bake-map-buildings.mjs')])),
     step('walkthrough', 'the walkthrough\'s generated parts', when(hasProfile || published, [node('tools/course-walkthrough.mjs', '--ground', groundId), node('tools/course-walkthrough.mjs', '--catalogue')])),
   ].filter(s => typeof s.commands === 'function' || s.commands.length);
   const index = (id, fallback) => { if (!id) return fallback; const i = plan.findIndex(s => s.id === id); if (i < 0) throw new Error(`${groundId} has no step ${id} (it has: ${plan.map(s => s.id).join(', ')})`); return i; };
@@ -144,14 +145,14 @@ async function main() {
     : `${groundId} has no production profile yet (course-workflows/${groundId}/production.json, stage 5): with it come pin, the six stages, promote and what follows.`;
   if (argv.includes('--dry-run')) {
     if (without) console.log(`${without}\n`);
-    for (const step of plan) console.log(`${step.id.padEnd(12)}${step.what}\n${commandsOf(step).map(c => `            ${shown(c)}`).join('\n') || '            (nothing to draw as the ground stands; after a trace, the rings it moved)'}`);
+    for (const step of plan) console.log(`${step.id.padEnd(14)}${step.what}\n${commandsOf(step).map(c => `              ${shown(c)}`).join('\n') || '              (nothing to draw as the ground stands; after a trace, the rings it moved)'}`);
     return;
   }
   const dir = path.join(ROOT, 'output/course-rebuild', `${groundId}-${new Date().toISOString().replace(/[:.]/g, '-')}`);
   fs.mkdirSync(dir, { recursive: true });
   for (const [i, step] of plan.entries()) {
     const log = path.join(dir, `${String(i + 1).padStart(2, '0')}-${step.id}.log`), started = Date.now();
-    process.stdout.write(`${step.id.padEnd(12)}`);
+    process.stdout.write(`${step.id.padEnd(14)}`);
     let code = 0;
     for (const command of commandsOf(step)) { code = await run(command, log); if (code) break; }
     const seconds = Math.round((Date.now() - started) / 1000);

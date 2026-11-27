@@ -300,7 +300,7 @@ With automatic trees, so that everything else can be looked at.
 | Scenery: roofs, sand, buildings, species, water, campus | `geobuild/facilities/roof-colours.py`, `<build>/facilities/build_campus.py` on `tools/facility-pipeline/campus_mesh.py` (frames, faces that know which way they look, roofs, the export), `tools/facility-pipeline/*` |
 | A building's own axes, eaves and roof levels from the laser, before modelling it | `node tools/facility-pipeline/measure-building.mjs --points <points.json> --context <context.geojson> --building <id>` |
 | The campus model as pictures, on the CPU | `blender --background --factory-startup --python tools/facility-pipeline/preview-facility-glb.py -- --manifest <facilities-v1.json> --out <dir>` |
-| The map's pictures | `node tools/bake-map-land.mjs` |
+| Lätt 3D: the map's pictures and its copy of the club's own buildings | `node tools/bake-map-land.mjs`, `node tools/bake-map-buildings.mjs` (the rebuild's `map-land` and `map-buildings` steps; the doctor says when either is behind) |
 
 The six stages watch the code they run and nothing else: the stage adapter and the runner with every module they
 import (68 modules, one of them the app's), the two lockfiles and the ground's profile. The app may be edited
@@ -314,6 +314,15 @@ known to the phone map (`MAP_KNOWS` in `map-course.mjs`) and the test that no ma
 the ground and laid as a sheet (`mapped-surface-once.test.mjs`); `node tools/lint-app.mjs` is clean; and
 `node tools/audit-water-levels.mjs --course <slugs> --check` names no water body near play that stands unlike
 every accepted pond, or each one it names has been looked at.
+
+**Both modes, one source** (the owner, 27 November 2026). Detaljerad 3D is for the desktop and may spend the
+GPU; Lätt 3D is the phone's, for a round with GPS, and stays light. A ground is built once: its terrain, outlines,
+trees, water, roof colours and club buildings are the same records in both, and Lätt 3D draws its own lighter
+copy of each. Its copies are baked: the land pictures (`bake-map-land.mjs`) and the club's own buildings
+(`bake-map-buildings.mjs`), both in the rebuild after `promote`, and its frame of a new ground is reviewed into
+`MAP_GROUND_FRAMES` (`apps/golf/src/map/map-frames.mjs`). `course-doctor.mjs` reads all three for a ground and
+says which is missing or behind. Never give one mode a fact the other reads differently: change the record, then
+bake.
 
 ### 6. The first look
 
@@ -348,7 +357,7 @@ written into it. An unseen sample can be used once.
 | --- | --- |
 | Final six stages and promotion | `cli.mjs run`, `promote.mjs` |
 | Files no published generation names | `promote.mjs --ground <ground> --prune` lists them; `--apply` removes them. The generation before stays whole, as the rollback. |
-| Map pictures, roof colours | `tools/bake-map-land.mjs`, `roof-colours.py` |
+| Map pictures, the map's club buildings, roof colours | `tools/bake-map-land.mjs`, `tools/bake-map-buildings.mjs`, `roof-colours.py` (both modes read the roof colours) |
 | Every course's prepared water, tints, vista and scatter, then the boots | `BANVY_GPU=1 node tools/gpu-pass.mjs` (one sitting; `--dry-run` shows the order; it takes the first free port by itself and says which, so a pass beside another session's never serves or bakes the other checkout's build) |
 | Posters, then the catalogue row and scorecard | `tools/make-posters.mjs --candidates` then `--write`; `packages/course-pack/emit-manifest.mjs --only=<slug>` |
 | The walkthrough | `node tools/course-walkthrough.mjs --ground <ground>`, then write its hand parts |
@@ -413,7 +422,7 @@ Generate the ground's walkthrough first if it has none; it works on every publis
 | A newer photo | stage 1 for the window | all of stage 3, with a full ring review | that ground |
 | Newer terrain or laser | stage 2 | everything after it | that ground |
 | Trees | a new round in `trees.json`, on a new unseen sample | stage 7, the six stages, promote, map pictures | that ground |
-| A building or the campus model | `build_campus.py`, `publish-facility-glb.mjs`, `validate-facility-glb.mjs` | the campus test | none for the model alone |
+| A building or the campus model | `build_campus.py`, `publish-facility-glb.mjs`, `validate-facility-glb.mjs` | the campus test, then `bake-map-buildings.mjs` for Lätt 3D's copy (`map-club-buildings.test.mjs` fails until it runs) | none for the model alone |
 | Colours, species, stated buildings, a ground's own switches | the ground's scenery module | the first look | that ground (its module is in its own revision, and in no other's) |
 | A rule every course runs (how water stands, how the ground is drawn) | the engine | the first look, on more than one ground | **every course** |
 | Something missing on the phone map | `map-course.mjs`, `map-paint.mjs`, `MAP_KNOWS` | the map tests, a look at phone width | none |
