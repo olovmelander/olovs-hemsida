@@ -103,6 +103,18 @@ describe('hazard pills', () => {
     expect(pillOf(bunker(200, 237, 'mitt')).y).toBeLessThan(232);
   });
 
+  it("shows every pill whole: by the screen's edge a bunker's pill takes a side that fits", () => {
+    /* Cut off at the left edge in the blind review (Bro Hof Stadium 11, 13 and 16, Castle 12, 27 November). */
+    const half = '95–108 m'.length * 3.7 + 12;
+    for (const side of ['vänster', 'mitt', 'höger']) {
+      const at = pillOf(bunker(10, 240, side));
+      expect(at.x - half, side).toBeGreaterThanOrEqual(8);
+      expect(at.x > 16 || at.y < 235, `${side}: off the sand`).toBe(true);
+    }
+    const water = pillOf({ kind: 'water', at: [12, 240], front: 95, carry: 108, side: 'vänster' });
+    expect(water.x - half).toBeGreaterThanOrEqual(8);
+  });
+
   it('keeps a hazard without an outline on its middle', () => {
     const water = pillOf({ kind: 'water', at: [250, 240], front: 95, carry: 108, side: 'höger' });
     expect(water.x).toBe(250);

@@ -264,7 +264,7 @@ Far crowns settle too: between 400 m and 2.5 km a tree's own tone and its sunlit
 ease toward the wood's, so a forest seen from far off reads as a wood, not as glitter
 on the painted canopy. Trees round a hole are untouched. `?treecalm=0` is the before.
 
-Three faults the blind review of Bro Hof found on 27 November, put right in the map alone:
+Faults the blind looks at Bro Hof found on 27 November, put right in the map alone:
 
 - **The shallows have no seams.** A lake runs teal near its shore and deep in the open, and
   that tone is read off one shore field for the whole ground (`map-paint.mjs`
@@ -276,7 +276,14 @@ Three faults the blind review of Bro Hof found on 27 November, put right in the 
 - **A bunker's distances stand beside its sand.** The pill goes on the side of the sand
   away from the line of play as the screen shows it, so a turned map keeps it off the
   sand, and above a bunker on the line (`map-overlay.mjs`; Castle 2's greenside bunkers
-  were hidden under it). `?hazardpills=before` is the pill on the group's middle.
+  were hidden under it). Where that would not fit whole on the screen it takes the top or
+  the other side, and any hazard pill whose middle is on the screen is moved in from its
+  edge, never cut off (Stadium 11, 13 and 16, Castle 12). `?hazardpills=before` is the pill
+  on the group's middle.
+- **An island in a lake is land.** The pack keeps each water's islands (`innerRings`) and
+  the map paints them as holes in the lake, with their own shores and shallows (Mälaren's
+  1.2 ha island off Stadium 15 stood its trees in open water). `?waterislands=0` is the lake
+  whole, as in the detailed course.
 - **Near crowns keep their colour.** The tree atlases reach the GPU premultiplied, as the
   shader that divides by coverage expects: WebGL ignores the premultiply flag for an
   `ImageBitmap`, so near birches were drawn pale lime with glowing rims (Stadium 2,

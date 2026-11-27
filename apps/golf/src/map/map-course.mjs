@@ -152,6 +152,8 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     water: [...(vectors.water ?? []), ...(far?.water ?? []).filter(item => Number.isFinite(item.level))]
       .filter(item => validRing(item?.ring))
       .map(item => ({ ring: placeAll(item.ring), sea: Boolean(item.isSea), overLand: outlineOverLand(ground.groundId, item.ring),
+        /* the islands the outline holds, land as the detailed course draws them (Malaren's at Bro Hof) */
+        islands: (item.innerRings ?? []).filter(validRing).map(placeAll),
         /* a pack's own body, known by its outline as the shores were baked from it */
         shoreKey: vectors.water?.includes(item) ? { points: item.ring.length, first: item.ring[0] } : null })),
     streams: lines(vectors.streams),

@@ -1411,3 +1411,16 @@ describe('nothing in a pack is left off the map', () => {
     expect([...new Set(unknown)], 'paint it in map-course.mjs and map-paint.mjs, or name it under MAP_KNOWS.notDrawn with its reason').toEqual([]);
   });
 });
+
+describe('islands in a lake', () => {
+  it('reach the map as land: Malaren keeps the islands its outline holds', () => {
+    /* Drawn as open water, the island off Bro Hof Stadium 15 showed its trees standing in the lake
+       (the blind review, 27 November). The pack keeps them as innerRings. */
+    const course = courseFor('bro-hof-stadium');
+    const islands = course.features.water.flatMap(item => item.islands ?? []);
+    expect(islands.length).toBeGreaterThan(0);
+    for (const ring of islands) expect(ring.every(point => point.every(Number.isFinite))).toBe(true);
+    const paint = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), 'map-paint.mjs'), 'utf8');
+    expect(paint).toMatch(/islandedPath\(\[item\.ring, \.\.\.item\.islands\]\)/);
+  });
+});
