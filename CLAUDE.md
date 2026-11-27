@@ -200,7 +200,13 @@ trees as the player's own impostors, so rerun
 camera's distance, at most 12 km, 9 km from Min vy (owner request, 8 November), and past
 the 1 m tiles it plants a far wood from its forest picture, drawn from the measured trees
 (`map-far-forest.mjs`, off houses and roads); `?treereach=before` and `?farforest=0` are
-the befores. Never import `engine/scenery/*`
+the befores. The tree budget is four times what it was by quality step, and a thinned
+tile's trees stand larger so a wood keeps its cover; houses stand at every zoom, raised
+on the finest ground in memory (owner request, 27 November; `?treebudget=before`,
+`?treethin=0`). Each club's own buildings (its facility GLBs, authored meshes and stated
+houses) stand in for the footprints under them, simpler, from
+`tools/bake-map-buildings.mjs` (`map-club-buildings.mjs`; `?clubhouses=0`): rerun it when
+a club's buildings are republished. Never import `engine/scenery/*`
 there (it brings three.js), and keep its work out of the folders the source revision
 hashes. Wider than a phone (760 px), its hole bar, dock and sheets keep to one centred
 640 px column. Run `tools/check-map-field.mjs` on more than one course. Nothing that is supposed to be

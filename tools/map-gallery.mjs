@@ -52,6 +52,26 @@ export const VIEWS = [
     state.flight = null; state.follow = false;
     Object.assign(camera.state, { x: g[0], z: g[1], distance: 90, tilt: 0.95 });
     invalidate();` },
+  /* The club's own buildings by the first tee, and how much forest and how many
+     houses stand as the camera draws back (owner, 27 November: they thinned). */
+  /* Each ground's largest building of its own (tools/bake-map-buildings.mjs), close. */
+  ...Object.entries(JSON.parse(fs.readFileSync('apps/golf/public/models/map-buildings.json', 'utf8')).grounds).map(([ground, entry]) => {
+    const slug = JSON.parse(fs.readFileSync('apps/golf/public/courses/v2-index.json', 'utf8')).courses.find(course => course.groundId === ground).slug;
+    const record = JSON.parse(fs.readFileSync(`apps/golf/public/${entry.file}`, 'utf8'));
+    const [x, z] = record.buildings.reduce((a, b) => (b.cells > a.cells ? b : a)).feet[4];
+    return { id: `club-${ground}`, slug, hole: 1, do: `
+    const { state, camera, invalidate } = V3DMap;
+    state.flight = null; state.follow = false;
+    Object.assign(camera.state, { x: ${x}, z: ${z}, distance: 170, tilt: 0.8 });
+    invalidate();` };
+  }),
+  ...['tjusta', 'bro-hof-castle', 'johannesberg'].flatMap(slug => [400, 1500, 4000].map(distance => ({
+    id: `${slug}-zoom${distance}`, slug, hole: 1, do: `
+    const { state, camera, course, invalidate } = V3DMap;
+    const t = course.holes[0].tees[0]?.point ?? course.holes[0].line[0];
+    state.flight = null; state.follow = false;
+    Object.assign(camera.state, { x: t[0], z: t[1], distance: ${distance}, tilt: 0.85 });
+    invalidate();` }))),
 ];
 
 const only = flag('views', null)?.split(',');
