@@ -218,7 +218,7 @@ export function mapFindings(groundId, root = ROOT) {
   if (!entry) { say('todo', 'phone map', 'the ground is not published yet: the map reads the published ground'); return out; }
   const groundManifest = read(entry.manifest.url).groundManifest, fingerprint = read(groundManifest.url).frame.fingerprint;
   const frame = MAP_GROUND_FRAMES[groundId];
-  if (!frame) say('broken', 'phone map', 'no map frame for this ground: Lätt 3D cannot open it', 'add the ground to MAP_GROUND_FRAMES in apps/golf/src/map/map-frames.mjs');
+  if (!frame) say('broken', 'phone map', 'no map frame for this ground: Lätt 3D cannot open it', `node tools/course-rebuild.mjs --ground ${groundId} --from register --to register`);
   else if (frame.frameFingerprint !== fingerprint) say('broken', 'phone map', 'its map frame was reviewed against another frame of the ground', 'review the ground in MAP_GROUND_FRAMES (apps/golf/src/map/map-frames.mjs)');
   const land = read('models/map-land.json').grounds?.[groundId];
   if (!land) say('todo', 'map pictures', 'none: the map\'s water and forest stop at the outlines', 'node tools/bake-map-land.mjs');

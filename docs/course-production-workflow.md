@@ -234,8 +234,8 @@ A promoted ground is drawn by both modes from the same records: Detaljerad 3D on
 the desktop and Lätt 3D, the phone map. Lätt 3D's copies are baked after the
 promotion: `tools/bake-map-land.mjs` (its water and forest) and
 `tools/bake-map-buildings.mjs` (its simpler copy of the club's own buildings),
-the rebuild's `map-land` and `map-buildings` steps. A new ground also needs its
-map frame in `MAP_GROUND_FRAMES`. `tools/course-doctor.mjs --ground <id>` says
+the rebuild's `map-land` and `map-buildings` steps. Its `register` step writes
+the ground into every table, the map's frame in `MAP_GROUND_FRAMES` among them. `tools/course-doctor.mjs --ground <id>` says
 when any of the three is missing or behind; see
 [pipeline v2, both modes](pipeline-v2.md).
 

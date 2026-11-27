@@ -62,7 +62,7 @@ and say so in your report. A `known` fault is kept on purpose: change it only by
 4. Model: compile, the build's tests, the source inventory.
 5. A first course with automatic trees: pin, the six stages, promote, the quality gate, then Lätt 3D's
    copies: `bake-map-land.mjs` and `bake-map-buildings.mjs` (the rebuild's `map-land` and `map-buildings`
-   steps), and a new ground's frame in `MAP_GROUND_FRAMES`. Both modes draw the same records; the doctor's
+   steps); the rebuild's `register` step writes every table, the map's frame among them. Both modes draw the same records; the doctor's
    `phone map`, `map pictures` and `map buildings` lines say what is behind.
 6. The first look: ask the owner for a short GPU sitting before any bake.
 7. Trees: their own sitting, with the `tree-placement` agent.
