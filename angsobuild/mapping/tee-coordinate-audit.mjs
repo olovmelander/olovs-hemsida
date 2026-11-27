@@ -39,6 +39,8 @@ const countBy = (rows, field) => Object.fromEntries([...new Set(rows.map(row => 
 
 const model = json('angsobuild/course-model.json');
 const review = json('angsobuild/mapping/orthophoto-review.json');
+// Pipeline v2's tee decisions (27 November 2026) supersede a September decision for the colours they name.
+const teeDecisions = fs.existsSync(path.join(ROOT, 'angsobuild/mapping/tee-decisions.json')) ? json('angsobuild/mapping/tee-decisions.json') : { marks: [] };
 const migration = json('geo_data/course-v2/angso/migration/course-model.epsg3006.json');
 const index = json('apps/golf/public/courses/index.json').courses.find(course => course.slug === 'angso');
 const packBytes = read(`apps/golf/public/${index.packUrl.replace(/^\//, '')}`);
@@ -109,7 +111,8 @@ for (const hole of model.holes) {
   });
   hole.tees.marks.forEach((mark, i) => {
     const runtimeMark = runtimeHole.tees.marks[i], p = project(`${hole.n}:mark:${i}`);
-    const decision = reviewed.teeReferences?.find(item => item.index === i);
+    const decided = teeDecisions.marks.find(item => item.hole === hole.n && item.tee === model.card.teeNames[i]);
+    const decision = decided ? null : reviewed.teeReferences?.find(item => item.index === i);
     let nativeReference = null;
     if (decision && decision.pixel !== null) {
       const t = review.sources[decision.sourceKey].geoTransform, [column, row] = decision.pixel;
@@ -133,7 +136,9 @@ for (const hole of model.holes) {
       defaultSelected: index.tees.def === i, coordinate: mark.c, projectedEpsg3006: p.map(round),
       sourceIdentity: ref.identityStatus ?? null, sourcePosition: ref.positionStatus ?? null,
       referenceKind: ref.kind ?? null, selectedPadReviewId: ref.selectedPadReviewId ?? null,
-      explicitReviewDecision: decision ? decision.pixel === null ? 'unresolved' : 'accepted' : null,
+      explicitReviewDecision: decided ? 'tee-decision' : decision ? decision.pixel === null ? 'unresolved' : 'accepted' : null,
+      teeDecisionEpsg3006: decided?.at ?? null,
+      teeDecisionToModelMetres: decided ? round(dist(decided.at, p)) : null,
       nativeReferenceEpsg3006: nativeReference?.map(round) ?? null,
       nativeReferenceToModelMetres: nativeReference ? round(dist(nativeReference, p)) : null,
       retainedOriginalReference: equal(mark.c, ref.originalPosition),
@@ -177,6 +182,8 @@ gate('published v2 routing reproduces independent coordinates within 2 mm', rout
 gate('tee camera is at the runtime reference', marks.every(row => row.cameraToRuntimeReferenceMetres === 0));
 gate('accepted explicit reference pixels reproduce the model through independent PROJ within 2 mm',
   marks.every(row => row.explicitReviewDecision !== 'accepted' || row.nativeReferenceToModelMetres < 0.002));
+gate('tee decisions reproduce the model through independent PROJ within 2 mm (their EPSG:3006 points are rounded to 1 cm)',
+  marks.every(row => row.explicitReviewDecision !== 'tee-decision' || row.teeDecisionToModelMetres < 0.002));
 gate('explicit unresolved decisions retain original coordinates and unresolved identity',
   marks.every(row => row.explicitReviewDecision !== 'unresolved' || row.retainedOriginalReference && row.referenceKind === 'unresolved-guide-tee-reference'));
 gate('guide reference evidence and surface association survive packing',

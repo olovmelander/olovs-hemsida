@@ -1,0 +1,1270 @@
+{
+ "schemaVersion": 1,
+ "groundId": "upsala",
+ "horizontalCrs": "EPSG:3006",
+ "reviewedOn": "2026-11-27",
+ "reviewer": "Claude Opus 5.5 (agent), on the 2025-06-14 0.16 m RGBI orthophoto",
+ "note": "Candidates of extract_sand with Upsala's two-sand bands (trace-config sand): 609 over the box. Kept: the 77 that overlap a bunker OSM or the reviewed model already had, and three no map had (EXTRA in make-sand-decisions.py), each looked at on the 2025 and 2021 photos; two bunkers in shade drawn whole by hand (add), and one OSM bunker left out as rock (edit-sand-2026-11-27.mjs). Left out after a look: cart paths, rock outcrops, roofs, patios, a road bridge, floating pond weed, the practice ground's bunkers and range discs, and bare patches. OSM's w438984738 by Mellanbanan 4 is turf (the September review retired it), and w438993028/29 lie north of the box, on Lilla banan.",
+ "keep": [
+  {
+   "at": [
+    640487.3,
+    6636696.7
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 3,
+   "material": "tan-sand",
+   "areaM2": 77.8,
+   "why": "the raked sand of osm w438983244, 252 m from the 3 line"
+  },
+  {
+   "at": [
+    640346,
+    6636687
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 10,
+   "material": "tan-sand",
+   "areaM2": 88.3,
+   "why": "the raked sand of osm w438983243, 239 m from the 10 line"
+  },
+  {
+   "at": [
+    640096.9,
+    6636668.7
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 10,
+   "material": "white-sand",
+   "areaM2": 34.7,
+   "why": "the raked sand of osm w438983240, stora-model h10, 6 m from the 10 line"
+  },
+  {
+   "at": [
+    640073.4,
+    6636646.2
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 10,
+   "material": "white-sand",
+   "areaM2": 62.9,
+   "why": "the raked sand of osm w438983238, stora-model h10, 6 m from the 10 line"
+  },
+  {
+   "at": [
+    639742.2,
+    6636641.4
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 11,
+   "material": "white-sand",
+   "areaM2": 44.5,
+   "why": "the raked sand of osm w438982475, stora-model h11, 17 m from the 11 line"
+  },
+  {
+   "at": [
+    639958.9,
+    6636634.2
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 9,
+   "material": "white-sand",
+   "areaM2": 59.9,
+   "why": "the raked sand of osm w438983236, stora-model h9, 20 m from the 9 line"
+  },
+  {
+   "at": [
+    640096.9,
+    6636631.5
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 10,
+   "material": "white-sand",
+   "areaM2": 88.4,
+   "why": "the raked sand of osm w438983237, stora-model h10, 8 m from the 10 line"
+  },
+  {
+   "at": [
+    639968.1,
+    6636625.7
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 9,
+   "material": "white-sand",
+   "areaM2": 59.5,
+   "why": "the raked sand of osm w438983235, stora-model h9, 9 m from the 9 line"
+  },
+  {
+   "at": [
+    639751.7,
+    6636615.5
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 11,
+   "material": "white-sand",
+   "areaM2": 49.9,
+   "why": "the raked sand of osm w438982477, stora-model h11, 2 m from the 11 line"
+  },
+  {
+   "at": [
+    640107.6,
+    6636550.1
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 10,
+   "material": "tan-sand",
+   "areaM2": 36.7,
+   "why": "the raked sand of osm w438983241, 76 m from the 10 line"
+  },
+  {
+   "at": [
+    639655,
+    6636545.9
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 13,
+   "material": "white-sand",
+   "areaM2": 85.8,
+   "why": "the raked sand of osm w438982471, stora-model h13, 6 m from the 13 line"
+  },
+  {
+   "at": [
+    639684.3,
+    6636545.6
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 13,
+   "material": "white-sand",
+   "areaM2": 68.4,
+   "why": "the raked sand of osm w438982472, stora-model h14, 6 m from the 13 line"
+  },
+  {
+   "at": [
+    640148.9,
+    6636489.9
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 1,
+   "material": "tan-sand",
+   "areaM2": 58.8,
+   "why": "the raked sand of osm w438983242, 108 m from the 1 line"
+  },
+  {
+   "at": [
+    639695.1,
+    6636477
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 14,
+   "material": "white-sand",
+   "areaM2": 128,
+   "why": "the raked sand of osm w438979696, stora-model h14, 6 m from the 14 line"
+  },
+  {
+   "at": [
+    639707.2,
+    6636446.3
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 14,
+   "material": "white-sand",
+   "areaM2": 49.7,
+   "why": "the raked sand of osm w438979692, stora-model h14, 7 m from the 14 line"
+  },
+  {
+   "at": [
+    639635.5,
+    6636413.6
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 8,
+   "material": "white-sand",
+   "areaM2": 90.1,
+   "why": "the raked sand of stora-model h8, 12 m from the 8 line"
+  },
+  {
+   "at": [
+    639423.8,
+    6636397.1
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 12,
+   "material": "white-sand",
+   "areaM2": 108.7,
+   "why": "the raked sand of osm w438982470, stora-model h12, 7 m from the 12 line"
+  },
+  {
+   "at": [
+    640234.4,
+    6636391.4
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 1,
+   "material": "tan-sand",
+   "areaM2": 41.8,
+   "why": "the raked sand of osm w438982473, 9 m from the 1 line"
+  },
+  {
+   "at": [
+    639740.4,
+    6636374.8
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 15,
+   "material": "white-sand",
+   "areaM2": 58.7,
+   "why": "the raked sand of osm w438979689, 35 m from the 15 line"
+  },
+  {
+   "at": [
+    640900.4,
+    6636369
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 3,
+   "material": "tan-sand",
+   "areaM2": 80.3,
+   "why": "the raked sand of osm w438984737, 23 m from the 3 line"
+  },
+  {
+   "at": [
+    640155.7,
+    6636355.8
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 1,
+   "material": "tan-sand",
+   "areaM2": 24.3,
+   "why": "the raked sand of osm w438983954, 26 m from the 1 line"
+  },
+  {
+   "at": [
+    639755.6,
+    6636340.4
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 15,
+   "material": "white-sand",
+   "areaM2": 85.2,
+   "why": "the raked sand of osm w438979681, 48 m from the 15 line"
+  },
+  {
+   "at": [
+    640467.7,
+    6636312.5
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 2,
+   "material": "tan-sand",
+   "areaM2": 43.2,
+   "why": "the raked sand of osm w438982474, 13 m from the 2 line"
+  },
+  {
+   "at": [
+    640023.5,
+    6636308.6
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 9,
+   "material": "tan-sand",
+   "areaM2": 42.6,
+   "why": "the raked sand of osm w438979721, 7 m from the 9 line"
+  },
+  {
+   "at": [
+    640082.6,
+    6636296.9
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 9,
+   "material": "tan-sand",
+   "areaM2": 27.9,
+   "why": "the raked sand of osm w438979725, stora-model h2, 14 m from the 9 line"
+  },
+  {
+   "at": [
+    640660.4,
+    6636281.7
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 4,
+   "material": "tan-sand",
+   "areaM2": 87,
+   "why": "the raked sand of osm w438984740, 7 m from the 4 line"
+  },
+  {
+   "at": [
+    640666,
+    6636268
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 4,
+   "material": "tan-sand",
+   "areaM2": 49.7,
+   "why": "the raked sand of osm w438984741, 7 m from the 4 line"
+  },
+  {
+   "at": [
+    640145.8,
+    6636262.5
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 2,
+   "material": "white-sand",
+   "areaM2": 50.4,
+   "why": "the raked sand of osm w438983953, stora-model h2, 44 m from the 2 line"
+  },
+  {
+   "at": [
+    639806.2,
+    6636254.2
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 18,
+   "material": "white-sand",
+   "areaM2": 131.6,
+   "why": "the raked sand of osm w438979664, stora-model h18, 6 m from the 18 line"
+  },
+  {
+   "at": [
+    639799.1,
+    6636228.3
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 18,
+   "material": "white-sand",
+   "areaM2": 61.2,
+   "why": "the raked sand of osm w438979669, stora-model h18, 8 m from the 18 line"
+  },
+  {
+   "at": [
+    639523.9,
+    6636227.4
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 15,
+   "material": "white-sand",
+   "areaM2": 108.8,
+   "why": "the raked sand of osm w438982466, stora-model h15, 11 m from the 15 line"
+  },
+  {
+   "at": [
+    639825.8,
+    6636221.2
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 18,
+   "material": "white-sand",
+   "areaM2": 74.2,
+   "why": "the raked sand of osm w438979675, stora-model h18, 7 m from the 18 line"
+  },
+  {
+   "at": [
+    640093.6,
+    6636214.1
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 2,
+   "material": "white-sand",
+   "areaM2": 176.5,
+   "why": "the raked sand of osm w438979717, stora-model h2, 6 m from the 2 line"
+  },
+  {
+   "at": [
+    640511.2,
+    6636178.9
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 5,
+   "material": "tan-sand",
+   "areaM2": 58,
+   "why": "the raked sand of osm w438983963, 2 m from the 5 line"
+  },
+  {
+   "at": [
+    640534.7,
+    6636177.3
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 5,
+   "material": "tan-sand",
+   "areaM2": 30.9,
+   "why": "the raked sand of osm w438983964, 4 m from the 5 line"
+  },
+  {
+   "at": [
+    640483,
+    6636174.7
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 5,
+   "material": "tan-sand",
+   "areaM2": 63,
+   "why": "the raked sand of osm w438983962, 8 m from the 5 line"
+  },
+  {
+   "at": [
+    640518.7,
+    6636166.6
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 5,
+   "material": "tan-sand",
+   "areaM2": 27.1,
+   "why": "the raked sand of osm w438983966, 7 m from the 5 line"
+  },
+  {
+   "at": [
+    639987.5,
+    6636163.6
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 1,
+   "material": "white-sand",
+   "areaM2": 40.3,
+   "why": "the raked sand of osm w438979705, stora-model h1, 6 m from the 1 line"
+  },
+  {
+   "at": [
+    639918.7,
+    6636152.8
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 4,
+   "material": "white-sand",
+   "areaM2": 81,
+   "why": "the raked sand of osm w438979702, stora-model h4, 0 m from the 4 line"
+  },
+  {
+   "at": [
+    640006.4,
+    6636149
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 1,
+   "material": "white-sand",
+   "areaM2": 44.3,
+   "why": "the raked sand of osm w438979713, stora-model h1, 5 m from the 1 line"
+  },
+  {
+   "at": [
+    639993.8,
+    6636147.7
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 1,
+   "material": "white-sand",
+   "areaM2": 45.3,
+   "why": "the raked sand of osm w438979709, stora-model h1, 15 m from the 1 line"
+  },
+  {
+   "at": [
+    639475.6,
+    6636146.4
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 15,
+   "material": "white-sand",
+   "areaM2": 102.1,
+   "why": "the raked sand of osm w438982465, stora-model h15, 4 m from the 15 line"
+  },
+  {
+   "at": [
+    639812.9,
+    6636141.8
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 18,
+   "material": "white-sand",
+   "areaM2": 91.3,
+   "why": "the upper of a pair of raked fairway bunkers on the 18th, white sand on both photo years; in neither OSM nor the old model"
+  },
+  {
+   "at": [
+    639476,
+    6636128.5
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 15,
+   "material": "white-sand",
+   "areaM2": 52.2,
+   "why": "the raked sand of osm w438982464, stora-model h15, 7 m from the 15 line"
+  },
+  {
+   "at": [
+    639815.5,
+    6636123.7
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 18,
+   "material": "white-sand",
+   "areaM2": 71.1,
+   "why": "the lower of the pair of fairway bunkers on the 18th, white sand on both photo years; in neither OSM nor the old model"
+  },
+  {
+   "at": [
+    639857.2,
+    6636107.4
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 18,
+   "material": "white-sand",
+   "areaM2": 93.1,
+   "why": "the raked sand of osm w438979729, stora-model h18, 43 m from the 18 line"
+  },
+  {
+   "at": [
+    640124.4,
+    6636064.9
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 1,
+   "material": "white-sand",
+   "areaM2": 42.5,
+   "why": "the raked sand of osm w452928633, stora-model h1, 6 m from the 1 line"
+  },
+  {
+   "at": [
+    640090,
+    6636064
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 1,
+   "material": "white-sand",
+   "areaM2": 56.8,
+   "why": "the raked sand of osm w438979741, stora-model h1, 7 m from the 1 line"
+  },
+  {
+   "at": [
+    639421.6,
+    6636041
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 7,
+   "material": "white-sand",
+   "areaM2": 122,
+   "why": "the raked sand of osm w438981596, stora-model h7, 7 m from the 7 line"
+  },
+  {
+   "at": [
+    639396,
+    6636029.2
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 7,
+   "material": "white-sand",
+   "areaM2": 22.7,
+   "why": "the raked sand of osm w438982463, stora-model h7, 6 m from the 7 line"
+  },
+  {
+   "at": [
+    640214.2,
+    6635997.6
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 3,
+   "material": "white-sand",
+   "areaM2": 103.9,
+   "why": "the raked sand of osm w438981573, stora-model h3, 40 m from the 3 line"
+  },
+  {
+   "at": [
+    639641,
+    6635969.3
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 16,
+   "material": "white-sand",
+   "areaM2": 185.1,
+   "why": "the raked sand of osm w438981595, stora-model h16, 41 m from the 16 line"
+  },
+  {
+   "at": [
+    640288.6,
+    6635932
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 3,
+   "material": "white-sand",
+   "areaM2": 194.2,
+   "why": "the raked sand of osm w438986825, stora-model h3, 6 m from the 3 line"
+  },
+  {
+   "at": [
+    640250.3,
+    6635930.8
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 3,
+   "material": "white-sand",
+   "areaM2": 185.3,
+   "why": "the raked sand of osm w438986828, osm w438986830, stora-model h3, 6 m from the 3 line"
+  },
+  {
+   "at": [
+    639465.5,
+    6635916
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 7,
+   "material": "white-sand",
+   "areaM2": 116,
+   "why": "a raked fairway bunker on the left of the 7th, white sand on both photo years; in neither OSM nor the old model"
+  },
+  {
+   "at": [
+    640393,
+    6635889.5
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 7,
+   "material": "tan-sand",
+   "areaM2": 44.8,
+   "why": "the raked sand of osm w438986836, 8 m from the 7 line"
+  },
+  {
+   "at": [
+    639799.7,
+    6635877.4
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 17,
+   "material": "white-sand",
+   "areaM2": 72.4,
+   "why": "the raked sand of osm w438981581, stora-model h17, 9 m from the 17 line"
+  },
+  {
+   "at": [
+    640338.5,
+    6635870.7
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 7,
+   "material": "tan-sand",
+   "areaM2": 186.9,
+   "why": "the raked sand of osm w438986833, 4 m from the 7 line"
+  },
+  {
+   "at": [
+    639795.7,
+    6635864.5
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 17,
+   "material": "white-sand",
+   "areaM2": 110.5,
+   "why": "the raked sand of osm w438981583, stora-model h17, 9 m from the 17 line"
+  },
+  {
+   "at": [
+    639455.2,
+    6635842.9
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 7,
+   "material": "white-sand",
+   "areaM2": 173.9,
+   "why": "the raked sand of osm w438981594, stora-model h7, 32 m from the 7 line"
+  },
+  {
+   "at": [
+    639751.3,
+    6635842.4
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 17,
+   "material": "white-sand",
+   "areaM2": 104.2,
+   "why": "the raked sand of osm w438981578, stora-model h17, 5 m from the 17 line"
+  },
+  {
+   "at": [
+    640446.9,
+    6635834
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 6,
+   "material": "tan-sand",
+   "areaM2": 48.3,
+   "why": "the raked sand of osm w438986846, 20 m from the 6 line"
+  },
+  {
+   "at": [
+    640329.9,
+    6635808
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 6,
+   "material": "tan-sand",
+   "areaM2": 31.5,
+   "why": "the raked sand of osm w438986844, 17 m from the 6 line"
+  },
+  {
+   "at": [
+    639757,
+    6635805.7
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 17,
+   "material": "white-sand",
+   "areaM2": 93.4,
+   "why": "the raked sand of osm w438981577, stora-model h17, 18 m from the 17 line"
+  },
+  {
+   "at": [
+    640381,
+    6635796.9
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 6,
+   "material": "white-sand",
+   "areaM2": 33.5,
+   "why": "the raked sand of osm w438986840, 1 m from the 6 line"
+  },
+  {
+   "at": [
+    640385.4,
+    6635785.2
+   ],
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 6,
+   "material": "tan-sand",
+   "areaM2": 42.3,
+   "why": "the raked sand of osm w438986842, 11 m from the 6 line"
+  },
+  {
+   "at": [
+    639621.3,
+    6635702.6
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 16,
+   "material": "white-sand",
+   "areaM2": 65.1,
+   "why": "the raked sand of osm w438981591, stora-model h16, 8 m from the 16 line"
+  },
+  {
+   "at": [
+    639647.5,
+    6635693.5
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 16,
+   "material": "white-sand",
+   "areaM2": 53.5,
+   "why": "the raked sand of osm w438981589, stora-model h16, 8 m from the 16 line"
+  },
+  {
+   "at": [
+    639636.4,
+    6635666.2
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 16,
+   "material": "white-sand",
+   "areaM2": 118.6,
+   "why": "the raked sand of osm w438981588, stora-model h16, 8 m from the 16 line"
+  },
+  {
+   "at": [
+    639813,
+    6635665.9
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 5,
+   "material": "white-sand",
+   "areaM2": 34.9,
+   "why": "the raked sand of osm w438981585, stora-model h5, 7 m from the 5 line"
+  },
+  {
+   "at": [
+    639797.8,
+    6635661.2
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 5,
+   "material": "white-sand",
+   "areaM2": 61.8,
+   "why": "the raked sand of osm w438981586, stora-model h5, 8 m from the 5 line"
+  },
+  {
+   "at": [
+    639831.3,
+    6635650.6
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 5,
+   "material": "white-sand",
+   "areaM2": 119.7,
+   "why": "the raked sand of osm w438981584, stora-model h5, 6 m from the 5 line"
+  },
+  {
+   "at": [
+    639810,
+    6635631.2
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 5,
+   "material": "white-sand",
+   "areaM2": 50.8,
+   "why": "the raked sand of osm w438981587, stora-model h5, 7 m from the 5 line"
+  },
+  {
+   "at": [
+    639541.4,
+    6635603.7
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 6,
+   "material": "white-sand",
+   "areaM2": 48.7,
+   "why": "the raked sand of osm w438981592, stora-model h6, 7 m from the 6 line"
+  },
+  {
+   "at": [
+    639520.1,
+    6635598.7
+   ],
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 6,
+   "material": "white-sand",
+   "areaM2": 92.2,
+   "why": "the raked sand of osm w438981593, stora-model h6, 8 m from the 6 line"
+  }
+ ],
+ "add": [
+  {
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 12,
+   "material": "white-sand",
+   "reach": 0.5,
+   "ring": [
+    [
+     639416,
+     6636370.5
+    ],
+    [
+     639417.5,
+     6636372
+    ],
+    [
+     639420.5,
+     6636372.5
+    ],
+    [
+     639423.5,
+     6636372
+    ],
+    [
+     639425.5,
+     6636370.5
+    ],
+    [
+     639425.9,
+     6636368.5
+    ],
+    [
+     639425,
+     6636366.5
+    ],
+    [
+     639423,
+     6636365.5
+    ],
+    [
+     639421,
+     6636365.4
+    ],
+    [
+     639418.5,
+     6636365.8
+    ],
+    [
+     639416,
+     6636365.1
+    ],
+    [
+     639414.5,
+     6636365.8
+    ],
+    [
+     639413.9,
+     6636367.3
+    ],
+    [
+     639414.5,
+     6636369
+    ]
+   ],
+   "why": "the right-hand greenside bunker of the 12th (OSM w438982469), whole: its west half lies in a tree's shadow on the 2025 photo, grey-blue sand that the extraction stopped at; read off the 2025 photo by eye"
+  },
+  {
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 6,
+   "material": "tan-sand",
+   "reach": 0.5,
+   "ring": [
+    [
+     640263.1,
+     6635759.5
+    ],
+    [
+     640262.9,
+     6635761.1
+    ],
+    [
+     640262.5,
+     6635762.5
+    ],
+    [
+     640261.7,
+     6635763.6
+    ],
+    [
+     640260.8,
+     6635764.4
+    ],
+    [
+     640259.7,
+     6635764.6
+    ],
+    [
+     640258.6,
+     6635764.4
+    ],
+    [
+     640257.7,
+     6635763.6
+    ],
+    [
+     640256.9,
+     6635762.5
+    ],
+    [
+     640256.5,
+     6635761.1
+    ],
+    [
+     640256.3,
+     6635759.5
+    ],
+    [
+     640256.5,
+     6635757.9
+    ],
+    [
+     640256.9,
+     6635756.5
+    ],
+    [
+     640257.7,
+     6635755.4
+    ],
+    [
+     640258.6,
+     6635754.6
+    ],
+    [
+     640259.7,
+     6635754.4
+    ],
+    [
+     640260.8,
+     6635754.6
+    ],
+    [
+     640261.7,
+     6635755.4
+    ],
+    [
+     640262.5,
+     6635756.5
+    ],
+    [
+     640262.9,
+     6635757.9
+    ]
+   ],
+   "why": "the bunker short of the 6th green, whole: an oval 7 m by 10 m, lit on the May 2023 photo; on the 2025 photo its southern two-thirds lie in a tree's shadow and the extraction kept only the sunlit crescent"
+  },
+  {
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 3,
+   "material": "white-sand",
+   "reach": 0.5,
+   "ring": [
+    [
+     640170.8,
+     6636275.5
+    ],
+    [
+     640174.8,
+     6636275.3
+    ],
+    [
+     640177,
+     6636271.9
+    ],
+    [
+     640176.2,
+     6636268.7
+    ],
+    [
+     640174.2,
+     6636265.1
+    ],
+    [
+     640172.6,
+     6636262.7
+    ],
+    [
+     640171,
+     6636260.3
+    ],
+    [
+     640169,
+     6636259.3
+    ],
+    [
+     640168,
+     6636261.1
+    ],
+    [
+     640168.6,
+     6636263.5
+    ],
+    [
+     640169.8,
+     6636266.7
+    ],
+    [
+     640170.2,
+     6636269.9
+    ],
+    [
+     640170.4,
+     6636273.5
+    ]
+   ],
+   "why": "the left greenside bunker of the 3rd, whole: its south-west lobe lies in a tree's shadow on the 2025 photo and the extraction stopped at it; read off the May 2023 photo, where it is lit"
+  },
+  {
+   "kind": "bunker",
+   "course": "upsala",
+   "hole": 10,
+   "material": "white-sand",
+   "reach": 0.5,
+   "ring": [
+    [
+     640105.2,
+     6636666.7
+    ],
+    [
+     640106.8,
+     6636666.9
+    ],
+    [
+     640109.6,
+     6636665.3
+    ],
+    [
+     640112.4,
+     6636664.6
+    ],
+    [
+     640115.2,
+     6636664.8
+    ],
+    [
+     640116.6,
+     6636663.1
+    ],
+    [
+     640116.4,
+     6636661.5
+    ],
+    [
+     640114.8,
+     6636660
+    ],
+    [
+     640112,
+     6636659.4
+    ],
+    [
+     640109.6,
+     6636658.9
+    ],
+    [
+     640108.4,
+     6636659.2
+    ],
+    [
+     640106.4,
+     6636660.5
+    ],
+    [
+     640105.2,
+     6636662.3
+    ],
+    [
+     640104.8,
+     6636664.7
+    ]
+   ],
+   "why": "the front-right greenside bunker of the 10th, whole: its south half lies in a tree's shadow on the 2025 photo and the extraction cut a notch there; read off the May 2023 photo, where it is lit"
+  },
+  {
+   "kind": "bunker",
+   "course": "upsala-mellanbanan",
+   "hole": 1,
+   "material": "tan-sand",
+   "reach": 0.5,
+   "ring": [
+    [
+     640200,
+     6636369.8
+    ],
+    [
+     640199.8,
+     6636370.8
+    ],
+    [
+     640199.3,
+     6636371.6
+    ],
+    [
+     640198.5,
+     6636372.1
+    ],
+    [
+     640197.5,
+     6636372.3
+    ],
+    [
+     640196.5,
+     6636372.1
+    ],
+    [
+     640195.7,
+     6636371.6
+    ],
+    [
+     640195.2,
+     6636370.8
+    ],
+    [
+     640195,
+     6636369.8
+    ],
+    [
+     640195.2,
+     6636368.8
+    ],
+    [
+     640195.7,
+     6636368
+    ],
+    [
+     640196.5,
+     6636367.5
+    ],
+    [
+     640197.5,
+     6636367.3
+    ],
+    [
+     640198.5,
+     6636367.5
+    ],
+    [
+     640199.3,
+     6636368
+    ],
+    [
+     640199.8,
+     6636368.8
+    ]
+   ],
+   "why": "a small round pot bunker of tan sand by Mellanbanan's 1st, about 5 m across, half in a tree's shadow on the 2025 photo and whole on the May 2023 one; in neither OSM nor the old model. The sand audit named its lit half (sand-092 on 27 November); drawn whole by hand"
+  }
+ ]
+}

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { RING_SCORE_LINE, reviewErrors, ringsUnderTheLine, secondLook, secondLookErrors, secondLookSummary, tracedBuilds } from './ring-review.mjs';
+import { RING_SCORE_LINE, exportedBuilds, reviewErrors, ringsUnderTheLine, secondLook, secondLookErrors, secondLookSummary, tracedBuilds } from './ring-review.mjs';
+import { exportErrors } from './export-model-surfaces.mjs';
 
 test('a ring is under the line when the photo did not bear out its edge, unless a reviewer drew it', () => {
   const rows = [
@@ -50,4 +51,11 @@ test('every course traced with the shared tracer has a current look at every rin
   const builds = tracedBuilds();
   assert.ok(builds.length >= 2);
   for (const build of builds) assert.deepEqual(reviewErrors(build), [], `${build}: draw the sheets (render-ring-sheets.py), look, and record it (ring-review.mjs --record)`);
+});
+
+test('an older ground whose outlines are exported for the looks has them current, and a current look at every ring', () => {
+  for (const build of exportedBuilds()) {
+    assert.deepEqual(exportErrors(build), [], `${build}: migrate the model and export its outlines again (export-model-surfaces.mjs)`);
+    assert.deepEqual(reviewErrors(build), [], `${build}: draw the sheets (render-ring-sheets.py), look, and record it (ring-review.mjs --record)`);
+  }
 });

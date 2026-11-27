@@ -67,7 +67,13 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      canonical migrator, still an exact translation. */
   visby: 'da127e2d8c70d127570f8b37ee04411dc463d37f3742790e6e07b7add58a5847',
   lidingo: 'e806bd21a71fa172aa9ec428e15968e3fc031c5c61a6e10ed3b009d9c94c74f1',
-  angso: '1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf',
+  /* 2026-11-27: pipeline v2's tee decisions (angsobuild/mapping/tee-decisions.json) stand 77 tee
+     marks where their card length falls on their deck or fairway, and hole 1's line starts at its
+     new back deck; white stakes are taken out where good shots crossed them an odd number of times
+     (the boar fence right of 6 and 16 lay across their play); decks, greens, bunkers and water are
+     byte-identical. The
+     migration follows the model through the canonical migrator. */
+  angso: '1f3afae38df8dd25c79d53e25905ff52fe4d07bbf2ee744aaf38a6c4a77e7907',
   norrfallsviken: 'b6b65607904c8727b8789c85235ebf1278d2185990f558f6fae5099da975d15f',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
      committed cs2cs migration: worst 1.4 mm over 3,564 coordinates) after the
@@ -80,8 +86,8 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
   'upsala-mellanbanan': 'fe252ba09bfc33b02a9dfd99f74d2fcadd488970a9143d133616563122af3649',
   johannesberg: '1fbfc8dac4b330ef5181a2ab72e786ba9a32e8bd7b3683b5d7a42ca1eb7eea7b',
   'johannesberg-9': '4b1253f96523618a6ac8b0e873f5b5b3445e797213bb6bacffb6e0944f64df6e',
-  veckefjarden: '45421247af351f993d04fbeb7737553b0723f7eede9127fc757d35e5d3ed44fb',
-  'veckefjarden-korthalsbanan': 'b399d01d438ab2619eab67425640fa2738869e1bdc2bf7eda505f9aeb3f13baa',
+  veckefjarden: 'a421b7d8c59b12869ec5f0f48b7c17a5a8223ff6154656e9e3e4e2d7f775bd3d',
+  'veckefjarden-korthalsbanan': '155a87b7c81cecc4c8c40ba68c5c5a3b989d653b19c2b704001de45f7783effc',
 });
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

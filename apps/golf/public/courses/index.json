@@ -31,13 +31,13 @@
    },
    "photos": 5,
    "scorecard": {
-    "url": "courses/angso/scorecard-05b2df33ea49b6365f726c42e20e4070c954dcfa39cf78eb054ed4125263144c.json",
+    "url": "courses/angso/scorecard-182ef776d9fb48426c0310b896f838696d2fc5893ad765c1c7747ca1064ebfbc.json",
     "bytes": 6080,
-    "sha256": "05b2df33ea49b6365f726c42e20e4070c954dcfa39cf78eb054ed4125263144c"
+    "sha256": "182ef776d9fb48426c0310b896f838696d2fc5893ad765c1c7747ca1064ebfbc"
    },
    "packUrl": "courses/angso/pack.bin",
-   "bytes": 481863,
-   "sha256": "778f8b2933599fbf9145f57d8ab2608c222ce501b275a39c913aadbe1e504c09",
+   "bytes": 480603,
+   "sha256": "d6ad5ded63c24892d2e842f59d5d39596ce0f2484893fe319e08d56b4d152702",
    "landcover": {
     "url": "courses/angso/landcover.json",
     "bytes": 138815,
@@ -48,82 +48,22 @@
     "bytes": 172789,
     "sha256": "b16d53c9c4de48017a1b9fe8201d842c59e65f7058a22158d0e2520ab7db0c46"
    },
+   "preparedWater": {
+    "identity": "77df49db45b3640340e1c47edb54ac98bc43b663a9a30bc43eb092ecf39e51f8",
+    "url": "courses/angso/prepared/water-a802eac6b2ef0e4abcec124f9762108c7284c5dcc75fec61c013ff76b654aaf4.bin",
+    "bytes": 436746,
+    "decodedBytes": 63054965,
+    "sha256": "a802eac6b2ef0e4abcec124f9762108c7284c5dcc75fec61c013ff76b654aaf4",
+    "decodedSha256": "8959c6e8897f833ee228ff98e44f7a85a54a2ccbeabee42924078372c14ad6fd"
+   },
    "preparedTint": {
-    "natural-hi": {
-     "identity": "00c5f059906870d411b4df80ec71879424d1879a56c6b2091b94a0729aecee22",
-     "url": "courses/angso/prepared/tint-ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac.bin",
-     "bytes": 404742,
-     "decodedBytes": 3052072,
-     "sha256": "ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac",
-     "decodedSha256": "bf6859ee5ecf2b6a301c52983b73819fea949b302bdf6035d0d3cb9a5b63a75e",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 707,
-       "dx": 24,
-       "bounds": {
-        "x0": -8484,
-        "z0": -8484,
-        "x1": 8484,
-        "z1": 8484
-       },
-       "offset": 1052676,
-       "bytes": 1999396
-      }
-     ]
-    },
-    "natural-lo": {
-     "identity": "defea60297e9ad827d792348fbdec8d754e433b6320514967c3d9dee0e67d26f",
-     "url": "courses/angso/prepared/tint-ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac.bin",
-     "bytes": 404742,
-     "decodedBytes": 3052072,
-     "sha256": "ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac",
-     "decodedSha256": "bf6859ee5ecf2b6a301c52983b73819fea949b302bdf6035d0d3cb9a5b63a75e",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 707,
-       "dx": 24,
-       "bounds": {
-        "x0": -8484,
-        "z0": -8484,
-        "x1": 8484,
-        "z1": 8484
-       },
-       "offset": 1052676,
-       "bytes": 1999396
-      }
-     ]
-    },
     "painted-hi": {
-     "identity": "1cb8b8ecadc1e7c4cfff377ad68bc4ac22ff0184a04d8b8d1680053263d26291",
-     "url": "courses/angso/prepared/tint-93312539de0fe8492ac01951e288f2e9f58adcb10859234a09c2f5017e3d0574.bin",
-     "bytes": 1257867,
+     "identity": "2c0c83351789af0d539f1840c92e01dd620204bc5a4048a98b434ed4f0e16080",
+     "url": "courses/angso/prepared/tint-450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f.bin",
+     "bytes": 1257835,
      "decodedBytes": 3052072,
-     "sha256": "93312539de0fe8492ac01951e288f2e9f58adcb10859234a09c2f5017e3d0574",
-     "decodedSha256": "535bde512c77260e311f30bd49421ee1cfe453d5289be0520f99dbaba044c19d",
+     "sha256": "450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f",
+     "decodedSha256": "3216fc697d47baca1db5212cc58f13ee00b975c8e0efb3843efe77d778c190a3",
      "layers": [
       {
        "n": 513,
@@ -152,12 +92,12 @@
      ]
     },
     "painted-lo": {
-     "identity": "9cd0d5fa2491d8e0cb4d0d51cce0edd993042ebac26e19e1b9c352016648565d",
-     "url": "courses/angso/prepared/tint-93312539de0fe8492ac01951e288f2e9f58adcb10859234a09c2f5017e3d0574.bin",
-     "bytes": 1257867,
+     "identity": "3c8802a127b6f04967a5fff7ee7ebed0c5307d4e52791ef411a2a95351e7ae95",
+     "url": "courses/angso/prepared/tint-450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f.bin",
+     "bytes": 1257835,
      "decodedBytes": 3052072,
-     "sha256": "93312539de0fe8492ac01951e288f2e9f58adcb10859234a09c2f5017e3d0574",
-     "decodedSha256": "535bde512c77260e311f30bd49421ee1cfe453d5289be0520f99dbaba044c19d",
+     "sha256": "450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f",
+     "decodedSha256": "3216fc697d47baca1db5212cc58f13ee00b975c8e0efb3843efe77d778c190a3",
      "layers": [
       {
        "n": 513,
@@ -186,17 +126,9 @@
      ]
     }
    },
-   "preparedWater": {
-    "identity": "41960dca11b6767d115e2db44d1ec67dbdab7b5478595e186320907e30e78e80",
-    "url": "courses/angso/prepared/water-89f270c270e48b8f4c3f5e55424c4079391676f8eef16d3c9dad9bf5833ab57c.bin",
-    "bytes": 436746,
-    "decodedBytes": 63054965,
-    "sha256": "89f270c270e48b8f4c3f5e55424c4079391676f8eef16d3c9dad9bf5833ab57c",
-    "decodedSha256": "79d4a8c7adf45cf5ef479e95133fd42f4b6177f045aecaf4a19308ed41d614e8"
-   },
    "preparedVista": {
     "vista-hi": {
-     "identity": "1b4cba50f4bebff34947ac9d6be42b4e640200bdb351baddc90826ecf29ee0ed",
+     "identity": "f0f403683e29e7d29273fc4e450f616e4ae3f8cb5fffe4352447c041dcf39769",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
      "url": "courses/angso/prepared/vista-e893049092297a825248f48635267064c8c02b1189024ca0892cd8ff2ec92023.bin",
      "bytes": 111788,
@@ -209,7 +141,7 @@
      "points": 283097
     },
     "vista-lo": {
-     "identity": "bce0149d28699e1073436129528aa820a224e65b8a4fb88d886c57355a32a1d2",
+     "identity": "ecfd7b1f17bd1613673faeb9852335bb307ac059155edbd7e727e1c7cfbcb59c",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
      "url": "courses/angso/prepared/vista-cf0a2f8fc2b648118e1e232a435e6e4246b6aea52dfdaca617bb55936842c431.bin",
      "bytes": 64767,
@@ -224,24 +156,24 @@
    },
    "preparedScatter": {
     "scatter-hi": {
-     "identity": "f8d1cee701f389a630175f9b30fa02975728e11dde6e8d09b6ff10a76245e91c",
+     "identity": "fbb8231e835e03a498de5b91bc7acdea673841c1f29ff04ee829370a3807e113",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
-     "url": "courses/angso/prepared/scatter-55ad5248ea6d795673eac0bc6a9391d4bd02a9d5e5ff9b1bdf0f96c4cedcc387.bin",
-     "bytes": 25737,
+     "url": "courses/angso/prepared/scatter-a12927359789fc1d30ec511403a9075d8c80bc2ba7fcba9e2ffce69bd9569c88.bin",
+     "bytes": 25751,
      "decodedBytes": 804843,
-     "sha256": "55ad5248ea6d795673eac0bc6a9391d4bd02a9d5e5ff9b1bdf0f96c4cedcc387",
-     "decodedSha256": "0554b4e7181068185ede718bcb3848b1322bb0d49e1940e8f6579fa352f6f61b",
+     "sha256": "a12927359789fc1d30ec511403a9075d8c80bc2ba7fcba9e2ffce69bd9569c88",
+     "decodedSha256": "eb4f585917d534a2dd0788b8e286ad082f536e462627e9d1aa262b7ab1d2d0eb",
      "sections": {
       "reeds": {
        "candidates": 3348936,
        "offset": 0,
-       "digest": "e857f914442fabbbdba46bee6a6f9ed832782acb0f71a563a04f7fa13659a9f9",
+       "digest": "b9f42a821946f71e07dd28b14c4ee1c25e6e03d55c7a1ea0d206d507d217f082",
        "extra": {}
       },
       "cover": {
        "candidates": 357840,
        "offset": 418617,
-       "digest": "8c265132dda30c6a150407a60f43ab18970fd471cf2c8b1cd468e6a7c3c462d0",
+       "digest": "8ec7b5fe49b0c25bf0b8d14700133557791ab33b9d548e89e18695f22a38bc01",
        "extra": {
         "facilityExcludedClutter": 137
        }
@@ -255,24 +187,24 @@
      }
     },
     "scatter-lo": {
-     "identity": "5bbc2ed3a9757e0f049c619ce550e83e593775eab9c7d934e9fd6b9d933c3c05",
+     "identity": "e501116baeaddd66a60d46e40a2b1c4ec09a30f4f1f1604b80be8251f69dcd98",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
-     "url": "courses/angso/prepared/scatter-275f7db56934abc53efc08ca9c8cb0d6c80e9eb0cf3e70317ce5e80b0dc12d66.bin",
-     "bytes": 24625,
+     "url": "courses/angso/prepared/scatter-4f65c11267401b19f7a44543d7ae82168e971dad36629bba45486c2e12526009.bin",
+     "bytes": 24618,
      "decodedBytes": 804843,
-     "sha256": "275f7db56934abc53efc08ca9c8cb0d6c80e9eb0cf3e70317ce5e80b0dc12d66",
-     "decodedSha256": "082f1c9d2a93171903be437d0df286c5650b571c7f9a347b4d87e1dfce6d19f9",
+     "sha256": "4f65c11267401b19f7a44543d7ae82168e971dad36629bba45486c2e12526009",
+     "decodedSha256": "947d2a434487d8f8b53c1a3220d8d4af5a40ed3d8bc3824559a4c77b7fcd9398",
      "sections": {
       "reeds": {
        "candidates": 3348936,
        "offset": 0,
-       "digest": "e30b91ec9edc6c667b750c369d23d2d237177f2877d580d38a58a24651692283",
+       "digest": "6187ce2b6f66a3e0e2badcd2c7b190beb6d97ff8c6584230aa4f6bcf136f6c3d",
        "extra": {}
       },
       "cover": {
        "candidates": 357840,
        "offset": 418617,
-       "digest": "4eb3424f4a48ec1d2108ffebb268bb1477c9925c27c17af1e616b0d4ce3b5dde",
+       "digest": "e7d9b40b795bdfea68e29147a9bfb0944131063145797ee698ec06a89b920bc9",
        "extra": {
         "facilityExcludedClutter": 53
        }
@@ -2000,13 +1932,13 @@
    },
    "photos": 5,
    "scorecard": {
-    "url": "courses/veckefjarden/scorecard-bf6467650f96007f1c769d938b120bb78265c0220b6413470d46277631caf68c.json",
+    "url": "courses/veckefjarden/scorecard-25c8ff3d7a8b25a63acffdc598f270f7f83e2f0723556aa71f7c9e8cecb880bb.json",
     "bytes": 6835,
-    "sha256": "bf6467650f96007f1c769d938b120bb78265c0220b6413470d46277631caf68c"
+    "sha256": "25c8ff3d7a8b25a63acffdc598f270f7f83e2f0723556aa71f7c9e8cecb880bb"
    },
    "packUrl": "courses/veckefjarden/pack.bin",
-   "bytes": 369370,
-   "sha256": "d6cb9ae771ac069c3a59788606a30de5aa7bf37822111ed977ded6abefba69cd",
+   "bytes": 369338,
+   "sha256": "ce3ef5d2ae1ac5e8f0217c936cb53b4c9552b238548e6dd67ad3fac06212e26f",
    "landcover": {
     "url": "courses/veckefjarden/landcover.json",
     "bytes": 183022,
@@ -2023,16 +1955,16 @@
     "sha256": "eee3c83871d05e5c8083989d6d77aa1a8fa390779f6449345abb5f9f31afb0bc"
    },
    "preparedWater": {
-    "identity": "ddde537b4ac35185f65887ee046374c09f0c925e71a97b72f9472782cb137c69",
-    "url": "courses/veckefjarden/prepared/water-0aeb2f72bfa9deec6b3a5a7510a515b997a99a0ca29126d8d10eb44ea7422d75.bin",
-    "bytes": 306791,
+    "identity": "fbb7cedcf87651eeab59ff9b60c69a05bbefd628d4181050fce398ddd6b5b042",
+    "url": "courses/veckefjarden/prepared/water-6783ccbb6ebf2a6d0351db5d1bd621a853d96e4088a359f8beb62f61475afae5.bin",
+    "bytes": 306800,
     "decodedBytes": 63070545,
-    "sha256": "0aeb2f72bfa9deec6b3a5a7510a515b997a99a0ca29126d8d10eb44ea7422d75",
-    "decodedSha256": "7284826ebefa6188bc145de2d28cb879bb451ee99712f2b02eff1e01eeecbac8"
+    "sha256": "6783ccbb6ebf2a6d0351db5d1bd621a853d96e4088a359f8beb62f61475afae5",
+    "decodedSha256": "0ca1553c541f80b421a282d03ad7eb2cb11e1e8cf16e646a326c754dbb775b34"
    },
    "preparedTint": {
     "painted-hi": {
-     "identity": "ad0a38a299632eacc2750441e56e4da1924db9edef8a5a6e4239847f80437c17",
+     "identity": "98b3bd8c4cf7fab44acf23397b837ddeda01d560eda145913ec3261c8a769271",
      "url": "courses/veckefjarden/prepared/tint-97c80c204be639d450c2138c307cc4a078ca4ee31f03bf08c365efb80e058f74.bin",
      "bytes": 1485657,
      "decodedBytes": 3132040,
@@ -2066,7 +1998,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "b684e9e1fccb1f1910e52a6a72be71bdc7be405140a9dbc556be2e774f4255f5",
+     "identity": "382345c93ce99bf92c8bdce978a78d65ab99aa387e7cb43e57d8b9ddbf914980",
      "url": "courses/veckefjarden/prepared/tint-97c80c204be639d450c2138c307cc4a078ca4ee31f03bf08c365efb80e058f74.bin",
      "bytes": 1485657,
      "decodedBytes": 3132040,
@@ -2102,7 +2034,7 @@
    },
    "preparedVista": {
     "vista-hi": {
-     "identity": "e0ff6af768a20dd38ceb321a5e0461a343303fbdb9f4c600e90fdea09497a78c",
+     "identity": "03595a1d87d5737b893130fafab1b4ea17e34eb9072abaea529493ded768b05e",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":true,\"vegetation\":true},\"landmarks\":[\"w104048726\",\"w70606159\"]}",
      "url": "courses/veckefjarden/prepared/vista-ea04ddfcaf46b6abcd264de754b1c556f26b25c38ef956c571fa2e53dc6f83a9.bin",
      "bytes": 145015,
@@ -2115,7 +2047,7 @@
      "points": 378886
     },
     "vista-lo": {
-     "identity": "3ad1242c275f93d9b5569cc6017ca05f5edc8524cc4726706c42d978602fbf7c",
+     "identity": "765a1dcdf526a126fa8b68a05efa66f9855a137aad4c0d9c83afe3c918c0a110",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":true,\"vegetation\":true},\"landmarks\":[\"w104048726\",\"w70606159\"]}",
      "url": "courses/veckefjarden/prepared/vista-9943f6417583c079e866931284906e9246a4efacf3c99b3a3c3f9ee16e6cda6f.bin",
      "bytes": 83040,
@@ -2130,7 +2062,7 @@
    },
    "preparedScatter": {
     "scatter-hi": {
-     "identity": "49ba5304b63b22d422755d70f4fc8d5415d9a86b699350875077db5e374a61c0",
+     "identity": "e348b4a06c47611f1a24398ab481f21f6bf23ff2274278a5258619c3329a0514",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":true},\"landmarks\":[]}",
      "url": "courses/veckefjarden/prepared/scatter-bd60a32bd2cab9078a4a4eb63fb2bb56951213e419a3bab8c75e8b81d933ecde.bin",
      "bytes": 18547,
@@ -2161,7 +2093,7 @@
      }
     },
     "scatter-lo": {
-     "identity": "50414f890b3a5b82b3dadc4fbeb2c2ecd4a9d7a7c5a453145f21807074b1a7f5",
+     "identity": "6d9159c0bc187c8051e2931d872b1b8d1087c96d3f938ce5ee93136a61ac747a",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":true},\"landmarks\":[]}",
      "url": "courses/veckefjarden/prepared/scatter-0f8a11ab7931803d18181411aeebbe38f80a3f66f9157445194245d9f7a1c1a2.bin",
      "bytes": 18526,
@@ -2217,13 +2149,13 @@
    },
    "photos": 5,
    "scorecard": {
-    "url": "courses/veckefjarden-korthalsbanan/scorecard-74a6c0a0f395f4ba8e93e1d94ca8ecd97b0da60b0dfecb31b50c39a33379ae34.json",
+    "url": "courses/veckefjarden-korthalsbanan/scorecard-e88e3f3a6de299dc720f3bef35cd6aff0de73e2b16443963ba74a76ee80f8444.json",
     "bytes": 1624,
-    "sha256": "74a6c0a0f395f4ba8e93e1d94ca8ecd97b0da60b0dfecb31b50c39a33379ae34"
+    "sha256": "e88e3f3a6de299dc720f3bef35cd6aff0de73e2b16443963ba74a76ee80f8444"
    },
    "packUrl": "courses/veckefjarden-korthalsbanan/pack.bin",
-   "bytes": 364003,
-   "sha256": "b08bb0dda4c51ae01fa2117d474d45ef4708f4bdd5aac76d1fc860be6f855e77",
+   "bytes": 363970,
+   "sha256": "83578dc072ddcd7fbb0a51c2e847d682e542ad467a434236edf55680cbdfe17f",
    "landcover": {
     "url": "courses/veckefjarden-korthalsbanan/landcover.json",
     "bytes": 183022,
@@ -2240,16 +2172,16 @@
     "sha256": "eee3c83871d05e5c8083989d6d77aa1a8fa390779f6449345abb5f9f31afb0bc"
    },
    "preparedWater": {
-    "identity": "4fa34ca09d5df63bbd1e22d5a015e02030e79458f6551315ae1d70bcc3f33cd6",
-    "url": "courses/veckefjarden-korthalsbanan/prepared/water-3a1a6f4d9f4057f278620faf8cd0355eb554e3c5348f94449d42939cc4f1c550.bin",
-    "bytes": 306809,
+    "identity": "95aca9fffac9f494e76569b4114cfbf33cf57d0f5cac2e171db49ded82f33148",
+    "url": "courses/veckefjarden-korthalsbanan/prepared/water-7570eb017c5be45aae2176ae3ebf846d05d7ac6e163d987c37426c87e1c08766.bin",
+    "bytes": 306810,
     "decodedBytes": 63070545,
-    "sha256": "3a1a6f4d9f4057f278620faf8cd0355eb554e3c5348f94449d42939cc4f1c550",
-    "decodedSha256": "ca64ab8293b63a1bead8711a9fcf69602118a9fd5209f5177f20fda985b58fcb"
+    "sha256": "7570eb017c5be45aae2176ae3ebf846d05d7ac6e163d987c37426c87e1c08766",
+    "decodedSha256": "02a016a50749a3d6ee1d8e1408e64ed48caf21cee8974ce64140b5458efa3a9a"
    },
    "preparedTint": {
     "painted-hi": {
-     "identity": "b9bdcd504cf86d4603239262df00dadd91d20ae59643d9350e86244e624c43ab",
+     "identity": "ebe447c9bc7ef76eb758d0df2eb4d68832124d465cec522cb0cf4cb625139c30",
      "url": "courses/veckefjarden-korthalsbanan/prepared/tint-97a7794253184af2547a54d7453bcdfad2a788a7211ce69cd37b4bd01f0db216.bin",
      "bytes": 1482400,
      "decodedBytes": 3132040,
@@ -2283,7 +2215,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "2b61e8dc8b0f298dd8bd8b723776b147d707a8569c4e0ba9ad5503acfb1f046f",
+     "identity": "4c628c42f7ba3a94c5d72a07aee3aa361a910453ac023d9be49d81e1940245e8",
      "url": "courses/veckefjarden-korthalsbanan/prepared/tint-97a7794253184af2547a54d7453bcdfad2a788a7211ce69cd37b4bd01f0db216.bin",
      "bytes": 1482400,
      "decodedBytes": 3132040,
@@ -2319,7 +2251,7 @@
    },
    "preparedVista": {
     "vista-hi": {
-     "identity": "234cc74a68216129a2e1ac03041f658d10732329db56976ca27fd39d86377e52",
+     "identity": "d5e2bda12da627d828b141bc8d16f0936e31e1a64d1835e3ac06292897df8214",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":true,\"vegetation\":true},\"landmarks\":[\"w104048726\",\"w70606159\"]}",
      "url": "courses/veckefjarden-korthalsbanan/prepared/vista-d652b4ae1c072afda86a62651e62995380a8429c8a918328522d2ec7f142453e.bin",
      "bytes": 145014,
@@ -2332,7 +2264,7 @@
      "points": 378888
     },
     "vista-lo": {
-     "identity": "ff5c35d519e787e1c78579d824624adad4b0210437660502e30b14e8ace945c8",
+     "identity": "88c3d0c43cf210307ab09ce27057794d1452b1914d9ad608f3b01385fdf590f2",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":true,\"vegetation\":true},\"landmarks\":[\"w104048726\",\"w70606159\"]}",
      "url": "courses/veckefjarden-korthalsbanan/prepared/vista-2e9c976aaf0e490e21d91dfc6c61e2cd4bddc7732912543880c1251d876d3ec2.bin",
      "bytes": 83042,
@@ -2347,7 +2279,7 @@
    },
    "preparedScatter": {
     "scatter-hi": {
-     "identity": "5c3159d77115a63100fbfa6bfb4714890acea6f40a70f664a18d4089252d2ff8",
+     "identity": "783c43329e240545e8250aa2013c1dec3aa11eb862a6dee72e630fcc88669041",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":true},\"landmarks\":[]}",
      "url": "courses/veckefjarden-korthalsbanan/prepared/scatter-3c7ade06bd2d79415dd85fbf7047a0d725b4bd418dd692a3696c7da7fe18cc31.bin",
      "bytes": 5897,
@@ -2378,7 +2310,7 @@
      }
     },
     "scatter-lo": {
-     "identity": "8d41ca115ff00c222ce899e2a697871e933960634073fd077243474f5c65fcd7",
+     "identity": "2aa52d09569f4769bd4fbfbf3d43f039ab01d5d5a318766fbe71974375318ed5",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":true},\"landmarks\":[]}",
      "url": "courses/veckefjarden-korthalsbanan/prepared/scatter-c0f69501f65b1c2442512c47904ab9529af6c765774f6879a1cbb6ce5add2bf6.bin",
      "bytes": 5241,

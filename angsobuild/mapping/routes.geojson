@@ -1,0 +1,715 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "EPSG:3006"
+  }
+ },
+ "status": "exported-from-model",
+ "provenance": {
+  "exportedFrom": "angsobuild/course-model.json",
+  "migration": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
+  "note": "The published outlines of a ground built with its own builder, in EPSG:3006 for the looks of pipeline v2. Not a trace: fix an outline in the builder's own records, rebuild the model, migrate it and export again."
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": "angso-route-01",
+   "properties": {
+    "kind": "hole",
+    "hole": 1,
+    "par": 4,
+    "card": {
+     "Vit": 386,
+     "Gul": 350,
+     "Blå": 319,
+     "Röd": 270,
+     "Ora": 238
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605675.33,
+      6605103.19
+     ],
+     [
+      605629.9,
+      6604945.02
+     ],
+     [
+      605604.96,
+      6604869.25
+     ],
+     [
+      605589.09,
+      6604791.73
+     ],
+     [
+      605563.87,
+      6604734.24
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-02",
+   "properties": {
+    "kind": "hole",
+    "hole": 2,
+    "par": 4,
+    "card": {
+     "Vit": 348,
+     "Gul": 331,
+     "Blå": 282,
+     "Röd": 253,
+     "Ora": 221
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605554.52,
+      6604657.14
+     ],
+     [
+      605721.95,
+      6604667.36
+     ],
+     [
+      605812.05,
+      6604672.9
+     ],
+     [
+      605898.03,
+      6604702.1
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-03",
+   "properties": {
+    "kind": "hole",
+    "hole": 3,
+    "par": 3,
+    "card": {
+     "Vit": 179,
+     "Gul": 171,
+     "Blå": 122,
+     "Röd": 119,
+     "Ora": 92
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605885.95,
+      6604764.07
+     ],
+     [
+      605800.43,
+      6604800.69
+     ],
+     [
+      605720.33,
+      6604832.8
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-04",
+   "properties": {
+    "kind": "hole",
+    "hole": 4,
+    "par": 4,
+    "card": {
+     "Vit": 337,
+     "Gul": 315,
+     "Blå": 305,
+     "Röd": 236,
+     "Ora": 208
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605741.26,
+      6604907.62
+     ],
+     [
+      605777.59,
+      6605006.23
+     ],
+     [
+      605819.49,
+      6605120.51
+     ],
+     [
+      605787.66,
+      6605226.24
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-05",
+   "properties": {
+    "kind": "hole",
+    "hole": 5,
+    "par": 5,
+    "card": {
+     "Vit": 493,
+     "Gul": 456,
+     "Blå": 400,
+     "Röd": 339,
+     "Ora": 293
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605899.68,
+      6605262.56
+     ],
+     [
+      605885.9,
+      6605112.38
+     ],
+     [
+      605887.15,
+      6605032.34
+     ],
+     [
+      605918.85,
+      6604975.18
+     ],
+     [
+      605995.89,
+      6604910.3
+     ],
+     [
+      606063.89,
+      6604826.53
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-06",
+   "properties": {
+    "kind": "hole",
+    "hole": 6,
+    "par": 4,
+    "card": {
+     "Vit": 337,
+     "Gul": 317,
+     "Blå": 308,
+     "Röd": 272,
+     "Ora": 201
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      606099.53,
+      6604879.95
+     ],
+     [
+      606066.22,
+      6604905.28
+     ],
+     [
+      606009.03,
+      6604977.73
+     ],
+     [
+      605969.41,
+      6605066.69
+     ],
+     [
+      605984.75,
+      6605127.18
+     ],
+     [
+      606020.02,
+      6605152.51
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-07",
+   "properties": {
+    "kind": "hole",
+    "hole": 7,
+    "par": 5,
+    "card": {
+     "Vit": 545,
+     "Gul": 525,
+     "Blå": 445,
+     "Röd": 384,
+     "Ora": 321
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      606030.71,
+      6605195.04
+     ],
+     [
+      605935.34,
+      6605278.92
+     ],
+     [
+      605896.47,
+      6605412.94
+     ],
+     [
+      605908.98,
+      6605573.44
+     ],
+     [
+      605940.47,
+      6605685.21
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-08",
+   "properties": {
+    "kind": "hole",
+    "hole": 8,
+    "par": 4,
+    "card": {
+     "Vit": 344,
+     "Gul": 331,
+     "Blå": 285,
+     "Röd": 257,
+     "Ora": 195
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605799.74,
+      6605827.79
+     ],
+     [
+      605793.54,
+      6605685.29
+     ],
+     [
+      605777.9,
+      6605599.77
+     ],
+     [
+      605752.55,
+      6605478.04
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-09",
+   "properties": {
+    "kind": "hole",
+    "hole": 9,
+    "par": 3,
+    "card": {
+     "Vit": 143,
+     "Gul": 122,
+     "Blå": 114,
+     "Röd": 95,
+     "Ora": 55
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605686.22,
+      6605380.79
+     ],
+     [
+      605653.8,
+      6605236.68
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-10",
+   "properties": {
+    "kind": "hole",
+    "hole": 10,
+    "par": 5,
+    "card": {
+     "Vit": 527,
+     "Gul": 514,
+     "Blå": 438,
+     "Röd": 386,
+     "Ora": 326
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605540.48,
+      6605245.52
+     ],
+     [
+      605565.86,
+      6605403.63
+     ],
+     [
+      605584.4,
+      6605564.29
+     ],
+     [
+      605590.76,
+      6605694.59
+     ],
+     [
+      605639.33,
+      6605751.76
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-11",
+   "properties": {
+    "kind": "hole",
+    "hole": 11,
+    "par": 4,
+    "card": {
+     "Vit": 340,
+     "Gul": 294,
+     "Blå": 284,
+     "Röd": 233,
+     "Ora": 189
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605699.69,
+      6605769.22
+     ],
+     [
+      605702.2,
+      6605937.94
+     ],
+     [
+      605713.83,
+      6606023.35
+     ],
+     [
+      605767.06,
+      6606089.95
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-12",
+   "properties": {
+    "kind": "hole",
+    "hole": 12,
+    "par": 3,
+    "card": {
+     "Vit": 169,
+     "Gul": 160,
+     "Blå": 136,
+     "Röd": 135,
+     "Ora": 65
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605594.39,
+      6606331.26
+     ],
+     [
+      605522.92,
+      6606395.31
+     ],
+     [
+      605462.83,
+      6606437.09
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-13",
+   "properties": {
+    "kind": "hole",
+    "hole": 13,
+    "par": 4,
+    "card": {
+     "Vit": 426,
+     "Gul": 370,
+     "Blå": 351,
+     "Röd": 305,
+     "Ora": 249
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605539.71,
+      6606448.83
+     ],
+     [
+      605385.04,
+      6606664.68
+     ],
+     [
+      605289.48,
+      6606787.51
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-14",
+   "properties": {
+    "kind": "hole",
+    "hole": 14,
+    "par": 4,
+    "card": {
+     "Vit": 350,
+     "Gul": 338,
+     "Blå": 292,
+     "Röd": 261,
+     "Ora": 188
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605233.44,
+      6606713.12
+     ],
+     [
+      605273.24,
+      6606541.43
+     ],
+     [
+      605287.94,
+      6606481.79
+     ],
+     [
+      605360.25,
+      6606476.81
+     ],
+     [
+      605418.77,
+      6606462.81
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-15",
+   "properties": {
+    "kind": "hole",
+    "hole": 15,
+    "par": 3,
+    "card": {
+     "Vit": 172,
+     "Gul": 145,
+     "Blå": 134,
+     "Röd": 85,
+     "Ora": 63
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605442.17,
+      6606406.3
+     ],
+     [
+      605363.06,
+      6606376.8
+     ],
+     [
+      605287.29,
+      6606332.34
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-16",
+   "properties": {
+    "kind": "hole",
+    "hole": 16,
+    "par": 4,
+    "card": {
+     "Vit": 338,
+     "Gul": 327,
+     "Blå": 292,
+     "Röd": 269,
+     "Ora": 194
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605259.58,
+      6606278.06
+     ],
+     [
+      605365.93,
+      6606274.79
+     ],
+     [
+      605451.46,
+      6606263.18
+     ],
+     [
+      605487.41,
+      6606232.17
+     ],
+     [
+      605502.84,
+      6606182.55
+     ],
+     [
+      605508.71,
+      6606136.59
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-17",
+   "properties": {
+    "kind": "hole",
+    "hole": 17,
+    "par": 4,
+    "card": {
+     "Vit": 358,
+     "Gul": 339,
+     "Blå": 308,
+     "Röd": 274,
+     "Ora": 214
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605418.2,
+      6606108.86
+     ],
+     [
+      605402.34,
+      6606013.58
+     ],
+     [
+      605388.95,
+      6605919.12
+     ],
+     [
+      605387.19,
+      6605839
+     ],
+     [
+      605401.62,
+      6605789.36
+     ],
+     [
+      605413.5,
+      6605757.11
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "angso-route-18",
+   "properties": {
+    "kind": "hole",
+    "hole": 18,
+    "par": 5,
+    "card": {
+     "Vit": 497,
+     "Gul": 445,
+     "Blå": 385,
+     "Röd": 348,
+     "Ora": 285
+    }
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      605302.3,
+      6605568.38
+     ],
+     [
+      605358.32,
+      6605474.86
+     ],
+     [
+      605399.67,
+      6605358.92
+     ],
+     [
+      605405.49,
+      6605258.99
+     ],
+     [
+      605400.56,
+      6605148.76
+     ],
+     [
+      605405.37,
+      6605094.22
+     ]
+    ]
+   }
+  }
+ ]
+}
