@@ -1,0 +1,341 @@
+{
+ "schemaVersion": 1,
+ "groundId": "upsala",
+ "slug": "upsala",
+ "courseName": "Upsala GK Stora banan",
+ "source": {
+  "primary": "https://upsalagk.se/",
+  "primaryEdition": "The club's Stora banan card (upsalabuild/card.json), re-checked hole by hole on 2026-09-04 against golfisverige.com: all 144 values agree and every tee column reproduces its printed total.",
+  "secondary": "https://www.golfisverige.com/klubb/upsala-golfklubb/",
+  "slope": "https://slope.no/sv/baner/upsala-golfklubb/ (read 2026-09-04; the club publishes the same table as images)",
+  "retrievedOn": "2026-09-04",
+  "notes": "Six tees named by nominal length in metres: 62 Svart (men only), 59 Vit, 56 Gul, 51 Blå, 47 Röd, 42 Orange (women only). Stora banan rebuilt by Bob Kains 2007-2010. See docs/courses/upsala-source-dossier.md."
+ },
+ "par": 72,
+ "tees": [
+  {
+   "id": "62",
+   "name": "62",
+   "color": "#1a1a1a",
+   "front": 3161,
+   "back": 3031,
+   "total": 6192,
+   "ratingMen": {
+    "cr": 74.5,
+    "slope": 140
+   }
+  },
+  {
+   "id": "59",
+   "name": "59",
+   "color": "#f4f4ee",
+   "front": 2985,
+   "back": 2903,
+   "total": 5888,
+   "ratingMen": {
+    "cr": 72.5,
+    "slope": 139
+   },
+   "ratingWomen": {
+    "cr": 78.2,
+    "slope": 145
+   }
+  },
+  {
+   "id": "56",
+   "name": "56",
+   "color": "#f0c93a",
+   "front": 2826,
+   "back": 2739,
+   "total": 5565,
+   "ratingMen": {
+    "cr": 71.3,
+    "slope": 135
+   },
+   "ratingWomen": {
+    "cr": 76.4,
+    "slope": 142
+   }
+  },
+  {
+   "id": "51",
+   "name": "51",
+   "color": "#4a8fe0",
+   "front": 2630,
+   "back": 2488,
+   "total": 5118,
+   "ratingMen": {
+    "cr": 69.5,
+    "slope": 130
+   },
+   "ratingWomen": {
+    "cr": 74.4,
+    "slope": 135
+   }
+  },
+  {
+   "id": "47",
+   "name": "47",
+   "color": "#e0574a",
+   "front": 2423,
+   "back": 2299,
+   "total": 4722,
+   "ratingMen": {
+    "cr": 67.2,
+    "slope": 125
+   },
+   "ratingWomen": {
+    "cr": 71.3,
+    "slope": 130
+   }
+  },
+  {
+   "id": "42",
+   "name": "42",
+   "color": "#e08b3a",
+   "front": 2134,
+   "back": 2088,
+   "total": 4222,
+   "ratingWomen": {
+    "cr": 68.6,
+    "slope": 124
+   }
+  }
+ ],
+ "holes": [
+  {
+   "number": 1,
+   "par": 4,
+   "index": 7,
+   "lengths": {
+    "42": 259,
+    "47": 259,
+    "51": 319,
+    "56": 356,
+    "59": 356,
+    "62": 374
+   }
+  },
+  {
+   "number": 2,
+   "par": 3,
+   "index": 17,
+   "lengths": {
+    "42": 103,
+    "47": 103,
+    "51": 128,
+    "56": 128,
+    "59": 136,
+    "62": 147
+   }
+  },
+  {
+   "number": 3,
+   "par": 4,
+   "index": 5,
+   "lengths": {
+    "42": 207,
+    "47": 287,
+    "51": 287,
+    "56": 316,
+    "59": 324,
+    "62": 324
+   }
+  },
+  {
+   "number": 4,
+   "par": 4,
+   "index": 3,
+   "lengths": {
+    "42": 248,
+    "47": 299,
+    "51": 330,
+    "56": 330,
+    "59": 366,
+    "62": 396
+   }
+  },
+  {
+   "number": 5,
+   "par": 5,
+   "index": 13,
+   "lengths": {
+    "42": 337,
+    "47": 389,
+    "51": 389,
+    "56": 415,
+    "59": 445,
+    "62": 481
+   }
+  },
+  {
+   "number": 6,
+   "par": 3,
+   "index": 9,
+   "lengths": {
+    "42": 128,
+    "47": 128,
+    "51": 128,
+    "56": 155,
+    "59": 183,
+    "62": 204
+   }
+  },
+  {
+   "number": 7,
+   "par": 4,
+   "index": 1,
+   "lengths": {
+    "42": 243,
+    "47": 295,
+    "51": 295,
+    "56": 366,
+    "59": 375,
+    "62": 415
+   }
+  },
+  {
+   "number": 8,
+   "par": 5,
+   "index": 15,
+   "lengths": {
+    "42": 316,
+    "47": 370,
+    "51": 415,
+    "56": 415,
+    "59": 455,
+    "62": 467
+   }
+  },
+  {
+   "number": 9,
+   "par": 4,
+   "index": 11,
+   "lengths": {
+    "42": 293,
+    "47": 293,
+    "51": 339,
+    "56": 345,
+    "59": 345,
+    "62": 353
+   }
+  },
+  {
+   "number": 10,
+   "par": 3,
+   "index": 14,
+   "lengths": {
+    "42": 111,
+    "47": 111,
+    "51": 144,
+    "56": 162,
+    "59": 162,
+    "62": 184
+   }
+  },
+  {
+   "number": 11,
+   "par": 4,
+   "index": 4,
+   "lengths": {
+    "42": 248,
+    "47": 288,
+    "51": 288,
+    "56": 353,
+    "59": 363,
+    "62": 376
+   }
+  },
+  {
+   "number": 12,
+   "par": 5,
+   "index": 10,
+   "lengths": {
+    "42": 356,
+    "47": 390,
+    "51": 390,
+    "56": 455,
+    "59": 505,
+    "62": 521
+   }
+  },
+  {
+   "number": 13,
+   "par": 4,
+   "index": 12,
+   "lengths": {
+    "42": 223,
+    "47": 265,
+    "51": 265,
+    "56": 321,
+    "59": 333,
+    "62": 333
+   }
+  },
+  {
+   "number": 14,
+   "par": 3,
+   "index": 16,
+   "lengths": {
+    "42": 104,
+    "47": 104,
+    "51": 135,
+    "56": 135,
+    "59": 143,
+    "62": 153
+   }
+  },
+  {
+   "number": 15,
+   "par": 4,
+   "index": 2,
+   "lengths": {
+    "42": 224,
+    "47": 319,
+    "51": 319,
+    "56": 328,
+    "59": 328,
+    "62": 337
+   }
+  },
+  {
+   "number": 16,
+   "par": 5,
+   "index": 6,
+   "lengths": {
+    "42": 349,
+    "47": 349,
+    "51": 426,
+    "56": 426,
+    "59": 447,
+    "62": 468
+   }
+  },
+  {
+   "number": 17,
+   "par": 4,
+   "index": 18,
+   "lengths": {
+    "42": 186,
+    "47": 186,
+    "51": 234,
+    "56": 234,
+    "59": 258,
+    "62": 270
+   }
+  },
+  {
+   "number": 18,
+   "par": 4,
+   "index": 8,
+   "lengths": {
+    "42": 287,
+    "47": 287,
+    "51": 287,
+    "56": 325,
+    "59": 364,
+    "62": 389
+   }
+  }
+ ]
+}

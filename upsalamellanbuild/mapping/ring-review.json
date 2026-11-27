@@ -1,0 +1,65 @@
+{
+ "schemaVersion": 1,
+ "slug": "upsala-mellanbanan",
+ "surfacesSha256": "3bef5de812d9e563f12db7b4a7f63ca9ecef46ac65ada5c9d9c887d633bc6edf",
+ "reviewedOn": "2026-11-27",
+ "reviewer": "Claude Opus 5.5 (agent), on contact sheets of the 2025-06-14 0.16 m photo and the 2021-04-16 leaf-off photo, every green alone and stretched beside the May 2023 photo, and the laser heights under every deck",
+ "rings": {
+  "bunker": 22,
+  "fairway": 13,
+  "green": 9,
+  "tee": 29
+ },
+ "redrawn": [
+  "mellan-tee-08-1",
+  "mellan-bunker-06-5",
+  "mellan-bunker-01-4"
+ ],
+ "accepted": {
+  "mellan-tee-06-1": "the small round back deck among trees, pale and round on both photo years; level in the laser terrain (deck-ground.mjs)",
+  "mellan-tee-07-1": "the back deck lies in a tree's shade on both photo years, so no photo shows its edge; the September ring stands, and it is level in the laser terrain (deck-ground.mjs)",
+  "mellan-tee-07-2": "in a tree's shadow on the 2025 photo, whole on the 2021 one, where the ring fits it; level in the laser terrain (deck-ground.mjs)",
+  "mellan-tee-07-3": "the oval Blå deck, plain on both photo years; level in the laser terrain (deck-ground.mjs)"
+ },
+ "second": {
+  "reviewer": "Claude Opus 5.5 (agent), blind second look",
+  "reviewedOn": "2026-11-27",
+  "sheets": [
+   "stora-tee-1.jpg",
+   "stora-tee-2.jpg",
+   "stora-green-1.jpg",
+   "stora-bunker-1.jpg",
+   "stora-bunker-2.jpg",
+   "mellan-tee-1.jpg",
+   "mellan-green-1.jpg",
+   "mellan-bunker-1.jpg"
+  ],
+  "looked": {
+   "stora-tee-1.jpg": 40,
+   "stora-tee-2.jpg": 25,
+   "stora-green-1.jpg": 18,
+   "stora-bunker-1.jpg": 40,
+   "stora-bunker-2.jpg": 18,
+   "mellan-tee-1.jpg": 29,
+   "mellan-green-1.jpg": 9,
+   "mellan-bunker-1.jpg": 22
+  },
+  "surfacesSha256": "3bef5de812d9e563f12db7b4a7f63ca9ecef46ac65ada5c9d9c887d633bc6edf",
+  "doubts": {
+   "mellan-tee-07-1": {
+    "reason": "A dark tree crown fills the south half of the ring in the same place on both photos, and mown deck shows only in its north part.",
+    "resolution": "a tree's crown overhangs the deck's south half on both photos; the ring is the September trace on the 2025 photo, and the deck under it is level in the laser terrain (deck-ground.mjs), so it goes on under the crown",
+    "fault": null
+   },
+   "mellan-tee-08-2": {
+    "reason": "A dark tree crown fills the west half of the ring on both photos (larger with its long April shadow), and open deck with a marker shows only in the east part.",
+    "resolution": "a conifer's crown overhangs the deck's west half on both photos; the deck under the ring is level in the laser terrain (deck-ground.mjs), so it goes on under the crown",
+    "fault": null
+   }
+  },
+  "cannotTell": {
+   "mellan-tee-07-2": "Tree shadow crosses the south-east half of the ring on 2025 and the deck edge is faint on 2021.",
+   "mellan-bunker-01-4": "The bunker lies in conifer shade on both photos; little sand is visible and its edge cannot be followed."
+  }
+ }
+}
