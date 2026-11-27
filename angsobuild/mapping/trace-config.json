@@ -42,28 +42,27 @@
     "bunker": {
       "core": {
         "brightness": [
-          108,
-          190
+          105,
+          200
         ],
-        "ndviBelow": -0.11,
+        "ndviBelow": -0.1,
         "warmth": [
-          8,
-          28
+          6,
+          30
         ]
       },
       "grow": {
         "brightness": [
-          95,
-          200
+          92,
+          220
         ],
-        "ndviBelow": -0.06,
+        "ndviBelow": -0.04,
         "warmth": [
-          4,
-          32
+          2,
+          40
         ]
       }
-    },
-    "bands": "Core is the inner half of the measured sand (brightness 108-190, NDVI under -0.11, warmth 8-28), so that the gravel paths (grey, warmth under 8), red roofs (warmth over 28) and bare spring soil (NDVI near 0) the looser bands found do not read as sand; a patch grows over the looser band."
+    }
   },
   "courses": [
     {

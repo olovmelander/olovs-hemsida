@@ -97,10 +97,12 @@ export function loadDecisionFiles(configPath, root = ROOT) {
   return { config, files: Object.fromEntries(names.map(name => [name, read(name)])) };
 }
 
-/** Every trace configuration of a published build. */
+/** Every trace configuration of a published build that is traced from decisions. An older ground's configuration
+ *  points only the looks at its exported outlines (export-model-surfaces.mjs) and names no decision files. */
 export function traceConfigs(root = ROOT) {
   const builds = JSON.parse(fs.readFileSync(path.join(root, 'apps/golf/public/courses/index.json'), 'utf8')).courses.map(c => c.build);
-  return [...new Set(builds)].map(build => `${build}/mapping/trace-config.json`).filter(file => fs.existsSync(path.join(root, file)));
+  return [...new Set(builds)].map(build => `${build}/mapping/trace-config.json`).filter(file => fs.existsSync(path.join(root, file)))
+    .filter(file => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8')).courses.some(course => course.decisions));
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
