@@ -52,6 +52,11 @@ export const VIEWS = [
     state.flight = null; state.follow = false;
     Object.assign(camera.state, { x: g[0], z: g[1], distance: 90, tilt: 0.95 });
     invalidate();` },
+];
+
+/* Computed views, kept out of VIEWS: course-workflow/ground-card.mjs reads that table as a
+   literal, without running this file. */
+const EXTRA_VIEWS = [
   /* The club's own buildings by the first tee, and how much forest and how many
      houses stand as the camera draws back (owner, 27 November: they thinned). */
   /* Each ground's largest building of its own (tools/bake-map-buildings.mjs), close. */
@@ -75,7 +80,7 @@ export const VIEWS = [
 ];
 
 const only = flag('views', null)?.split(',');
-const views = only ? VIEWS.filter(view => only.includes(view.id)) : VIEWS;
+const views = [...VIEWS, ...EXTRA_VIEWS].filter(view => !only || only.includes(view.id));
 const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
 const viewport = has('landscape') ? { width: 915, height: 412 } : { width: 412, height: 915 };
 const results = [];
