@@ -99,7 +99,7 @@ test('every published ground\'s decision files can be traced, and a broken one s
 test('a rebuild runs the ground\'s own steps in the one order, with the ring review as a gate before the layers', () => {
   const ids = plan => plan.map(step => step.id);
   const full = rebuildPlan('bro-hof');
-  assert.deepEqual(ids(full), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'layers', 'compile', 'tests', 'inventory', 'pin', 'configure', 'stages', 'promote', 'prune', 'roofs', 'quality', 'map-land', 'walkthrough']);
+  assert.deepEqual(ids(full), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'layers', 'compile', 'tests', 'inventory', 'pin', 'configure', 'stages', 'promote', 'prune', 'roofs', 'quality', 'map-land', 'map-buildings', 'walkthrough']);
   assert.ok(full.find(step => step.id === 'review').gate);
   // the sheets hold the rings a look still owes, and no others
   const render = (blind, only) => [blind ? 'blind' : 'scored', only ? only.join(',') : 'every ring'];
@@ -129,7 +129,7 @@ test('a rebuild serves a ground before it has a production profile, and an older
   // an older ground, published by its own builder: the looks at its exported outlines and what follows a republished pack
   assert.deepEqual(groundRoutings('angso'), { routings: [{ slug: 'angso', build: 'angsobuild' }], hasProfile: false, hasCard: true, published: true });
   const own = ids(rebuildPlan('angso'));
-  assert.deepEqual(own, ['card', 'decks', 'sand', 'sheets', 'review', 'roofs', 'quality', 'map-land', 'walkthrough']);
+  assert.deepEqual(own, ['card', 'decks', 'sand', 'sheets', 'review', 'roofs', 'quality', 'map-land', 'map-buildings', 'walkthrough']);
   assert.ok(!own.includes('trace'), 'its outlines are an export of its model: the tracer must never run over them');
 
   // a new ground has its card and its decisions long before its profile: the outlines are traced from the card alone
@@ -414,6 +414,24 @@ function workflowCommands(file) {
   }
   return blocks.flatMap(block => block.split('\n')).flatMap(line => line.split(' && ')).map(line => line.replace(/\s+/g, ' ').trim()).filter(Boolean);
 }
+
+test('every published ground\'s phone map is current: its frame, its pictures and its copy of the club\'s buildings', async () => {
+  const { mapFindings } = await import('./course-doctor.mjs');
+  const grounds = [...new Set(JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/v2-index.json'), 'utf8')).courses.map(course => course.groundId))];
+  assert.ok(grounds.length >= 12);
+  for (const ground of grounds) {
+    const findings = mapFindings(ground);
+    assert.deepEqual(findings.filter(f => f.level === 'broken' || f.level === 'todo').map(f => `${f.about}: ${f.text}`), [], ground);
+    assert.ok(findings.some(f => f.about === 'map pictures' && f.level === 'ok'), `${ground} has its map pictures`);
+  }
+  assert.ok(mapFindings('bro-hof').some(f => f.about === 'map buildings' && f.level === 'ok'), 'a ground with its own buildings has their copy');
+});
+
+test('the rebuild bakes the phone map\'s pictures and the club\'s buildings after a republished ground', async () => {
+  const { rebuildPlan } = await import('./course-rebuild.mjs');
+  const ids = rebuildPlan('tjusta').map(step => step.id);
+  assert.ok(ids.indexOf('map-buildings') > ids.indexOf('map-land') && ids.indexOf('map-land') > ids.indexOf('promote'), ids.join(' '));
+});
 
 test('the rehearsal runs what the pull request\'s pipelines run, and says what it leaves out and why', () => {
   const plan = rehearsalPlan({ groundId: 'tjusta', baseSha: '"$BASE_SHA"' });

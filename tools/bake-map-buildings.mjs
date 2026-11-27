@@ -399,6 +399,11 @@ function upsala({ frame }) {
 
 const SPECIAL = { tortuna, norrfallsviken, upsala };
 
+/* Whether the detailed course draws buildings of a ground's own that the map should copy:
+   a facility receipt, or one of the grounds read their own way above (course-doctor.mjs). */
+export const hasModelledBuildings = (groundId, root = ROOT) =>
+  Object.hasOwn(SPECIAL, groundId) || fs.existsSync(path.join(root, 'apps/golf/public/models', groundId, 'facilities-v1.json'));
+
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(OUT, { recursive: true });
