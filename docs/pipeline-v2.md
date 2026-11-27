@@ -484,7 +484,7 @@ Written by `node tools/course-walkthrough.mjs --catalogue`; a test fails when it
 <!-- generated:catalogue -->
 | Ground | Holes | Outlines | Ring review | Trees | Quality gate | Walkthrough | Release |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `angso` | 18 | own builder | recorded | automatic | 2 errors, 1 warnings | [yes](courses/angso-walkthrough.md) | advisory, 3 open |
+| `angso` | 18 | own builder | recorded | automatic | 0 errors, 1 warnings | [yes](courses/angso-walkthrough.md) | advisory, 3 open |
 | `bro-hof` | 18 + 18 | decisions as data | recorded | one by one (review-2026-11-24) | 0 errors, 1 warnings | [yes](courses/bro-hof-walkthrough.md) | owner acceptance, 4 open |
 | `johannesberg` | 18 + 9 | own builder | no record | one by one (review-2026-11-08) | 1 errors, 0 warnings | none | advisory, 4 open |
 | `lidingo` | 18 | own builder | no record | automatic | 4 errors, 1 warnings | [yes](courses/lidingo-walkthrough.md) | advisory, 4 open |

@@ -10,9 +10,7 @@
  "slug": "angso",
  "provenance": {
   "exportedFrom": "angsobuild/course-model.json",
-  "modelSha256": "2e025cf0b392fcdb3b6897e3bc49a1841f01c81220d860ecfa616e757f602963",
   "migration": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
-  "migrationSha256": "e249fa78cd2559805429d216fd945423c07aa95b5310280725a4c4e22fda804e",
   "note": "The published outlines of a ground built with its own builder, in EPSG:3006 for the looks of pipeline v2. Not a trace: fix an outline in the builder's own records, rebuild the model, migrate it and export again."
  },
  "features": [

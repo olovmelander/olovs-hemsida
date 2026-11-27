@@ -17,9 +17,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { applyReviewedOrthophoto, applyTeeDecisions } from './mapping/reviewed-orthophoto.mjs';
+import { APPROACH_REACH, FAIRWAY_STEP, GREEN_STEP, TEE_REACH, goodShotsCalledOut } from '../tools/out-of-bounds-shots.mjs';
 import {
   ORIGIN, M_PER_LAT, M_PER_LON,
-  polyLen, polyArea, centroid, pointInPoly, distToLine,
+  polyLen, polyArea, centroid, pointInPoly, distToLine, ptSeg,
   readJSON, writeJSON, r1, ring1, decodeHF, bearing, hyp,
 } from './lib.mjs';
 
@@ -381,6 +382,128 @@ if (fs.existsSync(reviewFile)) {
   /* Pipeline v2's tee decisions (27 November 2026): the card, four photo years and the laser, after the review. */
   const teeDecisionFile = path.join(HERE, 'mapping/tee-decisions.json');
   if (fs.existsSync(teeDecisionFile)) model = applyTeeDecisions(model, readJSON(teeDecisionFile));
+  /* White stakes mark the course's edges, never a hole's own ground or a line across its play (27 November
+     2026). Spela calls a ball out when the straight line to it crosses the white stakes an odd number of
+     times; the boar fence of holes 6 and 16, traced at the woodland edge (build-marking.mjs), zigzags, and
+     209 of 2,386 good shots onto the 6th's own fairway or green and 248 of 1,114 on the 16th were out
+     (tools/out-of-bounds-shots.mjs, in the quality gate). As geobuild/reconcile.mjs does for Veckefjärden,
+     after the review: a stake on a fairway, green or tee deck goes out across that ground's nearest edge,
+     and a run is split wherever a segment would cross one or a hole's line of play (the hole's line and each
+     tee's way onto it). Red stakes trace their water and stay as they are. */
+  {
+    const segX = (a, b, c, d) => {
+      const s = (p, q, r) => (r[0] - q[0]) * (p[1] - q[1]) - (r[1] - q[1]) * (p[0] - q[0]);
+      return (s(a, c, d) > 0) !== (s(b, c, d) > 0) && (s(c, a, b) > 0) !== (s(d, a, b) > 0);
+    };
+    const plays = model.holes.map(h => {
+      const lines = [h.line];
+      for (const m of h.tees?.marks || []) {
+        let best = null, bd = Infinity;
+        for (let i = 0; i < h.line.length - 1; i++) {
+          const [a, b] = [h.line[i], h.line[i + 1]];
+          const { d, t } = ptSeg(m.c[0], m.c[1], a[0], a[1], b[0], b[1]);
+          if (d < bd) { bd = d; best = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+        }
+        if (best && bd > 0.5) lines.push([m.c, best]);
+      }
+      const areas = [h.green.ring, ...(h.fairway?.rings || []), ...(h.tees?.pads || []).map(p => p.ring)].filter(r => r && r.length >= 3);
+      return { lines, areas };
+    });
+    const allAreas = plays.flatMap(p => p.areas);
+    const onPlay = ([x, z]) => allAreas.some(r => pointInPoly(x, z, r));
+    const STAKE_OUT = 3;
+    const pushOut = p => {
+      for (let tries = 0; tries < 3 && onPlay(p); tries++) {
+        const ring = allAreas.find(r => pointInPoly(p[0], p[1], r));
+        let best = null, bd = Infinity;
+        for (let i = 0; i < ring.length; i++) {
+          const a = ring[i], b = ring[(i + 1) % ring.length];
+          const { d, t } = ptSeg(p[0], p[1], a[0], a[1], b[0], b[1]);
+          if (d < bd) { bd = d; best = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+        }
+        const L = Math.hypot(best[0] - p[0], best[1] - p[1]) || 1;
+        p = [r1(best[0] + (best[0] - p[0]) / L * STAKE_OUT), r1(best[1] + (best[1] - p[1]) / L * STAKE_OUT)];
+      }
+      return onPlay(p) ? null : p;
+    };
+    const crossesPlay = (a, b) => plays.some(p =>
+      p.lines.some(L => L.some((q, i) => i > 0 && segX(a, b, L[i - 1], q))) ||
+      p.areas.some(r => r.some((q, i) => segX(a, b, r[(i + r.length - 1) % r.length], q))));
+    let dropped = 0, moved = 0, splits = 0;
+    const out = [];
+    for (const m of model.marking) {
+      if (m.color !== 'w') { out.push(m); continue; }
+      let cur = null;
+      const pieces = [];
+      for (const stake of m.pts) {
+        const p = onPlay(stake) ? pushOut(stake) : stake;
+        if (p !== stake) { if (p) moved++; else { dropped++; cur = null; continue; } }
+        if (cur && crossesPlay(cur.pts[cur.pts.length - 1], p)) { splits++; cur = null; }
+        if (!cur) { cur = { ...m, pts: [] }; pieces.push(cur); }
+        cur.pts.push(p);
+      }
+      for (const piece of pieces) if (piece.pts.length >= 3) out.push(piece); else dropped += piece.pts.length;
+    }
+    const before = model.marking.filter(m => m.color === 'w').length;
+    model.marking = out;
+    console.log(`white: ${before} runs kept clear of play as ${out.filter(m => m.color === 'w').length}; ${moved} stakes moved off a hole's ground, ${dropped} dropped, ${splits} runs split where they crossed it`);
+    /* Ängsö's fence crosses no hole's line, yet it stands across its play: on the 6th it runs diagonally
+       between the tees and the far side of the fairway, so shots from the tee onto the fairway's west half
+       cross it once. Spela rules a ball out on an odd number of crossings, so the fewest segments are taken
+       out until no good shot is out: each shot the quality gate replays (out-of-bounds-shots.mjs: every tee
+       onto its fairway within reach and onto its green, every approach from the fairway) is crossed with every
+       white segment once, and while any good shot is out, the segment that the most of them cross goes, and
+       its run is split there. A segment crossed an even number of times stays (the white-and-black stakes
+       that make the 6th out of bounds from the 5th are crossed twice by some of the 6th's shots, and stand). */
+    const grid = (ring, step) => {
+      const xs = ring.map(p => p[0]), zs = ring.map(p => p[1]), pts = [];
+      for (let x = Math.min(...xs) + step / 2; x < Math.max(...xs); x += step) {
+        for (let z = Math.min(...zs) + step / 2; z < Math.max(...zs); z += step) if (pointInPoly(x, z, ring)) pts.push([x, z]);
+      }
+      return pts;
+    };
+    const far = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+    const shots = model.holes.flatMap(h => {
+      const fairway = (h.fairway?.rings || []).filter(r => r.length >= 3).flatMap(r => grid(r, FAIRWAY_STEP));
+      const green = h.green?.ring?.length >= 3 ? grid(h.green.ring, GREEN_STEP) : [];
+      const pin = h.pin || h.green?.c || h.line?.at(-1), list = [];
+      for (const { c } of h.tees?.marks || []) {
+        if (h.par > 3) for (const p of fairway) if (far(c, p) < TEE_REACH) list.push([c, p]);
+        for (const p of green) if (h.par === 3 || far(c, p) < TEE_REACH) list.push([c, p]);
+      }
+      if (pin) for (const a of fairway) if (far(a, pin) > 30 && far(a, pin) < APPROACH_REACH) for (const p of green) list.push([a, p]);
+      return list;
+    });
+    const segs = [];
+    model.marking.forEach((m, r) => { if (m.color === 'w') for (let i = 1; i < m.pts.length; i++) segs.push({ r, i, a: m.pts[i - 1], b: m.pts[i] }); });
+    const crossing = shots.map(([p, q]) => segs.flatMap((g, k) => (Math.max(p[0], q[0]) >= Math.min(g.a[0], g.b[0]) && Math.min(p[0], q[0]) <= Math.max(g.a[0], g.b[0])
+      && Math.max(p[1], q[1]) >= Math.min(g.a[1], g.b[1]) && Math.min(p[1], q[1]) <= Math.max(g.a[1], g.b[1]) && segX(p, q, g.a, g.b) ? [k] : [])));
+    const gone = new Set();
+    for (;;) {
+      const tally = new Map();
+      for (const list of crossing) {
+        const live = list.filter(k => !gone.has(k));
+        if (live.length % 2) for (const k of live) tally.set(k, (tally.get(k) ?? 0) + 1);
+      }
+      if (!tally.size) break;
+      gone.add([...tally].sort((x, y) => y[1] - x[1] || x[0] - y[0])[0][0]);
+    }
+    const kept = [];
+    model.marking.forEach((m, r) => {
+      if (m.color !== 'w') { kept.push(m); return; }
+      let cur = { ...m, pts: [m.pts[0]] };
+      const pieces = [cur];
+      for (let i = 1; i < m.pts.length; i++) {
+        if (gone.has(segs.findIndex(g => g.r === r && g.i === i))) { cur = { ...m, pts: [] }; pieces.push(cur); }
+        cur.pts.push(m.pts[i]);
+      }
+      for (const piece of pieces) if (piece.pts.length >= 2) kept.push(piece);
+    });
+    model.marking = kept;
+    const stillOut = goodShotsCalledOut({ holes: model.holes, marking: model.marking.map(m => ({ c: m.color, pts: m.pts })) }).filter(h => h.out);
+    if (stillOut.length) throw new Error(`white stakes still rule good shots out: ${stillOut.map(h => `h${h.hole} ${h.out}/${h.shots}`).join(', ')}`);
+    console.log(`white: ${gone.size} of ${segs.length} segments taken out where good shots crossed them an odd number of times; no good shot is out`);
+  }
   for (const h of model.holes) {
     h.elev = { tee: r1(terr(...h.line[0])), green: r1(terr(...h.green.c)) };
     h.elev.rise = r1(h.elev.green - h.elev.tee);

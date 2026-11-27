@@ -72,7 +72,9 @@ export function exportSurfaces({ build, migration, slug }) {
         geometry: { type: 'LineString', coordinates: hole.line.map(([e, n2]) => [+e.toFixed(2), +n2.toFixed(2)]) } });
     }
   }
-  const provenance = { exportedFrom: `${build}/course-model.json`, modelSha256, migration, migrationSha256: sha(migration),
+  // The record holds no checksum of the model: a change that leaves every outline and mark as it was (a stake, a level)
+  // must not void the looks recorded against them. exportErrors() compares the content instead.
+  const provenance = { exportedFrom: `${build}/course-model.json`, migration,
     note: 'The published outlines of a ground built with its own builder, in EPSG:3006 for the looks of pipeline v2. Not a trace: fix an outline in the builder\'s own records, rebuild the model, migrate it and export again.' };
   const crs = { type: 'name', properties: { name: 'EPSG:3006' } };
   return {
@@ -93,8 +95,11 @@ export function isExported(build) {
 /** Why an export no longer matches its model, as a list (empty when it does). */
 export function exportErrors(build) {
   const { surfaces } = exportedPaths(build), errors = [];
-  const written = json(surfaces), modelSha256 = sha(`${build}/course-model.json`);
-  if (written.provenance?.modelSha256 !== modelSha256) errors.push(`${surfaces} was exported from another model: migrate it and export again`);
+  const written = json(surfaces);
+  try {
+    const now = exportSurfaces({ build, migration: written.provenance.migration, slug: written.slug });
+    if (text(now.surfaces) !== read(surfaces).toString('utf8')) errors.push(`${surfaces} is behind ${build}/course-model.json: migrate it and export again`);
+  } catch (error) { errors.push(error.message); }
   return errors;
 }
 

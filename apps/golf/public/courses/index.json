@@ -31,13 +31,13 @@
    },
    "photos": 5,
    "scorecard": {
-    "url": "courses/angso/scorecard-472431b9aa0cc1366ec7a3d18b73ba86316221256b46b0c58cd8020e94ee665f.json",
+    "url": "courses/angso/scorecard-182ef776d9fb48426c0310b896f838696d2fc5893ad765c1c7747ca1064ebfbc.json",
     "bytes": 6080,
-    "sha256": "472431b9aa0cc1366ec7a3d18b73ba86316221256b46b0c58cd8020e94ee665f"
+    "sha256": "182ef776d9fb48426c0310b896f838696d2fc5893ad765c1c7747ca1064ebfbc"
    },
    "packUrl": "courses/angso/pack.bin",
-   "bytes": 480935,
-   "sha256": "0502ddb72be939d34a4ecdbe1c79b4b602dc5337261cd525fc9c559e0c3b264d",
+   "bytes": 480603,
+   "sha256": "d6ad5ded63c24892d2e842f59d5d39596ce0f2484893fe319e08d56b4d152702",
    "landcover": {
     "url": "courses/angso/landcover.json",
     "bytes": 138815,
@@ -49,16 +49,16 @@
     "sha256": "b16d53c9c4de48017a1b9fe8201d842c59e65f7058a22158d0e2520ab7db0c46"
    },
    "preparedWater": {
-    "identity": "ed3da5130c5f151fcfbfb86adc3164109cd1b2692bfd166a654393494d02a4f4",
-    "url": "courses/angso/prepared/water-b2484d444da190528f23e768f9c5ad0116c4fb50c8977952feb7c6a1bbf6400d.bin",
-    "bytes": 436750,
+    "identity": "77df49db45b3640340e1c47edb54ac98bc43b663a9a30bc43eb092ecf39e51f8",
+    "url": "courses/angso/prepared/water-a802eac6b2ef0e4abcec124f9762108c7284c5dcc75fec61c013ff76b654aaf4.bin",
+    "bytes": 436746,
     "decodedBytes": 63054965,
-    "sha256": "b2484d444da190528f23e768f9c5ad0116c4fb50c8977952feb7c6a1bbf6400d",
-    "decodedSha256": "5f305ca40ea1d9b9aec838492d6b29e9fe609ffea5d9c7f46a278fb6366f3d25"
+    "sha256": "a802eac6b2ef0e4abcec124f9762108c7284c5dcc75fec61c013ff76b654aaf4",
+    "decodedSha256": "8959c6e8897f833ee228ff98e44f7a85a54a2ccbeabee42924078372c14ad6fd"
    },
    "preparedTint": {
     "painted-hi": {
-     "identity": "7563ad123c51348dadd323867a235b923a4bb52a533890092316b223cc079641",
+     "identity": "2c0c83351789af0d539f1840c92e01dd620204bc5a4048a98b434ed4f0e16080",
      "url": "courses/angso/prepared/tint-450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f.bin",
      "bytes": 1257835,
      "decodedBytes": 3052072,
@@ -92,7 +92,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "2ec3fdc34921f89ef60460b55a4578581310c1fd3e12a6e2ece1fe582e1b9f3c",
+     "identity": "3c8802a127b6f04967a5fff7ee7ebed0c5307d4e52791ef411a2a95351e7ae95",
      "url": "courses/angso/prepared/tint-450df425d19d4e36a18dc93a3bbf528304feb6e2676bf33f97a9bd691e5bf04f.bin",
      "bytes": 1257835,
      "decodedBytes": 3052072,
@@ -128,7 +128,7 @@
    },
    "preparedVista": {
     "vista-hi": {
-     "identity": "09e952f6847d477a7522317e040230a00fa124cfa17daf650cb513bad0a2f773",
+     "identity": "f0f403683e29e7d29273fc4e450f616e4ae3f8cb5fffe4352447c041dcf39769",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
      "url": "courses/angso/prepared/vista-e893049092297a825248f48635267064c8c02b1189024ca0892cd8ff2ec92023.bin",
      "bytes": 111788,
@@ -141,7 +141,7 @@
      "points": 283097
     },
     "vista-lo": {
-     "identity": "592d3d289cbe18f27f42e8d64a4aee9456f538346d4ea4c58bd8c316b82cebe7",
+     "identity": "ecfd7b1f17bd1613673faeb9852335bb307ac059155edbd7e727e1c7cfbcb59c",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
      "url": "courses/angso/prepared/vista-cf0a2f8fc2b648118e1e232a435e6e4246b6aea52dfdaca617bb55936842c431.bin",
      "bytes": 64767,
@@ -156,7 +156,7 @@
    },
    "preparedScatter": {
     "scatter-hi": {
-     "identity": "f7c6a11b4da104f236773f45d88a7a67a33b1511747e3e0e52ae1b3af871d18b",
+     "identity": "fbb8231e835e03a498de5b91bc7acdea673841c1f29ff04ee829370a3807e113",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
      "url": "courses/angso/prepared/scatter-a12927359789fc1d30ec511403a9075d8c80bc2ba7fcba9e2ffce69bd9569c88.bin",
      "bytes": 25751,
@@ -187,7 +187,7 @@
      }
     },
     "scatter-lo": {
-     "identity": "aac5eec8be8abf0381d7d792415d8de7eebaee21ca7833644389ca2a3b38dd87",
+     "identity": "e501116baeaddd66a60d46e40a2b1c4ec09a30f4f1f1604b80be8251f69dcd98",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
      "url": "courses/angso/prepared/scatter-4f65c11267401b19f7a44543d7ae82168e971dad36629bba45486c2e12526009.bin",
      "bytes": 24618,

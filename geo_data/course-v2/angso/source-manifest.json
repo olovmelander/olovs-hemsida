@@ -319,7 +319,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "angsobuild/course-model.json",
-      "sha256": "2e025cf0b392fcdb3b6897e3bc49a1841f01c81220d860ecfa616e757f602963",
+      "sha256": "56e3c03e4389f42647013ffcde26be7546ed33605b54578e8ce7e28949ce8abc",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -416,7 +416,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/angso/migration/course-model.epsg3006.json",
-      "sha256": "e249fa78cd2559805429d216fd945423c07aa95b5310280725a4c4e22fda804e",
+      "sha256": "1f3afae38df8dd25c79d53e25905ff52fe4d07bbf2ee744aaf38a6c4a77e7907",
       "derivedFrom": [
         "terrain-lm-1m",
         "osm-legacy",
@@ -445,7 +445,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/angso/migration/residual-report.json",
-      "sha256": "8bb38db8a5b9227147be0a5f528a521981e74cd343699e8dd948ec61d07d6353",
+      "sha256": "75fb8a5a39aaab8d8abd2f146891d18352e8a6dda8ad3e176e1ab9a200b7f853",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -688,7 +688,7 @@
       "path": "angsobuild/mapping/tee-coordinate-audit.json",
       "use": "discovery-evidence",
       "notes": "Independent native-pixel, PROJ, pack, camera and routing checks for all colour references; checks actual rendered marker pairs against the assigned mown surface. Explicit unresolved identities remain documented.",
-      "sha256": "d1637adabd80f1a0e7fa86a415dafbdbb010777a37b91a728870edc3848e7b12",
+      "sha256": "8365a1e63fd88dae1176610f413986f3a4eba68e758769f4e0c090f5ab4d6314",
       "derivedFrom": [
         "imagery-lm-ortho",
         "club-guide-legacy"

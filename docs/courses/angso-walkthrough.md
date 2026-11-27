@@ -72,6 +72,13 @@ the laser under every deck, a blind second look, and a decision file for every t
   pixels match September's (all 19 RGB previews are byte for byte the pinned `rgbSha256`), and every TIFF differs, because
   the GDAL that writes them is newer. The tee decisions are applied after the review for that reason, and never through
   the combiner. The September tee evidence (`angsobuild/cache/tee-placement`) is not on this machine either.
+- **The boar fence right of holes 6 and 16 is barely staked.** Its white stakes were placed at the woodland edge of a
+  tree-cover raster (`build-marking.mjs`), and that edge runs across both holes' play: in Spela 209 of 2,386 good shots
+  onto the 6th's own fairway or green and 248 of 1,114 on the 16th were out of bounds (`tools/out-of-bounds-shots.mjs`,
+  which came to the quality gate from Veckefjärden on 27 November). `reconcile.mjs` now takes out the fewest white
+  segments that leave no good shot out: 64 of 334, 40 of the 6th's fence and all 24 of the 16th's right fence. Every
+  other white run stands, the white-and-black stakes between the 5th and 6th among them. What would fix it: trace the
+  fence itself from the photo (it shows as a line through the wood) and draw its stakes there.
 - **The practice area is missing.** The sand audit found two bunkers that belong to no hole, on both photo years: a 38 m2
   bunker by a practice green east of hole 1's tees (`sand-006`) and an 81 m2 practice bunker by the clubhouse (`sand-068`).
   The model has no practice green or bunker at all (`scenery.greens` and `scenery.bunkers` are empty). What would fix it:
@@ -136,6 +143,7 @@ an empty cell is no promise that the hole is right.
 | Holes 5 and 14 long by the same amount for every colour | the card measure, then the photos | 3 | this page; not fixed |
 | 15 tee decks not level in the terrain, two of them rings taking in a bank | `deck-ground.mjs` on the laser, then both photo years and the blind second look | 3 | `deck-ground.json` and its test; the two kept as faults in `ring-review.json` |
 | Eleven forward decks rebuilt in 2019 and two decks on hole 1 built after the laser | the 2019 summer photo beside the 2025 one (the second look found the eleven unprompted) | 3 | `ring-review.json` (each answered) |
+| White stakes of the boar fence across holes 6 and 16: good shots onto their own ground called out of bounds in Spela | `out-of-bounds-shots.mjs` in the quality gate, merged from main the same night | 5 | the quality gate; `reconcile.mjs` refuses a model in which a good shot is out |
 | No practice green or bunker in the model, though both stand on every photo year | `audit-sand.py` with Ängsö's measured sand | 3 | `sand-audit.json` (kept as faults `sand-006`, `sand-068`) |
 | The sand audit named all 33 bunkers with Bro Hof's white-sand bands | the audit's own count, then the sand measured on the 2025 photo | 3 | `sand` in `trace-config.json` |
 | The catalogue row lost its startup and prepared records when the pack changed | the walkthrough's summary (prepared data 0 of 4) | 5 | `build-startup-packs.mjs` and the bakes; `check-prepared-startup.mjs` |
