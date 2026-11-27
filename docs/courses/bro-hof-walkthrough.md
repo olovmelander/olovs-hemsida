@@ -123,11 +123,11 @@ build's own records, and a test fails when they fall behind. Everything else is 
 - **What grows on the islands is not mapped.** They are drawn as rough with the laser's trees. Three small ones in
   Mälaren (156, 36 and 2 m2; the largest at E 650263 N 6597235) lie at or below the water's level in the laser and are
   drawn as land at the waterline; they may be reed beds.
-- **Reeds still stand on the mown parts of three ponds kept for their reeds.** Since 27 November no reed stands on a
+- **Reeds still stand on the mown parts of two ponds kept for their reeds.** Since 27 November no reed stands on a
   bank the photo shows mown on 17 named waters (below), but a pond with a reed belt or wild banks was kept whole: the
-  west bank of the pond on Stadium 15 (mown by the cart path), the mown west and south banks of the meadow pond north
-  of Stadium 6 (where its creek comes in, about 14 reeds), and none of Castle 5's pond, whose banks are meadow. A
-  `stretch` for each in `mownBanks` would take them off.
+  west bank of the pond on Stadium 15 (mown by the cart path) and the mown west and south banks of the meadow pond
+  north of Stadium 6 (where its creek comes in, about 14 reeds) still have reeds. A `stretch` for each in `mownBanks`
+  would take them off.
 - **The mown banks are judged by eye, one water at a time,** on the 2025-06-14 photo
   ([the record](../../brohofbuild/mapping/reed-bank-decisions.json)): two ponds (by Stadium 13-14 and by Stadium 2,
   3 and 7) are mown only in part, and the line between their mown stretch and their reed belt is drawn on the photo,
