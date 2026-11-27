@@ -223,6 +223,7 @@ root.innerHTML = `
     <button class="map-tool map-tool-primary map-log-fab" data-wheel-lock><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span data-wheel-lock-label>Logga slag</span></button>
   </div>
   <section class="map-bottom">
+    <div class="map-status" data-status hidden role="status"></div>
     <div class="map-float">
       <div class="map-view-wrap" data-view-wrap>
         <div class="map-view-menu" id="map-camera-views" data-views data-view-menu hidden role="group" aria-label="Kameravy">
@@ -493,8 +494,7 @@ root.innerHTML = `
       <a class="map-row map-row-next" data-home href="${hubUrl()}">Alla klubbar</a>
       <button class="map-action" data-diary hidden>Spara provrundans logg</button>
     </div>
-  </section>
-  <div class="map-status" data-status hidden role="status"></div>`;
+  </section>`;
 document.body.append(root);
 
 const $ = selector => root.querySelector(selector);
@@ -868,7 +868,9 @@ async function start() {
     const { width, height } = camera.state;
     const gap = 12;
     const top = Math.ceil(mapHeader.getBoundingClientRect().bottom) + gap;
-    const footCandidates = [mapFoot.getBoundingClientRect().top];
+    /* The stack's top under a passing message (its first child): a status coming and going must not move the camera. */
+    const footCandidates = [ui.status.hidden ? mapFoot.getBoundingClientRect().top
+      : ui.status.getBoundingClientRect().bottom + (parseFloat(getComputedStyle(mapFoot).rowGap) || 0)];
     const floatBox = cameraButtons.getBoundingClientRect();
     if (floatBox.height > 0) footCandidates.push(floatBox.top);
     const foot = Math.min(...footCandidates);

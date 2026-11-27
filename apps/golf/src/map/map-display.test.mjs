@@ -1,4 +1,7 @@
 /* How the map shows itself, and the test round's diary. */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { activeFrameMs, displayChoices, resolveSunActive, sleepPreference, sunModeOf } from './map-display.mjs';
 import { diaryCounts, parseDiary, trimDiary } from './map-diary.mjs';
@@ -71,5 +74,27 @@ describe('the diary', () => {
 
   it('counts by kind', () => {
     expect(diaryCounts([[1, 'lock'], [2, 'slip'], [3, 'lock', 'driver']])).toEqual({ lock: 2, slip: 1 });
+  });
+});
+
+describe('the bottom stack', () => {
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const template = fs.readFileSync(path.join(here, 'map-session.js'), 'utf8');
+  const css = fs.readFileSync(path.join(here, '../styles/course-map.css'), 'utf8');
+
+  it('gives a message one home, the top of the stack, so it never covers the card the golfer reads', () => {
+    /* Placed by itself 68 px over the dock, "428 km från närmaste hål" covered the measure card and cut its
+       last line (owner, 27 November). */
+    const stack = template.slice(template.indexOf('<section class="map-bottom">'));
+    expect(stack.split('\n')[1].trim()).toBe('<div class="map-status" data-status hidden role="status"></div>');
+    expect(template.match(/data-status hidden/g)).toHaveLength(1);
+    const rules = [...css.matchAll(/(^|\n)([^{}\n]*\.map-status[^{}\n]*)\{([^}]*)\}/g)];
+    expect(rules.length).toBeGreaterThan(0);
+    for (const [, , selector, body] of rules) expect(`${selector}{${body}}`).not.toMatch(/position:\s*(absolute|fixed)|\bbottom:/);
+  });
+
+  it('keeps a message visible while a sheet is open, as before, and out of the camera\'s framing', () => {
+    expect(css).toMatch(/\.has-sheet \.map-bottom > :not\(\.map-tools\):not\(\.map-status\)/);
+    expect(template).toMatch(/ui\.status\.hidden \? mapFoot\.getBoundingClientRect\(\)\.top/);
   });
 });
