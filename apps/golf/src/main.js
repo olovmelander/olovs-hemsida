@@ -66,7 +66,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    side with at least that magnitude, so a loop that only compares against a
    threshold, or feeds a smoothstep that has saturated, passes the threshold
    and stops paying for an answer it would not use. */
-import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
+import { ringSDIndexed as ringSD, distToLineIndexed as distToLine, inRingIndexed } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting, foliageBack, barkSurface, shadeShrubSprigs } from './engine/ghibli-foliage-material.mjs';
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
@@ -106,7 +106,8 @@ import {
 import { createV2GroundMaterialDecorator, makeGround, paintedGround, setWindSheen, setTourTurf } from './engine/material.js';
 import { createTurfDetailTexture } from './engine/turf-detail.mjs';
 import { tussockBlades, tourTussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
-  seatHeight, SEAT_RIM, reedWaterAt } from './engine/ground-cover.mjs';
+  seatHeight, SEAT_RIM, reedWaterAt, inStillWater } from './engine/ground-cover.mjs';
+import { teeCorridors } from './engine/tee-corridors.mjs';
 import { createNearGrass } from './engine/near-grass.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
@@ -423,6 +424,13 @@ const HF0 = PACK.H.HF0;
 const HF1 = PACK.H.HF1;
 
 await tick('läser terrängdata', 0.04);
+/* AN ISLAND IS LAND (27 November 2026, Bro Hof's blind review: "a line of tree clumps
+   floats in open water"). A water record may carry the islands its outline holds
+   (`innerRings`, packages/course-pack/runtime-water.mjs): no bed is carved under them
+   (v2-water-bed.mjs, water-reach.mjs), the sheet has a hole there and its shore distance
+   counts their shores (water-shore.mjs), and a reed stands on them as on any bank.
+   ?waterislands=0 is the before: every island under its lake, as the pack drew it. */
+const WATER_ISLANDS_ON = new URLSearchParams(location.search).get('waterislands') !== '0';
 /* Every course uses verified v2 terrain. GPK1 still supplies routing and
    compatibility metadata; it is no longer an alternative visual setup. */
 const previewStarted = performance.now();
@@ -448,7 +456,8 @@ const terrainPreviewPromise = selectV2TerrainSource({
     if (SCENERY?.deferWaterBedToWorld) return null;
     if (model.infra?.terrainPlacement === 'measured-only') return null;
     return {
-      bodies: (model.water || []).filter(w => !w.stream && !(CMETA.slug === 'norrfallsviken' && w.isSea) && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
+      bodies: (model.water || []).filter(w => !w.stream && !(CMETA.slug === 'norrfallsviken' && w.isSea) && w.ring?.length >= 3)
+        .map(w => ({ ring: w.ring, level: w.level, ...(WATER_ISLANDS_ON && w.innerRings?.length ? { holes: w.innerRings } : {}) })),
       shallows: (model.surround && model.surround.shallows) || [],
     };
   },
@@ -489,6 +498,8 @@ let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = MODEL;
+/* ?waterislands=0: the pack's islands are dropped here, before any reader sees them */
+if (!WATER_ISLANDS_ON) for (const w of M.water || []) delete w.innerRings;
 const bridgeReliefReady = M.infra.bridges?.length ? loadBridgeRelief().catch(() => null) : null;
 const bankGraniteReady = PLAYER_ART_PILOT && M.infra.bulkheads?.some(wall => wall.kind === 'stone')
   ? loadBankGranite().catch(() => null) : null;
@@ -884,7 +895,8 @@ function reachWaters(bodies, heightAt, near = null) {
     if (w.reach !== undefined || !reachableWater(w)) continue;
     /* the laser's own surface inside the lake caps how high its water may reach */
     const surface = w.levelEvidence?.shoreMetres ?? w.levelEvidence?.surfaceMetres ?? laserPlateLevel(w.ring, height)?.surfaceMetres ?? NaN;
-    w.reach = waterReach({ ring: w.ring, level: w.level, surface, heightAt: height, near: (x, z) => near([x, z]), otherWater }) ?? null;
+    w.reach = waterReach({ ring: w.ring, level: w.level, surface, heightAt: height, near: (x, z) => near([x, z]), otherWater,
+      islands: w.innerRings ?? [] }) ?? null;
     if (!w.reach) continue;
     reached++; samples += w.reach.stats.samples; outside += w.reach.stats.outsideWetSquareMetres;
   }
@@ -1018,7 +1030,8 @@ function reachWaters(bodies, heightAt, near = null) {
     if (typeof terrainV2.detectFlatWater === 'function' && terrainV2.ringsLoaded) {
       const waterStarted = performance.now();
       const knownBodies = M.water.filter(w => !w.stream && !(CONTINUOUS_OCEAN && w.isSea) && w.ring?.length >= 3)
-        .map(w => ({ ring: w.ring, level: w.level, ...(w.exactShore ? { exactShore: true } : {}) }));
+        .map(w => ({ ring: w.ring, level: w.level, ...(w.innerRings?.length ? { holes: w.innerRings } : {}),
+          ...(w.exactShore ? { exactShore: true } : {}) }));
       const waterInputs = WATER_PREPARATION.preparedWaterInputs({ knownBodies, bridge: TERRAIN_PREVIEW.bridge,
         origin: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006, ocean: CONTINUOUS_OCEAN ? OCEAN_SOURCE.asset : null });
       const preparedWater = await PREPARED_WATER_LOADING;
@@ -1179,7 +1192,8 @@ for (const r of M.scenery.fairways.concat(M.scenery.greens, M.scenery.tees, M.sc
   const q = { ring: r, bb: ringBBox(r), scen: true }; FI.add(q, q.bb, 12);
 }
 for (const r of M.scenery.bunkers) { const q = { ring: r, bb: ringBBox(r) }; BI.add(q, q.bb, 8); }
-for (const w of M.water) { const q = { ring: w.ring, bb: ringBBox(w.ring), level: w.level, isLake: w.isLake, isSea: w.isSea, vegetatedBank: w.vegetatedBank }; WI.add(q, q.bb, 30); }
+for (const w of M.water) { const q = { ring: w.ring, bb: ringBBox(w.ring), level: w.level, isLake: w.isLake, isSea: w.isSea, vegetatedBank: w.vegetatedBank,
+  ...(w.innerRings?.length ? { innerRings: w.innerRings } : {}) }; WI.add(q, q.bb, 30); }
 for (const [k, rs] of Object.entries(M.veg))
   for (const r of rs) { const q = { ring: r, bb: ringBBox(r), kind: k }; VI.add(q, q.bb, 6); }
 for (const p of M.infra.paths.concat(M.infra.tracks)) {
@@ -2203,6 +2217,12 @@ const COVER_SHADOW_ON = new URLSearchParams(location.search).get('covershadow') 
 const COVER_COLOUR_ON = new URLSearchParams(location.search).get('covercolour') !== '0';
 const COVER_SEAT_ON = new URLSearchParams(location.search).get('coverseat') !== '0';
 const REED_LAKES_ON = new URLSearchParams(location.search).get('reedlakes') !== '0';
+/* Bro Hof's blind review (27 November 2026), and both move plantings, so their befores plant
+   live: reeds on the bank, never in open water (ground-cover.mjs inStillWater; ?reedbank=0),
+   and the cover kept off every tee's line of play, not only the back tee's (tee-corridors.mjs;
+   ?teecorridor=0) */
+const REED_BANK_ON = new URLSearchParams(location.search).get('reedbank') !== '0';
+const TEE_CORRIDOR_ON = new URLSearchParams(location.search).get('teecorridor') !== '0';
 /* The grass round the ball (near-grass.mjs): blades round the eye in every low
    view -- the tee view, and wherever the camera goes down to the ground -- grown
    from the ground's own class fields, one draw. ?neargrass=0 is the before. */
@@ -2645,7 +2665,7 @@ const farRingRuns = line => {
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
 /* the ground cover as drawn, per population (V3D.cover) */
 stats.cover = { light: COVER_LIGHT_ON, shadow: COVER_SHADOW_ON, colour: COVER_COLOUR_ON, seat: COVER_SEAT_ON,
-  reedLakes: REED_LAKES_ON, populations: {} };
+  reedLakes: REED_LAKES_ON, reedBank: REED_BANK_ON, teeCorridor: TEE_CORRIDOR_ON, waterIslands: WATER_ISLANDS_ON, populations: {} };
 const coverDrawn = (name, im, extra = {}) => {
   /* the tussocks and the bushes lie under the snow: green bushes dotted it (6 November) */
   if (name === 'tufts' || name === 'edgeTufts' || name === 'bushes') { WINTER.cover.push(im); im.visible = !WINTER.snow; }
@@ -3805,6 +3825,16 @@ function triangulate(ring) {
   const pts = ring.map(p => new THREE.Vector2(p[0], p[1]));
   try { return THREE.ShapeUtils.triangulateShape(pts, []); } catch { return []; }
 }
+/* the same with holes: the vertices are the outline's then each hole's, closing points
+   dropped (as triangulateShape drops them), and the faces index that list */
+function triangulateWithHoles(ring, holes) {
+  const open = r => (r.length > 1 && r[0][0] === r[r.length - 1][0] && r[0][1] === r[r.length - 1][1] ? r.slice(0, -1) : r);
+  const outer = open(ring), inner = holes.map(open);
+  const v2 = r => r.map(p => new THREE.Vector2(p[0], p[1]));
+  let faces;
+  try { faces = THREE.ShapeUtils.triangulateShape(v2(outer), inner.map(v2)); } catch { faces = []; }
+  return { verts: [...outer, ...inner.flat()], faces };
+}
 /* split until no edge is longer than `maxEdge`, so the patch follows the ground it
    is laid on instead of tenting over it */
 function subdivide(verts, faces, maxEdge) {
@@ -4558,14 +4588,17 @@ for (const w of M.water) {
   /* the outline the ground draws the waterline from (engine/water-reach.mjs) */
   const reach = w.reach ?? null;
   const outline = reach ? reach.outline : w.ring;
-  const faces = triangulate(outline);
+  /* an island the outline holds is a hole in the sheet (WATER_ISLANDS_ON): its shore distance
+     is zero there, so the sheet has faded out before the hole's edge and the ground draws it */
+  const islands = (w.innerRings ?? []).filter(island => island.length >= 3 && island.every(([x, z]) => inRing(x, z, outline)));
+  const { verts: sheetVerts, faces } = islands.length ? triangulateWithHoles(outline, islands) : { verts: outline, faces: triangulate(outline) };
   if (!faces.length) continue;
   /* big water needs interior vertices for the wave normal to vary across; ponds
      need them for aShore -- at 26 m nearly every pond vertex sat ON the outline
      where aShore is zero, so the depth ramp never left the shallows */
   /* a lake's chop and wash only where the wind has room (engine/water-fetch.mjs) */
   const lakeFetch = waterFetch(w, { legacy: POND_FETCH_LEGACY });
-  let { V, F } = subdivide(outline, faces, waterMeshStep(w, lakeFetch));
+  let { V, F } = subdivide(sheetVerts, faces, waterMeshStep(w, lakeFetch));
   /* fine near the bank, so the sheet fades in by the shore and not by a 20 m triangle */
   /* (beside the course only: a far lake's fade is a few pixels wide however it is drawn) */
   if (reach && reach.cell <= WATER_REACH.nearCellMetres) ({ V, F } = refineNearShore(V, F, (x, z) => reach.bankAt(x, z),
@@ -5220,6 +5253,11 @@ async function scatterGrid(name, xs, zs, cell, outputs) {
   return null;
 }
 
+/* THE PLAY FROM EVERY TEE (tee-corridors.mjs, ?teecorridor=0): the reeds and the cover lattice
+   keep off every tee's line of play to its landing area, as the lattice keeps off the hole's
+   own line, which starts at the back tee */
+const TEE_PLAY = TEE_CORRIDOR_ON ? teeCorridors(HOLES) : null;
+
 /* Reeds: the fjärd is a calm regulated lake and its low shores carry a Phragmites
    fringe -- densest on the reserve side, thinned where the course plays along the
    water so the views stay open. A reed is three crossed blades; ten thousand of
@@ -5274,6 +5312,11 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       if (bedClump) dens = 0.92;
       if (rb && rb.denser && px < rb.denser[0]) dens *= rb.denser[1];
       const c = classify(px, pz);
+      /* on the bank (ground-cover.mjs inStillWater): never in a lake's, pond's or the sea's open
+         water, unless a mapped bed puts it there -- the silt flat above, a mapped wetland */
+      if (REED_BANK_ON && !bedClump && !(c.wet > 0.3) && inStillWater(WI.at(px, pz), px, pz, inRingIndexed)) return;
+      /* nor in a tee's line of play: a lone stem there stood on Stadium 7's aim line */
+      if (TEE_PLAY?.within(px, pz)) return;
       if (c.dLine < 34) dens *= 0.12;                    /* play stays open -- the moat above all */
       if (c.wet > 0.3) dens *= 2.2;                      /* the mapped reedbed */
       if (c.fair > 0.05 || c.green > 0.02 || c.tee > 0.02 || c.path > 0.1) return;
@@ -6855,6 +6898,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       return;
     }
     if (c.dLine < 24 || c.dLine > 300) return;
+    if (TEE_PLAY?.within(px, pz)) return;
     if (c.forest > 0.55) return;                       /* the trees own that ground */
     let yard = false;
     for (const q of II.at(px, pz)) if (ringSD(px, pz, q.ring, 3) < 3) { yard = true; break; }

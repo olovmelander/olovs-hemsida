@@ -47,6 +47,27 @@ describe('the water the ground holds', () => {
     expect(reach.bankAt(50, 0)).toBeLessThan(13);
   });
 
+  it('leaves an island the outline holds dry, however low its ground, and counts its shore as a bank', () => {
+    /* the laser reads the island at the lake's own level, as a ground flown full does */
+    const island = [[-10, -10], [10, -10], [10, 10], [-10, 10]];
+    const reach = waterReach({ ring: octagon, level: 10.06, heightAt: bowl, islands: [island] });
+    const plain = waterReach({ ring: octagon, level: 10.06, heightAt: bowl });
+    let islandWet = 0, islandNodes = 0;
+    for (let r = 0; r < reach.rows; r++) for (let c = 0; c < reach.cols; c++) {
+      const x = reach.x0 + c * reach.cell, z = reach.z0 + r * reach.cell;
+      if (!inRing(x, z, island)) continue;
+      islandNodes++; islandWet += reach.wet[r * reach.cols + c];
+    }
+    expect(islandNodes).toBeGreaterThan(100);
+    expect(islandWet).toBe(0);
+    expect(reach.bankAt(0, 0)).toBe(0);
+    expect(reach.bankAt(15, 0)).toBeLessThan(6.5);
+    expect(plain.bankAt(15, 0)).toBeGreaterThan(30);
+    /* the water round it and its outer shore are as they were */
+    expect(reach.stats.outsideWetSquareMetres).toBe(plain.stats.outsideWetSquareMetres);
+    for (const p of octagon) expect(inRing(p[0], p[1], reach.outline)).toBe(true);
+  });
+
   it('never crosses a ridge into a basin of its own, nor runs past its reach', () => {
     /* a ridge at radius 70, and beyond it a hollow lower than the lake */
     const ground = (x, z) => { const r = Math.hypot(x, z); return r <= 60 ? 10 : r < 70 ? 10 + (r - 60) * 0.2 : r < 74 ? 12 : 9; };

@@ -6,9 +6,9 @@ import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { vec3 } from 'three/tsl';
 import { tussockBlades, reedBlades, clumpBlades, bladeNormalsFront, seenBladeNormal, COVER_TUNED_SHARE, grassCover,
-  seatHeight, SEAT_RIM, reedWaterAt, REED_LAKE_REACH, REED_ABOVE_METRES } from './ground-cover.mjs';
+  seatHeight, SEAT_RIM, reedWaterAt, REED_LAKE_REACH, REED_ABOVE_METRES, inStillWater } from './ground-cover.mjs';
 import { fillGroundDetailPixels } from './ground-detail-texture.mjs';
-import { ringSD } from './geom.js';
+import { ringSD, inRing } from './geom.js';
 
 const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
 
@@ -184,5 +184,34 @@ describe('reeds at every lake and pond, each at its own level', () => {
     const cell = main.slice(main.indexOf('const reedCell = '), main.indexOf("await scatterGrid('reeds'"));
     expect(cell.length).toBeGreaterThan(500);
     expect(cell).not.toContain('lake.level');
+  });
+});
+
+describe('reeds on the bank, never in open water', () => {
+  const square = (x0, z0, x1, z1) => [[x0, z0], [x1, z0], [x1, z1], [x0, z1]];
+  const waters = [
+    { ring: square(0, 0, 100, 100), innerRings: [square(40, 40, 60, 60)], level: 20, isLake: true },
+    { ring: square(200, 0, 300, 100), level: 24.5 },
+    { line: [[0, -50], [300, -50]], stream: true, level: 20 },
+    { ring: square(500, 0, 900, 400), level: 0, isSea: true },
+  ];
+  const at = (x, z) => inStillWater(waters, x, z, inRing);
+
+  it('finds a reed inside a lake\'s, a pond\'s or the sea\'s outline, and none on its bank, its islands or by a stream', () => {
+    expect(at(10, 10)).toBe(true);
+    expect(at(250, 50)).toBe(true);
+    expect(at(600, 50)).toBe(true);
+    expect(at(105, 50)).toBe(false);
+    expect(at(50, 50)).toBe(false);          /* an island the outline holds is bank */
+    expect(at(150, -50)).toBe(false);
+  });
+
+  it('is wired in the reed scan behind ?reedbank=0, with the mapped beds kept', () => {
+    const cell = main.slice(main.indexOf('const reedCell = '), main.indexOf("await scatterGrid('reeds'"));
+    expect(cell).toMatch(/if \(REED_BANK_ON && !bedClump && !\(c\.wet > 0\.3\) && inStillWater\(WI\.at\(px, pz\), px, pz, inRingIndexed\)\) return;/);
+    expect(main).toMatch(/const REED_BANK_ON = new URLSearchParams\(location\.search\)\.get\('reedbank'\) !== '0';/);
+    /* the water index carries the islands the test reads */
+    expect(main).toMatch(/WI\.add\(q, q\.bb, 30\)/);
+    expect(main).toMatch(/\.\.\.\(w\.innerRings\?\.length \? \{ innerRings: w\.innerRings \} : \{\}\) \}; WI\.add/);
   });
 });

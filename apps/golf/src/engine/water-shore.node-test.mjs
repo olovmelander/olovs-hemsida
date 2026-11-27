@@ -28,6 +28,18 @@ test('explicit source lines omit artificial source or acquisition bounds', () =>
   assert.equal(collectCoordinatePairs({ water: [water] }).coordinates.length, 7);
 });
 
+test('an island the outline holds travels in the pack and is a shore, its inside bank', () => {
+  const island = box(40, 40, 60, 60);
+  const water = { ring: box(0, 0, 100, 100), innerRings: [island], level: 2, isLake: true, area: 9600 };
+  const rendered = runtimeWater(water);
+  assert.deepEqual(rendered.innerRings, [island]);
+  assert.equal(waterShoreDistance(30, 50, rendered), 10);   /* 10 m from the island, 30 from the outer shore */
+  assert.equal(waterShoreDistance(5, 50, rendered), 5);
+  assert.equal(waterShoreDistance(50, 50, rendered), 0);    /* on the island: bank */
+  assert.equal(waterShoreDistance(30, 50, { ...rendered, innerRings: undefined }), 30);
+  assert.equal(collectCoordinatePairs({ water: [rendered] }).coordinates.length, 10);
+});
+
 test('existing unpartitioned water keeps its serialized shape and distance behavior', () => {
   const water = { ring: box(0, 0, 100, 100), level: 2, isLake: true, area: 10000 };
   assert.equal(JSON.stringify(runtimeWater(water)), JSON.stringify({ ring: water.ring, level: 2, isLake: true, isSea: false, area: 10000 }));
