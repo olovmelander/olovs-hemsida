@@ -43,6 +43,8 @@ export const WATER_REACH = Object.freeze({
   farCellMetres: 5,
   maximumSamples: 100000,
   maximumNodes: 300000,
+  /* a lattice the caps took past this many far cells draws no reach where the ring is finer */
+  coarseCellFactor: 1.25,
   /* how far above the laser's own surface a fitted shore may stand */
   fitRangeMetres: 1.5,
   /* the bed is the lattice's only this far from the bank: deeper, under more than a metre
@@ -231,9 +233,12 @@ export function waterReach({ ring, level, heightAt, near = () => true, surface =
      its median chord is shorter than the cell (Malaren 4.0-4.4 m at Bro Hof and Angso,
      Skagern 4.5 m at Ribbingsfors, where the cap made the cell 17 m). A sketched ring stays
      reached on the coarse lattice, which is still the better shore (Puttom's far lake, 61 m
-     chords on a 7.5 m lattice). The level's fit (water-level.mjs, `fit`) still reads the same
-     lattice: it measures an overlap, which the cell size does not bias, and draws nothing. */
-  if (!fit && cell > o.farCellMetres * (1 + 1e-9) && medianChord(ring) < cell) return null;
+     chords on a 7.5 m lattice). "Past the far cell" means a quarter past it: the node cap
+     nudges Veckefjarden's big lake to 5.06 m on its long course and leaves it at 5 m on the
+     short one, and the two layouts of one ground keep the same water. The level's fit
+     (water-level.mjs, `fit`) still reads the same lattice: it measures an overlap, which the
+     cell size does not bias, and draws nothing. */
+  if (!fit && cell > o.farCellMetres * o.coarseCellFactor && medianChord(ring) < cell) return null;
   const x0 = box.x0 - margin, z0 = box.z0 - margin;
   const n = cols * rows;
   const inside = fillRing(ring, x0, z0, cell, cols, rows);

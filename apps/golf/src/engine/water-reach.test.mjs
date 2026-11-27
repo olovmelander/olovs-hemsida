@@ -96,6 +96,12 @@ describe('the water the ground holds', () => {
     const fitted = waterReach({ ring: circle(2048), heightAt: flat, near: () => false, surface: 10, fit: true });
     expect(fitted.cell).toBeGreaterThan(WATER_REACH.farCellMetres);
     expect(fitted.fitted.level).toBeGreaterThanOrEqual(10);
+    /* a near lake the cap nudges just past the far cell (1.5 m grown three times: 5.06 m, as
+       Veckefjarden's big lake on its long course) is still reached, finely traced or not */
+    const near700 = Array.from({ length: 1024 }, (_, i) => [Math.cos(i / 1024 * Math.PI * 2) * 700, Math.sin(i / 1024 * Math.PI * 2) * 700]);
+    const flat700 = (x, z) => (Math.hypot(x, z) <= 710 ? 10 : 10 + (Math.hypot(x, z) - 710) * 0.1);
+    const nudged = waterReach({ ring: near700, level: 10.06, heightAt: flat700, near: () => true });
+    expect(nudged.cell).toBeCloseTo(5.0625, 4);
     /* a far lake the caps leave at the far cell is still reached */
     const pond = waterReach({ ring: octagon, level: 10.06, heightAt: bowl, near: () => false });
     expect(pond.cell).toBe(WATER_REACH.farCellMetres);

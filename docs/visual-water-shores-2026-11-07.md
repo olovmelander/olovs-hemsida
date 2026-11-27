@@ -180,12 +180,15 @@ ring at Bro Hof (5 km²) came out at 7.6 m, Ängsö's Mälaren the same, Skagern
 On flat shallows, reed beds and the spit south of Stadium 14/15 the sheet then ended in steps of a
 cell, and the bed was carved in blocks the sheet did not cover; `?waterreach=0` removed both.
 
-A lake whose lattice is coarser than the far cell now draws no reach when its own ring is traced
-more finely than that lattice (median chord shorter than the cell): it keeps its ring as the sheet,
-as before the reach. These three rings have 4.0-4.5 m chords. A sketched ring keeps its reach on
-the coarse lattice, which still beats it: Puttom's far lake has 61 m chords on a 7.5 m lattice. The
-level's fit (`water-level.mjs`) reads the same lattice as before. The map's shore bake applies the
-same rule, so exactly those three lakes left its record.
+A lake whose lattice the caps took more than a quarter past the far cell (`coarseCellFactor`, over
+6.25 m) now draws no reach when its own ring is traced more finely than that lattice (median chord
+shorter than the cell): it keeps its ring as the sheet, as before the reach. These three rings have
+4.0-4.5 m chords. A sketched ring keeps its reach on the coarse lattice, which still beats it:
+Puttom's far lake has 61 m chords on a 7.5 m lattice. The quarter matters: the node cap nudges
+Veckefjärden's big lake to 5.06 m on its long course and leaves it at 5 m on the short one, and a
+bare "past 5 m" dropped its reach on one layout only, which the first bake showed. The level's fit
+(`water-level.mjs`) reads the same lattice as before. The map's shore bake applies the same rule,
+so exactly those three lakes left its record, on every layout that shows them.
 
 ## Not established
 
