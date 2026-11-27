@@ -133,6 +133,14 @@ build's own records, and a test fails when they fall behind. Everything else is 
   rough. Putting it right needs the mown banks as a record (the photo's turf) or an opt-out in the scenery module.
 - **A ball on an island's low ground is still in the water** for the lie and Spela: they read the outer ring and the
   ground's height (land more than 0.3 m above the water is not water). No island is near play.
+- **Lätt 3D, from the blind look of 27 November after these fixes** (kept as faults in `visual-review.json`, both in
+  the map's own files): a bunker's carry pill is cut off at the screen's left edge on Stadium 11, 13 and 16 and
+  Castle 12 (`map-overlay.mjs` places it beside its sand and does not keep it on screen), and the sun's glitter on
+  Castle 17's lake reads as static at the hole view's zoom (`map-gl.mjs`).
+- **The review's pictures draw the water without its mirror of the shores.** They are taken at `det=1`, which keeps
+  MSAA, and the reflection of trees and banks runs only with the temporal AA a high-quality desktop uses, so from the
+  tee a pond shows the bright sky alone and the first blind look of 27 November called Stadium 7's "like ice". Drawn
+  as a golfer's desktop draws it, the same pond mirrors its trees.
 - **Never looked at:** a real phone; the game (Spela) on either course; storm, mist, the blue hour and autumn by eye;
   low quality beyond a clean start.
 
