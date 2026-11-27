@@ -11,7 +11,7 @@
      locked and the same name cannot be used twice;
    - the offline COPC reader's own dependencies (`npm ci --prefix packages/course-geo/copc-reader`), which the
      suite imports and the workspace does not install;
-   - the main checkout's Pixi environment, used from inside the worktree (an environment cannot be moved or
+   - the first checkout's Pixi environment, used from inside the worktree (an environment cannot be moved or
      linked), with each Pixi task run as the command it stands for: the tasks' own self-test of PROJ cannot
      start on this machine;
    - the PROJ grid, which CI fetches and a worktree does not have: copied from the main checkout.
@@ -93,7 +93,11 @@ async function main() {
   const argv = process.argv.slice(2), flag = name => { const i = argv.indexOf(`--${name}`); return i < 0 ? null : argv[i + 1]; };
   const groundId = flag('ground'), ref = flag('ref') ?? 'HEAD', base = flag('base') ?? 'origin/main', only = (flag('only') ?? '').split(',').filter(Boolean);
   const commit = git(['rev-parse', ref]), baseSha = git(['rev-parse', base]);
-  let plan = rehearsalPlan({ groundId, baseSha });
+  // The repository's first checkout holds the Pixi environment and the PROJ grid; a worktree, where most sittings
+  // work, has neither. The rehearsal is run from either, and its own worktree lies beside the others.
+  const home = path.dirname(git(['rev-parse', '--path-format=absolute', '--git-common-dir']));
+  if (!fs.existsSync(path.join(home, TOOLCHAIN, '.pixi/envs'))) throw new Error(`no Pixi environment in ${home}: install it there (packages/course-geo/toolchain/README.md)`);
+  let plan = rehearsalPlan({ groundId, baseSha, main: home });
   for (const id of only) if (!plan.some(step => step.id === id)) throw new Error(`no step ${id} (there are: ${plan.map(step => step.id).join(', ')})`);
   // a step asked for alone still needs what it runs on
   if (only.length) plan = plan.filter(step => only.includes(step.id) || step.id === 'install' || (step.id === 'copc' && only.includes('suite')) || (step.id === 'build' && only.includes('prepared')));
@@ -107,13 +111,13 @@ async function main() {
   if (dirty) console.log(`Note: ${dirty.split('\n').length} tracked files have uncommitted changes. They are not in the rehearsal, which is of ${commit.slice(0, 8)}.\n`);
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   // a short name: the installed packages lie deep, and Windows stops a path at 260 characters
-  const worktree = path.join(ROOT, '.claude/worktrees', `rh-${stamp.slice(5, 19).replaceAll('-', '')}`), logs = path.join(ROOT, 'output/course-rehearsal', stamp);
+  const worktree = path.join(home, '.claude/worktrees', `rh-${stamp.slice(5, 19).replaceAll('-', '')}`), logs = path.join(ROOT, 'output/course-rehearsal', stamp);
   fs.mkdirSync(logs, { recursive: true });
   git(['worktree', 'add', '--detach', worktree, commit]);
   // the PROJ grid is fetched data, not a private cache: CI fetches it, a worktree is given the main checkout's
-  const grid = path.join(ROOT, TOOLCHAIN, '.cache/proj');
+  const grid = path.join(home, TOOLCHAIN, '.cache/proj');
   if (fs.existsSync(grid)) fs.cpSync(grid, path.join(worktree, TOOLCHAIN, '.cache/proj'), { recursive: true });
-  console.log(`rehearsing ${commit.slice(0, 8)} in ${path.relative(ROOT, worktree)}`);
+  console.log(`rehearsing ${commit.slice(0, 8)} in ${worktree}`);
   let failed = null;
   for (const [i, step] of plan.entries()) {
     const log = path.join(logs, `${String(i + 1).padStart(2, '0')}-${step.id}.log`), started = Date.now();
@@ -129,18 +133,18 @@ async function main() {
   }
   if (failed) {
     console.log(`\n${fs.readFileSync(failed.log, 'utf8').trim().split('\n').slice(-25).join('\n')}\n\nlog: ${path.relative(ROOT, failed.log)}`);
-    console.log(`The worktree is kept for a look: ${path.relative(ROOT, worktree)} (remove the folder when done, then git worktree prune).`);
+    console.log(`The worktree is kept for a look: ${worktree} (remove the folder when done, then git worktree prune).`);
     process.exitCode = 1;
     return;
   }
   console.log(`\nEvery step passed for ${commit.slice(0, 8)}. Not rehearsed: ${Object.keys(NOT_REHEARSED).length} commands (--dry-run lists them and why).`);
-  if (argv.includes('--keep')) { console.log(`kept: ${path.relative(ROOT, worktree)}`); return; }
+  if (argv.includes('--keep')) { console.log(`kept: ${worktree}`); return; }
   // git gives up on the installed packages' long paths on Windows ("Filename too long") and leaves the folder:
   // Node removes it, trying again while a file is still held, and git is then told that it is gone
   spawnSync('git', ['worktree', 'remove', '--force', worktree], { cwd: ROOT, encoding: 'utf8' });
   try { fs.rmSync(worktree, { recursive: true, force: true, maxRetries: 20, retryDelay: 250 }); } catch { /* said below */ }
   spawnSync('git', ['worktree', 'prune'], { cwd: ROOT });
-  if (fs.existsSync(worktree)) console.log(`The worktree could not be removed yet (a file in it is still held): ${path.relative(ROOT, worktree)}. Remove the folder later, then git worktree prune.`);
+  if (fs.existsSync(worktree)) console.log(`The worktree could not be removed yet (a file in it is still held): ${worktree}. Remove the folder later, then git worktree prune.`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();
