@@ -262,6 +262,31 @@ export function compileStandChunks({ groundId, tiles, campaignFields, cellMetres
  * pinned inventory; `geometry` the EPSG:3006 model geometry; `ground` the
  * published ground manifest; `readAsset(url)` its chunk bytes.
  */
+/** Mark, in each campaign's `individualExtents`, the cells of the crowns that became records.
+ *
+ * One pass over a campaign's raster for all of its records. It was one pass a record: at Tjusta 9,184 records,
+ * each over 268 million cells, which was 19 of the stage's 27 minutes (profiled 27 November 2026). The stage's
+ * 357 output files are the same bytes either way, in 7.8 minutes. A record belongs to the first campaign that
+ * carries its campaign's name, as it did. */
+export function markRecordExtents(drafts, campaignFields) {
+  const records = new Map();
+  for (const draft of drafts) {
+    const campaign = campaignFields.find(entry => entry.campaignId === draft.candidate.campaignId);
+    if (!campaign) continue;
+    if (!records.has(campaign)) records.set(campaign, []);
+    records.get(campaign).push(draft.candidate.crownId);
+  }
+  for (const [campaign, ids] of records) {
+    // a crown's label is a cell value: whole and not negative. Anything else never matched a cell, and marks none.
+    const labels = ids.filter(id => Number.isInteger(id) && id >= 0);
+    if (!labels.length) continue;
+    const top = labels.reduce((most, id) => Math.max(most, id), 0), kept = new Uint8Array(top + 1);
+    for (const id of labels) kept[id] = 1;
+    const cells = campaign.extentLabels, extents = campaign.individualExtents;
+    for (let i = 0; i < cells.length; i++) { const id = cells[i]; if (id >= 0 && id <= top && kept[id]) extents[i] = id; }
+  }
+}
+
 export async function compileVegetation({
   groundId,
   observedOn,
@@ -445,12 +470,7 @@ export async function compileVegetation({
     });
   }
   /* the stand field leaves out exactly the crowns that became records */
-  for (const draft of drafts) {
-    const campaign = campaignFields.find(entry => entry.campaignId === draft.candidate.campaignId);
-    if (!campaign) continue;
-    const id = draft.candidate.crownId;
-    for (let i = 0; i < campaign.extentLabels.length; i++) if (campaign.extentLabels[i] === id) campaign.individualExtents[i] = id;
-  }
+  markRecordExtents(drafts, campaignFields);
   const identity = assignStableIds({ groundId, previous: previousRecords, candidates: drafts });
   const records = identity.records.map(draft => treeRecord({
     id: draft.id,
