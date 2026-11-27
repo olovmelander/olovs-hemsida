@@ -27,6 +27,35 @@ export const groundAppearance = Object.freeze({
    (seen on the first GPU pictures, 24 November). The beds are carved with the world instead. */
 export const deferWaterBedToWorld = true;
 
+/* THE MOWN BANKS (the owner, 27 November 2026: Bro Hof's mown pond banks bear no reeds). Judged one water at a
+   time on the 2025-06-14 photo; the record, with what the photo shows round each water and the waters that keep
+   their reeds (Mälaren's natural shore, the reed belt and wetland of the pond on Stadium 15, the meadow ponds by
+   Stadium 6 and Castle 5), is brohofbuild/mapping/reed-bank-decisions.json, held equal to this list by
+   bro-hof.test.mjs. `at` is a point inside the water's outline, in the pack's local metres (the pack keeps no
+   water ids); `stretch`, where the bank is mown only in part, is the part of the ground where it is. Read by the
+   reed scan (ground-cover.mjs onMownBank); ?mownbanks=0 is the before. */
+export const mownBanks = Object.freeze([
+  { id: 'lm-water-659_64-16', at: [-450.5, 728.7] },
+  { id: 'lm-water-659_64-18', at: [-609, 560.6] },
+  { id: 'lm-water-659_64-19', at: [-210, 522.7] },
+  { id: 'lm-water-659_64-20', at: [-285.5, 337.5] },
+  { id: 'lm-water-659_64-21', at: [596.6, 233.9],
+    stretch: [[489.1, 219.9], [648.2, 219.9], [648.2, 263.7], [696.6, 263.7], [696.6, 224.5], [747.3, 224.5], [747.3, 159.9], [811.8, 159.9], [811.8, 360.7], [489.1, 360.7]] },
+  { id: 'lm-water-659_64-22', at: [99.3, 208.6] },
+  { id: 'lm-water-659_64-23', at: [-57.2, 175.8] },
+  { id: 'lm-water-659_64-25', at: [566.8, -66.9] },
+  { id: 'lm-water-659_64-27', at: [536.9, -129.6] },
+  { id: 'lm-water-659_64-28', at: [122.8, -455.7] },
+  { id: 'lm-water-659_64-29', at: [36.8, -432.3],
+    stretch: [[-8.7, -502.4], [78.5, -502.4], [66.5, -476.8], [44.1, -457.6], [32.9, -438.4], [29.7, -416], [-8.7, -416]] },
+  { id: 'ortho-creek-castle-09-a', at: [207.4, -599.7] },
+  { id: 'ortho-creek-castle-09-b', at: [206.1, -626.8] },
+  { id: 'ortho-creek-castle-09-c', at: [229.1, -556.1] },
+  { id: 'ortho-creek-stadium-05', at: [616.8, -38.1] },
+  { id: 'ortho-creek-stadium-12-a', at: [638.1, -0.5] },
+  { id: 'ortho-creek-stadium-12-b', at: [658.6, 25.4] },
+].map(bank => Object.freeze(bank)));
+
 /* THE TREES. The laser and the April photo type each crown inside the 2,048 m window; which broadleaf it is
    they do not say. The estate's are the park trees of Mälardalen, and the entrance photographs show maples,
    limes and oaks along the avenue, so half of them are drawn as the catalogue's oak, alder by the low shore

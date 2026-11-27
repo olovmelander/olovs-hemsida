@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { vec3 } from 'three/tsl';
 import { tussockBlades, reedBlades, clumpBlades, bladeNormalsFront, seenBladeNormal, COVER_TUNED_SHARE, grassCover,
-  seatHeight, SEAT_RIM, reedWaterAt, REED_LAKE_REACH, REED_ABOVE_METRES, inStillWater } from './ground-cover.mjs';
+  seatHeight, SEAT_RIM, reedWaterAt, REED_LAKE_REACH, REED_ABOVE_METRES, inStillWater, mownBankWaters, onMownBank } from './ground-cover.mjs';
 import { fillGroundDetailPixels } from './ground-detail-texture.mjs';
 import { ringSD, inRing } from './geom.js';
 
@@ -212,6 +212,55 @@ describe('reeds on the bank, never in open water', () => {
     expect(main).toMatch(/const REED_BANK_ON = new URLSearchParams\(location\.search\)\.get\('reedbank'\) !== '0';/);
     /* the water index carries the islands the test reads */
     expect(main).toMatch(/WI\.add\(q, q\.bb, 30\)/);
-    expect(main).toMatch(/\.\.\.\(w\.innerRings\?\.length \? \{ innerRings: w\.innerRings \} : \{\}\) \}; WI\.add/);
+    expect(main).toMatch(/\.\.\.\(w\.innerRings\?\.length \? \{ innerRings: w\.innerRings \} : \{\}\),[^\n]*\}; WI\.add/);
+  });
+});
+
+describe('no reeds on a bank the photo shows mown', () => {
+  const square = (x0, z0, x1, z1) => [[x0, z0], [x1, z0], [x1, z1], [x0, z1]];
+  /* a mown pond, a pond mown only along its south (z > 80) and an island, a pond with a reed belt beside it, a stream */
+  const mown = { ring: square(0, 0, 100, 100), level: 5 };
+  const part = { ring: square(200, 0, 300, 100), innerRings: [square(240, 40, 260, 60)], level: 5 };
+  const belt = { ring: square(112, 0, 160, 100), level: 5 };
+  const stream = { line: [[0, -20], [300, -20]], stream: true, level: 5 };
+  const waters = [mown, part, belt, stream];
+  const banks = [{ id: 'mown', at: [50, 50] }, { id: 'part', at: [210, 50], stretch: square(180, 80, 320, 130) },
+    { id: 'gone', at: [500, 500] }];
+  const { marked, missed } = mownBankWaters(waters, banks, inRing);
+  const index = waters.map(w => (marked.has(w) ? { ...w, mownBank: marked.get(w) } : w));
+  const at = (x, z) => onMownBank(index, x, z, ringSD, inRing);
+
+  it('finds each named water by the point inside its outline, and says which it could not', () => {
+    expect(marked.get(mown)).toBe(true);
+    expect(marked.get(part)).toEqual([banks[1].stretch]);
+    expect(marked.has(belt)).toBe(false);
+    expect(missed).toEqual(['gone']);
+    /* a point on an island names no water */
+    expect(mownBankWaters(waters, [{ id: 'island', at: [250, 50] }], inRing).missed).toEqual(['island']);
+  });
+
+  it("takes a reed off a named water's bank, and leaves the reed belt's, the far ground's and the stream's", () => {
+    expect(at(-5, 50)).toBe(true);
+    expect(at(104, 50)).toBe(true);                  /* nearer the mown pond than the belt */
+    expect(at(109, 50)).toBe(false);                 /* nearer the belt */
+    expect(at(50, 100 + REED_LAKE_REACH + 1)).toBe(false);
+    expect(at(150, -25)).toBe(false);                /* by the stream, not by a pond */
+  });
+
+  it("keeps a part-mown water's reeds outside its mown stretch, its island's among them", () => {
+    expect(at(250, 104)).toBe(true);
+    expect(at(250, -4)).toBe(false);
+    expect(at(250, 50)).toBe(false);                 /* on the island, outside the stretch */
+    expect(at(304, 90)).toBe(true);
+  });
+
+  it('is wired in the reed scan behind ?mownbanks=0, after the bank rule, with the mapped beds kept', () => {
+    const cell = main.slice(main.indexOf('const reedCell = '), main.indexOf("await scatterGrid('reeds'"));
+    expect(cell).toMatch(/if \(MOWN_BANKS\?\.marked\.size && !bedClump && !\(c\.wet > 0\.3\) && onMownBank\(WI\.at\(px, pz\), px, pz, ringSD, inRingIndexed\)\) return;/);
+    expect(cell.indexOf('onMownBank(')).toBeGreaterThan(cell.indexOf('inStillWater('));
+    expect(main).toMatch(/const MOWN_BANK_ON = new URLSearchParams\(location\.search\)\.get\('mownbanks'\) !== '0';/);
+    expect(main).toMatch(/const MOWN_BANKS = MOWN_BANK_ON && SCENERY\?\.mownBanks\?\.length \? mownBankWaters\(M\.water, SCENERY\.mownBanks, inRingIndexed\) : null;/);
+    expect(main.indexOf('const MOWN_BANK_ON')).toBeLessThan(main.indexOf('const MOWN_BANKS'));
+    expect(main).toMatch(/\.\.\.\(MOWN_BANKS\?\.marked\.has\(w\) \? \{ mownBank: MOWN_BANKS\.marked\.get\(w\) \} : \{\}\) \}; WI\.add/);
   });
 });

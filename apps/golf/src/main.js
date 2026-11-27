@@ -106,7 +106,7 @@ import {
 import { createV2GroundMaterialDecorator, makeGround, paintedGround, setWindSheen, setTourTurf } from './engine/material.js';
 import { createTurfDetailTexture } from './engine/turf-detail.mjs';
 import { tussockBlades, tourTussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
-  seatHeight, SEAT_RIM, reedWaterAt, inStillWater } from './engine/ground-cover.mjs';
+  seatHeight, SEAT_RIM, reedWaterAt, inStillWater, mownBankWaters, onMownBank } from './engine/ground-cover.mjs';
 import { teeCorridors } from './engine/tee-corridors.mjs';
 import { createNearGrass } from './engine/near-grass.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
@@ -1192,8 +1192,12 @@ for (const r of M.scenery.fairways.concat(M.scenery.greens, M.scenery.tees, M.sc
   const q = { ring: r, bb: ringBBox(r), scen: true }; FI.add(q, q.bb, 12);
 }
 for (const r of M.scenery.bunkers) { const q = { ring: r, bb: ringBBox(r) }; BI.add(q, q.bb, 8); }
+/* the owner, for Bro Hof (27 November 2026): no reeds on a bank the photo shows mown, the waters named in the
+   ground's scenery module (ground-cover.mjs mownBankWaters, onMownBank in the reed scan; ?mownbanks=0, planted live) */
+const MOWN_BANK_ON = new URLSearchParams(location.search).get('mownbanks') !== '0';
+const MOWN_BANKS = MOWN_BANK_ON && SCENERY?.mownBanks?.length ? mownBankWaters(M.water, SCENERY.mownBanks, inRingIndexed) : null;
 for (const w of M.water) { const q = { ring: w.ring, bb: ringBBox(w.ring), level: w.level, isLake: w.isLake, isSea: w.isSea, vegetatedBank: w.vegetatedBank,
-  ...(w.innerRings?.length ? { innerRings: w.innerRings } : {}) }; WI.add(q, q.bb, 30); }
+  ...(w.innerRings?.length ? { innerRings: w.innerRings } : {}), ...(MOWN_BANKS?.marked.has(w) ? { mownBank: MOWN_BANKS.marked.get(w) } : {}) }; WI.add(q, q.bb, 30); }
 for (const [k, rs] of Object.entries(M.veg))
   for (const r of rs) { const q = { ring: r, bb: ringBBox(r), kind: k }; VI.add(q, q.bb, 6); }
 for (const p of M.infra.paths.concat(M.infra.tracks)) {
@@ -2665,7 +2669,9 @@ const farRingRuns = line => {
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
 /* the ground cover as drawn, per population (V3D.cover) */
 stats.cover = { light: COVER_LIGHT_ON, shadow: COVER_SHADOW_ON, colour: COVER_COLOUR_ON, seat: COVER_SEAT_ON,
-  reedLakes: REED_LAKES_ON, reedBank: REED_BANK_ON, teeCorridor: TEE_CORRIDOR_ON, waterIslands: WATER_ISLANDS_ON, populations: {} };
+  reedLakes: REED_LAKES_ON, reedBank: REED_BANK_ON, teeCorridor: TEE_CORRIDOR_ON, waterIslands: WATER_ISLANDS_ON,
+  mownBanks: { on: MOWN_BANK_ON, named: SCENERY?.mownBanks?.length ?? 0, marked: MOWN_BANKS?.marked.size ?? 0, missed: MOWN_BANKS?.missed ?? [] },
+  populations: {} };
 const coverDrawn = (name, im, extra = {}) => {
   /* the tussocks and the bushes lie under the snow: green bushes dotted it (6 November) */
   if (name === 'tufts' || name === 'edgeTufts' || name === 'bushes') { WINTER.cover.push(im); im.visible = !WINTER.snow; }
@@ -5315,6 +5321,8 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       /* on the bank (ground-cover.mjs inStillWater): never in a lake's, pond's or the sea's open
          water, unless a mapped bed puts it there -- the silt flat above, a mapped wetland */
       if (REED_BANK_ON && !bedClump && !(c.wet > 0.3) && inStillWater(WI.at(px, pz), px, pz, inRingIndexed)) return;
+      /* nor on a bank the photo shows mown: the nearest still water is one the ground names (onMownBank) */
+      if (MOWN_BANKS?.marked.size && !bedClump && !(c.wet > 0.3) && onMownBank(WI.at(px, pz), px, pz, ringSD, inRingIndexed)) return;
       /* nor in a tee's line of play: a lone stem there stood on Stadium 7's aim line */
       if (TEE_PLAY?.within(px, pz)) return;
       if (c.dLine < 34) dens *= 0.12;                    /* play stays open -- the moat above all */

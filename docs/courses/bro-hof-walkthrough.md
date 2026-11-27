@@ -123,9 +123,16 @@ build's own records, and a test fails when they fall behind. Everything else is 
 - **What grows on the islands is not mapped.** They are drawn as rough with the laser's trees. Three small ones in
   Mälaren (156, 36 and 2 m2; the largest at E 650263 N 6597235) lie at or below the water's level in the laser and are
   drawn as land at the waterline; they may be reed beds.
-- **Reeds still stand thinly on some pond banks outside play,** where the 2025 photo shows mown banks: since
-  27 November none stands in open water or in a tee's line of play, but the reed scan cannot tell a mown bank from
-  rough. Putting it right needs the mown banks as a record (the photo's turf) or an opt-out in the scenery module.
+- **Reeds still stand on the mown parts of three ponds kept for their reeds.** Since 27 November no reed stands on a
+  bank the photo shows mown on 17 named waters (below), but a pond with a reed belt or wild banks was kept whole: the
+  west bank of the pond on Stadium 15 (mown by the cart path), the mown west and south banks of the meadow pond north
+  of Stadium 6 (where its creek comes in, about 14 reeds), and none of Castle 5's pond, whose banks are meadow. A
+  `stretch` for each in `mownBanks` would take them off.
+- **The mown banks are judged by eye, one water at a time,** on the 2025-06-14 photo
+  ([the record](../../brohofbuild/mapping/reed-bank-decisions.json)): two ponds (by Stadium 13-14 and by Stadium 2,
+  3 and 7) are mown only in part, and the line between their mown stretch and their reed belt is drawn on the photo,
+  not measured. A water the photos do not reach (east of Stadium 13, north of Castle 5) was not judged and keeps its
+  reeds.
 - **A ball on an island's low ground is still in the water** for the lie and Spela: they read the outer ring and the
   ground's height (land more than 0.3 m above the water is not water). No island is near play.
 - **Lätt 3D, from the blind look of 27 November after these fixes** (kept as faults in `visual-review.json`): the
@@ -224,6 +231,7 @@ is a check that did not exist; the last column says whether it exists now.
 | Reeds standing up to 17 m out in open pond water as lone dark spikes (Stadium 7, 11 and 15; Castle 17): the reed scan read a pond flown full as ground at its level, and its shore field reached both sides of an outline. On Stadium 1,120 of 13,023 reeds stood 4 m or more inside an outline | the blind visual review of every hole (course-reviewer, 27 November), from the tee | three days after release | a reed stands in still water only on a mapped bed (`inStillWater` in `ground-cover.mjs`, `?reedbank=0`), and never in a tee's line of play (`tee-corridors.mjs`); their tests. A picture found it; the probe that counts reeds inside outlines is local |
 | Mälaren's island and its 39 laser trees drawn under the lake (Stadium 15 from above): the pack compiler dropped every water's islands, and the bed carve lowered the island 3.5 m | the blind visual review, from above | three days after release | the pack keeps `innerRings` (`runtime-water.mjs`, `water-shore.node-test.mjs`); the bed field, the reach and the sheet treat an island as land (`v2-water-bed.test.mjs`, `water-reach.test.mjs`; `?waterislands=0`) |
 | A bush on Stadium 18's aim line from the yellow and blue tees, 41 m off the back tee's line (Johannesberg 3 had one too) | the blind visual review, from the tee | three days after release | the cover keeps off every tee's line of play to its landing area (`tee-corridors.mjs`, its test on Stadium 18's pack; `?teecorridor=0`) |
+| Reeds on pond banks the 2025 photo shows mown to the water (Stadium 1, 9, 10, 11, 15, 17; Castle 17 and 18's pond; the creek pools of Stadium 5 and 12 and Castle 9; the south bank of the pond by Stadium 13-14): the reed scan reads the ground's level, not its turf | the owner's decision of 27 November (mown pond banks bear no reeds), after the blind review's reeds fix left them | three days after release | 17 waters named in the scenery module (`mownBanks`, two of them by a stretch), each judged on the photo in `reed-bank-decisions.json`; the reed scan's `onMownBank` (`?mownbanks=0`); `bro-hof.test.mjs` holds the list to the record and to both packs. Stadium 10,019 reeds to 9,661, Castle 10,758 to 9,826 |
 
 ## Decisions
 
@@ -261,4 +269,5 @@ The GPU and browser lines are the owner's to start (in PowerShell: `$env:BANVY_G
   tees' lines of play, and `?waterislands=0` draws the islands under their water (27 November; each plants or carves
   live, since the prepared data hold the new plantings and beds). Together they reproduce the earlier counts exactly
   (Stadium 13,023 reeds and 3,565 bushes).
+- `?mownbanks=0` plants the reeds on the mown banks again (Stadium 10,019 reeds, Castle 10,758; planted live).
 - The first generation (automatic trees) stays published for rollback: `grounds/bro-hof/ground-v2-bf788372….json`.
