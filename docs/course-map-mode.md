@@ -494,6 +494,12 @@ height any more (`fitLayout` in `map-session.js`, on every resize and display ch
   elevation strip steps aside so the wheel and prompt never collide.
 - The framing reads the header and foot off the screen, with room for the strip and active
   cards under the shot in hand, so bottom UI never covers the player's own dot.
+- A message (`status()`: the far-away distance, the tap hint, a saved or failed note) has one
+  home, the top of the bottom stack, above whichever card is open, in the stack's own
+  alignment (left, right for the left hand, centred on a desk). Placed by itself 68 px over the
+  dock it covered the measure card and cut its last line ("428 km från närmaste hål" over
+  "Utanför räckvidd", owner, 27 November). The framing measures the stack under it, so a
+  message coming and going never moves the camera.
 
 `tools/check-map-hud.mjs` drives every state on ten screens, with and without a notch, in
 each display setting. Run it after any change to the HUD. Build at the root path first:
