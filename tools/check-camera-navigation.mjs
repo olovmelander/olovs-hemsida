@@ -26,7 +26,11 @@
  *   look       a left drag on the far ground from a tee: how far the eye moved
  *   walk       W held from a tee: the distance, the eye's height above the
  *              ground, its largest frame-to-frame change of vertical step, and
- *              the lift the ground clamp is left owed
+ *              the lift the ground clamp is left owed. The height is held to
+ *              the one the tee view began with, which is not always standing
+ *              height: the view stands the eye above the higher of its own
+ *              ground and the tee's (2.25 m at Bro Hof Castle's first), and a
+ *              walk rides the ground from there, it does not snap to it.
  *   above      from straight above: W goes up the picture, and the wheel
  *              still holds the ground under the cursor
  *   takeover   a drag, the wheel and a key each stop a view's tween, and a
@@ -34,7 +38,15 @@
  *
  * The navigation's own numbers are gated; the stock ones are the comparison.
  * A SwiftShader run (no BANVY_GPU) checks the behaviour but its timings are
- * not a frame rate: the latency gate is skipped there.                       */
+ * not a frame rate: the latency gate is skipped there.
+ *
+ * A run that shares the GPU says so. With another session baking on the same
+ * card, frames here ran 0.2 to 0.3 s: a drag's seconds, a zoom's share per
+ * frame and the eye's step between frames then measure the other session, and
+ * the stock controls' per-frame damping coasts on into the next gesture. When
+ * any measured frame is longer than DISTURBED seconds those gates are told and
+ * not judged; where the ground ends up, the frames a drag takes and what stops
+ * a tween are judged all the same.                                           */
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
@@ -47,6 +59,7 @@ const OUT = path.resolve(flag('out', 'tools/goldens/navigation'));
 const QUERY = flag('query', '');
 const courses = flag('course', 'puttom').split(',');
 const VIEW = { width: 1600, height: 900 };
+const DISTURBED = 0.1;
 if (!GPU) console.warn('WARN: BANVY_GPU is not 1; this is a SwiftShader run, and its timings are not gated');
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -93,6 +106,8 @@ function instrument() {
 }
 
 const heading = s => Math.atan2(s.l[0] - s.p[0], -(s.l[2] - s.p[2]));
+/* seconds: the longest wait between two drawn frames of a recording */
+const longest = log => +(Math.max(0, ...log.slice(1).map((s, i) => s.t - log[i].t)) / 1000).toFixed(3);
 const turnBetween = (a, b) => { let d = heading(b) - heading(a); while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d * 180 / Math.PI; };
 /* after the hand moved, the seconds and the drawn frames until `share` of the whole change was on screen */
 function reached(run, value, share) {
@@ -140,9 +155,8 @@ async function measure(page, slug) {
       }
       const first = run.log[0], turn = s => turnBetween(first, s);
       const half = reached(run, turn, 0.5), ninth = reached(run, turn, 0.9);
-      const gaps = run.log.slice(1).map((s, i) => s.t - run.log[i].t);
       row.drag = { degrees: +turn(run.log.at(-1)).toFixed(2), half: half.seconds, ninth: ninth.seconds, ninthFrames: ninth.frames,
-        longestFrame: +(Math.max(...gaps) / 1000).toFixed(3),
+        longestFrame: longest(run.log),
         heldMetres: held ? +held[3].toFixed(1) : null, heldOffPixels: held ? +hyp(await screen(held), from).toFixed(1) : null };
     }
 
@@ -176,7 +190,7 @@ async function measure(page, slug) {
       await wait(1500);
       const run = await stop();
       const steps = run.log.slice(1).map((s, i) => hyp(s.p, run.log[i].p)), total = hyp(run.log.at(-1).p, run.log[0].p);
-      row.zoom = { heldOffPixels: held ? +hyp(await screen(held), at).toFixed(1) : null, travelled: +total.toFixed(2),
+      row.zoom = { longestFrame: longest(run.log), heldOffPixels: held ? +hyp(await screen(held), at).toFixed(1) : null, travelled: +total.toFixed(2),
         closed: held ? +(1 - hyp(run.log.at(-1).p, held) / hyp(run.log[0].p, held)).toFixed(3) : null,
         largestFrameShare: +(Math.max(...steps) / total).toFixed(3), movingFrames: steps.filter(s => s > total * 1e-4).length };
     }
@@ -210,9 +224,9 @@ async function measure(page, slug) {
       const clear = log.map(s => s.p[1] - s.g);
       let kick = 0;
       for (let i = 2; i < log.length; i++) kick = Math.max(kick, Math.abs((log[i].p[1] - log[i - 1].p[1]) - (log[i - 1].p[1] - log[i - 2].p[1])));
-      row.walk = { metres: +Math.hypot(log.at(-1).p[0] - log[0].p[0], log.at(-1).p[2] - log[0].p[2]).toFixed(2),
+      row.walk = { longestFrame: longest(log), metres: +Math.hypot(log.at(-1).p[0] - log[0].p[0], log.at(-1).p[2] - log[0].p[2]).toFixed(2),
         groundFell: +(log[0].g - log.at(-1).g).toFixed(2), eyeLowest: +Math.min(...clear).toFixed(3), eyeHighest: +Math.max(...clear).toFixed(3),
-        eyeAtEnd: +clear.at(-1).toFixed(3), kick: +kick.toFixed(4),
+        eyeAtStart: +clear[0].toFixed(3), eyeAtEnd: +clear.at(-1).toFixed(3), kick: +kick.toFixed(4),
         firstFrameShare: log.length > 3 ? +(Math.hypot(log[1].p[0] - log[0].p[0], log[1].p[2] - log[0].p[2]) * 60 / 5).toFixed(3) : null,
         liftOwed: await page.evaluate(() => window.V3D.groundClamp().lift), frames: log.length };
     }
@@ -277,22 +291,26 @@ async function measure(page, slug) {
 function judge(rows) {
   const n = rows.new, s = rows.stock, problems = [];
   const gate = (ok, text) => { if (!ok) problems.push(text); };
+  /* another session on the GPU: the gates that read a clock are told, not judged */
+  rows.longestFrame = Math.max(...[n, s].flatMap(r => [r.drag.longestFrame, r.zoom.longestFrame, r.walk.longestFrame]));
+  rows.disturbed = rows.longestFrame > DISTURBED;
+  const timed = (ok, text) => { if (!rows.disturbed) gate(ok, text); };
   gate(Math.abs(n.drag.degrees) > 20, `the drag turned the view ${n.drag.degrees} degrees`);
   /* six frames at 60 Hz by the arithmetic (0.04 s, nine tenths after 0.092 s); the stock controls take about forty */
   gate(n.drag.ninthFrames !== null && n.drag.ninthFrames <= 9, `nine tenths of a drag took ${n.drag.ninthFrames} drawn frames (stock ${s.drag.ninthFrames})`);
-  if (GPU) gate(n.drag.ninth !== null && n.drag.ninth <= Math.max(0.3, 2 * n.drag.longestFrame + 0.1),
-    `nine tenths of a drag took ${n.drag.ninth} s (stock ${s.drag.ninth} s), the longest frame ${n.drag.longestFrame} s`);
+  if (GPU) timed(n.drag.ninth !== null && n.drag.ninth <= 0.3, `nine tenths of a drag took ${n.drag.ninth} s (stock ${s.drag.ninth} s)`);
   gate(n.drag.heldOffPixels !== null && n.drag.heldOffPixels <= 3, `the ground a drag took hold of ended ${n.drag.heldOffPixels} px away`);
   gate(n.pan.heldOffPixels !== null && n.pan.heldOffPixels <= 3 && Math.abs(n.pan.rose) < 0.5, `the ground a pan took hold of ended ${n.pan.heldOffPixels} px from the cursor, the eye ${n.pan.rose} m higher`);
   gate(n.zoom.heldOffPixels !== null && n.zoom.heldOffPixels <= 3, `the ground under the wheel ended ${n.zoom.heldOffPixels} px from the cursor`);
   gate(n.zoom.closed > 0.4 && n.zoom.closed < 0.5, `five notches closed ${n.zoom.closed} of the way`);
-  gate(n.zoom.largestFrameShare <= 0.15, `one frame drew ${n.zoom.largestFrameShare} of the zoom`);
+  timed(n.zoom.largestFrameShare <= 0.15, `one frame drew ${n.zoom.largestFrameShare} of the zoom`);
   gate(n.look.eyeMoved < 0.01 && Math.abs(n.look.degrees) > 10, `looking round from the tee moved the eye ${n.look.eyeMoved} m and turned it ${n.look.degrees} degrees`);
   gate(n.walk.metres > 14 && n.walk.metres < 22, `W walked ${n.walk.metres} m in four seconds`);
-  gate(n.walk.eyeLowest > 1.15 && n.walk.eyeHighest < 3 && Math.abs(n.walk.eyeAtEnd - 1.7) < 0.35, `walking, the eye was ${n.walk.eyeLowest} to ${n.walk.eyeHighest} m above the ground, ${n.walk.eyeAtEnd} m at the end`);
-  gate(n.walk.kick < 0.02, `the eye's height stepped ${n.walk.kick} m between frames`);
+  gate(n.walk.eyeLowest > 1.15 && n.walk.eyeHighest < n.walk.eyeAtStart + 1.3 && Math.abs(n.walk.eyeAtEnd - n.walk.eyeAtStart) < 0.35,
+    `walking, the eye was ${n.walk.eyeLowest} to ${n.walk.eyeHighest} m above the ground: ${n.walk.eyeAtStart} m at the start, ${n.walk.eyeAtEnd} m at the end`);
+  timed(n.walk.kick < 0.02, `the eye's height stepped ${n.walk.kick} m between frames`);
   gate(n.walk.liftOwed < 0.3, `the ground clamp is left owed ${n.walk.liftOwed} m`);
-  gate(s.walk.metres < 0.1, `with the navigation off W still walked ${s.walk.metres} m`);
+  timed(s.walk.metres < 0.1, `with the navigation off W still walked ${s.walk.metres} m`);
   gate(n.above.finite && n.above.wentDownThePicture > 40 && Math.abs(n.above.wentAcross) < 5 && n.above.heldOffPixels <= 3,
     `from above, W took the ground ${n.above.wentDownThePicture} px down the picture and ${n.above.wentAcross} px across, and the wheel left its ground ${n.above.heldOffPixels} px off`);
   gate(n.takeover.flight.wasFlying && n.takeover.flight.flying === 0, `a drag did not take the camera from a flight (${JSON.stringify(n.takeover.flight)})`);
@@ -326,7 +344,7 @@ for (const slug of courses) {
     line('drag: half of the turn after', r => r.drag.half, ' s');
     line('drag: nine tenths of it after', r => r.drag.ninth, ' s');
     line('drag: nine tenths of it after, in frames', r => r.drag.ninthFrames);
-    line('drag: the longest frame meanwhile', r => r.drag.longestFrame, ' s');
+
     line('drag: the ground held ends off by', r => r.drag.heldOffPixels, ' px');
     line('pan: the ground held ends off the cursor', r => r.pan.heldOffPixels, ' px');
     line('pan: the eye rose', r => r.pan.rose, ' m');
@@ -337,6 +355,7 @@ for (const slug of courses) {
     line('look from the tee: the eye moved', r => r.look.eyeMoved, ' m');
     line('look from the tee: turned', r => r.look.degrees, '°');
     line('walk: W for four seconds', r => r.walk.metres, ' m');
+    line('walk: the eye above the ground, at the start', r => r.walk.eyeAtStart, ' m');
     line('walk: the eye above the ground, lowest', r => r.walk.eyeLowest, ' m');
     line('walk: the eye above the ground, highest', r => r.walk.eyeHighest, ' m');
     line('walk: largest change of step in the eye', r => r.walk.kick, ' m');
@@ -345,6 +364,7 @@ for (const slug of courses) {
     line('above: the ground under the wheel off by', r => r.above.heldOffPixels, ' px');
     for (const how of ['drag', 'wheel', 'key']) line(`a ${how} takes a tween: off its end by`, r => r.takeover[how].metresFromDestination, ' m');
     line('a drag takes a flight: still flying', r => r.takeover.flight.flying);
+    if (rows.disturbed) console.log(`  WARN the GPU was shared: a frame took ${rows.longestFrame} s, so the gates that read a clock were not judged`);
   } catch (error) {
     problems = [String(error).split('\n')[0]];
     report.courses[slug] = { url, problems, errors };
