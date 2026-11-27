@@ -30,7 +30,7 @@ build's own records, and a test fails when they fall behind. Everything else is 
 - **Trees:** 15,199 placed one by one (review-2026-11-24); on unseen trees precision 0.784, recall 0.807, F1 0.795: the 90% gate is **missed**; 2,076 doubtful trees held back. [Review](../../geo_data/course-v2/bro-hof/vegetation/review-2026-11-24/README.md).
 - **Buildings:** 467 mapped, 459 with a roof colour measured on the photo; an authored campus of 22 parts (castle, castle-terrace, pavilion, halfway-stadium, halfway-stadium-walls, halfway-castle, halfway-castle-garden, courtyard, avenue-gate, flagpole-a, flagpole-b, flagpole-c, flagpole-d, flagpole-e, flagpole-f, flagpole-g, flagpole-h, terrace-parasols, practice-green-flags, range-mat-line, range-grass-tee, range-targets), 27,087 triangles; 26 golf carts in 3 rows.
 - **Quality gate:** 0 errors, 1 warnings (`tools/check-course-quality.mjs`); each is on its hole below.
-- **Release:** on the owner's acceptance of 2026-11-24, with 4 items open:
+- **Release:** on the owner's acceptance of 2026-11-27, with 4 items open:
   - `canonical-control-pending`: No independent horizontal or RH 2000 ground control has been measured at Bro Hof. The frame is the 1 m national terrain and the 0.16 m orthophoto, which agree with each other.
   - `canonical-frame`: The ground's origin is fixed in software and has not been approved against independent control, as at every other ground.
   - `release-review`: The 14-gate release review does not exist: no phone timings, no per-hole review by a person, no offline or rollback rehearsal on this candidate.
