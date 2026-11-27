@@ -386,6 +386,7 @@ Each row is a fault that happened, and what stands in its way now.
 | Tables that must agree and do not (frames, grounds, roofs) | `sync-course-registries.mjs --check` | 5 |
 | A campus model that is too bright, too heavy or not what its manifest says | `validate-facility-glb.mjs`, the campus loader's tests | 5 |
 | A pond whose outline misses its basin, or that stands at the height of its bank | `audit-water-levels.mjs --check`: the lines every accepted pond keeps (`tools/water-line.mjs`) | 5 |
+| White stakes drawn across a hole's play, so Spela calls a ball on its own fairway or green out (Veckefjärden's 2nd, 3rd, 5th, 12th and 14th, found playing) | the quality gate, item 8: every tee shot and approach onto the hole's own ground replayed against the stakes (`tools/out-of-bounds-shots.mjs`) | 5 |
 | Ponds standing low inside their banks because the engine read its level from carved ground | **a picture only** (the first look); `deferWaterBedToWorld` is the fix | 6 |
 | A mapped surface painted by the ground and laid as a sheet as well | `mapped-surface-once.test.mjs`, on every published course | 5 |
 | A surface wrong at a distance for another reason | **a picture only** | 6 |
@@ -483,9 +484,9 @@ Written by `node tools/course-walkthrough.mjs --catalogue`; a test fails when it
 <!-- generated:catalogue -->
 | Ground | Holes | Outlines | Ring review | Trees | Quality gate | Walkthrough | Release |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `angso` | 18 | own builder | recorded | automatic | 0 errors, 1 warnings | [yes](courses/angso-walkthrough.md) | advisory, 3 open |
+| `angso` | 18 | own builder | recorded | automatic | 2 errors, 1 warnings | [yes](courses/angso-walkthrough.md) | advisory, 3 open |
 | `bro-hof` | 18 + 18 | decisions as data | recorded | one by one (review-2026-11-24) | 0 errors, 1 warnings | [yes](courses/bro-hof-walkthrough.md) | owner acceptance, 4 open |
-| `johannesberg` | 18 + 9 | own builder | no record | one by one (review-2026-11-08) | 0 errors, 0 warnings | none | advisory, 4 open |
+| `johannesberg` | 18 + 9 | own builder | no record | one by one (review-2026-11-08) | 1 errors, 0 warnings | none | advisory, 4 open |
 | `lidingo` | 18 | own builder | no record | automatic | 4 errors, 1 warnings | [yes](courses/lidingo-walkthrough.md) | advisory, 4 open |
 | `norrfallsviken` | 18 | own builder | no record | one by one (review-2026-11-09) | 0 errors, 0 warnings | none | advisory, 3 open |
 | `puttom` | 18 | own builder | no record | automatic | 1 errors, 0 warnings | [yes](courses/puttom-walkthrough.md) | advisory, 3 open |
@@ -507,6 +508,10 @@ the best place to start improving it.
   accepted, not derived, and the audit reckons each level itself, so it cannot see the engine getting a level
   wrong. The drawn-once test lifts the sheet rule out of `main.js` as text. Both want the engine's own rules in
   a module a check can call: an engine edit, and so a bake of every course. Do it with the next engine change.
+- The stake check (quality gate item 8, 27 November) names three holes on two other grounds where Spela calls good
+  shots out: Ångsö 6 and 16 (a white run that zigzags across the hole, up to eleven crossings) and Johannesberg 16
+  (its own white run crosses its fairway). They are errors in those grounds' gates until their stakes are redrawn.
+  Spela's rule counts crossings of open lines, so a stake line must run unbroken past the play it borders.
 - The water lines name two ponds on published grounds that nobody has looked at yet: Upsala 4 (the outline
   misses its basin by 0.33 m) and Johannesberg 11 (it stands at the height of its bank).
 - The tracer does not stop on a low score by itself; the recorded review is what holds it.

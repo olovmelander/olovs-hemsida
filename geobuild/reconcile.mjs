@@ -573,6 +573,7 @@ const marking = [];
      the rough; behind or around a green as an arc past the collar. A statement of
      where the club stakes its course, drawn onto the geometry it has. */
   const rulesOB = RULES?.outOfBounds?.holes || null;
+  const AROUND_OPEN = Math.PI / 3;   // the approach's open wedge, either side of the hole's line
   if (rulesOB) {
     const neighbours = {
       range: osm.drivingRange.map(d => d.ring),
@@ -636,11 +637,20 @@ const marking = [];
             pts.push([r1(p.x + dirx * off), r1(p.z + dirz * off)]);
           }
         } else if (e.side === 'behind-green' || e.side === 'around-green') {
+          /* The angle is measured from the hole's forward direction, (sin b, cos b) at
+             alongLine: a = 0 is straight on past the green, away from the tee, and
+             a = PI points back down the hole. Until 27 November 2026 this read "behind
+             the green is a = PI", which drew every "behind" arc across the FRONT of its
+             green, and "around" was a closed circle: either way the line to a ball
+             played onto the green crossed the stakes once, and Spela called it out
+             (holes 2, 3, 5 and 12; the owner, playing). Behind is the far half; around
+             is the sides and the back, open by AROUND_OPEN either side of the approach,
+             since the club stakes round a green and never across the shot played in. */
           const c = h.green.c, rad = greenR(h) + (e.side === 'around-green' ? 14 : 16);
           const p = alongLine(h.line, 0.97);
-          const a0 = e.side === 'around-green' ? 0 : Math.PI / 2, a1 = e.side === 'around-green' ? Math.PI * 2 : Math.PI * 1.5;
-          for (let a = a0; a <= a1 + 1e-6; a += (a1 - a0) / (e.side === 'around-green' ? 22 : 9)) {
-            /* angle measured from the hole's forward direction: behind the green is a = PI */
+          const reach = e.side === 'around-green' ? Math.PI - AROUND_OPEN : Math.PI / 2;
+          const a0 = -reach, a1 = reach;
+          for (let a = a0; a <= a1 + 1e-6; a += (a1 - a0) / (e.side === 'around-green' ? 16 : 9)) {
             const fx = Math.sin(p.b), fz = Math.cos(p.b), R = right(p.b);
             const ux = fx * Math.cos(a) + R[0] * Math.sin(a), uz = fz * Math.cos(a) + R[1] * Math.sin(a);
             pts.push([r1(c[0] + ux * rad), r1(c[1] + uz * rad)]);
@@ -737,6 +747,83 @@ if (fs.existsSync(orthoReviewFile)) {
   const review = readJSON(orthoReviewFile);
   model = applyOrthoReview(model, review, { heightAt: legacyHeightfieldSampler(hf.hf0) });
   say(`orthophoto: ${review.features.length} accepted surface traces applied from ${ORTHO_REVIEW_PATH}`);
+}
+
+/* White stakes mark the course's edges, never a hole's own ground or a line across
+   its play. Spela calls a ball out when the straight line to it crosses the white
+   stakes an odd number of times, so one stray segment over a corridor rules every
+   shot down that hole out: until 27 November 2026 the last of the 13th's right-hand
+   stakes were snapped to the lake shore across the 14th, and every tee shot onto the
+   island green was out. Measured on the reviewed holes, after the orthophoto: a stake
+   on a fairway, green or tee deck is moved off it, and a run is split wherever a
+   segment would cross one, or a hole's line of play (the hole's line, and each tee's
+   way onto it). Nothing is dropped for standing NEAR play: the rule counts crossings,
+   so a gap in a line is a door, and an end left beside a corridor rules the shots past
+   it out (a 12 m clearance cut the 13th's right side into such pieces). Red stakes trace
+   their water and are left as they are. tools/out-of-bounds-shots.mjs replays the
+   shots that must stay in bounds, in the quality gate. */
+{
+  const segX = (a, b, c, d) => {
+    const s = (p, q, r) => (r[0] - q[0]) * (p[1] - q[1]) - (r[1] - q[1]) * (p[0] - q[0]);
+    return (s(a, c, d) > 0) !== (s(b, c, d) > 0) && (s(c, a, b) > 0) !== (s(d, a, b) > 0);
+  };
+  const plays = model.holes.map(h => {
+    const lines = [h.line];
+    for (const m of h.tees?.marks || []) {
+      let best = null, bd = Infinity;
+      for (let i = 0; i < h.line.length - 1; i++) {
+        const [a, b] = [h.line[i], h.line[i + 1]];
+        const { d, t } = ptSeg(m.c[0], m.c[1], a[0], a[1], b[0], b[1]);
+        if (d < bd) { bd = d; best = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+      }
+      if (best && bd > 0.5) lines.push([m.c, best]);
+    }
+    const areas = [h.green.ring, ...(h.fairway?.rings || []), ...(h.tees?.pads || []).map(p => p.ring)].filter(r => r && r.length >= 3);
+    return { n: h.n, lines, areas };
+  });
+  const allAreas = plays.flatMap(p => p.areas);
+  const onPlay = ([x, z]) => allAreas.some(r => pointInPoly(x, z, r));
+  /* a stake on a hole's ground goes out across that ground's nearest edge, STAKE_OUT
+     beyond it, since a stake left out opens a door in the line. Six stood on a hole's
+     ground on 27 November 2026: on the 1st's and the 5th's tee decks, and two each on
+     the 2nd's and the 13th's reviewed fairways, most of them snapped to vertices of
+     OpenStreetMap's course boundary */
+  const STAKE_OUT = 3;
+  const pushOut = p => {
+    for (let tries = 0; tries < 3 && onPlay(p); tries++) {
+      const ring = allAreas.find(r => pointInPoly(p[0], p[1], r));
+      let best = null, bd = Infinity;
+      for (let i = 0; i < ring.length; i++) {
+        const a = ring[i], b = ring[(i + 1) % ring.length];
+        const { d, t } = ptSeg(p[0], p[1], a[0], a[1], b[0], b[1]);
+        if (d < bd) { bd = d; best = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]; }
+      }
+      const L = Math.hypot(best[0] - p[0], best[1] - p[1]) || 1;
+      p = [r1(best[0] + (best[0] - p[0]) / L * STAKE_OUT), r1(best[1] + (best[1] - p[1]) / L * STAKE_OUT)];
+    }
+    return onPlay(p) ? null : p;
+  };
+  const crossesPlay = (a, b) => plays.some(p =>
+    p.lines.some(L => L.some((q, i) => i > 0 && segX(a, b, L[i - 1], q))) ||
+    p.areas.some(r => r.some((q, i) => segX(a, b, r[(i + r.length - 1) % r.length], q))));
+  let dropped = 0, moved = 0, splits = 0;
+  const out = [];
+  for (const m of model.marking) {
+    if (m.color !== 'w') { out.push(m); continue; }
+    let cur = null;
+    const pieces = [];
+    for (const stake of m.pts) {
+      const p = onPlay(stake) ? pushOut(stake) : stake;
+      if (p !== stake) { if (p) moved++; else { dropped++; cur = null; continue; } }
+      if (cur && crossesPlay(cur.pts[cur.pts.length - 1], p)) { splits++; cur = null; }
+      if (!cur) { cur = { ...m, pts: [] }; pieces.push(cur); }
+      cur.pts.push(p);
+    }
+    for (const piece of pieces) if (piece.pts.length >= 3) out.push(piece); else dropped += piece.pts.length;
+  }
+  const before = model.marking.filter(m => m.color === 'w').length;
+  model.marking = out;
+  say(`white: ${before} runs kept clear of play as ${out.filter(m => m.color === 'w').length}; ${moved} stakes moved off a hole's ground, ${dropped} dropped, ${splits} runs split where they crossed it`);
 }
 
 const dest = path.join(ROOT, 'geobuild/course-model.json');
