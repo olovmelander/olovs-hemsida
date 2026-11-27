@@ -31,6 +31,11 @@ for attempt in {1..90}; do
   sleep 1
 done
 node tools/check-release-assets.mjs "$origin/"
+# Cloudflare's assets serve /name.html at /name: old bookmarks and the policy pages
+# must survive that, with and without the service worker.
+echo '::group::Bookmarks and policy pages as the Worker serves them'
+node tools/check-legacy-links.mjs --url "$origin/"
+echo '::endgroup::'
 for journey in hub-journeys lobby-scale club-sorting course-loading session-navigation stats-history play-concurrency play-session map-round map-field-recovery map-offline-first live-handoff; do
   echo "::group::Browser journey $journey"
   node "tools/check-$journey.mjs" "$origin/"

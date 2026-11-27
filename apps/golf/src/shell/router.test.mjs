@@ -33,8 +33,15 @@ describe('legacyTarget', () => {
     expect(q(legacyTarget('/some/where/upsala3d.html', '?vy=top')).bana).toBe('upsala');
   });
 
+  it('maps each page under the name Cloudflare serves it at, without .html', () => {
+    for (const [file, slug] of Object.entries(LEGACY_PAGES))
+      expect(q(legacyTarget('/' + file.replace(/\.html$/, ''), '?hal=14'))).toEqual({ bana: slug, hal: '14' });
+    expect(legacyTarget('/olovs-hemsida/veckefjardensgc', '?gl=1', '/olovs-hemsida/'))
+      .toBe('/olovs-hemsida/?bana=veckefjarden&gl=1');
+  });
+
   it('returns null for anything that is not one of the seven pages', () => {
-    for (const p of ['/', '/index.html', '/unknown3d.html', '/courses/index.json'])
+    for (const p of ['/', '/index.html', '/unknown3d.html', '/unknown3d', '/integritet', '/courses/index.json', '/veckefjarden3d.html.html'])
       expect(legacyTarget(p, '?hal=3')).toBeNull();
   });
 

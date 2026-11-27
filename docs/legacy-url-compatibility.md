@@ -5,6 +5,16 @@ The Pages workflow publishes that directory without copying root HTML over it.
 The same documents work at a domain root and a repository subpath, without
 Cloudflare-specific rewrites. Vite's development server serves them too.
 
+On Cloudflare, the main site since 27 November, Workers static assets answer
+`/veckefjarden3d.html` with a 307 to `/veckefjarden3d` and serve the page there,
+so the mapping takes a page's name with or without `.html`. Until then a
+first visit from a bookmark stopped at the fallback link, without its hole or
+view. The service worker keeps `integritet` and `villkor` out of its app-shell
+fallback under both spellings: with only the `.html` one listed, a returning
+visitor's privacy policy opened the start menu. `check-legacy-links.mjs` serves
+a root build as Cloudflare does, and `--url <origin>` checks a running host:
+the release journeys run it on `wrangler dev`, and the deploy on the public site.
+
 | Historical filename | App course |
 |---|---|
 | `veckefjarden3d.html` | `veckefjarden` |

@@ -141,7 +141,10 @@ await v.close();
 /* Verify every built legacy redirect before/after worker installation and with
    the server stopped. This covers the URL contract separately from course boot. */
 const legacy = await checkLegacyLinks(path.join(ROOT, 'apps/golf/dist'), BASE);
-gate(legacy.passed && legacy.cases === 21, 'all seven bookmarks preserve their views online and offline');
+/* Three phases; Cloudflare's root build is checked under both spellings of each page. */
+gate(legacy.passed && legacy.bookmarks === 21 * (legacy.host === 'cloudflare' ? 2 : 1),
+  'all seven bookmarks preserve their views online and offline');
+gate(legacy.policies > 0, 'the privacy and terms pages open as themselves, with and without the worker');
 
 await browser.close();
 console.log(bad ? `\n${bad} failed at base ${BASE}` : `\nthe app works mounted at ${BASE}`);

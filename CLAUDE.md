@@ -270,9 +270,16 @@ land cover's WATER class is a colour verdict: never paint from it. See
   `KHR_mesh_quantization` (`tree-glb.mjs`). An edit to engine code every course runs turns
   every course's prepared data off until the next bake (a ground's own module, that
   ground's), so compare boots on one build, in both orders,
-  and put a new before switch on `preparedTintAllowed`'s display-only list. The
-  live host is GitHub Pages: PNG is not gzipped, `_headers` is ignored, and a
-  returning visitor's caching is the service worker's.
+  and put a new before switch on `preparedTintAllowed`'s display-only list.
+- The main site is Cloudflare (`banvy.olovmelander.workers.dev`, owner, 27 November):
+  a Worker with static assets, sign-in and sync. GitHub Pages still publishes the
+  same build at `/olovs-hemsida/`, without them. Cloudflare obeys `_headers` (Pages
+  ignores it), so a year's `immutable` belongs only on a URL that changes with its
+  bytes, and it answers `/name.html` with a 307 to `/name`: a page, a redirect or a
+  service-worker rule that knows one spelling must know both. Pull requests run
+  the Cloudflare release journeys without deploying; main deploys after them and
+  checks the bookmarks and policy pages on the public site
+  (`check-legacy-links.mjs --url`).
 - Use the existing camera clamp; do not add a second clamp or snap to terrain.
   Preserve snapped shadow bounds and the renderer's reversed-depth conventions.
   See [the tree LOD measurements](docs/tree-lod-plan.md) for the failure cases.
