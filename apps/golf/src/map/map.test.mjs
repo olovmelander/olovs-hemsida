@@ -1375,7 +1375,8 @@ describe('a separate, small program', () => {
     for (const name of sources) {
       const text = fs.readFileSync(path.join(HERE, name), 'utf8');
       expect(/from\s+['"]three/.test(text), `${name} imports three`).toBe(false);
-      expect(/engine\/scenery\//.test(text.replace(/\/\*[\s\S]*?\*\//g, '')), `${name} imports a scenery module, and three.js with it`).toBe(false);
+      /* a scenery record (a .json file, data the detailed course reads too) brings no code */
+      expect(/engine\/scenery\/(?![^'"`\s]*\.json['"`])/.test(text.replace(/\/\*[\s\S]*?\*\//g, '')), `${name} imports a scenery module, and three.js with it`).toBe(false);
       expect(/from\s+['"][^'"]*main\.js/.test(text), `${name} imports the player`).toBe(false);
       expect(/requestAnimationFrame\(\s*frame\s*\)/.test(text) && !/const invalidate/.test(text), `${name} runs a free loop`).toBe(false);
     }

@@ -94,7 +94,7 @@ export function raiseClubBuilding(building, heightAt) {
   const turn = (nu, ny, nv) => [nu * cos - nv * sin, ny, nu * sin + nv * cos];
   const vertex = (u, up, v, normal, colour) => {
     const [x, z] = world(u, v);
-    out.push(x, up, z, ground, normal[0], normal[1], normal[2], colour[0], colour[1], colour[2]);
+    out.push(x, up, z, ground, normal[0], normal[1], normal[2], colour[0], colour[1], colour[2], 1);
   };
   const wallColour = building.wall.map(value => value / 255);
   /* A triangle's own normal, faced upward or outward from the building's side. */

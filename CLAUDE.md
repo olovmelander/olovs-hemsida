@@ -206,8 +206,12 @@ on the finest ground in memory (owner request, 27 November; `?treebudget=before`
 `?treethin=0`). Each club's own buildings (its facility GLBs, authored meshes and stated
 houses) stand in for the footprints under them, simpler, from
 `tools/bake-map-buildings.mjs` (`map-club-buildings.mjs`; `?clubhouses=0`): rerun it when
-a club's buildings are republished. Never import `engine/scenery/*`
-there (it brings three.js), and keep its work out of the folders the source revision
+a club's buildings are republished. Its houses take the detailed course's measured roofs
+and walls' foot from the same records (`map-roof-colours.mjs`, restating the house kit's
+and building paint's rules, held equal by `map-roof-colours.test.mjs`), and far crowns
+settle toward their wood (`?roofs=palette`, `?wallfoot=0`, `?treecalm=0`). Never import
+a scenery module into the map (`engine/scenery/*.js` brings three.js; its `.json`
+records are data), and keep its work out of the folders the source revision
 hashes. Wider than a phone (760 px), its hole bar, dock and sheets keep to one centred
 640 px column. Run `tools/check-map-field.mjs` on more than one course. Nothing that is supposed to be
 on the ground may be left off the map (owner request, 4 November): a new feature in a pack

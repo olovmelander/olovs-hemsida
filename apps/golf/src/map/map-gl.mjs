@@ -19,7 +19,7 @@ import { GRID_VERTEX_FLOATS, PULSE_FLOATS } from './map-greengrid.mjs';
 import { SLOPE_LIMIT } from './map-height.mjs';
 import { SHADE_SIZE } from './map-horizon.mjs';
 import { PATCH_GRIDS, shareTrees, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
-import { HOUSE_FLOATS } from './map-houses.mjs';
+import { HOUSE_FLOATS, MAP_WALL_FOOT } from './map-houses.mjs';
 
 /* How much larger a thinned tile's trees may stand: past twice their size they read as
    other trees, not as the same wood seen from further off. */
@@ -272,6 +272,7 @@ uniform vec2 uFade;
 uniform bool uFullSize;
 uniform float uThin;                   /* a thinned tile's trees stand larger, so its wood keeps its cover */
 uniform vec2 uFog;
+uniform vec2 uCalm;                    /* where far crowns begin and end settling */
 uniform vec3 uShapes[6];               /* radius, centre, height of each layer */
 ${IMPOSTOR_COMMON}
 uniform int uDetailedCount;
@@ -282,7 +283,7 @@ out vec4 vUvAB;
 out vec2 vUvC;
 out vec3 vWeights;
 out vec4 vTree;                        /* layer, tone, cos yaw, sin yaw */
-out vec2 vLevel;                       /* how far up the tree, how far away */
+out vec3 vLevel;                       /* how far up the tree, how far away, how calm */
 void main() {
   vec3 shape = uShapes[int(aSize.z)];
   float reach = distance(vec2(aTree.x, aTree.z), uEye.xz);
@@ -313,7 +314,7 @@ void main() {
   vWeights = weights;
   vSingleFrame = gl_InstanceID >= uDetailedCount ? 1 : 0;
   vTree = vec4(aSize.z, aSize.w, c, s);
-  vLevel = vec2(clamp((world.y - base.y) / max(shape.z * scale.y, 0.01), 0.0, 1.0), smoothstep(uFog.x, uFog.y, reach));
+  vLevel = vec3(clamp((world.y - base.y) / max(shape.z * scale.y, 0.01), 0.0, 1.0), smoothstep(uFog.x, uFog.y, reach), smoothstep(uCalm.x, uCalm.y, reach));
   gl_Position = uClip * vec4(world, 1.0);
 }`;
 
@@ -327,7 +328,7 @@ in vec4 vUvAB;
 in vec2 vUvC;
 in vec3 vWeights;
 in vec4 vTree;
-in vec2 vLevel;
+in vec3 vLevel;
 uniform sampler2DArray uColours;
 uniform sampler2DArray uNormals;
 uniform vec3 uSun;
@@ -394,8 +395,11 @@ void main() {
   vec3 light = mix(uSkyLight, uSunLight, sun);
   /* A stand's lower crowns sit in each other's shade. */
   light *= mix(0.66, 1.08, smoothstep(0.08, 0.72, vLevel.x));
-  vec3 tone = mix(vec3(0.9, 0.95, 0.84), vec3(1.1, 1.06, 0.94), vTree.y);
+  /* Far off, a crown is a few pixels: one tree's tone and a sunlit top read as glitter
+     on the painted wood under it, so they settle toward the wood's (owner, 27 November). */
+  vec3 tone = mix(mix(vec3(0.9, 0.95, 0.84), vec3(1.1, 1.06, 0.94), vTree.y), vec3(0.97, 0.99, 0.9), vLevel.z * 0.6);
   vec3 lit = skin * tone * light;
+  lit = mix(lit, mix(vec3(dot(lit, vec3(0.3, 0.59, 0.11))), lit, 0.85) * vec3(0.9, 0.92, 0.93), vLevel.z);
   vec3 shown = mix(lit, uHaze, vLevel.y * vLevel.y);
   colour = vec4(mix(vec3(dot(shown, vec3(0.3, 0.59, 0.11))), shown, uSaturation), cut);
 }`;
@@ -500,6 +504,7 @@ layout(location = 0) in vec3 aPlace;    /* x, height above its ground, z */
 layout(location = 1) in float aGround;
 layout(location = 2) in vec3 aNormal;
 layout(location = 3) in vec3 aColour;
+layout(location = 4) in float aModel;  /* 1 for a club's own building, which takes the lighter foot */
 uniform mat4 uClip;
 uniform float uExaggeration;
 uniform vec3 uEye;
@@ -509,13 +514,20 @@ uniform vec3 uSun;
 uniform vec3 uHaze;
 uniform vec3 uSunLight;
 uniform vec3 uSkyLight;
+uniform vec4 uFoot;                    /* a house's floor and metres, a model's floor and metres */
+uniform vec2 uSteep;
 out vec3 vColour;
 void main() {
   float reach = distance(aPlace.xz, uEye.xz);
   float grown = 1.0 - smoothstep(uFade.x, uFade.y, reach);
   vec3 world = vec3(aPlace.x, aGround * uExaggeration + aPlace.y * grown, aPlace.z);
   float sun = max(dot(aNormal, uSun), 0.0);
-  vec3 lit = aColour * (uSkyLight + uSunLight * 0.56 * sun);
+  /* A wall darkens at its foot, by the detailed course's rule (engine/building-paint.mjs
+     wallFootAt): a share of its colour at the ground, all of it a little higher up. */
+  vec2 rule = aModel > 0.5 ? uFoot.zw : uFoot.xy;
+  float foot = mix(rule.x, 1.0, smoothstep(0.0, rule.y, aPlace.y));
+  float shade = 1.0 + (foot - 1.0) * (1.0 - smoothstep(uSteep.x, uSteep.y, abs(aNormal.y)));
+  vec3 lit = aColour * shade * (uSkyLight + uSunLight * 0.56 * sun);
   float fog = smoothstep(uFog.x, uFog.y, reach);
   vColour = mix(lit, uHaze, fog * fog);
   gl_Position = uClip * vec4(world, 1.0);
@@ -887,14 +899,17 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     const vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    const stride = HOUSE_FLOATS * 4;
     gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 40, 0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, stride, 0);
     gl.enableVertexAttribArray(1);
-    gl.vertexAttribPointer(1, 1, gl.FLOAT, false, 40, 12);
+    gl.vertexAttribPointer(1, 1, gl.FLOAT, false, stride, 12);
     gl.enableVertexAttribArray(2);
-    gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 40, 16);
+    gl.vertexAttribPointer(2, 3, gl.FLOAT, false, stride, 16);
+    gl.enableVertexAttribArray(4);
+    gl.vertexAttribPointer(4, 1, gl.FLOAT, false, stride, 40);
     gl.enableVertexAttribArray(3);
-    gl.vertexAttribPointer(3, 3, gl.FLOAT, false, 40, 28);
+    gl.vertexAttribPointer(3, 3, gl.FLOAT, false, stride, 28);
     gl.bindVertexArray(null);
     return vao;
   }
@@ -1150,6 +1165,9 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       if (capture) greenCache.markForeground();
       setShared(house, view);
       if (view.houseFade) gl.uniform2f(house.u.uFade, view.houseFade[0], view.houseFade[1]);
+      const { house: foot, model, steep } = view.wallFoot ?? MAP_WALL_FOOT;
+      gl.uniform4f(house.u.uFoot, foot.floor, foot.metres, model.floor, model.metres);
+      gl.uniform2f(house.u.uSteep, steep[0], steep[1]);
       for (const set of houses) {
         gl.bindVertexArray(set.vao);
         gl.drawArrays(gl.TRIANGLES, 0, set.count);
@@ -1158,6 +1176,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
       if (lists.length) {
         setShared(tree, view);
+        gl.uniform2f(tree.u.uCalm, view.treeCalm?.[0] ?? 1e9, view.treeCalm?.[1] ?? 2e9);
         gl.enable(gl.SAMPLE_ALPHA_TO_COVERAGE);
         drawForest(tree, true);
         gl.disable(gl.SAMPLE_ALPHA_TO_COVERAGE);

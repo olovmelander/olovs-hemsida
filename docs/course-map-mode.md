@@ -239,6 +239,31 @@ Zoomed out, the houses went and the woods thinned to a scatter (owner, 27 Novemb
   from 6,391 trees and bare hills to 16,241 and its woods. `?treebudget=before` is the
   budget as it was, `?treethin=0` the trees at their own size.
 
+## Houses as the detailed course draws them
+
+The owner's rule for the two modes (27 November): one source for what stands on the
+ground, each mode drawing it for its device. So the map's houses take what the detailed
+course's do, from the same records:
+
+- **Measured roofs.** Each house's roof is the colour Lantmäteriet's orthophoto shows
+  (`engine/scenery/<ground>-roof-colours.json`), kept only while its footprint is the one
+  it was read from, and eased as the house kit eases it (`map-roof-colours.mjs`; the
+  record loads with its course). `?roofs=palette` is the palette, as in the detailed
+  course.
+- **The walls' foot.** A wall darkens toward the ground by `building-paint.mjs`'s rule:
+  72% at the ground over 0.9 m for a house raised from its footprint, 84% over 0.55 m
+  for a modelled building, fading out as a surface turns into a roof. `?wallfoot=0` is
+  the walls lit evenly.
+
+The house kit and the building paint bring three.js, which the map never loads, so the
+map restates their few numbers and functions; `map-roof-colours.test.mjs` holds them
+equal to the detailed course's own. The house kit's shapes (gables, eaves, porches)
+stay the detailed course's: the map keeps its plain roofs.
+
+Far crowns settle too: between 400 m and 2.5 km a tree's own tone and its sunlit top
+ease toward the wood's, so a forest seen from far off reads as a wood, not as glitter
+on the painted canopy. Trees round a hole are untouched. `?treecalm=0` is the before.
+
 ## How it stays light
 
 - **Every 1 m sample reaches the screen through the pixel, not the mesh.** Each tile

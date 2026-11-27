@@ -47,6 +47,8 @@ import { catalogueFor, createTreeRules, loadTreeAtlases, speciesCount } from './
 import { buildGreenGrid, slopeColor, SLOPE_STEPS } from './map-greengrid.mjs';
 import { landRecord, loadForestPicture, loadShores, loadWaterPicture } from './map-land.mjs';
 import { clubRecord, loadClubBuildings } from './map-club-buildings.mjs';
+import { loadRoofColours } from './map-roof-colours.mjs';
+import { EVEN_WALLS, MAP_WALL_FOOT } from './map-houses.mjs';
 
 const params = new URLSearchParams(location.search);
 const slug = params.get('bana');
@@ -77,6 +79,13 @@ const HOUSE_REACH = Object.freeze({ perDistance: 20, least: 1500, most: 12000, e
    it was, ?treethin=0 the trees at their own size. */
 const TREE_BUDGET_BEFORE = params.get('treebudget') === 'before';
 const TREE_THIN = params.get('treethin') !== '0';
+/* The look the detailed course gives houses and the calm far trees take (owner, 27
+   November): measured roofs (?roofs=palette, the detailed course's own switch), the
+   walls' foot (?wallfoot=0) and far crowns settling between 400 m and 2.5 km
+   (?treecalm=0). */
+const MEASURED_ROOFS = params.get('roofs') !== 'palette';
+const WALL_FOOT = params.get('wallfoot') === '0' ? EVEN_WALLS : MAP_WALL_FOOT;
+const TREE_CALM = params.get('treecalm') === '0' ? null : Object.freeze([400, 2500]);
 /* Min vy: standing at the ball, at a golfer's height, on the ground as it really is.
    The relief is drawn at its true height here: raised, a gentle rise becomes a wall. */
 const EYE_HEIGHT_METRES = 1.8, EYE_LOOK_METRES = 120, EYE_PITCH = 0.04, EYE_PITCH_LIMIT = 0.5;
@@ -735,6 +744,11 @@ async function start() {
     structures: course.features.structures,
     onChange: invalidate,
   });
+  if (MEASURED_ROOFS) {
+    loadRoofColours(course.ground.groundId)
+      .then(roofs => { if (roofs.size) store.setRoofColours(roofs); })
+      .catch(error => console.warn('Kartans tak:', error.message));
+  }
   if (clubFiles) {
     loadClubBuildings(clubFiles, fetchAsset, course.ground.frame.fingerprint)
       .then(club => { if (club) store.setClubBuildings(club); })
@@ -3995,6 +4009,8 @@ async function start() {
         treeThin: TREE_THIN,
         houses,
         houseFade: [houseReach * 0.85, houseReach],
+        wallFoot: WALL_FOOT,
+        treeCalm: TREE_CALM,
         /* From the ground the air starts well out, whatever the map's own reach. */
         fog: state.atEye ? [EYE_FOG_METRES, 9000] : [distance * 2.2, Math.max(distance * 14, 9000)],
         /* The greengrid reads the green by itself, as it does in the simulator. */

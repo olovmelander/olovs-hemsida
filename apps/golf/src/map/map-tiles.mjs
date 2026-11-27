@@ -12,6 +12,7 @@ import { boxInFrustum, buildTileTree, forestInView, TILE_SAMPLES } from './map-l
 import { bakeHillShade, shadeKey } from './map-horizon.mjs';
 import { raiseHouses } from './map-houses.mjs';
 import { buildingCentre, raiseClubBuilding, replacedBy } from './map-club-buildings.mjs';
+import { roofFor } from './map-roof-colours.mjs';
 import { createFarBlocker, createFarSample, farForestCells, FAR_FOREST, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
 import { plantTile, TREE_FLOATS } from './map-trees.mjs';
 
@@ -101,8 +102,10 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
      share is raised on the finest ground in memory, and again when finer ground arrives
      under it, so a house stands at every zoom and not only where the 1 m ground is
      drawn (owner, 27 November: zoomed out, the houses went). */
-  let houseCells = [], housesWaiting = 0;
-  function fileHouses(club) {
+  let houseCells = [], housesWaiting = 0, clubRecord = null, roofTable = null;
+  function fileHouses(club = clubRecord, roofs = roofTable) {
+    clubRecord = club;
+    roofTable = roofs;
     for (const cell of houseCells) if (cell.gpu) renderer.releaseHouses(cell.gpu);
     const replaced = replacedBy(club?.replaces);
     const cells = new Map();
@@ -111,11 +114,15 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       if (!cells.has(key)) cells.set(key, { x0: i * HOUSE_CELL_METRES, z0: j * HOUSE_CELL_METRES, size: HOUSE_CELL_METRES, structures: [], buildings: [], gpu: null, groundLod: Infinity });
       cells.get(key)[kind].push(item);
     };
-    for (const structure of structures) if (!replaced(structure)) add(structure.ring[0], 'structures', structure);
+    for (const structure of structures) {
+      if (replaced(structure)) continue;
+      const roof = roofs ? roofFor(roofs, structure) : null;
+      add(structure.ring[0], 'structures', roof ? { ...structure, roof } : structure);
+    }
     for (const building of club?.buildings ?? []) add(buildingCentre(building), 'buildings', building);
     houseCells = [...cells.values()];
   }
-  fileHouses(null);
+  fileHouses();
   function raiseCell(cell, lod) {
     const parts = [];
     if (cell.structures.length) parts.push(raiseHouses(cell.structures, heightAtPoint));
@@ -456,7 +463,13 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
     /* The club's own buildings, once their record is in: they take their places and
        the footprints they stand for leave. */
     setClubBuildings(club) {
-      fileHouses(club);
+      fileHouses(club, roofTable);
+      onChange();
+    },
+
+    /* Each house's roof as the orthophoto shows it (map-roof-colours.mjs). */
+    setRoofColours(roofs) {
+      fileHouses(clubRecord, roofs);
       onChange();
     },
 
