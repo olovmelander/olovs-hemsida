@@ -21,9 +21,13 @@ second reviewer looks at the rings blind (`.claude/agents/ring-reviewer.md`; its
 `deck-ground.mjs` measures the terrain under every tee deck and bunker, `audit-sand.py` reads
 the photo round every hole against the model's sand (and, with an older photo, says which
 bunkers were built since: together the ground's age, hole by hole), `tools/rounds-evidence.mjs`
-reads where golfers really tee off and putt from an extract only the owner may make, and the
-owner's look is a local page
-(`tools/course-review-page.mjs`). Begin a sitting with `node tools/course-doctor.mjs --ground
+reads where golfers really tee off and putt from an extract only the owner may make, and a
+course is released on the reviewer's verdict alone (the owner's decision, 27 November): every
+hole drawn in both modes (`tools/course-review-pictures.mjs`), looked at blind by
+`.claude/agents/course-reviewer.md` run as its own Claude outside the repository
+(`tools/course-review-run.mjs`: no CLAUDE.md or memory reaches it; its doubts bind), recorded and admitted by
+`packages/course-workflow/visual-review.mjs`; never write an acceptance in the owner's name.
+The owner's own page (`tools/course-review-page.mjs`) stays theirs to use. Begin a sitting with `node tools/course-doctor.mjs --ground
 <id>` (every record of the ground, sorted into broken, to do, the owner's and known), or hand
 the work to `.claude/agents/course-builder.md`. Never import a gallery or poster tool to read
 its table: importing one starts a browser. Since the review of 27 November

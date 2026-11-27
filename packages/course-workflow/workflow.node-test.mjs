@@ -13,6 +13,7 @@ import { candidate, inspectGround, terrainErrors } from './audit.mjs';
 import { reviewErrors, releaseCheck } from './release.mjs';
 import { checkNewCourses } from './check-new.mjs';
 import { acceptancePath, admitAccepted, openItems } from './acceptance.mjs';
+import { admitAdvisory, admitReviewed, answer, recordVerdicts, visualReviewPath } from './visual-review.mjs';
 import { main } from './cli.mjs';
 
 function repo(t) { const r = emptyRepository(); t.after(() => tidy(r)); return r; }
@@ -275,4 +276,44 @@ test('an owner acceptance admits one named generation, names every open item and
   source.blockers = [{ id: 'survey', severity: 'release-blocking', description: 'x', exitGate: 'y' }];
   writeJson(root, w.sourceManifest, source);
   assert.match(admit().errors.join('; '), /leaves out open item survey/);
+});
+
+test('the reviewer\'s verdict admits a ground on its own: every hole looked at, every doubt answered, every open item named', t => {
+  const root = repo(t), { w } = buildCandidateFixture(root), publicRoot = 'apps/golf/public';
+  fs.cpSync(safePath(root, w.publicRoot), safePath(root, publicRoot), { recursive: true });
+  w.releasePolicy = 'advisory';
+  writeJson(root, w.reviewFile, { ...readJson(root, w.reviewFile), performance: [] });
+  const graph = candidate(root, w, { publicRoot });
+  // CI has none of the private inputs the build read: the reviewer's verdict needs the published ground alone
+  for (const stage of Object.values(w.stages)) for (const input of stage.inputs) fs.rmSync(safePath(root, input), { force: true });
+  assert.match(admitAdvisory(root, w, { publicRoot }).errors[0], /reviewer's verdict/);
+  const ids = graph.courses.flatMap(c => c.holes.map((_, i) => `${c.slug}-h${String(i + 1).padStart(2, '0')}`));
+  const report = { groundId: w.groundId, drawnOn: '2026-11-27', gpu: true, sheets: ids.map((id, i) => ({ id, sha256: String(i % 10).repeat(64) })) };
+  const verdicts = { reviewer: 'test model (agent), blind look', reviewedOn: '2026-11-27', sheets: ids, looked: Object.fromEntries(ids.map(id => [id, 4])),
+    doubts: { [ids[0]]: 'The green in Lätt 3D sits west of where Detaljerad 3D draws it.' }, cannotTell: {} };
+  let record = recordVerdicts({ groundId: w.groundId, graph, report, verdicts });
+  const write = () => writeJson(root, visualReviewPath(w.groundId), record);
+  write();
+  const errors = () => admitReviewed(root, w, { publicRoot }).errors.join('; ');
+  assert.match(errors(), /needs a resolution or a fault/);
+  assert.match(errors(), /open release item release-review needs its reason/);
+  assert.throws(() => answer(record, ids[0], 'fault', 'too short'), /sentence/);
+  record = answer(record, ids[0], 'fault', 'The map draws the green 3 m west; map-course.mjs placeAll is the place to look.');
+  record.open['release-review'] = 'The full fourteen-gate review is replaced by this visual review.';
+  write();
+  const admitted = admitAdvisory(root, w, { publicRoot });
+  assert.deepEqual(admitted.errors, []); assert.equal(admitted.ready, true); assert.equal(admitted.admittedBy, 'reviewer');
+  assert.ok(admitted.byteVerification.chunks > 469);
+  for (const [change, reason] of [
+    [r => { r.looked = r.looked.slice(1); }, /was not looked at/],
+    [r => { delete r.drawn.sheets[ids.at(-1)]; }, /was not drawn/],
+    [r => { r.groundManifestSha256 = '0'.repeat(64); }, /another generation/],
+    [r => { r.reviewer = 'x'; }, /reviewer/],
+    [r => { r.doubts[ids[0]].resolution = 'And it stands after all, as the photo shows.'; }, /not both/],
+  ]) { const saved = structuredClone(record); change(record); write(); assert.match(errors(), reason); record = saved; }
+  /* a look taken again keeps the answer on a sheet that did not change, and not on one that did */
+  const again = recordVerdicts({ groundId: w.groundId, graph, report, verdicts, previous: record });
+  assert.ok(again.doubts[ids[0]].fault);
+  const redrawn = recordVerdicts({ groundId: w.groundId, graph, report: { ...report, sheets: report.sheets.map((s, i) => (i ? s : { ...s, sha256: 'f'.repeat(64) })) }, verdicts, previous: record });
+  assert.equal(redrawn.doubts[ids[0]].fault, null);
 });

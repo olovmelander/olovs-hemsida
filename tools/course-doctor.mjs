@@ -36,6 +36,7 @@ import { pinProduction, pinnedFiles } from '../packages/course-workflow/pin-prod
 import { prunePlan } from '../packages/course-workflow/promote.mjs';
 import { waterOffTheLine } from './water-line.mjs';
 import { hasModelledBuildings } from './bake-map-buildings.mjs';
+import { admitReviewed, visualReviewPath } from '../packages/course-workflow/visual-review.mjs';
 import { MAP_GROUND_FRAMES } from '../apps/golf/src/map/map-frames.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -195,13 +196,15 @@ export async function examine(groundId, facts = groundFacts(groundId), { water =
     const plan = prunePlan(ROOT, groundId, { publicRoot: 'apps/golf/public' });
     if (plan.orphans.length) say('owner', 'old files', `${plan.orphans.length} built files (${megabytes(plan.bytes ?? 0)}) are named by no published generation`, `node packages/course-workflow/promote.mjs --ground ${groundId} --prune   (lists; --apply removes)`);
   } catch (error) { say('known', 'old files', `not checked: ${error.message}`); }
+  /* A course is released on the reviewer's verdict alone (the owner's decision, 27 November 2026): every hole drawn
+     in both modes, looked at blind, every doubt answered (packages/course-workflow/visual-review.mjs). */
+  out.push(...releaseFindings(groundId));
   const a = facts.release.acceptance;
-  if (a) say('owner', 'release', `on the owner's acceptance of ${a.acceptedOn}, with ${Object.keys(a.open).length} items open (${Object.keys(a.open).join(', ')})`);
-  else say('owner', 'release', `policy ${facts.release.policy ?? 'none'}, frame ${facts.release.frame}${facts.release.blockers.length ? `; open: ${facts.release.blockers.map(b => b.id).join(', ')}` : ''}`);
+  if (a) say('known', 'release', `an earlier owner's acceptance of ${a.acceptedOn}, with ${Object.keys(a.open).length} items open (${Object.keys(a.open).join(', ')})`);
   const review = `course-workflows/${groundId}/review.json`;
-  if (exists(review)) {
+  if (facts.release.policy === 'required' && exists(review)) {
     const rows = json(review).holes.flatMap(hole => Object.values(hole.categories)), looked = rows.filter(row => row.status !== 'unknown').length;
-    if (looked < rows.length) say('owner', 'the owner\'s look', `${looked} of ${rows.length} hole-by-hole verdicts given`, home ? `node tools/course-review-page.mjs --ground ${groundId} --overlays <dir>   (a local page to click through)` : undefined);
+    if (looked < rows.length) say('todo', 'full release review', `${looked} of ${rows.length} hole-by-hole verdicts of the mandatory review given`, home ? `node tools/course-review-page.mjs --ground ${groundId} --overlays <dir>` : undefined);
   }
   out.push(...mapFindings(groundId));
   return out.sort((p, q) => LEVELS.indexOf(p.level) - LEVELS.indexOf(q.level));
@@ -234,6 +237,28 @@ export function mapFindings(groundId, root = ROOT) {
   if (moved.length) say('broken', 'map buildings', `the copy is behind ${moved.length} republished source${moved.length === 1 ? '' : 's'} (${moved.slice(0, 2).join(', ')})`, 'node tools/bake-map-buildings.mjs');
   else if (read(club.file).frame !== fingerprint) say('broken', 'map buildings', 'baked against another frame of the ground', 'node tools/bake-map-buildings.mjs');
   else say('ok', 'map buildings', `${club.buildings} of the club's own buildings, from their current models`);
+  return out;
+}
+
+/** Whether the ground is released on the reviewer's verdict, and what is still open in it. */
+export function releaseFindings(groundId, root = ROOT) {
+  const out = [], say = (level, about, text, run) => out.push({ level, about, text, ...(run ? { run } : {}) });
+  const pictures = `BANVY_GPU=1 node tools/course-review-pictures.mjs --ground ${groundId}, then the course-reviewer agent on the sheets, then node packages/course-workflow/visual-review.mjs --ground ${groundId} --record <verdicts.json>`;
+  if (!fs.existsSync(path.join(root, visualReviewPath(groundId)))) {
+    say('todo', 'release', 'no reviewer\'s verdict: draw every hole in both modes and have the course-reviewer look', pictures);
+    return out;
+  }
+  const w = JSON.parse(fs.readFileSync(path.join(root, `course-workflows/${groundId}/workflow.json`), 'utf8'));
+  const admitted = admitReviewed(root, w), record = admitted.review;
+  if (admitted.ready) {
+    const answered = Object.values({ ...record.doubts, ...record.cannotTell }), faults = answered.filter(item => item.fault);
+    say('ok', 'release', `on the reviewer's verdict of ${record.reviewedOn}: ${record.looked.length} holes looked at in both modes, ${answered.length} doubts answered${faults.length ? `, ${faults.length} written down as faults` : ''}`);
+    for (const [id, item] of Object.entries({ ...record.doubts, ...record.cannotTell })) if (item.fault) say('known', 'review', `${id}: ${item.fault}`);
+  } else {
+    const stale = admitted.errors.some(error => /another generation|not drawn/.test(error));
+    say('broken', 'release', `the reviewer's verdict does not admit it: ${admitted.errors.slice(0, 3).join('; ')}${admitted.errors.length > 3 ? ` (+${admitted.errors.length - 3})` : ''}`,
+      stale ? pictures : `node packages/course-workflow/visual-review.mjs --ground ${groundId}   (then --resolve or --fault each doubt, --open each open item)`);
+  }
   return out;
 }
 
