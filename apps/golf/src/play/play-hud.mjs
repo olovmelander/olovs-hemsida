@@ -17,7 +17,7 @@
 
 const HIDDEN = ['#courseNav', '#menuToggle', '#card', '#railBackdrop', '#rail', '#leftStack', '#kikGreen', '#kikOut',
   '#note', '#holesContainer', '#mini', '#hint', '#mobileHudBar', '#uiToggle', '#cleanExit', '#tourCard', '#kikTag',
-  '#gpsStatus', '#v2TerrainBadge', '#navDrawer'];
+  '#gpsStatus', '#v2TerrainBadge', '#navDrawer', '.det-hud'];
 
 const CSS = `
 body.pl-on ${HIDDEN.join(',body.pl-on ')},body.pl-on .hole-marker{display:none!important}
@@ -27,9 +27,9 @@ body.pl-on canvas{touch-action:none}
   position:fixed;inset:0;z-index:40;pointer-events:none;font-family:var(--bv-font);color:var(--ink);-webkit-font-smoothing:antialiased}
 .pl-hud>*{pointer-events:auto}
 .pl-hud [hidden]{display:none!important}
-.pl-glass{background:linear-gradient(180deg,rgba(20,38,29,.82),rgba(8,17,12,.84));backdrop-filter:blur(18px) saturate(1.25);-webkit-backdrop-filter:blur(18px) saturate(1.25);
-  border:1px solid var(--edge);border-radius:16px;box-shadow:0 12px 34px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.06)}
-.pl-k{font:650 9.5px/1.1 Outfit,system-ui,sans-serif;letter-spacing:.15em;text-transform:uppercase;color:var(--faint)}
+.pl-glass{background:var(--bv-surface-glass);backdrop-filter:blur(20px) saturate(1.25);-webkit-backdrop-filter:blur(20px) saturate(1.25);
+  border:1px solid var(--bv-hairline-strong);border-radius:var(--bv-radius-card);box-shadow:var(--bv-shadow-hud)}
+.pl-k{font:650 var(--bv-type-caption)/1.1 var(--bv-font);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
 .pl-n{font-family:var(--bv-font);font-variant-numeric:tabular-nums;font-weight:600}
 .pl-hud button{font-family:inherit}
 .pl-hud :focus-visible{outline:2px solid var(--turf);outline-offset:2px}
@@ -45,7 +45,7 @@ body.pl-on canvas{touch-action:none}
 .pl-bug:hover{border-color:rgba(160,230,185,.32)}
 .pl-bug[aria-expanded=true]{border-color:var(--turf)}
 .pl-bug-hole{display:grid;place-content:center;justify-items:center;min-width:62px;padding:0 10px;background:linear-gradient(160deg,#6fe08a,#3fae5d);color:#07170d}
-.pl-bug-hole small{font:750 9px/1 Outfit,sans-serif;letter-spacing:.18em;text-transform:uppercase;opacity:.75}
+.pl-bug-hole small{font:750 var(--bv-type-caption)/1 var(--bv-font);letter-spacing:.12em;text-transform:uppercase;opacity:.8}
 .pl-bug-hole b{font:700 30px/1 var(--bv-font);font-variant-numeric:tabular-nums;margin-top:2px}
 .pl-bug-main{display:grid;align-content:center;gap:3px;padding:9px 14px 9px 13px;min-width:0}
 .pl-bug-name{font-size:16px;font-weight:650;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px}
@@ -54,7 +54,7 @@ body.pl-on canvas{touch-action:none}
 .pl-dots{display:inline-flex;gap:3px;margin-left:4px}
 .pl-dots i{width:6px;height:6px;border-radius:50%;background:var(--turf)}
 .pl-bug-score{display:grid;place-content:center;justify-items:center;min-width:62px;padding:0 12px;border-left:1px solid var(--edge);background:rgba(0,0,0,.16)}
-.pl-bug-score small{font:650 9px/1 Outfit,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.pl-bug-score small{font:650 var(--bv-type-caption)/1 var(--bv-font);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
 .pl-bug-score b{font:700 24px/1.05 var(--bv-font);font-variant-numeric:tabular-nums}
 .pl-bug-score em{font:600 11.5px/1 var(--bv-font);font-variant-numeric:tabular-nums;font-style:normal;color:var(--dim);margin-top:2px}
 .pl-bug-score em.under{color:var(--turf-hi)}.pl-bug-score em.over{color:#ffb48a}
@@ -76,9 +76,9 @@ body.pl-on canvas{touch-action:none}
 .pl-dist-plays b{color:var(--ink);font-family:var(--bv-font);font-variant-numeric:tabular-nums;font-weight:600}
 .pl-ladder{display:grid;gap:3px;padding-left:16px;border-left:1px solid var(--edge)}
 .pl-ladder span{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.pl-ladder i{font:650 9px/1 Outfit,sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.pl-ladder b{font:600 14px/1.15 var(--bv-font);font-variant-numeric:tabular-nums;color:var(--dim)}
-.pl-ladder .mid i{color:var(--turf)}.pl-ladder .mid b{font-size:18px;color:var(--ink)}
+.pl-ladder i{font:650 var(--bv-type-caption)/1 var(--bv-font);font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.pl-ladder b{font:600 var(--bv-type-body)/1.15 var(--bv-font);font-variant-numeric:tabular-nums;color:var(--dim)}
+.pl-ladder .mid i{color:var(--bv-signal)}.pl-ladder .mid b{font-size:var(--bv-type-title3);color:var(--bv-signal)}
 .pl-dist-rows{grid-column:1/-1;display:grid;gap:6px}
 .pl-dist-rows:empty{display:none}
 .pl-row-item{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:10px;background:rgba(255,255,255,.05);font-size:13px}
@@ -130,7 +130,7 @@ body.pl-on canvas{touch-action:none}
 .pl-map-size{position:absolute;right:6px;top:6px;width:28px;height:28px;border:0;border-radius:9px;background:rgba(9,18,14,.66);color:#eaf3ec;cursor:pointer}
 .pl-map-size::before{content:'–';font:700 15px/28px Outfit,system-ui,sans-serif}
 .pl-map.small .pl-map-size::before{content:'+'}
-.pl-map::after{content:'Hålkarta';position:absolute;left:10px;top:9px;font:650 9px/1 Outfit,sans-serif;letter-spacing:.15em;text-transform:uppercase;color:rgba(234,243,236,.75);text-shadow:0 1px 3px rgba(0,0,0,.6);pointer-events:none}
+.pl-map::after{content:'Hålkarta';position:absolute;left:10px;top:9px;font:650 var(--bv-type-caption)/1 var(--bv-font);letter-spacing:.1em;text-transform:uppercase;color:rgba(234,243,236,.78);text-shadow:0 1px 3px rgba(0,0,0,.6);pointer-events:none}
 .pl-map.small::after{display:none}
 
 /* -- the dock: club and setup -- */
@@ -155,9 +155,9 @@ body.pl-on canvas{touch-action:none}
 
 /* -- the swing -- */
 .pl-swing{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));display:grid;justify-items:center;gap:8px}
-.pl-method{display:inline-flex;padding:2px;border-radius:13px;background:#14261d;border:1px solid var(--edge)}
-.pl-method button{min-width:44px;min-height:44px;padding:0 5px;border:0;border-radius:10px;background:transparent;color:var(--dim);font:650 13px Outfit,system-ui,sans-serif;cursor:pointer}
-.pl-method button[aria-pressed=true]{background:#335940;color:#f5fff6}
+.pl-method{display:inline-flex;padding:2px;border-radius:var(--bv-radius-control-touch);background:var(--bv-surface-solid);border:1px solid var(--bv-hairline-strong)}
+.pl-method button{min-width:44px;min-height:44px;padding:0 6px;border:1px solid transparent;border-radius:var(--bv-radius-control);background:transparent;color:var(--dim);font:650 var(--bv-type-footnote) var(--bv-font);cursor:pointer}
+.pl-method button[aria-pressed=true]{background:var(--bv-surface-3);border-color:var(--bv-selected-border);color:var(--ink)}
 .pl-pad{position:relative;width:88px;height:214px;border-radius:44px;background:linear-gradient(180deg,rgba(20,38,29,.84),rgba(8,17,12,.86));border:1px solid var(--edge);touch-action:none;cursor:grab;overflow:hidden;backdrop-filter:blur(18px);box-shadow:0 12px 34px rgba(0,0,0,.28)}
 .pl-swing.active .pl-pad{cursor:grabbing;border-color:var(--turf)}
 .pl-pad-fill{position:absolute;left:0;right:0;top:0;height:calc(var(--p,0) * 82%);background:linear-gradient(var(--turf),#2f9a52);opacity:.85;transition:height .05s}
@@ -177,7 +177,7 @@ body.pl-on canvas{touch-action:none}
 .pl-meter-fill{position:absolute;left:10%;top:0;bottom:0;width:calc(var(--p,0) * 82%);background:linear-gradient(90deg,#2f9a52,var(--turf))}
 .pl-meter-sweet{position:absolute;left:calc(10% - 3px);top:0;bottom:0;width:6px;background:var(--amber)}
 .pl-meter-marker{position:absolute;top:-2px;bottom:-2px;left:calc(10% + var(--m,0) * 82%);width:4px;margin-left:-2px;background:#fff;border-radius:2px}
-.pl-swing[data-method=tap] .pl-tap{display:block;min-width:150px;min-height:56px;border-radius:16px;border:0;background:linear-gradient(160deg,#6fe08a,#3fae5d);color:#07170d;font:700 18px Outfit,system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.28)}
+.pl-swing[data-method=tap] .pl-tap{display:block;min-width:150px;min-height:56px;border-radius:var(--bv-radius-card);border:0;background:var(--bv-action);color:var(--bv-on-action);font:800 var(--bv-type-title3) var(--bv-font);cursor:pointer;box-shadow:var(--bv-shadow-1)}
 .pl-swing.off{opacity:.32;pointer-events:none}
 .pl-swing-hint{max-width:100%;padding:3px 6px;border-radius:6px;background:rgba(8,22,14,.9);color:#e1eee4;font-size:12px;line-height:1.2;text-align:center}
 .pl-power{position:absolute;right:calc(max(18px,env(safe-area-inset-right)) + 104px);bottom:calc(max(18px,env(safe-area-inset-bottom)) + 150px);padding:8px 12px;border-radius:12px;font:600 15px var(--bv-font);font-variant-numeric:tabular-nums;opacity:0;transform:translateX(6px);transition:opacity .2s,transform .2s var(--ease);pointer-events:none}
@@ -243,8 +243,21 @@ body.pl-clean .pl-hud>*:not(.pl-banner):not(.pl-clean-hint){visibility:hidden}
 .pl-clean-hint{position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);min-height:44px;padding:8px 18px;border-radius:999px;font-size:14px;color:var(--ink);cursor:pointer;display:none}
 body.pl-clean .pl-clean-hint{display:block}
 
-.pl-help{position:absolute;left:50%;bottom:max(8px,env(safe-area-inset-bottom));transform:translateX(-50%);font-size:11.5px;color:rgba(234,243,236,.62);text-shadow:0 1px 3px rgba(0,0,0,.75);white-space:nowrap;pointer-events:none}
-.pl-help kbd{font:600 10.5px var(--bv-font);font-variant-numeric:tabular-nums;padding:1px 4px;border-radius:4px;background:rgba(0,0,0,.35);color:var(--ink)}
+.pl-help{display:none}
+.pl-help-pop{position:absolute;right:max(14px,env(safe-area-inset-right));top:calc(max(14px,env(safe-area-inset-top)) + 54px);width:min(320px,calc(100vw - 24px));padding:14px 16px;z-index:45}
+.pl-help-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.pl-help-head strong{font:700 var(--bv-type-body)/1.2 var(--bv-font)}
+.pl-help-close{width:32px;height:32px;border:1px solid var(--bv-hairline);border-radius:var(--bv-radius-pill);background:var(--bv-surface-2);color:var(--ink);font:600 var(--bv-type-headline)/1 var(--bv-font);cursor:pointer}
+.pl-help-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.pl-help-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 0;border-top:1px solid var(--bv-hairline);font-size:var(--bv-type-footnote);color:var(--dim)}
+.pl-help-list li:first-child{border-top:0}
+.pl-help-list b{color:var(--ink);font-weight:600;white-space:nowrap}
+.pl-help-list kbd{display:inline-block;padding:1px 5px;border-radius:var(--bv-radius-chip);background:var(--bv-surface-3);border:1px solid var(--bv-hairline-strong);font:700 var(--bv-type-caption)/1.3 var(--bv-font);color:var(--ink)}
+.pl-cond [data-cond-row]{display:none}
+.pl-map-toggle{display:none}
+.pl-bug-dist{display:none}
+.pl-dist-toggle{display:none}
+.pl-cond-mini{display:none}
 .pl-fade{position:fixed;inset:0;z-index:41;background:#0b1a13;opacity:0;pointer-events:none;transition:opacity .32s}
 .pl-fade.on{opacity:1}
 
@@ -270,7 +283,7 @@ body.pl-clean .pl-clean-hint{display:block}
 .pl-tile b small{font:600 11px Outfit,sans-serif;color:var(--dim)}
 .pl-table{width:100%;border-collapse:collapse;font-family:var(--bv-font);font-variant-numeric:tabular-nums;font-size:13px;margin:4px 0 12px}
 .pl-table th,.pl-table td{padding:7px 3px;text-align:center;border-bottom:1px solid rgba(255,255,255,.07)}
-.pl-table th{color:var(--faint);font:650 10px Outfit,sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.pl-table th{color:var(--faint);font:650 var(--bv-type-caption) var(--bv-font);letter-spacing:.08em;text-transform:uppercase}
 .pl-table tr:first-child th{color:var(--dim)}
 .pl-table td.under{color:var(--turf-hi)}.pl-table td.under span{display:inline-grid;place-items:center;width:24px;height:24px;border:1.5px solid var(--turf);border-radius:50%}
 .pl-table td.over{color:#ffc58f}.pl-table td.over span{display:inline-grid;place-items:center;width:24px;height:24px;border:1.5px solid rgba(240,162,58,.7);border-radius:4px}
@@ -279,22 +292,22 @@ body.pl-clean .pl-clean-hint{display:block}
 .pl-actions .pl-btn{flex:1;min-height:50px}
 .pl-save-error{flex-basis:100%;margin:0;color:#ffd7af;font-size:14px}
 .pl-save-error:empty{display:none}
-.pl-primary{background:linear-gradient(160deg,#6fe08a,#3fae5d);color:#07170d;border:0;font-weight:700}
-.pl-ghost{background:rgba(255,255,255,.04);border:1px solid var(--edge)}
-.pl-tabs{display:flex;gap:4px;margin:14px 22px 0;padding:4px;border-radius:14px;background:rgba(0,0,0,.25)}
-.pl-tabs button{flex:1;min-height:40px;border:0;border-radius:10px;background:transparent;color:var(--dim);font:650 13.5px Outfit,sans-serif;cursor:pointer}
-.pl-tabs button[aria-selected=true]{background:rgba(95,208,122,.16);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(95,208,122,.4)}
-.pl-menu .pl-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0;font-size:14.5px}
+.pl-primary{background:var(--bv-action);color:var(--bv-on-action);border:0;font-weight:800}
+.pl-ghost{background:var(--bv-surface-2);border:1px solid var(--bv-hairline-strong)}
+.pl-tabs{display:flex;gap:4px;margin:14px 22px 0;padding:4px;border-radius:var(--bv-radius-control-touch);background:var(--bv-surface-track)}
+.pl-tabs button{flex:1;min-height:40px;border:1px solid transparent;border-radius:var(--bv-radius-control);background:transparent;color:var(--dim);font:650 var(--bv-type-footnote) var(--bv-font);cursor:pointer}
+.pl-tabs button[aria-selected=true]{background:var(--bv-surface-3);border-color:var(--bv-selected-border);color:var(--ink)}
+.pl-menu .pl-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0;font-size:var(--bv-type-body)}
 .pl-switch{display:flex;gap:6px}
 .pl-switch .pl-btn:disabled{opacity:.4;cursor:default}
-.pl-seg{display:flex;gap:4px;padding:3px;border-radius:12px;background:rgba(0,0,0,.28)}
-.pl-seg button{min-height:40px;min-width:62px;border:0;border-radius:9px;background:transparent;color:var(--dim);font:600 13px Outfit,system-ui,sans-serif;cursor:pointer}
-.pl-seg button[aria-pressed=true]{background:var(--turf);color:#07170d}
+.pl-seg{display:flex;gap:4px;padding:3px;border-radius:var(--bv-radius-control-touch);background:var(--bv-surface-track)}
+.pl-seg button{min-height:40px;min-width:62px;border:1px solid transparent;border-radius:var(--bv-radius-control);background:transparent;color:var(--dim);font:600 var(--bv-type-footnote) var(--bv-font);cursor:pointer}
+.pl-seg button[aria-pressed=true]{background:var(--bv-surface-3);border-color:var(--bv-selected-border);color:var(--ink);font-weight:700}
 .pl-lights{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin:4px 0 12px}
-.pl-light{display:grid;justify-items:center;gap:6px;padding:8px 4px 7px;border:1px solid transparent;border-radius:13px;background:rgba(255,255,255,.04);color:var(--ink);font:550 12px Outfit,system-ui,sans-serif;cursor:pointer;transition:background .15s,border-color .15s}
-.pl-light:hover{background:rgba(255,255,255,.08)}
-.pl-light i{width:100%;max-width:62px;height:38px;border-radius:9px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
-.pl-light[aria-pressed=true]{border-color:var(--turf);background:rgba(95,208,122,.12)}
+.pl-light{display:grid;justify-items:center;gap:6px;padding:8px 4px 7px;border:1px solid transparent;border-radius:var(--bv-radius-control-touch);background:var(--bv-surface-2);color:var(--ink);font:550 var(--bv-type-caption) var(--bv-font);cursor:pointer;transition:background .15s,border-color .15s}
+.pl-light:hover{background:var(--bv-surface-3)}
+.pl-light i{width:100%;max-width:62px;height:38px;border-radius:var(--bv-radius-control);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+.pl-light[aria-pressed=true]{border-color:var(--bv-selected-border);background:var(--bv-surface-3)}
 .pl-note{margin:0 0 6px;padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.04);font-size:13px;line-height:1.5;color:var(--dim)}
 .pl-stepper{display:inline-flex;align-items:center;gap:4px;padding:3px;border-radius:12px;background:rgba(0,0,0,.28)}
 .pl-stepper button{width:40px;height:40px;border:0;border-radius:9px;background:transparent;color:var(--ink);font:600 18px Outfit,system-ui,sans-serif;cursor:pointer}
@@ -323,7 +336,21 @@ body.pl-clean .pl-clean-hint{display:block}
   .pl-top{gap:6px}
   .pl-top .pl-btn{padding:0 11px}
   .pl-top .pl-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-  .pl-cond{width:120px;padding:9px 10px;gap:6px;border-radius:14px}
+  .pl-top [data-help-btn]{display:none}
+  .pl-map-toggle{display:inline-flex}
+  .pl-map-toggle[aria-pressed=true]{background:var(--bv-surface-3);border-color:var(--bv-selected-border)}
+  /* Mobile portrait declutter: pin distance merges into scorebug, conditions collapse to a single pill,
+     and the hole map opens on demand via the top-right toggle (right-edge HUD <30%). */
+  .pl-bug-dist{display:inline-flex;align-items:baseline;gap:4px;margin-top:2px;font:700 var(--bv-type-footnote)/1.15 var(--bv-font);font-variant-numeric:tabular-nums;color:var(--bv-signal);white-space:nowrap}
+  .pl-bug-dist small{font-weight:550;color:var(--dim);font-size:var(--bv-type-caption)}
+  .pl-dist-toggle{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:32px;padding:0 10px;border-radius:var(--bv-radius-pill);font:650 var(--bv-type-caption)/1 var(--bv-font);color:var(--dim);cursor:pointer}
+  .pl-hud:not(.pl-dist-open) .pl-dist{display:none}
+  .pl-hud:not(.pl-map-open) .pl-map-slot{display:none}
+  .pl-cond-mini{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 10px;border-radius:var(--bv-radius-pill);font:650 var(--bv-type-caption)/1 var(--bv-font);font-variant-numeric:tabular-nums;color:var(--ink);cursor:pointer;white-space:nowrap}
+  .pl-cond-mini svg{width:12px;height:12px;color:var(--water);transition:transform var(--bv-dur-state)}
+  .pl-cond-mini em{font-style:normal;color:var(--dim)}
+  .pl-hud:not(.pl-cond-open) .pl-cond{display:none}
+  .pl-cond{width:144px;padding:9px 10px;gap:6px;border-radius:var(--bv-radius-control-touch)}
   .pl-wind{gap:8px}
   .pl-dial{width:38px;height:38px}
   .pl-wind-text b{font-size:16px}
@@ -443,6 +470,7 @@ const ICON = {
   camera: svg('M4 8h3l2-3h6l2 3h3v11H4zM12 16.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7'),
   menu: svg('M4 7h16M4 12h16M4 17h16'),
   book: svg('M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5'),
+  map: svg('M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15'),
   target: svg('M12 3v4M12 17v4M3 12h4M17 12h4M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6'),
   water: svg('M3 15c2 0 2-1.5 4.5-1.5S9.5 15 12 15s2.5-1.5 4.5-1.5S19 15 21 15M3 19.5c2 0 2-1.5 4.5-1.5S9.5 19.5 12 19.5s2.5-1.5 4.5-1.5S19 19.5 21 19.5M12 3l3.5 5.5a4 4 0 1 1-7 0z'),
   sand: svg('M3 17c3-4 6-5 9-5s6 1 9 5M3 21h18M8 9l1-2M12 8V5M16 9l-1-2'),
@@ -470,9 +498,10 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
   root.innerHTML = `
     <div class="pl-left" data-left>
       <div class="pl-bugwrap">
-        <button class="pl-bug pl-glass" type="button" data-guide aria-expanded="false" aria-controls="pl-guide" title="Banguide (G)">
+        <button class="pl-bug pl-glass" type="button" data-guide aria-expanded="false" aria-controls="pl-guide" title="Banguide (B)">
           <span class="pl-bug-hole"><small>Hål</small><b data-hole>1</b></span>
           <span class="pl-bug-main"><span class="pl-k" data-line1></span><b class="pl-bug-name" data-name>–</b>
+            <span class="pl-bug-dist" data-bug-dist>–</span>
             <span class="pl-bug-guide">${ICON.book}<span>Banguide</span><span class="pl-dots" data-dots></span></span></span>
           <span class="pl-bug-score"><small>Slag</small><b data-stroke>1</b><em data-topar></em></span>
         </button>
@@ -481,6 +510,7 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
           <span class="pl-k">Banguide</span><h3 data-guide-title></h3><p class="pl-guide-sub" data-guide-sub></p><p data-guide-note></p><p class="pl-guide-from" data-guide-facts></p>
         </aside>
       </div>
+      <button type="button" class="pl-dist-toggle pl-glass" data-dist-toggle aria-expanded="false">Bak · Mitt · Fram ▾</button>
       <section class="pl-dist pl-glass" data-dist aria-label="Avstånd" aria-live="polite">
         <div class="pl-dist-main"><span class="pl-k" data-to-label>Till hål</span><b class="pl-dist-big" data-to>–</b><span class="pl-dist-plays" data-plays></span></div>
         <div class="pl-ladder" data-green hidden title="Greenens bakkant, mitt och framkant">
@@ -496,9 +526,16 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
       <div class="pl-top">
         <button class="pl-btn pl-glass" data-practice-exit type="button" hidden>Till rundan</button>
         <button class="pl-btn pl-glass pl-live-btn" data-replay type="button" hidden title="Repris (R)" aria-label="Repris">${ICON.replay}<span>Repris</span></button>
-        <button class="pl-btn pl-glass" data-view type="button" title="Kamera: bakom bollen, översikt, greenen, fri (V)" aria-label="Kamera: Bakom">${ICON.camera}<span data-view-label>Bakom</span></button>
+        <button class="pl-btn pl-glass pl-map-toggle" data-map-toggle type="button" aria-pressed="false" aria-label="Visa hålkarta" title="Hålkarta (M)">${ICON.map}<span>Karta</span></button>
+        <button class="pl-btn pl-glass" data-view type="button" title="Kamera: bakom bollen, översikt, greenen, fri (C)" aria-label="Kamera: Bakom">${ICON.camera}<span data-view-label>Bakom</span></button>
+        <button class="pl-btn pl-glass" data-help-btn type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Kortkommandon (?)" title="Kortkommandon (?)">?</button>
         <button class="pl-btn pl-glass" data-menu type="button" aria-label="Meny" title="Meny (Esc)">${ICON.menu}</button>
       </div>
+      <button type="button" class="pl-cond-mini pl-glass" data-cond-toggle aria-expanded="false" aria-label="Vind och läge">
+        <svg viewBox="0 0 24 24" aria-hidden="true" data-cond-mini-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>
+        <span data-cond-mini-wind>0</span>
+        <em data-cond-mini-lie></em>
+      </button>
       <section class="pl-cond pl-glass" data-condcard aria-label="Förhållanden">
         <div class="pl-wind" data-wind>${DIAL}<div class="pl-wind-text"><b><span data-wind-ms>–</span><small>m/s</small></b><span data-wind-word></span></div></div>
         <div class="pl-cond-row"><span class="pl-k">Läge</span><b data-lie>Tee</b><em data-lie-pct></em></div>
@@ -520,8 +557,22 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
         <div class="pl-row" data-row="shape"><span class="pl-k">Form</span><div class="pl-seg" data-pick="shape"></div></div>
         <div class="pl-row" data-row="height"><span class="pl-k">Höjd</span><div class="pl-seg" data-pick="height"></div></div>
         <div class="pl-row" data-row="spin"><span class="pl-k">Spinn</span><div class="pl-seg" data-pick="spin"></div></div>
-        <p class="pl-keys">Tangenter: T typ · Q E form · W S höjd · Z C spinn</p>
+        <p class="pl-keys">Tangenter: T typ · Q E form · W S höjd · Z X spinn</p>
       </div>
+    </div>
+    <div class="pl-help-pop pl-glass" data-help-pop hidden role="dialog" aria-label="Tangentbordsgenvägar">
+      <div class="pl-help-head"><strong>Kortkommandon</strong><button type="button" class="pl-help-close" data-help-close aria-label="Stäng">×</button></div>
+      <ul class="pl-help-list">
+        <li><span>Svinga / snabba upp</span><b><kbd>Mellanslag</kbd></b></li>
+        <li><span>Sikta / finjustera</span><b><kbd>←</kbd> <kbd>→</kbd> · <kbd>Shift</kbd></b></li>
+        <li><span>Byt klubba</span><b><kbd>↑</kbd> <kbd>↓</kbd></b></li>
+        <li><span>Slagtyp / Form</span><b><kbd>T</kbd> · <kbd>Q</kbd> <kbd>E</kbd></b></li>
+        <li><span>Höjd / Spinn</span><b><kbd>W</kbd> <kbd>S</kbd> · <kbd>Z</kbd> <kbd>X</kbd></b></li>
+        <li><span>Byt kameravy / Greenvy</span><b><kbd>C</kbd> · <kbd>G</kbd></b></li>
+        <li><span>Banguide / Hålkarta</span><b><kbd>B</kbd> · <kbd>M</kbd></b></li>
+        <li><span>Repris / Byt ljus</span><b><kbd>R</kbd> · <kbd>L</kbd></b></li>
+        <li><span>Ren vy / Meny</span><b><kbd>H</kbd> · <kbd>Esc</kbd></b></li>
+      </ul>
     </div>
     <div class="pl-power pl-glass" data-power></div>
     <div class="pl-banner pl-glass" data-banner role="status"><b></b><span></span></div>
@@ -546,6 +597,29 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
   let cinemaLauncher = null;
   for (const b of root.querySelectorAll('[data-club]')) b.onclick = () => onClub(Number(b.dataset.club));
   const guideButton = q('[data-guide]'), guidePanel = q('[data-guide-panel]');
+  const helpButton = q('[data-help-btn]'), helpPop = q('[data-help-pop]');
+  const distToggle = q('[data-dist-toggle]'), condToggle = q('[data-cond-toggle]'), mapToggle = q('[data-map-toggle]');
+  const toggleHelp = force => {
+    const open = force ?? helpPop.hidden;
+    helpPop.hidden = !open;
+    helpButton?.setAttribute('aria-expanded', String(open));
+    if (!open && helpPop.contains(document.activeElement)) helpButton?.focus();
+  };
+  helpButton?.addEventListener('click', () => toggleHelp());
+  q('[data-help-close]')?.addEventListener('click', () => toggleHelp(false));
+  distToggle?.addEventListener('click', () => {
+    const open = root.classList.toggle('pl-dist-open');
+    distToggle.setAttribute('aria-expanded', String(open));
+    distToggle.textContent = open ? 'Dölj avstånd ▴' : 'Bak · Mitt · Fram ▾';
+  });
+  condToggle?.addEventListener('click', () => {
+    const open = root.classList.toggle('pl-cond-open');
+    condToggle.setAttribute('aria-expanded', String(open));
+  });
+  mapToggle?.addEventListener('click', () => {
+    const open = root.classList.toggle('pl-map-open');
+    mapToggle.setAttribute('aria-pressed', String(open));
+  });
   const toggleGuide = force => {
     const open = force ?? guidePanel.hidden;
     guidePanel.hidden = !open; guideButton.setAttribute('aria-expanded', String(open));
@@ -602,6 +676,8 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
     },
     toggleGuide,
     get guideOpen() { return !guidePanel.hidden; },
+    toggleHelp,
+    get helpOpen() { return !helpPop.hidden; },
     view(label) {
       q('[data-view-label]').textContent = label;
       q('[data-view]').setAttribute('aria-label', `Kamera: ${label}`);
@@ -611,6 +687,11 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
       green = null, target = null, hazards = [], cond = null, toLabel = 'Till hål' }) {
       q('[data-to-label]').textContent = toLabel;
       q('[data-to]').innerHTML = `${metres(toPin)}<small>m</small>`;
+      const bugDist = q('[data-bug-dist]');
+      if (bugDist) {
+        const plainPlays = plays ? plays.replace(/<[^>]+>/g, '').replace(/\bsom\s+/i, '').trim() : '';
+        bugDist.innerHTML = `${metres(toPin)} m${plainPlays ? ` <small>· ${esc(plainPlays)}</small>` : ''}`;
+      }
       const playsEl = q('[data-plays]');
       playsEl.hidden = !plays; playsEl.innerHTML = plays; playsEl.title = playsTitle;
       const greenEl = q('[data-green]');
@@ -629,7 +710,13 @@ export function createPlayHud({ onMenu, onClub, onView, onSetup, onSetupToggle, 
       wind.classList.toggle('calm', !(windMs > .2));
       q('[data-wind-ms]').textContent = windMs > .2 ? windMs.toFixed(1).replace('.', ',') : '0';
       q('[data-wind-word]').textContent = windWord || (windMs > .2 ? '' : 'Stilla');
-      wind.title = windLabel;
+      wind.title = [windLabel, cond ? `${cond.label}${cond.note ? ` · ${cond.note}` : ''}` : ''].filter(Boolean).join(' · ');
+      const miniArrow = q('[data-cond-mini-arrow]');
+      if (miniArrow) miniArrow.style.transform = `rotate(${Math.round(windDeg)}deg)`;
+      const miniWind = q('[data-cond-mini-wind]');
+      if (miniWind) miniWind.textContent = windMs > .2 ? `${windMs.toFixed(1).replace('.', ',')}` : '0';
+      const miniLie = q('[data-cond-mini-lie]');
+      if (miniLie) miniLie.textContent = liePct != null ? `· ${liePct}%` : `· ${lie}`;
       q('[data-lie]').textContent = lie;
       const pct = q('[data-lie-pct]');
       pct.textContent = liePct != null ? `${liePct} %` : '';

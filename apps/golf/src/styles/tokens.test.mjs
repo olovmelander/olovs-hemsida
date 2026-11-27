@@ -53,9 +53,9 @@ export function rawValues(css) {
    They may only fall. Radii were 38 until a radius read from the roles stopped
    counting as raw (the lobby, the same day). */
 const RATCHET = {
-  colours: 320,
-  radii: 36,
-  sizes: 47,
+  colours: 282,
+  radii: 34,
+  sizes: 42,
 };
 
 const tokens = read('src/styles/tokens.css');

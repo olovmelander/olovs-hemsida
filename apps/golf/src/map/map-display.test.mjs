@@ -1,6 +1,6 @@
 /* How the map shows itself, and the test round's diary. */
 import { describe, expect, it } from 'vitest';
-import { activeFrameMs, displayChoices } from './map-display.mjs';
+import { activeFrameMs, displayChoices, resolveSunActive, sleepPreference, sunModeOf } from './map-display.mjs';
 import { diaryCounts, parseDiary, trimDiary } from './map-diary.mjs';
 
 const plain = { contrast: false, textPixels: 16 };
@@ -38,6 +38,21 @@ describe('the display choices', () => {
   it('take a damaged store for no choice at all', () => {
     expect(displayChoices('{', plain)).toEqual({ sun: false, large: false, left: false });
     expect(displayChoices('null', plain)).toEqual({ sun: false, large: false, left: false });
+  });
+
+  it('resolve Auto Solläge from solar elevation during active rounds and system contrast', () => {
+    expect(sunModeOf(null)).toBe('auto');
+    expect(sunModeOf(JSON.stringify({ sun: true }))).toBe('dag');
+    expect(sunModeOf(JSON.stringify({ sun: false }))).toBe('natt');
+    expect(sunModeOf(JSON.stringify({ sunMode: 'auto', sun: true }))).toBe('auto');
+    expect(resolveSunActive('dag', { contrast: false, solarElevation: -5, activeRound: false })).toBe(true);
+    expect(resolveSunActive('natt', { contrast: true, solarElevation: 45, activeRound: true })).toBe(false);
+    expect(resolveSunActive('auto', { contrast: false, solarElevation: 22, activeRound: true })).toBe(true);
+    expect(resolveSunActive('auto', { contrast: false, solarElevation: 22, activeRound: false })).toBe(false);
+    expect(resolveSunActive('auto', { contrast: false, solarElevation: 4, activeRound: true })).toBe(false);
+    expect(resolveSunActive('auto', { contrast: true, solarElevation: -2, activeRound: false })).toBe(true);
+    expect(sleepPreference(null)).toBe(false);
+    expect(sleepPreference(JSON.stringify({ allowSleep: true }))).toBe(true);
   });
 });
 

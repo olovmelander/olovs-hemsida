@@ -58,19 +58,18 @@ try {
           assert.equal(params.get('tee'), '2');
         }
       }
+      await page.goto(base + '/');
+      const broCard = page.locator('#home .home-club-card:has(#homeClub-bro-hof)');
+      await broCard.waitFor();
+      assert.ok(await broCard.locator('.hc-live').isVisible(), 'Unified lobby club card shows live session status');
+      assert.ok(await broCard.locator('[data-club-layout="bro-hof-castle"].is-live').isVisible());
+      assert.ok(await broCard.locator('[data-club-layout="bro-hof-stadium"].is-live').isVisible());
       for (const [route, active, status, position] of [
         ['karta', castle, 'GPS-runda pågår', 'Hål 4 · Tee Röd'],
         ['spela', stadium, 'Simulering pågår', 'Hål 12 · Tee Vit'],
         ['3d', null, null, null],
       ]) {
-        await page.goto(base + '/#' + route);
-        const card = page.locator('#chooser button[data-club-id="bro-hof"]');
-        await card.waitFor();
-        if (active) {
-          const expected = active === castle ? 'The Castle Course' : 'The Stadium Course';
-          assert.ok((await card.locator('.club-state').innerText()).includes([status, expected, position].join(' · ')));
-        } else assert.doesNotMatch(await card.innerText(), /(?:GPS-runda|Simulering) pågår/);
-        await card.click();
+        await page.goto(base + '/#' + route + '/klubb/bro-hof');
         /* the club page opens on the layout with this mode's game under way, and each
            layout says how it stands in this mode */
         const clubPage = page.locator('#courseSheet[open]');
@@ -81,7 +80,7 @@ try {
           if (active === slug) assert.ok(words.includes(status + ' · ' + position));
           else assert.doesNotMatch(words, /(?:GPS-runda|Simulering) pågår/);
         }
-        await clubPage.locator('[data-close]').click();
+        await clubPage.locator('[data-close]').first().click();
         await clubPage.waitFor({ state: 'hidden' });
       }
       console.log(`${phone ? '390×844' : '1366×768'} · both Home resume links, exact layout/tee/hole, mode-specific club and layout status`);

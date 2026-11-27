@@ -1,120 +1,157 @@
 import '../styles/hub.css';
+import '../styles/shell.css';
 import { isPhone } from './map-default.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
-import { parseHistory } from '../map/map-shots.mjs';
-import { LAST_MODE_KEY, MAP_KEYS, MODES, courseSessions, lastLaunch, recentLaunches, sessionBadge, sessionPosition, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
-import { perEighteen, playedHoles, scoreToPar } from './stats-model.mjs';
+import { LAST_MODE_KEY, MAP_KEYS, MODES, courseSessions, lastLaunch, recentLaunches, sessionBadge, sessionPosition, readText, writeText } from './settings-store.mjs';
 import { clubIdFor, clubLayouts, groupCourses, layoutLabel } from './course-clubs.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
+import { CATEGORIES } from './club-search.mjs';
+import { sortClubs } from './club-sort.mjs';
 import { LOBBY_SHORT_LIST, LOBBY_SHORT_LIST_PHONE, catalogueIsLarge, dayText, lobbyClubs, recentCourses, searchClubs } from './lobby-model.mjs';
 import { ICONS } from './icons.js';
 import { subscribeCloud } from './cloud.mjs';
 import { showLiveRounds } from './live-round-panel.mjs';
 
-/* Within this, a phone is at the course or on its way there. */
 const NEAR_METRES = 5000;
-
+const SORT_KEY = 'banvy-club-sort-v1';
 const BASE = import.meta.env.BASE_URL;
 const poster = (slug, n = 1) => `${BASE}courses/${slug}/hero-${n}.webp`;
 const backdrop = slug => `${BASE}courses/${slug}/backdrop.webp`;
-/* a club row's 56 px picture: the poster's middle square at 168 px (tools/make-posters.mjs) */
 const thumbnail = slug => `${BASE}courses/${slug}/thumb.webp`;
-/* The island green in the fjord: the frame that says "a real course, in 3D" fastest. */
 const DEFAULT_BACKDROP = 'veckefjarden';
-const DETAILED_ART = poster('visby');
-const GPS_ART = `${BASE}play/gps-card.webp`;
-/* Spela's card: the game itself, from behind the golfer on the first tee */
-const PLAY_ART = `${BASE}play/spela-card.webp`;
 
 const storage = () => { try { return localStorage; } catch { return null; } };
 const esc = s => String(s ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 
-const ARROW = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
-const GEAR = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>';
-const CUBE = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>';
+const ARROW = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
+const FILTER_ICON = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>';
 const INSTALL = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>';
-const STATS = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 16v-4M12 16V7M17 16v-7"/></svg>';
-const GOLFER = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20.5c3.2-1.6 10.8-1.6 14 0"/><path d="M15.5 3.5v13"/><path d="M15.5 3.8l4.6 1.9-4.6 1.9"/><circle cx="8.5" cy="16.6" r="1.6"/></svg>';
-const PIN = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>';
+const PIN = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>';
 const USER_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1-3.8 3.6-5.6 7-5.6s6 1.8 7 5.6"/></svg>';
 
-export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null, onNearby = null, onClub = null, onSearch = null }) {
+const SORT_LABELS = { name: 'A–Ö', distance: 'Närmast', recent: 'Senast' };
+const FILTER_LABELS = { all: 'Alla', kust: 'Kust & Hav', skog: 'Skog & Park', slott: 'Slott & Herrgård' };
+
+/* Short label for inline multi-course pills on club cards (e.g. "Stadium", "Castle") */
+function pillLabel(course) {
+  const full = layoutLabel(course);
+  return full.replace(/^The\s+/i, '').replace(/\s+Course$/i, '').trim() || full;
+}
+
+export function buildHome({ courses, onMode, onSettings, onAccount = null, onStats, onResume, onPlan = null, onNearby = null, onClub = null, onLayout = null }) {
   const phone = isPhone();
   let playable = [];
 
   const el = document.createElement('div');
   el.id = 'home';
   el.className = 'hub-screen';
-  /* the screen on show is the page's main landmark; the hidden ones are out of the tree */
   el.setAttribute('role', 'main');
   el.setAttribute('aria-labelledby', 'homeTitle');
 
-  const activities = {
-    detailed: { action: 'Utforska banan', detail: 'Flyg över hålen och läs greenerna.', icon: CUBE, image: DETAILED_ART, key: 1 },
-    map: { label: 'Lätt 3D med GPS', action: 'Spela på banan', detail: 'Mät avstånd och för score under rundan.', icon: PIN, image: GPS_ART, key: 2 },
-    play: { action: 'Spela en virtuell runda', detail: 'Sikta, slå och putta med din egen bag.', icon: GOLFER, image: PLAY_ART, key: 3 },
-  };
-
-  function activityCard(mode) {
-    const { label = MODES[mode].label, action, detail, icon, image, key } = activities[mode];
-    return `<a class="mode-card mode-${mode}" href="#${MODES[mode].route}" data-mode="${mode}" aria-keyshortcuts="${key}">
-      <span class="mc-art" style="background-image:url('${image}')" aria-hidden="true"></span>
-      <span class="mc-top"><span class="mc-mode">${icon}${label}</span><kbd aria-hidden="true">${key}</kbd></span>
-      <span class="mc-body"><strong class="mc-title">${action}</strong><span class="mc-text">${detail}</span></span>
-      <span class="mc-go" aria-hidden="true">${ARROW}</span>
-    </a>`;
-  }
   el.innerHTML = `
     <div class="home-backdrop" aria-hidden="true"><i class="home-bg"></i></div>
     <div class="home-inner">
-      <div class="hub-top">
-        <a class="hub-brand" href="#" aria-label="Banvy, startmenyn">
+      <header class="hub-top lobby-top">
+        <a class="hub-brand" href="#" aria-label="Banvy, klubblobby">
           <span class="crest-dot"></span><span class="wordmark">Ban<i>v</i>y</span>
         </a>
+
+        <div class="lobby-top-search" data-top-search>
+          <div class="home-club-search">
+            ${ICONS.search(17)}
+            <input type="search" id="homeClubQuery" data-club-query placeholder="Sök klubb, bana eller ort"
+              aria-label="Sök klubbar efter namn, bana, ort eller par" aria-controls="homeClubList" aria-keyshortcuts="/"
+              autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+            <kbd class="lobby-search-key" aria-hidden="true">/</kbd>
+            <button class="hcs-clear" type="button" data-club-query-clear aria-label="Töm sökningen" hidden>${ICONS.close(14)}</button>
+          </div>
+          <button class="lobby-filter-btn" type="button" id="lobbyFilterBtn" aria-expanded="false" aria-haspopup="dialog" aria-controls="lobbyFilterPop" aria-label="Filtrera och sortera">
+            ${FILTER_ICON}
+            <span class="lobby-filter-text" data-filter-label>Sortera &amp; filter</span>
+            <span class="lobby-filter-dot" data-filter-dot hidden aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <nav class="lobby-top-nav" aria-label="Huvudnavigering">
+          <a class="lobby-nav-link" href="#statistik" data-nav="stats">Statistik</a>
+          <a class="lobby-nav-link" href="#installningar" data-nav="settings">Inställningar</a>
+        </nav>
+
         <span class="hub-top-actions">
+          <button class="hub-icon-btn lobby-map-quick" type="button" data-view-quick aria-pressed="false" aria-label="Visa Sverigekarta">
+            ${ICONS.map(16)}<span data-view-quick-label>Karta</span>
+          </button>
           <button class="hub-icon-btn hub-install" type="button" data-install hidden>${INSTALL}<span>Installera</span></button>
           <button class="hub-icon-btn hub-account" type="button" data-account hidden></button>
         </span>
+      </header>
+
+      <div class="bv-popover lobby-filter-pop" id="lobbyFilterPop" role="dialog" aria-label="Sortera och filtrera klubbar" hidden>
+        <div class="lfp-group">
+          <p class="lfp-title">Sortera</p>
+          <div class="lfp-pills" role="radiogroup" aria-label="Sortering">
+            <button type="button" class="lfp-chip" role="radio" data-sort="name" aria-checked="true">Klubbnamn A–Ö</button>
+            <button type="button" class="lfp-chip" role="radio" data-sort="distance" aria-checked="false">Närmast mig</button>
+            <button type="button" class="lfp-chip" role="radio" data-sort="recent" aria-checked="false">Senast öppnad</button>
+          </div>
+        </div>
+        <div class="lfp-group">
+          <p class="lfp-title">Bantyp</p>
+          <div class="lfp-pills" role="group" aria-label="Bantyp">
+            <button type="button" class="lfp-chip" data-filter="all" aria-pressed="true">Alla</button>
+            <button type="button" class="lfp-chip" data-filter="kust" aria-pressed="false">${ICONS.wave(13)} Kust &amp; Hav</button>
+            <button type="button" class="lfp-chip" data-filter="skog" aria-pressed="false">${ICONS.tree(13)} Skog &amp; Park</button>
+            <button type="button" class="lfp-chip" data-filter="slott" aria-pressed="false">${ICONS.castle(13)} Slott &amp; Herrgård</button>
+          </div>
+        </div>
+        <p class="lfp-status" data-sort-status role="status" hidden></p>
+        <div class="lfp-foot">
+          <button type="button" class="bv-btn-ghost lfp-retry" data-sort-retry hidden>Försök igen</button>
+          <button type="button" class="bv-btn-ghost lfp-reset" data-filter-reset hidden>Återställ</button>
+          <button type="button" class="bv-btn-secondary lfp-done" data-filter-done>Klar</button>
+        </div>
       </div>
 
-      <section class="home-hero">
-        <h1 class="home-title" id="homeTitle" tabindex="-1">Var spelar du?</h1>
-        <p class="home-lead"></p>
-      </section>
+      <h1 class="cs-sr" id="homeTitle" tabindex="-1">Banvy — Golfklubbar i Sverige</h1>
+
       <div class="home-resume-slot"></div>
       <section class="home-live-transfer" data-live-rounds aria-label="Rundor mellan enheter" hidden></section>
-      <section class="home-clubs" aria-labelledby="homeClubsTitle" data-home-clubs hidden>
-        <div class="home-clubs-head">
-          <h2 id="homeClubsTitle">Klubbar</h2>
-          <a class="home-clubs-all" href="#" data-all-clubs><span data-all-label>Sök, sortera och karta</span>${ARROW}</a>
+
+      <section class="home-clubs" aria-labelledby="homeClubsTitle" data-home-clubs>
+        <div class="lobby-toolbar">
+          <div class="lobby-toolbar-left">
+            <h2 id="homeClubsTitle" data-clubs-heading>Klubbar</h2>
+            <span class="lobby-count" data-clubs-count role="status" aria-live="polite"></span>
+          </div>
+          <div class="lobby-toolbar-right">
+            <button class="lobby-filter-desktop" type="button" data-filter-trigger aria-expanded="false" aria-haspopup="dialog" aria-controls="lobbyFilterPop">
+              ${FILTER_ICON}<span data-filter-summary>Sortera: A–Ö</span>
+            </button>
+            <div class="bv-seg lobby-view-seg" role="group" aria-label="Klubbvisning">
+              <button type="button" id="lobbyViewList" data-lobby-view="list" aria-pressed="true">${ICONS.gridCards(15)}<span>Lista</span></button>
+              <button type="button" id="lobbyViewMap" data-lobby-view="map" aria-pressed="false">${ICONS.map(15)}<span>Karta</span></button>
+            </div>
+          </div>
         </div>
-        <div class="home-club-search" data-club-search hidden>
-          ${ICONS.search(17)}
-          <input type="search" id="homeClubQuery" data-club-query placeholder="Sök klubb, bana eller ort"
-            aria-label="Sök klubbar efter namn, bana, ort eller par" aria-controls="homeClubList" aria-keyshortcuts="/"
-            autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
-          <button class="hcs-clear" type="button" data-club-query-clear aria-label="Töm sökningen" hidden>${ICONS.close(14)}</button>
-        </div>
+
         <p class="home-clubs-note" id="homeClubsNote" data-clubs-note role="status" hidden></p>
-        <ul class="home-club-list" id="homeClubList" data-club-list aria-labelledby="homeClubsTitle"></ul>
-        <div class="home-clubs-more" data-clubs-more hidden>
-          <button class="home-clubs-near" type="button" data-clubs-near hidden>${PIN}<span data-near-label>Klubbar nära mig</span></button>
-          <a class="home-clubs-hits" href="#" data-clubs-hits hidden><span data-hits-label></span>${ARROW}</a>
+
+        <div id="lobbyListWrap" class="lobby-list-wrap">
+          <ul class="home-club-list" id="homeClubList" data-club-list aria-labelledby="homeClubsTitle"></ul>
+          <div class="lobby-empty" data-lobby-empty hidden>
+            <p>Inga klubbar matchar sökningen eller filtret.</p>
+            <button type="button" class="bv-btn-primary" data-empty-reset>Visa alla klubbar</button>
+          </div>
+          <div class="home-clubs-more" data-clubs-more hidden>
+            <button class="home-clubs-near" type="button" data-clubs-near hidden>${PIN}<span data-near-label>Klubbar nära mig</span></button>
+            <button class="bv-btn-secondary lobby-show-all" type="button" data-show-all hidden><span data-show-all-label></span></button>
+          </div>
         </div>
+
+        <div id="lobbyMapWrap" class="lobby-map-wrap" hidden></div>
       </section>
-      <h2 class="home-modes-title" id="homeModesTitle">Eller börja med ett sätt att spela</h2>
-      <nav class="home-modes" aria-labelledby="homeModesTitle">
-        ${(phone ? ['map', 'detailed', 'play'] : ['detailed', 'play', 'map']).map(activityCard).join('')}
-      </nav>
-      <nav class="home-side" aria-label="Dina sidor">
-        <a class="mode-card home-tool mode-stats" href="#statistik" data-mode="stats" data-stats aria-keyshortcuts="4">
-          ${STATS}<span><strong>Statistik</strong><small data-stats-summary></small></span><kbd aria-hidden="true">4</kbd>
-        </a>
-        <a class="mode-card home-tool mode-settings" href="#installningar" data-mode="settings" data-settings aria-keyshortcuts="5">
-          ${GEAR}<span><strong>Inställningar</strong><small data-summary></small></span><kbd aria-hidden="true">5</kbd>
-        </a>
-      </nav>
+
       <footer class="home-legal">
         <a href="${BASE}integritet.html">Integritetspolicy</a>
         <span aria-hidden="true">·</span>
@@ -125,37 +162,58 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
   const bg = el.querySelector('.home-bg');
   const resumeSlot = el.querySelector('.home-resume-slot');
   const transfers = showLiveRounds(el.querySelector('[data-live-rounds]'), courses);
-  const summaryEl = el.querySelector('[data-summary]');
-  const statsSummaryEl = el.querySelector('[data-stats-summary]');
-  /* the rounds the map kept: how many, and where the scoring stands */
-  function statsSummary() {
-    const rounds = parseRounds(readText(storage(), MAP_KEYS.rounds, null));
-    const scores = rounds.map(perEighteen).filter(Number.isFinite);
-    if (!scores.length) {
-      const holes = rounds.flatMap(playedHoles);
-      if (holes.length) {
-        const toPar = scoreToPar(holes);
-        if (toPar === null) return `${holes.length} hål med score · par saknas`;
-        const strokes = holes.reduce((total, hole) => total + hole.strokes, 0);
-        const result = toPar === 0 ? 'Par' : `${toPar > 0 ? '+' : '−'}${Math.abs(toPar)} mot par`;
-        return `${holes.length} hål med score · ${strokes} slag · ${result}`;
-      }
-      const shots = parseHistory(readText(storage(), MAP_KEYS.shots, null));
-      if (shots.length) return `${shots.length} ${shots.length === 1 ? 'loggat slag' : 'loggade slag'} · ingen hålscore`;
-      if (rounds.length) return `${rounds.length} ${rounds.length === 1 ? 'sparad runda' : 'sparade rundor'} · ingen hålscore`;
-      return '';
-    }
-    const average = scores.reduce((s, v) => s + v, 0) / scores.length;
-    const sign = average > 0.05 ? '+' : average < -0.05 ? '−' : '±';
-    return `${rounds.length} ${rounds.length === 1 ? 'runda' : 'rundor'} · snitt ${sign}${Math.abs(average).toFixed(1).replace('.', ',')} per 18 hål`;
-  }
+  const clubsSection = el.querySelector('[data-home-clubs]');
+  const clubsHeading = el.querySelector('[data-clubs-heading]');
+  const clubsCount = el.querySelector('[data-clubs-count]');
+  const clubList = el.querySelector('[data-club-list]');
+  const listWrap = el.querySelector('#lobbyListWrap');
+  const mapWrap = el.querySelector('#lobbyMapWrap');
+  const emptyBox = el.querySelector('[data-lobby-empty]');
+  const queryInput = el.querySelector('[data-club-query]');
+  const queryClear = el.querySelector('[data-club-query-clear]');
+  const clubsNote = el.querySelector('[data-clubs-note]');
+  const clubsMore = el.querySelector('[data-clubs-more]');
+  const nearButton = el.querySelector('[data-clubs-near]');
+  const nearLabel = el.querySelector('[data-near-label]');
+  const showAllBtn = el.querySelector('[data-show-all]');
+  const showAllLabel = el.querySelector('[data-show-all-label]');
+  const filterBtn = el.querySelector('#lobbyFilterBtn');
+  const filterDesktopBtn = el.querySelector('[data-filter-trigger]');
+  const filterSummary = el.querySelector('[data-filter-summary]');
+  const filterDot = el.querySelector('[data-filter-dot]');
+  const filterPop = el.querySelector('#lobbyFilterPop');
+  const filterReset = el.querySelector('[data-filter-reset]');
+  const sortStatus = el.querySelector('[data-sort-status]');
+  const sortRetry = el.querySelector('[data-sort-retry]');
+  const viewListBtn = el.querySelector('#lobbyViewList');
+  const viewMapBtn = el.querySelector('#lobbyViewMap');
+  const viewQuickBtn = el.querySelector('[data-view-quick]');
+  const viewQuickLabel = el.querySelector('[data-view-quick-label]');
 
-  /* The backdrop fades in once decoded, so the menu never flashes a half-drawn picture. */
+  const preferredMode = () => {
+    const last = readText(storage(), LAST_MODE_KEY, null);
+    return MODES[last] ? last : phone ? 'map' : 'detailed';
+  };
+
+  let lobby = { clubs: [], sessions: [], recent: [], lastSlug: null };
+  let place = null;
+  let placeFailed = false;
+  let gpsRequestId = 0;
+  let shownClubs = '';
+  let activeFilter = 'all';
+  const savedSort = readText(storage(), SORT_KEY, null);
+  let explicitSort = ['name', 'recent', 'distance'].includes(savedSort) ? savedSort : null;
+  let sortOrder = explicitSort === 'recent' ? 'recent' : 'name';
+  let expandedAll = false;
+  let viewMode = 'list';
+  let swedenMapInstance = null, mapVersion = 0, mapKey = '';
+  let currentFilteredClubs = [];
+
   let shownBackdrop = null;
   function paintBackdrop(slug) {
     if (shownBackdrop === slug) return;
     shownBackdrop = slug;
-    const tryUrl = (urls) => {
+    const tryUrl = urls => {
       if (!urls.length) return;
       const img = new Image();
       img.onload = () => {
@@ -170,156 +228,368 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     tryUrl([backdrop(slug), poster(slug)]);
   }
 
-  /* A club tapped here opens its own page in the way this golfer last played, or
-     the device's own: the map on a phone, the detailed course on a computer. The
-     page shows the mode and changes it in one tap (docs/ui-redesign-2026-11-25.md B1). */
-  const preferredMode = () => {
-    const last = readText(storage(), LAST_MODE_KEY, null);
-    return MODES[last] ? last : phone ? 'map' : 'detailed';
-  };
-  const clubsSection = el.querySelector('[data-home-clubs]');
-  const clubList = el.querySelector('[data-club-list]');
-  const allClubs = el.querySelector('[data-all-clubs]');
-  const allLabel = el.querySelector('[data-all-label]');
-  const searchBox = el.querySelector('[data-club-search]');
-  const queryInput = el.querySelector('[data-club-query]');
-  const queryClear = el.querySelector('[data-club-query-clear]');
-  const clubsNote = el.querySelector('[data-clubs-note]');
-  const clubsMore = el.querySelector('[data-clubs-more]');
-  const nearButton = el.querySelector('[data-clubs-near]');
-  const nearLabel = el.querySelector('[data-near-label]');
-  const hitsLink = el.querySelector('[data-clubs-hits]');
-  const hitsLabel = el.querySelector('[data-hits-label]');
-  const plainClick = e => !(e.metaKey || e.ctrlKey || e.shiftKey || e.button);
-  allClubs.addEventListener('click', e => {
-    if (!plainClick(e)) return;
-    e.preventDefault();
-    onMode(preferredMode());
-  });
-  /* every hit, in the list, with the words already in its search */
-  hitsLink.addEventListener('click', e => {
-    if (!plainClick(e)) return;
-    e.preventDefault();
-    if (onSearch) onSearch(queryInput.value.trim(), preferredMode());
-    else onMode(preferredMode());
-  });
-
-  let lobby = { clubs: [], sessions: [], recent: [] };
-  /* the phone's position, once it has said yes (lookNear, or Klubbar nära mig) */
-  let place = null;
-  let placeFailed = false;
-  let shownClubs = '';
-
-  function clubRow({ club, why, session = null, at = null, metres = null }, sessions) {
-    const cover = club.cover;
-    const live = session ?? sessions.find(entry => club.courses.some(course => course.slug === entry.course.slug));
-    /* in the club page's order, the host's own course first */
-    const layouts = club.courses.length > 1 ? clubLayouts(club.courses, cover.slug).map(layoutLabel).join(' · ') : `${cover.holes} hål · Par ${cover.par}`;
-    const town = COURSE_LOCATIONS[cover.slug]?.city;
-    const picture = cover.photos ? thumbnail(cover.slug) : cover.overviewUrl ? `${BASE}${cover.overviewUrl}` : '';
-    /* why a row of the short list is there */
-    const note = why === 'opened' ? (Number.isFinite(at) ? `Öppnad ${dayText(at)}` : 'Senast öppnad')
-      : why === 'played' ? `Spelad ${dayText(at)}`
-      : why === 'near' ? `${distanceText(metres)} bort` : '';
-    return `<li><button type="button" class="home-club" id="homeClub-${esc(club.id)}" data-club="${esc(club.id)}">
-        ${picture ? `<img class="hc-thumb" src="${esc(picture)}" alt="" width="56" height="56" loading="lazy" decoding="async">` : '<span class="hc-thumb" aria-hidden="true"></span>'}
-        <span class="hc-text"><strong>${esc(club.name)}</strong><small>${esc([town, layouts].filter(Boolean).join(' · '))}</small>
-          ${live ? `<span class="hc-live">${esc([sessionBadge(live), club.courses.length > 1 ? layoutLabel(live.course) : ''].filter(Boolean).join(' · '))}</span>`
-            : note ? `<span class="hc-note">${esc(note)}</span>` : ''}</span>
-        <span class="hc-go" aria-hidden="true">${ARROW}</span></button></li>`;
+  function updateFilterIndicators() {
+    const sortText = SORT_LABELS[sortOrder] || 'A–Ö';
+    const filterText = activeFilter === 'all' ? '' : ` · ${FILTER_LABELS[activeFilter]}`;
+    filterSummary.textContent = `Sortera: ${sortText}${filterText}`;
+    const hasCustom = sortOrder !== 'name' || activeFilter !== 'all';
+    filterDot.hidden = !hasCustom;
+    filterReset.hidden = !hasCustom;
+    for (const btn of filterPop.querySelectorAll('[data-sort]')) {
+      btn.setAttribute('aria-checked', String(btn.dataset.sort === sortOrder));
+    }
+    for (const btn of filterPop.querySelectorAll('[data-filter]')) {
+      btn.setAttribute('aria-pressed', String(btn.dataset.filter === activeFilter));
+    }
   }
 
-  /* The lobby: every club by name while they fit; past that the golfer's own and a
-     search over all of them (lobby-model.mjs). */
-  function renderClubList() {
-    const { clubs, sessions, recent } = lobby;
-    if (!onClub || !clubs.length) { clubsSection.hidden = true; return; }
-    const large = catalogueIsLarge(clubs);
-    const mode = preferredMode();
-    allClubs.href = `#${MODES[mode].route}`;
-    allLabel.textContent = large ? `Alla ${clubs.length} klubbar` : 'Sök, sortera och karta';
-    searchBox.hidden = !large;
-    const query = large ? queryInput.value.trim() : '';
-    queryClear.hidden = !query;
-    const limit = phone ? LOBBY_SHORT_LIST_PHONE : LOBBY_SHORT_LIST;
-    const found = query ? searchClubs(clubs, query, { limit }) : null;
-    const shown = [...resumeSlot.querySelectorAll('[data-club-id]')].map(card => card.dataset.clubId);
-    const { rows } = found ?? lobbyClubs(clubs, { sessions, recent, coords: place, exclude: shown, limit });
-    let note = '';
-    if (found) note = found.total ? `${found.total} ${found.total === 1 ? 'klubb' : 'klubbar'}` : `Ingen klubb matchar ”${query}”`;
-    else if (large && rows.length) note = rows.some(row => row.why !== 'near') ? 'Dina klubbar' : 'Närmast dig';
-    else if (large) {
-      note = placeFailed ? 'Banvy fick ingen position. Sök på klubbens namn eller ort i stället.'
-        : navigator.geolocation ? `Sök bland ${clubs.length} klubbar, eller låt Banvy visa de närmaste.` : `Sök bland ${clubs.length} klubbar.`;
-    }
-    if (clubsNote.textContent !== note) clubsNote.textContent = note;
-    clubsNote.hidden = !note;
-    nearButton.hidden = !(large && !query && !place && navigator.geolocation);
-    const more = Boolean(found && found.total > found.rows.length);
-    hitsLink.hidden = !more;
-    if (more) {
-      hitsLink.href = `#${MODES[mode].route}`;
-      hitsLabel.textContent = `Visa alla ${found.total} träffar`;
-    }
-    clubsMore.hidden = nearButton.hidden && hitsLink.hidden;
-    clubsSection.hidden = false;
-    const html = rows.map(row => clubRow(row, sessions)).join('');
-    if (html === shownClubs) return;
-    const focusId = clubList.contains(document.activeElement) ? document.activeElement.id : null;
-    shownClubs = html;
-    clubList.innerHTML = html;
-    if (focusId) clubList.querySelector('#' + CSS.escape(focusId))?.focus({ preventScroll: true });
+  function openFilterPopover(anchor) {
+    const open = filterPop.hidden;
+    filterPop.hidden = !open;
+    filterBtn.setAttribute('aria-expanded', String(open));
+    filterDesktopBtn.setAttribute('aria-expanded', String(open));
+    if (!open) return;
+    const rect = anchor.getBoundingClientRect();
+    const top = Math.min(window.innerHeight - 280, Math.max(12, rect.bottom + 8));
+    const right = Math.max(12, window.innerWidth - rect.right);
+    filterPop.style.top = `${Math.round(top)}px`;
+    filterPop.style.right = `${Math.round(right)}px`;
+    filterPop.style.left = 'auto';
+    filterPop.querySelector('[aria-checked="true"], button')?.focus({ preventScroll: true });
   }
-  clubList.addEventListener('click', e => {
-    const row = e.target.closest('[data-club]');
-    if (row) onClub?.(row.dataset.club, preferredMode());
+  function closeFilterPopover(returnFocus = false) {
+    if (filterPop.hidden) return;
+    filterPop.hidden = true;
+    filterBtn.setAttribute('aria-expanded', 'false');
+    filterDesktopBtn.setAttribute('aria-expanded', 'false');
+    if (returnFocus) (filterDesktopBtn.offsetParent ? filterDesktopBtn : filterBtn).focus();
+  }
+  filterBtn.addEventListener('click', e => { e.stopPropagation(); openFilterPopover(filterBtn); });
+  filterDesktopBtn.addEventListener('click', e => { e.stopPropagation(); openFilterPopover(filterDesktopBtn); });
+  filterPop.querySelector('[data-filter-done]').addEventListener('click', () => closeFilterPopover(true));
+  filterReset.addEventListener('click', () => {
+    gpsRequestId++;
+    sortOrder = 'name';
+    explicitSort = 'name';
+    activeFilter = 'all';
+    writeText(storage(), SORT_KEY, 'name');
+    sortStatus.hidden = true;
+    sortRetry.hidden = true;
+    updateFilterIndicators();
+    renderClubList();
   });
-  const clearQuery = () => { queryInput.value = ''; renderClubList(); };
-  queryInput.addEventListener('input', renderClubList);
-  /* Escape empties the field before anything else; Enter puts a phone's keyboard
-     away, so the hits are what is on screen (as in the list) */
-  queryInput.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && queryInput.value) { e.stopPropagation(); clearQuery(); }
-    if (e.key === 'Enter') queryInput.blur();
+  sortRetry.addEventListener('click', () => requestPosition('distance'));
+  document.addEventListener('click', e => {
+    if (!filterPop.hidden && !filterPop.contains(e.target) && !e.target.closest('#lobbyFilterBtn, [data-filter-trigger]')) {
+      closeFilterPopover(false);
+    }
   });
-  queryClear.addEventListener('click', () => { clearQuery(); queryInput.focus(); });
-  /* Asking for the position belongs to a tap: this one, or the list's sort */
-  nearButton.addEventListener('click', () => {
-    if (!navigator.geolocation) return;
+  filterPop.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { e.stopPropagation(); closeFilterPopover(true); }
+  });
+  filterPop.addEventListener('click', e => {
+    const sortBtn = e.target.closest('[data-sort]');
+    if (sortBtn) {
+      const next = sortBtn.dataset.sort;
+      if (next === 'distance' && !place) {
+        requestPosition('distance');
+        return;
+      }
+      gpsRequestId++;
+      sortOrder = next;
+      explicitSort = next;
+      writeText(storage(), SORT_KEY, next);
+      sortStatus.hidden = true;
+      sortRetry.hidden = true;
+      updateFilterIndicators();
+      renderClubList();
+      return;
+    }
+    const catBtn = e.target.closest('[data-filter]');
+    if (catBtn) {
+      activeFilter = catBtn.dataset.filter;
+      updateFilterIndicators();
+      renderClubList();
+    }
+  });
+
+  function requestPosition(forSort = null) {
+    const reqId = ++gpsRequestId;
+    if (!navigator.geolocation) {
+      sortStatus.textContent = 'Platsåtkomst saknas i webbläsaren.';
+      sortStatus.hidden = false;
+      sortRetry.hidden = !forSort;
+      return;
+    }
     nearButton.disabled = true;
     nearButton.setAttribute('aria-busy', 'true');
     nearLabel.textContent = 'Söker din position…';
+    if (forSort) {
+      sortStatus.textContent = 'Hämtar din position…';
+      sortStatus.hidden = false;
+      sortRetry.hidden = true;
+    }
     const done = label => {
       nearButton.disabled = false;
       nearButton.removeAttribute('aria-busy');
       nearLabel.textContent = label;
     };
-    navigator.geolocation.getCurrentPosition(({ coords }) => { done('Klubbar nära mig'); placed(coords); }, () => {
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      if (reqId !== gpsRequestId) return;
+      done('Klubbar nära mig');
+      if (forSort === 'distance') {
+        sortOrder = 'distance';
+        explicitSort = 'distance';
+        writeText(storage(), SORT_KEY, 'distance');
+        sortStatus.hidden = true;
+        sortRetry.hidden = true;
+        updateFilterIndicators();
+      }
+      placed(coords);
+    }, () => {
+      if (reqId !== gpsRequestId) return;
       done('Försök igen');
       placeFailed = true;
+      if (forSort) {
+        sortStatus.textContent = 'Tillåt platsåtkomst för att sortera efter avstånd.';
+        sortStatus.hidden = false;
+        sortRetry.hidden = false;
+      }
       renderClubList();
     }, { timeout: 15000, maximumAge: 120000 });
+  }
+  nearButton.addEventListener('click', () => requestPosition());
+
+  function clubRow({ club, why, session = null, at = null, metres = null, matchedLayouts = null }, sessions) {
+    const cover = club.cover;
+    const live = session ?? sessions.find(entry => club.courses.some(course => course.slug === entry.course.slug));
+    const orderedLayouts = clubLayouts(club.courses, cover.slug);
+    const multi = orderedLayouts.length > 1;
+    const town = COURSE_LOCATIONS[cover.slug]?.city;
+    const heroImg = cover.photos ? poster(cover.slug, 1) : cover.overviewUrl ? `${BASE}${cover.overviewUrl}` : '';
+    const thumbImg = cover.photos ? thumbnail(cover.slug) : heroImg;
+    const distLabel = Number.isFinite(metres) ? distanceText(metres) : '';
+    const note = why === 'opened' ? (Number.isFinite(at) ? `Öppnad ${dayText(at)}` : 'Senast öppnad')
+      : why === 'played' ? `Spelad ${dayText(at)}`
+      : why === 'near' && distLabel ? `${distLabel} bort`
+      : distLabel ? `${distLabel} bort` : '';
+    const singleMeta = `${cover.holes} hål · Par ${cover.par}`;
+    const directHitSlug = matchedLayouts && matchedLayouts.length === 1 && multi ? matchedLayouts[0].slug : '';
+    const metaText = [town, multi ? `${orderedLayouts.length} banor` : singleMeta].filter(Boolean).join(' · ');
+
+    const pills = multi ? `<div class="hc-layouts" role="group" aria-label="Banor på ${esc(club.name)}">${orderedLayouts.map(layout => {
+      const matched = matchedLayouts ? matchedLayouts.some(m => m.slug === layout.slug) : false;
+      const layoutLive = sessions.find(entry => entry.course.slug === layout.slug);
+      return `<button type="button" class="hc-layout-pill${matched ? ' is-hit' : ''}${layoutLive ? ' is-live' : ''}" data-club-layout="${esc(layout.slug)}" data-club-id="${esc(club.id)}">
+        ${layoutLive ? '<span class="bv-live-dot" aria-hidden="true"></span>' : ''}<span>${esc(pillLabel(layout))}</span><small>${layout.holes}</small>
+      </button>`;
+    }).join('')}</div>` : '';
+
+    return `<li class="home-club-card${multi ? ' is-multi' : ''}">
+      <button type="button" class="home-club" id="homeClub-${esc(club.id)}" data-club="${esc(club.id)}"${directHitSlug ? ` data-direct-slug="${esc(directHitSlug)}"` : ''}>
+        ${heroImg ? `<span class="hc-poster" style="background-image:url('${esc(heroImg)}')" aria-hidden="true"></span>` : '<span class="hc-poster" aria-hidden="true"></span>'}
+        ${thumbImg ? `<img class="hc-thumb" src="${esc(thumbImg)}" alt="" width="56" height="56" loading="lazy" decoding="async">` : '<span class="hc-thumb" aria-hidden="true"></span>'}
+        <span class="hc-text">
+          <strong>${esc(club.name)}</strong>
+          <small>${esc(metaText)}</small>
+          ${live ? `<span class="hc-live"><i class="bv-live-dot" aria-hidden="true"></i>${esc([sessionBadge(live), multi ? pillLabel(live.course) : ''].filter(Boolean).join(' · '))}</span>`
+            : note ? `<span class="hc-note">${esc(note)}</span>` : ''}
+        </span>
+        <span class="hc-go" aria-hidden="true">${ARROW}</span>
+      </button>
+      ${pills}
+    </li>`;
+  }
+
+  function renderClubList() {
+    const { clubs, sessions, recent, lastSlug } = lobby;
+    if (!onClub || !clubs.length) { clubsSection.hidden = true; return; }
+    const large = catalogueIsLarge(clubs);
+    const catOf = course => CATEGORIES[course.slug]?.id || 'all';
+    const filteredClubs = activeFilter === 'all'
+      ? clubs
+      : clubs.filter(club => club.courses.some(course => catOf(course) === activeFilter));
+    const query = queryInput.value.trim();
+    queryClear.hidden = !query;
+    const limit = expandedAll ? clubs.length : (phone ? LOBBY_SHORT_LIST_PHONE : LOBBY_SHORT_LIST);
+
+    let rows = [];
+    let totalFound = filteredClubs.length;
+    let heading = 'Alla klubbar';
+    let note = '';
+
+    if (query) {
+      const found = searchClubs(clubs, query, { limit: clubs.length, filter: activeFilter });
+      const allHits = found?.rows ?? [];
+      totalFound = found?.total ?? 0;
+      if (sortOrder !== 'name' && allHits.length > 1) {
+        const byId = new Map(allHits.map(row => [row.club.id, row]));
+        const ordered = sortClubs(allHits.map(row => row.club), sortOrder, { recentSlug: lastSlug, coords: place });
+        rows = ordered.slice(0, expandedAll ? ordered.length : limit)
+          .map(({ club, metres }) => ({ ...byId.get(club.id), metres }));
+      } else {
+        rows = allHits.slice(0, expandedAll ? allHits.length : limit);
+      }
+      heading = 'Sökresultat';
+      note = totalFound ? '' : `Ingen klubb matchar ”${query}”`;
+    } else if (large && !expandedAll && sortOrder === 'name' && activeFilter === 'all') {
+      const shown = [...resumeSlot.querySelectorAll('[data-club-id]')].map(card => card.dataset.clubId);
+      const personal = lobbyClubs(clubs, { sessions, recent, coords: place, exclude: shown, limit });
+      rows = personal.rows;
+      heading = rows.length ? (rows.some(row => row.why !== 'near') ? 'Dina klubbar' : 'Närmast dig') : 'Klubbar';
+      totalFound = clubs.length;
+      if (!rows.length) {
+        note = placeFailed ? 'Banvy fick ingen position. Sök på klubbens namn eller ort i stället.'
+          : navigator.geolocation ? `Sök bland ${clubs.length} klubbar, eller visa de närmaste.` : `Sök bland ${clubs.length} klubbar.`;
+      }
+    } else {
+      const sorted = sortClubs(filteredClubs, sortOrder, { recentSlug: lastSlug, coords: place });
+      const capped = large && !expandedAll ? sorted.slice(0, limit) : sorted;
+      rows = capped.map(({ club, metres }) => ({ club, why: sortOrder === 'distance' ? 'near' : 'all', metres }));
+      heading = activeFilter === 'all' ? 'Alla klubbar' : FILTER_LABELS[activeFilter];
+      totalFound = sorted.length;
+    }
+
+    currentFilteredClubs = query
+      ? (searchClubs(clubs, query, { limit: clubs.length, filter: activeFilter })?.rows ?? []).map(r => r.club)
+      : filteredClubs;
+
+    clubsHeading.textContent = heading;
+    clubsCount.textContent = `${totalFound} ${totalFound === 1 ? 'klubb' : 'klubbar'}`;
+    clubsNote.textContent = note;
+    clubsNote.hidden = !note;
+
+    const showEmpty = rows.length === 0 && Boolean(query || activeFilter !== 'all');
+    emptyBox.hidden = !showEmpty;
+    clubList.hidden = showEmpty;
+
+    nearButton.hidden = !(large && !query && !place && navigator.geolocation && rows.length === 0);
+    const hasMore = (query ? totalFound > rows.length : large && !expandedAll && totalFound > rows.length);
+    showAllBtn.hidden = !hasMore;
+    if (hasMore) {
+      showAllLabel.textContent = query ? `Visa alla ${totalFound} träffar` : `Visa alla ${totalFound} klubbar`;
+    }
+    clubsMore.hidden = nearButton.hidden && showAllBtn.hidden;
+    clubsSection.hidden = false;
+
+    const html = rows.map(row => clubRow(row, sessions)).join('');
+    if (html !== shownClubs) {
+      const focusId = clubList.contains(document.activeElement) ? document.activeElement.id : null;
+      shownClubs = html;
+      clubList.innerHTML = html;
+      if (focusId) clubList.querySelector('#' + CSS.escape(focusId))?.focus({ preventScroll: true });
+    }
+    if (viewMode === 'map') renderMap();
+  }
+
+  async function setViewMode(next) {
+    viewMode = next === 'map' ? 'map' : 'list';
+    const isMap = viewMode === 'map';
+    el.classList.toggle('is-map-view', isMap);
+    viewListBtn.setAttribute('aria-pressed', String(!isMap));
+    viewMapBtn.setAttribute('aria-pressed', String(isMap));
+    viewQuickBtn.setAttribute('aria-pressed', String(isMap));
+    viewQuickLabel.textContent = isMap ? 'Lista' : 'Karta';
+    listWrap.hidden = isMap;
+    mapWrap.hidden = !isMap;
+    if (isMap) await renderMap();
+  }
+
+  async function renderMap() {
+    const version = ++mapVersion;
+    const groups = currentFilteredClubs.length ? currentFilteredClubs : lobby.clubs;
+    const key = groups.map(g => g.id).sort().join(',');
+    if (!swedenMapInstance || mapKey !== key) {
+      swedenMapInstance?.map.remove();
+      swedenMapInstance?.el.remove();
+      swedenMapInstance = null;
+      mapWrap.replaceChildren();
+      if (!groups.length) {
+        const none = document.createElement('p');
+        none.className = 'lobby-empty';
+        none.textContent = 'Ingen klubb matchar din sökning.';
+        mapWrap.append(none);
+        return;
+      }
+      mapKey = key;
+      const { createSwedenMap } = await import('./map.js');
+      if (version !== mapVersion) return;
+      swedenMapInstance = createSwedenMap({
+        container: mapWrap,
+        groups,
+        current: null,
+        lead: lobby.lastSlug ? clubIdFor(lobby.lastSlug) : null,
+        onPickClub: id => onClub?.(id, preferredMode()),
+      });
+    }
+    requestAnimationFrame(() => swedenMapInstance?.invalidateSize());
+  }
+
+  viewListBtn.addEventListener('click', () => setViewMode('list'));
+  viewMapBtn.addEventListener('click', () => setViewMode('map'));
+  viewQuickBtn.addEventListener('click', () => setViewMode(viewMode === 'map' ? 'list' : 'map'));
+
+  clubList.addEventListener('click', e => {
+    const pill = e.target.closest('[data-club-layout]');
+    if (pill) {
+      const slug = pill.dataset.clubLayout;
+      if (onLayout) onLayout(slug, preferredMode());
+      else onPlan?.(slug, preferredMode());
+      return;
+    }
+    const row = e.target.closest('[data-club]');
+    if (!row) return;
+    if (row.dataset.directSlug && (onLayout || onPlan)) {
+      (onLayout || onPlan)(row.dataset.directSlug, preferredMode());
+      return;
+    }
+    onClub?.(row.dataset.club, preferredMode());
   });
+
+  const clearQuery = () => { queryInput.value = ''; expandedAll = false; renderClubList(); };
+  queryInput.addEventListener('input', () => { expandedAll = false; renderClubList(); });
+  queryInput.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && queryInput.value) { e.stopPropagation(); clearQuery(); }
+    if (e.key === 'Enter') queryInput.blur();
+  });
+  queryClear.addEventListener('click', () => { clearQuery(); queryInput.focus(); });
+  el.querySelector('[data-empty-reset]').addEventListener('click', () => {
+    queryInput.value = '';
+    activeFilter = 'all';
+    expandedAll = false;
+    updateFilterIndicators();
+    renderClubList();
+  });
+  showAllBtn.addEventListener('click', () => { expandedAll = true; renderClubList(); });
+
+  for (const navLink of el.querySelectorAll('[data-nav]')) {
+    navLink.addEventListener('click', e => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      if (navLink.dataset.nav === 'stats') onStats?.();
+      else if (navLink.dataset.nav === 'settings') onSettings?.();
+    });
+  }
 
   function refresh() {
     playable = courses.filter(c => c.status !== 'mapping');
     const clubs = groupCourses(playable);
-    el.querySelector('.home-lead').textContent = playable.length
-      ? `${playable.length} banor på ${clubs.length} klubbar i Sverige`
-      : 'Dina rundor och din bag finns i Statistik och Inställningar.';
     requestAnimationFrame(() => transfers.refresh());
     const last = lastLaunch(storage(), playable);
     const sessions = courseSessions(storage(), playable);
     lobby = {
       clubs,
       sessions,
+      lastSlug: last?.course.slug ?? null,
       recent: recentCourses({
         lastSlug: last?.course.slug ?? null,
         launches: recentLaunches(storage()),
         rounds: parseRounds(readText(storage(), MAP_KEYS.rounds, null)),
       }),
     };
-    /* the cards first, so the short list can leave out the clubs they show */
+    const recentBtn = filterPop.querySelector('[data-sort="recent"]');
+    if (recentBtn) recentBtn.disabled = !lobby.lastSlug;
+    updateFilterIndicators();
     renderResume(clubs, sessions, last);
     renderClubList();
     lookNear();
@@ -333,8 +603,6 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       return club?.courses.length > 1 ? `${club.name} · ${title}` : title;
     };
     paintBackdrop(featured[0]?.course.slug || last?.course.slug || DEFAULT_BACKDROP);
-    summaryEl.textContent = settingsSummary(readSettings(storage()), readFrameCap(storage()));
-    statsSummaryEl.textContent = statsSummary();
     resumeSlot.classList.toggle('has-multiple', featured.length > 1);
     if (featured.length) {
       const focusId = resumeSlot.contains(document.activeElement) ? document.activeElement.id : null;
@@ -345,9 +613,8 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
         const where = [sessionPosition(session), completed, session.strokes ? `${session.strokes} slag` : ''].filter(Boolean).join(' · ');
         return `<button class="home-resume${gps ? ' is-live' : ''}" id="homeResume-${session.mode}" type="button" data-resume="${session.mode}" data-club-id="${esc(clubIdFor(session.course.slug))}"${gps ? '' : ' data-simulation'}>
           <span class="hr-thumb" style="background-image:url('${poster(session.course.slug)}')" aria-hidden="true"></span>
-          <span class="hr-text"><span class="hr-kicker">${gps ? '<i class="hr-live" aria-hidden="true"></i>' : ''}${action}</span>
+          <span class="hr-text"><span class="hr-kicker"><i class="hr-live" aria-hidden="true"></i>${action}</span>
             <span class="hr-name">${esc(courseCaption(session.course))}</span><span class="hr-sub">${esc(where)}</span></span>
-          <span class="hr-mode">${activities[session.mode].icon}${MODES[session.mode].label}</span>
           <span class="hr-go" aria-hidden="true">${ARROW}</span></button>`;
       }).join('');
       for (const session of featured) {
@@ -364,10 +631,9 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
       <button class="home-resume" type="button" data-resume data-club-id="${esc(clubIdFor(course.slug))}">
         <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
         <span class="hr-text">
-          <span class="hr-kicker">Senast öppnad</span>
+          <span class="hr-kicker">Senast öppnad · ${MODES[mode].label}</span>
           <span class="hr-name">${esc(courseCaption(course))}</span>
         </span>
-        <span class="hr-mode">${activities[mode].icon}${MODES[mode].label}</span>
         <span class="hr-go" aria-hidden="true">${ARROW}</span>
       </button>`;
     const btn = resumeSlot.querySelector('[data-resume]');
@@ -375,16 +641,21 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     btn.addEventListener('click', () => onResume(course.slug, mode));
   }
 
-  /* The phone's position, read only where it has already said yes -- asking belongs
-     to a tap (Klubbar nära mig, or the list's sort). It gives the lobby its nearest
-     clubs and, standing at a course, that course's round. */
   let nearAsked = false;
   function lookNear() {
-    if (!playable.length || nearAsked || !navigator.permissions || !navigator.geolocation) return;
+    if (!playable.length || nearAsked || explicitSort === 'name' || explicitSort === 'recent' || !navigator.permissions || !navigator.geolocation) return;
     nearAsked = true;
+    const reqId = ++gpsRequestId;
     navigator.permissions.query({ name: 'geolocation' }).then(answer => {
-      if (answer.state !== 'granted') return;
-      navigator.geolocation.getCurrentPosition(({ coords }) => placed(coords), () => {}, { timeout: 10000, maximumAge: 120000 });
+      if (answer.state !== 'granted' || reqId !== gpsRequestId) return;
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        if (reqId !== gpsRequestId) return;
+        if (!explicitSort || explicitSort === 'distance') {
+          sortOrder = 'distance';
+          updateFilterIndicators();
+        }
+        placed(coords);
+      }, () => {}, { timeout: 10000, maximumAge: 120000 });
     }).catch(() => {});
   }
   function placed(coords) {
@@ -393,8 +664,6 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     offerNear(coords);
     renderClubList();
   }
-  /* Standing at a course: the menu offers that course's round, never over a round
-     under way, which refresh() has shown first. */
   function offerNear(coords) {
     if (!onPlan) return;
     const nearest = coursesByDistance(coords, COURSE_LOCATIONS).find(({ slug }) => playable.some(c => c.slug === slug));
@@ -441,9 +710,6 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
   });
   addEventListener('banvy-sync-changed', () => refresh());
 
-  /* Installed, Banvy opens from the home screen with no browser round it and works
-     without signal on a course it has seen: the menu offers it where the browser can,
-     and never once it is installed. */
   const installBtn = el.querySelector('[data-install]');
   const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
   const offerInstall = () => { installBtn.hidden = standalone || !globalThis.__banvyInstall; };
@@ -455,34 +721,30 @@ export function buildHome({ courses, onMode, onSettings, onAccount = null, onSta
     if (!prompt) return;
     globalThis.__banvyInstall = null;
     offerInstall();
-    try { await prompt.prompt(); await prompt.userChoice; } catch { /* the browser said no */ }
+    try { await prompt.prompt(); await prompt.userChoice; } catch { /* declined */ }
   });
-  for (const link of el.querySelectorAll('.mode-card')) {
-    link.addEventListener('click', e => {
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
-      e.preventDefault();
-      const key = link.dataset.mode;
-      if (key === 'settings') onSettings(); else if (key === 'stats') onStats(); else onMode(key);
-    });
-  }
-  /* 1 to 5 -- only while the menu is what is on screen, never out of a field */
+
   addEventListener('keydown', e => {
     if (el.hidden || e.metaKey || e.ctrlKey || e.altKey || e.target?.closest?.('input, textarea, select, [contenteditable], dialog')) return;
-    /* "/" reaches the lobby's search, as it reaches the list's */
-    if (e.key === '/' && !searchBox.hidden && !document.querySelector('dialog[open]')) {
+    if (e.key === '/' && !document.querySelector('dialog[open]')) {
       e.preventDefault();
       queryInput.focus();
       queryInput.select();
       return;
     }
-    if (e.key === '1') onMode('detailed');
-    else if (e.key === '2') onMode('map');
-    else if (e.key === '3') onMode('play');
-    else if (e.key === '4') onStats();
-    else if (e.key === '5') onSettings();
+    if (e.key === '1') onMode?.('detailed');
+    else if (e.key === '2') onMode?.('map');
+    else if (e.key === '3') onMode?.('play');
+    else if (e.key === '4') onStats?.();
+    else if (e.key === '5') onSettings?.();
   });
 
   refresh();
   el.refresh = refresh;
+  el.setViewMode = setViewMode;
+  el.focusClub = id => {
+    if (viewMode === 'map') swedenMapInstance?.focusClub(id);
+    else clubList.querySelector(`#homeClub-${CSS.escape(id)}`)?.focus({ preventScroll: true });
+  };
   return el;
 }

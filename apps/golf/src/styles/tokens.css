@@ -1,10 +1,5 @@
 /* Banvy's design tokens: one source for colour, type, space, shape and motion.
 
-   docs/ui-redesign-2026-11-25.md, section E. Every value here already ran in
-   the app before it became a token, so pointing a stylesheet at a token changes
-   what is drawn by no more than the difference between two near-identical
-   values (the contrast fixes in that document excepted).
-
    Two materials:
      Natt  the default: dark glass indoors, a near-opaque dark panel outdoors;
      Dag   `.bv-dag`: white panels and black ink, the map's Solläge, for a
@@ -12,15 +7,16 @@
 
    The grammar the roles keep in every mode:
      flag   your number and your one action (the Mitt yardage, the aim line,
-            the chosen club, the primary button);
+            the chosen club, the primary CTA button);
      turf   on, live, locked (GPS good, a live round, a toggle that is on);
-     a selected option is the neutral raised fill, never an accent.
+     a selected option (tab, segment, tee, layout, camera) is the neutral raised
+     fill (--bv-surface-3) with a crisp hairline, never an accent.
 
    Raw colours, radii and font sizes belong here. tokens.test.mjs counts them in
    every other style source and fails when a count rises. */
 
 :root {
-  /* -- palette (the same in both materials) -------------------------------- */
+  /* -- palette (shared accents) -------------------------------------------- */
   --bv-flag: #ffd23f;
   --bv-on-flag: #10201a;
   --bv-turf: #5fd07a;
@@ -33,36 +29,44 @@
 
   /* -- Natt material ------------------------------------------------------- */
   --bv-canvas: #08120d;
-  --bv-surface-glass: rgba(9, 18, 14, 0.78);   /* Detaljerad 3D, Simulator, start menu */
-  --bv-surface-solid: rgba(12, 24, 18, 0.92);  /* Lätt 3D: reads in daylight */
+  --bv-surface-glass: rgba(9, 18, 14, 0.80);   /* Detaljerad 3D, Simulator, Lobby */
+  --bv-surface-solid: rgba(11, 22, 16, 0.94);  /* Lätt 3D, sheets, popovers */
   --bv-surface-opaque: #0c1812;
-  --bv-surface-2: rgba(255, 255, 255, 0.1);    /* a control at rest, a segmented track */
-  --bv-surface-3: rgba(255, 255, 255, 0.14);   /* pressed, a segmented thumb */
-  --bv-hairline: rgba(160, 230, 185, 0.14);
-  --bv-hairline-strong: rgba(150, 220, 175, 0.18);
+  --bv-surface-card: #12221a;                  /* resting cards in lobby & panels */
+  --bv-surface-card-hi: #1b3126;               /* hovered cards */
+  --bv-surface-track: rgba(0, 0, 0, 0.34);     /* segmented control track */
+  --bv-surface-2: rgba(255, 255, 255, 0.09);   /* control at rest */
+  --bv-surface-3: rgba(255, 255, 255, 0.16);   /* active neutral thumb / hover */
+  --bv-hairline: rgba(170, 230, 190, 0.14);
+  --bv-hairline-strong: rgba(180, 235, 195, 0.22);
+  --bv-selected-border: rgba(255, 255, 255, 0.34);
+  --bv-rim-outer: rgba(0, 0, 0, 0.38);
+  --bv-rim-inner: rgba(255, 255, 255, 0.08);
   --bv-ink-1: #ffffff;
-  --bv-ink-2: #b7c8bc;
-  --bv-ink-3: #849c8f;                        /* 5.3:1 on the Simulator's glass (18 November) */
+  --bv-ink-2: #c2d2c7;                         /* >= 6.1:1 on glass over bright sky */
+  --bv-ink-3: #8fa699;                         /* >= 4.5:1 on solid panels */
   --bv-link: #9fd8ff;
   --bv-under: #7fe39a;
   --bv-over: #ffb48a;
-  --bv-signal: var(--bv-flag);                 /* your number */
-  --bv-action: var(--bv-flag);                 /* your action's fill */
+  --bv-turf-text: var(--bv-turf);
+  --bv-signal: var(--bv-flag);                 /* target yardage & aim line */
+  --bv-action: var(--bv-flag);                 /* sole primary CTA fill */
   --bv-on-action: var(--bv-on-flag);
   --bv-focus: #dafbe3;
 
   /* -- type ---------------------------------------------------------------- */
   --bv-font: Outfit, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --bv-type-hero: 44px;
-  --bv-type-title1: 32px;
-  --bv-type-title2: 24px;
-  --bv-type-title3: 20px;
-  --bv-type-headline: 17px;
-  --bv-type-body: 15px;
-  --bv-type-footnote: 13px;
-  --bv-type-caption: 11px;                     /* the floor: nothing is set smaller */
+  --bv-type-hero: 42px;
+  --bv-type-title1: 30px;
+  --bv-type-title2: 22px;
+  --bv-type-title3: 18px;
+  --bv-type-headline: 16px;
+  --bv-type-body: 14.5px;
+  --bv-type-body-rem: 0.875rem;
+  --bv-type-footnote: 13px;                    /* on-course glance floor */
+  --bv-type-caption: 11px;                     /* absolute app floor */
 
-  /* -- space, shape, elevation, motion, touch -------------------------------- */
+  /* -- space, shape, elevation, motion, touch ------------------------------ */
   --bv-space-1: 4px;
   --bv-space-2: 8px;
   --bv-space-3: 12px;
@@ -74,40 +78,50 @@
   --bv-radius-chip: 6px;
   --bv-radius-control: 10px;
   --bv-radius-control-touch: 14px;
+  --bv-radius-card: 16px;
   --bv-radius-sheet: 20px;
-  --bv-radius-hero: 28px;
+  --bv-radius-hero: 26px;
   --bv-radius-pill: 999px;
   --bv-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.24), 0 4px 12px rgba(0, 0, 0, 0.18);
-  --bv-shadow-2: 0 12px 32px rgba(0, 0, 0, 0.28);
+  --bv-shadow-2: 0 14px 36px rgba(0, 0, 0, 0.42);
+  --bv-shadow-hud: 0 0 0 1px var(--bv-rim-outer), 0 10px 28px rgba(0, 0, 0, 0.36), inset 0 1px 0 var(--bv-rim-inner);
   --bv-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --bv-dur-press: 120ms;
+  --bv-dur-press: 100ms;
   --bv-dur-state: 200ms;
-  --bv-dur-sheet: 320ms;
+  --bv-dur-sheet: 300ms;
   --bv-hit: 44px;
   --bv-hit-comfort: 48px;
 }
 
-/* Dag: the light material. The values are the map's Solläge, which the owner
-   has used on the course; the action inverts to black with flag-yellow ink. */
+/* Dag: the light material (Solläge). High-contrast matte white panels with pure
+   black ink; primary CTA inverts to ink black with Flag Yellow text. */
 .bv-dag {
   --bv-canvas: #ffffff;
-  --bv-surface-glass: #ffffff;
+  --bv-surface-glass: rgba(255, 255, 255, 0.96);
   --bv-surface-solid: #ffffff;
   --bv-surface-opaque: #ffffff;
-  --bv-surface-2: rgba(0, 0, 0, 0.08);
+  --bv-surface-card: #f4f7f5;
+  --bv-surface-card-hi: #e7eee9;
+  --bv-surface-track: rgba(0, 0, 0, 0.08);
+  --bv-surface-2: rgba(0, 0, 0, 0.07);
   --bv-surface-3: rgba(0, 0, 0, 0.13);
-  --bv-hairline: rgba(0, 0, 0, 0.18);
-  --bv-hairline-strong: rgba(0, 0, 0, 0.2);
+  --bv-hairline: rgba(0, 0, 0, 0.16);
+  --bv-hairline-strong: rgba(0, 0, 0, 0.24);
+  --bv-selected-border: rgba(0, 0, 0, 0.44);
+  --bv-rim-outer: rgba(0, 0, 0, 0.18);
+  --bv-rim-inner: rgba(255, 255, 255, 0.9);
   --bv-ink-1: #000000;
-  --bv-ink-2: #27332c;
-  --bv-ink-3: #4a574f;
+  --bv-ink-2: #222e27;
+  --bv-ink-3: #48564e;
   --bv-link: #084a85;
   --bv-under: #0b6b34;
   --bv-over: #a33a00;
+  --bv-turf-text: #0b7a3b;
   --bv-signal: #000000;
   --bv-action: #000000;
   --bv-on-action: var(--bv-flag);
   --bv-focus: #000000;
+  --bv-shadow-hud: 0 0 0 1px var(--bv-rim-outer), 0 6px 18px rgba(0, 0, 0, 0.22);
 }
 
 @media (prefers-reduced-motion: reduce) {

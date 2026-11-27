@@ -51,6 +51,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 #chooser[hidden] { display: none; }
+#chooser h1:focus, #chooser h2:focus { outline: none; }
 /* The author rules below give these elements a display of their own, which
    outranks the UA's [hidden]; without this a filtered-out card stays put. */
 #chooser [hidden] { display: none !important; }
@@ -119,11 +120,11 @@
 
 .hub-pill {
   padding: 4px 10px;
-  border-radius: 20px;
-  background: rgba(95, 208, 122, 0.12);
-  border: 1px solid rgba(95, 208, 122, 0.28);
-  color: var(--turf);
-  font: 700 10.5px/1 Outfit, sans-serif;
+  border-radius: var(--bv-radius-pill);
+  background: var(--bv-surface-2);
+  border: 1px solid var(--bv-hairline-strong);
+  color: var(--bv-ink-2);
+  font: 700 var(--bv-type-caption)/1 var(--bv-font);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -165,10 +166,10 @@
   flex: 0 0 auto;
 }
 .c-view-btn.active {
-  background: rgba(95, 208, 122, 0.2);
-  border-color: rgba(95, 208, 122, 0.45);
-  color: var(--turf);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: var(--bv-surface-3);
+  border-color: var(--bv-selected-border);
+  color: var(--bv-ink-1);
+  box-shadow: var(--bv-shadow-1);
 }
 /* A long label where there is room for one, a short one where there is not --
    both in the markup, so the choice is the stylesheet's and costs no script. */
@@ -272,13 +273,13 @@
 .cm-text b { font: 700 15px/1.1 Outfit, sans-serif; color: inherit; white-space: nowrap; }
 .cm-text small { font: 500 11.5px/1.1 Outfit, sans-serif; color: var(--faint); white-space: nowrap; }
 .c-mode-btn[aria-checked="true"] {
-  background: rgba(95, 208, 122, 0.13);
-  border-color: rgba(95, 208, 122, 0.5);
-  color: #ffffff;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  background: var(--bv-surface-3);
+  border-color: var(--bv-selected-border);
+  color: var(--bv-ink-1);
+  box-shadow: var(--bv-shadow-1);
 }
-.c-mode-btn[aria-checked="true"] .cm-icon { background: var(--turf); color: #04140a; }
-.c-mode-btn[aria-checked="true"] small { color: var(--turf); }
+.c-mode-btn[aria-checked="true"] .cm-icon { background: var(--bv-ink-1); color: var(--bv-canvas); }
+.c-mode-btn[aria-checked="true"] small { color: var(--bv-ink-2); }
 .c-mode-btn:focus-visible { outline: 2px solid var(--turf); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) {
   .chooser-back:hover, .chooser-settings:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(95, 208, 122, 0.4); }
@@ -362,11 +363,11 @@
   position: absolute;
   right: 10px;
   padding: 3px 7px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--bv-radius-chip);
+  background: var(--bv-surface-2);
+  border: 1px solid var(--bv-hairline);
   color: var(--faint);
-  font: 600 10.5px/1 var(--bv-font);
+  font: 600 var(--bv-type-caption)/1 var(--bv-font);
   font-variant-numeric: tabular-nums;
   pointer-events: none;
 }
@@ -479,14 +480,14 @@
 }
 .c-filter-btn svg { flex: 0 0 auto; }
 .cf-n {
-  font: 600 10.5px/1 var(--bv-font);
+  font: 600 var(--bv-type-caption)/1 var(--bv-font);
   font-variant-numeric: tabular-nums;
   color: var(--faint);
 }
 .c-filter-btn.active {
-  background: rgba(95, 208, 122, 0.16);
-  border-color: rgba(95, 208, 122, 0.5);
-  color: var(--turf);
+  background: var(--bv-surface-3);
+  border-color: var(--bv-selected-border);
+  color: var(--bv-ink-1);
 }
 .c-filter-btn.active .cf-n { color: inherit; opacity: 0.8; }
 
@@ -591,12 +592,12 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   margin-bottom: 14px;
 }
 .no-courses-msg button {
-  min-height: 40px;
+  min-height: var(--bv-hit);
   padding: 0 18px;
-  border-radius: 10px;
-  background: var(--turf);
-  color: #04140a;
-  font: 700 12.5px/1 Outfit, sans-serif;
+  border-radius: var(--bv-radius-control);
+  background: var(--bv-action);
+  color: var(--bv-on-action);
+  font: 700 var(--bv-type-footnote)/1 var(--bv-font);
   border: none;
   cursor: pointer;
 }
@@ -660,7 +661,7 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 .mrb-label {
-  font: 700 10.5px/1 Outfit, sans-serif;
+  font: 700 var(--bv-type-caption)/1 var(--bv-font);
   color: var(--faint);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -671,22 +672,22 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
 }
 .mrb-btn {
   padding: 5px 10px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--bv-radius-control);
+  background: var(--bv-surface-2);
+  border: 1px solid var(--bv-hairline);
   color: var(--dim);
-  font: 600 11px/1 Outfit, sans-serif;
+  font: 600 var(--bv-type-caption)/1 var(--bv-font);
   cursor: pointer;
   transition: all 0.15s;
 }
 .mrb-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bv-surface-3);
   color: var(--ink);
 }
 .mrb-btn.active {
-  background: rgba(95, 208, 122, 0.2);
-  border-color: rgba(95, 208, 122, 0.5);
-  color: var(--turf);
+  background: var(--bv-surface-3);
+  border-color: var(--bv-selected-border);
+  color: var(--bv-ink-1);
 }
 
 .map-canvas-wrap {
@@ -709,8 +710,8 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
 .leaflet-control-attribution {
   background: rgba(4, 9, 7, 0.8) !important;
   color: var(--faint) !important;
-  font-size: 9.5px !important;
-  border-radius: 6px 0 0 0 !important;
+  font-size: var(--bv-type-caption) !important;
+  border-radius: var(--bv-radius-chip) 0 0 0 !important;
   backdrop-filter: blur(8px) !important;
   border-top: 1px solid var(--edge);
   border-left: 1px solid var(--edge);
@@ -839,9 +840,9 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   color: #ffffff;
 }
 .pin-sub {
-  font: 600 9.5px/1.2 var(--bv-font);
+  font: 600 var(--bv-type-caption)/1.2 var(--bv-font);
   font-variant-numeric: tabular-nums;
-  color: var(--turf);
+  color: var(--bv-ink-2);
 }
 
 /* ---- In-Game Top-Left Header Menu Trigger ---- */
@@ -922,9 +923,9 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   letter-spacing: -0.01em;
 }
 .cip-sub {
-  font: 600 9px/1.2 Outfit, sans-serif;
-  color: var(--turf);
-  letter-spacing: 0.12em;
+  font: 600 var(--bv-type-caption)/1.2 var(--bv-font);
+  color: var(--bv-ink-2);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-top: 2px;
 }
@@ -1032,7 +1033,7 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   box-shadow: 0 0 10px var(--turf);
 }
 .drawer-tag {
-  font: 700 10px/1 Outfit, sans-serif;
+  font: 700 var(--bv-type-caption)/1 var(--bv-font);
   color: var(--faint);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1065,7 +1066,7 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   border: 1px solid rgba(95, 208, 122, 0.22);
 }
 .dcc-tag {
-  font: 700 9.5px/1 Outfit, sans-serif;
+  font: 700 var(--bv-type-caption)/1 var(--bv-font);
   color: var(--turf);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1098,7 +1099,7 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   gap: 10px;
 }
 .drawer-sec-title {
-  font: 700 10px/1 Outfit, sans-serif;
+  font: 700 var(--bv-type-caption)/1 var(--bv-font);
   color: var(--faint);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1192,7 +1193,7 @@ a.drawer-main-btn { text-decoration: none; }
   text-overflow: ellipsis;
 }
 .d-course-info {
-  font: 500 9.5px/1.3 var(--bv-font);
+  font: 500 var(--bv-type-caption)/1.3 var(--bv-font);
   font-variant-numeric: tabular-nums;
   color: var(--faint);
   margin-top: 2px;
@@ -1201,11 +1202,11 @@ a.drawer-main-btn { text-decoration: none; }
   position: absolute;
   top: 6px;
   right: 6px;
-  font: 700 8px/1 Outfit, sans-serif;
+  font: 700 var(--bv-type-caption)/1 var(--bv-font);
   color: var(--turf);
   background: rgba(95, 208, 122, 0.2);
-  padding: 2px 4px;
-  border-radius: 4px;
+  padding: 2px 5px;
+  border-radius: var(--bv-radius-chip);
 }
 
 /* Drawer button grids */
@@ -1245,9 +1246,9 @@ a.drawer-main-btn { text-decoration: none; }
   color: var(--ink);
 }
 .d-btn.active {
-  background: rgba(95, 208, 122, 0.17);
-  border-color: rgba(95, 208, 122, 0.45);
-  color: var(--turf);
+  background: var(--bv-surface-3);
+  border-color: var(--bv-selected-border);
+  color: var(--bv-ink-1);
   font-weight: 700;
 }
 
@@ -1289,7 +1290,7 @@ a.drawer-main-btn { text-decoration: none; }
   color: var(--ink);
 }
 .dt-desc {
-  font: 400 10px/1.3 Outfit, sans-serif;
+  font: 400 var(--bv-type-caption)/1.3 var(--bv-font);
   color: var(--faint);
   margin-top: 1px;
 }
@@ -1300,13 +1301,13 @@ a.drawer-main-btn { text-decoration: none; }
   display: inline-block;
   margin-left: 6px;
   padding: 1px 5px;
-  border-radius: 5px;
-  font: 700 9px/1.35 var(--bv-font);
+  border-radius: var(--bv-radius-chip);
+  font: 700 var(--bv-type-caption)/1.35 var(--bv-font);
   font-variant-numeric: tabular-nums;
   letter-spacing: .06em;
   color: var(--faint);
-  background: rgba(255, 255, 255, .06);
-  border: 1px solid rgba(255, 255, 255, .09);
+  background: var(--bv-surface-2);
+  border: 1px solid var(--bv-hairline);
   vertical-align: 1px;
 }
 .d-tool-btn.active .dt-state {
@@ -1329,16 +1330,16 @@ a.drawer-main-btn { text-decoration: none; }
   display: flex;
   align-items: center;
   gap: 8px;
-  font: 500 10.5px/1 Outfit, sans-serif;
+  font: 500 var(--bv-type-footnote)/1.2 var(--bv-font);
   color: var(--dim);
 }
 .sc-row kbd {
-  padding: 2px 5px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 2px 6px;
+  border-radius: var(--bv-radius-chip);
+  background: var(--bv-surface-2);
+  border: 1px solid var(--bv-hairline-strong);
   color: var(--ink);
-  font: 600 9.5px/1 var(--bv-font);
+  font: 600 var(--bv-type-caption)/1 var(--bv-font);
   font-variant-numeric: tabular-nums;
 }
 .sc-row span {
@@ -1402,7 +1403,7 @@ a.drawer-main-btn { text-decoration: none; }
   }
   .map-region-bar::-webkit-scrollbar { display: none; }
   .mrb-btns { flex: 0 0 auto; display: flex; gap: 5px; }
-  .mrb-btn { white-space: nowrap; flex: 0 0 auto; padding: 5px 8px; font-size: 10.5px; }
+  .mrb-btn { white-space: nowrap; flex: 0 0 auto; padding: 5px 8px; font-size: var(--bv-type-caption); }
 
 }
 
@@ -1413,24 +1414,18 @@ a.drawer-main-btn { text-decoration: none; }
     height: 44px;
   }
   #menuToggle {
+    width: 44px;
     height: 44px;
-    padding: 0 10px 0 8px;
-    border-radius: 12px;
-    gap: 7px;
-    max-width: 144px;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+    padding: 0;
+    justify-content: center;
+    border-radius: var(--bv-radius-pill);
+    gap: 0;
+    max-width: 44px;
+    box-shadow: var(--bv-shadow-hud);
   }
-  .hamburger-box { width: 24px; height: 24px; border-radius: 7px; }
-  .hb-line { width: 12px; }
-  .course-info-pill { max-width: 80px; }
-  .cip-name {
-    font-size: 12.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .cip-sub { display: none; }
-  .cip-chevron { width: 12px; height: 12px; margin-left: 0; }
+  .hamburger-box { width: 24px; height: 24px; border-radius: var(--bv-radius-chip); background: transparent; border: 0; }
+  .hb-line { width: 15px; }
+  .course-info-pill, .cip-chevron { display: none; }
   .drawer-course-grid { grid-template-columns: 1fr; }
   /* In the player the chooser is glass over a LIVE course, and at 95-98%
      opacity a 28 px blur of a running 3D canvas is a full-screen filter paid
@@ -1609,26 +1604,8 @@ body.choosing .mobile-hud-cluster { opacity: 0; pointer-events: none; transition
 .club-layouts { overflow-wrap: anywhere; }
 .club-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px; color: #b5dfbd; }
 .club-arrow { display: grid; place-items: center; }
-.club-state { font: 600 12px/1.4 Outfit,sans-serif; color: #b8ecbf; }
-#clubPicker {
-  width: min(480px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 32px); padding: 0;
-  border: 1px solid #4e6656; border-radius: 18px; background: #16251d; color: #f6f6ed;
-  margin: auto; overflow-y: auto; overscroll-behavior: contain; box-shadow: 0 18px 70px #0008;
-}
-#clubPicker::backdrop { background: #020a05be; }
-.club-picker-panel { padding: 24px; }
-.club-picker-panel header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.club-picker-panel h2 { font: 600 clamp(24px,4vw,32px)/1.1 Outfit,sans-serif; margin: 4px 0 0; color: inherit; }
-.club-picker-panel h3 { font: 600 16px/1.35 Outfit,sans-serif; margin: 22px 0 10px; }
-.club-picker-panel ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.club-picker-panel button { font: inherit; color: inherit; background: #1d3125; border: 1px solid #45624e; cursor: pointer; }
-.club-picker-panel .club-close { min-width: 44px; min-height: 44px; border-radius: 50%; display: grid; place-items: center; }
-.club-picker-panel [data-layout] { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 72px; border-radius: 12px; padding: 8px 12px 8px 8px; text-align: left; }
-.club-picker-panel img { display: block; flex: none; width: 72px; height: 58px; object-fit: cover; border-radius: 7px; }
-.club-layout-copy { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
-.club-layout-copy strong { font: 650 17px/1.2 Outfit,sans-serif; }
-.club-layout-copy small { color: #b7e8c0; }
-.club-picker-panel button:focus-visible, #chooserModeToggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.club-state { font: 600 var(--bv-type-footnote)/1.4 var(--bv-font); color: var(--bv-turf-hi); }
+#chooserModeToggle:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 @media (min-width: 901px) {
   #chooser .cards { grid-template-columns: repeat(3,minmax(0,1fr)); }
 }
@@ -1636,15 +1613,13 @@ body.choosing .mobile-hud-cluster { opacity: 0; pointer-events: none; transition
   .chooser-head-row { align-items: center; gap: 6px; }
   #chooser .chooser-main-title { font-size: clamp(22px,6vw,30px); }
   #chooser .cards { grid-template-columns: minmax(0,1fr); gap: 8px; }
-  #chooser .club-card { display: grid; grid-template-columns: clamp(64px,20vw,102px) minmax(0,1fr); align-items: stretch; border-radius: 12px; }
+  #chooser .club-card { display: grid; grid-template-columns: clamp(64px,20vw,102px) minmax(0,1fr); align-items: stretch; border-radius: var(--bv-radius-control-touch); }
   #chooser .club-card .shot { aspect-ratio: auto; height: 100%; min-height: 80px; }
   .club-info { position: relative; gap: 1px; padding: 8px 24px 8px 10px; }
-  .club-place, .club-layouts, .club-foot { font-size: 13px; line-height: 1.3; }
-  .club-name { font-size: 17px; }
+  .club-place, .club-layouts, .club-foot { font-size: var(--bv-type-footnote); line-height: 1.3; }
+  .club-name { font-size: var(--bv-type-headline); }
   .club-foot { margin-top: 0; padding-top: 2px; }
   .club-arrow { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); }
-  #clubPicker { width: min(100%,480px); max-height: calc(100dvh - max(16px,env(safe-area-inset-top))); margin: auto auto 0; border-radius: 18px 18px 0 0; }
-  .club-picker-panel { padding: 18px max(16px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left)); }
 }
 @media (max-width: 600px), (max-height: 520px) and (pointer: coarse) {
   #chooser.map-mode .chooser-head {

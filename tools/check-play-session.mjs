@@ -75,6 +75,16 @@ try {
     await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
     const errors = await page.evaluate(() => {
       const issues = [];
+      const mapToggle = document.querySelector('[data-map-toggle]');
+      const toggleVisible = Boolean(mapToggle && mapToggle.getBoundingClientRect().width > 0 && getComputedStyle(mapToggle).display !== 'none');
+      if (toggleVisible) {
+        const r = mapToggle.getBoundingClientRect();
+        if (r.left < 0 || r.top < 0 || r.right > innerWidth + 1 || r.bottom > innerHeight + 1 ||
+            !mapToggle.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2))) {
+          issues.push('map-toggle unreachable');
+        }
+        mapToggle.click();
+      }
       const map = document.querySelector('.pl-map-size');
       for (let size = 0; size < 2; size++) {
         for (const method of ['tap', 'drag']) {
@@ -87,13 +97,16 @@ try {
           }
           const swing = document.querySelector('.pl-swing').getBoundingClientRect();
           for (const selector of ['.pl-cond', '.pl-map', '.pl-dock']) {
-            const r = document.querySelector(selector).getBoundingClientRect();
+            const el = document.querySelector(selector);
+            if (!el || getComputedStyle(el).display === 'none') continue;
+            const r = el.getBoundingClientRect();
             if (Math.min(r.right, swing.right) - Math.max(r.left, swing.left) > 1 &&
                 Math.min(r.bottom, swing.bottom) - Math.max(r.top, swing.top) > 1) issues.push(method + ' ' + selector + ' overlaps swing');
           }
         }
         map.click();
       }
+      if (toggleVisible) mapToggle.click();
       return issues;
     });
     assert.deepEqual(errors, [], 'Simulator HUD at ' + width + '×' + height);
@@ -194,7 +207,7 @@ try {
   assert.deepEqual(await model(), settled);
   await page.evaluate(([key, value]) => localStorage.setItem(key, value), [checkpointKey, stored]);
   await save.click();
-  await page.waitForURL('**/#spela/veckefjarden');
+  await page.waitForURL('**/#klubb/veckefjarden?bana=veckefjarden&lage=spela');
   const resume = page.getByRole('button', { name: /Fortsätt simuleringen.*hål 1/ });
   await resume.waitFor();
   assert.equal(await page.evaluate(() => localStorage.getItem('banvy-play-rounds-v1')), null);
@@ -216,7 +229,7 @@ try {
   await page.locator('[data-save-error]').filter({ hasText: /webbläsarens lagring/ }).waitFor();
   assert.deepEqual(await model(), settled);
   await finish.click();
-  await page.waitForURL('**/#spela/veckefjarden');
+  await page.waitForURL('**/#klubb/veckefjarden?bana=veckefjarden&lage=spela');
   await page.getByRole('button', { name: 'Starta simuleringen' }).waitFor();
   assert.equal(await page.evaluate(key => localStorage.getItem(key), checkpointKey), null);
   const history = await page.evaluate(() => JSON.parse(localStorage.getItem('banvy-play-rounds-v1')).rounds);

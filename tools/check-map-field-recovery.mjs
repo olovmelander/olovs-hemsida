@@ -96,7 +96,8 @@ try {
   console.log('A pending shot stays actionable, can be cancelled and expires. Retrying records one shot across repeated fixes.');
 
   const before = await score();
-  await page.locator('[data-score]').tap();
+  await page.locator('[data-menu]').tap();
+  await page.locator('[data-menu-score]').tap();
   await page.locator('[data-stroke-key="5"]').tap();
   const undo = page.locator('[data-score-undo-btn]');
   const undoIsReachable = () => undo.evaluate(button => {
@@ -131,9 +132,9 @@ try {
   assert.match(await source.innerText(), /senaste säkra GPS/i);
   const originalSize = await source.evaluate(element => parseFloat(getComputedStyle(element).fontSize));
   await page.locator('[data-menu]').tap();
+  await page.locator('[data-sun-mode="dag"]').tap();
   await page.locator('[data-menu-tab="visning"]').tap();
   await page.locator('[data-large]').check();
-  await page.locator('[data-sun]').check();
   await page.locator('[data-menu-sheet] [data-close]').tap();
   await page.setViewportSize(portrait);
   await wait(() => V3DMap.camera.state.width === innerWidth);
@@ -141,7 +142,10 @@ try {
     parseFloat(getComputedStyle(element).fontSize) > original &&
     element.scrollWidth <= element.clientWidth + 1, originalSize), 'The stale source scales and fits the sun/large-text HUD');
   await permission('granted');
-  await page.locator('[data-gps]').tap();
+  await page.locator('[data-menu]').tap();
+  await page.locator('[data-menu-tab="runda"]').tap();
+  await page.locator('[data-menu-gps]').check();
+  await page.locator('[data-menu-sheet] [data-close]').tap();
   await context.setGeolocation(green);
   await wait(() => V3DMap.state.guidance?.source === 'gps' && document.querySelector('[data-mid-number]').textContent === 'På green');
   assert.deepEqual(errors, []);
