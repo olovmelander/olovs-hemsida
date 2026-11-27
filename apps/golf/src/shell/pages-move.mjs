@@ -4,6 +4,8 @@
    It carries the player's own data along in the URL fragment, which a browser
    never sends to a server, because stored data belongs to one site and would
    otherwise stay behind. shell/move-in.mjs receives it there. */
+import { LEGACY_PAGES } from './legacy-links.mjs';
+
 export const MAIN_SITE = 'https://banvy.olovmelander.workers.dev/';
 export const PAGES_BASE = '/olovs-hemsida/';
 export const MOVE_PARAM = 'flytt';
@@ -11,13 +13,18 @@ export const MOVE_PARAM = 'flytt';
    1 MB; past this the page offers the backup file rather than risk a cut URL. */
 export const MOVE_LIMIT = 500_000;
 
+/* The pages a visitor could have opened on the old address: the app routes by its
+   hash, so besides its root these are the seven old bookmarks and the two policy
+   pages. Any other path is sent to the start, never to a 404 on the main site. */
+export const MOVED_PAGES = Object.freeze([...Object.keys(LEGACY_PAGES), 'integritet.html', 'villkor.html']);
+
 /* Keep this function self-contained: the generator embeds its source in the page.
-   `rules`: { base, site, param, limit, own, deviceKeys, devicePrefixes, now }, the
-   last four from backup-keys.mjs, so both sites agree on what is the player's. */
+   `rules`: { base, site, pages, param, limit, own, deviceKeys, devicePrefixes, now },
+   the last four from backup-keys.mjs, so both sites agree on what is the player's. */
 export async function movedLocation(location, storage, rules) {
-  const { base, site, param, limit, own, deviceKeys, devicePrefixes, now } = rules;
+  const { base, site, pages, param, limit, own, deviceKeys, devicePrefixes, now } = rules;
   const path = location.pathname.startsWith(base) ? location.pathname.slice(base.length) : '';
-  const target = new URL(path.replace(/(^|\/)index\.html$/, '$1') + location.search, site).href;
+  const target = new URL((pages.includes(path) ? path : '') + location.search, site).href;
   const data = {};
   try {
     const ownKey = new RegExp(own);

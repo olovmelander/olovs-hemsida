@@ -2,12 +2,12 @@
    main site's (move-in.mjs) must agree byte for byte, since nobody can choose the
    data again once the old app is gone. */
 import { afterEach, describe, expect, it } from 'vitest';
-import { MAIN_SITE, MOVE_LIMIT, MOVE_PARAM, PAGES_BASE, movedLocation } from './pages-move.mjs';
+import { MAIN_SITE, MOVED_PAGES, MOVE_LIMIT, MOVE_PARAM, PAGES_BASE, movedLocation } from './pages-move.mjs';
 import { MOVE_SEEN, decodeMove, movePrint, readMoveHash, receiveMove, rememberMove, takePendingMove } from './move-in.mjs';
 import { DEVICE_ONLY_KEYS, DEVICE_ONLY_PREFIXES, OWN_KEY_SOURCE } from './backup-keys.mjs';
 import { MAP_KEYS, SETTINGS_KEY, readMove } from './settings-store.mjs';
 
-const RULES = { base: PAGES_BASE, site: MAIN_SITE, param: MOVE_PARAM, limit: MOVE_LIMIT, own: OWN_KEY_SOURCE,
+const RULES = { base: PAGES_BASE, site: MAIN_SITE, pages: [...MOVED_PAGES], param: MOVE_PARAM, limit: MOVE_LIMIT, own: OWN_KEY_SOURCE,
   deviceKeys: [...DEVICE_ONLY_KEYS], devicePrefixes: [...DEVICE_ONLY_PREFIXES], now: Date.UTC(2026, 10, 27, 12) };
 const at = (path, search = '', hash = '') => ({ pathname: path, search, hash });
 
@@ -47,6 +47,16 @@ describe('the old address sends the visitor to the same place', () => {
       .toBe(MAIN_SITE + 'veckefjarden3d.html?hal=14#bookmark');
     expect((await movedLocation(at('/olovs-hemsida', '?x=1'), empty, RULES)).url).toBe(MAIN_SITE + '?x=1');
     expect((await movedLocation(at('/elsewhere/page.html'), empty, RULES)).url).toBe(MAIN_SITE);
+    expect((await movedLocation(at('/olovs-hemsida/integritet.html'), empty, RULES)).url).toBe(MAIN_SITE + 'integritet.html');
+  });
+
+  it('sends a path the main site does not have to its start, keeping the query and hash', async () => {
+    const empty = memory();
+    expect((await movedLocation(at('/olovs-hemsida/probe-404-path', '?bana=visby', '#statistik'), empty, RULES)).url)
+      .toBe(MAIN_SITE + '?bana=visby#statistik');
+    expect((await movedLocation(at('/olovs-hemsida/courses/visby/pack.bin'), empty, RULES)).url).toBe(MAIN_SITE);
+    expect((await movedLocation(at('/olovs-hemsida/unknown3d.html'), empty, RULES)).url).toBe(MAIN_SITE);
+    for (const page of MOVED_PAGES) expect((await movedLocation(at('/olovs-hemsida/' + page), empty, RULES)).url).toBe(MAIN_SITE + page);
   });
 
   it('carries nothing when the visitor kept nothing', async () => {
