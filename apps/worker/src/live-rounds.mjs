@@ -12,8 +12,8 @@ export function liveMutation(input) {
       || typeof input.device !== 'string' || !token.test(input.device)
       || typeof input.operation !== 'string' || !token.test(input.operation)
       || !Number.isSafeInteger(input.revision) || input.revision < 0
-      || !['save', 'offer', 'claim', 'end'].includes(input.action)) return null;
-  if (input.action === 'claim' || input.action === 'end') return { ...input, snapshot: null };
+      || !['save', 'offer', 'claim', 'end', 'dismiss'].includes(input.action)) return null;
+  if (['claim', 'end', 'dismiss'].includes(input.action)) return { ...input, snapshot: null };
   const snap = input.snapshot, card = snap?.card;
   if (!card || card.version !== 1 || card.id !== input.id || !Number.isSafeInteger(card.begunAt) || card.begunAt <= 0
       || card.endedAt || !holeNumber(card.playingHole)
@@ -45,6 +45,11 @@ export async function changeLiveRound(db, user, input, now = Date.now()) {
   if (revision === 0 && action === 'save') {
     await db.prepare("INSERT INTO live_rounds (user_id,course,round_id,writer,revision,status,snapshot,updated_at,last_operation) VALUES (?,?,?,?,1,'recording',?,?,?) ON CONFLICT DO NOTHING")
       .bind(...key, device, snapshot, now, operation).run();
+  } else if (action === 'dismiss') {
+    // The golfer takes a round off the list from any of their devices: one begun and never
+    // played, or one offered and never taken. It must still be the revision they were shown.
+    await db.prepare("UPDATE live_rounds SET snapshot=NULL,status='ended',revision=revision+1,updated_at=?,last_operation=? WHERE user_id=? AND course=? AND round_id=? AND revision=? AND status IN ('recording','offered')")
+      .bind(now, operation, ...key, revision).run();
   } else if (action === 'claim') {
     await db.prepare("UPDATE live_rounds SET writer=?,revision=revision+1,status='recording',updated_at=?,last_operation=? WHERE user_id=? AND course=? AND round_id=? AND revision=? AND status='offered'")
       .bind(device, now, operation, ...key, revision).run();
@@ -56,5 +61,6 @@ export async function changeLiveRound(db, user, input, now = Date.now()) {
       .bind(action === 'end' ? null : snapshot, status, now, operation, ...key, revision, device, action).run();
   }
   const row = await db.prepare('SELECT * FROM live_rounds WHERE user_id=? AND course=? AND round_id=?').bind(...key).first();
-  return { accepted: row?.last_operation === operation && row?.writer === device, row: publicRow(row) };
+  const ours = row?.last_operation === operation && (action === 'dismiss' || row?.writer === device);
+  return { accepted: ours, row: publicRow(row) };
 }

@@ -312,3 +312,25 @@ pin drawn.
 
 `tools/check-map-field.mjs` checks the start menu's mode cards and the near-course
 card, the round started from a plain link, and a finished round's Se statistik.
+
+## A round's own actions (27 November 2026)
+
+Rounds begun and never played piled up on the start page, one card per device and course, with no way
+to remove them (owner request). Every round card now has its actions (`shell/round-actions.mjs`):
+
+- **Where:** a visible ⋯ beside the card (the card and its ⋯ read as one split button: the card
+  resumes, ⋯ offers the rest). A long press on a touch screen (450 ms, a short buzz) and a right click
+  open the same sheet, and the press is not also a tap on the card.
+- **The sheet** names the round and what it holds, and offers:
+  - *Avsluta och spara rundan* when holes are played. The map opens with `runda=avsluta`, ends the
+    round and shows what it came to.
+  - The card's own action (*Lämna över rundan*, *Fortsätt på denna enhet*) for the account's rounds.
+  - *Ta bort rundan*, which removes the device's own copy and takes the round off the account.
+- **No confirm dialog:** the card goes at once and a toast offers *Ångra* for six seconds. Only then is
+  the removal made (at once if the page is left).
+- **Any device of the account** can take a round off its list: the Worker's `dismiss` action
+  (`apps/worker/src/live-rounds.mjs`), at the revision the golfer was shown, also for an offered round
+  that no device records. A device still playing the round keeps its card, and its next save puts the
+  round back on the list.
+- **Checks:** `tools/check-live-handoff.mjs` removes a round from a second device, undoes it, and
+  removes it again.

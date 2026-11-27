@@ -4173,6 +4173,9 @@ async function start() {
     refreshMenu();
     if (isDesktop()) selectDeskTab('menu');
     else showSheet(ui.menuSheet);
+  } else if (entry === 'avsluta' && roundUnderWay() && !round.endedAt) {
+    /* From the start page's round sheet: Avsluta och spara rundan. */
+    endRound();
   } else if (resumeUnavailable || offerStart) {
     openStart();
   } else firstTip();

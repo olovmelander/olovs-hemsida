@@ -136,6 +136,8 @@ export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS, plan
     params.set('karta', '1');
     if (plan?.round === 'resume') {
       params.set('runda', 'fortsatt');
+    } else if (plan?.round === 'end') {
+      params.set('runda', 'avsluta');
     } else {
       if (plan?.round === true) params.set('runda', '1');
       if (plan?.round === false) {

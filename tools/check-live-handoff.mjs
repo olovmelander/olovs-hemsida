@@ -64,7 +64,8 @@ try {
   const preview = target.page.locator('[data-live-rounds]');
   await preview.getByText('Hål 10 · 5 slag', { exact: true }).waitFor();
   assert.match(await preview.innerText(), /Följ pågående runda/);
-  assert.equal(await preview.getByRole('button').count(), 0);
+  // Nothing to take over here: only the round's own ⋯ (round-actions.mjs).
+  assert.equal(await preview.locator('button:not(.lr-more)').count(), 0);
   assert.equal(await target.page.evaluate(key => localStorage.getItem(key), cardKey), null);
   console.log('A second signed-in device can review the live card while recording stays on the phone.');
 
@@ -102,7 +103,27 @@ try {
   await target.page.locator('[data-stroke-key="6"]').click();
   await source.page.reload();
   await source.page.getByText('Hål 10 · 6 slag', { exact: true }).waitFor();
-  assert.equal(await source.page.locator('[data-live-rounds] button').count(), 0);
+  assert.equal(await source.page.locator('[data-live-rounds] button:not(.lr-more)').count(), 0);
+
+  // Any device of the golfer can take a round off the account's list: its ⋯, Ta bort rundan, and an
+  // undo that brings it back until it has gone by. The device that records it keeps its own card.
+  const removeRound = async () => {
+    await source.page.locator('[data-live-rounds] .lr-more').first().click();
+    await source.page.getByRole('button', { name: /^Ta bort rundan/ }).click();
+  };
+  await removeRound();
+  await wait(source.page, () => !document.querySelector('[data-live-rounds] details'));
+  await source.page.getByRole('button', { name: 'Ångra' }).click();
+  await source.page.getByText('Hål 10 · 6 slag', { exact: true }).waitFor();
+  await removeRound();
+  await source.page.locator('.round-toast').waitFor({ state: 'hidden', timeout: 15000 });
+  await source.page.reload();
+  await source.page.locator('[data-live-rounds] [role=status]').filter({ hasText: /Ingen synkad runda/ }).waitFor();
+  assert.equal(await source.page.locator('[data-live-rounds] details').count(), 0);
+  await target.page.goto(home);
+  await target.page.locator('[data-live-rounds] [role=status]').filter({ hasText: /Ingen synkad runda/ }).waitFor();
+  assert.equal(await target.page.evaluate(key => JSON.parse(localStorage.getItem(key))?.scores[10]?.strokes, cardKey), 6);
+  console.log('A round is taken off the account from another device, with an undo; the recording device keeps its card.');
   assert.deepEqual(errors, []);
   console.log('A confirmed handoff survives a dropped response. The receiving device resumes the same hole, card and GPS shot once, then becomes the sole writer.');
 } finally {

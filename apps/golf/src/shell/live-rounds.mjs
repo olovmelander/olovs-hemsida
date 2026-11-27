@@ -215,6 +215,42 @@ export async function offerLive(course, id) {
   });
 }
 
+/* The id of the round this device keeps for a course, if it has one under way. */
+export function localRoundId(course) {
+  const card = read(ROUND_KEY + ':' + course);
+  return card?.begunAt && !card.endedAt ? card.id : null;
+}
+
+/* Takes this device's own copy of a round away: the card and its GPS state. Its logged shots stay
+   in the history, where the clubs' lengths are drawn from them. The ownership mark is frozen so the
+   card is never published again. */
+export function discardLocalRound(course, id) {
+  if (read(ROUND_KEY + ':' + course)?.id !== id) return false;
+  const user = who();
+  if (user) {
+    const key = guardKey(user, course, id);
+    write(key, { ...(read(key) ?? { revision: 0 }), frozen: true, status: 'ended' });
+  }
+  clearLocalCard(course, id);
+  event();
+  return true;
+}
+
+/* Takes a round off the account's list, from any of the golfer's devices: one begun and never played,
+   or one offered and never taken. Gone already is done. */
+export async function dismissLive(round) {
+  const user = who();
+  if (!user) return null;
+  if (navigator.onLine === false) throw Error('Rundan togs bort här. Anslut till nätet för att ta bort den från kontot.');
+  return serial(guardKey(user, round.course, round.id), async () => {
+    const latest = (await remoteRounds()).find(r => r.course === round.course && r.id === round.id);
+    if (!latest) return null;
+    const row = await mutate(user, round.course, round.id, 'dismiss', null, latest.revision);
+    event();
+    return row;
+  });
+}
+
 function clearLocalCard(course, id) {
   if (read(ROUND_KEY + ':' + course)?.id !== id) return;
   localStorage.removeItem(ROUND_KEY + ':' + course);
