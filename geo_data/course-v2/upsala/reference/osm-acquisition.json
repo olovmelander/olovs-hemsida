@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "groundId": "upsala",
+  "provider": "OpenStreetMap contributors",
+  "licence": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "retrievedAt": "2026-11-26T23:13:42.001Z",
+  "timestampOsmBase": "2026-11-26T23:11:47Z",
+  "bboxWgs84": [
+    17.47,
+    59.83,
+    17.53,
+    59.853
+  ],
+  "rawResponse": {
+    "bytes": 1351748,
+    "sha256": "3e64b98c040aed74571c04e92136292bc52202a7796e76936facb7a657fd32a0",
+    "elementCount": 810
+  },
+  "outputs": {
+    "golf": {
+      "file": "osm-golf-epsg3006.geojson",
+      "bytes": 282576,
+      "sha256": "30acea0d7e82dfdf0f7a38cf12a4e41983f9e664882677a79627fee0c60111e2"
+    },
+    "context": {
+      "file": "osm-context-epsg3006.geojson",
+      "bytes": 1497741,
+      "sha256": "71121ae87333bc5376206ea0c9625ff63e83b0756786d7c4e8355a3369e4b3d4"
+    }
+  },
+  "report": {
+    "targetBoundary": {
+      "type": "relation",
+      "id": 152116,
+      "name": "Upsala golfklubb",
+      "bboxEpsg3006": [
+        639283.979,
+        6635518.515,
+        641011.845,
+        6637036.482
+      ]
+    },
+    "neighbourBoundaries": [],
+    "excludedNeighbourGolfCount": 0,
+    "golfCounts": {
+      "green": 17,
+      "fairway": 1,
+      "tee": 4,
+      "driving_range": 1,
+      "bunker": 80,
+      "golf_course": 1
+    },
+    "contextFeatureCount": 706,
+    "expectedHoleCount": 18,
+    "mappedHoleCount": 0,
+    "missingHoleRefs": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ]
+  }
+}

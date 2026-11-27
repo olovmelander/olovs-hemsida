@@ -1,0 +1,829 @@
+{
+ "schemaVersion": 1,
+ "slug": "upsala-mellanbanan",
+ "classifierAccuracy": {
+  "green": 0.9892,
+  "fairway": 0.971,
+  "otherGrass": 0.8702
+ },
+ "provenance": {
+  "imagery": "orto-o2-2025",
+  "imagerySha256": {
+   "south-w-2025.tif": "4de25898e07723463e4843b788c9c1005008ddf45daa210b73f4d34cc6014b53",
+   "south-m-2025.tif": "ef8a2fabe08d121c6a997736b731d10370eafacffcde5fd0da2d5a50fd73afc2",
+   "south-e-2025.tif": "9b60284fa4b6187ac49b9bebe35831b5066233ed71fd6345b42579cc718ae712",
+   "north-w-2025.tif": "e4b0a5996356468584912710415889d628e2d6e1d72315ec5c86f1b299bb1d2c",
+   "north-m-2025.tif": "6133a509c744030b978ebc1c7414936208f30ffe3feaa6745b5707fb12a6a0d6",
+   "north-e-2025.tif": "fe96f65bf56bcc25e960c8c375faca5cc616215e5a38bacc97fb20e48138abe3",
+   "overview-2025.tif": "95e30c0cb8802cf86d4dcd429a6fe5f25aef688e98020387301c03b0b02a9460"
+  },
+  "terrainSha256": "d112a9c364239afda755f820a756d5dc096406f1464cc4b9545e0e818f7f93c9",
+  "osmSha256": "30acea0d7e82dfdf0f7a38cf12a4e41983f9e664882677a79627fee0c60111e2",
+  "tool": "packages/course-geo/mapping/trace-course-surfaces.py",
+  "fairwayImagery": "orto-o2-2025+orto-o2-2023+orto-o2-2021",
+  "fairwayImagerySha256": {
+   "south-w-2025.tif": "4de25898e07723463e4843b788c9c1005008ddf45daa210b73f4d34cc6014b53",
+   "south-m-2025.tif": "ef8a2fabe08d121c6a997736b731d10370eafacffcde5fd0da2d5a50fd73afc2",
+   "south-e-2025.tif": "9b60284fa4b6187ac49b9bebe35831b5066233ed71fd6345b42579cc718ae712",
+   "north-w-2025.tif": "e4b0a5996356468584912710415889d628e2d6e1d72315ec5c86f1b299bb1d2c",
+   "north-m-2025.tif": "6133a509c744030b978ebc1c7414936208f30ffe3feaa6745b5707fb12a6a0d6",
+   "north-e-2025.tif": "fe96f65bf56bcc25e960c8c375faca5cc616215e5a38bacc97fb20e48138abe3",
+   "overview-2025.tif": "95e30c0cb8802cf86d4dcd429a6fe5f25aef688e98020387301c03b0b02a9460",
+   "course-2023.tif": "bebcff556b1a53f1a42af0f4ba75c71bef18303536ff473e6596f65c4be0a483",
+   "course-2021.tif": "e23bea875e7155ac1334f75d84cb0c003a345d5ce92ce908a4e18247bace6d6a"
+  },
+  "fairwayTraining": {
+   "training": "decision-lines",
+   "ndviAbove": 0,
+   "fit": "settled"
+  }
+ },
+ "rows": [
+  {
+   "hole": 1,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 632.1,
+   "dPrime": 3.6,
+   "meanShift": 0.03,
+   "rmsShift": 0.09,
+   "weakShare": 0.02,
+   "meanEdge": 0.56
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "mellan-tee-01-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "vit",
+    "gul",
+    "bla"
+   ],
+   "area": 283.4,
+   "dPrime": 3.17,
+   "meanShift": 0.16,
+   "rmsShift": 0.31,
+   "weakShare": 0.13,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 1,
+   "kind": "tee",
+   "id": "mellan-tee-01-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "rod",
+    "orange"
+   ],
+   "area": 65.5,
+   "dPrime": 3.06,
+   "meanShift": 0.07,
+   "rmsShift": 0.18,
+   "weakShare": 0.32,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 1,
+   "kind": "route",
+   "length": 285.9,
+   "card": 286,
+   "cardResidual": {
+    "vit": -0.1,
+    "gul": -0.1,
+    "bla": -0.1,
+    "rod": 1.8,
+    "orange": 1.8
+   }
+  },
+  {
+   "hole": 2,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 516.6,
+   "dPrime": 4.52,
+   "meanShift": 0.01,
+   "rmsShift": 0.08,
+   "weakShare": 0.0,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 2,
+   "kind": "tee",
+   "id": "mellan-tee-02-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "vit",
+    "gul",
+    "bla"
+   ],
+   "area": 137.7,
+   "dPrime": 2.58,
+   "meanShift": 0.09,
+   "rmsShift": 0.31,
+   "weakShare": 0.27,
+   "meanEdge": 0.45
+  },
+  {
+   "hole": 2,
+   "kind": "tee",
+   "id": "mellan-tee-02-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "rod"
+   ],
+   "area": 132.9,
+   "dPrime": 4.35,
+   "meanShift": 0.07,
+   "rmsShift": 0.13,
+   "weakShare": 0.09,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 2,
+   "kind": "tee",
+   "id": "mellan-tee-02-3",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "orange"
+   ],
+   "area": 20.0,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 2,
+   "kind": "route",
+   "length": 335.3,
+   "card": 335,
+   "cardResidual": {
+    "vit": 0.3,
+    "gul": 6.3,
+    "bla": 6.3,
+    "rod": 2.8,
+    "orange": 1.6
+   }
+  },
+  {
+   "hole": 3,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 451.5,
+   "dPrime": 5.16,
+   "meanShift": 0.08,
+   "rmsShift": 0.11,
+   "weakShare": 0.0,
+   "meanEdge": 0.46
+  },
+  {
+   "hole": 3,
+   "kind": "tee",
+   "id": "mellan-tee-03-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "vit",
+    "gul"
+   ],
+   "area": 343.2,
+   "dPrime": 3.59,
+   "meanShift": 0.06,
+   "rmsShift": 0.22,
+   "weakShare": 0.03,
+   "meanEdge": 0.61
+  },
+  {
+   "hole": 3,
+   "kind": "tee",
+   "id": "mellan-tee-03-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "bla",
+    "rod"
+   ],
+   "area": 95.4,
+   "dPrime": 7.0,
+   "meanShift": 0.02,
+   "rmsShift": 0.13,
+   "weakShare": 0.0,
+   "meanEdge": 0.58
+  },
+  {
+   "hole": 3,
+   "kind": "tee",
+   "id": "mellan-tee-03-3",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "orange"
+   ],
+   "area": 20.0,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 3,
+   "kind": "route",
+   "length": 426.7,
+   "card": 435,
+   "cardResidual": {
+    "vit": -8.3,
+    "gul": -8.3,
+    "bla": -7.3,
+    "rod": -7.3,
+    "orange": 0.7
+   }
+  },
+  {
+   "hole": 4,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 587.4,
+   "dPrime": 6.41,
+   "meanShift": -0.0,
+   "rmsShift": 0.03,
+   "weakShare": 0.0,
+   "meanEdge": 0.52
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "mellan-tee-04-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "vit",
+    "gul"
+   ],
+   "area": 254.5,
+   "dPrime": 5.04,
+   "meanShift": 0.05,
+   "rmsShift": 0.14,
+   "weakShare": 0.04,
+   "meanEdge": 0.46
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "mellan-tee-04-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "bla",
+    "rod"
+   ],
+   "area": 173.8,
+   "dPrime": 4.16,
+   "meanShift": 0.07,
+   "rmsShift": 0.15,
+   "weakShare": 0.12,
+   "meanEdge": 0.47
+  },
+  {
+   "hole": 4,
+   "kind": "tee",
+   "id": "mellan-tee-04-3",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "orange"
+   ],
+   "area": 20.0,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 4,
+   "kind": "route",
+   "length": 307.0,
+   "card": 307,
+   "cardResidual": {
+    "vit": -0.0,
+    "gul": -0.1,
+    "bla": 1.3,
+    "rod": 1.3,
+    "orange": -2.6
+   }
+  },
+  {
+   "hole": 5,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 462.2,
+   "dPrime": 6.58,
+   "meanShift": 0.05,
+   "rmsShift": 0.09,
+   "weakShare": 0.0,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "mellan-tee-05-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "vit",
+    "gul"
+   ],
+   "area": 112.9,
+   "dPrime": 3.73,
+   "meanShift": 0.01,
+   "rmsShift": 0.33,
+   "weakShare": 0.27,
+   "meanEdge": 0.35
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "mellan-tee-05-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "bla"
+   ],
+   "area": 97.0,
+   "dPrime": 3.79,
+   "meanShift": 0.2,
+   "rmsShift": 0.38,
+   "weakShare": 0.19,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 5,
+   "kind": "tee",
+   "id": "mellan-tee-05-3",
+   "start": "reviewed-ring",
+   "tees": [
+    "rod",
+    "orange"
+   ],
+   "area": 83.6,
+   "dPrime": 2.59,
+   "meanShift": 0.11,
+   "rmsShift": 0.24,
+   "weakShare": 0.23,
+   "meanEdge": 0.52
+  },
+  {
+   "hole": 5,
+   "kind": "route",
+   "length": 111.1,
+   "card": 109,
+   "cardResidual": {
+    "vit": 2.1,
+    "gul": 9.1,
+    "bla": 6.6,
+    "rod": 5.2,
+    "orange": 5.2
+   }
+  },
+  {
+   "hole": 6,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 482.5,
+   "dPrime": 3.61,
+   "meanShift": 0.01,
+   "rmsShift": 0.11,
+   "weakShare": 0.03,
+   "meanEdge": 0.59
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "mellan-tee-06-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "vit",
+    "gul"
+   ],
+   "area": 29.4,
+   "dPrime": 1.61,
+   "meanShift": -0.03,
+   "rmsShift": 0.26,
+   "weakShare": 0.27,
+   "meanEdge": 0.48
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "mellan-tee-06-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "bla"
+   ],
+   "area": 50.7,
+   "dPrime": 3.19,
+   "meanShift": 0.09,
+   "rmsShift": 0.17,
+   "weakShare": 0.24,
+   "meanEdge": 0.41
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "mellan-tee-06-3",
+   "start": "reviewed-ring",
+   "tees": [],
+   "area": 120.9,
+   "dPrime": 2.51,
+   "meanShift": -0.1,
+   "rmsShift": 0.25,
+   "weakShare": 0.39,
+   "meanEdge": 0.35
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "mellan-tee-06-4",
+   "start": "reviewed-ring",
+   "tees": [
+    "rod"
+   ],
+   "area": 131.1,
+   "dPrime": 2.85,
+   "meanShift": 0.05,
+   "rmsShift": 0.37,
+   "weakShare": 0.39,
+   "meanEdge": 0.35
+  },
+  {
+   "hole": 6,
+   "kind": "tee",
+   "id": "mellan-tee-06-5",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "orange"
+   ],
+   "area": 20.0,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 6,
+   "kind": "route",
+   "length": 454.3,
+   "card": 455,
+   "cardResidual": {
+    "vit": -0.7,
+    "gul": 8.9,
+    "bla": 7.6,
+    "rod": 0.0,
+    "orange": -10.8
+   }
+  },
+  {
+   "hole": 7,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 511.4,
+   "dPrime": 5.31,
+   "meanShift": 0.01,
+   "rmsShift": 0.05,
+   "weakShare": 0.02,
+   "meanEdge": 0.49
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "mellan-tee-07-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "vit"
+   ],
+   "area": 37.4,
+   "dPrime": 1.74,
+   "meanShift": 0.0,
+   "rmsShift": 0.27,
+   "weakShare": 0.35,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "mellan-tee-07-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "gul"
+   ],
+   "area": 71.7,
+   "dPrime": 1.51,
+   "meanShift": 0.08,
+   "rmsShift": 0.23,
+   "weakShare": 0.28,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "mellan-tee-07-3",
+   "start": "reviewed-ring",
+   "tees": [
+    "bla"
+   ],
+   "area": 64.5,
+   "dPrime": 1.94,
+   "meanShift": 0.3,
+   "rmsShift": 0.39,
+   "weakShare": 0.27,
+   "meanEdge": 0.44
+  },
+  {
+   "hole": 7,
+   "kind": "tee",
+   "id": "mellan-tee-07-4",
+   "start": "reviewed-ring",
+   "tees": [
+    "rod",
+    "orange"
+   ],
+   "area": 82.2,
+   "dPrime": 2.56,
+   "meanShift": 0.27,
+   "rmsShift": 0.41,
+   "weakShare": 0.16,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 7,
+   "kind": "route",
+   "length": 155.0,
+   "card": 155,
+   "cardResidual": {
+    "vit": -0.0,
+    "gul": -0.0,
+    "bla": 0.0,
+    "rod": 0.0,
+    "orange": 0.0
+   }
+  },
+  {
+   "hole": 8,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 428.4,
+   "dPrime": 5.0,
+   "meanShift": 0.15,
+   "rmsShift": 0.16,
+   "weakShare": 0.0,
+   "meanEdge": 0.58
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "mellan-tee-08-1",
+   "start": "terrain-platform",
+   "tees": [
+    "vit",
+    "gul"
+   ],
+   "area": 116.9,
+   "dPrime": 5.37,
+   "meanShift": -0.05,
+   "rmsShift": 0.23,
+   "weakShare": 0.25,
+   "meanEdge": 0.36
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "mellan-tee-08-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "bla",
+    "rod"
+   ],
+   "area": 75.1,
+   "dPrime": 2.47,
+   "meanShift": 0.16,
+   "rmsShift": 0.23,
+   "weakShare": 0.37,
+   "meanEdge": 0.37
+  },
+  {
+   "hole": 8,
+   "kind": "tee",
+   "id": "mellan-tee-08-3",
+   "start": "reviewed-ellipse",
+   "tees": [
+    "orange"
+   ],
+   "area": 20.0,
+   "dPrime": 0.0,
+   "weakShare": 1.0,
+   "kept": "as-drawn"
+  },
+  {
+   "hole": 8,
+   "kind": "route",
+   "length": 337.9,
+   "card": 338,
+   "cardResidual": {
+    "vit": -0.1,
+    "gul": -0.1,
+    "bla": -0.0,
+    "rod": -0.0,
+    "orange": -25.1
+   }
+  },
+  {
+   "hole": 9,
+   "kind": "green",
+   "start": "reviewed-ring",
+   "area": 720.5,
+   "dPrime": 3.87,
+   "meanShift": 0.06,
+   "rmsShift": 0.14,
+   "weakShare": 0.15,
+   "meanEdge": 0.42
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "mellan-tee-09-1",
+   "start": "reviewed-ring",
+   "tees": [
+    "rod",
+    "orange"
+   ],
+   "area": 62.2,
+   "dPrime": 5.38,
+   "meanShift": 0.0,
+   "rmsShift": 0.3,
+   "weakShare": 0.03,
+   "meanEdge": 0.55
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "mellan-tee-09-2",
+   "start": "reviewed-ring",
+   "tees": [
+    "gul",
+    "bla"
+   ],
+   "area": 212.8,
+   "dPrime": 3.33,
+   "meanShift": 0.14,
+   "rmsShift": 0.23,
+   "weakShare": 0.11,
+   "meanEdge": 0.5
+  },
+  {
+   "hole": 9,
+   "kind": "tee",
+   "id": "mellan-tee-09-3",
+   "start": "reviewed-ring",
+   "tees": [
+    "vit"
+   ],
+   "area": 133.9,
+   "dPrime": 4.3,
+   "meanShift": -0.01,
+   "rmsShift": 0.08,
+   "weakShare": 0.01,
+   "meanEdge": 0.58
+  },
+  {
+   "hole": 9,
+   "kind": "route",
+   "length": 180.9,
+   "card": 181,
+   "cardResidual": {
+    "vit": -0.1,
+    "gul": 0.0,
+    "bla": 0.0,
+    "rod": 0.0,
+    "orange": 0.0
+   }
+  },
+  {
+   "hole": 1,
+   "kind": "fairway",
+   "area": 6388,
+   "dPrime": 3.37,
+   "meanShift": -0.1,
+   "rmsShift": 0.64,
+   "weakShare": 0.85,
+   "meanEdge": 0.15
+  },
+  {
+   "hole": 2,
+   "kind": "fairway",
+   "area": 7987,
+   "dPrime": 3.64,
+   "meanShift": 0.25,
+   "rmsShift": 0.8,
+   "weakShare": 0.73,
+   "meanEdge": 0.18
+  },
+  {
+   "hole": 3,
+   "kind": "fairway",
+   "area": 308,
+   "dPrime": 2.72,
+   "meanShift": 0.01,
+   "rmsShift": 0.94,
+   "weakShare": 0.5,
+   "meanEdge": 0.29
+  },
+  {
+   "hole": 3,
+   "kind": "fairway",
+   "area": 14478,
+   "dPrime": 3.4,
+   "meanShift": -0.3,
+   "rmsShift": 0.97,
+   "weakShare": 0.78,
+   "meanEdge": 0.16
+  },
+  {
+   "hole": 4,
+   "kind": "fairway",
+   "area": 8014,
+   "dPrime": 4.22,
+   "meanShift": 0.22,
+   "rmsShift": 0.95,
+   "weakShare": 0.54,
+   "meanEdge": 0.23
+  },
+  {
+   "hole": 5,
+   "kind": "fairway",
+   "area": 1768,
+   "dPrime": 2.56,
+   "meanShift": 0.35,
+   "rmsShift": 0.71,
+   "weakShare": 0.66,
+   "meanEdge": 0.2
+  },
+  {
+   "hole": 6,
+   "kind": "fairway",
+   "area": 11865,
+   "dPrime": 3.49,
+   "meanShift": 0.34,
+   "rmsShift": 0.77,
+   "weakShare": 0.79,
+   "meanEdge": 0.16
+  },
+  {
+   "hole": 6,
+   "kind": "fairway",
+   "area": 1461,
+   "dPrime": 2.5,
+   "meanShift": -0.4,
+   "rmsShift": 0.85,
+   "weakShare": 0.56,
+   "meanEdge": 0.3
+  },
+  {
+   "hole": 7,
+   "kind": "fairway",
+   "area": 1841,
+   "dPrime": 2.97,
+   "meanShift": 0.35,
+   "rmsShift": 1.02,
+   "weakShare": 0.74,
+   "meanEdge": 0.22
+  },
+  {
+   "hole": 7,
+   "kind": "fairway",
+   "area": 662,
+   "dPrime": 2.6,
+   "meanShift": 0.57,
+   "rmsShift": 1.01,
+   "weakShare": 0.65,
+   "meanEdge": 0.19
+  },
+  {
+   "hole": 8,
+   "kind": "fairway",
+   "area": 12359,
+   "dPrime": 4.03,
+   "meanShift": -0.17,
+   "rmsShift": 0.87,
+   "weakShare": 0.65,
+   "meanEdge": 0.19
+  },
+  {
+   "hole": 9,
+   "kind": "fairway",
+   "area": 2598,
+   "dPrime": 2.82,
+   "meanShift": 0.84,
+   "rmsShift": 1.1,
+   "weakShare": 0.64,
+   "meanEdge": 0.24
+  },
+  {
+   "hole": 9,
+   "kind": "fairway",
+   "area": 848,
+   "dPrime": 2.08,
+   "meanShift": 0.58,
+   "rmsShift": 1.1,
+   "weakShare": 0.34,
+   "meanEdge": 0.47
+  }
+ ]
+}

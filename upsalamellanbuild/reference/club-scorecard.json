@@ -1,0 +1,166 @@
+{
+ "schemaVersion": 1,
+ "groundId": "upsala",
+ "slug": "upsala-mellanbanan",
+ "courseName": "Upsala GK Mellanbanan",
+ "source": {
+  "primary": "https://www.golfisverige.com/klubb/upsala-golfklubb/",
+  "primaryEdition": "golfisverige.com's Mellanbanan card, confirmed against the club's per-hole banguide on holes 1, 7 and 8 (upsalabuild/card-mellanbanan.json); the Out totals 2601/2499/2307/2115/1814 are printed.",
+  "secondary": "https://banguider.se/ (the club-linked per-hole guide sheets)",
+  "retrievedOn": "2026-09-04",
+  "notes": "Par 35 over nine. The stroke index is the club's banguide column; golfisverige publishes another (13, 9, 3, 15, 11, 1, 17, 5, 7), so it stays unverified. Mellanbanan is Nils O. Nyberg and Einar Jansson's, 1978 (the club's history), not Nordwall's."
+ },
+ "par": 35,
+ "tees": [
+  {
+   "id": "vit",
+   "name": "Vit",
+   "color": "#f4f4ee",
+   "front": 2601,
+   "back": 0,
+   "total": 2601
+  },
+  {
+   "id": "gul",
+   "name": "Gul",
+   "color": "#f0c93a",
+   "front": 2499,
+   "back": 0,
+   "total": 2499
+  },
+  {
+   "id": "bla",
+   "name": "Blå",
+   "color": "#4a8fe0",
+   "front": 2307,
+   "back": 0,
+   "total": 2307
+  },
+  {
+   "id": "rod",
+   "name": "Röd",
+   "color": "#e0574a",
+   "front": 2115,
+   "back": 0,
+   "total": 2115
+  },
+  {
+   "id": "orange",
+   "name": "Orange",
+   "color": "#e08b3a",
+   "front": 1814,
+   "back": 0,
+   "total": 1814
+  }
+ ],
+ "holes": [
+  {
+   "number": 1,
+   "par": 4,
+   "index": 9,
+   "lengths": {
+    "vit": 286,
+    "gul": 273,
+    "bla": 273,
+    "rod": 221,
+    "orange": 221
+   }
+  },
+  {
+   "number": 2,
+   "par": 4,
+   "index": 7,
+   "lengths": {
+    "vit": 335,
+    "gul": 329,
+    "bla": 329,
+    "rod": 291,
+    "orange": 220
+   }
+  },
+  {
+   "number": 3,
+   "par": 5,
+   "index": 5,
+   "lengths": {
+    "vit": 435,
+    "gul": 435,
+    "bla": 353,
+    "rod": 353,
+    "orange": 288
+   }
+  },
+  {
+   "number": 4,
+   "par": 4,
+   "index": 11,
+   "lengths": {
+    "vit": 307,
+    "gul": 300,
+    "bla": 248,
+    "rod": 248,
+    "orange": 178
+   }
+  },
+  {
+   "number": 5,
+   "par": 3,
+   "index": 17,
+   "lengths": {
+    "vit": 109,
+    "gul": 102,
+    "bla": 86,
+    "rod": 73,
+    "orange": 73
+   }
+  },
+  {
+   "number": 6,
+   "par": 5,
+   "index": 3,
+   "lengths": {
+    "vit": 455,
+    "gul": 442,
+    "bla": 428,
+    "rod": 368,
+    "orange": 308
+   }
+  },
+  {
+   "number": 7,
+   "par": 3,
+   "index": 15,
+   "lengths": {
+    "vit": 155,
+    "gul": 137,
+    "bla": 127,
+    "rod": 113,
+    "orange": 113
+   }
+  },
+  {
+   "number": 8,
+   "par": 4,
+   "index": 1,
+   "lengths": {
+    "vit": 338,
+    "gul": 338,
+    "bla": 320,
+    "rod": 320,
+    "orange": 285
+   }
+  },
+  {
+   "number": 9,
+   "par": 3,
+   "index": 13,
+   "lengths": {
+    "vit": 181,
+    "gul": 143,
+    "bla": 143,
+    "rod": 128,
+    "orange": 128
+   }
+  }
+ ]
+}
