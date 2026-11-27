@@ -12,6 +12,8 @@
  *  5. Water, bulkhead, and bridge geometry seating checks.
  *  6. Tree-on-green / tree-on-tee clearance check when published tree tiles exist.
  *  7. Facility GLB & bloom-safe linear albedo check (< GLOW.threshold = 0.86).
+ *  8. White stakes: no shot from a tee onto its own fairway or green, and no approach
+ *     onto the green, is called out of bounds by Spela's rule (out-of-bounds-shots.mjs).
  *
  * Usage:
  *   node tools/check-course-quality.mjs --ground visby [--public-root apps/golf/public]
@@ -26,6 +28,7 @@ import { decodeTileHeights, sampleTile } from '../apps/golf/src/map/map-height.m
 import { createMapFrame } from '../apps/golf/src/map/map-frames.mjs';
 import { pointInPoly, polyLen } from '../geobuild/lib.mjs';
 import { validateFacilityManifest } from './facility-pipeline/validate-facility-glb.mjs';
+import { goodShotsCalledOut } from './out-of-bounds-shots.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -234,6 +237,13 @@ export function checkGroundQuality({
       }
     }
 
+    // 8. A hole's own fairway and green are never out of bounds: a stake line that rules
+    // a shot onto them out is drawn across the play (Veckefjärden, 27 November 2026).
+    const stakeShots = goodShotsCalledOut(vectors);
+    for (const r of stakeShots.filter(s => s.out)) {
+      errors.push(`${entry.slug} h${r.hole}: ${r.out} of ${r.shots} shots onto its own fairway or green are called out of bounds by the white stakes (first: ${r.first.kind} ${r.first.from.join(',')} to ${r.first.to.join(',')})`);
+    }
+
     const sortedRelief = [...greenReliefs].sort((a, b) => a - b);
     const medianGreenRelief = sortedRelief.length ? sortedRelief[Math.floor(sortedRelief.length / 2)] : null;
     if (medianGreenRelief !== null && medianGreenRelief > maxGreenMedianReliefM) {
@@ -248,6 +258,7 @@ export function checkGroundQuality({
       waterBodies: waterBodies.length,
       bulkheads: bulkheadsCount,
       bridges: bridgesCount,
+      stakeShots: { shots: stakeShots.reduce((n, s) => n + s.shots, 0), out: stakeShots.reduce((n, s) => n + s.out, 0) },
     });
   }
 
