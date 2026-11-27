@@ -104,6 +104,12 @@ build's own records, and a test fails when they fall behind. Everything else is 
   that no shadow confirms. The range's distance boards give metres from the middle of the mat line, not the club's own
   figures, and its flags' colours, the practice greens' and the putting course's cups and the bags in the bays are
   invented.
+- **Two flat slabs stand in the pond between Stadium 14's green and 15's tees** (about E 649160-649235,
+  N 6598335-6598380), with straight edges. Mälaren's stair-stepped shore beside it was the reach's coarse lattice and
+  is fixed (27 November); these are not. The laser has the pond as one plate at 0.83 m and its water stands at 0.91 m,
+  but the carved bed rises to a dead-flat 0.00 m inside it. `?waterreach=0` removes them, so the pond's own reach carve
+  makes them. The pond also lies inside Mälaren's 8 m flat-water component (level 1.06 m), so two carves may overlap
+  there. Next step: read the bed field at a slab (the carve's refined and broad depths), with the prepared water off.
 - **Never looked at:** a real phone; the game (Spela) on either course; storm, mist, the blue hour and autumn by eye;
   low quality beyond a clean start.
 
