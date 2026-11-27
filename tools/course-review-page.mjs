@@ -24,7 +24,7 @@ import { fileDigest } from '../packages/course-workflow/io.mjs';
 import { groundFacts } from './course-walkthrough.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SITE = 'https://olovmelander.github.io/olovs-hemsida/';
+const SITE = 'https://banvy.olovmelander.workers.dev/';
 const ASK = {
   tees: 'Are the tee decks where the photo shows them?', greens: 'Does the outline follow the putting surface?', fairways: 'Does the fairway follow the mown edge?',
   bunkers: 'Is every bunker there, and on its sand?', water: 'Are the ponds, creeks and their edges right?',

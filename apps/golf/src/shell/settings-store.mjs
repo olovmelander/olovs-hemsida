@@ -17,6 +17,7 @@ import { roundEntry } from '../map/map-rounds.mjs';
 import { normalizeBag } from '../engine/caddie.js';
 import { MIN_HANDICAP, MAX_HANDICAP } from '../map/map-score.mjs';
 import { PLAY_KEYS, readPlayCheckpoint } from '../play/play-rules.mjs';
+import { OFFLINE_PREFIX, isDeviceOnlyKey, isOwnKey } from './backup-keys.mjs';
 
 export const SETTINGS_KEY = 'banvy-settings-v1';
 export const LAST_COURSE_KEY = 'banvy-last-course';
@@ -221,9 +222,6 @@ export function lastLaunch(storage, courses) {
 /* A portable copy of the device's current player data. Account credentials,
    sync metadata and per-account archives use a different storage namespace. */
 export const BACKUP_KIND = 'banvy-backup';
-const OWN_KEY = /^banvy[-:]/;
-const deviceOnly = key => key === 'banvy-device-id-v1' || key === 'banvy-hub-catalogue-v1'
-  || [OFFLINE_PREFIX, 'banvy-weather:', 'banvy-live-owner-v1:', 'banvy-map-gps-v1:'].some(prefix => key.startsWith(prefix));
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const positive = value => Number.isSafeInteger(value) && value > 0;
 const count = value => Number.isSafeInteger(value) && value >= 0;
@@ -281,7 +279,7 @@ function validateBackupEntries(entries) {
   for (const entry of entries) {
     if (!Array.isArray(entry) || entry.length !== 2) throw new Error('Säkerhetskopian har en ogiltig post.');
     const [key, value] = entry;
-    if (!named(key) || !OWN_KEY.test(key) || deviceOnly(key) || seen.has(key) || !validBackupValue(key, value)) {
+    if (!named(key) || !isOwnKey(key) || isDeviceOnlyKey(key) || seen.has(key) || !validBackupValue(key, value)) {
       throw new Error(`Ogiltiga uppgifter i säkerhetskopian (${key}).`);
     }
     seen.add(key);
@@ -303,7 +301,7 @@ export function exportBackup(storage, now = new Date()) {
   try {
     for (let i = 0; i < storage.length; i++) {
       const key = storage.key(i);
-      if (key && OWN_KEY.test(key) && !deviceOnly(key)) entries.push([key, storage.getItem(key)]);
+      if (key && isOwnKey(key) && !isDeviceOnlyKey(key)) entries.push([key, storage.getItem(key)]);
     }
   } catch { throw new Error('Webbläsarens lagring kunde inte läsas.'); }
   validateBackupEntries(entries);
@@ -320,10 +318,32 @@ export function readBackup(text) {
     return { ok: false, reason: 'Filen är inte en Banvy-säkerhetskopia.' };
   }
   /* Older files included device identities, GPS fixes and cache receipts. */
-  const entries = Object.entries(backup.data).filter(([key]) => !deviceOnly(key));
+  const entries = Object.entries(backup.data).filter(([key]) => !isDeviceOnlyKey(key));
   try { validateBackupEntries(entries); } catch (error) { return { ok: false, reason: error.message }; }
   const date = typeof backup.exportedAt === 'string' && Number.isFinite(Date.parse(backup.exportedAt)) ? backup.exportedAt : null;
   return { ok: true, entries, exportedAt: date, accountRounds: backup.accountRounds === true };
+}
+
+/* The data a visitor brought from the old address (shell/move-in.mjs). Unlike a
+   file, it cannot be chosen again: one damaged record must not strand the rest, so
+   every entry a restore would accept is kept, and the others are named. */
+export function readMove(text) {
+  let backup;
+  try { backup = JSON.parse(text); } catch { /* handled below */ }
+  if (backup?.kind !== BACKUP_KIND || backup.version !== 1 || !object(backup.data)) {
+    return { ok: false, reason: 'Uppgifterna från den gamla adressen kunde inte läsas.' };
+  }
+  const entries = [], skipped = [];
+  for (const [key, value] of Object.entries(backup.data)) {
+    if (!isOwnKey(key) || isDeviceOnlyKey(key)) continue;
+    if (validBackupValue(key, value)) entries.push([key, value]);
+    else skipped.push(key);
+  }
+  if (!entries.length) {
+    return { ok: false, reason: skipped.length ? `Uppgifterna från den gamla adressen var skadade (${skipped.join(', ')}).` : 'Det fanns inga uppgifter att flytta.' };
+  }
+  const date = typeof backup.exportedAt === 'string' && Number.isFinite(Date.parse(backup.exportedAt)) ? backup.exportedAt : null;
+  return { ok: true, entries, skipped, exportedAt: date, accountRounds: backup.accountRounds === true };
 }
 
 /* Web Storage is atomic per key. Snapshot the whole change before writing,
@@ -405,8 +425,8 @@ export function undoBackup(storage, additionalEntries = () => []) {
   const key = undoKey(storage);
   const snapshot = JSON.parse(storage.getItem(key));
   if (!Array.isArray(snapshot) || !snapshot.length || !snapshot.every(entry =>
-    Array.isArray(entry) && entry.length === 3 && named(entry[0]) && OWN_KEY.test(entry[0])
-    && !deviceOnly(entry[0]) && (entry[1] === null || typeof entry[1] === 'string')
+    Array.isArray(entry) && entry.length === 3 && named(entry[0]) && isOwnKey(entry[0])
+    && !isDeviceOnlyKey(entry[0]) && (entry[1] === null || typeof entry[1] === 'string')
     && typeof entry[2] === 'string')) throw new Error('Det finns ingen giltig ångerkopia.');
   // A browser closed mid-import may already have some of the original values.
   const changes = new Map(), beforeUndo = {};
@@ -498,8 +518,9 @@ export const MAP_KEYS = Object.freeze({
 export const MAP_DETAIL = Object.freeze([
   { value: 0, label: 'Full' }, { value: 1, label: 'Hög' }, { value: 2, label: 'Medel' }, { value: 3, label: 'Låg' },
 ]);
-/* map-field.mjs downloadCourse marks a course kept for play without a signal */
-export const OFFLINE_PREFIX = 'banvy-map-offline:';
+/* map-field.mjs downloadCourse marks a course kept for play without a signal
+   (OFFLINE_PREFIX, from backup-keys.mjs) */
+export { OFFLINE_PREFIX };
 export function offlineCourses(storage) {
   const slugs = [];
   try {

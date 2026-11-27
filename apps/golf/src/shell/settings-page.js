@@ -17,8 +17,9 @@ import {
   FRAME_CAP_CHOICES, FRAME_CAP_KEY, DEV_OVERLAY_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_DETAIL, MAP_KEYS,
   NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PREFERENCE_KEYS, QUALITY, RENDERERS, START_VIEWS, BAG_KEY,
   mapDetail, mapLight, mapSwitch, readFrameCap, readSettings, readText, writeSettings, writeText,
-  activeBackupRounds, exportBackup, readBackup, restoreBackup, undoBackup, hasBackupUndo, launchUrl, replaceStoredValues,
+  activeBackupRounds, exportBackup, readBackup, readMove, restoreBackup, undoBackup, hasBackupUndo, launchUrl, replaceStoredValues,
 } from './settings-store.mjs';
+import { rememberMove, takePendingMove } from './move-in.mjs';
 import { restoredSyncEntries } from './sync-model.mjs';
 import { prepareLiveBackup } from './live-rounds.mjs';
 import { groupCourses, layoutLabel } from './course-clubs.mjs';
@@ -185,7 +186,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
                 </div>
                 <div class="set-confirm" data-backup-confirm hidden role="alert">
                   <p data-backup-text></p>
-                  <div class="set-inline"><button class="set-danger" type="button" data-backup-apply>Läs in och ersätt</button><button class="set-link" type="button" data-backup-cancel>Avbryt</button></div>
+                  <div class="set-inline"><button class="set-danger" type="button" data-backup-apply>Läs in och ersätt</button><a class="set-primary" data-backup-continue hidden>Fortsätt</a><button class="set-link" type="button" data-backup-cancel>Avbryt</button></div>
                 </div>
               </div>
               <div class="set-row"><div class="set-label"><b>Återställ inställningar</b><small>Ställer tillbaka alla val på den här sidan. Bagen, handicapet och rundorna påverkas inte.</small></div>
@@ -390,12 +391,18 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
      what it replaces. */
   const fileInput = $('[data-backup-file]'), confirmBox = $('[data-backup-confirm]');
   const applyBackup = $('[data-backup-apply]'), backupText = $('[data-backup-text]');
-  let selection = 0, pending = null, backupOwner;
+  const continueLink = $('[data-backup-continue]'), cancelBackup = $('[data-backup-cancel]');
+  let selection = 0, pending = null, backupOwner, moving = null;
   function closeBackup() {
     selection++;
     pending = null;
+    moving = null;
     confirmBox.hidden = true;
     applyBackup.hidden = true;
+    applyBackup.textContent = 'Läs in och ersätt';
+    applyBackup.className = 'set-danger';
+    cancelBackup.textContent = 'Avbryt';
+    continueLink.hidden = true;
   }
   function backupProblem(message) {
     backupText.textContent = message;
@@ -437,7 +444,57 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
     confirmBox.hidden = false;
     applyBackup.hidden = false;
   });
-  $('[data-backup-cancel]').addEventListener('click', closeBackup);
+  cancelBackup.addEventListener('click', () => {
+    const move = moving;
+    closeBackup();
+    if (!move) return;
+    rememberMove(storage(), move.print);
+    if (move.onward) location.assign(move.onward);
+  });
+
+  /* A visitor from the retired GitHub Pages address brings their data
+     (shell/move-in.mjs): offered here once, with the file's checks and undo,
+     before they go on to where their bookmark pointed. */
+  function movedOn(move, message) {
+    backupText.textContent = message;
+    confirmBox.hidden = false;
+    applyBackup.hidden = true;
+    cancelBackup.textContent = 'Stäng';
+    if (move.onward) { continueLink.href = move.onward; continueLink.hidden = false; }
+  }
+  function offerMove() {
+    const arrival = takePendingMove();
+    if (!arrival) return;
+    closeBackup();
+    const target = new URL(arrival.destination, location.href);
+    const onward = target.pathname.replace(/index\.html$/, '') === import.meta.env.BASE_URL && !target.search && !target.hash
+      ? null : arrival.destination;
+    const move = { print: arrival.print, onward };
+    const read = arrival.text === null ? { ok: false, reason: 'Uppgifterna från den gamla adressen kunde inte läsas.' } : readMove(arrival.text);
+    if (!read.ok) {
+      rememberMove(storage(), move.print);
+      movedOn(move, `Banvy har flyttat hit från olovmelander.github.io. ${read.reason}`);
+      return;
+    }
+    pending = read;
+    moving = move;
+    const here = storage();
+    const replaces = read.entries.filter(([key, value]) => {
+      const current = here?.getItem(key) ?? null;
+      return current !== null && current !== value;
+    }).length;
+    const rounds = parseRounds(read.entries.find(([key]) => key === MAP_KEYS.rounds)?.[1] ?? null).length;
+    const skipped = read.skipped.length ? ` ${read.skipped.length} skadade ${read.skipped.length === 1 ? 'post' : 'poster'} lämnades kvar.` : '';
+    const account = backupOwner ? ' Inlästa spelaruppgifter synkas till ditt konto.' : '';
+    backupText.textContent = `Banvy har flyttat hit från olovmelander.github.io. Därifrån kom ${rounds} ${rounds === 1 ? 'runda' : 'rundor'} och ${read.entries.length} poster.${skipped} `
+      + (replaces ? `${replaces} av dem ersätter uppgifter som redan finns här. En ångerkopia sparas först.` : 'Inget här ersätts.')
+      + `${account} Avbryter du erbjuds de inte igen.`;
+    /* only a read-in that replaces something is the dangerous kind */
+    applyBackup.textContent = replaces ? 'Läs in och ersätt' : 'Läs in';
+    applyBackup.className = replaces ? 'set-danger' : 'set-primary';
+    confirmBox.hidden = false;
+    applyBackup.hidden = false;
+  }
   const importMetadata = (changes, previous) => restoredSyncEntries(storage(), changes, previous);
   applyBackup.addEventListener('click', async () => {
     if (!pending) return;
@@ -447,14 +504,17 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
       const result = await prepareLiveBackup(pending.entries, pending.accountRounds);
       if (selected !== selection) return;
       const written = result.entries.length ? restoreBackup(storage(), result.entries, importMetadata) : 0;
+      const move = moving;
       closeBackup();
+      if (move) rememberMove(storage(), move.print);
       if (written) notifyLocalChange('backup-restored', { keys: result.entries.map(([key]) => key), durable: true });
       sync();
       saved(`Läste in ${written} poster`);
       if (result.courses.length) {
         const names = result.courses.map(slug => courses.find(c => c.slug === slug)?.name ?? slug).join(', ');
         backupProblem(`Läste in ${written} poster. Pågående runda på ${names} och dess slag lämnades orörda. Anslut till nätet och använd Byt enhet på startsidan för att ta över rundan.`);
-      }
+        if (move?.onward) { continueLink.href = move.onward; continueLink.hidden = false; }
+      } else if (move) movedOn(move, `Läste in ${written} poster från den gamla adressen. Ångra under Säkerhetskopia om något blev fel.`);
     } catch (error) { if (selected === selection) backupProblem(error.message); }
     finally { applyBackup.disabled = false; }
   });
@@ -644,6 +704,7 @@ export function buildSettings({ courses, onBack, onBag, onBagClosed, onBagDraft,
   $('[data-back]').addEventListener('click', () => onBack());
 
   sync();
-  el.refresh = sync;
+  offerMove();
+  el.refresh = () => { sync(); offerMove(); };
   return el;
 }

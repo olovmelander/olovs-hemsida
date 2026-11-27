@@ -271,14 +271,19 @@ land cover's WATER class is a colour verdict: never paint from it. See
   every course's prepared data off until the next bake (a ground's own module, that
   ground's), so compare boots on one build, in both orders,
   and put a new before switch on `preparedTintAllowed`'s display-only list.
-- The main site is Cloudflare (`banvy.olovmelander.workers.dev`, owner, 27 November):
-  a Worker with static assets, sign-in and sync. GitHub Pages still publishes the
-  same build at `/olovs-hemsida/`, without them. Cloudflare obeys `_headers` (Pages
-  ignores it), so a year's `immutable` belongs only on a URL that changes with its
-  bytes, and it answers `/name.html` with a 307 to `/name`: a page, a redirect or a
-  service-worker rule that knows one spelling must know both. Pull requests run
-  the Cloudflare release journeys without deploying; main deploys after them and
-  checks the bookmarks and policy pages on the public site
+- Banvy's one site is Cloudflare (`banvy.olovmelander.workers.dev`, owner, 27 November):
+  a Worker with static assets, sign-in and sync. GitHub Pages is retired: it serves no
+  app, only a page under every old `/olovs-hemsida/` address that sends the visitor to
+  the same place on Cloudflare with their own data in the URL fragment, and a last
+  `sw.js` that clears an installed old app (`tools/pages-moved-site.mjs`,
+  `shell/pages-move.mjs`; received by `shell/move-in.mjs`, offered once in
+  Inställningar; `tools/check-pages-move.mjs` plays it end to end). Never publish
+  the app there again. See [GitHub Pages retired](docs/pages-retired.md).
+  Cloudflare obeys `_headers`, so a year's `immutable` belongs only on a URL that
+  changes with its bytes, and it answers `/name.html` with a 307 to `/name`: a page,
+  a redirect or a service-worker rule that knows one spelling must know both. Pull
+  requests run the Cloudflare release journeys without deploying; main deploys
+  after them and checks the bookmarks and policy pages on the public site
   (`check-legacy-links.mjs --url`).
 - Use the existing camera clamp; do not add a second clamp or snap to terrain.
   Preserve snapped shadow bounds and the renderer's reversed-depth conventions.
