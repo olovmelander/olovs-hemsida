@@ -7,7 +7,7 @@ import { createHash } from 'node:crypto';
 import { deflateRawSync, inflateRawSync } from 'node:zlib';
 import { chromium } from 'playwright-core';
 import { browserArgs, browserExecutable } from './browser-args.mjs';
-import { courseSourceRevision } from './course-source-revision.mjs';
+import { courseSourceRevisions } from './course-source-revision.mjs';
 import { decodePreparedWater, preparedWaterIdentity } from '../apps/golf/src/engine/prepared-water.mjs';
 
 const args = process.argv.slice(2);
@@ -20,7 +20,9 @@ const v2 = JSON.parse(await fs.readFile(path.join(publicRoot, 'courses/v2-index.
 const only = flag('only', '').split(',').filter(Boolean);
 if (only.some(slug => !catalog.courses.some(c => c.slug === slug))) throw new Error('unknown course');
 const snapshot = flag('snapshot', null);
-const revision = snapshot ? JSON.parse(await fs.readFile(snapshot, 'utf8')).revision : courseSourceRevision(process.cwd());
+// each course is baked against a revision of its own (tools/course-source-revision.mjs)
+const revisions = snapshot ? JSON.parse(await fs.readFile(snapshot, 'utf8')).revisions : courseSourceRevisions(process.cwd());
+if (!revisions || !Object.values(revisions).length || !Object.values(revisions).every(value => /^[a-f0-9]{64}$/.test(value))) throw new Error('invalid source revisions');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
 const results = [];
@@ -46,6 +48,7 @@ try {
         return { revision: data.revision, identity: data.identity, base64: btoa(binary),
           fingerprint: await data.fingerprint(), levels: data.levels, spans: data.spans };
       });
+      const revision = revisions[course.slug];
       if (baked.revision !== revision) throw new Error('bake server source revision mismatch');
       if (baked.supported === false) {
         delete course.preparedWater;
@@ -70,7 +73,7 @@ try {
       console.log(`${course.slug}: ${compressed.length} bytes, exact ${sha(payload).slice(0, 16)}`);
     } finally { await page.close(); }
   }
-  if (!snapshot && courseSourceRevision(process.cwd()) !== revision) throw new Error('source changed during publication; rebuild and retry');
+  if (!snapshot && JSON.stringify(courseSourceRevisions(process.cwd())) !== JSON.stringify(revisions)) throw new Error('source changed during publication; rebuild and retry');
   const latest = JSON.parse(await fs.readFile(catalogPath, 'utf8'));
   for (const result of results) {
     const current = latest.courses.find(c => c.slug === result.course), baked = catalog.courses.find(c => c.slug === result.course);
@@ -87,6 +90,6 @@ try {
   await fs.writeFile(catalogPath, JSON.stringify(latest, null, 1) + '\n');
   const report = flag('report', 'tools/reference/prepared-water-publication.json');
   await fs.mkdir(path.dirname(path.resolve(report)), { recursive: true });
-  await fs.writeFile(report, JSON.stringify({ revision, results }, null, 2) + '\n');
+  await fs.writeFile(report, JSON.stringify({ revisions, results }, null, 2) + '\n');
   console.log(`Published water for ${results.filter(r => r.supported).length} courses.`);
 } finally { await browser.close(); }

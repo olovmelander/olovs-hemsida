@@ -49,8 +49,12 @@ is kept ring by ring, so a trace again asks for a look at the rings that moved a
    reads is not a gate: the tracer scored thirteen wrong tee decks low, and the number sat in a report.
 3. **Pictures come early.** The photo under every ring after tracing; the first pictures of the course before
    any bake; the phone map before merging. A fault found by a picture becomes a check before the work goes on.
-4. **One bake.** Any edit under `apps/golf/src/engine`, `apps/golf/src/loader` or `packages/course-v2` turns off
-   every course's prepared data until all of them are baked again. Finish the engine edits, look, then bake once.
+4. **One bake, and only of what changed.** Each course's prepared data answers to a source revision of its own
+   (`tools/course-source-revision.mjs`, 27 November 2026). An edit to engine code every course runs turns off every
+   course's prepared data until all are baked again. An edit to one ground's own modules (its scenery module and
+   what only it imports, its terrain contract) turns off that ground's. A new ground bakes itself. Code no player
+   loads (the tree compilers, the ground specs) bakes nothing. Finish the edits, look, then bake once, with
+   `gpu-pass.mjs --only <slugs>` when the change was a ground's own.
 5. **What CI runs, run first, in a clean checkout.** This machine has private caches CI does not, so a check
    that passes here can still fail there.
 6. **Say what is not right.** A course is accepted on its walkthrough, whose numbers are generated and whose
@@ -373,10 +377,10 @@ modes on each new routing and on one old course, with no console errors. `tools/
 <url> --ground <ground>` does that walk in a browser (first run on both hosts on 27 November 2026, for
 Veckefjärden and Bro Hof). Then update the walkthrough and the memory.
 
-Other sessions merge too. Each time main moves under a branch with an engine change, the branch is merged with
-main and baked again, so decide who merges first and tell the others (27 November: six sessions, main moved
-up to three times under each, and the GPU pass was run for some three hours in all). A branch that changes one ground's
-pack and no engine code bakes that ground only (`--only`), and merges `index.json` course by course.
+Other sessions merge too. Each time main moves with a change to engine code every course runs, a branch that
+holds baked data is merged with main and baked again, so decide who merges first and tell the others (27 November: six sessions, main moved
+up to three times under each, and the GPU pass was run for some three hours in all, when one revision still held every course). A branch that changes one ground's pack or one
+ground's own modules bakes that ground only (`--only`), and merges `index.json` course by course.
 
 ## The walkthrough
 
@@ -410,7 +414,8 @@ Generate the ground's walkthrough first if it has none; it works on every publis
 | Newer terrain or laser | stage 2 | everything after it | that ground |
 | Trees | a new round in `trees.json`, on a new unseen sample | stage 7, the six stages, promote, map pictures | that ground |
 | A building or the campus model | `build_campus.py`, `publish-facility-glb.mjs`, `validate-facility-glb.mjs` | the campus test | none for the model alone |
-| Colours, species, water rule, stated buildings | the ground's scenery module | the first look | **every course** (it is engine code) |
+| Colours, species, stated buildings, a ground's own switches | the ground's scenery module | the first look | that ground (its module is in its own revision, and in no other's) |
+| A rule every course runs (how water stands, how the ground is drawn) | the engine | the first look, on more than one ground | **every course** |
 | Something missing on the phone map | `map-course.mjs`, `map-paint.mjs`, `MAP_KNOWS` | the map tests, a look at phone width | none |
 | A tee or a green that nobody could settle from the photos | ask the rounds: `tools/rounds-evidence.mjs --ground <ground> --shots <extract>` says where golfers tee off and putt (the extract is the owner's to make; the tool's header has the query) | then the row above for an outline | that ground |
 

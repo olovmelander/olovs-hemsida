@@ -50,6 +50,19 @@ repository, as Bro Hof's had; one of them pasted the card's rows into ten files 
    were copies of 250 lines that had drifted apart; the one gives both grounds' three layer files byte for byte.
 9. The first pictures name where to stand to see the practice ground, which no hole's view shows.
 
+And, on the owner's word the same day, the two that needed an engine change and a bake of every course, done as
+one change with one bake:
+
+10. **Each course's prepared data answers to a source revision of its own** (`tools/course-source-revision.mjs`).
+    It was one hash of 364 files for every course. Of those the player loads 219 for every course, some seventy
+    only through one ground's own scenery module or terrain contract, and 98 never. A course's revision is the
+    219, its ground's own, and its rows in the four tables that list the grounds. So a new ground changes no
+    other course's revision, a colour changed in one ground's module bakes that ground, and a tree compiler
+    bakes nothing. The build holds the reading to the bundler's own graph; on its first run that caught one
+    ground's contract, which names its course as JSON does.
+11. **The tree stage marks the crowns that became records in one pass a campaign**: Tjusta's stage, 27.1
+    minutes, is 7.8 with the same bytes.
+
 **What is still heavier than it earns.** Each of these is the owner's to decide, and none was done:
 
 1. **The release review has never been passed, and cannot be.** Twelve grounds hold 168 release gates, all
@@ -60,28 +73,18 @@ repository, as Bro Hof's had; one of them pasted the card's rows into ten files 
    and the owner's word. Proposed: make those two the release, keep the checks of structure, sources and every
    byte, and retire the per-hole review records, the page that fills them and the half of `release.mjs` that
    reads them.
-2. **A new ground, and any edit to one ground's scenery module, bakes every course.** The prepared data is held to
-   one hash of the engine, the loader, `course-v2` and `main.js`, and each ground's own modules and the tables
-   that register them are in it. Proposed: a revision per course that leaves out the other grounds' own modules,
-   with the registries read as data: one engine change and one last bake of everything, after which a new ground
-   or a colour fix bakes itself only, and most of the baking when sessions merge goes away.
+2. Done the same day: see 10 above. (A new ground, and any edit to one ground's scenery module, baked every course.)
 3. **A ground's facts are still written twice.** The card now adds its rows to the tables, but a fact changed
    later is changed in both. Proposed: the build tools read the card, and the start menu's tables are generated
    from the cards into one file.
 4. **Eight grounds have no one command.** A republish with an own builder is a chain typed by hand (a dozen steps
    at Veckefjärden). Proposed: each such ground's card lists its builder's commands, and `course-rebuild.mjs`
    runs them between `review` and `roofs`.
-5. **The tree stage scans its whole raster once for every tree.** One loop in
-   `packages/course-v2/vegetation/compile-vegetation.mjs`, where the stand field leaves out the crowns that became
-   records, is 72% of Tjusta's stage: 9,184 records, each a pass over 268 million cells. One pass for all of a
-   campaign's records gives the same 357 files, byte for byte, in 7.8 minutes where the stage took 27.1 (both run
-   on 27 November, the second with the loop replaced in memory and the file left as it is). It is not in this
-   change: the file lies under `packages/course-v2`, which the prepared data's revision hashes whole, so the edit
-   would turn off every course's prepared data until a bake. Make it with the next engine change. A revision that
-   holds a tree compiler the player never loads is the stages' old watch again, and item 2 would cure it.
+5. Done the same day: see 11 above. (The tree stage scanned its whole raster once for every tree: 9,184 records at
+   Tjusta, each a pass over 268 million cells, 72% of the stage.)
 6. **Tjusta's canopy** covers the 16 km ground. Rebuilt bound to the core at its tree sitting, its cache falls
-   from 16 GB to 1, and what is left of its tree stage after item 5 (the passes that go with the number of cells)
-   should fall to about a sixteenth (not measured).
+   from 16 GB to 1, and what is left of its tree stage (the passes that go with the number of cells) should fall
+   to about a sixteenth (not measured).
 7. **Tools built ahead of their use:** the owner's review page (never opened by the owner, who reviews by playing)
    and `rounds-evidence.mjs` (run on made-up shots only). Keep the second only if the extract will be made.
 8. **A new ground still copies some 500 lines of another ground's scripts.** After the layer builder these are

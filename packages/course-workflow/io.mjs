@@ -57,9 +57,13 @@ export function inventory(root, paths) {
    (the app's 657 files among 1,038) let an edit to the start menu expire every stage of every ground, and at
    Tjusta each of those cost the 35-minute tree stage again (27 November 2026). Packages and Node's own modules
    are named by the lockfile, which a workflow watches beside its entry points. */
-const IMPORT = /(?<![\w$.])(?:import|export)\s*(?:[^'"();]*?\bfrom\s*)?(['"])([^'"\n]+)\1|(?<![\w$.])import\(\s*(['"])([^'"\n]+)\3\s*\)/g;
+/* Three ways one module names another: an import or re-export, an import() of a named file, and a worker started
+   from a module's own address (a `new URL` of a module's name beside `import.meta.url`). Comments are read too,
+   so one that spells such a line out names a file: this one does not. */
+const IMPORT = /(?<![\w$.])(?:import|export)\s*(?:[^'"();]*?\bfrom\s*)?(['"])([^'"\n]+)\1|(?<![\w$.])import\(\s*(['"])([^'"\n]+)\3\s*\)|\bnew URL\(\s*(['"])([^'"\n]+\.m?js)\5\s*,\s*import\.meta\.url\s*\)/g;
 const COMPUTED_IMPORT = /(?<![\w$.])import\(\s*(?!['")])/;
-export function importClosure(root, entries) {
+/** `skip(from, target)` leaves an edge unfollowed: a table of modules that are loaded one by one, by name. */
+export function importClosure(root, entries, { skip = () => false } = {}) {
   const seen = new Set();
   const visit = relative => {
     if (seen.has(relative)) return;
@@ -68,9 +72,10 @@ export function importClosure(root, entries) {
     const text = fs.readFileSync(safePath(root, relative), 'utf8');
     if (COMPUTED_IMPORT.test(text)) throw new Error(`${relative}: a computed import() cannot be watched; import the module by name`);
     for (const match of text.matchAll(IMPORT)) {
-      const specifier = match[2] ?? match[4];
+      const specifier = (match[2] ?? match[4] ?? match[6]).replace(/\?.*$/, ''); // a bundler's ?raw or ?worker is not part of the file's name
       if (!specifier.startsWith('.')) continue;
       const target = path.posix.normalize(path.posix.join(path.posix.dirname(relative), specifier));
+      if (skip(relative, target)) continue;
       if (!relativePath(target)) throw new Error(`${relative}: ${specifier} leaves the repository`);
       let isFile = false;
       try { isFile = fs.statSync(safePath(root, target)).isFile(); } catch { /* reported below */ }

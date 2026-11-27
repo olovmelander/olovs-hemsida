@@ -232,8 +232,13 @@ land cover's WATER class is a colour verdict: never paint from it. See
   is a drawing: it names things, and never places them.
 - A ground flown with its ponds full sets `deferWaterBedToWorld` in its scenery module, or
   the early carve lowers the ground before the level is read. `tools/gpu-pass.mjs` bakes
-  every course's prepared data and runs the GPU checks in one sitting; take pictures
-  before it, since any engine edit after it means baking everything again.
+  prepared data and runs the GPU checks in one sitting (`--only <slugs>` for some courses);
+  take pictures before it. Since 27 November each course's prepared data answers to its own
+  source revision (`tools/course-source-revision.mjs`): an edit to engine code every course
+  runs means baking every course again, an edit to one ground's own modules (its scenery
+  module and what only it imports, its `v2-<ground>-config.mjs`) that ground, a new ground
+  itself, and code no player loads (the tree compilers) nothing. The build stops if the
+  bundle takes a module that no course's revision holds.
 - Imagery used for tracing is not automatically licensed for redistribution.
   Preserve the source register's restrictions and keep private caches private.
 - Place a ground's trees with the tree pipeline (`tools/tree-pipeline.mjs`,
@@ -262,8 +267,9 @@ land cover's WATER class is a colour verdict: never paint from it. See
   shadow and post pipelines are built in parallel by a frame behind the cover
   (`warm-pipelines.mjs`, `?warmframe=0`), and the trees start downloading as the
   terrain stage begins (`?treehoist=0`). The realistic catalogues' meshes are
-  `KHR_mesh_quantization` (`tree-glb.mjs`). Any engine edit turns the prepared
-  data off until the next bake, so compare boots on one build, in both orders,
+  `KHR_mesh_quantization` (`tree-glb.mjs`). An edit to engine code every course runs turns
+  every course's prepared data off until the next bake (a ground's own module, that
+  ground's), so compare boots on one build, in both orders,
   and put a new before switch on `preparedTintAllowed`'s display-only list. The
   live host is GitHub Pages: PNG is not gzipped, `_headers` is ignored, and a
   returning visitor's caching is the service worker's.

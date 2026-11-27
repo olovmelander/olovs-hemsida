@@ -12,6 +12,7 @@ import {
   candidateKey,
   clipRasterToExtent,
   compileVegetation,
+  markRecordExtents,
   mergeCourseGeometries,
   provisionalZone,
   readActivePublishedGround,
@@ -354,4 +355,32 @@ test('the reviewed import publishes decided trees with their type and play zone,
     rows: parseCandidateCsv(withSpecies.replace(',broadleaf,0.71,detector,', ',broadleaf,0.71,detector,').replace(/(tree-synthetic-ground-000102[^\n]*,)$/m, '$1spruce')),
     scope: [650128, 6640000, 650256, 6640128], residual: { raster, labels }, geometry: GEOMETRY, ground, readAsset, review: 'test',
   }), /species spruce on a broadleaf row/);
+});
+
+test('the crowns that became records are marked in one pass a campaign, cell for cell as a pass a record marked them', () => {
+  /* the loop as it was until 27 November 2026: the reference the one pass has to agree with */
+  const aPassARecord = (drafts, campaignFields) => {
+    for (const draft of drafts) {
+      const campaign = campaignFields.find(entry => entry.campaignId === draft.candidate.campaignId);
+      if (!campaign) continue;
+      const id = draft.candidate.crownId;
+      for (let i = 0; i < campaign.extentLabels.length; i++) if (campaign.extentLabels[i] === id) campaign.individualExtents[i] = id;
+    }
+  };
+  let seed = 20261127;
+  const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 2 ** 32; };
+  const campaign = (campaignId, cells, crowns) => ({ campaignId,
+    extentLabels: Int32Array.from({ length: cells }, () => (random() < 0.35 ? -1 : Math.floor(random() * crowns))), individualExtents: new Int32Array(cells).fill(-1) });
+  const fields = () => { seed = 7; return [campaign('21c038', 4000, 90), campaign('20c028', 2500, 40), campaign('21c038', 500, 90)]; };
+  const draft = (campaignId, crownId) => ({ candidate: { campaignId, crownId } });
+  const drafts = [...Array.from({ length: 30 }, (_, i) => draft('21c038', i * 3)), ...Array.from({ length: 12 }, (_, i) => draft('20c028', 39 - i)),
+    draft('21c038', 500), draft('21c038', -1), draft('21c038', 2.5), draft('21c038', undefined), draft('19a001', 4), draft('20c028', 39)];
+  const before = fields(), after = fields();
+  aPassARecord(drafts, before);
+  markRecordExtents(drafts, after);
+  for (const [i, field] of before.entries()) assert.deepEqual(after[i].individualExtents, field.individualExtents, `campaign ${i}`);
+  assert.ok(before[0].individualExtents.some(id => id >= 0) && before[1].individualExtents.some(id => id >= 0), 'the test marks cells');
+  assert.ok(before[2].individualExtents.every(id => id === -1), 'a second field of the same campaign is left alone, as it was');
+  assert.ok(after[0].individualExtents.every((id, cell) => id === -1 || id === after[0].extentLabels[cell]), 'a marked cell holds its own crown');
+  assert.doesNotThrow(() => markRecordExtents([], after));
 });

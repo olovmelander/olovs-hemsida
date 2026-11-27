@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { deflateRawSync, inflateRawSync } from 'node:zlib';
 import { chromium } from 'playwright-core';
 import { browserArgs, browserExecutable } from './browser-args.mjs';
-import { courseSourceRevision } from './course-source-revision.mjs';
+import { courseSourceRevisions } from './course-source-revision.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -15,8 +15,9 @@ const only = flag('only', '').split(',').filter(Boolean);
 const catalogPath = path.join(publicRoot, 'courses/index.json');
 const catalog = JSON.parse(await fs.readFile(catalogPath, 'utf8'));
 const snapshot = flag('snapshot', null);
-const revision = snapshot ? JSON.parse(await fs.readFile(snapshot, 'utf8')).revision : courseSourceRevision(process.cwd());
-if (!/^[a-f0-9]{64}$/.test(revision)) throw new Error('invalid source revision');
+// each course is baked against a revision of its own (tools/course-source-revision.mjs)
+const revisions = snapshot ? JSON.parse(await fs.readFile(snapshot, 'utf8')).revisions : courseSourceRevisions(process.cwd());
+if (!revisions || !Object.values(revisions).length || !Object.values(revisions).every(value => /^[a-f0-9]{64}$/.test(value))) throw new Error('invalid source revisions');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
 const results = [];
@@ -42,7 +43,7 @@ try {
           }) };
         });
         if (baked.variant !== `painted-${quality}`) throw new Error('bake did not use the supported visual setup');
-        if (baked.revision !== revision) throw new Error('bake server is not built from the current source revision');
+        if (baked.revision !== revisions[course.slug]) throw new Error('bake server is not built from the current source revision');
         let offset = 0;
         const parts = [], layers = [];
         for (const layer of baked.layers) {
@@ -63,7 +64,7 @@ try {
       } finally { await page.close(); }
     }
   }
-  if (!snapshot && courseSourceRevision(process.cwd()) !== revision) throw new Error('source changed during publication; rebuild and retry');
+  if (!snapshot && JSON.stringify(courseSourceRevisions(process.cwd())) !== JSON.stringify(revisions)) throw new Error('source changed during publication; rebuild and retry');
   // Preserve catalog updates from independent work; only update baked records.
   const latest = JSON.parse(await fs.readFile(catalogPath, 'utf8'));
   for (const course of catalog.courses.filter(c => results.some(r => r.course === c.slug))) {
@@ -75,7 +76,7 @@ try {
   const report = flag('report', null);
   if (report) {
     await fs.mkdir(path.dirname(path.resolve(report)), { recursive: true });
-    await fs.writeFile(report, JSON.stringify({ revision, results }, null, 2) + '\n');
+    await fs.writeFile(report, JSON.stringify({ revisions, results }, null, 2) + '\n');
   }
   console.log(`Published ${results.length} exact tint variants for ${new Set(results.map(r => r.course)).size} courses.`);
 } finally { await browser.close(); }

@@ -327,6 +327,10 @@ const RENDERER_LOADING = new URLSearchParams(location.search).get('startup') ===
 
 const COURSE = await loadCourse(rawBana);
 const CMETA = COURSE.meta;
+/* What this course's prepared data was baked against: the engine's shared code, this ground's own modules and
+   its rows in the tables that list the grounds (tools/course-source-revision.mjs). A course the build does not
+   know has none, and then nothing prepared is taken for it. */
+const COURSE_SOURCE_REVISION = __COURSE_SOURCE_REVISIONS__[CMETA.slug] ?? null;
 // The two grounds reviewed from playing height. The comparison uses the same
 // course, camera and normal rendering pipeline with ?playerArt=0.
 const PLAYER_ART_PILOT = ['norrfallsviken', 'bro-hof-stadium'].includes(CMETA.slug)
@@ -539,7 +543,7 @@ if (SCENERY?.applySurfaceAppearance) M.scenery = SCENERY.applySurfaceAppearance(
 const HOLES = M.holes;
 const WATER_PREPARATION = TERRAIN_PREVIEW.ready && V2_SELECTION.graph ? await import('./engine/prepared-water.mjs') : null;
 const WATER_IDENTITY = WATER_PREPARATION ? WATER_PREPARATION.preparedWaterIdentity({ meta: CMETA,
-  groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, revision: __COURSE_SOURCE_REVISION__ }) : Promise.resolve(null);
+  groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, revision: COURSE_SOURCE_REVISION }) : Promise.resolve(null);
 // Fetch/inflate while the uncarved terrain rings load. Development and unknown
 // construction switches retain live preparation; a stale publication is a miss.
 const PREPARED_WATER_LOADING = WATER_PREPARATION && (!CMETA.surroundings?.url || !!SURR) && !import.meta.env.DEV
@@ -1059,7 +1063,7 @@ function reachWaters(bodies, heightAt, near = null) {
         if (CMETA.surroundings?.url && !SURR || CONTINUOUS_OCEAN_ENABLED && !OCEAN_SOURCE) throw new Error('Cannot publish water from degraded course inputs');
         // Stop before renderer/forest work. This also gives the all-course gate
         // a deterministic comparison without competing for the design GPU.
-        window.__WATER_BAKE__ = { revision: __COURSE_SOURCE_REVISION__, identity: await WATER_IDENTITY,
+        window.__WATER_BAKE__ = { revision: COURSE_SOURCE_REVISION, identity: await WATER_IDENTITY,
           prepared: restoreWater, load: BOOT_PERF.preparedWaterLoad, spans: BOOT_PERF.spans, levels: M.water.map(w => w.level),
           fingerprint: () => WATER_PREPARATION.waterFingerprint(terrainV2),
           bytes: () => WATER_PREPARATION.encodePreparedWater({ identity: window.__WATER_BAKE__.identity, inputs: waterInputs,
@@ -1084,7 +1088,7 @@ function reachWaters(bodies, heightAt, near = null) {
   }
 
   if (new URLSearchParams(location.search).has('bakeWater') || new URLSearchParams(location.search).has('waterAudit')) {
-    window.__WATER_BAKE__ = { revision: __COURSE_SOURCE_REVISION__, supported: false };
+    window.__WATER_BAKE__ = { revision: COURSE_SOURCE_REVISION, supported: false };
     await new Promise(() => {});
   }
   const preserveMappedBoundaries = M.infra.preserveMappedBoundaries === true;
@@ -1893,7 +1897,7 @@ const LOWQ = qualityParam === 'lo'
 const TINT_VARIANT = `painted-${LOWQ ? 'lo' : 'hi'}`;
 const TINT_IDENTITY = V2_SELECTION.graph ? groundTintIdentity({ meta: CMETA,
   groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, painted: true, lowQuality: LOWQ,
-  revision: __COURSE_SOURCE_REVISION__ }) : Promise.resolve(null);
+  revision: COURSE_SOURCE_REVISION }) : Promise.resolve(null);
 // A declared sidecar identity does not prove that its runtime decoder succeeded.
 // Degraded inputs must retain their normal fallback color calculation too.
 const TINT_INPUTS_READY = (!CMETA.landcover?.url || !!LANDCOVER_REC)
@@ -3624,7 +3628,7 @@ if (TERRAIN_PREVIEW.ready) {
       // The publisher runs this exact production calculation, after the same
       // terrain preflight. No second implementation of palette/water rules.
       window.__GROUND_TINT_BAKE__ = { identity: await TINT_IDENTITY, variant: TINT_VARIANT,
-        revision: __COURSE_SOURCE_REVISION__, layers: ['near', 'far'].map(name => {
+        revision: COURSE_SOURCE_REVISION, layers: ['near', 'far'].map(name => {
           const layer = GROUND_TINT[name];
           return { n: layer.n, dx: layer.dx, bounds: layer.bounds, bytes: layer.texture.image.data };
         }) };
@@ -5185,7 +5189,7 @@ let scatterContextPromise = null;
 const scatterContext = () => scatterContextPromise ??= (async () => ({
   identity: V2_SELECTION.graph ? await preparedScatterIdentity({ meta: CMETA,
     groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, lowQuality: LOWQ,
-    revision: __COURSE_SOURCE_REVISION__ }) : null,
+    revision: COURSE_SOURCE_REVISION }) : null,
   inputs: preparedVistaInputs({ landmarks: [], flags: { atlas: !!groundAtlas, exactEdges: !!groundAtlas?.exactEdges,
     flatWater: typeof terrainV2.isFlatWaterAt === 'function', landcover: !!LANDCOVER_REC, surroundings: !!SURR,
     mown: !!MOWN_REC, ocean: !!CONTINUOUS_OCEAN, coastal: !!COASTAL_WATER } }),
@@ -6398,10 +6402,10 @@ const VISTA_SHADOW_CASTERS = [];
 const MEASURED_ONLY = M.infra.vegetationPlacement === 'measured-only';
 if (BAKE_VISTA && !(!MEASURED_ONLY || LANDCOVER_REC)) {
   // This course plants no far vista at all; the publisher records exactly that.
-  VISTA_BAKE_DATA = { none: true, variant: vistaVariant(LOWQ), revision: __COURSE_SOURCE_REVISION__,
+  VISTA_BAKE_DATA = { none: true, variant: vistaVariant(LOWQ), revision: COURSE_SOURCE_REVISION,
     identity: V2_SELECTION.graph ? await preparedVistaIdentity({ meta: CMETA,
       groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, lowQuality: LOWQ,
-      revision: __COURSE_SOURCE_REVISION__ }) : null };
+      revision: COURSE_SOURCE_REVISION }) : null };
 }
 if (!MEASURED_ONLY || LANDCOVER_REC) {
   /* THE FAR RING IS NOT THE IMAGERY'S RING, and it used to be gated on it.
@@ -6658,7 +6662,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
   });
   const vistaIdentity = V2_SELECTION.graph ? await preparedVistaIdentity({ meta: CMETA,
     groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, lowQuality: LOWQ,
-    revision: __COURSE_SOURCE_REVISION__ }) : null;
+    revision: COURSE_SOURCE_REVISION }) : null;
   let vistaRun = null;
   BOOT_PERF.preparedVista = false;
   const preparedVista = await PREPARED_VISTA_LOADING;
@@ -6674,7 +6678,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
   if (!vistaRun) vistaRun = await plantVista(null);
   if (BAKE_VISTA) {
     // The publisher records this exact production planting; no second copy of its rules.
-    VISTA_BAKE_DATA = { identity: vistaIdentity, variant: vistaVariant(LOWQ), revision: __COURSE_SOURCE_REVISION__,
+    VISTA_BAKE_DATA = { identity: vistaIdentity, variant: vistaVariant(LOWQ), revision: COURSE_SOURCE_REVISION,
       inputs: vistaInputs, candidates: vistaRun.decisions.length, bits: packVistaBits(vistaRun.decisions),
       digest: await vistaDigest(vistaRun.pts, vistaRun.ptsSize), skipped: vistaRun.skipped, points: vistaRun.pts.length / 4 };
   }

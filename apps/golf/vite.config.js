@@ -17,7 +17,7 @@ import { mapOfflineBuild } from '../../tools/map-offline-build.mjs';
 import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
-import { courseSourceRevision } from '../../tools/course-source-revision.mjs';
+import { courseSourceRevisions, unheldModules } from '../../tools/course-source-revision.mjs';
 import { golferLabPlugin } from '../../experiments/golfer/vite-plugin.mjs';
 import { productionPublicAssetsPlugin } from '../../tools/production-public-assets.mjs';
 import { legacyPageRedirectsPlugin } from '../../tools/legacy-page-redirects.mjs';
@@ -44,14 +44,15 @@ const savedMapAsset = {
 const BASE = process.env.BANVY_BASE || '/';
 const COURSE_SLUGS = JSON.parse(readFileSync(new URL('./public/courses/index.json', import.meta.url), 'utf8')).courses.map(course => course.slug);
 const SOURCE_ROOT = fileURLToPath(new URL('../..', import.meta.url));
-const SOURCE_REVISION = courseSourceRevision(SOURCE_ROOT);
+// each course its own: the engine's shared code, the ground's own modules and its rows (tools/course-source-revision.mjs)
+const SOURCE_REVISIONS = courseSourceRevisions(SOURCE_ROOT, COURSE_SLUGS);
 
 export default defineConfig(({ mode }) => {
   const mapOffline = mapOfflineBuild();
   const golferLab = mode === 'golfer';
   return {
   cacheDir: golferLab ? 'node_modules/.vite-golfer' : 'node_modules/.vite',
-  define: { __COURSE_SOURCE_REVISION__: JSON.stringify(SOURCE_REVISION), __GOLFER_LAB__: JSON.stringify(golferLab) },
+  define: { __COURSE_SOURCE_REVISIONS__: JSON.stringify(SOURCE_REVISIONS), __GOLFER_LAB__: JSON.stringify(golferLab) },
   server: {
     host: '0.0.0.0',
     port: golferLab ? 5180 : 5173,
@@ -89,8 +90,25 @@ export default defineConfig(({ mode }) => {
     {
       name: 'course-source-revision',
       generateBundle() {
-        if (courseSourceRevision(SOURCE_ROOT) !== SOURCE_REVISION) this.error('Course runtime changed during build; rebuild to get a coherent startup revision');
-        this.emitFile({ type: 'asset', fileName: 'course-startup-build.json', source: JSON.stringify({ revision: SOURCE_REVISION }) + '\n' });
+        if (JSON.stringify(courseSourceRevisions(SOURCE_ROOT, COURSE_SLUGS)) !== JSON.stringify(SOURCE_REVISIONS)) this.error('Course runtime changed during build; rebuild to get a coherent startup revision');
+        /* The revisions are read from the source's imports; the bundle is the bundler's own reading of the same.
+           Every module it takes from the hashed folders, by any path from main.js, has to be in some course's
+           revision: one that is not is code a player runs and no prepared record answers for. */
+        const main = [...this.getModuleIds()].find(id => id.replaceAll('\\', '/').endsWith('/apps/golf/src/main.js'));
+        if (main) {
+          const seen = new Set([main]), queue = [main];
+          while (queue.length) {
+            const info = this.getModuleInfo(queue.pop());
+            for (const id of [...(info?.importedIds ?? []), ...(info?.dynamicallyImportedIds ?? [])]) if (!seen.has(id)) { seen.add(id); queue.push(id); }
+          }
+          const unheld = unheldModules(SOURCE_ROOT, COURSE_SLUGS, [...seen].filter(id => !id.startsWith('\0')).map(id => id.replace(/[?#].*$/, '')));
+          if (unheld.length) {
+            const message = `The bundle takes ${unheld.length} modules that no course's source revision holds: ${unheld.slice(0, 12).join(', ')}. See tools/course-source-revision.mjs.`;
+            console.error(`\n${message}\n`); // said here too: a plugin that closes the bundle after an error reports its own instead
+            this.error(message);
+          }
+        }
+        this.emitFile({ type: 'asset', fileName: 'course-startup-build.json', source: JSON.stringify({ revisions: SOURCE_REVISIONS }) + '\n' });
       },
     },
     !golferLab && VitePWA({
