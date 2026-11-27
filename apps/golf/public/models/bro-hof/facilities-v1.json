@@ -13,9 +13,9 @@
   "heightDatum": "RH2000"
  },
  "asset": {
-  "url": "models/bro-hof/facilities-2df050df962ebab1b489db701ae70fd02e1165bedccfde9bd02ab4f9658806ba.glb",
-  "sha256": "2df050df962ebab1b489db701ae70fd02e1165bedccfde9bd02ab4f9658806ba",
-  "bytes": 1510840
+  "url": "models/bro-hof/facilities-785a26ed880015ef7ad1df52e084acf2515b2884a0b896292dcd0b8a58d23177.glb",
+  "sha256": "785a26ed880015ef7ad1df52e084acf2515b2884a0b896292dcd0b8a58d23177",
+  "bytes": 1540064
  },
  "replacesRangeFacilities": false,
  "replacesCourtyard": false,
@@ -648,51 +648,659 @@
    }
   },
   {
-   "id": "flagpoles",
-   "nodeName": "BroHof-Flagpoles",
+   "id": "flagpole-a",
+   "nodeName": "BroHof-Flagpole-A",
    "sourceBuildingIds": [],
    "footprintLocal": [
     [
-     -510.27,
-     467.58
+     -507,
+     408.7
     ],
     [
-     -455.47,
-     467.58
+     -507.16,
+     408.1
     ],
     [
-     -455.47,
-     426.71
+     -507.6,
+     407.66
     ],
     [
-     -510.27,
-     426.71
+     -508.2,
+     407.5
+    ],
+    [
+     -508.8,
+     407.66
+    ],
+    [
+     -509.24,
+     408.1
+    ],
+    [
+     -509.4,
+     408.7
+    ],
+    [
+     -509.24,
+     409.3
+    ],
+    [
+     -508.8,
+     409.74
+    ],
+    [
+     -508.2,
+     409.9
+    ],
+    [
+     -507.6,
+     409.74
+    ],
+    [
+     -507.16,
+     409.3
     ]
    ],
    "groundAnchorLocal": [
-    -491.7,
-    459.6
+    -508.2,
+    408.7
    ],
-   "groundAnchorRh2000M": 11.82,
+   "groundAnchorRh2000M": 11.39,
    "placement": "absolute-rh2000",
    "boundsLocalRh2000": {
     "min": [
-     -510.275,
-     11.139,
-     426.715
+     -508.275,
+     11.088,
+     408.532
     ],
     "max": [
-     -455.475,
-     22.039,
-     467.577
+     -505.8,
+     20.988,
+     408.803
     ]
    },
-   "excludeVegetation": false,
-   "triangles": 720,
+   "excludeVegetation": true,
+   "triangles": 132,
    "evidence": {
-    "position": "orthophoto 2025-06-14: each foot where its shadow begins",
-    "height": "each shadow at the photo sun, 08:58 UTC, 48.8 deg",
-    "flags": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white flags on the rest; their prints are not drawn"
+    "position": "Laserdata Skog 2020-11-06: tree-bro-hof-014041, which the tree pipeline took for a conifer",
+    "height": "9.4 m, the same record",
+    "photo": "orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn",
+    "flag": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn",
+    "clears": "tree-bro-hof-014041: no tree is drawn within 1.2 m of the pole"
+   }
+  },
+  {
+   "id": "flagpole-b",
+   "nodeName": "BroHof-Flagpole-B",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -508.5,
+     427.7
+    ],
+    [
+     -508.66,
+     427.1
+    ],
+    [
+     -509.1,
+     426.66
+    ],
+    [
+     -509.7,
+     426.5
+    ],
+    [
+     -510.3,
+     426.66
+    ],
+    [
+     -510.74,
+     427.1
+    ],
+    [
+     -510.9,
+     427.7
+    ],
+    [
+     -510.74,
+     428.3
+    ],
+    [
+     -510.3,
+     428.74
+    ],
+    [
+     -509.7,
+     428.9
+    ],
+    [
+     -509.1,
+     428.74
+    ],
+    [
+     -508.66,
+     428.3
+    ]
+   ],
+   "groundAnchorLocal": [
+    -509.7,
+    427.7
+   ],
+   "groundAnchorRh2000M": 11.59,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -509.775,
+     11.286,
+     427.578
+    ],
+    "max": [
+     -507.475,
+     20.486,
+     427.771
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 132,
+   "evidence": {
+    "position": "Laserdata Skog 2020-11-06: tree-bro-hof-014308, which the tree pipeline took for a conifer",
+    "height": "8.7 m, the same record",
+    "photo": "orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn",
+    "flag": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn",
+    "clears": "tree-bro-hof-014308: no tree is drawn within 1.2 m of the pole"
+   }
+  },
+  {
+   "id": "flagpole-c",
+   "nodeName": "BroHof-Flagpole-C",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -503.5,
+     446.2
+    ],
+    [
+     -503.66,
+     445.6
+    ],
+    [
+     -504.1,
+     445.16
+    ],
+    [
+     -504.7,
+     445
+    ],
+    [
+     -505.3,
+     445.16
+    ],
+    [
+     -505.74,
+     445.6
+    ],
+    [
+     -505.9,
+     446.2
+    ],
+    [
+     -505.74,
+     446.8
+    ],
+    [
+     -505.3,
+     447.24
+    ],
+    [
+     -504.7,
+     447.4
+    ],
+    [
+     -504.1,
+     447.24
+    ],
+    [
+     -503.66,
+     446.8
+    ]
+   ],
+   "groundAnchorLocal": [
+    -504.7,
+    446.2
+   ],
+   "groundAnchorRh2000M": 11.87,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -504.775,
+     11.568,
+     446.103
+    ],
+    "max": [
+     -502.325,
+     21.368,
+     446.359
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 132,
+   "evidence": {
+    "position": "Laserdata Skog 2020-11-06: tree-bro-hof-014011, which the tree pipeline took for a conifer",
+    "height": "9.3 m, the same record",
+    "photo": "orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn",
+    "flag": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn",
+    "clears": "tree-bro-hof-014011: no tree is drawn within 1.2 m of the pole"
+   }
+  },
+  {
+   "id": "flagpole-d",
+   "nodeName": "BroHof-Flagpole-D",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -489.5,
+     460.2
+    ],
+    [
+     -489.66,
+     459.6
+    ],
+    [
+     -490.1,
+     459.16
+    ],
+    [
+     -490.7,
+     459
+    ],
+    [
+     -491.3,
+     459.16
+    ],
+    [
+     -491.74,
+     459.6
+    ],
+    [
+     -491.9,
+     460.2
+    ],
+    [
+     -491.74,
+     460.8
+    ],
+    [
+     -491.3,
+     461.24
+    ],
+    [
+     -490.7,
+     461.4
+    ],
+    [
+     -490.1,
+     461.24
+    ],
+    [
+     -489.66,
+     460.8
+    ]
+   ],
+   "groundAnchorLocal": [
+    -490.7,
+    460.2
+   ],
+   "groundAnchorRh2000M": 11.84,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -490.775,
+     11.539,
+     460.093
+    ],
+    "max": [
+     -488.45,
+     20.839,
+     460.32
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 192,
+   "evidence": {
+    "position": "Laserdata Skog 2020-11-06: tree-bro-hof-014115, which the tree pipeline took for a conifer",
+    "height": "8.8 m, the same record",
+    "photo": "orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn",
+    "flag": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn",
+    "clears": "tree-bro-hof-014115: no tree is drawn within 1.2 m of the pole"
+   }
+  },
+  {
+   "id": "flagpole-e",
+   "nodeName": "BroHof-Flagpole-E",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -474.5,
+     467.7
+    ],
+    [
+     -474.66,
+     467.1
+    ],
+    [
+     -475.1,
+     466.66
+    ],
+    [
+     -475.7,
+     466.5
+    ],
+    [
+     -476.3,
+     466.66
+    ],
+    [
+     -476.74,
+     467.1
+    ],
+    [
+     -476.9,
+     467.7
+    ],
+    [
+     -476.74,
+     468.3
+    ],
+    [
+     -476.3,
+     468.74
+    ],
+    [
+     -475.7,
+     468.9
+    ],
+    [
+     -475.1,
+     468.74
+    ],
+    [
+     -474.66,
+     468.3
+    ]
+   ],
+   "groundAnchorLocal": [
+    -475.7,
+    467.7
+   ],
+   "groundAnchorRh2000M": 12.26,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -475.775,
+     11.965,
+     467.542
+    ],
+    "max": [
+     -473.325,
+     21.765,
+     467.787
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 132,
+   "evidence": {
+    "position": "Laserdata Skog 2020-11-06: tree-bro-hof-014034, which the tree pipeline took for a conifer",
+    "height": "9.3 m, the same record",
+    "photo": "orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn",
+    "flag": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn",
+    "clears": "tree-bro-hof-014034: no tree is drawn within 1.2 m of the pole"
+   }
+  },
+  {
+   "id": "flagpole-f",
+   "nodeName": "BroHof-Flagpole-F",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -455,
+     467.7
+    ],
+    [
+     -455.16,
+     467.1
+    ],
+    [
+     -455.6,
+     466.66
+    ],
+    [
+     -456.2,
+     466.5
+    ],
+    [
+     -456.8,
+     466.66
+    ],
+    [
+     -457.24,
+     467.1
+    ],
+    [
+     -457.4,
+     467.7
+    ],
+    [
+     -457.24,
+     468.3
+    ],
+    [
+     -456.8,
+     468.74
+    ],
+    [
+     -456.2,
+     468.9
+    ],
+    [
+     -455.6,
+     468.74
+    ],
+    [
+     -455.16,
+     468.3
+    ]
+   ],
+   "groundAnchorLocal": [
+    -456.2,
+    467.7
+   ],
+   "groundAnchorRh2000M": 12.76,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -456.275,
+     12.465,
+     467.586
+    ],
+    "max": [
+     -453.85,
+     22.165,
+     467.841
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 132,
+   "evidence": {
+    "position": "Laserdata Skog 2020-11-06: tree-bro-hof-014528, which the tree pipeline took for a conifer",
+    "height": "9.2 m, the same record",
+    "photo": "orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn",
+    "flag": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn",
+    "clears": "tree-bro-hof-014528: no tree is drawn within 1.2 m of the pole"
+   }
+  },
+  {
+   "id": "flagpole-g",
+   "nodeName": "BroHof-Flagpole-G",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -438,
+     458.7
+    ],
+    [
+     -438.16,
+     458.1
+    ],
+    [
+     -438.6,
+     457.66
+    ],
+    [
+     -439.2,
+     457.5
+    ],
+    [
+     -439.8,
+     457.66
+    ],
+    [
+     -440.24,
+     458.1
+    ],
+    [
+     -440.4,
+     458.7
+    ],
+    [
+     -440.24,
+     459.3
+    ],
+    [
+     -439.8,
+     459.74
+    ],
+    [
+     -439.2,
+     459.9
+    ],
+    [
+     -438.6,
+     459.74
+    ],
+    [
+     -438.16,
+     459.3
+    ]
+   ],
+   "groundAnchorLocal": [
+    -439.2,
+    458.7
+   ],
+   "groundAnchorRh2000M": 13,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -439.275,
+     12.697,
+     458.617
+    ],
+    "max": [
+     -436.9,
+     22.197,
+     458.842
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 132,
+   "evidence": {
+    "position": "Laserdata Skog 2020-11-06: tree-bro-hof-014012, which the tree pipeline took for a conifer",
+    "height": "9.0 m, the same record",
+    "photo": "orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn",
+    "flag": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn",
+    "clears": "tree-bro-hof-014012: no tree is drawn within 1.2 m of the pole"
+   }
+  },
+  {
+   "id": "flagpole-h",
+   "nodeName": "BroHof-Flagpole-H",
+   "sourceBuildingIds": [],
+   "footprintLocal": [
+    [
+     -424.5,
+     445.2
+    ],
+    [
+     -424.66,
+     444.6
+    ],
+    [
+     -425.1,
+     444.16
+    ],
+    [
+     -425.7,
+     444
+    ],
+    [
+     -426.3,
+     444.16
+    ],
+    [
+     -426.74,
+     444.6
+    ],
+    [
+     -426.9,
+     445.2
+    ],
+    [
+     -426.74,
+     445.8
+    ],
+    [
+     -426.3,
+     446.24
+    ],
+    [
+     -425.7,
+     446.4
+    ],
+    [
+     -425.1,
+     446.24
+    ],
+    [
+     -424.66,
+     445.8
+    ]
+   ],
+   "groundAnchorLocal": [
+    -425.7,
+    445.2
+   ],
+   "groundAnchorRh2000M": 12.94,
+   "placement": "absolute-rh2000",
+   "boundsLocalRh2000": {
+    "min": [
+     -425.775,
+     12.636,
+     445.04
+    ],
+    "max": [
+     -423.375,
+     22.236,
+     445.313
+    ]
+   },
+   "excludeVegetation": true,
+   "triangles": 132,
+   "evidence": {
+    "position": "Laserdata Skog 2020-11-06: tree-bro-hof-014116, which the tree pipeline took for a conifer",
+    "height": "9.1 m, the same record",
+    "photo": "orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn",
+    "flag": "the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn",
+    "clears": "tree-bro-hof-014116: no tree is drawn within 1.2 m of the pole"
    }
   },
   {

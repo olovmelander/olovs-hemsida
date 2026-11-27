@@ -15,7 +15,7 @@ pnpm exec vitest run apps/golf/src/engine/scenery/campus-facilities.test.mjs
 
 The build needs the acquired 1 m terrain (`packages/course-geo/toolchain/.cache/acquisition/bro-hof-ground-rings`),
 because hedges, garden walls and the gate stand on the ground under them. It uses Blender's data API only,
-in its own scene, and no textures: 15 facilities, 26,691 triangles, 1.5 MB, 27 plain materials (the brightest,
+in its own scene, and no textures: 22 facilities, 27,087 triangles, 1.5 MB, 27 plain materials (the brightest,
 the white flags, at 0.72 linear luminance, under the glow's 0.86).
 
 ## What is measured and what is not
@@ -30,7 +30,7 @@ the white flags, at 0.72 linear luminance, under the glow's 0.86).
 | Stadium halfway house (`w1235353673`) | Octagon (OSM), ground 6.3 and roof 11.7 m (laser), terrace and garden walls (2025 orthophoto). | Windows and doors. |
 | Castle halfway house (`ortho-halfway-house-castle`) | Plan, ridge, terrace, hedges (2025 orthophoto). Not in OSM, not in the laser. | Heights, windows and doors. |
 
-| Flagpoles (27 Nov) | Five feet where their shadows begin on the 2025 orthophoto; heights 8.3-10.4 m from the shadows at the photo's sun (2025-06-14 08:58 UTC, 48.8 degrees). A Swedish flag by the path, white on the rest (the club's aerial photograph). | Flag sizes (a quarter of the pole); the flags' prints are not drawn; one or two poles the aerial shows north of the green have no shadow on the photo and are not placed. |
+| Flagpoles (27 Nov) | Eight, one part each (`flagpole-a` to `-h`): position and height (8.7-9.4 m) from the laser, which the tree pipeline took for thin conifers (`tree-bro-hof-014041`, `014308`, `014011`, `014115`, `014034`, `014528`, `014012`, `014116`); each stands where the 2025 orthophoto has a pole's shadow with a flag, on open lawn. Each part clears no-tree ground 1.2 m round its pole, so the false tree is not drawn (display only). A Swedish flag by the path, white on the rest (the club's aerial photograph). | Flag sizes (a quarter of the pole); the flags' prints are not drawn. |
 | Terrace parasols | Six, their centres, size and turn (2025 orthophoto). | Height, the tables under them. |
 | Practice greens' flags | The greens as the course model traces them: five putting greens (three short flags each), the putting course (its 18 numbered flags, club page) and the short-game area's four greens (two full pins each). | Every cup: no photo resolves one, so they are spread along each green; the putting course's numbers are not drawn. |
 | Range mat line | The artificial-turf strip's ends (2021 and 2025 orthophotos), a ball pile at every bay (counted on the 2021 photo: 30 at 3 m), the ball dispenser's place (2025). | The dispenser's form, the bags. |
