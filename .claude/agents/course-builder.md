@@ -40,8 +40,10 @@ and say so in your report. A `known` fault is kept on purpose: change it only by
   its own port, but they share the GPU). Never `import` a gallery or poster tool: it starts a browser.
 - **The owner's remark is a source.** A fault they saw while playing goes into the walkthrough's table
   with how it was found, is fixed at the stage that made it, and leaves a check behind.
-- **An edit under `apps/golf/src/engine`, `apps/golf/src/loader` or `packages/course-v2` means baking
-  every course again.** Do not make one without the owner knowing what it costs.
+- **An edit to engine code every course runs means baking every course again.** Do not make one
+  without the owner knowing what it costs. A ground's own modules (its scenery module and what only
+  it imports, its terrain contract) bake that ground alone, and a new ground bakes itself
+  (`tools/course-source-revision.mjs`; `gpu-pass.mjs --only <slugs>`).
 - **Never weaken a gate, hand-edit a checksum, or invent a passing record.** If a tool cannot run for
   a reason that is the machine's (a security policy blocking a library), stop and tell the owner.
 - **Raw photos and laser stay private.** Sheets, overlays and the owner's review page are crops of
