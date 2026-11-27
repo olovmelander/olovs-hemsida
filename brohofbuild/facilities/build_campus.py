@@ -783,26 +783,36 @@ def glyphs(text):
     return _GLYPHS[text]
 
 
-# The flagpoles round the sunken putting green south-west of the terrace and along the path below it. Each foot is where
-# its shadow begins on the 2025-06-14 photo; each height is its shadow's length at that photo's sun (08:58 UTC, 48.8 deg
-# up), so +-0.5 m. The club's aerial photograph shows a Swedish flag on the pole by the path and white flags on the
-# rest; whatever is printed on those is not drawn. It shows one or two poles more, north of the green, that no shadow
-# on the photo confirms: not placed.
-FLAGPOLES = [((648584.3, 6598141.6), 10.4, 'white'), ((648588.3, 6598122.4), 9.8, 'white'),
-             ((648602.8, 6598108.9), 8.5, 'sweden'), ((648618.6, 6598101.9), 8.3, 'white'), ((648636.9, 6598101.0), 8.3, 'white')]
+# The eight flagpoles round the sunken putting green south-west of the terrace, along the path below it and by the
+# castle's south-east corner. The laser (Laserdata Skog 2020-11-06) holds every one: the tree pipeline took them for
+# conifers 8.7-9.4 m tall with crowns 1.1-1.6 m across (review-2026-11-24, candidates.csv), and each stands where the
+# 2025-06-14 photo has a pole's thin shadow with a flag at its end, on open lawn. So the poles stand at those records'
+# positions and heights, and each one's part clears the false tree under it (excludeVegetation: a display exclusion; the
+# tree data is unchanged). The club's aerial photograph shows a Swedish flag on the pole by the path and white flags on
+# the rest; whatever is printed on those is not drawn. (27 November, owner: "the flags are standing exactly where there
+# are trees"; the first five poles were read off the photo, 1.0-1.5 m from these, and drew beside their own trees.)
+FLAGPOLES = [
+    ('a', 'tree-bro-hof-014041', (648586.3, 6598159.8), 9.4, 'white'),
+    ('b', 'tree-bro-hof-014308', (648584.8, 6598140.8), 8.7, 'white'),
+    ('c', 'tree-bro-hof-014011', (648589.8, 6598122.3), 9.3, 'white'),
+    ('d', 'tree-bro-hof-014115', (648603.8, 6598108.3), 8.8, 'sweden'),
+    ('e', 'tree-bro-hof-014034', (648618.8, 6598100.8), 9.3, 'white'),
+    ('f', 'tree-bro-hof-014528', (648638.3, 6598100.8), 9.2, 'white'),
+    ('g', 'tree-bro-hof-014012', (648655.3, 6598109.8), 9.0, 'white'),
+    ('h', 'tree-bro-hof-014116', (648668.8, 6598123.3), 9.1, 'white'),
+]
+POLE_CLEARING = 1.2                             # metres round a pole's record in which no tree is drawn
 
 
-def flagpoles():
-    m = Mesh(*FLAGPOLES[0][0], 1, 0)
-    for k, ((e, n), height, flag) in enumerate(FLAGPOLES):
-        p, g = Mesh(e, n, *WIND), ground(e, n)
-        p.lathe('pole', 0, 0, [(g - 0.3, 0.075), (g + 0.05, 0.075), (g + height, 0.045)], 10)
-        p.lathe('gold', 0, 0, [(g + height - 0.01, 0.0), (g + height + 0.03, 0.065), (g + height + 0.1, 0.075),
-                               (g + height + 0.17, 0.05), (g + height + 0.2, 0.0)], 10, cap=False)
-        length = height / 4                     # the Swedish rule of thumb: a flag a quarter of its pole
-        flag_cloth(p, g + height - 0.12, length, length * 10 / 16, swedish if flag == 'sweden' else plain('flag_white'), phase=1.7 * k)
-        merge(m, p)
-    return m
+def flagpole(k):
+    _, _, (e, n), height, flag = FLAGPOLES[k]
+    p, g = Mesh(e, n, *WIND), ground(e, n)
+    p.lathe('pole', 0, 0, [(g - 0.3, 0.075), (g + 0.05, 0.075), (g + height, 0.045)], 10)
+    p.lathe('gold', 0, 0, [(g + height - 0.01, 0.0), (g + height + 0.03, 0.065), (g + height + 0.1, 0.075),
+                           (g + height + 0.17, 0.05), (g + height + 0.2, 0.0)], 10, cap=False)
+    length = height / 4                         # the Swedish rule of thumb: a flag a quarter of its pole
+    flag_cloth(p, g + height - 0.12, length, length * 10 / 16, swedish if flag == 'sweden' else plain('flag_white'), phase=1.7 * k)
+    return p
 
 
 # The terrace's six square parasols, white on the 2025 photo, square to the castle; the tables under them are not seen.
@@ -1059,9 +1069,13 @@ FACILITIES = [
          evidence=dict(plan='orthophoto 2025-06-14', height='estimated from the entrance photo')),
     dict(id='avenue-gate', node='BroHof-Gate', build=gate, sources=[], anchor=(648741.95, 6598396.25), plants=True,
          evidence=dict(plan='orthophoto 2025-06-14', order='Wikimedia Commons Bro Hof Slott Entre.jpg (CC BY-SA 4.0, reference only)')),
-    dict(id='flagpoles', node='BroHof-Flagpoles', build=flagpoles, sources=[], anchor=(648602.8, 6598108.9), plants=True,
-         evidence=dict(position='orthophoto 2025-06-14: each foot where its shadow begins', height='each shadow at the photo sun, 08:58 UTC, 48.8 deg',
-                       flags='the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white flags on the rest; their prints are not drawn')),
+    *[dict(id=f'flagpole-{letter}', node=f'BroHof-Flagpole-{letter.upper()}', build=(lambda k=k: flagpole(k)), sources=[], anchor=at,
+           footprint=_circle(at, POLE_CLEARING, 12),
+           evidence=dict(position=f'Laserdata Skog 2020-11-06: {record}, which the tree pipeline took for a conifer', height=f'{height} m, the same record',
+                         photo='orthophoto 2025-06-14: a pole shadow with a flag at its end, on open lawn',
+                         flag='the club aerial photograph (Wikimedia Commons, reference only): a Swedish flag by the path, white on the rest; prints not drawn',
+                         clears=f'{record}: no tree is drawn within {POLE_CLEARING} m of the pole'))
+      for k, (letter, record, at, height, flag) in enumerate(FLAGPOLES)],
     dict(id='terrace-parasols', node='BroHof-TerraceParasols', build=parasols, sources=[], anchor=(648632.0, 6598151.5), plants=True,
          evidence=dict(position='orthophoto 2025-06-14', size='orthophoto', height='estimated', tables='estimated')),
     dict(id='practice-green-flags', node='BroHof-PracticeGreenFlags', build=practice_flags, sources=[], anchor=(648620.0, 6598118.0), plants=True,
