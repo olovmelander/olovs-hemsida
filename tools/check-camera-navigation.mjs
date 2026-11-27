@@ -12,9 +12,14 @@
  * stock numbers in the table are measured here, not remembered.
  *
  * What is measured:
- *   drag       a 200 px left drag in one step: how long until the view has
- *              half and nine tenths of its turn, and how far the ground the
- *              hand took hold of ends from where it was taken
+ *   drag       a 200 px left drag in one step: how long, and how many drawn
+ *              frames, until the view has half and nine tenths of its turn, and
+ *              how far the ground the hand took hold of ends from where it was
+ *              taken. The same drag is made once unmeasured first, so the
+ *              ground it turns toward is already streamed in: the first time a
+ *              view turns, the course's own loading can hold a frame for a
+ *              third of a second (Lidingö), which is the course and not the
+ *              hand. The frames are what is gated, the seconds are told.
  *   pan        a right drag: how far the ground taken hold of ends from the cursor
  *   zoom       five wheel notches: how far the ground under the cursor ends
  *              from it, and the largest share of the whole travel in one frame
@@ -89,12 +94,13 @@ function instrument() {
 
 const heading = s => Math.atan2(s.l[0] - s.p[0], -(s.l[2] - s.p[2]));
 const turnBetween = (a, b) => { let d = heading(b) - heading(a); while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d * 180 / Math.PI; };
-/* seconds after the hand moved until `share` of the whole change was drawn */
+/* after the hand moved, the seconds and the drawn frames until `share` of the whole change was on screen */
 function reached(run, value, share) {
   const total = value(run.log.at(-1));
-  if (Math.abs(total) < 1e-9) return null;
-  const hit = run.log.find(s => Math.abs(value(s)) >= Math.abs(total) * share);
-  return +((hit.t - run.moved) / 1000).toFixed(3);
+  if (Math.abs(total) < 1e-9) return { seconds: null, frames: null };
+  const hit = run.log.findIndex(s => Math.abs(value(s)) >= Math.abs(total) * share);
+  const before = run.log.findIndex(s => s.t >= run.moved);
+  return { seconds: +((run.log[hit].t - run.moved) / 1000).toFixed(3), frames: hit - before + 1 };
 }
 
 async function measure(page, slug) {
@@ -117,20 +123,26 @@ async function measure(page, slug) {
 
     /* ---- drag: the opening view, the hand takes the ground a little under the middle */
     {
-      await view('orbit');
       const from = [800, 540], to = [1000, 540];
-      await on(from);
-      const held = await ground(from);
-      await page.mouse.move(...from);
-      await record();
-      await page.mouse.down();
-      await page.mouse.move(...to);
-      await wait(1500);
-      await page.mouse.up();
-      await wait(900);
-      const run = await stop();
+      let run, held;
+      for (const measured of [false, true]) {
+        await view('orbit');
+        await on(from);
+        held = await ground(from);
+        await page.mouse.move(...from);
+        if (measured) await record();
+        await page.mouse.down();
+        await page.mouse.move(...to);
+        await wait(1500);
+        await page.mouse.up();
+        await wait(900);
+        if (measured) run = await stop();
+      }
       const first = run.log[0], turn = s => turnBetween(first, s);
-      row.drag = { degrees: +turn(run.log.at(-1)).toFixed(2), half: reached(run, turn, 0.5), ninth: reached(run, turn, 0.9),
+      const half = reached(run, turn, 0.5), ninth = reached(run, turn, 0.9);
+      const gaps = run.log.slice(1).map((s, i) => s.t - run.log[i].t);
+      row.drag = { degrees: +turn(run.log.at(-1)).toFixed(2), half: half.seconds, ninth: ninth.seconds, ninthFrames: ninth.frames,
+        longestFrame: +(Math.max(...gaps) / 1000).toFixed(3),
         heldMetres: held ? +held[3].toFixed(1) : null, heldOffPixels: held ? +hyp(await screen(held), from).toFixed(1) : null };
     }
 
@@ -266,7 +278,10 @@ function judge(rows) {
   const n = rows.new, s = rows.stock, problems = [];
   const gate = (ok, text) => { if (!ok) problems.push(text); };
   gate(Math.abs(n.drag.degrees) > 20, `the drag turned the view ${n.drag.degrees} degrees`);
-  if (GPU) gate(n.drag.ninth !== null && n.drag.ninth <= 0.3, `nine tenths of a drag took ${n.drag.ninth} s (stock ${s.drag.ninth} s)`);
+  /* six frames at 60 Hz by the arithmetic (0.04 s, nine tenths after 0.092 s); the stock controls take about forty */
+  gate(n.drag.ninthFrames !== null && n.drag.ninthFrames <= 9, `nine tenths of a drag took ${n.drag.ninthFrames} drawn frames (stock ${s.drag.ninthFrames})`);
+  if (GPU) gate(n.drag.ninth !== null && n.drag.ninth <= Math.max(0.3, 2 * n.drag.longestFrame + 0.1),
+    `nine tenths of a drag took ${n.drag.ninth} s (stock ${s.drag.ninth} s), the longest frame ${n.drag.longestFrame} s`);
   gate(n.drag.heldOffPixels !== null && n.drag.heldOffPixels <= 3, `the ground a drag took hold of ended ${n.drag.heldOffPixels} px away`);
   gate(n.pan.heldOffPixels !== null && n.pan.heldOffPixels <= 3 && Math.abs(n.pan.rose) < 0.5, `the ground a pan took hold of ended ${n.pan.heldOffPixels} px from the cursor, the eye ${n.pan.rose} m higher`);
   gate(n.zoom.heldOffPixels !== null && n.zoom.heldOffPixels <= 3, `the ground under the wheel ended ${n.zoom.heldOffPixels} px from the cursor`);
@@ -310,6 +325,8 @@ for (const slug of courses) {
     const line = (label, pick, unit) => console.log(`  ${label.padEnd(42)}${cell(pick(rows.new), unit)}${cell(pick(rows.stock), unit)}`);
     line('drag: half of the turn after', r => r.drag.half, ' s');
     line('drag: nine tenths of it after', r => r.drag.ninth, ' s');
+    line('drag: nine tenths of it after, in frames', r => r.drag.ninthFrames);
+    line('drag: the longest frame meanwhile', r => r.drag.longestFrame, ' s');
     line('drag: the ground held ends off by', r => r.drag.heldOffPixels, ' px');
     line('pan: the ground held ends off the cursor', r => r.pan.heldOffPixels, ' px');
     line('pan: the eye rose', r => r.pan.rose, ' m');
