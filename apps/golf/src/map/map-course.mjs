@@ -5,6 +5,7 @@
    paths) and the ground manifest (the height tiles). Neither is copied or
    rebaked, so the map cannot drift from the course the simulator draws, and a
    republished course reaches the map by itself. */
+import { ringCheck } from './map-roof-colours.mjs';
 import { mappedWaterShapes } from './map-hazard-geometry.mjs';
 import { MAP_OFFLINE_CACHE, packIdentity, savedCourseStatus } from './map-offline-status.mjs';
 import { inflate } from '../engine/codec.js';
@@ -161,9 +162,12 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     buildings: rings([...(infra.buildings ?? []), ...(far?.landmarks ?? [])]),
     /* Everything beyond the extract: thousands of boxes, kept as bare corners. */
     farBuildings: allBuildings.map(box => placeAll(buildingCorners(box))),
-    /* The id names the footprint a club's own building stands in for (map-club-buildings.mjs). */
-    structures: [...(infra.buildings ?? []), ...(far?.landmarks ?? [])].filter(item => validRing(item?.ring))
-      .map(item => ({ ring: placeAll(item.ring), height: Number.isFinite(item.h) ? item.h : null, id: typeof item.id === 'string' ? item.id : null })),
+    /* The id names the footprint a club's own building stands in for (map-club-buildings.mjs);
+       the index and the footprint's check find its measured roof (map-roof-colours.mjs). */
+    structures: [...(infra.buildings ?? []).map((item, index) => ({ item, index })), ...(far?.landmarks ?? []).map(item => ({ item, index: null }))]
+      .filter(({ item }) => validRing(item?.ring))
+      .map(({ item, index }) => ({ ring: placeAll(item.ring), height: Number.isFinite(item.h) ? item.h : null, id: typeof item.id === 'string' ? item.id : null,
+        index, check: index === null ? null : ringCheck(item.ring) })),
     range: rings(scenery.range),
     /* The other layouts on a shared ground are real grass on the same land, and
        a short layout's bunkers are only here: the 9-hole records carry none. */
