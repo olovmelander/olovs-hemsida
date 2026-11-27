@@ -17,7 +17,8 @@
    - the PROJ grid, which CI fetches and a worktree does not have: copied from the main checkout.
 
    The steps are the two pipelines a pull request runs (course-geo.yml and course-workflow.yml), the prepared-data
-   check pages.yml and cloudflare.yml make of the build, and the ground's walkthrough. A test holds this list to
+   check cloudflare.yml makes of the build (GitHub Pages builds no app since it was retired, 27 November), and the
+   ground's walkthrough. A test holds this list to
    those files: a command added to a workflow fails it until it is rehearsed here or named in NOT_REHEARSED with
    the reason. One process at a time; a log a step under output/course-rehearsal; it stops at the first failure
    and keeps the worktree then, to be looked at. Uncommitted changes are not in the rehearsal: commit first. */

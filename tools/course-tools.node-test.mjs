@@ -437,9 +437,12 @@ test('the rehearsal runs what the pull request\'s pipelines run, and says what i
   }
   assert.deepEqual(unknown, [], 'a command CI runs is neither rehearsed nor named in NOT_REHEARSED (tools/course-rehearsal.mjs)');
   assert.ok(workflowCommands('.github/workflows/course-geo.yml').length > 12, 'the workflow file was read');
-  for (const file of ['.github/workflows/pages.yml', '.github/workflows/cloudflare.yml']) {
-    assert.ok(workflowCommands(file).includes('node tools/check-prepared-startup.mjs --public apps/golf/dist'), `${file} checks the prepared data, as the rehearsal does`);
-  }
+  assert.ok(workflowCommands('.github/workflows/cloudflare.yml').includes('node tools/check-prepared-startup.mjs --public apps/golf/dist'),
+    'cloudflare.yml checks the prepared data, as the rehearsal does');
+  /* GitHub Pages is retired (docs/pages-retired.md): it publishes the page that moves visitors, never the app */
+  const pages = workflowCommands('.github/workflows/pages.yml');
+  assert.ok(pages.some(command => command.startsWith('node tools/pages-moved-site.mjs _site')), 'pages.yml publishes the moving page');
+  assert.ok(!pages.some(command => /pnpm|apps\/golf\/dist|check-prepared-startup/.test(command)), 'and builds no app');
   assert.ok(rehearsed.has('node tools/check-prepared-startup.mjs --public apps/golf/dist') && rehearsed.has('node tools/course-walkthrough.mjs --ground tjusta --check'));
   assert.ok(Object.hasOwn(NOT_REHEARSED, 'bash tools/check-release-journeys.sh') && workflowCommands('.github/workflows/cloudflare.yml').includes('bash tools/check-release-journeys.sh'));
   assert.deepEqual(plan.slice(0, 2).map(step => step.id), ['install', 'copc'], 'the dependencies first, the COPC reader\'s among them');

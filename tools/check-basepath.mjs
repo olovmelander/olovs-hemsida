@@ -3,8 +3,9 @@
 
    usage: node tools/check-basepath.mjs [base] [port]      (default /olovs-hemsida/)
 
-   Cloudflare would serve Banvy from a domain root; GitHub Pages serves it from
-   /<repo>/. Almost everything survives that automatically -- Vite rewrites the
+   Cloudflare serves Banvy from a domain root; GitHub Pages served it from
+   /<repo>/ until it was retired (docs/pages-retired.md), and the app still
+   builds for such a mount. Almost everything survives that automatically -- Vite rewrites the
    tags in index.html and every asset it processes -- which is exactly why this
    gate is needed: the handful of things it does NOT rewrite fail SILENTLY.
 
@@ -14,7 +15,7 @@
    page renders in a fallback font with nothing in the console. No amount of
    reading the source finds that; loading the page at the real mount point does,
    which is what this does: build for the base, assemble the site the way the
-   Pages workflow assembles it, serve it AT that path, and drive it.          */
+   Pages workflow did, serve it AT that path, and drive it.                   */
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -42,7 +43,7 @@ const pnpmArgs = process.platform === 'win32'
 execFileSync(pnpmCmd, pnpmArgs,
   { cwd: ROOT, env: { ...process.env, BANVY_BASE: BASE, COREPACK_ENABLE_DOWNLOAD_PROMPT: '0' }, stdio: 'ignore', shell: process.platform === 'win32' });
 
-/* assemble exactly as .github/workflows/pages.yml does */
+/* assemble as a subpath host does (as pages.yml did before Pages was retired) */
 const site = fs.mkdtempSync(path.join(os.tmpdir(), 'banvy-base-'));
 const mount = path.join(site, MOUNT.replace(/^\//, ''));
 fs.mkdirSync(mount, { recursive: true });
