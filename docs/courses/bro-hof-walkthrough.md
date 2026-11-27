@@ -120,30 +120,27 @@ build's own records, and a test fails when they fall behind. Everything else is 
   but the carved bed rises to a dead-flat 0.00 m inside it. `?waterreach=0` removes them, so the pond's own reach carve
   makes them. The pond also lies inside Mälaren's 8 m flat-water component (level 1.06 m), so two carves may overlap
   there. Next step: read the bed field at a slab (the carve's refined and broad depths), with the prepared water off.
+  A third stands in the north-west corner of the pond on Stadium 7 (`lm-water-659_64-28`) beside the footbridge, seen
+  from above on Stadium 7 and Castle 4 by the blind look of 27 November; `?waterreach=0` removes it too.
 - **What grows on the islands is not mapped.** They are drawn as rough with the laser's trees. Three small ones in
   Mälaren (156, 36 and 2 m2; the largest at E 650263 N 6597235) lie at or below the water's level in the laser and are
   drawn as land at the waterline; they may be reed beds.
-- **Reeds still stand on the mown parts of two ponds kept for their reeds.** Since 27 November no reed stands on a
-  bank the photo shows mown on 17 named waters (below), but a pond with a reed belt or wild banks was kept whole: the
-  west bank of the pond on Stadium 15 (mown by the cart path) and the mown west and south banks of the meadow pond
-  north of Stadium 6 (where its creek comes in, about 14 reeds) still have reeds. A `stretch` for each in `mownBanks`
-  would take them off.
 - **The mown banks are judged by eye, one water at a time,** on the 2025-06-14 photo
-  ([the record](../../brohofbuild/mapping/reed-bank-decisions.json)): two ponds (by Stadium 13-14 and by Stadium 2,
-  3 and 7) are mown only in part, and the line between their mown stretch and their reed belt is drawn on the photo,
-  not measured. A water the photos do not reach (east of Stadium 13, north of Castle 5) was not judged and keeps its
-  reeds.
+  ([the record](../../brohofbuild/mapping/reed-bank-decisions.json)). Four ponds are mown only in part (by Stadium
+  13-14; by Stadium 2, 3 and 7; on Stadium 15; north of Stadium 6), and the line between their mown stretch and their
+  reed belt, wetland or wood is drawn on the photo, not measured. The waters outside the three photos (Mälaren's far
+  shores and the ponds east and north of the estate) were not judged and keep their reeds.
 - **A ball on an island's low ground is still in the water** for the lie and Spela: they read the outer ring and the
   ground's height (land more than 0.3 m above the water is not water). No island is near play.
-- **From the blind look of 27 November after the mown banks** (kept as faults in `visual-review.json`): the sun's
-  glitter on Castle 17's lake reads as static in Lätt 3D at the hole view's zoom (`map-gl.mjs`). Since the review's
-  pictures draw Detaljerad 3D with the temporal AA, two views from above (Stadium 4 and 14) show a lake's mirror of
-  the sky's sun glow as a broad pale blotch on the sun's side; it is the same with `?waterreflect=0`, so it is the
-  water's own shading (`water-shading.mjs`), and it touches every course. The earlier look's cut-off carry pills
-  (Stadium 11, 13 and 16, Castle 12) were put right the same evening: every hazard pill whose middle is on
-  the screen is shown whole, and a bunker's takes the side of its sand that fits (`map-overlay.mjs`); and the map
-  draws the islands a lake holds as land (`map-course.mjs` `islands`, holes in the lake's path in `map-paint.mjs`;
-  `?waterislands=0` draws them under the water, as in the detailed course). This look doubted neither.
+- **From the blind looks of 27 November after the mown banks** (kept as faults in `visual-review.json`): the sun's
+  glitter on the water reads as static in Lätt 3D at the hole view's zoom (Castle 17, Stadium 9 and 15;
+  `map-gl.mjs`); and the reach's slab in the pond on Stadium 7 (above). The first of the two looks also saw, from
+  above on Stadium 4 and 14, a lake's mirror of the sky's sun glow as a broad pale blotch on the sun's side; it is
+  the same with `?waterreflect=0`, so it is the water's own shading (`water-shading.mjs`), and it touches every
+  course. The earlier look's cut-off carry pills (Stadium 11, 13 and 16, Castle 12) were put right the same evening:
+  every hazard pill whose middle is on the screen is shown whole, and a bunker's takes the side of its sand that fits
+  (`map-overlay.mjs`); and the map draws the islands a lake holds as land (`map-course.mjs` `islands`, holes in the
+  lake's path in `map-paint.mjs`; `?waterislands=0` draws them under the water, as in the detailed course).
 - **Never looked at:** a real phone; the game (Spela) on either course; storm, mist, the blue hour and autumn by eye;
   low quality beyond a clean start.
 
@@ -234,7 +231,7 @@ is a check that did not exist; the last column says whether it exists now.
 | Reeds standing up to 17 m out in open pond water as lone dark spikes (Stadium 7, 11 and 15; Castle 17): the reed scan read a pond flown full as ground at its level, and its shore field reached both sides of an outline. On Stadium 1,120 of 13,023 reeds stood 4 m or more inside an outline | the blind visual review of every hole (course-reviewer, 27 November), from the tee | three days after release | a reed stands in still water only on a mapped bed (`inStillWater` in `ground-cover.mjs`, `?reedbank=0`), and never in a tee's line of play (`tee-corridors.mjs`); their tests. A picture found it; the probe that counts reeds inside outlines is local |
 | Mälaren's island and its 39 laser trees drawn under the lake (Stadium 15 from above): the pack compiler dropped every water's islands, and the bed carve lowered the island 3.5 m | the blind visual review, from above | three days after release | the pack keeps `innerRings` (`runtime-water.mjs`, `water-shore.node-test.mjs`); the bed field, the reach and the sheet treat an island as land (`v2-water-bed.test.mjs`, `water-reach.test.mjs`; `?waterislands=0`) |
 | A bush on Stadium 18's aim line from the yellow and blue tees, 41 m off the back tee's line (Johannesberg 3 had one too) | the blind visual review, from the tee | three days after release | the cover keeps off every tee's line of play to its landing area (`tee-corridors.mjs`, its test on Stadium 18's pack; `?teecorridor=0`) |
-| Reeds on pond banks the 2025 photo shows mown to the water (Stadium 1, 9, 10, 11, 15, 17; Castle 17 and 18's pond; the creek pools of Stadium 5 and 12 and Castle 9; the south bank of the pond by Stadium 13-14): the reed scan reads the ground's level, not its turf | the owner's decision of 27 November (mown pond banks bear no reeds), after the blind review's reeds fix left them | three days after release | 17 waters named in the scenery module (`mownBanks`, two of them by a stretch), each judged on the photo in `reed-bank-decisions.json`; the reed scan's `onMownBank` (`?mownbanks=0`); `bro-hof.test.mjs` holds the list to the record and to both packs. Stadium 10,019 reeds to 9,661, Castle 10,758 to 9,826 |
+| Reeds on pond banks the 2025 photo shows mown to the water (Stadium 1, 9, 10, 11, 15, 17; Castle 17 and 18's pond; the creek pools of Stadium 5 and 12 and Castle 9; the mown stretches of the ponds by Stadium 2-3, 6, 13-14 and 15): the reed scan reads the ground's level, not its turf | the owner's decision of 27 November (mown pond banks bear no reeds), after the blind review's reeds fix left them | three days after release | 19 waters named in the scenery module (`mownBanks`, four of them by a stretch), each judged on the photo in `reed-bank-decisions.json`; the reed scan's `onMownBank` (`?mownbanks=0`); `bro-hof.test.mjs` holds the list to the record and to both packs. Stadium 10,019 reeds to 9,600, Castle 10,758 to 9,723 |
 
 ## Decisions
 
