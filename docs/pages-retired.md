@@ -11,7 +11,7 @@ files under `/olovs-hemsida/`:
 
 | File | Purpose |
 |---|---|
-| `index.html`, `404.html` | One page for every old address. It sends the visitor to the same path, query and hash on Cloudflare. |
+| `index.html`, `404.html` | One page for every old address. It sends the visitor to the same page, query and hash on Cloudflare. A page is the root, one of the seven old bookmarks or a policy page (`MOVED_PAGES`); any other path goes to the start, since Cloudflare's 404 is blank. |
 | `sw.js` | Stands at the old app's worker address. An installed old app updates to it. It deletes the old app's caches (its precache and `banvy-*`), unregisters, and reloads its windows, which then reach the page. |
 
 The workflow needs no build and no dependencies. It runs only when those sources

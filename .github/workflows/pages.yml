@@ -14,6 +14,7 @@ on:
       - tools/pages-moved-site.mjs
       - apps/golf/src/shell/pages-move.mjs
       - apps/golf/src/shell/backup-keys.mjs
+      - apps/golf/src/shell/legacy-links.mjs
   workflow_dispatch:
 
 permissions:

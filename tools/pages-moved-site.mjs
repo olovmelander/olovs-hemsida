@@ -10,7 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { MAIN_SITE, MOVE_LIMIT, MOVE_PARAM, PAGES_BASE, movedLocation } from '../apps/golf/src/shell/pages-move.mjs';
+import { MAIN_SITE, MOVED_PAGES, MOVE_LIMIT, MOVE_PARAM, PAGES_BASE, movedLocation } from '../apps/golf/src/shell/pages-move.mjs';
 import { DEVICE_ONLY_KEYS, DEVICE_ONLY_PREFIXES, OWN_KEY_SOURCE } from '../apps/golf/src/shell/backup-keys.mjs';
 
 const attribute = value => String(value).replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
@@ -20,7 +20,7 @@ const script = value => JSON.stringify(value).replaceAll('<', '\\u003c');
 const ownedCache = base => `name => name.startsWith('banvy-') || name.includes(${script(base)})`;
 
 /* What the page hands movedLocation, besides the moment. */
-export const moveRules = ({ site = MAIN_SITE, base = PAGES_BASE } = {}) => ({ base, site, param: MOVE_PARAM, limit: MOVE_LIMIT,
+export const moveRules = ({ site = MAIN_SITE, base = PAGES_BASE } = {}) => ({ base, site, pages: [...MOVED_PAGES], param: MOVE_PARAM, limit: MOVE_LIMIT,
   own: OWN_KEY_SOURCE, deviceKeys: [...DEVICE_ONLY_KEYS], devicePrefixes: [...DEVICE_ONLY_PREFIXES] });
 
 export function movedPage({ site = MAIN_SITE, base = PAGES_BASE } = {}) {
