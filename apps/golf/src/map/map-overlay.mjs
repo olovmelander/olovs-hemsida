@@ -26,19 +26,24 @@ export function createOverlay(canvas) {
 
   /* Where a bunker's pill stands: beside the sand's own outline on screen, on the side away from the line
      of play as the screen shows it (the map turns), a pill's half-width clear of it; above a bunker on the
-     line. `from` and `to` are the line's ends on screen. */
-  function besideSand(hazard, middle, words, at, from, to) {
+     line. `from` and `to` are the line's ends on screen. A pill that would not fit whole on the screen there
+     stands above the sand, then on the line's side of it, then on its middle: by a screen's edge the first rule cut the
+     pill off (the blind review, Bro Hof Stadium 11, 13 and 16 and Castle 12, 27 November). */
+  function besideSand(hazard, middle, words, at, from, to, fits = () => true) {
     const points = hazard.outline.map(([x, z]) => at(x, z)).filter(p => Number.isFinite(p.x));
     if (!points.length) return middle;
     const xs = points.map(p => p.x), ys = points.map(p => p.y);
     const left = Math.min(...xs), right = Math.max(...xs), top = Math.min(...ys), y = (top + Math.max(...ys)) / 2;
     const half = (words.length * 3.7 + 12) * emphasis, gap = 6 * emphasis;
     const above = { x: middle.x, y: top - gap - 12 * emphasis };
-    if (hazard.side === 'mitt') return above;
+    const toRight = { x: right + gap + half, y }, toLeft = { x: left - gap - half, y };
     const along = Number.isFinite(from?.x) && Number.isFinite(to?.x) && Math.abs(to.y - from.y) > 1;
-    if (!along) return above;
-    const lineX = from.x + (to.x - from.x) * (y - from.y) / (to.y - from.y);
-    return (left + right) / 2 >= lineX ? { x: right + gap + half, y } : { x: left - gap - half, y };
+    let order = [above, toRight, toLeft];
+    if (hazard.side !== 'mitt' && along) {
+      const lineX = from.x + (to.x - from.x) * (y - from.y) / (to.y - from.y);
+      order = (left + right) / 2 >= lineX ? [toRight, above, toLeft] : [toLeft, above, toRight];
+    }
+    return order.find(spot => fits(spot, half)) ?? middle;
   }
 
   function pill(x, y, text, { fill = 'rgba(12,24,18,.92)', ink = '#fff', stroke = 'rgba(255,255,255,.32)', size = 13, weight = 700 } = {}) {
@@ -350,8 +355,12 @@ export function createOverlay(canvas) {
           /* A bunker's distances stand beside its sand, away from the line of play, never on it: on the
              group's middle the pill hid a small greenside bunker (Bro Hof Castle 2, the blind review,
              27 November). ?hazardpills=before is the pill on the middle. */
-          if (hazard.kind === 'bunker' && hazard.outline?.length && !pillsOnSand) s = besideSand(hazard, s, words, at, origin && at(origin[0], origin[1]), pin);
+          const whole = (p, half) => inside({ x: p.x - half, y: p.y }) && inside({ x: p.x + half, y: p.y });
+          if (hazard.kind === 'bunker' && hazard.outline?.length && !pillsOnSand) s = besideSand(hazard, s, words, at, origin && at(origin[0], origin[1]), pin, whole);
           if (onPin(s)) s = { x: s.x, y: s.y + 30 * emphasis };
+          /* A pill whose middle is on the screen is shown whole, moved in from the edge. */
+          const half = (words.length * 3.7 + 12) * emphasis;
+          if (inside(s)) s = { x: Math.min(Math.max(s.x, leftSafe + half), width - rightSafe - half), y: s.y };
           if (!inside(s) || placed.some(other => clash(other, s, 72))) continue;
           placed.push({ x: s.x, y: s.y });
           pill(s.x, s.y, words, hazard.kind === 'water'

@@ -15,6 +15,8 @@ import { canopyAlpha } from './map-trees.mjs';
    tile is plenty further out. */
 export const paintSize = node => (node.lod === 0 ? 768 : 512);
 const MASK_SIZE = 256;
+/* The detailed course's before for its islands, read the same way. */
+const WHOLE_LAKES = typeof location !== 'undefined' && new URLSearchParams(location.search).get('waterislands') === '0';
 /* The lakes' shore field: metres a pixel at the finest, at most this many pixels a side,
    and how far past the outermost water it reaches. */
 export const SHORE_FIELD = Object.freeze({ metres: 8, most: 1024, pad: 64 });
@@ -338,7 +340,11 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
     hardstandings: islanded(f.hardstandings ?? []),
     rock: polygons(f.rock),
     /* Only the ground's own picture can tell the sea from the land inside such a ring. */
-    water: f.water.filter(item => !(land?.water && item.overLand)).map(item => ({ ...shape(item.ring, ringPath(item.ring), 10), reached: reachedWater.has(item) })),
+    /* An island in a lake is land: its ring is a hole in the lake's (?waterislands=0 is the lake whole). */
+    water: f.water.filter(item => !(land?.water && item.overLand)).map(item => ({
+      ...shape(item.ring, item.islands?.length && !WHOLE_LAKES ? islandedPath([item.ring, ...item.islands]) : ringPath(item.ring), 10),
+      reached: reachedWater.has(item),
+    })),
     hayfields: polygons(f.hayfields),
     yards: polygons(f.yards),
     clearfells: polygons(f.clearfells),
