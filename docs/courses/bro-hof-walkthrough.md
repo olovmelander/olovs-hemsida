@@ -134,10 +134,6 @@ build's own records, and a test fails when they fall behind. Everything else is 
   the screen is shown whole, and a bunker's takes the side of its sand that fits (`map-overlay.mjs`); and the map
   draws the islands a lake holds as land (`map-course.mjs` `islands`, holes in the lake's path in `map-paint.mjs`;
   `?waterislands=0` draws them under the water, as in the detailed course). The recorded look predates both.
-- **The review's pictures draw the water without its mirror of the shores.** They are taken at `det=1`, which keeps
-  MSAA, and the reflection of trees and banks runs only with the temporal AA a high-quality desktop uses, so from the
-  tee a pond shows the bright sky alone and the first blind look of 27 November called Stadium 7's "like ice". Drawn
-  as a golfer's desktop draws it, the same pond mirrors its trees.
 - **Never looked at:** a real phone; the game (Spela) on either course; storm, mist, the blue hour and autumn by eye;
   low quality beyond a clean start.
 
