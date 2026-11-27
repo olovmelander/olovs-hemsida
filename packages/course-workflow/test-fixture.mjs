@@ -16,6 +16,19 @@ import { emitGroundGraph } from '../course-v2/emit-ground-graph-node.mjs';
 import { writePack } from '../course-pack/lib.mjs';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+
+/** Remove a test's temporary folder, and never fail the test over it. On Windows a folder a git process has just
+ * been in (or one being scanned) is refused for a moment with EPERM, which Node's own `maxRetries` does not try
+ * again; one run in five of the suite failed on its tidying while every assertion had passed (27 November 2026).
+ * So: tried for three seconds, then left to the system's temporary files. */
+export function tidy(dir) {
+  const pause = new Int32Array(new SharedArrayBuffer(4));
+  for (let attempt = 0; attempt < 15; attempt++) {
+    try { fs.rmSync(dir, { recursive: true, force: true }); return true; } catch { Atomics.wait(pause, 0, 0, 200); }
+  }
+  return false;
+}
+
 export function emptyRepository() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'banvy-course-workflow-'));
   fs.mkdirSync(path.join(root, 'geo_data/course-v2'), { recursive: true });

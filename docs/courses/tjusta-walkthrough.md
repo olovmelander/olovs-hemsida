@@ -65,6 +65,12 @@ years, the laser and a guide's hole plates, and nobody who has played it has loo
 - **The trees are automatic.** No crown is placed or typed; the species are a rule by place (spruce and pine in
   the woods, birch, alder and oak round the farm and the water), written from the leaf-off photo and not measured.
   The tree pipeline's sitting, and its 90% gate, are still to come.
+- **The canopy rasters cover the whole 16 km ground, of which only the 4 km core is read.** They were built
+  without `--tight-grid`: four campaigns of 16,384 cells a side, 16 GB in the private cache where Bro Hof's are
+  1.5, and the tree stage takes 27 to 35 minutes for it (found on 27 November, when the stage was profiled). Not
+  a tree is gained: only the core's tiles are read into them, and the rest is void. Build them again bound to the
+  core at the tree sitting, when the rasters and their pins change anyway; `build-canopy.mjs --ground-document`
+  does that by itself now.
 - **The far lakes are not in the land cover.** Its water rule needs 2,000 labelled cells and Tjusta's ponds give
   523, so Fysingen and Halmsjön are classed as trees. The lakes themselves are drawn from the laser's level
   ground; what is wrong is the far ground's colour round their shores.

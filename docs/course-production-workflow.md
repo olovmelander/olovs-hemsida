@@ -102,9 +102,12 @@ Review existing scripts carefully: several publication tools default to the live
 public directory and need a staging-capable adapter before use here.
 
 Use separate immutable outputs per stage. A downstream stage must not overwrite
-an earlier stage's outputs, its own inputs, or watched implementation. Include
-the adapter directory and every relevant compiler, configuration, model and
-dependency lockfile in `watch`/`inputs`. Raw download caches may remain local;
+an earlier stage's outputs, its own inputs, or watched implementation. Name
+the adapter's entry module and the dependency lockfiles in `watch`: a module is
+watched together with every module it imports, so the compilers it runs need no
+listing, and code it does not run expires nothing (since 27 November 2026;
+`production.mjs --configure` writes the list). Configuration and models go in
+`inputs`. Raw download caches may remain local;
 pin their source hashes and reproduce them in the adapter. Retain the reports
 and checkpoints needed to verify receipts in CI. Do not use empty success
 scripts or reports that merely claim an adapter ran.

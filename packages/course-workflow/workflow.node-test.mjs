@@ -4,10 +4,10 @@ import path from 'node:path';
 import { test } from 'node:test';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { emptyRepository, buildCandidateFixture } from './test-fixture.mjs';
+import { emptyRepository, buildCandidateFixture, tidy } from './test-fixture.mjs';
 import { setupWorkflow } from './setup.mjs';
 import { STAGES, workflowTemplate, validateWorkflow } from './standard.mjs';
-import { safePath, writeJson, readJson, fileDigest } from './io.mjs';
+import { safePath, writeJson, readJson, fileDigest, importClosure, codeInventory } from './io.mjs';
 import { plan, runThrough, runStage } from './runner.mjs';
 import { candidate, inspectGround, terrainErrors } from './audit.mjs';
 import { reviewErrors, releaseCheck } from './release.mjs';
@@ -15,7 +15,7 @@ import { checkNewCourses } from './check-new.mjs';
 import { acceptancePath, admitAccepted, openItems } from './acceptance.mjs';
 import { main } from './cli.mjs';
 
-function repo(t) { const r = emptyRepository(); t.after(() => fs.rmSync(r, { recursive: true, force: true })); return r; }
+function repo(t) { const r = emptyRepository(); t.after(() => tidy(r)); return r; }
 const init = { groundId: 'new-ground', name: 'New course', courses: [{ slug: 'new-main', holes: 18 }, { slug: 'new-nine', holes: 9 }], bbox: [16, 59, 16.1, 59.1] };
 
 test('adoption preserves real Ribbingsfors, Lidingö and shared Johannesberg manifests and pending reviews', t => {
@@ -99,6 +99,45 @@ test('runner executes all six stages, resumes unchanged work and invalidates dow
   runThrough(root, w, 'validate'); assert.ok(plan(root, w).every(p => p.status === 'current'));
   fs.appendFileSync(safePath(root, 'implementation/mapping.mjs'), '\n// changed algorithm');
   assert.equal(plan(root, w)[0].status, 'stale');
+});
+test('a watched module is watched with what it imports, and with nothing else', t => {
+  const root = repo(t), w = setupWorkflow(root, init);
+  const write = (file, text) => { fs.mkdirSync(path.dirname(safePath(root, file)), { recursive: true }); fs.writeFileSync(safePath(root, file), text); };
+  write('implementation/entry.mjs', [
+    "import fs from 'node:fs';", "import something from 'a-package';", 'import { a,', "  b } from './lib/a.mjs';", "export * from './lib/b.mjs';",
+    "import './lib/side.mjs';", "import table from './lib/table.json' with { type: 'json' };", "export const late = () => import('./lib/late.mjs');",
+    "export const from = 'not an import';", ''].join('\n'));
+  write('implementation/lib/a.mjs', "export { deep as a, deep as b } from '../deep/deep.mjs';\n");
+  write('implementation/deep/deep.mjs', 'export const deep = 1;\n');
+  for (const name of ['b', 'side', 'late']) write(`implementation/lib/${name}.mjs`, 'export const x = 1;\n');
+  write('implementation/lib/table.json', '{}\n');
+  write('implementation/unrelated.mjs', "import './lib/a.mjs';\n");
+  const closure = ['implementation/deep/deep.mjs', 'implementation/entry.mjs', 'implementation/lib/a.mjs', 'implementation/lib/b.mjs',
+    'implementation/lib/late.mjs', 'implementation/lib/side.mjs', 'implementation/lib/table.json'];
+  assert.deepEqual(importClosure(root, ['implementation/entry.mjs']), closure);
+  assert.deepEqual(Object.keys(codeInventory(root, ['implementation/entry.mjs', 'implementation/lib/table.json', 'geo_data'])).filter(f => f.startsWith('implementation/')), closure,
+    'a path that is not a module is watched as it stands, and nothing is counted twice');
+
+  // the runner: an edit outside the closure leaves every stage current, an edit inside it expires them
+  w.watch = ['implementation/entry.mjs'];
+  for (const [i, stage] of STAGES.entries()) {
+    const output = `output/${stage}.json`, script = `stages/${stage}.mjs`;
+    write(script, `import fs from 'node:fs'; fs.mkdirSync('output',{recursive:true}); fs.writeFileSync('${output}', '{}');\n`);
+    w.stages[stage] = { command: ['node', script], inputs: [script, ...(i ? [`output/${STAGES[i - 1]}.json`] : [])], outputs: [output] };
+  }
+  runThrough(root, w, 'validate');
+  write('implementation/unrelated.mjs', '// the start menu, say\n');
+  write('implementation/new-file.mjs', 'export const y = 2;\n');
+  assert.ok(plan(root, w).every(p => p.status === 'current'), 'code no stage runs does not expire a stage');
+  write('implementation/deep/deep.mjs', 'export const deep = 2;\n');
+  assert.equal(plan(root, w)[0].status, 'stale', 'a module two imports away does');
+
+  write('implementation/computed.mjs', 'export const load = name => import(name);\n');
+  assert.throws(() => importClosure(root, ['implementation/computed.mjs']), /computed import\(\) cannot be watched/);
+  write('implementation/missing.mjs', "import './gone.mjs';\n");
+  assert.throws(() => importClosure(root, ['implementation/missing.mjs']), /imports \.\/gone\.mjs, which is not a file/);
+  write('implementation/outside.mjs', "import '../../elsewhere.mjs';\n");
+  assert.throws(() => importClosure(root, ['implementation/outside.mjs']), /leaves the repository/);
 });
 test('failed adapters and absent outputs never receive a successful receipt', t => {
   const root = repo(t), w = setupWorkflow(root, init); w.watch = ['implementation'];

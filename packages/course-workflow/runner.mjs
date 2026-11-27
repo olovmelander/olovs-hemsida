@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { STAGES, assertWorkflow } from './standard.mjs';
-import { inventory, candidateInventory, hashObject, readJson, writeJson, safePath, digest } from './io.mjs';
+import { inventory, codeInventory, candidateInventory, hashObject, readJson, writeJson, safePath, digest } from './io.mjs';
 import { horizontalProjectionBackend } from '../course-geo/proj.mjs';
 
 const executionIdentities = new Map();
@@ -30,7 +30,7 @@ const recordPath = (w, stage) => `course-workflows/${w.groundId}/build-records/$
 function stamp(root, w, stage, prior, publicRoot = w.publicRoot) {
   const s = w.stages[stage];
   return hashObject({ standard: w.standard, groundId: w.groundId, publicRoot: w.publicRoot, stage, specification: s,
-    execution: executionIdentity(w), code: inventory(root, w.watch), inputs: candidateInventory(root, s.inputs, w.publicRoot, publicRoot), prior });
+    execution: executionIdentity(w), code: codeInventory(root, w.watch), inputs: candidateInventory(root, s.inputs, w.publicRoot, publicRoot), prior });
 }
 export function plan(root, w, { publicRoot = w.publicRoot } = {}) {
   assertWorkflow(w);
@@ -71,7 +71,7 @@ export function runStage(root, w, stage, { execute = spawnSync } = {}) {
   // Existence checks happen before starting a subprocess. This runner executes
   // trusted repository adapters, not arbitrary shell expressions.
   const s = w.stages[stage];
-  inventory(root, w.watch);
+  codeInventory(root, w.watch);
   const inputsBefore = inventory(root, s.inputs);
   for (const p of s.outputs) safePath(root, p);
   const lock = safePath(root, `course-workflows/${w.groundId}/.run-lock`);
