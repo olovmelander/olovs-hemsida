@@ -10,7 +10,8 @@ import { fileURLToPath } from 'node:url';
 import { pinnedFiles, pinProduction } from '../packages/course-workflow/pin-production.mjs';
 import { prunePlan, prune } from '../packages/course-workflow/promote.mjs';
 import { decisionErrors, loadDecisionFiles, traceConfigs } from '../packages/course-geo/mapping/check-decisions.mjs';
-import { rebuildPlan } from './course-rebuild.mjs';
+import { commandsOf, groundRoutings, rebuildPlan, sheetCommands } from './course-rebuild.mjs';
+import { NOT_REHEARSED, rehearsalPlan, shown as shownCommand } from './course-rehearsal.mjs';
 import { buildingFrame, measureBuilding, roofLevels } from './facility-pipeline/measure-building.mjs';
 import { reviewMeta, reviewPage } from './course-review-page.mjs';
 import { examine, grounds, privateData } from './course-doctor.mjs';
@@ -21,12 +22,13 @@ import { draftAcceptance } from '../packages/course-workflow/acceptance.mjs';
 import { reviewErrors as releaseReviewErrors } from '../packages/course-workflow/release.mjs';
 import { reviewTemplate } from '../packages/course-workflow/standard.mjs';
 import { fileDigest } from '../packages/course-workflow/io.mjs';
+import { tidy } from '../packages/course-workflow/test-fixture.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sha = text => createHash('sha256').update(text).digest('hex');
 function temporary(t) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'course-tools-'));
-  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  t.after(() => tidy(dir));
   return dir;
 }
 const put = (root, file, text) => { fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true }); fs.writeFileSync(path.join(root, file), text); };
@@ -97,18 +99,58 @@ test('every published ground\'s decision files can be traced, and a broken one s
 test('a rebuild runs the ground\'s own steps in the one order, with the ring review as a gate before the layers', () => {
   const ids = plan => plan.map(step => step.id);
   const full = rebuildPlan('bro-hof');
-  assert.deepEqual(ids(full), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'layers', 'compile', 'tests', 'inventory', 'pin', 'configure', 'stages', 'promote', 'prune', 'quality', 'map-land', 'walkthrough']);
+  assert.deepEqual(ids(full), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'layers', 'compile', 'tests', 'inventory', 'pin', 'configure', 'stages', 'promote', 'prune', 'roofs', 'quality', 'map-land', 'walkthrough']);
   assert.ok(full.find(step => step.id === 'review').gate);
-  assert.deepEqual(full.find(step => step.id === 'sheets').commands.map(command => command.includes('--blind')), [false, true], 'the blind sheets for a second reviewer are drawn together with the scored ones');
+  // the sheets hold the rings a look still owes, and no others
+  const render = (blind, only) => [blind ? 'blind' : 'scored', only ? only.join(',') : 'every ring'];
+  const four = ['a', 'b', 'c', 'd'];
+  assert.deepEqual(sheetCommands([{ ids: four, first: four, second: null }], render), [['scored', 'every ring'], ['blind', 'every ring']], 'a ground looked at for the first time');
+  assert.deepEqual(sheetCommands([{ ids: four, first: [], second: [] }, { ids: ['e'], first: [], second: null }], render), [], 'every ring stands as it was looked at');
+  assert.deepEqual(sheetCommands([{ ids: four, first: ['b'], second: ['c'] }], render), [['scored', 'b'], ['blind', 'c,b']], 'the second reviewer has not seen what this trace moved either');
+  assert.deepEqual(sheetCommands([{ ids: four, first: ['b'], second: null }, { ids: ['e', 'f'], first: [], second: [] }], render), [['scored', 'b'], ['blind', 'a,b,c,d']], 'no second look yet: all of that build, blind');
+  assert.deepEqual(commandsOf(full.find(step => step.id === 'sheets')), [], 'Bro Hof\'s rings stand as they were looked at');
+  assert.match(full.find(step => step.id === 'roofs').commands[0].join(' '), /rebind-roof-colours\.mjs --ground bro-hof --slug bro-hof-stadium --write$/);
+  assert.match(full.find(step => step.id === 'layers').commands[0].join(' '), /packages\/course-geo\/mapping\/build-layers\.py --config brohofbuild\/mapping\/trace-config\.json$/,
+    'one layer builder for every ground: a ground brings its layer decisions, not a copy of the script');
+  assert.deepEqual(fs.readdirSync(ROOT).filter(dir => fs.existsSync(path.join(ROOT, dir, 'mapping/build-layers.py'))), [], 'a copy of the layer builder in a build folder drifts from the shared one');
   assert.equal(full.find(step => step.id === 'compile').commands.length, 2, 'one compile a routing');
   assert.ok(!full.find(step => step.id === 'prune').commands[0].includes('--apply'), 'a rebuild never removes files by itself');
-  assert.ok(!full.some(step => step.commands.flat().some(part => /gpu-pass|bake-(water|ground-tints|vista)|make-posters|git/.test(part))), 'no GPU work, no bake, no push');
+  assert.ok(!full.some(step => commandsOf(step).flat().some(part => /gpu-pass|bake-(water|ground-tints|vista)|make-posters|git/.test(part))), 'no GPU work, no bake, no push');
   assert.deepEqual(ids(rebuildPlan('bro-hof', { from: 'compile', to: 'pin' })), ['compile', 'tests', 'inventory', 'pin']);
   assert.throws(() => rebuildPlan('bro-hof', { from: 'promote', to: 'compile' }), /comes before/);
   assert.throws(() => rebuildPlan('bro-hof', { from: 'paint' }), /has no step paint/);
   const older = ids(rebuildPlan('johannesberg'));  // built before the shared tracer: no trace, no ring sheets, its own model inventory
   assert.equal(older[0], 'card', 'every ground has a card, and a rebuild checks it first');
   assert.ok(!older.includes('trace') && !older.includes('decks') && !older.includes('sand') && !older.includes('inventory') && older.includes('stages') && older.includes('walkthrough'));
+});
+
+test('a rebuild serves a ground before it has a production profile, and an older ground with its own builder', t => {
+  const ids = plan => plan.map(step => step.id);
+  // an older ground, published by its own builder: the looks at its exported outlines and what follows a republished pack
+  assert.deepEqual(groundRoutings('angso'), { routings: [{ slug: 'angso', build: 'angsobuild' }], hasProfile: false, hasCard: true, published: true });
+  const own = ids(rebuildPlan('angso'));
+  assert.deepEqual(own, ['card', 'decks', 'sand', 'sheets', 'review', 'roofs', 'quality', 'map-land', 'walkthrough']);
+  assert.ok(!own.includes('trace'), 'its outlines are an export of its model: the tracer must never run over them');
+
+  // a new ground has its card and its decisions long before its profile: the outlines are traced from the card alone
+  const root = temporary(t), json = value => `${JSON.stringify(value)}\n`;
+  put(root, 'course-workflows/new-ground/ground.json', json({ groundId: 'new-ground', routings: [{ slug: 'new-main', build: 'newbuild' }, { slug: 'new-nine', build: 'newninebuild' }] }));
+  put(root, 'newbuild/mapping/trace-config.json', json({ courses: [{ slug: 'new-main', decisions: 'newbuild/mapping/decisions.json', outDir: 'newbuild/mapping' }] }));
+  put(root, 'newbuild/mapping/course-input.json', json({}));
+  put(root, 'apps/golf/public/courses/v2-index.json', json({ courses: [{ slug: 'elsewhere', groundId: 'elsewhere' }] }));
+  assert.deepEqual(groundRoutings('new-ground', root), { routings: [{ slug: 'new-main', build: 'newbuild' }, { slug: 'new-nine', build: 'newninebuild' }], hasProfile: false, hasCard: true, published: false });
+  const fresh = rebuildPlan('new-ground', { root });
+  assert.deepEqual(ids(fresh), ['card', 'decisions', 'trace', 'decks', 'sand', 'sheets', 'review', 'compile', 'inventory'], 'no stages, no quality gate: nothing is published yet');
+  assert.ok(fresh.find(step => step.id === 'trace').commands[0].includes('newbuild/mapping/trace-config.json'));
+  assert.ok(!fresh[0].commands[0].includes('--check'), 'a ground that is in no table yet is not failed for it before it can trace');
+  assert.ok(rebuildPlan('angso')[0].commands[0].includes('--check'), 'a published ground is held to its tables');
+  assert.deepEqual(ids(rebuildPlan('new-ground', { root, to: 'review' })).at(-1), 'review');
+
+  // with the profile come the six stages and what follows them
+  put(root, 'course-workflows/new-ground/production.json', json({ courses: [{ slug: 'new-main', model: { path: 'newbuild/course-model.json' } }] }));
+  const staged = ids(rebuildPlan('new-ground', { root }));
+  assert.ok(['pin', 'configure', 'stages', 'promote', 'quality', 'walkthrough'].every(id => staged.includes(id)));
+  assert.throws(() => groundRoutings('nowhere', root), /neither a card .* nor a production profile: write the card first/);
 });
 
 test('a building is measured along its own axes', () => {
@@ -354,4 +396,52 @@ test('white stakes never rule a shot onto a hole\'s own fairway or green out, as
     assert.ok(report.every(r => r.shots > 0), `${slug}: every hole has shots to replay`);
     assert.deepEqual(report.filter(r => r.out).map(r => r.hole), [], `${slug}: holes with good shots called out`);
   }
+});
+
+/** Every command a workflow file runs, one a line: block scalars unfolded, continuation lines joined, `&&` split. */
+function workflowCommands(file) {
+  const lines = fs.readFileSync(path.join(ROOT, file), 'utf8').split('\n'), blocks = [];
+  for (let i = 0; i < lines.length; i++) {
+    const found = /^(\s*)(?:- )?run:\s*(.*)$/.exec(lines[i]);
+    if (!found) continue;
+    const indent = lines[i].length - lines[i].trimStart().length, rest = found[2].trim();
+    if (rest && !/^[|>]-?$/.test(rest)) { blocks.push(rest); continue; }
+    const body = [];
+    while (i + 1 < lines.length && (lines[i + 1].trim() === '' || lines[i + 1].length - lines[i + 1].trimStart().length > indent)) body.push(lines[++i].trim());
+    const text = body.filter(Boolean);
+    // a line that ends in a backslash goes on in the next
+    blocks.push(rest.startsWith('>') ? text.join(' ') : text.join('\n').replace(/\\\n/g, ' '));
+  }
+  return blocks.flatMap(block => block.split('\n')).flatMap(line => line.split(' && ')).map(line => line.replace(/\s+/g, ' ').trim()).filter(Boolean);
+}
+
+test('the rehearsal runs what the pull request\'s pipelines run, and says what it leaves out and why', () => {
+  const plan = rehearsalPlan({ groundId: 'tjusta', baseSha: '"$BASE_SHA"' });
+  const rehearsed = new Set(plan.flatMap(step => step.commands.map(shownCommand)));
+  const suite = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).scripts.test;
+  // a Pixi task stands for a command of the toolchain's folder; the rehearsal runs that command from the repository root
+  const tasks = Object.fromEntries([...fs.readFileSync(path.join(ROOT, 'packages/course-geo/toolchain/pixi.toml'), 'utf8').matchAll(/^([\w-]+) = (?:"|\{ cmd = ")node (--test )?\.\.\/([^"]+)"/gm)]
+    .map(([, name, isTest, rest]) => [name, `pixi run node ${isTest ?? ''}packages/course-geo/${rest}`]));
+  const shell = /^(if \[|fi$|then$|BASE_SHA=\$\(git rev-parse HEAD\^\)$)/;
+  const unknown = [];
+  for (const file of ['.github/workflows/course-geo.yml', '.github/workflows/course-workflow.yml']) {
+    for (const command of workflowCommands(file)) {
+      if (shell.test(command) || Object.hasOwn(NOT_REHEARSED, command) || rehearsed.has(command)) continue;
+      const task = /^pixi run (?:--manifest-path \S+ )?--frozen ([\w-]+)$/.exec(command)?.[1];
+      if (task && rehearsed.has(tasks[task])) continue;
+      // a list of test files that the suite holds as well is rehearsed with the suite
+      const listed = /^node --test (.+)$/.exec(command)?.[1].split(' ');
+      if (listed && listed.every(test => suite.includes(test))) continue;
+      unknown.push(`${file}: ${command}`);
+    }
+  }
+  assert.deepEqual(unknown, [], 'a command CI runs is neither rehearsed nor named in NOT_REHEARSED (tools/course-rehearsal.mjs)');
+  assert.ok(workflowCommands('.github/workflows/course-geo.yml').length > 12, 'the workflow file was read');
+  for (const file of ['.github/workflows/pages.yml', '.github/workflows/cloudflare.yml']) {
+    assert.ok(workflowCommands(file).includes('node tools/check-prepared-startup.mjs --public apps/golf/dist'), `${file} checks the prepared data, as the rehearsal does`);
+  }
+  assert.ok(rehearsed.has('node tools/check-prepared-startup.mjs --public apps/golf/dist') && rehearsed.has('node tools/course-walkthrough.mjs --ground tjusta --check'));
+  assert.ok(Object.hasOwn(NOT_REHEARSED, 'bash tools/check-release-journeys.sh') && workflowCommands('.github/workflows/cloudflare.yml').includes('bash tools/check-release-journeys.sh'));
+  assert.deepEqual(plan.slice(0, 2).map(step => step.id), ['install', 'copc'], 'the dependencies first, the COPC reader\'s among them');
+  assert.ok(!rehearsalPlan().find(step => step.id === 'walkthrough').commands.some(command => command.args.includes('--ground')), 'without a ground, the catalogue alone');
 });

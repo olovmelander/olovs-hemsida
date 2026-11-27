@@ -9,11 +9,12 @@
 
    node packages/course-workflow/ground-card.mjs --ground <id>            every table: agrees, differs or missing
    node packages/course-workflow/ground-card.mjs --ground <id> --check    the same, and fails unless all agree
-   node packages/course-workflow/ground-card.mjs --ground <id> --rows     the rows to paste into each table
+   node packages/course-workflow/ground-card.mjs --ground <id> --apply    add the ground's row to every table it is missing from
+   node packages/course-workflow/ground-card.mjs --ground <id> --rows     the rows, printed
 
    The tables stay where they are, in the app's and the tools' own files: other work edits them, and the app's
    bundles may not import from here. So the card does not generate them; it is the one place to write a ground's
-   facts first, the rows are printed from it, and a test holds every card to its tables. A table is read by
+   facts first, its rows are added from it (never changed: see applyCard), and a test holds every card to its tables. A table is read by
    importing it only when that runs nothing (the app's pure modules); a tool's table is read from its text, since
    importing a tool starts it. */
 import fs from 'node:fs';
@@ -57,8 +58,8 @@ export function groundCardErrors(card) {
   return errors;
 }
 
-/** The value of `const NAME = <object or array literal>` in a source text, without running the file it is in. */
-export function literalOf(source, name) {
+/** Where `const NAME = <object or array literal>` lies in a source text: the literal's first and one past its last character. */
+export function literalSpan(source, name) {
   const found = new RegExp(`(?:^|\\n)(?:export )?const ${name} = `).exec(source);
   if (!found) return undefined;
   const start = found.index + found[0].length, open = source[start], close = open === '{' ? '}' : open === '[' ? ']' : null;
@@ -70,9 +71,71 @@ export function literalOf(source, name) {
     if (c === '/' && next === '*') { i = source.indexOf('*/', i + 2) + 1; if (i < 1) break; continue; }
     if (c === '\'' || c === '"' || c === '`') { for (i++; i < source.length && source[i] !== c; i++) if (source[i] === '\\') i++; continue; }
     if (c === '{' || c === '[') depth++;
-    else if (c === '}' || c === ']') { depth--; if (depth === 0) return new Function(`return (${source.slice(start, i + 1)});`)(); }
+    else if (c === '}' || c === ']') { depth--; if (depth === 0) return { start, end: i + 1 }; }
   }
   return undefined;
+}
+
+/** The value of `const NAME = <object or array literal>` in a source text, without running the file it is in. */
+export function literalOf(source, name) {
+  const span = literalSpan(source, name);
+  return span ? new Function(`return (${source.slice(span.start, span.end)});`)() : undefined;
+}
+
+/* WRITING THE ROWS. Until 27 November 2026 the rows were printed and pasted by hand, and at Tjusta the pasting was
+   a script written for the day, outside the repository, with an anchor string for each of ten files. The tables
+   still live in their own files, and other work still edits them: --apply only ever ADDS a ground's row at the end
+   of a table it is missing from, never changes or removes one, and reads the table back to see that the row is
+   there and says what the card says. A row that differs is a person's to settle. */
+const TABLE_WITHOUT_A_NAME = { 'apps/golf/src/engine/scenery/index.js': 'REGISTRY' };
+const tableOf = where => { const [file, name] = where.split(' '); return { file, name: name ?? TABLE_WITHOUT_A_NAME[file] }; };
+
+/** Whether a table already has a row for a routing: its key in an object, an entry with its slug in a list. */
+export function hasRow(source, name, slug) {
+  const table = literalOf(source, name);
+  if (table === undefined) throw new Error(`no table ${name} to read`);
+  return Array.isArray(table) ? table.some(entry => entry?.slug === slug) : Object.hasOwn(table, slug);
+}
+
+/** A source text with a row added at the end of a table. */
+export function withRow(source, name, row) {
+  const span = literalSpan(source, name);
+  if (!span) throw new Error(`no table ${name} to add a row to`);
+  const close = span.end - 1, lineStart = source.lastIndexOf('\n', close) + 1;
+  if (source.slice(lineStart, close).trim() !== '') throw new Error(`${name}: its closing bracket does not stand on a line of its own`);
+  const next = `${source.slice(0, lineStart)}  ${row}\n${source.slice(lineStart)}`;
+  try { literalOf(next, name); } catch (error) { throw new Error(`${name}: with the row added it no longer reads (${error.message}); does its last row end in a comma?`); }
+  return next;
+}
+
+/** The files a card's ground is still missing from, with its rows added: { edits: [{ file, table, slug }], files: Map(file, text) }.
+ * `read(file)` gives a file's text. Nothing is written here. */
+export function applyCard(card, read) {
+  const files = new Map(), edits = [], waiting = [];
+  const text = file => { if (!files.has(file)) { const source = read(file); if (source === null) throw new Error(`${file} is not there`); files.set(file, source); } return files.get(file); };
+  const scenery = `apps/golf/src/engine/scenery/${card.groundId}.js`;
+  for (const x of expectedTables(card)) {
+    for (const [where, row] of Object.entries(x.paste)) {
+      const { file, name } = tableOf(where);
+      if (!row || hasRow(text(file), name, x.slug)) continue;
+      // the registry's row imports the ground's scenery module: before that file is written, the row would break the build
+      if (name === 'REGISTRY' && read(scenery) === null) { waiting.push({ file, table: name, slug: x.slug, why: `write ${scenery} first` }); continue; }
+      files.set(file, withRow(text(file), name, row));
+      if (!hasRow(files.get(file), name, x.slug)) throw new Error(`${file} ${name}: the row for ${x.slug} was added and is not there`);
+      edits.push({ file, table: name, slug: x.slug });
+    }
+    // the build's own tests join the suite: package.json names every node test file, at the end of one line
+    const tests = `${x.catalogue.build}/course.node-test.mjs`;
+    if (read(tests) !== null && !JSON.parse(text('package.json')).scripts.test.includes(tests)) {
+      const source = text('package.json'), at = source.indexOf('"test": "'), end = source.indexOf('",\n', at);
+      if (at < 0 || end < 0) throw new Error('package.json: no test script on a line of its own');
+      files.set('package.json', `${source.slice(0, end)} ${tests}${source.slice(end)}`);
+      if (!JSON.parse(files.get('package.json')).scripts.test.endsWith(` ${tests}`)) throw new Error('package.json: the test file was added and is not at the end of the suite');
+      edits.push({ file: 'package.json', table: 'scripts.test', slug: x.slug });
+    }
+  }
+  for (const file of [...files.keys()]) if (!edits.some(edit => edit.file === file)) files.delete(file);
+  return { edits, files, waiting };
 }
 
 const int = colour => parseInt(colour.slice(1), 16), hex = colour => `0x${colour.slice(1)}`;
@@ -98,7 +161,8 @@ export function expectedTables(card) {
       'packages/course-pack/emit-manifest.mjs COURSES': `{ slug: ${quote(r.slug)}, build: ${quote(r.build)}, name: ${quote(r.name)}, club: ${quote(card.club.name)},\n    title: ${quote(r.title)},${r.tag ? ` tag: ${quote(r.tag)},` : ''} boot: ${quote(card.boot)},\n    tees: { names: [${r.tees.map(t => quote(t.name)).join(', ')}], cols: [${r.tees.map(t => hex(t.colour)).join(', ')}], hideFrom: ${r.teesHiddenFrom} } },`,
       ...(r === host ? { 'apps/golf/src/shell/course-places.mjs COURSE_LOCATIONS': `${key(r.slug)}: {\n    // ${card.place.basis}\n    lat: ${place.lat}, lng: ${place.lng}, region: ${quote(place.region)},\n    regionTag: ${quote(place.regionTag)}, city: ${quote(place.city)}, iconName: ${quote(place.iconName)},\n  },` }
         : { 'apps/golf/src/shell/course-places.mjs HOST_CLUB': `${key(r.slug)}: ${quote(host.slug)},` }),
-      ...(r.layoutLabel ? { 'apps/golf/src/shell/course-clubs.mjs LAYOUT_LABELS': `${key(r.slug)}: ${quote(r.layoutLabel)},` } : {}),
+      // a layout whose label is its name needs no row: the table falls back on the name
+      ...(r.layoutLabel && r.layoutLabel !== r.name ? { 'apps/golf/src/shell/course-clubs.mjs LAYOUT_LABELS': `${key(r.slug)}: ${quote(r.layoutLabel)},` } : {}),
       'apps/golf/src/shell/club-search.mjs CATEGORIES': `${key(r.slug)}: ${flat({ id: card.search.category, label: r.searchLabel, iconName: card.place.iconName, places: card.search.places })},`,
       'apps/golf/src/shell/club-search.mjs COURSE_LINES': `${key(r.slug)}: ${quote(r.line)},`,
       ...(several && r.signature ? { 'apps/golf/src/shell/club-picker.js SIGNATURE_HOLES': `${key(r.slug)}: ${flat(r.signature)},` } : {}),
@@ -206,7 +270,7 @@ export const loadGroundCard = (groundId, root = ROOT) => JSON.parse(fs.readFileS
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const argv = process.argv.slice(2), flag = name => { const i = argv.indexOf(`--${name}`); return i < 0 ? null : argv[i + 1]; };
   const groundId = flag('ground');
-  if (!groundId) throw new Error('usage: ground-card.mjs --ground <id> [--check | --rows | --derive [--write]]');
+  if (!groundId) throw new Error('usage: ground-card.mjs --ground <id> [--check | --rows | --apply [--dry-run] | --derive [--write]]');
   if (argv.includes('--derive')) {
     const derived = await deriveCard(groundId), text = `${JSON.stringify(derived, null, 1)}\n`;
     const wrong = groundCardErrors(derived);
@@ -220,9 +284,18 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   if (argv.includes('--rows')) {
     for (const x of expectedTables(card)) for (const [where, row] of Object.entries(x.paste)) console.log(`// ${where}\n  ${row}\n`);
   } else {
+    if (argv.includes('--apply')) {
+      const dry = argv.includes('--dry-run');
+      const { edits, files, waiting } = applyCard(card, file => (fs.existsSync(path.join(ROOT, file)) ? fs.readFileSync(path.join(ROOT, file), 'utf8') : null));
+      for (const edit of edits) console.log(`${dry ? 'would add' : 'added'}    ${edit.slug.padEnd(18)} ${edit.file} ${edit.table}`);
+      for (const row of waiting) console.log(`waits     ${row.slug.padEnd(18)} ${row.file} ${row.table}: ${row.why}`);
+      if (!dry) for (const [file, source] of files) fs.writeFileSync(path.join(ROOT, file), source);
+      console.log(edits.length ? `${edits.length} rows ${dry ? 'to add' : 'added'} in ${files.size} files.\n` : 'Every table that takes a row from the card has this ground\'s.\n');
+      if (dry) process.exit(0);
+    }
     const rows = await registration(card), open = rows.filter(r => r.state !== 'agrees');
     for (const r of rows) console.log(`${r.state.padEnd(8)} ${r.slug.padEnd(18)} ${r.table.padEnd(36)} ${r.file}${r.detail ? `\n         ${r.detail}` : ''}`);
-    console.log(`\n${rows.length - open.length} of ${rows.length} agree with ${groundCardPath(groundId)}.${open.length ? ' Print the rows to paste with --rows.' : ''}`);
+    console.log(`\n${rows.length - open.length} of ${rows.length} agree with ${groundCardPath(groundId)}.${open.length ? ' Add the rows a table is missing with --apply (--rows prints them); a row that differs is settled by hand.' : ''}`);
     if (argv.includes('--check') && open.length) process.exitCode = 1;
   }
 }

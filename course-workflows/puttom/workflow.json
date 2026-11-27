@@ -14,18 +14,11 @@
   "publicRoot": "output/course-workflow/puttom/public",
   "reviewFile": "course-workflows/puttom/review.json",
   "watch": [
-    "apps/golf/src",
-    "packages/course-v2",
-    "packages/course-pack",
-    "packages/course-geo",
-    "packages/course-workflow",
+    "packages/course-workflow/production.mjs",
+    "packages/course-workflow/runner.mjs",
     "pnpm-lock.yaml",
-    "puttombuild",
-    "course-workflows/puttom/production.json",
-    "geobuild/mapping",
-    "geobuild/lib.mjs",
-    "tools/build-startup-packs.mjs",
-    "packages/course-geo/toolchain/pixi.lock"
+    "packages/course-geo/toolchain/pixi.lock",
+    "course-workflows/puttom/production.json"
   ],
   "stages": {
     "sources": {

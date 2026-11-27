@@ -18,19 +18,11 @@
   "publicRoot": "output/course-workflow/bro-hof/public",
   "reviewFile": "course-workflows/bro-hof/review.json",
   "watch": [
-    "apps/golf/src",
-    "packages/course-v2",
-    "packages/course-pack",
-    "packages/course-geo",
-    "packages/course-workflow",
+    "packages/course-workflow/production.mjs",
+    "packages/course-workflow/runner.mjs",
     "pnpm-lock.yaml",
-    "brohofbuild",
-    "brohofcastlebuild",
-    "course-workflows/bro-hof/production.json",
-    "geobuild/mapping",
-    "geobuild/lib.mjs",
-    "tools/build-startup-packs.mjs",
-    "packages/course-geo/toolchain/pixi.lock"
+    "packages/course-geo/toolchain/pixi.lock",
+    "course-workflows/bro-hof/production.json"
   ],
   "stages": {
     "sources": {

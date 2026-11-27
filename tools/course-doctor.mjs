@@ -136,7 +136,10 @@ export async function examine(groundId, facts = groundFacts(groundId), { water =
       if (ring.length) say('broken', 'ring review', ring.slice(0, 3).join('; '), `node packages/course-geo/mapping/ring-review.mjs --build ${x.build}`);
       else say('ok', 'ring review', `${x.slug}: every ring looked at on ${x.review.reviewedOn}`);
       if (!x.second) say('todo', 'second look', `${x.slug}: nobody but the tracer has looked at its rings`, 'render-ring-sheets.py --blind, the ring-reviewer agent, ring-review.mjs --second');
-      else for (const fault of x.second.faults) say('known', 'second look', `${fault.id}: ${fault.fault}`);
+      else {
+        if (x.second.unseen.length) say('todo', 'second look', `${x.slug}: ${x.second.unseen.length} rings moved since the second reviewer looked (${x.second.unseen.slice(0, 6).join(', ')}${x.second.unseen.length > 6 ? ', ...' : ''})`, `node packages/course-geo/mapping/ring-review.mjs --build ${x.build} prints the command that draws them blind`);
+        for (const fault of x.second.faults) say('known', 'second look', `${fault.id}: ${fault.fault}`);
+      }
       const decks = deckGroundErrors(x.build);
       if (decks.length) say('broken', 'tee decks', decks.join('; '), `node packages/course-geo/mapping/deck-ground.mjs --config ${home}/mapping/trace-config.json --record`);
       else if (x.deckGround.off.length) say('known', 'tee decks', `${x.slug}: ${x.deckGround.off.length} of ${x.deckGround.measured} decks are not on level ground in the terrain (${x.deckGround.off.slice(0, 6).map(d => d.id).join(', ')}${x.deckGround.off.length > 6 ? ', ...' : ''})`);

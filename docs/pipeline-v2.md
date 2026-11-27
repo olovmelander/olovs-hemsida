@@ -19,6 +19,27 @@ loader.
 - **Improving a published ground:** start at [its walkthrough](#the-walkthrough), then use
   [the upgrade table](#improving-a-published-course).
 
+## The short path
+
+All of it for a new ground, a line a stage. Everything further down says what a line does and why its gate is there.
+
+```sh
+node tools/course-doctor.mjs --machine                          # 0    can this machine trace, look and build today?
+#  write the card (course-workflows/<ground>/ground.json), fetch the sources, set the frame       1, 2
+node tools/course-rebuild.mjs --ground <ground> --to review     # 3    trace, measure decks and sand, draw the rings that need a look
+#  look; record; the blind sheets to the second reviewer; answer its doubts; fix a decision and run the line again
+node packages/course-workflow/ground-card.mjs --ground <ground> --apply   # 5  its rows into the ten tables that name a ground
+node tools/course-rebuild.mjs --ground <ground> --from layers   # 4, 5 model, six stages, promote, roofs, quality gate, map, walkthrough
+node tools/course-walkthrough.mjs --ground <ground> --pictures  # 6    the first pictures, before any bake
+BANVY_GPU=1 node tools/gpu-pass.mjs [--only <slugs>]            # 8    one bake
+node tools/course-rehearsal.mjs --ground <ground>               # 8    what CI runs, in a clean worktree of the commit
+#  the pull request, the four pipelines on main, the live site                                    9
+```
+
+An upgrade is the same with `--from <step>`: change the one decision, and run from the step that reads it. The
+loop of stage 3 (a decision, a trace, a look) is where a course is made right, and it is short on purpose: a look
+is kept ring by ring, so a trace again asks for a look at the rings that moved and at no others.
+
 ## The rules
 
 1. **Measured before drawn, and judgement kept as data.** Outlines come from the photo, heights from the laser,
@@ -34,9 +55,16 @@ loader.
    that passes here can still fail there.
 6. **Say what is not right.** A course is accepted on its walkthrough, whose numbers are generated and whose
    list of known faults is written by hand. An empty list is not believable.
-7. **One heavy job at a time, and the GPU is the owner's.** Run CPU work alone and at low priority
-   (`node --test --test-concurrency=1`, `vitest --maxWorkers=2`). Ask before anything that opens a browser or
-   uses the GPU, and batch it into one sitting.
+7. **One GPU pass at a time on the machine.** The owner lifted the quiet rule on 26 November 2026: CPU and GPU may
+   run at full speed, and a GPU sitting needs no asking first. What remains is the order and the neighbours:
+   pictures before the bake, one bake when the engine edits are finished, and never two passes at once (each
+   takes a port of its own, but they share one GPU, and a second one distorts the first one's boots).
+8. **The owner's eye is a source.** Five of the six tasks of the night of 27 November began with a fault the
+   owner had seen while playing or looking, told in a sentence and twice with a screenshot: good shots ruled out
+   of bounds, a tee that felt off, squares in the water, rough where the range's apron is. Find the place
+   (`V3D.setView`, a top-down picture, the before switches), put the fault in the walkthrough's table with how
+   it was found, fix it at the stage that made it, and add the check that would have found it. That loop is
+   the acceptance that happens.
 
 ## The sittings
 
@@ -66,6 +94,11 @@ node tools/course-rebuild.mjs --ground <ground> --dry-run            # the steps
 node tools/course-rebuild.mjs --ground <ground> [--from <step>] [--to <step>] [--compare <leaf-off photo>]
 ```
 
+A ground has the steps it has files for. A new one traces from its card alone (`--to review`), long before it has
+a production profile; an older one with its own builder has the looks at its exported outlines and the steps
+that follow a republished pack (`roofs`, the quality gate, the map's pictures, the walkthrough), with its own
+builder's commands between them, which its walkthrough lists.
+
 ### 0. Preflight
 
 - The tools run: `node tools/course-doctor.mjs --machine` (Node 22 or later; the Python libraries the looking
@@ -76,7 +109,7 @@ node tools/course-rebuild.mjs --ground <ground> [--from <step>] [--to <step>] [-
   ground (club, place, tees and their colours, search words, poster holes, gallery views), once. Every published
   ground has one.
   `node packages/course-workflow/ground-card.mjs --ground <ground>` then lists every table the ground is missing
-  from, and `--rows` prints the rows to paste.
+  from, and `--apply` adds its rows to them at stage 5 (`--rows` prints them).
 
 **Gate:** every line above. If a tool fails to load for a reason that is the machine's, stop and tell the owner.
 Do not work round a security control. On 25 November 2026 Windows Smart App Control began refusing conda-forge's
@@ -127,10 +160,11 @@ and `layer-decisions.json` (practice areas, walls, bridges, plates, cart rows). 
 | Measure the terrain under every tee deck | `node packages/course-geo/mapping/deck-ground.mjs --config <build>/mapping/trace-config.json --record` (`--around <ring id>` prints the heights round one) |
 | Read the photo round every hole against the model's sand, both ways | `$PX -e mapping python packages/course-geo/mapping/audit-sand.py --config <build>/mapping/trace-config.json --compare <leaf-off photo>` |
 | Say what each thing it named is | `node packages/course-geo/mapping/sand-audit.mjs --build <build> --verdict id="what it is"` or `--fault id="what is wrong, and what will put it right"` |
-| Water, context, infrastructure | `mapping/prepare-osm-context.py`, `<build>/mapping/build-layers.py` |
-| Every ring on the photo, worst score first, both photo years | `$PX -e mapping python packages/course-geo/mapping/render-ring-sheets.py --config <build>/mapping/trace-config.json --compare <leaf-off photo>` |
+| Water, facilities, infrastructure, from the ground's `layer-decisions.json` | `mapping/prepare-osm-context.py`, then `$PX -e mapping python packages/course-geo/mapping/build-layers.py --config <build>/mapping/trace-config.json` (one builder for every ground: a ground brings decisions, not a script) |
+| Which rings need a look: the new ones and the ones that moved | `node packages/course-geo/mapping/ring-review.mjs --build <build>` (it prints the command that draws them) |
+| Those rings on the photo, both photo years; every ring, worst score first, the first time | `$PX -e mapping python packages/course-geo/mapping/render-ring-sheets.py --config <build>/mapping/trace-config.json --compare <leaf-off photo> [--only <ring id>,...]` |
 | Record the look | `node packages/course-geo/mapping/ring-review.mjs --build <build> --record --reviewer "<who, on what>"` |
-| The same rings blind, for a second reviewer | `render-ring-sheets.py ... --blind`, the `ring-reviewer` agent, then `ring-review.mjs --build <build> --second <verdicts.json>` |
+| The same rings blind, for a second reviewer | `render-ring-sheets.py ... --blind [--only ...]`, the `ring-reviewer` agent, then `ring-review.mjs --build <build> --second <verdicts.json>` |
 | Answer each of its doubts | redraw the ring, or `ring-review.mjs --resolve id="why it stands"`, or `--fault id="what is wrong, and what will put it right"` |
 | One place, large, with a grid and any layer drawn on it | `$PX -e mapping python packages/course-geo/mapping/render-photo-window.py --config <...> --at E N --span 80 --out <picture>` |
 | Each hole whole, on the photo | `packages/course-workflow/render-source-overlays.py` (the mapping stage prints its command) |
@@ -139,15 +173,30 @@ and `layer-decisions.json` (practice areas, walls, bridges, plates, cart rows). 
 **Gate, in numbers:** every tee mark more than 5 m from its card length is explained in the walkthrough, not
 warped away, and every deck `deck-ground.mjs` names has been looked at: a deck on its deck slopes under 2% in
 the terrain, and one that slopes 5% or more is either off its deck or newer than the terrain. **Gate, by eye:**
-every sheet has been looked at, the look is recorded against the exact outlines (`ring-review.json`), and every
-tee or green under the score line has a verdict in words. `ring-review.node-test.mjs` fails when an outline
-changes after the look. The score finds most doubtful rings and not all: four of Bro Hof's wrong decks scored
-well, so look at the whole sheet.
+every ring has been looked at as it is now, the look is recorded ring by ring (`ring-review.json`), and every
+tee or green under the score line has a verdict in words. `ring-review.node-test.mjs` fails when a ring is new or
+has moved since it was looked at. The score finds most doubtful rings and not all: four of Bro Hof's wrong decks
+scored well, so look at the whole sheet.
+
+**A look holds for a ring until that ring changes.** The record keeps where each ring lay and how large it was
+(its centre, its box, its area and the length of its edge), and a look holds while none of them moves by more
+than 0.3 m, or half a metre of edge, or half a square metre or half a percent of area: a trace again shifts a
+ring by a centimetre, which no look can see, and a bite of a metre out of a green does not pass. The record
+keeps what the look saw until the ring is looked at again, so small shifts add up against it. So a new
+trace asks for a look at the rings that are new or moved and at no others, and `ring-review.mjs` prints the
+command that draws exactly those. Until 27 November 2026 the record was one hash of the whole outline file:
+moving one of Tjusta's greens by 0.9 m voided the look at all 104 rings and dropped the second look with every
+answer given to it, so the sheets were drawn 14 times there and the blind look taken 7 times. A look that has
+to be repeated whole is recorded without being taken. A look is also of a ring on a photo: outlines traced again
+on another photo are looked at whole, however little they moved.
 
 **The second look.** Whoever traced sees what they meant to draw. A second reviewer is given the blind sheets
 only (hole order; no scores, no sources, no tee colours) and nothing else: not the decisions, not the first
 look. Its doubts are recorded and bind: each is answered by redrawing, by a reason the ring stands, or by
-keeping it as a fault that the walkthrough prints. At Bro Hof it found a tee 3 m over a bank that the first look
+keeping it as a fault that the walkthrough prints. An answer stays with its ring: when the outlines are traced
+again, the second reviewer is shown the rings that moved (the doctor lists them), an open doubt on a redrawn
+ring goes with the line it doubted, and nothing said of a ring that stayed where it was is asked for twice.
+At Bro Hof it found a tee 3 m over a bank that the first look
 had passed, found the two known offset tees again unprompted, and showed that five bunkers were newer than the
 terrain. What it cannot judge (shade, crowns) it lists; measure those against the terrain.
 
@@ -241,15 +290,19 @@ With automatic trees, so that everything else can be looked at.
 
 | Do | Tool |
 | --- | --- |
-| Terrain before anything is published, then canopy | `course-workflow/bootstrap-terrain.mjs`, `course-v2/vegetation/build-canopy.mjs --ground-document` |
+| Terrain before anything is published, then canopy | `course-workflow/bootstrap-terrain.mjs`, `packages/course-geo/copc-reader/build-canopy.mjs --ground-document <bootstrap ground.json>` (the rasters are bound to the finest tiles: 4,096 cells a side, never the 16 km world) |
 | Pin the inputs, run the six stages, promote | `pin-production.mjs --ground <ground>` (the checksums in `production.json`), `production.mjs --ground <ground> --configure`, `$PX node packages/course-workflow/cli.mjs run --ground <ground> --through validate`, `promote.mjs` |
-| Register the ground | paste the card's rows (`ground-card.mjs --ground <ground> --rows`), then `ground-card.mjs --ground <ground> --check` and `node tools/sync-course-registries.mjs --check`. A new club changes the start menu's list and the Sverigekarta's groups: on a served build run `tools/check-chooser-ui.mjs` and `tools/check-lobby-scale.mjs` |
+| Register the ground | `ground-card.mjs --ground <ground> --apply` adds the card's row to every table the ground is missing from (ten files; it adds at a table's end, never changes a row, and waits with the scenery registry until the scenery module is written), then `ground-card.mjs --ground <ground> --check` and `node tools/sync-course-registries.mjs --check`. A new club changes the start menu's list and the Sverigekarta's groups: on a served build run `tools/check-chooser-ui.mjs` and `tools/check-lobby-scale.mjs` |
 | Scenery: roofs, sand, buildings, species, water, campus | `geobuild/facilities/roof-colours.py`, `<build>/facilities/build_campus.py` on `tools/facility-pipeline/campus_mesh.py` (frames, faces that know which way they look, roofs, the export), `tools/facility-pipeline/*` |
 | A building's own axes, eaves and roof levels from the laser, before modelling it | `node tools/facility-pipeline/measure-building.mjs --points <points.json> --context <context.geojson> --building <id>` |
 | The campus model as pictures, on the CPU | `blender --background --factory-startup --python tools/facility-pipeline/preview-facility-glb.py -- --manifest <facilities-v1.json> --out <dir>` |
 | The map's pictures | `node tools/bake-map-land.mjs` |
 
-Do not edit a watched file while the six stages run: the runner refuses a build whose inputs moved under it.
+The six stages watch the code they run and nothing else: the stage adapter and the runner with every module they
+import (68 modules, one of them the app's), the two lockfiles and the ground's profile. The app may be edited
+while they run, and an edit to it expires no stage. Do not edit one of those modules or a stage's input while
+they run: the runner refuses a build whose inputs moved under it. `workflow.json` names the two entry points;
+their imports are followed each time (`codeInventory` in `packages/course-workflow/io.mjs`).
 
 **Gate:** `node tools/check-course-quality.mjs --ground <ground>` has no errors, and each warning is explained;
 `pnpm exec vitest run apps/golf` passes, which includes the test that every kind and list in the new pack is
@@ -260,7 +313,7 @@ every accepted pond, or each one it names has been looked at.
 
 ### 6. The first look
 
-A short GPU sitting, before any bake. Ask first.
+A short GPU sitting, before any bake.
 
 ```sh
 node tools/course-walkthrough.mjs --ground <ground> --pictures     # prints the commands; it starts nothing
@@ -268,8 +321,9 @@ node tools/course-walkthrough.mjs --ground <ground> --pictures     # prints the 
 
 It chooses the views from the ground's own records, each for a fault it can show: the first tee (trees and
 species), the last green (the buildings), holes with water (levels against banks, walls and tees), short holes
-whole, waste areas (colour at a distance), every flagged hole, low quality, a low sun, winter, and the phone map
-of the same holes. Look at every picture. For each fault: fix it, add the check that would have found it, and
+whole, waste areas (colour at a distance), every flagged hole, low quality, a low sun, winter, the phone map
+of the same holes, and the practice ground from above, which no hole's view shows (the plan prints where to
+stand). Look at every picture. For each fault: fix it, add the check that would have found it, and
 put a row in the walkthrough's fault table.
 
 **Gate:** a round of pictures with nothing new in it.
@@ -291,17 +345,18 @@ written into it. An unseen sample can be used once.
 | Final six stages and promotion | `cli.mjs run`, `promote.mjs` |
 | Files no published generation names | `promote.mjs --ground <ground> --prune` lists them; `--apply` removes them. The generation before stays whole, as the rollback. |
 | Map pictures, roof colours | `tools/bake-map-land.mjs`, `roof-colours.py` |
-| Every course's prepared water, tints, vista and scatter, then the boots | `BANVY_GPU=1 node tools/gpu-pass.mjs` (one sitting; `--dry-run` shows the order; in a worktree beside other sessions, `--port` a port of its own) |
+| Every course's prepared water, tints, vista and scatter, then the boots | `BANVY_GPU=1 node tools/gpu-pass.mjs` (one sitting; `--dry-run` shows the order; it takes the first free port by itself and says which, so a pass beside another session's never serves or bakes the other checkout's build) |
 | Posters, then the catalogue row and scorecard | `tools/make-posters.mjs --candidates` then `--write`; `packages/course-pack/emit-manifest.mjs --only=<slug>` |
 | The walkthrough | `node tools/course-walkthrough.mjs --ground <ground>`, then write its hand parts |
 | Release | `cli.mjs release`, or the owner's recorded acceptance: `acceptance.mjs --ground <ground>` prints what is open, and `--record --accepted-on <date> --basis "<what the owner was asked and answered>" --reasons <file>` writes the record, refusing one that leaves an open item out |
 
-**Gate:** the rehearsal. In a clean worktree of the commit to be pushed (`git worktree add ../rehearsal HEAD`),
-with no private caches, run what CI runs: `node packages/course-workflow/cli.mjs check-new --base-ref $(git
-rev-parse origin/main)`, `node packages/course-geo/check-manifests.mjs`, `$PX test-acquisition`,
-`$PX plan-hole-controls`, `$PX check-migration`, `pnpm test`, the build, `node tools/check-prepared-startup.mjs`
-and `node tools/course-walkthrough.mjs --ground <ground> --check`. Open the pull request only when all of it
-and the GPU pass have finished.
+**Gate:** the rehearsal, which is one command: `node tools/course-rehearsal.mjs --ground <ground>`. It makes a
+clean worktree of the commit to be pushed, with no private caches, and runs there what the pull request's two
+pipelines run (the manifests, the controls, the acquisition tests, the whole suite, the renderer proof, the build
+and its prepared data, the migration check, the workflow checks, `check-new` against main) and the walkthrough's
+check; about two minutes. `--dry-run` lists the steps and the three commands it leaves out, with why. A test
+holds its list to the workflow files. Commit first: uncommitted changes are not in it. Open the pull request
+only when it and the GPU pass have finished.
 
 **The Cloudflare deploy has a gate no pull request runs:** the browser journeys of
 `tools/check-release-journeys.sh` (the start menu, the lobby at a hundred clubs, a round on the map, a played
@@ -315,8 +370,13 @@ since Git Bash rewrites `/`, and run each `tools/check-<journey>.mjs` against it
 Sync with main first; if the engine moved there, bake again before merging. Merge when CI is green, watch the
 four pipelines on main (course production, course geo, pages, cloudflare), then look at the live site: both
 modes on each new routing and on one old course, with no console errors. `tools/check-live-course.mjs --base
-<url> --ground <ground>` is written to do that walk (it opens a browser, so ask first); it has not yet been run
-against a live site. Then update the walkthrough and the memory.
+<url> --ground <ground>` does that walk in a browser (first run on both hosts on 27 November 2026, for
+Veckefjärden and Bro Hof). Then update the walkthrough and the memory.
+
+Other sessions merge too. Each time main moves under a branch with an engine change, the branch is merged with
+main and baked again, so decide who merges first and tell the others (27 November: six sessions, main moved
+up to three times under each, and the GPU pass was run for some three hours in all). A branch that changes one ground's
+pack and no engine code bakes that ground only (`--only`), and merges `index.json` course by course.
 
 ## The walkthrough
 
@@ -344,7 +404,7 @@ Generate the ground's walkthrough first if it has none; it works on every publis
 | What is wrong or new | Change | Run again | Bake |
 | --- | --- | --- | --- |
 | A tee, green, bunker or fairway outline | its `decisions.json` | stages 3, 4, the six stages, promote, map pictures | that ground: `gpu-pass.mjs --only <slugs>` |
-| A water edge, wall, bridge, plate or cart row | `layer-decisions.json` | `build-layers.py`, then as above | that ground |
+| A water edge, wall, bridge, plate or cart row | `layer-decisions.json` | `course-rebuild.mjs --from layers`, then as above | that ground |
 | The card (lengths, par, index, a new tee) | `card.json` and the scorecard reference | stage 4, the six stages, promote, `emit-manifest.mjs --only` | that ground |
 | A newer photo | stage 1 for the window | all of stage 3, with a full ring review | that ground |
 | Newer terrain or laser | stage 2 | everything after it | that ground |
@@ -403,12 +463,12 @@ The three rows marked "a picture only" are the gaps. Until a check exists for ea
 ## What a ground writes by hand
 
 - its card, first: `course-workflows/<ground>/ground.json`. The rows marked (card) below are printed from it and
-  held to it by a test; write the fact in the card and paste the row;
+  held to it by a test; write the fact in the card and add the row with `--apply`;
 - its frame and ring spec (`packages/course-v2/<ground>-ground-{graph,rings}.mjs`, a row in
   `ground-rings-registry.mjs`), its entry in `EXPECTED_GROUNDS` (`packages/course-geo/manifest.mjs`), and its
   runtime contract (`apps/golf/src/engine/v2-<ground>-config.mjs`, `v2-frontier-configs.mjs`,
   `v2-terrain-select.mjs`);
-- `decisions.json` per routing, `sand-decisions.json`, `layer-decisions.json` and `<build>/mapping/build-layers.py`;
+- `decisions.json` per routing, `sand-decisions.json` and `layer-decisions.json` (data only: the tracer and the layer builder are shared);
 - its rows in `packages/course-pack/emit-manifest.mjs` (name, club, tees and their colours) (card);
 - a scenery module (`apps/golf/src/engine/scenery/<ground>.js`, registered in `scenery/index.js` (card)). Go through
   this list for every ground:
@@ -431,62 +491,10 @@ them, and the app's bundles may not import from the workflow. It is the one plac
 
 ## Lessons kept
 
-- **The photo is the truth for outlines, the laser for heights.** Four bands at 0.16 m traced Bro Hof's greens to a
-  0.64 m mean of the best independent outline. OSM is a seed, not a measurement.
-- **Card lengths check the tees; they do not move them.** 152 of Bro Hof's 162 marks fall within 5 m of the card.
-  The rest are written down.
-- **A tiling cuts what crosses it.** Trace in 500 m windows with a 300 m margin; a shape that touches its margin
-  is an error.
-- **One sand or two is a measurement.** Read the raked sand's brightness in one exposure across both routings.
-  A waste area is its own ground class, and must not also be drawn as a sheet over it.
-- **The laser can be older than the ground,** and a ground flown with full ponds needs its water read before any
-  bed is carved.
-- **A new ground has no baseline;** placed trees need the first generation as theirs.
-- **Line endings are part of a checksum,** and published JSON is canonical (`v2-index.json` has no final newline).
-- **A campus model starts from the laser:** roof breaks and cornices tabulated along the building's own axes,
-  then a photograph for the order of the façade, and a list of what was estimated. A mapped footprint can lie a
-  degree off its roof: fit a line through the ridge's own returns and read every level again in that frame. A
-  dark roof returns little, and its shadow on a morning photo looks like a lean-to: the ground returns under it
-  say which (Tjusta's barn).
-- **Rewriting one catalogue row must keep its baked records** (`emit-manifest.mjs --only`).
-- **A heredoc with an apostrophe breaks in Git Bash.** Write scripts as files.
-- **A terrain model has many dates.** It is a mosaic, and its record's date is its newest patch. What tells the
-  age of the ground under a hole is the ground itself: a deck that is not level, a bunker with no bowl.
-- **A deck that is not level in the terrain is off its deck or newer than the terrain, and the heights alone cannot
-  say which.** Castle 7's decks were first sorted as off their decks, because the terrain has level platforms
-  beside them. Both photo years showed the hole had been rebuilt, bunkers and all: the platforms were the old
-  decks. Look at both years, and at whether the hole's other features changed, before redrawing anything. Where
-  a hole was not rebuilt and a deck is hidden under crowns, draw it as the laser platform.
-- **Importing a tool runs it.** The gallery and poster tools start a browser at their top level, so a table in
-  one is read from its text (`literalOf` in `ground-card.mjs`), never by importing the file.
-- **A relative output path is the tool's to resolve.** Blender resolves one against the drive, pathlib against
-  nothing: resolve `--out` before using it.
-- **A sheet at 5 px a metre cannot see a green's collar.** Tjusta's greens passed two recorded looks while every
-  one was 20 to 100% too large. Stretch the photo's contrast and look at each green alone; hold a spring photo
-  beside the summer one.
-- **A model that has not settled looks like a model.** Tjusta's fairway fit printed plausible accuracies on every
-  run and a different fairway each time a line moved. When an outline changes and its evidence did not, fit again
-  from another sample before believing either.
-- **With no club map, a guide's hole plates are the routing's witness.** They are drawings: registered on the photo
-  they say which deck and which green, never where an edge lies, and a par 3's plate rarely registers.
-- **A ground needs its land cover before its map.** Without `sidecars.landcover` everything past the 1 m core is
-  forest by rule; the map's forest-picture test says so, and it is the only thing that does.
-- **The six stages take the whole app as their input.** One line changed under `apps/golf/src` is 40 minutes of
-  stages again, and an edit while they run loses the run. Batch the app's edits between runs: register the
-  terrain config before the first run, and take the first pictures before the second.
-- **Sessions in parallel share one machine.** On 27 November four sessions worked on four grounds at once, each in
-  its own worktree. The GPU pass served every checkout on port 8641, and its server check asked only whether
-  something answered there. A second pass would have baked and booted the first one's build. Give each worktree's
-  pass its own `--port`: a busy port is now refused. Whichever pull request with an engine change merges second
-  bakes again on the merged main.
-- **The practice ground is part of the course, and is looked at like one.** Tjusta's putting green came out with its
-  collar, its chipping apron as a piece of the 1st fairway, its short-game area as rough and its tee line as a green
-  strip, and no check saw any of it: the owner did, from the 1st tee. Draw each practice surface on the photo
-  (`layer-decisions.json`), keep the fairway model out of the ones it is not (`fairwayExclude`), and give a range its
-  tee line as a `range_bay_line`, which the compiler turns into the bays the engine and the phone map draw.
-- **A new club is a change to the start menu.** Tjusta, the twelfth club, stayed in Bro Hof's group on the
-  Sverigekarta a step longer than any club before it, and showed that opening a group lost the keyboard under
-  reduced motion. Only the Cloudflare pipeline's journeys saw it, after the merge.
+They are on their own page, with the review of 27 November 2026 that measured where the time of nine sessions
+went, what found the faults, what was changed and what is still heavier than it earns:
+[what building the courses taught](pipeline-v2-lessons.md). Read it before a first ground, and its review before
+adding a gate, a record or a tool.
 
 ## Where every ground stands
 
@@ -544,17 +552,17 @@ the best place to start improving it.
   the model with that ground's builder and validating it again, and it changes how the clubhouse looks. The
   owner's to decide, ground by ground: rebuild, or accept the model as it was looked at and say so in its
   walkthrough.
-- The owner's review page has not been used by the owner, and `check-live-course.mjs` has not been run: both
-  open a browser.
-- The second look has been taken once, by an agent. Its "no doubt" on bunkers is weak: a white line on white
+- The owner's review page has not been used by the owner (see the review of 27 November).
+- The second look has been taken on six routings, each time by an agent. Its "no doubt" on bunkers is weak: a white line on white
   sand hides a line drawn a metre inside the edge.
 - Real rounds have not been read yet: `rounds-evidence.mjs` is tested on made-up shots only, because the extract
   from the players' data is the owner's to make. A phone's fix is good to a few metres, so it names a place only
   on several shots that agree.
-- Only Bro Hof's source data is on the build machine (4.8 GB); nothing is backed up, and the other ten grounds
-  have no raw photos or laser there at all, so tracing one of them again starts with fetching its sources.
+- Four grounds' source data is on the build machine (Tjusta 18 GB, Bro Hof 4.9, Ängsö 1.4, Visby 0.9;
+  `course-doctor.mjs --private` lists it). Nothing is backed up, and the other eight have none in the main
+  checkout, so tracing one of them again starts with fetching its sources.
 - No ground has been looked at on a real phone as part of this process, and none has passed the full release
   review: Bro Hof came in on the owner's recorded acceptance.
 - `tools/check-map-field.mjs` and two start-menu checks failed on 24 November for reasons older than Bro Hof;
   they have not been run again since.
-- Ten of the eleven grounds have no walkthrough.
+- Three of the twelve grounds have no walkthrough (Johannesberg, Norrfällsviken, Tortuna).

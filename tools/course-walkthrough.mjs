@@ -233,7 +233,7 @@ function summaryBlock(f) {
     ['Tee marks against the card', ...each(x => (x.card
       ? `${x.card.marks} marks, median ${metres(x.card.median)}, ${x.card.within} within ${CARD_FLAG_METRES} m, worst ${metres(Math.abs(x.card.worst.metres))} (hole ${x.card.worst.hole}, ${x.card.worst.tee})`
       : 'not measured'))],
-    ['Outlines looked at ring by ring', ...each(x => (x.review ? `${x.review.reviewedOn}: ${number(sum(Object.values(x.review.rings)))} rings, ${x.review.redrawn.length} redrawn` : 'no record'))],
+    ['Outlines looked at ring by ring', ...each(x => (x.review ? `${x.review.reviewedOn}: ${number(Object.keys(x.review.seen).length)} rings, ${x.review.redrawn.length} redrawn` : 'no record'))],
     ['A second, blind look at them', ...each(x => (x.second
       ? `${x.second.reviewedOn}: ${x.second.doubts} doubts, ${x.second.stand.length} stand, ${x.second.faults.length} kept as faults; ${x.second.cannotTell} it could not judge`
       : 'none'))],
@@ -327,6 +327,19 @@ export function pictureList(facts) {
   return views;
 }
 
+/** Where to stand to see a routing's practice ground whole, from above and from the south: its range and its
+ * practice greens are in the model (local metres, north is -z), and no hole's view shows them. Null when it has none. */
+export function practiceView(model) {
+  const rings = [...(model.scenery?.range ?? []), ...(model.scenery?.practiceGreens ?? [])].filter(ring => Array.isArray(ring) && ring.length >= 3);
+  if (!rings.length) return null;
+  const xs = rings.flat().map(p => p[0]), zs = rings.flat().map(p => p[1]);
+  const x = (Math.min(...xs) + Math.max(...xs)) / 2, z = (Math.min(...zs) + Math.max(...zs)) / 2;
+  const span = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...zs) - Math.min(...zs), 120);
+  const r = value => Math.round(value);
+  return { ranges: (model.scenery?.range ?? []).length, greens: (model.scenery?.practiceGreens ?? []).length,
+    setView: `V3D.setView(${r(x)}, ${r(span * 0.8)}, ${r(z + span * 0.6)}, ${r(x)}, 0, ${r(z)})` };
+}
+
 export function picturePlan(facts, base = 'http://127.0.0.1:8641') {
   const views = pictureList(facts), adhoc = (list, light) => list.map(v => `${v.slug}:${v.hole}:${v.vy}:${light}`).join(',');
   const gallery = (label, list, light, extra = '') => `BANVY_GPU=1 node tools/gfx-gallery.mjs --base ${base} --label ${facts.groundId}-${label} --adhoc ${adhoc(list, light)}${extra}`;
@@ -334,7 +347,7 @@ export function picturePlan(facts, base = 'http://127.0.0.1:8641') {
   return [
     `# The first pictures of ${facts.groundId}: take them before any bake, and look at every one.`,
     '# Build and serve first:  pnpm --filter @banvy/golf build  &&  node tools/serve.mjs apps/golf/dist 8641',
-    '# The owner starts anything on the GPU. In PowerShell set $env:BANVY_GPU=1 and drop the prefix.',
+    '# In PowerShell set $env:BANVY_GPU=1 and drop the prefix. One GPU job at a time on the machine.',
     '', '# 1. Every view below, in daylight at high quality:',
     ...views.map(v => `#    ${v.slug} hole ${v.hole} (${v.vy}): ${v.why}`),
     gallery('look', views, 'dag'),
@@ -345,6 +358,12 @@ export function picturePlan(facts, base = 'http://127.0.0.1:8641') {
     gallery('look-vinter', one, 'vinter'),
     '', '# 4. The phone map, at phone width (412 px). Is anything on the ground not painted? Are islands cut?',
     ...[...new Set(views.filter(v => v.vy !== 'tee').map(v => `#    ${base}/?bana=${v.slug}&hal=${v.hole}&karta=1`))],
+    '', '# 5. The practice ground. No hole\'s view shows it, and no check reads it: at Tjusta its apron was drawn as fairway and',
+    '#    its tee line as grass until the owner saw it from the first tee. Open the course, paste the line in the console, and',
+    '#    look at the range, its tee line and targets, and every practice green and bunker; then the same place on the phone map.',
+    ...facts.routings.map(x => { const view = practiceView(x.model); return view
+      ? `#    ${base}/?bana=${x.slug}&hal=1   ${view.setView}   // ${view.ranges} range, ${view.greens} practice greens`
+      : `#    ${x.slug}: the model has no range and no practice green. Does the club? Look at the photo round the clubhouse.`; }),
     '', `# Pictures land in tools/goldens/gfx/${facts.groundId}-look*/ (ignored by git).`,
   ].join('\n');
 }

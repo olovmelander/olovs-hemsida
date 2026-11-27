@@ -9,7 +9,13 @@
             --out <dir> [--halo 32] [--tiles l0/0/0,l0/1/0] [--campaigns id,id]
             [--evidence geo_data/course-v2/<ground>/vegetation/canopy-evidence.json]
             [--tight-grid] (bound output to selected finest tiles, not scenery rings)
-            [--ground-document output/course-workflow/<ground>/bootstrap/ground.json] (a new ground)
+            [--ground-document output/course-workflow/<ground>/bootstrap/ground.json] (a new ground;
+             its rasters are bound to the finest tiles unless --world-grid asks for the whole ground)
+
+   ONLY THE FINEST TILES ARE READ, so a raster over a 16 km ground is void outside its 4 km core. Tjusta's
+   were written that way (26 November 2026): 16,384 cells a side where Bro Hof's are 4,096, 16 GB of cache
+   for 1, and a tree stage of 35 minutes for 4, with not one more tree for it. A new ground is tight by default.
+   An older ground rebuilt without a flag keeps the grid its pinned rasters have.
 
    Rasters (raw Float32 + JSON sidecar, NaN = void) go to --out, which must be
    outside the repository's committed tree; the evidence file is small and is
@@ -86,7 +92,8 @@ if (path.resolve(outDir).startsWith(path.join(ROOT, 'geo_data')) || path.resolve
 
 const finest = ground.tiles.filter(tile => tile.lod === 0 && (!onlyTiles.length || onlyTiles.includes(tile.id)));
 if (!finest.length) throw new Error('No finest terrain tiles selected');
-const rasterBounds = args.includes('--tight-grid') ? {
+const tightGrid = args.includes('--tight-grid') || (Boolean(stagedGround) && !args.includes('--world-grid'));
+const rasterBounds = tightGrid ? {
   minEasting: Math.min(...finest.map(t => t.bounds.minEasting)),
   maxEasting: Math.max(...finest.map(t => t.bounds.maxEasting)),
   minNorthing: Math.min(...finest.map(t => t.bounds.minNorthing)),

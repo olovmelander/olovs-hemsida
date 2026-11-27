@@ -26,7 +26,14 @@ owner's look is a local page
 (`tools/course-review-page.mjs`). Begin a sitting with `node tools/course-doctor.mjs --ground
 <id>` (every record of the ground, sorted into broken, to do, the owner's and known), or hand
 the work to `.claude/agents/course-builder.md`. Never import a gallery or poster tool to read
-its table: importing one starts a browser.
+its table: importing one starts a browser. Since the review of 27 November
+([what building the courses taught](docs/pipeline-v2-lessons.md): where the time of nine
+sessions went, and what is still heavier than it earns) a look is kept ring by ring and photo by
+photo, so a new trace asks for a look at the rings that moved and at no others
+(`ring-review.mjs --build <build>` names them); the six stages watch only the modules they
+import, so an app edit expires none; `course-rebuild.mjs` runs from a ground's card, before it
+has a production profile and on a ground with its own builder; and `gpu-pass.mjs` takes a free
+port by itself. Before adding a gate, a record or a tool to the pipeline, read that review.
 The catalogue currently has 16 layouts on 12 grounds using the common 469-tile
 terrain/ring contract. Historical course builders are evidence, not templates
 for new courses.

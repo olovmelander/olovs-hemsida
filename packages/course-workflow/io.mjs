@@ -52,6 +52,39 @@ export function inventory(root, paths) {
   for (const p of [...paths].sort()) visit(p);
   return files;
 }
+/* A WATCHED MODULE IS WATCHED WITH EVERYTHING IT IMPORTS, and with nothing else.
+   The stage adapters import some seventy modules, one of them from the app. Watching whole directories instead
+   (the app's 657 files among 1,038) let an edit to the start menu expire every stage of every ground, and at
+   Tjusta each of those cost the 35-minute tree stage again (27 November 2026). Packages and Node's own modules
+   are named by the lockfile, which a workflow watches beside its entry points. */
+const IMPORT = /(?<![\w$.])(?:import|export)\s*(?:[^'"();]*?\bfrom\s*)?(['"])([^'"\n]+)\1|(?<![\w$.])import\(\s*(['"])([^'"\n]+)\3\s*\)/g;
+const COMPUTED_IMPORT = /(?<![\w$.])import\(\s*(?!['")])/;
+export function importClosure(root, entries) {
+  const seen = new Set();
+  const visit = relative => {
+    if (seen.has(relative)) return;
+    seen.add(relative);
+    if (!/\.(?:mjs|js)$/.test(relative)) return;
+    const text = fs.readFileSync(safePath(root, relative), 'utf8');
+    if (COMPUTED_IMPORT.test(text)) throw new Error(`${relative}: a computed import() cannot be watched; import the module by name`);
+    for (const match of text.matchAll(IMPORT)) {
+      const specifier = match[2] ?? match[4];
+      if (!specifier.startsWith('.')) continue;
+      const target = path.posix.normalize(path.posix.join(path.posix.dirname(relative), specifier));
+      if (!relativePath(target)) throw new Error(`${relative}: ${specifier} leaves the repository`);
+      let isFile = false;
+      try { isFile = fs.statSync(safePath(root, target)).isFile(); } catch { /* reported below */ }
+      if (!isFile) throw new Error(`${relative}: imports ${specifier}, which is not a file`);
+      visit(target);
+    }
+  };
+  for (const entry of entries) visit(entry);
+  return [...seen].sort();
+}
+/** The implementation a workflow watches: each module with its imports, each other path as it stands. */
+export function codeInventory(root, watch) {
+  return inventory(root, [...new Set(watch.flatMap(p => (/\.(?:mjs|js)$/.test(p) ? importClosure(root, [p]) : [p])))]);
+}
 // Promotion changes the physical root, never the logical names in receipts.
 export function candidateInventory(root, paths, stagingRoot, publicRoot = stagingRoot) {
   const relocate = p => p === stagingRoot || p.startsWith(stagingRoot + '/') ? publicRoot + p.slice(stagingRoot.length) : p;

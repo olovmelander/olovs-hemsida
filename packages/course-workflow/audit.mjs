@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import { validateRootIndex, validateCourseManifest, validateGroundManifest } from '../course-v2/schema.mjs';
 import { STANDARD_RING_LEVELS, STANDARD_TILE_COUNT } from '../course-v2/standard-ground-rings.mjs';
 import { validateSourceManifest } from '../course-geo/manifest.mjs';
-import { digest, readJson, safePath, fileDigest, inventory, candidateInventory, hashObject } from './io.mjs';
+import { digest, readJson, safePath, fileDigest, codeInventory, candidateInventory, hashObject } from './io.mjs';
 import { STANDARD, assertWorkflow } from './standard.mjs';
 
 export function readManifest(root, publicRoot, ref, validator) {
@@ -99,7 +99,7 @@ export function candidate(root, w, { publicRoot = w.publicRoot } = {}) {
   // bytes remain the same candidate when copied into the public catalogue.
   const { publicRoot: ignored, ...policy } = w;
   const source = readJson(root, w.sourceManifest);
-  const code = { ...inventory(root, w.watch), ...candidateInventory(root,
+  const code = { ...codeInventory(root, w.watch), ...candidateInventory(root,
     [...Object.values(w.stages).flatMap(s => s.inputs), ...source.artifacts.map(a => a.path)], w.publicRoot, publicRoot) };
   const candidateDigest = hashObject({ standard: STANDARD, policy, code,
     catalog: fileDigest(root, 'geo_data/course-v2/source-catalog.json'),

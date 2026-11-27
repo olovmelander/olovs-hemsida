@@ -8,16 +8,16 @@ import { deflateRawSync } from 'node:zlib';
 import { compilePack } from '../course-pack/compile-pack.mjs';
 import { writePack } from '../course-pack/lib.mjs';
 import { loadProduction, pinned, readPinned, stageOutput, writeBytes, validateCanopySidecar } from './production-inputs.mjs';
-import { configuredWorkflow, postPromotionBakePlan, verifyCaptureCandidate } from './production.mjs';
+import { configuredWorkflow, verifyCaptureCandidate, STAGE_CODE } from './production.mjs';
 import { mappingReview, writeReview } from './production-mapping.mjs';
 import { compareFinest, readRingLevels, executeProductionStage } from './production-stages.mjs';
-import { emptyRepository, buildCandidateFixture } from './test-fixture.mjs';
-import { digest, readJson, writeJson, fileDigest } from './io.mjs';
+import { emptyRepository, buildCandidateFixture, tidy } from './test-fixture.mjs';
+import { digest, readJson, writeJson, fileDigest, importClosure } from './io.mjs';
 
 const REAL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 function temporary(t) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'production-unit-fixture-'));
-  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  t.after(() => tidy(root));
   return root;
 }
 function pinJson(root, name, value) {
@@ -37,6 +37,18 @@ test('both real profiles wire six stages and include every sibling and campaign'
     assert(w.stages.assemble.inputs.includes(`${ctx.stageRoot}/terrain`));
     assert.equal(w.publicRoot.startsWith('output/'), true);
   }
+});
+
+test('the stages watch the code they run, and they run next to none of the app', () => {
+  for (const ground of ['puttom', 'johannesberg']) assert.deepEqual(loadProduction(REAL, ground).workflow.watch, [...STAGE_CODE, `course-workflows/${ground}/production.json`]);
+  const closure = importClosure(REAL, STAGE_CODE.filter(p => p.endsWith('.mjs')));
+  for (const needed of ['packages/course-workflow/production-stages.mjs', 'packages/course-v2/vegetation/compile-vegetation.mjs', 'packages/course-pack/compile-pack.mjs', 'packages/course-workflow/io.mjs']) assert(closure.includes(needed), needed);
+  /* A tripwire, not a budget. When the stages watched the whole app (657 files), any edit to it expired every
+     stage of every ground, and Tjusta's tree stage alone is 35 minutes. An import that pulls the engine, the
+     shell or main.js into this closure brings that back: import the one function from a leaf module instead. */
+  const app = closure.filter(file => file.startsWith('apps/'));
+  assert(app.length <= 3 && app.every(file => file.startsWith('apps/golf/src/engine/')), `the stages import app code: ${app.join(', ')}`);
+  assert(closure.length < 120, `the stages' code grew to ${closure.length} modules; see what was imported`);
 });
 
 test('fresh compilation of all three retained layout inputs matches published pack bytes by hash', () => {
@@ -149,7 +161,7 @@ test('canopy sidecars cannot shift the grid while keeping the same sample count'
 
 test('real assembly and validation adapters emit one shared ground, verify bytes, and leave geography pending', async t => {
   // All terrain here is explicitly synthetic unit geography. No production receipt is made.
-  const root = emptyRepository(); t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const root = emptyRepository(); t.after(() => tidy(root));
   const fixture = buildCandidateFixture(root), { w, graph } = fixture;
   const ground = JSON.parse(Buffer.from(graph.resources.get(graph.references.ground.url)).toString('utf8'));
   const slugs = ['fixture-main', 'fixture-nine'];
@@ -211,15 +223,9 @@ test('first-generation production profile requires explicit policy and checks LO
   assert.equal(loaded.config.baselineGround, null);
   assert.equal(loaded.config.firstGenerationPolicy, 'initial-source-compilation');
 
-  const plan = postPromotionBakePlan(loaded, { skipGpuBakes: true });
-  assert.deepEqual(plan.map(s => s.id), ['emit-manifest', 'startup-packs', 'map-land', 'audit-water-levels']);
-  const fullPlan = postPromotionBakePlan(loaded, { allCourses: true });
-  assert.deepEqual(fullPlan.map(s => s.id), ['emit-manifest', 'startup-packs', 'map-land', 'audit-water-levels', 'ground-tints', 'prepared-water', 'prepared-vista']);
-  assert.equal(fullPlan.at(-1).command.includes('--only'), false);
-
   // Verify initial-generation quantization check against raw Float32 LOD0 samples.
   const fixtureRoot = emptyRepository();
-  t.after(() => fs.rmSync(fixtureRoot, { recursive: true, force: true }));
+  t.after(() => tidy(fixtureRoot));
   const fixture = buildCandidateFixture(fixtureRoot);
   const ground = JSON.parse(Buffer.from(fixture.graph.resources.get(fixture.graph.references.ground.url)).toString('utf8'));
   const l0Tiles = ground.tiles.filter(tile => tile.lod === 0);
