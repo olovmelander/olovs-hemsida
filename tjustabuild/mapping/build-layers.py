@@ -168,6 +168,13 @@ def add_facility(spec, poly, st):
 
 
 for spec in dec['facilities']:
+    if 'line' in spec:
+        # a line facility (the range's bay line) is kept as given: it is a reading off the photo, not an edge to snap
+        facilities.append({'type': 'Feature', 'id': spec['id'],
+                           'properties': {'kind': spec['kind'], 'parentFacilityId': spec.get('parent'), 'bayPitch': spec.get('bayPitch'),
+                                          'sourceId': IMG, 'edge': dict(start='as given')},
+                           'geometry': {'type': 'LineString', 'coordinates': [[round(e, 2), round(n, 2)] for e, n in spec['line']]}})
+        continue
     if 'osm' in spec:
         ring = next(shape(f['geometry']) for f in tt.load_json(ROOT / cfg['osm'])['features'] if f['id'] == spec['osm'])
         start = tt.largest(ring)
@@ -183,7 +190,7 @@ for spec in dec['facilities']:
         poly, st = start, {**(st or {}), 'kept': 'start'}
     add_facility(spec, poly, st)
 tt.write_json(HERE / 'facilities.geojson', tt.collection(facilities, status='traced-awaiting-review'))
-print('facilities', {f['id']: round(shape(f['geometry']).area) for f in facilities})
+print('facilities', {f['id']: round(shape(f['geometry']).area if f['geometry']['type'] != 'LineString' else shape(f['geometry']).length) for f in facilities})
 
 # ---------------------------------------------------------- infrastructure
 
