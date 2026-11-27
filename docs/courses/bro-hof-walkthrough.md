@@ -120,6 +120,19 @@ build's own records, and a test fails when they fall behind. Everything else is 
   but the carved bed rises to a dead-flat 0.00 m inside it. `?waterreach=0` removes them, so the pond's own reach carve
   makes them. The pond also lies inside Mälaren's 8 m flat-water component (level 1.06 m), so two carves may overlap
   there. Next step: read the bed field at a slab (the carve's refined and broad depths), with the prepared water off.
+- **Lätt 3D still draws Mälaren's islands as water.** Since 27 November the pack carries each water's islands
+  (`innerRings`: 25, 18 of them in Mälaren's main outline, the largest 1.2 ha at E 649577 N 6597950 with 39 laser
+  trees) and Detaljerad 3D draws them as land. The phone map reads each water's outer ring only
+  (`apps/golf/src/map/map-course.mjs`, which another session held that day): it wants the islands painted as holes,
+  as it paints a bunker's grass islands, and then `bake-map-land.mjs`.
+- **What grows on the islands is not mapped.** They are drawn as rough with the laser's trees. Three small ones in
+  Mälaren (156, 36 and 2 m2; the largest at E 650263 N 6597235) lie at or below the water's level in the laser and are
+  drawn as land at the waterline; they may be reed beds.
+- **Reeds still stand thinly on some pond banks outside play,** where the 2025 photo shows mown banks: since
+  27 November none stands in open water or in a tee's line of play, but the reed scan cannot tell a mown bank from
+  rough. Putting it right needs the mown banks as a record (the photo's turf) or an opt-out in the scenery module.
+- **A ball on an island's low ground is still in the water** for the lie and Spela: they read the outer ring and the
+  ground's height (land more than 0.3 m above the water is not water). No island is near play.
 - **Never looked at:** a real phone; the game (Spela) on either course; storm, mist, the blue hour and autumn by eye;
   low quality beyond a clean start.
 
@@ -207,6 +220,9 @@ is a check that did not exist; the last column says whether it exists now.
 | A hand-drawn waste area with no sand in it (Castle 15); bare rock and works ground the model does not draw | reading the photo round every hole against the model's sand, both ways | the day after release | `audit-sand.py` and its record: every ring it names and every area on nothing mapped has a verdict or is a fault this page prints |
 | A bunker on Stadium 2 with no bowl; two more rebuilt bunkers on Castle 16 | measuring every bunker against its bowl, and reading every bunker on the older photo with that photo's own sand and turf levels | two days after release | `deck-ground.mjs` (bowls) and `audit-sand.py --compare` (the older photo): this page prints the ground's age by hole |
 | The terrain's one date was its newest patch, four years newer than the ground under Castle 7 and 18 | the two finds above | the day after release | this page prints the flights' range; no check dates the ground under a hole yet |
+| Reeds standing up to 17 m out in open pond water as lone dark spikes (Stadium 7, 11 and 15; Castle 17): the reed scan read a pond flown full as ground at its level, and its shore field reached both sides of an outline. On Stadium 1,120 of 13,023 reeds stood 4 m or more inside an outline | the blind visual review of every hole (course-reviewer, 27 November), from the tee | three days after release | a reed stands in still water only on a mapped bed (`inStillWater` in `ground-cover.mjs`, `?reedbank=0`), and never in a tee's line of play (`tee-corridors.mjs`); their tests. A picture found it; the probe that counts reeds inside outlines is local |
+| Mälaren's island and its 39 laser trees drawn under the lake (Stadium 15 from above): the pack compiler dropped every water's islands, and the bed carve lowered the island 3.5 m | the blind visual review, from above | three days after release | the pack keeps `innerRings` (`runtime-water.mjs`, `water-shore.node-test.mjs`); the bed field, the reach and the sheet treat an island as land (`v2-water-bed.test.mjs`, `water-reach.test.mjs`; `?waterislands=0`) |
+| A bush on Stadium 18's aim line from the yellow and blue tees, 41 m off the back tee's line (Johannesberg 3 had one too) | the blind visual review, from the tee | three days after release | the cover keeps off every tee's line of play to its landing area (`tee-corridors.mjs`, its test on Stadium 18's pack; `?teecorridor=0`) |
 
 ## Decisions
 
@@ -240,4 +256,8 @@ The GPU and browser lines are the owner's to start (in PowerShell: `$env:BANVY_G
 ## Befores
 
 - `?buildingGeometry=source` draws the mapped footprints instead of the campus.
+- `?reedbank=0` plants the reeds in open water again, `?teecorridor=0` lets the reeds and the cover into the forward
+  tees' lines of play, and `?waterislands=0` draws the islands under their water (27 November; each plants or carves
+  live, since the prepared data hold the new plantings and beds). Together they reproduce the earlier counts exactly
+  (Stadium 13,023 reeds and 3,565 bushes).
 - The first generation (automatic trees) stays published for rollback: `grounds/bro-hof/ground-v2-bf788372….json`.

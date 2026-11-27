@@ -197,7 +197,7 @@ function simplifyRing(ring, tolerance) {
  * beside the played ground, which earns it the fine lattice.
  * Returns null when the ring is degenerate or nothing could be sampled.
  */
-export function waterReach({ ring, level, heightAt, near = () => true, surface = NaN, otherWater = null, fit = false, options = {} } = {}) {
+export function waterReach({ ring, level, heightAt, near = () => true, surface = NaN, otherWater = null, fit = false, islands = [], options = {} } = {}) {
   const o = { ...WATER_REACH, ...options };
   if (!Array.isArray(ring) || ring.length < 3 || (!fit && !Number.isFinite(level)) || typeof heightAt !== 'function') return null;
   /* the highest ground that is still the lake's: its level, and never above the laser's
@@ -242,6 +242,16 @@ export function waterReach({ ring, level, heightAt, near = () => true, surface =
   const x0 = box.x0 - margin, z0 = box.z0 - margin;
   const n = cols * rows;
   const inside = fillRing(ring, x0, z0, cell, cols, rows);
+  /* AN ISLAND IS LAND (27 November 2026): the islands the outline holds are not its inside,
+     and however low their ground they are never the lake's water, so no bed is carved
+     under them and the bank distance counts their shores */
+  let isle = null;
+  for (const island of islands ?? []) {
+    if (!(island?.length >= 3)) continue;
+    const fill = fillRing(island, x0, z0, cell, cols, rows);
+    isle ??= new Uint8Array(n);
+    for (let i = 0; i < n; i++) if (fill[i]) { isle[i] = 1; inside[i] = 0; }
+  }
   /* distance in nodes from the ring's inside */
   const toInside = squaredDistanceTransform(cols, rows, i => inside[i] === 1);
   const reach2 = (o.reachMetres / cell) ** 2;
@@ -271,7 +281,7 @@ export function waterReach({ ring, level, heightAt, near = () => true, surface =
      the inside's own ground, then outward the lowest pass over the ground between
      (a priority flood). Water at level L covers exactly the nodes whose spill is at most
      L, connected by construction; the level fit below and the reach both read it. */
-  const spill = spillFrom(heights, inside, kind, cols, rows);
+  const spill = spillFrom(heights, inside, kind, cols, rows, isle);
   let fitted = null;
   if (fit) {
     fitted = fitShoreLevel({ spill, inside, kind, n, surface, insideHeights, maximumRise: o.fitRangeMetres });
@@ -323,7 +333,7 @@ export function waterReach({ ring, level, heightAt, near = () => true, surface =
 /* The lowest water level that reaches each node from the ring's inside (Infinity where
    none can: beyond the reach, another sheet's water, no ground). A binary-heap priority
    flood seeded with every inside node at its own height. */
-function spillFrom(heights, inside, kind, cols, rows) {
+function spillFrom(heights, inside, kind, cols, rows, blocked = null) {
   const n = cols * rows;
   const spill = new Float32Array(n).fill(Infinity);
   const heapI = new Int32Array(n), heapV = new Float32Array(n);
@@ -350,7 +360,8 @@ function spillFrom(heights, inside, kind, cols, rows) {
     heapI[k] = last; heapV[k] = lastV;
     return top;
   };
-  const open = i => (kind[i] === 1 || kind[i] === 2) && Number.isFinite(heights[i]);
+  /* `blocked`: a mapped island, which no water reaches */
+  const open = i => (kind[i] === 1 || kind[i] === 2) && Number.isFinite(heights[i]) && !blocked?.[i];
   for (let i = 0; i < n; i++) if (inside[i] && open(i)) { spill[i] = heights[i]; push(i, heights[i]); }
   const done = new Uint8Array(n);
   while (size) {

@@ -70,6 +70,30 @@ describe('the lake bed field', () => {
     expect(boxed.levelAt(gx, gz)).toBe(50.5);
   });
 
+  it('carves no bed under an island the outline holds, however flat the laser reads it, and leaves a pond on it its own', () => {
+    /* the whole lake flat at its level, as a ground flown full reads (Bro Hof's Malaren, 27 November) */
+    const raster = lakeRaster();
+    const flat = detectFlatWater({ raster, minimumCells: 100 });
+    const ring = [[-48, -48], [48, -48], [48, 48], [-48, 48]], island = [[-12, -12], [12, -12], [12, 12], [-12, 12]];
+    const pond = [[-4, -4], [4, -4], [4, 4], [-4, 4]];
+    const before = buildWaterBedField({ flatWater: flat, knownBodies: [{ ring, level: 50 }] });
+    expect(before.inWater(0, 6)).toBe(true);
+    expect(before.depthAt(0, 6)).toBeGreaterThan(1);
+    const field = buildWaterBedField({ flatWater: flat, knownBodies: [{ ring, level: 50, holes: [island] }] });
+    expect(field.inWater(0, 6)).toBe(false);
+    expect(field.depthAt(0, 6)).toBe(0);
+    expect(field.levelAt(-6, 6)).toBeNaN();
+    expect(field.cells).toBeLessThan(before.cells);
+    /* the water round it deepens from the island's shore as from any bank */
+    expect(field.depthAt(0, 26)).toBeLessThan(before.depthAt(0, 26));
+    expect(field.inWater(0, 26)).toBe(true);
+    /* a second body standing on the island is still its own water */
+    const withPond = buildWaterBedField({ flatWater: flat, knownBodies: [{ ring, level: 50, holes: [island] }, { ring: pond, level: 50.4 }] });
+    expect(withPond.inWater(2, 2)).toBe(true);
+    expect(withPond.levelAt(2, 2)).toBeCloseTo(50.4, 5);
+    expect(withPond.inWater(0, 8)).toBe(false);
+  });
+
   it('rejects with nearWater only samples whose bilinear depth is zero, inside the grid and past its edge', () => {
     const raster = lakeRaster();
     const field = buildWaterBedField({ flatWater: detectFlatWater({ raster, minimumCells: 100 }) });

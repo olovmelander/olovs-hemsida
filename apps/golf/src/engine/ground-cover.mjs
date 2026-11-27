@@ -138,3 +138,23 @@ export function reedWaterAt(waters, x, z, h, below, signedDistance, { reach = RE
   }
   return false;
 }
+
+/* REEDS STAND ON THE BANK (27 November 2026, Bro Hof's blind review: "dark spikes stand up
+   out of the open water", Stadium 7, 11 and 15). The level tests above read the ground, and
+   a pond flown full is ground at its own level all the way across: the scan's shore field
+   reaches a 6 m cell on both sides of an outline, so reeds stood up to 17 m out in open
+   water where the 2025 photo shows mown banks (Stadium: 1,120 of 13,023 reeds 4 m or more
+   inside an outline; Puttom 368 of 4,135, against its sketched rings). A reed now stands in
+   still water only where a mapped bed puts it -- a silt flat's shallows, a mapped wetland
+   (main.js) -- and elsewhere on the bank: never inside a lake's, pond's or the sea's
+   outline, and an island the outline holds (`innerRings`) is bank. `waters` are water
+   index records ({ ring, innerRings, stream }); `inside(x, z, ring)` is the crossing test.
+   ?reedbank=0 is the before. */
+export function inStillWater(waters, x, z, inside) {
+  for (const q of waters) {
+    if (q.stream || !(q.ring?.length >= 3) || !inside(x, z, q.ring)) continue;
+    if ((q.innerRings ?? []).some(island => island?.length >= 3 && inside(x, z, island))) continue;
+    return true;
+  }
+  return false;
+}

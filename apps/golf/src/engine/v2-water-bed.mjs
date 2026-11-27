@@ -69,19 +69,34 @@ export function buildWaterBedField({
   phase('mask');
   const known = knownBodies
     .filter(body => body.ring?.length >= 3 && Number.isFinite(body.level))
-    .map(body => ({ ring: body.ring, level: body.level, bb: bbox(body.ring) }));
-  /* A cell takes the first body, in order, whose ring holds its centre. */
+    .map(body => ({ ring: body.ring, level: body.level, bb: bbox(body.ring),
+      holes: (body.holes ?? []).filter(ring => ring?.length >= 3).map(ring => ({ ring, bb: bbox(ring) })) }));
+  /* AN ISLAND IS LAND (27 November 2026). A body's `holes` are the islands its outline
+     holds; the carve once lowered Bro Hof's island in Malaren, laser trees and all,
+     under the lake. A cell on an island is not its body's water, and a cell on one that
+     no other body claims (a pond on the island would) is not water at all, however flat
+     the laser reads it at the lake's level. */
+  const onIsland = (body, lx, lz) => body.holes.some(({ ring, bb }) =>
+    lx >= bb.x0 && lx <= bb.x1 && lz >= bb.z0 && lz <= bb.z1 && inRingIndexed(lx, lz, ring));
+  /* A cell takes the first body, in order, whose ring holds its centre and none of whose islands does. */
   const claim = (row, column) => {
     const [lx, lz] = toLegacy(x0 + (column + 0.5) * spacing, z0 + (row + 0.5) * spacing);
+    let island = false;
     for (const body of known) {
       if (lx < body.bb.x0 || lx > body.bb.x1 || lz < body.bb.z0 || lz > body.bb.z1) continue;
       /* the banded crossing test: the same answer as inRing, without walking
          a 118-vertex lake ring for each of 700,000 cells in the lakes' boxes */
       if (!inRingIndexed(lx, lz, body.ring)) continue;
+      if (body.holes.length && onIsland(body, lx, lz)) { island = true; continue; }
       const i = row * width + column;
       mask[i] = 1;
       level[i] = body.level;   // a measured body's level wins over a flat's mean
       return;
+    }
+    if (island) {
+      const i = row * width + column;
+      mask[i] = 0;
+      level[i] = Number.NaN;
     }
   };
   if (known.length && typeof toGrid === 'function') {
