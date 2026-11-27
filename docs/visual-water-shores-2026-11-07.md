@@ -172,6 +172,21 @@ splitting adds triangles beside the course only. Frame time was not measured.
     mapped window, where the sheet is the surveyed polygon, so it looks as it
     did; the steps were outside the window.
 
+## A lattice too coarse to draw a shore (27 November)
+
+Owner report from Bro Hof: "some parts close to the water look a bit squared". The reach's caps
+(`maximumSamples`, `maximumNodes`) coarsen a very large lake's lattice past the far cell: Mälaren's
+ring at Bro Hof (5 km²) came out at 7.6 m, Ängsö's Mälaren the same, Skagern at Ribbingsfors at 17 m.
+On flat shallows, reed beds and the spit south of Stadium 14/15 the sheet then ended in steps of a
+cell, and the bed was carved in blocks the sheet did not cover; `?waterreach=0` removed both.
+
+A lake whose lattice is coarser than the far cell now draws no reach when its own ring is traced
+more finely than that lattice (median chord shorter than the cell): it keeps its ring as the sheet,
+as before the reach. These three rings have 4.0-4.5 m chords. A sketched ring keeps its reach on
+the coarse lattice, which still beats it: Puttom's far lake has 61 m chords on a 7.5 m lattice. The
+level's fit (`water-level.mjs`) reads the same lattice as before. The map's shore bake applies the
+same rule, so exactly those three lakes left its record.
+
 ## Not established
 
 - **Phones and WebGL2 pictures.** Judge the fade and the coast on a phone.
