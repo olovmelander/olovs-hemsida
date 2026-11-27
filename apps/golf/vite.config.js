@@ -190,7 +190,10 @@ export default defineConfig(({ mode }) => {
            never matches, which would quietly disable offline packs */
         navigateFallbackDenylist: [
           /\/api\//,
-          /\/(?:integritet|villkor)\.html$/,
+          /* Both spellings: Cloudflare answers /integritet.html with a 307 to
+             /integritet, and the shell answering that second navigation put the
+             start menu where every returning visitor's privacy policy should be. */
+          /\/(?:integritet|villkor)(?:\.html)?$/,
           /\/courses\//,
           /\/v2\//,
           /* The published v2 graph puts ground assets outside /courses/, and a

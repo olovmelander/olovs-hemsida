@@ -1,6 +1,6 @@
 # olovs-hemsida
 
-**[Banvy — svenska golfbanor i 3D](https://olovmelander.github.io/olovs-hemsida/)**
+**[Banvy — svenska golfbanor i 3D](https://banvy.olovmelander.workers.dev/)**
 
 Swedish golf courses rendered in real time from source terrain, mapped geometry,
 club material and imagery. The current v2 catalogue has 15 layouts on 11 grounds
@@ -17,7 +17,9 @@ below are historical implementations, not new-course templates.
 
 ## The app
 
-<https://olovmelander.github.io/olovs-hemsida/>
+<https://banvy.olovmelander.workers.dev/> is the main site, on Cloudflare, with
+sign-in and sync across devices. GitHub Pages publishes the same build at
+<https://olovmelander.github.io/olovs-hemsida/>, without them.
 
 Pick a course from the front door, or deep-link straight into one:
 
@@ -32,7 +34,8 @@ The full grammar is `bana hal vy ljus tee skylt ren kiosk q gl`.
 These seven URLs now open the corresponding course in the v2 + Ghibli app,
 preserving hole, camera, lighting, tee, marker and quality/backend settings.
 The original HTML sources remain in the repository for data validation and
-historical comparisons; they are no longer published as separate renderers:
+historical comparisons; they are no longer published as separate renderers.
+The same names open their course on the main site too, with or without `.html`:
 
 | | |
 |---|---|

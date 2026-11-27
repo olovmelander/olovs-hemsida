@@ -1,6 +1,8 @@
-# Cloudflare Pages caching. Three rules, and the reasoning behind each matters
-# more than the numbers, because getting one wrong here does not slow the app
-# down -- it breaks it.
+# Cloudflare caching (Workers static assets, the main site since 27 November;
+# GitHub Pages ignores this file). Three rules, and the reasoning behind each
+# matters more than the numbers, because getting one wrong here does not slow
+# the app down -- it breaks it. A year's `immutable` belongs only on a URL that
+# changes when its bytes do: a hash in the name, or the loader's ?v=<sha>.
 #
 # The manifest is the ONE file that must always be fresh. Everything else is
 # reached through it, and it is the thing that says which pack bytes are correct.
@@ -192,8 +194,15 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-/fonts/*
+# The font files keep Google Fonts' versioned names; the stylesheet that names
+# them does not, and index.html asks for it by that one name, so it revalidates.
+# (Under /fonts/* it was kept a year: a visitor from before 25 November could
+# still be asking for JetBrains Mono.)
+/fonts/*.woff2
   Cache-Control: public, max-age=31536000, immutable
+
+/fonts/fonts.css
+  Cache-Control: no-cache
 
 # The shell itself must revalidate or a deploy never reaches anyone.
 /
