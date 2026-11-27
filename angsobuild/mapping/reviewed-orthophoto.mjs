@@ -330,3 +330,67 @@ export function applyReviewedOrthophoto(input, review) {
   summary.guideTeeReferences = references.filter(r => r.kind === 'guide-orthophoto-reference').length;
   return model;
 }
+
+/* TEE DECISIONS (pipeline v2, 27 November 2026). The guide-to-photo review of 9 September chose each colour's
+ * deck from the club's schematic and left six colours unresolved. A later decision file (tee-decisions.json) puts
+ * a colour on another deck, or places one the review could not, where the card, two or more photo years and the
+ * laser agree; and it stands each colour where its card length falls on its deck. Decks never move here: a
+ * decision names a deck the review already accepted, or the hole's reviewed fairway, and the point must lie on
+ * it. The reference keeps the kind the player draws (`guide-orthophoto-reference`); the decision's own record
+ * is `decision`. Applied after the review, so the review stays the record of what September saw. */
+function epsg3006ToModel([easting, northing]) {
+  const [lat, lon] = sweref99TmToLatLon(easting, northing);
+  return [(lon - ORIGIN.lon) * STORED_M_PER_LON, -(lat - ORIGIN.lat) * M_PER_LAT];
+}
+
+export function applyTeeDecisions(input, decisions) {
+  if (decisions?.schemaVersion !== 1 || decisions.groundId !== 'angso' || !/^\d{4}-\d{2}-\d{2}$/.test(decisions.decidedOn ?? '')) {
+    throw new Error('Tee decisions need schema 1, the Angso ground and a date');
+  }
+  if (!input.orthophotoReview) throw new Error('Tee decisions apply after the orthophoto review');
+  const model = structuredClone(input), names = model.card.teeNames, seen = new Set();
+  for (const d of decisions.marks ?? []) {
+    const hole = model.holes.find(h => h.n === d.hole), index = names.indexOf(d.tee);
+    if (!hole || index < 0 || !hole.tees.marks[index] || seen.has(`${d.hole}:${index}`)) throw new Error(`Invalid or duplicate tee decision ${d.hole} ${d.tee}`);
+    seen.add(`${d.hole}:${index}`);
+    if (typeof d.why !== 'string' || d.why.length < 20 || !['high', 'medium', 'low'].includes(d.confidence) || !finitePair(d.at)) {
+      throw new Error(`H${d.hole} ${d.tee}: a tee decision needs a place, a reason and a confidence`);
+    }
+    const c = epsg3006ToModel(d.at), mark = hole.tees.marks[index], before = mark.orthophotoReference ?? {};
+    const pad = d.surface === 'platform' ? hole.tees.pads.find(p => p.reviewId === d.deck) : null;
+    if (d.surface === 'platform' ? !pad || !pointInPoly(...c, pad.ring)
+      : d.surface !== 'fairway' || d.deck !== null || !(hole.fairway?.rings ?? []).some(r => pointInPoly(...c, r))) {
+      throw new Error(`H${d.hole} ${d.tee}: the decision leaves its ${d.surface === 'platform' ? `deck ${d.deck}` : d.surface}`);
+    }
+    delete mark.sourcePadId; delete mark.referenceSurfaceKind;
+    mark.c = c;
+    mark.referenceSurfaceKind = d.surface;
+    if (pad) mark.sourcePadId = pad.reviewId;
+    mark.orthophotoReference = { kind: 'guide-orthophoto-reference', originalPosition: [...(before.originalPosition ?? mark.c)],
+      selectedPadReviewId: pad?.reviewId ?? null, distanceMetres: rounded(distance(before.originalPosition ?? c, c)),
+      identityStatus: d.identity ?? 'card-and-photo-years', positionStatus: `card-length-on-reviewed-${d.surface}`,
+      ambiguous: d.confidence === 'low', ...(before.sourceKey ? { sourceKey: before.sourceKey, sourceSha256: before.sourceSha256 } : {}),
+      evidence: { note: d.why, confidence: d.confidence, cardMetres: hole.t[index] },
+      decision: { file: 'angsobuild/mapping/tee-decisions.json', decidedOn: decisions.decidedOn,
+        previous: { kind: before.kind ?? null, selectedPadReviewId: before.selectedPadReviewId ?? null, identityStatus: before.identityStatus ?? null } } };
+  }
+  for (const hole of model.holes) {
+    const marks = hole.tees.marks;
+    for (let i = 0; i < marks.length; i++) for (let j = i + 1; j < marks.length; j++) {
+      if ((seen.has(`${hole.n}:${i}`) || seen.has(`${hole.n}:${j}`)) && distance(marks[i].c, marks[j].c) < 0.3) {
+        throw new Error(`H${hole.n}: two colours collapse to one place`);
+      }
+    }
+    if (![...seen].some(key => key.startsWith(`${hole.n}:`))) continue;
+    hole.line[0] = [...marks[0].c];
+    hole.lineLen = Math.round(polyLen(hole.line) * 10) / 10;
+    hole.lenDev = Math.round(Math.abs(polyLen(hole.line) - hole.t[0]) / hole.t[0] * 10000) / 100;
+    for (const mark of marks) mark.b = markBearing(mark, hole.line);
+    const open = marks.filter(m => m.orthophotoReference?.kind?.startsWith('unresolved-')).length;
+    hole.tees.status = open ? 'tee-decisions-with-unresolved-references' : 'tee-decisions-card-length-references';
+  }
+  const references = model.holes.flatMap(h => h.tees.marks).map(m => m.orthophotoReference).filter(Boolean);
+  model.orthophotoReview.teeDecisions = { file: 'angsobuild/mapping/tee-decisions.json', decidedOn: decisions.decidedOn, marks: seen.size,
+    unresolved: references.filter(r => r.kind.startsWith('unresolved-')).length };
+  return model;
+}

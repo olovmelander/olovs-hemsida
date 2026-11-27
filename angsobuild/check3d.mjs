@@ -15,7 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
-import { applyReviewedOrthophoto } from './mapping/reviewed-orthophoto.mjs';
+import { applyReviewedOrthophoto, applyTeeDecisions } from './mapping/reviewed-orthophoto.mjs';
 import { ROOT, readJSON, decodeHF, polyLen, pointInPoly, polyArea } from './lib.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -145,8 +145,11 @@ gate(P0.b64 === hf.hf0.b64 && P1.b64 === hf.hf1.b64,
    check could pass while the page still carried obsolete fairway boundaries. */
 if (model.orthophotoReview) {
   const review = readJSON(path.join(HERE, 'mapping/orthophoto-review.json'));
-  gate(JSON.stringify(applyReviewedOrthophoto(model, review)) === JSON.stringify(model),
-    'orthophoto: current review reproduces accepted geometry, provenance and tee references');
+  // ...and then the tee decisions of 27 November, which are applied after it (reconcile.mjs).
+  const decisionFile = path.join(HERE, 'mapping/tee-decisions.json');
+  const readopted = applyReviewedOrthophoto(model, review);
+  gate(JSON.stringify(fs.existsSync(decisionFile) ? applyTeeDecisions(readopted, readJSON(decisionFile)) : readopted) === JSON.stringify(model),
+    'orthophoto: current review and tee decisions reproduce accepted geometry, provenance and tee references');
   const surfaceShape = h => ({ green: { ring: h.green.ring, c: h.green.c }, fairways: h.fairway.rings,
     tees: { pads: h.tees.pads.map(p => ({ ring: p.ring, preserveTerrain: p.preserveTerrain })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m,
       sourcePadId: m.sourcePadId, referenceSurfaceKind: m.referenceSurfaceKind, orthophotoReference: m.orthophotoReference })),

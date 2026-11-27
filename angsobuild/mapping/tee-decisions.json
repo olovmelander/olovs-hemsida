@@ -1,0 +1,1024 @@
+{
+ "schemaVersion": 1,
+ "groundId": "angso",
+ "decidedOn": "2026-11-27",
+ "method": "Pipeline v2: the deck from the evidence (September's review, or the card with four photo years and the laser where they disagree), the place on it from the card, measured as the shared tracer measures. Decks never move.",
+ "sources": {
+  "card": "angsobuild/card.json (Scorekort-2023)",
+  "photos": "angsobuild/run-ortho-intake.mjs: 2025-04-24, 2023-05-11, 2021-04-14, 2019-07-14",
+  "laser": "angsobuild/mapping/trace-config.json terrain (2021-03-20 flight)",
+  "looks": "angsobuild/cache/looks/tees/ (private crops)"
+ },
+ "kept": {
+  "5": "Every colour on hole 5, decks and fairway alike, reads 11 to 16 m longer than its card. The decks stand in the card's order and each holds one colour, so the tees are not what is long: the drawn hole line (five legs round the dogleg) is longer than the line the club measured. Moving the marks forward would put them off their decks; the line is the fault, and the walkthrough keeps it.",
+  "14": "Every colour on hole 14 reads 15 to 20 m longer than its card. The three decks stand in the card's order (Vit/Gul, Blå, Röd) on all four photo years; the drawn line turns the dogleg square (177 m south, then two bends), where the club's line cuts the corner. The tees stand; the line is the fault, and the walkthrough keeps it."
+ },
+ "unresolved": {
+  "8:Vit": "Under the conifer canopy north of deck 1 on all four photo years; no deck shows, and the laser was not read for a platform there tonight.",
+  "8:Gul": "Under the conifer canopy north of deck 1 on all four photo years; no deck shows, and the laser was not read for a platform there tonight.",
+  "9:Vit": "No deck shows 143 m out on any photo year: the reviewed deck 1 ends at 137 m, and the ground behind it is under crowns."
+ },
+ "marks": [
+  {
+   "hole": 1,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-01-physical-tee-01",
+   "at": [
+    605675.33,
+    6605103.19
+   ],
+   "confidence": "high",
+   "identity": "card-and-photo-years",
+   "why": "Hole 1 was lengthened between the 2020 and 2023 cards (Vit 355 to 386), after the club's 2021 plan to move the back tees. Deck 1, the isolated deck at the north-east spur, is forest on the 2019 photo, felled ground on 2021-04-14, and a mown deck with its own path on 2023-05-11 and 2025-04-24; it is the only ground 386 m out (379-394 m). The laser of 2021-03-20 shows it not level (4.4%, 0.22 m off a plane): built after the flight. September's candidate was this deck; the card settles the colour."
+  },
+  {
+   "hole": 1,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-01-physical-tee-02",
+   "at": [
+    605650.73,
+    6605068.97
+   ],
+   "confidence": "high",
+   "identity": "card-and-photo-years",
+   "why": "The long strip east of the path (deck 2) reaches 328-348 m: its north end is Gul's 350 m and its south end Blå's 319, 31 m apart on the card and 30 m along the strip. September left Gul on the path, where no deck is."
+  },
+  {
+   "hole": 1,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-01-physical-tee-02",
+   "at": [
+    605649.25,
+    6605050.41
+   ],
+   "confidence": "medium",
+   "identity": "card-and-photo-years",
+   "why": "The south end of deck 2, the strip that holds Gul at its north end. The card puts Blå 9 m further forward than the strip reaches; deck 3 (Röd, 262-275 m) is 50 m on."
+  },
+  {
+   "hole": 1,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-01-physical-tee-03",
+   "at": [
+    605648.44,
+    6604989.83
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 270 m falls on it."
+  },
+  {
+   "hole": 1,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605634.98,
+    6604960.68
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 238 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 2,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-02-physical-tee-01",
+   "at": [
+    605554.52,
+    6604657.14
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 348 m falls on it."
+  },
+  {
+   "hole": 2,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-02-physical-tee-01",
+   "at": [
+    605571.54,
+    6604658.12
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 331 m falls on it."
+  },
+  {
+   "hole": 2,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-02-physical-tee-03",
+   "at": [
+    605620.58,
+    6604661.75
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (medium confidence); the mark stands where Ängsö's card length of 282 m falls on it."
+  },
+  {
+   "hole": 2,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-02-physical-tee-02",
+   "at": [
+    605649.64,
+    6604662.32
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 253 m falls on it."
+  },
+  {
+   "hole": 2,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605681.41,
+    6604664.72
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 221 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 3,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-03-physical-tee-02",
+   "at": [
+    605885.95,
+    6604764.07
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 179 m falls on it."
+  },
+  {
+   "hole": 3,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-03-physical-tee-02",
+   "at": [
+    605878.36,
+    6604766.6
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 171 m falls on it."
+  },
+  {
+   "hole": 3,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-03-physical-tee-01",
+   "at": [
+    605834.82,
+    6604790.15
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 122 m falls on it."
+  },
+  {
+   "hole": 3,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-03-physical-tee-01",
+   "at": [
+    605832.03,
+    6604791.32
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 119 m falls on it."
+  },
+  {
+   "hole": 3,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605806.01,
+    6604798.34
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 92 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 4,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-04-physical-tee-02",
+   "at": [
+    605741.26,
+    6604907.62
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 337 m falls on it."
+  },
+  {
+   "hole": 4,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-04-physical-tee-02",
+   "at": [
+    605748.7,
+    6604928.35
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 315 m falls on it."
+  },
+  {
+   "hole": 4,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-04-physical-tee-02",
+   "at": [
+    605750.93,
+    6604938.17
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 305 m falls on it."
+  },
+  {
+   "hole": 4,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-04-physical-tee-01",
+   "at": [
+    605781,
+    6605000.82
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 236 m falls on it."
+  },
+  {
+   "hole": 4,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605785.47,
+    6605028.97
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 208 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 6,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-06-physical-tee-03",
+   "at": [
+    606099.53,
+    6604879.95
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (medium confidence); the mark stands where Ängsö's card length of 337 m falls on it."
+  },
+  {
+   "hole": 6,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-06-physical-tee-02",
+   "at": [
+    606090.26,
+    6604897.45
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (medium confidence); the mark stands where Ängsö's card length of 317 m falls on it."
+  },
+  {
+   "hole": 6,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-06-physical-tee-02",
+   "at": [
+    606086.91,
+    6604900.61
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (medium confidence); the mark stands where Ängsö's card length of 308 m falls on it."
+  },
+  {
+   "hole": 6,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-06-physical-tee-01",
+   "at": [
+    606062.91,
+    6604924.95
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 272 m falls on it."
+  },
+  {
+   "hole": 6,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    606013.91,
+    6604982.37
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 201 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 7,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-07-physical-tee-03",
+   "at": [
+    606030.71,
+    6605195.04
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 545 m falls on it."
+  },
+  {
+   "hole": 7,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-07-physical-tee-02",
+   "at": [
+    606019.59,
+    6605215.99
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 525 m falls on it."
+  },
+  {
+   "hole": 7,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-07-physical-tee-01",
+   "at": [
+    605938.91,
+    6605250.25
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 445 m falls on it."
+  },
+  {
+   "hole": 7,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-07-physical-tee-04",
+   "at": [
+    605914.49,
+    6605307.36
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 384 m falls on it."
+  },
+  {
+   "hole": 7,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605908.69,
+    6605370.75
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 321 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 8,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-08-physical-tee-02",
+   "at": [
+    605805.88,
+    6605762.96
+   ],
+   "confidence": "medium",
+   "identity": "card-and-photo-years",
+   "why": "Two small decks stand 10 m apart before the path crossing: deck 2 reaches 289-296 m and deck 1 299-306 m. Blå's card is 285 m, which deck 2 fits (4 m) and deck 1 does not (14 m). September read the schematic's intermediate oval as unmarked; the card says it is the blue tee."
+  },
+  {
+   "hole": 8,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-08-physical-tee-03",
+   "at": [
+    605809.62,
+    6605728.28
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 257 m falls on it."
+  },
+  {
+   "hole": 8,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605790.98,
+    6605669.2
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 195 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 9,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-09-physical-tee-01",
+   "at": [
+    605686.81,
+    6605354.24
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 122 m falls on it."
+  },
+  {
+   "hole": 9,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-09-physical-tee-01",
+   "at": [
+    605685.64,
+    6605351.45
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 114 m falls on it."
+  },
+  {
+   "hole": 9,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-09-physical-tee-02",
+   "at": [
+    605676.49,
+    6605329.17
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 95 m falls on it."
+  },
+  {
+   "hole": 9,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605666.82,
+    6605289.87
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 55 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 10,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-10-physical-tee-02",
+   "at": [
+    605540.48,
+    6605245.52
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 527 m falls on it."
+  },
+  {
+   "hole": 10,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-10-physical-tee-02",
+   "at": [
+    605544.13,
+    6605258.14
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 514 m falls on it."
+  },
+  {
+   "hole": 10,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-10-physical-tee-01",
+   "at": [
+    605581.35,
+    6605334.25
+   ],
+   "confidence": "high",
+   "identity": "card-and-photo-years",
+   "why": "Deck 1, the small deck east of the line 90 m up the hole, reaches 433-445 m: Blå's card is 438 m. September put Röd on it (386 m, 53 m off) and left Blå unresolved as a point on the line beside it."
+  },
+  {
+   "hole": 10,
+   "tee": "Röd",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605571.43,
+    6605383.77
+   ],
+   "confidence": "medium",
+   "identity": "card-and-photo-years",
+   "why": "No deck shows near 386 m on any photo year; the fairway's rear lobe begins 30 m behind the card length. Röd stands on the fairway at its card length, as the orange tees do; deck 1 is Blå's."
+  },
+  {
+   "hole": 10,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605577.26,
+    6605443.98
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 326 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 11,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-11-physical-tee-03",
+   "at": [
+    605699.69,
+    6605769.22
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 340 m falls on it."
+  },
+  {
+   "hole": 11,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-11-physical-tee-02",
+   "at": [
+    605704.16,
+    6605815.14
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 294 m falls on it."
+  },
+  {
+   "hole": 11,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-11-physical-tee-02",
+   "at": [
+    605704.38,
+    6605825.15
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 284 m falls on it."
+  },
+  {
+   "hole": 11,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-11-physical-tee-01",
+   "at": [
+    605702.69,
+    6605876.15
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 233 m falls on it."
+  },
+  {
+   "hole": 11,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605702.21,
+    6605919.93
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 189 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 12,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-12-physical-tee-02",
+   "at": [
+    605594.39,
+    6606331.26
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 169 m falls on it."
+  },
+  {
+   "hole": 12,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-12-physical-tee-02",
+   "at": [
+    605588.19,
+    6606337.84
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 160 m falls on it."
+  },
+  {
+   "hole": 12,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-12-physical-tee-01",
+   "at": [
+    605572.87,
+    6606356.93
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 136 m falls on it."
+  },
+  {
+   "hole": 12,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-12-physical-tee-01",
+   "at": [
+    605573.03,
+    6606359.94
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 135 m falls on it."
+  },
+  {
+   "hole": 12,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605516.27,
+    6606400.13
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 65 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 13,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-13-physical-tee-03",
+   "at": [
+    605539.71,
+    6606448.83
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 426 m falls on it."
+  },
+  {
+   "hole": 13,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-13-physical-tee-02",
+   "at": [
+    605514.89,
+    6606493.67
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 370 m falls on it."
+  },
+  {
+   "hole": 13,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-13-physical-tee-02",
+   "at": [
+    605506.14,
+    6606510.94
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 351 m falls on it."
+  },
+  {
+   "hole": 13,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-13-physical-tee-01",
+   "at": [
+    605473.63,
+    6606544.06
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 305 m falls on it."
+  },
+  {
+   "hole": 13,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605439.8,
+    6606588.65
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 249 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 15,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-15-physical-tee-03",
+   "at": [
+    605442.17,
+    6606406.3
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 172 m falls on it."
+  },
+  {
+   "hole": 15,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-15-physical-tee-02",
+   "at": [
+    605410.78,
+    6606408.67
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 145 m falls on it."
+  },
+  {
+   "hole": 15,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-15-physical-tee-02",
+   "at": [
+    605401.69,
+    6606402.41
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 134 m falls on it."
+  },
+  {
+   "hole": 15,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-15-physical-tee-01",
+   "at": [
+    605360.59,
+    6606375.73
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 85 m falls on it."
+  },
+  {
+   "hole": 15,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605331.98,
+    6606376.93
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 63 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 16,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-16-physical-tee-01",
+   "at": [
+    605259.58,
+    6606278.06
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 338 m falls on it."
+  },
+  {
+   "hole": 16,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-16-physical-tee-01",
+   "at": [
+    605270.61,
+    6606278.12
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 327 m falls on it."
+  },
+  {
+   "hole": 16,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-16-physical-tee-02",
+   "at": [
+    605305.88,
+    6606280.36
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 292 m falls on it."
+  },
+  {
+   "hole": 16,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-16-physical-tee-03",
+   "at": [
+    605327.75,
+    6606277.72
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 269 m falls on it."
+  },
+  {
+   "hole": 16,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605403.66,
+    6606269.85
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 194 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 17,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-17-physical-tee-01",
+   "at": [
+    605418.2,
+    6606108.86
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 358 m falls on it."
+  },
+  {
+   "hole": 17,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-17-physical-tee-02",
+   "at": [
+    605430.38,
+    6606085.93
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 339 m falls on it."
+  },
+  {
+   "hole": 17,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-17-physical-tee-03",
+   "at": [
+    605427.97,
+    6606055.59
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 308 m falls on it."
+  },
+  {
+   "hole": 17,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-17-physical-tee-04",
+   "at": [
+    605399.72,
+    6606026.52
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 274 m falls on it."
+  },
+  {
+   "hole": 17,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605395.64,
+    6605966.35
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 214 m. September's point came from the schematic, which names a tee and does not place it."
+  },
+  {
+   "hole": 18,
+   "tee": "Vit",
+   "surface": "platform",
+   "deck": "lm-angso-18-physical-tee-01",
+   "at": [
+    605302.3,
+    6605568.38
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 497 m falls on it."
+  },
+  {
+   "hole": 18,
+   "tee": "Gul",
+   "surface": "platform",
+   "deck": "lm-angso-18-physical-tee-02",
+   "at": [
+    605323.73,
+    6605519.43
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 445 m falls on it."
+  },
+  {
+   "hole": 18,
+   "tee": "Blå",
+   "surface": "platform",
+   "deck": "lm-angso-18-physical-tee-03",
+   "at": [
+    605353.23,
+    6605468.72
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 385 m falls on it."
+  },
+  {
+   "hole": 18,
+   "tee": "Röd",
+   "surface": "platform",
+   "deck": "lm-angso-18-physical-tee-04",
+   "at": [
+    605376.9,
+    6605438.1
+   ],
+   "confidence": "high",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "The deck September's review chose from the club's schematic (high confidence); the mark stands where Ängsö's card length of 348 m falls on it."
+  },
+  {
+   "hole": 18,
+   "tee": "Ora",
+   "surface": "fairway",
+   "deck": null,
+   "at": [
+    605393.11,
+    6605378.25
+   ],
+   "confidence": "medium",
+   "identity": "guide-orthophoto-correspondence",
+   "why": "A fairway tee: no deck, so the mark stands on the hole's reviewed fairway at Ängsö's card length of 285 m. September's point came from the schematic, which names a tee and does not place it."
+  }
+ ]
+}

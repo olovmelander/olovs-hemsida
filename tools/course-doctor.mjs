@@ -30,6 +30,7 @@ import { decisionErrors, loadDecisionFiles } from '../packages/course-geo/mappin
 import { reviewErrors as ringReviewErrors } from '../packages/course-geo/mapping/ring-review.mjs';
 import { deckGroundErrors } from '../packages/course-geo/mapping/deck-ground.mjs';
 import { sandAuditOf } from '../packages/course-geo/mapping/sand-audit.mjs';
+import { exportErrors, isExported } from '../packages/course-geo/mapping/export-model-surfaces.mjs';
 import { pinProduction, pinnedFiles } from '../packages/course-workflow/pin-production.mjs';
 import { prunePlan } from '../packages/course-workflow/promote.mjs';
 import { waterOffTheLine } from './water-line.mjs';
@@ -65,7 +66,7 @@ export function buildingFindings(groundId) {
   const builds = card ? card.routings.map(r => r.build) : [];
   const config = builds.map(b => `${b}/mapping/trace-config.json`).find(exists);
   if (!config) { say('todo', 'outlines', 'no trace-config.json yet (stage 3)'); return out; }
-  try {
+  if (!builds.some(isExported)) try {
     const { config: cfg, files } = loadDecisionFiles(config);
     const errors = decisionErrors(cfg, files);
     say(errors.length ? 'broken' : 'ok', 'decisions', errors.length ? errors.join('; ') : 'can be traced', `node packages/course-geo/mapping/check-decisions.mjs --config ${config}`);
@@ -120,8 +121,16 @@ export async function examine(groundId, facts = groundFacts(groundId), { water =
   // outlines: decisions, the looks, the measurements
   if (!home) say('known', 'outlines', 'built with its own older builder: no decision files, no ring sheets, no deck or sand measurement');
   else {
-    const { config, files } = loadDecisionFiles(`${home}/mapping/trace-config.json`), errors = decisionErrors(config, files);
-    say(errors.length ? 'broken' : 'ok', 'decisions', errors.length ? errors.slice(0, 3).join('; ') : 'the decision files can be traced');
+    // An older ground's outlines exported for the looks (export-model-surfaces.mjs) are its own builder's, not decisions.
+    if (isExported(home)) {
+      const stale = exportErrors(home);
+      say(stale.length ? 'broken' : 'known', 'outlines', stale.length ? stale.join('; ')
+        : 'built with its own older builder; its published outlines are exported for the looks (ring sheets, decks, sand)',
+      stale.length ? `node packages/course-geo/mapping/export-model-surfaces.mjs --build ${home} --migration <its migration record> --slug <slug>` : undefined);
+    } else {
+      const { config, files } = loadDecisionFiles(`${home}/mapping/trace-config.json`), errors = decisionErrors(config, files);
+      say(errors.length ? 'broken' : 'ok', 'decisions', errors.length ? errors.slice(0, 3).join('; ') : 'the decision files can be traced');
+    }
     for (const x of facts.routings) {
       const ring = ringReviewErrors(x.build);
       if (ring.length) say('broken', 'ring review', ring.slice(0, 3).join('; '), `node packages/course-geo/mapping/ring-review.mjs --build ${x.build}`);

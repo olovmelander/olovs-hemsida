@@ -1,0 +1,117 @@
+{
+ "schemaVersion": 1,
+ "slug": "angso",
+ "surfacesSha256": "c30af7625e2e1ecf94d86a618ea26b61b674348ce976dffad43edef893785385",
+ "reviewedOn": "2026-11-27",
+ "reviewer": "Claude Opus 5.5 (first look): every tee deck, green and bunker on the 2025-04-24 photo beside the 2019-07-14 summer photo (render-ring-sheets.py), with the decks also on four photo years and the laser; greens and bunkers fit; doubts on decks 06-3, 07-2, 12-1 and 18-4 are in the walkthrough. Recorded again on the same outlines when the export stopped carrying the model's checksum.",
+ "rings": {
+  "green": 18,
+  "fairway": 18,
+  "tee": 52,
+  "tee-mark": 23,
+  "bunker": 33
+ },
+ "redrawn": [],
+ "accepted": {},
+ "second": {
+  "reviewer": "claude-opus-5-5 (agent), blind second look at the four Ängsö ring sheets",
+  "reviewedOn": "2026-11-27",
+  "sheets": [
+   "angso-tee-1.jpg",
+   "angso-tee-2.jpg",
+   "angso-green-1.jpg",
+   "angso-bunker-1.jpg"
+  ],
+  "looked": {
+   "angso-tee-1.jpg": 40,
+   "angso-tee-2.jpg": 12,
+   "angso-green-1.jpg": 18,
+   "angso-bunker-1.jpg": 33
+  },
+  "surfacesSha256": "c30af7625e2e1ecf94d86a618ea26b61b674348ce976dffad43edef893785385",
+  "doubts": {
+   "angso-tee-01-1": {
+    "reason": "Years disagree: the 2025 photo shows a mown oval deck inside the ring, but the 2019 photo shows only tree crowns over the whole window and no deck.",
+    "resolution": "Hole 1's new back tee (Vit, since the 2023 card): forest on 2019-07-14, felled on 2021-04-14, a mown deck with its own path on 2023-05-11 and 2025-04-24. The ring follows the 2025 deck. The terrain under it is the felled slope the laser saw in March 2021 (4.4%), which the walkthrough keeps as the ground's age.",
+    "fault": null
+   },
+   "angso-tee-01-2": {
+    "reason": "Years disagree: on the 2019 photo a long pale mown strip runs about 5 m west of the ring and the ring sits on plain turf, while on 2025 a narrow path runs there and the ring encloses a mown strip.",
+    "resolution": "The long strip east of the path was built after 2019: the pale strip 5 m west on 2019-07-14 is the old mown edge beside the path, the strip is cut on 2021-04-14, and it is mown with the path beside it on 2023-05-11 and 2025-04-24. The ring follows that deck, and the terrain under it is level (deck-ground.mjs).",
+    "fault": null
+   },
+   "angso-tee-01-3": {
+    "reason": "Years disagree: mown deck inside the ring on 2025, bare square pad on 2019 (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-02-2": {
+    "reason": "Years disagree: mown oval deck on 2025, bare pad on 2019 (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-03-1": {
+    "reason": "Years disagree: mown deck with a dark rim on 2025, bare brown rectangular pad on 2019 (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-04-1": {
+    "reason": "Years disagree: mown deck on 2025, bare rectangular pad on 2019 (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-07-4": {
+    "reason": "Years disagree: mown oval deck on 2025, bare rectangular pad on 2019 (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-11-1": {
+    "reason": "Years disagree: mown deck on 2025, bare pale pad on 2019 (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-14-3": {
+    "reason": "Years disagree: mown deck on 2025, bare rectangular pad on 2019 (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-15-1": {
+    "reason": "Years disagree: mown deck on 2025, a larger bare rounded-rectangular pad on 2019 with the ring in its west part (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-15-3": {
+    "reason": "Years disagree: mown oval deck on 2025, a bright white bare patch (bare pad or a cover) on 2019 (built or rebuilt between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-16-3": {
+    "reason": "Years disagree: mown deck on 2025, a large bare earth pad much bigger than the deck on 2019 (built between).",
+    "resolution": "Rebuilt in the summer of 2019 (a bare deck on 2019-07-14) and mown on every photo since; the laser of 2021-03-20 measures the ground under the ring level (deck-ground.mjs), so the ring and the terrain both hold the rebuilt deck.",
+    "fault": null
+   },
+   "angso-tee-18-4": {
+    "reason": "Years disagree: mown deck on 2025, a bare grey rectangular pad on 2019 (built between).",
+    "resolution": null,
+    "fault": "Rebuilt in 2019 (a deck under construction on 2019-07-14); today's ring covers the west half of the deck and the bank beside it, and the terrain under it slopes 17.5%. Redraw the ring on the deck from the 2025 photo at full scale (lm-review-back9-tees.json), rebuild, and measure it again with deck-ground.mjs."
+   },
+   "angso-tee-12-1": {
+    "reason": "Years disagree: on 2019 a path runs through the ring's north-west end while on 2025 the path curves past south-west of it, and no deck edge shows inside the ring on either photo.",
+    "resolution": null,
+    "fault": "A path crosses the ring's north-west end on 2019-07-14 and runs past it on 2025-04-24, and the terrain under the ring slopes 11.1%: the ring takes in the path and the brook's bank as well as the deck. Redraw it on the deck east of the path from the 2025 photo at full scale (lm-review-back9-tees.json), rebuild, and measure it again with deck-ground.mjs."
+   },
+   "angso-green-07": {
+    "reason": "Years disagree: on 2019 the pale putting surface fills only the southern part of the ring and its northern third is darker turf, while on 2025 long tree shadows hide the edge there, so the north end may take in fringe.",
+    "resolution": "On the spring photos (2023-05-11 and 2025-04-24) the putting surface is one even colour the length of the ring, its narrow north lobe included; on 2019-07-14 the north third is darker because a tree's shadow lies across it, not because it is fringe (render at 50 m, all four years).",
+    "fault": null
+   }
+  },
+  "cannotTell": {
+   "angso-tee-04-2": "A 40 m long, about 5 m wide strip seen in a 59 m window: neither photo shows a distinct mown deck edge along it, with tree shade along its west side, so I cannot confirm a deck.",
+   "angso-tee-06-2": "Leafless crowns cover its east half on 2025 (a cart parked beside it) and it lies in deep shade on 2019, so no deck edge can be seen.",
+   "angso-tee-06-3": "Leafless crowns lie over it on 2025 and deep shade on 2019; no deck edge is visible on either photo.",
+   "angso-tee-07-2": "Leafless crowns over its east side on 2025 and deep shade on 2019; the pale ground inside may be a deck, but its edge cannot be seen.",
+   "angso-bunker-01-2": "On 2025 a small pale patch adjoins the ring's south-west edge beside dark figures; it may be a missed lobe of sand or a cart, and the 2019 photo shows no patch there."
+  }
+ }
+}

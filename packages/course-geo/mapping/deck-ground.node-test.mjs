@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { BUNKER_BOWL_LINE, DECK_OFF_PLANE_LINE, DECK_SLOPE_LINE, bunkerGround, deckGround, deckGroundErrors, deckGroundRecord, offTheLine } from './deck-ground.mjs';
-import { tracedBuilds } from './ring-review.mjs';
+import { exportedBuilds, tracedBuilds } from './ring-review.mjs';
 
 const rectangle = (e0, n0, e1, n1) => [[e0, n0], [e1, n0], [e1, n1], [e0, n1], [e0, n0]];
 
@@ -74,4 +74,8 @@ test('every course traced with the shared tracer has its decks measured for the 
   const builds = tracedBuilds();
   assert.ok(builds.length >= 2);
   for (const build of builds) assert.deepEqual(deckGroundErrors(build), []);
+});
+
+test('an older ground whose outlines are exported for the looks has its decks measured for them', () => {
+  for (const build of exportedBuilds()) assert.deepEqual(deckGroundErrors(build), []);
 });
