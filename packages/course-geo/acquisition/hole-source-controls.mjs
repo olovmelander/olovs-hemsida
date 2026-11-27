@@ -27,7 +27,7 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  tjusta: 'f27ee2c98264198669d3e5f80d7ea20de5e016bc5499bfdbf9b9c204f6ea6e4b',
+  tjusta: '48503e223938c4b5d4b9ffc3a7e277208586b7b638f790ea07304e237addada1',
   'bro-hof-stadium': '1722d74b2887fb70ab7beb35c249347e4c188eebfa4db63642c0038ce0483f92',
   'bro-hof-castle': '1dcdc32c823c0940526e83809fa06bc3b98592383c82e63ee9c4bed81abc816e',
   tortuna: 'de4db215cfb5a918566eb5cd7042b2b5376a3dd2061105d3a5b193585376cd2a',

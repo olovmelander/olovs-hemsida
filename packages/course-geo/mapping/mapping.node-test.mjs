@@ -408,7 +408,8 @@ test('compileGridCourse keeps reviewed tee marks on their platform, far boxes, a
       { type: 'Feature', id: `g${h.number}`, properties: { kind: 'green', hole: h.number }, geometry: { type: 'Polygon', coordinates: [rect(at(h) - 4, 90, at(h) + 4, 110)] } },
       { type: 'Feature', id: `t${h.number}`, properties: { kind: 'tee', hole: h.number, teeIds: ['club'], teeMarks: { club: [E(at(h) + mark), N(-48)] } }, geometry: { type: 'Polygon', coordinates: [rect(at(h) - 4, -55, at(h) + 4, -45)] } },
     ]) },
-    facilitiesGeoJson: { type: 'FeatureCollection', crs, features: [{ type: 'Feature', id: 'rf', properties: { kind: 'range_fairway' }, geometry: { type: 'Polygon', coordinates: [rect(20, 20, 60, 40)] } }] },
+    facilitiesGeoJson: { type: 'FeatureCollection', crs, features: [{ type: 'Feature', id: 'rf', properties: { kind: 'range_fairway' }, geometry: { type: 'Polygon', coordinates: [rect(20, 20, 60, 40)] } },
+      { type: 'Feature', id: 'bays', properties: { kind: 'range_bay_line', bayPitch: 3 }, geometry: { type: 'LineString', coordinates: [[E(20), N(10)], [E(30), N(10)], [E(32), N(10)]] } }] },
     contextGeoJson: { type: 'FeatureCollection', crs, features: [
       { type: 'Feature', id: 'b1', properties: { tags: { building: 'semidetached_house', 'building:levels': '2' } }, geometry: { type: 'Polygon', coordinates: [rect(70, 70, 80, 80)] } },
       { type: 'Feature', id: 'p1', properties: { tags: { amenity: 'parking' } }, geometry: { type: 'Polygon', coordinates: [rect(90, 70, 110, 80)] } },
@@ -429,6 +430,10 @@ test('compileGridCourse keeps reviewed tee marks on their platform, far boxes, a
   assert.equal('cars' in model.infra.parking[0], false);
   assert.equal(model.infra.tracks[0].kind, 'service');
   assert.equal(model.scenery.fairways.length, 1);
+  // a range's bay line becomes its bays, one every pitch along the line and across its bends, and is no mapped feature
+  assert.deepEqual(model.scenery.rangeFacilities.bays.map(([x]) => x), [20, 23, 26, 29, 32]);
+  assert.equal(model.scenery.rangeFacilities.bayPitch, 3);
+  assert.ok(!model.scenery.mappedFeatures.some(f => f.kind === 'range_bay_line'));
   assert.throws(() => build(9, {}), /reviewed mark lies outside its platform/);
   assert.equal(build(1.5, {}).model.infra.objectPlacement, 'mapped-only');
 });

@@ -174,6 +174,13 @@ to dormant turf, and may be 3 m out.
   shelter are an authored Blender model, built from dense laser returns round each (`microterrain-summary.json`:
   five targets of campaign 21C038) and the club's photographs; `tjustabuild/facilities/README.md` lists what is
   measured and what is estimated. The barn's ridge is 33.69 m RH 2000, 13 m over the lawn of the 18th.
+- **The practice ground (27 November):** read again on the 2025 and 2023 photos after the owner pointed at it. The
+  putting green west of the gravel road is an oval of 294 m2; the chipping green east of it lies in a mown apron of
+  concentric rings; north of the range a short-game area is mown round its bunker and three target circles about
+  9 m across; and the tee line is a strip of gravel with green and white mats along its west edge, 43 m long. Each
+  is a facility in `layer-decisions.json` with what it was read from; the tee line is a line, and the compiler
+  gives the engine and the phone map one bay every 3 m along it (`range_bay_line`). The fairway model is kept out of
+  the chipping apron (`fairwayExclude`), where it had given the 1st hole a diagonal piece of it.
 - **The first look:** 24 pictures of the detailed course and two of the phone map on the GPU, before any bake
   (`tools/goldens/gfx/tjusta-look*`, not in git). One fault: the clubhouse was drawn with forty windows.
 

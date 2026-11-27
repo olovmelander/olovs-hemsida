@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "stage": "terrain",
   "status": "passed",
-  "startedAt": "2026-11-26T18:40:36.947Z",
-  "finishedAt": "2026-11-26T18:40:42.196Z",
+  "startedAt": "2026-11-27T00:19:14.555Z",
+  "finishedAt": "2026-11-27T00:19:23.467Z",
   "command": [
     "node",
     "packages/course-workflow/production.mjs",
@@ -13,8 +13,8 @@
     "terrain"
   ],
   "inputsBefore": {
-    "course-workflows/tjusta/production.json": "596a2715d9deae997f31ce874ad80420171a66161b4aa561e9749414318641e3",
-    "output/course-workflow/tjusta/stages/sources/sources.json": "69252b2606c38ae301b937c5ec361ce25ae6eea5ec19e7d711f303e3c77a9a18",
+    "course-workflows/tjusta/production.json": "74a669d2bc26ca125ba2d8bb61f8ce0273690248555c77bf7da7619b29f294ec",
+    "output/course-workflow/tjusta/stages/sources/sources.json": "067cb5260cc45408f42ecba90da317d32f2bd0bb42f174ef7e586328f2dc77d2",
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l0.f32": "1440dad3d3c6b2a322c16719e56f937399b40d3abd8cbbe101e53b593555aecb",
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l1.f32": "31a5677a4a8915dc7b0b559de6d67cfca92b62ef616476ada352f4cec88a1da6",
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l2.f32": "529435d1a5e19feb1010bbb7ebb8e42d62de3570b9c51ef174ebc1119636c50e",
@@ -23,7 +23,7 @@
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l5.f32": "b0638ba1420ad4f62c3275bf76361d0b2ace83be2d811c5c7fc480a34578192f",
     "packages/course-geo/toolchain/.cache/acquisition/tjusta-ground-rings/l6.f32": "8dfcb4abd8f48e96da16bd56c9184b9e451747861f70040473e9001aad2fc948"
   },
-  "fingerprint": "75b6c0412725ec431580f2c86cbad09f88b6ce6d83a2a9ef26c8dc65f085c2a1",
+  "fingerprint": "ce1b1a75ad890f4a2f907f355cd381d3499f17ba2ff39dff3fbeff71d8127be0",
   "outputs": {
     "output/course-workflow/tjusta/stages/terrain/compilation.json": "43920aec4ebc53b67b37aca77309935bdb15a3ce09e3a0c15eb64b57d151ad2f",
     "output/course-workflow/tjusta/stages/terrain/grounds/tjusta/terrain/027147fee437bed57158477cf466de2c7361a787baf93932689267a5ef3ad1f2.bvch": "027147fee437bed57158477cf466de2c7361a787baf93932689267a5ef3ad1f2",

@@ -142,9 +142,14 @@ test('the living ground is on: only the bridges keep to the mapped inventory', (
   assert.equal(model.evidence.terrainModifiedForPlayingSurfaces, false);
 });
 
-test('the practice ground is the range, its mats and two practice greens', () => {
+test('the practice ground is the range, its tee line, two practice greens, the chipping apron and the short-game area', () => {
   assert.equal(model.scenery.range.length, 1);
-  assert.equal(model.scenery.practiceGreens.length, 2);
-  assert.deepEqual(model.scenery.mappedFeatures.map(f => f.kind).sort(), ['practice_green', 'practice_green', 'range_tee_pad']);
+  // the putting green, the chipping green and the short-game area's three target circles
+  assert.equal(model.scenery.practiceGreens.length, 5);
+  assert.deepEqual(model.scenery.mappedFeatures.map(f => f.kind).sort(), Array(5).fill('practice_green'));
+  // the mats: one bay every 3 m along the 43 m tee line (2025 photo)
+  const bays = model.scenery.rangeFacilities.bays;
+  assert.ok(bays.length >= 14 && bays.length <= 16, `${bays.length} bays`);
+  for (let i = 1; i < bays.length; i++) assert.ok(Math.abs(Math.hypot(bays[i][0] - bays[i - 1][0], bays[i][1] - bays[i - 1][1]) - 3) < 0.35);
   assert.equal(model.water.length, 29);
 });

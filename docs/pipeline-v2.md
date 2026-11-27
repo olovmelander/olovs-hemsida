@@ -466,6 +466,11 @@ them, and the app's bundles may not import from the workflow. It is the one plac
 - **The six stages take the whole app as their input.** One line changed under `apps/golf/src` is 40 minutes of
   stages again, and an edit while they run loses the run. Batch the app's edits between runs: register the
   terrain config before the first run, and take the first pictures before the second.
+- **The practice ground is part of the course, and is looked at like one.** Tjusta's putting green came out with its
+  collar, its chipping apron as a piece of the 1st fairway, its short-game area as rough and its tee line as a green
+  strip, and no check saw any of it: the owner did, from the 1st tee. Draw each practice surface on the photo
+  (`layer-decisions.json`), keep the fairway model out of the ones it is not (`fairwayExclude`), and give a range its
+  tee line as a `range_bay_line`, which the compiler turns into the bays the engine and the phone map draw.
 - **A new club is a change to the start menu.** Tjusta, the twelfth club, stayed in Bro Hof's group on the
   Sverigekarta a step longer than any club before it, and showed that opening a group lost the keyboard under
   reduced motion. Only the Cloudflare pipeline's journeys saw it, after the merge.
