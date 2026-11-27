@@ -27,6 +27,8 @@ import { browserArgs, browserExecutable, GPU } from './browser-args.mjs';
 import { groundRoutings } from './course-rebuild.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+/* Frames drawn after a view settles before it is taken: the temporal AA's history fills in about a dozen. */
+const TAA_FRAMES = 16;
 const args = process.argv.slice(2);
 const flag = name => { const at = args.indexOf(name); return at >= 0 ? args[at + 1] : undefined; };
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -100,17 +102,20 @@ async function main() {
       const holes = Array.from({ length: count }, (_, i) => i + 1).filter(n => !only || only.includes(n));
       const shots = new Map(holes.map(n => [n, {}]));
 
-      /* Detaljerad 3D: one boot, then every hole from its tee and from above */
+      /* Detaljerad 3D: one boot, then every hole from its tee and from above. det=1 pins the clock, the weather
+         and the seeds; aa=traa keeps the temporal AA a high-quality desktop draws with, and with it the water's
+         mirror of its shores, which det=1 alone leaves out (MSAA): the first look at Bro Hof took a pond drawn
+         without it for ice (27 November). The settle waits out the AA's history after every jump. */
       const detailed = await browser.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1, serviceWorkers: 'block' });
       detailed.setDefaultTimeout(240000);
       watch(detailed, `${routing.slug} Detaljerad 3D`);
-      await detailed.goto(`${base}?bana=${routing.slug}&karta=0&hal=${holes[0]}&vy=tee&ljus=dag&q=hi&qualitylock=1&det=1&ren=1`, { waitUntil: 'load' });
+      await detailed.goto(`${base}?bana=${routing.slug}&karta=0&hal=${holes[0]}&vy=tee&ljus=dag&q=hi&qualitylock=1&det=1&aa=traa&ren=1`, { waitUntil: 'load' });
       await detailed.waitForSelector('#boot.done');
       const settle = async () => {
         const f = await detailed.evaluate(() => window.V3D.frame());
         await detailed.waitForFunction(f0 => { const V = window.V3D; return V.frame() >= f0 + 2 && V.settled() && (V.v2Terrain().adapter?.stream?.loadingTiles ?? 0) === 0; }, f, { polling: 50 });
         const f1 = await detailed.evaluate(() => window.V3D.frame());
-        await detailed.waitForFunction(f0 => window.V3D.frame() >= f0 + 3 && window.V3D.settled(), f1, { polling: 20 });
+        await detailed.waitForFunction(([f0, n]) => window.V3D.frame() >= f0 + n && window.V3D.settled(), [f1, TAA_FRAMES], { polling: 20 });
         await detailed.evaluate(() => window.V3D.prepareCapture());
       };
       for (const n of holes) {
