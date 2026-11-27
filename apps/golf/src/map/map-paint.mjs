@@ -15,6 +15,9 @@ import { canopyAlpha } from './map-trees.mjs';
    tile is plenty further out. */
 export const paintSize = node => (node.lod === 0 ? 768 : 512);
 const MASK_SIZE = 256;
+/* The lakes' shore field: metres a pixel at the finest, at most this many pixels a side,
+   and how far past the outermost water it reaches. */
+export const SHORE_FIELD = Object.freeze({ metres: 8, most: 1024, pad: 64 });
 const STRIPE_METRES = 6;
 /* Enough to reach the far edge of the widest fairway from its line. */
 const STRIPE_BANDS = Math.ceil(100 / STRIPE_METRES);
@@ -625,5 +628,74 @@ export function createMapPainter(course, atlases = null, land = null, shores = n
       ctx.setLineDash([]);
       return { colour: canvas, mask: paintMask(node, canopied ? surface(size).trees : null) };
     },
+
+    /* How much of the ground round each point is water, one picture for the whole
+       ground, in world metres. The shallows' tone is read off it: read off a tile's
+       own mask, a shore near the tile's edge turned the tone on one side of the edge
+       and not on the other, and the lake changed colour along a straight seam (the
+       blind review, Bro Hof Stadium 13, 15 and 17, 27 November). */
+    shoreField: paintShoreField,
   };
+
+  function paintShoreField() {
+    const wet = [...layers.water, ...layers.basins, ...layers.streams];
+    let x0, z0, x1, z1;
+    if (land?.water) {
+      x0 = land.x0;
+      z0 = land.z0;
+      x1 = x0 + land.water.width * land.spacing;
+      z1 = z0 + land.water.height * land.spacing;
+    } else if (wet.length || lakeShores.length) {
+      const boxes = [...wet, ...lakeShores.map(sprite => sprite)];
+      x0 = Math.min(...boxes.map(item => item.x0)) - SHORE_FIELD.pad;
+      z0 = Math.min(...boxes.map(item => item.z0)) - SHORE_FIELD.pad;
+      x1 = Math.max(...boxes.map(item => item.x1)) + SHORE_FIELD.pad;
+      z1 = Math.max(...boxes.map(item => item.z1)) + SHORE_FIELD.pad;
+    } else return null;
+    if (![x0, z0, x1, z1].every(Number.isFinite)) return null;
+    const metres = Math.max(SHORE_FIELD.metres, Math.max(x1 - x0, z1 - z0) / SHORE_FIELD.most);
+    const width = Math.max(1, Math.ceil((x1 - x0) / metres)), height = Math.max(1, Math.ceil((z1 - z0) / metres));
+    const field = document.createElement('canvas');
+    field.width = width;
+    field.height = height;
+    const ctx = field.getContext('2d', { alpha: false });
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, width, height);
+    const world = target => target.setTransform(1 / metres, 0, 0, 1 / metres, -x0 / metres, -z0 / metres);
+    /* The ground's own water and each lake out to its shore, as the tiles' masks take them. */
+    if (land?.water || lakeShores.length) {
+      const picture = document.createElement('canvas');
+      picture.width = width;
+      picture.height = height;
+      const pictureCtx = picture.getContext('2d');
+      pictureCtx.imageSmoothingEnabled = true;
+      if (land?.water) {
+        pictureCtx.drawImage(land.water, (land.x0 - x0) / metres, (land.z0 - z0) / metres,
+          land.water.width * land.spacing / metres, land.water.height * land.spacing / metres);
+      }
+      if (lakeShores.length) {
+        world(pictureCtx);
+        drawShores(pictureCtx, shores.picture, lakeShores);
+        pictureCtx.setTransform(1, 0, 0, 1, 0, 0);
+      }
+      pictureCtx.globalCompositeOperation = 'source-in';
+      pictureCtx.fillStyle = '#fff';
+      pictureCtx.fillRect(0, 0, width, height);
+      ctx.drawImage(picture, 0, 0);
+    }
+    world(ctx);
+    /* A played surface is never water, and an outline always is. */
+    ctx.fillStyle = '#000';
+    for (const item of mown) ctx.fill(item.path, 'evenodd');
+    for (const set of [layers.bunkers, layers.otherBunkers, layers.openSand, layers.wasteAreas]) for (const item of set) ctx.fill(item.path, 'evenodd');
+    ctx.fillStyle = '#fff';
+    for (const set of [layers.water, layers.basins]) for (const item of set) ctx.fill(item.path, 'evenodd');
+    ctx.strokeStyle = '#fff';
+    ctx.lineCap = 'round';
+    for (const item of layers.streams) {
+      ctx.lineWidth = item.width;
+      ctx.stroke(item.path);
+    }
+    return { canvas: field, x0, z0, metres };
+  }
 }

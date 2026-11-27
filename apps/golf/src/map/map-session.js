@@ -86,6 +86,8 @@ const TREE_THIN = params.get('treethin') !== '0';
 const MEASURED_ROOFS = params.get('roofs') !== 'palette';
 const WALL_FOOT = params.get('wallfoot') === '0' ? EVEN_WALLS : MAP_WALL_FOOT;
 const TREE_CALM = params.get('treecalm') === '0' ? null : Object.freeze([400, 2500]);
+/* The lakes' shore tone over the same metres on every tile; ?watertone=before is the fixed mip. */
+const WATER_TONE = params.get('watertone') === 'before' ? 0 : undefined;
 /* Min vy: standing at the ball, at a golfer's height, on the ground as it really is.
    The relief is drawn at its true height here: raised, a gentle rise becomes a wall. */
 const EYE_HEIGHT_METRES = 1.8, EYE_LOOK_METRES = 120, EYE_PITCH = 0.04, EYE_PITCH_LIMIT = 0.5;
@@ -710,7 +712,9 @@ async function start() {
     const far = land?.forestBytes && !TREE_REACH_BEFORE && params.get('farforest') !== '0'
       ? { land, buildings: course.features.farBuildings, lines: [...course.features.roads, ...course.features.railways] } : null;
     try {
-      store.setAppearance(createMapPainter(course, visuals.atlases, land, hydro?.shores), far, hydro !== null);
+      const painter = createMapPainter(course, visuals.atlases, land, hydro?.shores);
+      renderer.uploadShoreField(painter.shoreField());
+      store.setAppearance(painter, far, hydro !== null);
     } catch (error) {
       console.warn('Kartans utseende:', error.message);
     }
@@ -4011,6 +4015,7 @@ async function start() {
         houseFade: [houseReach * 0.85, houseReach],
         wallFoot: WALL_FOOT,
         treeCalm: TREE_CALM,
+        waterToneMetres: WATER_TONE,
         /* From the ground the air starts well out, whatever the map's own reach. */
         fog: state.atEye ? [EYE_FOG_METRES, 9000] : [distance * 2.2, Math.max(distance * 14, 9000)],
         /* The greengrid reads the green by itself, as it does in the simulator. */

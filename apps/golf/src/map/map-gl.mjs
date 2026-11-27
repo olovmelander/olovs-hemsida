@@ -24,6 +24,10 @@ import { HOUSE_FLOATS, MAP_WALL_FOOT } from './map-houses.mjs';
 /* How much larger a thinned tile's trees may stand: past twice their size they read as
    other trees, not as the same wood seen from further off. */
 const MAX_THIN = 2;
+/* The shore's tone is read over this many metres on every tile: a 1 m tile's old mip 4. */
+export const WATER_TONE_METRES = 16;
+/* The texture unit of the whole ground's shore field; the green cache holds 9 and 10. */
+const SHORE_UNIT = 8;
 
 const GROUND_VERTEX = `#version 300 es
 precision highp float;
@@ -64,6 +68,11 @@ uniform sampler2D uRelief;
 uniform sampler2D uHeights;
 uniform sampler2D uDetail;
 uniform float uBaseHeight;
+uniform float uMaskTexel;    /* metres a texel of this tile's mask covers */
+uniform float uToneMetres;   /* how wide the shore's tone is read; 0 is the before, a fixed mip */
+uniform sampler2D uShoreField; /* how much of the ground round a point is water, the whole ground's */
+uniform vec4 uShore;         /* the field's corner and its size in metres; no field at size 0 */
+uniform float uShoreTexel;   /* metres a texel of the field covers */
 uniform vec3 uSun;
 uniform vec3 uFill;
 uniform float uSlopeGain;
@@ -178,10 +187,22 @@ void main() {
     vec3 reflected = reflect(-toEye, surface);
     vec3 sky = mix(uHaze, uZenith, pow(clamp(reflected.y, 0.0, 1.0), 0.65));
     float glint = pow(max(dot(reflected, uSun), 0.0), 260.0) * 1.2;
-    /* How far from the shore, read off a wide mip of the mask: shallows run teal
-       and the open water deep. */
-    vec3 wide = textureLod(uMask, vUv, 4.0).rgb;
-    float open = smoothstep(0.45, 0.98, wide.r - min(wide.g, wide.b));
+    /* How far from the shore: shallows run teal and the open water deep. It is
+       read off the whole ground's shore field over the same metres everywhere: a
+       tile's own mask sees no shore past its edge, so where a shore lay near one
+       the lake turned tone along a straight seam (the blind review, Bro Hof
+       Stadium 13, 15 and 17, 27 November). Off the field, and before it has
+       arrived, the tile's own mask; ?watertone=before is its fixed mip. */
+    vec2 shoreAt = (vWorld.xz - uShore.xy) / max(uShore.zw, vec2(1e-3));
+    float open;
+    if (uToneMetres > 0.0 && uShore.z > 0.0 && shoreAt == clamp(shoreAt, 0.0, 1.0)) {
+      float share = textureLod(uShoreField, shoreAt, max(0.0, log2(uToneMetres / uShoreTexel))).r;
+      open = smoothstep(0.45, 0.98, share);
+    } else {
+      float toneMip = uToneMetres > 0.0 ? max(0.0, log2(uToneMetres / max(uMaskTexel, 1e-3))) : 4.0;
+      vec3 wide = textureLod(uMask, vUv, toneMip).rgb;
+      open = smoothstep(0.45, 0.98, wide.r - min(wide.g, wide.b));
+    }
     vec3 body = mix(uWaterNear, uWaterFar, open);
     vec3 open_water = mix(body, sky, clamp(fresnel * 1.6 + 0.16, 0.0, 1.0)) + glint;
     /* A lake frozen and snowed over; the sea stays open. */
@@ -706,6 +727,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
   let ground, sky, tree, shadow, contact, house, houseShadow, grids, anisotropy, anisotropyLimit, cornerBuffer, detailTexture;
   let atlases = null, atlasSource = null, detailSource = null, noShade = null;
+  let shoreSource = null, shoreTexture = null;
 
   let greenCache, cachedPulseProgram, cachedView;
   let greenLines = null, greenPulses = null, gridGpu = null, gridSource = null;
@@ -752,6 +774,24 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     if (anisotropy) gl.texParameterf(gl.TEXTURE_2D, anisotropy.TEXTURE_MAX_ANISOTROPY_EXT, anisotropyLimit);
+  }
+
+  /* The whole ground's shore field (map-paint.mjs shoreField), one channel, mip-mapped
+     so its tone can be read over any width. Null takes it away. */
+  function uploadShoreField(field) {
+    shoreSource = field;
+    if (shoreTexture) gl.deleteTexture(shoreTexture);
+    shoreTexture = null;
+    if (!field) return;
+    shoreTexture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0 + SHORE_UNIT);
+    gl.bindTexture(gl.TEXTURE_2D, shoreTexture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, gl.RED, gl.UNSIGNED_BYTE, field.canvas);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   }
 
   function arrayTexture(unit, images, premultiplied) {
@@ -809,6 +849,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     gl.uniform1i(ground.u.uMask, 3);
     gl.uniform1i(ground.u.uDetail, 4);
     gl.uniform1i(ground.u.uHillShade, 7);
+    gl.uniform1i(ground.u.uShoreField, SHORE_UNIT);
     gl.useProgram(tree.program);
     gl.uniform1i(tree.u.uColours, 5);
     gl.uniform1i(tree.u.uNormals, 6);
@@ -825,7 +866,9 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     atlases = null;
     detailTexture = null;
     noShade = whiteTexture();
+    shoreTexture = null;
     if (detailSource) uploadDetail(detailSource);
+    if (shoreSource) uploadShoreField(shoreSource);
     if (atlasSource) uploadAtlases(atlasSource);
     gridGpu = null;
     if (gridSource) uploadGreenGrid(gridSource);
@@ -962,6 +1005,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     releaseGreenFrame,
     uploadDetail,
     uploadAtlases,
+    uploadShoreField,
     uploadGreenGrid,
     resize(width, height) {
       releaseGreenFrame();
@@ -987,7 +1031,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
       const maskTexture = texture(3, gl.RGBA8, paint.mask.width, paint.mask.height, gl.LINEAR_MIPMAP_LINEAR, mips(paint.mask));
 
-      node.gpu = { heightTexture, reliefTexture, paintTexture, maskTexture };
+      node.gpu = { heightTexture, reliefTexture, paintTexture, maskTexture, maskTexel: node.size / paint.mask.width };
       repaintTile(node, paint);
     },
 
@@ -1064,8 +1108,16 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       gl.uniform1f(u.uDormant, view.dormant);
       gl.uniform1f(u.uIce, view.ice);
       gl.uniform1f(u.uHillDark, view.hillDark);
+      gl.uniform1f(u.uToneMetres, view.waterToneMetres ?? WATER_TONE_METRES);
       gl.activeTexture(gl.TEXTURE4);
       gl.bindTexture(gl.TEXTURE_2D, detailTexture);
+      gl.activeTexture(gl.TEXTURE0 + SHORE_UNIT);
+      gl.bindTexture(gl.TEXTURE_2D, shoreTexture ?? noShade);
+      if (shoreTexture) {
+        const { x0, z0, metres, canvas } = shoreSource;
+        gl.uniform4f(u.uShore, x0, z0, canvas.width * metres, canvas.height * metres);
+        gl.uniform1f(u.uShoreTexel, metres);
+      } else gl.uniform4f(u.uShore, 0, 0, 0, 0);
 
       let triangles = 0, bound = null, boundGrid = null;
       for (const { node, u0, v0, span, grid } of patches) {
@@ -1081,6 +1133,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
           gl.activeTexture(gl.TEXTURE7);
           gl.bindTexture(gl.TEXTURE_2D, node.gpu.shadeTexture ?? noShade);
           gl.uniform1f(u.uBaseHeight, node.minHeight);
+          gl.uniform1f(u.uMaskTexel, node.gpu.maskTexel);
           bound = node;
         }
         const size = node.size * span;
