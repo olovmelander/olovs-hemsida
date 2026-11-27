@@ -134,7 +134,7 @@ export function shareTrees(sources, budget, reach) {
     const detailed = Math.min(Math.round(wants[k] * ratio), left);
     wanting -= wants[k];
     left -= detailed;
-    return { ...source, detailed, count: source.foreground ? source.count : detailed };
+    return { ...source, total: source.count, detailed, count: source.foreground ? source.count : detailed };
   }).filter(source => source.count > 0);
 }
 

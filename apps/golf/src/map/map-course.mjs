@@ -161,8 +161,9 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     buildings: rings([...(infra.buildings ?? []), ...(far?.landmarks ?? [])]),
     /* Everything beyond the extract: thousands of boxes, kept as bare corners. */
     farBuildings: allBuildings.map(box => placeAll(buildingCorners(box))),
+    /* The id names the footprint a club's own building stands in for (map-club-buildings.mjs). */
     structures: [...(infra.buildings ?? []), ...(far?.landmarks ?? [])].filter(item => validRing(item?.ring))
-      .map(item => ({ ring: placeAll(item.ring), height: Number.isFinite(item.h) ? item.h : null })),
+      .map(item => ({ ring: placeAll(item.ring), height: Number.isFinite(item.h) ? item.h : null, id: typeof item.id === 'string' ? item.id : null })),
     range: rings(scenery.range),
     /* The other layouts on a shared ground are real grass on the same land, and
        a short layout's bunkers are only here: the 9-hole records carry none. */

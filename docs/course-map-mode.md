@@ -198,6 +198,47 @@ which pull in three.js. The three species rules the map needs are copied into
 `map-trees.mjs`, and `map.test.mjs` compares them with the originals. The frames in
 `map-frames.mjs` are a copy on the same terms.
 
+## The clubs' own buildings
+
+The owner asked on 27 November for the buildings designed for each club to look the same
+in Lätt 3D, simpler, as the map's other houses are. The detailed course draws them from
+the facility GLBs, the authored meshes and the house kit; the map draws none of those.
+`tools/bake-map-buildings.mjs` reads each in its own frame, carries it into the map's
+(the ground's metres, east +x, south +z) and records it from above in its own axes, the
+rectangle of least area round its plan: a grid of 0.5-1 m cells, each with how high the
+building stands there and the colour seen from above, and the colour its walls show
+most. Shades a step apart merge, and each cell takes the colour most of its neighbours
+show, so vents and skylights do not speckle a roof. Flagpoles, nets, mats, terraces and
+other site pieces stay ground (a receipt's `kind`, else its id).
+
+`map-club-buildings.mjs` raises a record as the map raises houses: walls from the ground
+and a roof whose corners are shared by the cells of one roof, so a roof is smooth, and
+split where a tower or a higher wing rises, so the step gets a wall. A cell of an outline
+running across the grid is cut along its diagonal (only where a diagonal neighbour
+carries the stair on, so a square corner stays square). Each stands in for the footprints
+its course's detailed version replaces: by id, or for Veckefjärden, which names them by
+place in a pack that differs between its layouts, by where they stand. 155 buildings on
+12 grounds, 7,000-42,000 triangles a ground (Johannesberg's 22 the most). Rerun the bake
+when a club's buildings are republished: `map-club-buildings.test.mjs` compares each
+record with its sources and its ground's frame. `?clubhouses=0` is the layout's houses
+alone.
+
+## Houses and trees at every zoom
+
+Zoomed out, the houses went and the woods thinned to a scatter (owner, 27 November).
+
+- **Houses** were raised only on 1 m tiles and shrank to nothing at the trees' fade. They
+  are now filed in 256 m squares, raised on the finest ground in memory and again when
+  finer ground arrives (`store.houses`), and drawn to 20 times the camera's distance,
+  1.5-12 km, 9 km from Min vy.
+- **Trees.** The budget is 160,000, 60,000, 16,000 and 5,000 by quality step (it was
+  40,000, 20,000, 6,000 and 3,000). A slow phone steps down as before, and a step down is
+  where the woods thinned most: a tile past the near ring draws a share of its trees, so
+  the trees it keeps stand larger, the square root of its share up to twice their size
+  (`uThin`), and a wood keeps its cover. At quality step 2, Johannesberg from 4 km went
+  from 6,391 trees and bare hills to 16,241 and its woods. `?treebudget=before` is the
+  budget as it was, `?treethin=0` the trees at their own size.
+
 ## How it stays light
 
 - **Every 1 m sample reaches the screen through the pixel, not the mesh.** Each tile

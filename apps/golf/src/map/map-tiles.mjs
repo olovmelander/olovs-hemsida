@@ -11,6 +11,7 @@ import { bakeTileRelief, decodeTileHeights, sampleTile } from './map-height.mjs'
 import { boxInFrustum, buildTileTree, forestInView, TILE_SAMPLES } from './map-lod.mjs';
 import { bakeHillShade, shadeKey } from './map-horizon.mjs';
 import { raiseHouses } from './map-houses.mjs';
+import { buildingCentre, raiseClubBuilding, replacedBy } from './map-club-buildings.mjs';
 import { createFarBlocker, createFarSample, farForestCells, FAR_FOREST, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
 import { plantTile, TREE_FLOATS } from './map-trees.mjs';
 
@@ -33,6 +34,8 @@ const FOREST_FETCHES = 3, FOREST_PLANTS_PER_FRAME = 2;
    32 MB: past this many the cells farthest from the eye give theirs back, and are
    planted again if the view comes back. */
 const FAR_PLANTING_MS = 3, FAR_RESIDENT_TREES = 300000;
+/* Houses are filed in squares of a 1 m tile's size and raised a few milliseconds a frame. */
+const HOUSE_CELL_METRES = 256, HOUSE_RAISING_MS = 4;
 
 /* The tree pictures are one small download shared by a whole course, and addressed
    by content, so the first visit keeps them: no later visit, and no bad signal, has
@@ -53,8 +56,6 @@ export async function fetchKeptFile(url) {
   return new Uint8Array(await response.arrayBuffer());
 }
 
-/* A house's corner can lie just over its tile's edge; the nearest sample will do. */
-const sampleWithin = (node, heights, x, z) => sampleTile(heights, (x - node.x0) / node.size, (z - node.z0) / node.size, TILE_SAMPLES);
 
 export async function fetchTileBytes(url, { signal } = {}) {
   const cache = await optionalOfflineCache();
@@ -95,6 +96,42 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       onChange();
     }).catch(error => console.warn('map far forest:', error.message));
   }
+  /* Houses: the layout's, raised from their footprints, and the club's own
+     (map-club-buildings.mjs) in place of those they stand for. Each 256 m square's
+     share is raised on the finest ground in memory, and again when finer ground arrives
+     under it, so a house stands at every zoom and not only where the 1 m ground is
+     drawn (owner, 27 November: zoomed out, the houses went). */
+  let houseCells = [], housesWaiting = 0;
+  function fileHouses(club) {
+    for (const cell of houseCells) if (cell.gpu) renderer.releaseHouses(cell.gpu);
+    const replaced = replacedBy(club?.replaces);
+    const cells = new Map();
+    const add = ([x, z], kind, item) => {
+      const i = Math.floor(x / HOUSE_CELL_METRES), j = Math.floor(z / HOUSE_CELL_METRES), key = `${i},${j}`;
+      if (!cells.has(key)) cells.set(key, { x0: i * HOUSE_CELL_METRES, z0: j * HOUSE_CELL_METRES, size: HOUSE_CELL_METRES, structures: [], buildings: [], gpu: null, groundLod: Infinity });
+      cells.get(key)[kind].push(item);
+    };
+    for (const structure of structures) if (!replaced(structure)) add(structure.ring[0], 'structures', structure);
+    for (const building of club?.buildings ?? []) add(buildingCentre(building), 'buildings', building);
+    houseCells = [...cells.values()];
+  }
+  fileHouses(null);
+  function raiseCell(cell, lod) {
+    const parts = [];
+    if (cell.structures.length) parts.push(raiseHouses(cell.structures, heightAtPoint));
+    for (const building of cell.buildings) parts.push(raiseClubBuilding(building, heightAtPoint));
+    const length = parts.reduce((sum, part) => sum + part.length, 0);
+    if (cell.gpu) renderer.releaseHouses(cell.gpu);
+    cell.gpu = null;
+    if (length) {
+      const mesh = new Float32Array(length);
+      let at = 0;
+      for (const part of parts) { mesh.set(part, at); at += part.length; }
+      cell.gpu = renderer.uploadHouses(mesh);
+    }
+    cell.groundLod = lod;
+  }
+
   const releaseFar = cell => {
     if (!cell.forestGpu) return;
     farResident -= cell.forestGpu.count;
@@ -174,14 +211,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       node.minHeight = decoded.min;
       node.maxHeight = decoded.max;
       node.relief = bakeTileRelief(decoded.heights, decoded.width, decoded.height, node.spacing);
-      if (node.lod === 0) {
-        await loadVegetation(node, decoded.heights);
-        const inside = structures.filter(({ ring }) => {
-          const [x, z] = ring[0];
-          return x >= node.x0 && x < node.x0 + node.size && z >= node.z0 && z < node.z0 + node.size;
-        });
-        node.houses = inside.length ? raiseHouses(inside, (x, z) => sampleWithin(node, decoded.heights, x, z)) : null;
-      }
+      if (node.lod === 0) await loadVegetation(node, decoded.heights);
       if (disposed) return;
       uploads.push(node);
     } catch (error) {
@@ -255,10 +285,15 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       node.relief = null;
       node.stand = null;
       node.trees = null;
-      node.houses = null;
       node.shadeKey = null;
       node.state = null;
     }
+  }
+
+  function heightAtPoint(x, z) {
+    const best = finestAt(x, z);
+    if (!best) return NaN;
+    return sampleTile(best.decoded.heights, (x - best.x0) / best.size, (z - best.z0) / best.size, TILE_SAMPLES);
   }
 
   function finestAt(x, z) {
@@ -416,10 +451,38 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
 
     /* The height at a point, from the finest tile in memory: a walk down the tree,
        because a hill's shadow asks this thousands of times a tile. */
-    heightAt(x, z) {
-      const best = finestAt(x, z);
-      if (!best) return NaN;
-      return sampleTile(best.decoded.heights, (x - best.x0) / best.size, (z - best.z0) / best.size, TILE_SAMPLES);
+    heightAt: heightAtPoint,
+
+    /* The club's own buildings, once their record is in: they take their places and
+       the footprints they stand for leave. */
+    setClubBuildings(club) {
+      fileHouses(club);
+      onChange();
+    },
+
+    /* The houses in view, out to `reach`: a few squares raised a frame, nearest first. */
+    houses({ planes, eye, reach, exaggeration }) {
+      const drawn = [], wanted = [];
+      for (const cell of houseCells) {
+        const cx = cell.x0 + cell.size / 2, cz = cell.z0 + cell.size / 2;
+        const away = Math.max(0, Math.hypot(cx - eye[0], cz - eye[2]) - cell.size * 0.71);
+        if (away > reach || !boxInFrustum(planes, cell.x0, root.minY * exaggeration, cell.z0, cell.x0 + cell.size, (root.maxY + 60) * exaggeration, cell.z0 + cell.size)) continue;
+        const lod = finestAt(cx, cz)?.lod;
+        if (lod === undefined) continue;
+        if (!cell.gpu || lod < cell.groundLod) wanted.push({ cell, away, lod });
+        else drawn.push(cell.gpu);
+      }
+      wanted.sort((a, b) => a.away - b.away);
+      const started = performance.now();
+      let left = 0;
+      for (const { cell, lod } of wanted) {
+        if (performance.now() - started > HOUSE_RAISING_MS) { left++; if (cell.gpu) drawn.push(cell.gpu); continue; }
+        raiseCell(cell, lod);
+        if (cell.gpu) drawn.push(cell.gpu);
+      }
+      housesWaiting = left;
+      if (left) onChange();
+      return drawn;
     },
 
     /* Whether every point stands on 1 m ground that is in memory yet. */
@@ -447,7 +510,8 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       metreTiles: [...nodes.values()].filter(node => node.lod === 0 && isReady(node)).length,
       bytesFetched,
       failures,
-      busy: active + pending.size + repaints.length + uploads.length + forestActive + forestWanted.size + forestPlanting.length + farWanted.length,
+      busy: active + pending.size + repaints.length + uploads.length + forestActive + forestWanted.size + forestPlanting.length + farWanted.length + housesWaiting,
+      houses: houseCells.reduce((sum, cell) => sum + (cell.gpu?.count ?? 0), 0) / 3,
       farTrees: far.cells.reduce((sum, cell) => sum + (cell.forestGpu?.count ?? 0), 0),
     }),
 
@@ -476,6 +540,10 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
         if (node.forest !== 'loading') node.forest = null;
         node.gpu = null;
         node.shadeKey = null;
+      }
+      for (const cell of houseCells) {
+        cell.gpu = null;
+        cell.groundLod = Infinity;
       }
     },
 

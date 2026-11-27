@@ -19,6 +19,11 @@ import { GRID_VERTEX_FLOATS, PULSE_FLOATS } from './map-greengrid.mjs';
 import { SLOPE_LIMIT } from './map-height.mjs';
 import { SHADE_SIZE } from './map-horizon.mjs';
 import { PATCH_GRIDS, shareTrees, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
+import { HOUSE_FLOATS } from './map-houses.mjs';
+
+/* How much larger a thinned tile's trees may stand: past twice their size they read as
+   other trees, not as the same wood seen from further off. */
+const MAX_THIN = 2;
 
 const GROUND_VERTEX = `#version 300 es
 precision highp float;
@@ -265,6 +270,7 @@ uniform float uExaggeration;
 uniform vec3 uEye;
 uniform vec2 uFade;
 uniform bool uFullSize;
+uniform float uThin;                   /* a thinned tile's trees stand larger, so its wood keeps its cover */
 uniform vec2 uFog;
 uniform vec3 uShapes[6];               /* radius, centre, height of each layer */
 ${IMPOSTOR_COMMON}
@@ -282,7 +288,7 @@ void main() {
   float reach = distance(vec2(aTree.x, aTree.z), uEye.xz);
   /* Distant landscape fades into its canopy. Foreground crowns keep their size. */
   float grown = uFullSize ? 1.0 : 1.0 - smoothstep(uFade.x, uFade.y, reach);
-  vec3 scale = vec3(aSize.x, aSize.y, aSize.x) * max(grown, 0.0001);
+  vec3 scale = vec3(aSize.x, aSize.y, aSize.x) * max(grown, 0.0001) * uThin;
   vec3 base = vec3(aTree.x, aTree.y * uExaggeration, aTree.z);
   vec3 centre = base + vec3(0.0, shape.y * scale.y, 0.0);
   vec3 view = normalize(uEye - centre);
@@ -405,6 +411,7 @@ uniform float uExaggeration;
 uniform vec3 uEye;
 uniform vec2 uFade;
 uniform bool uFullSize;
+uniform float uThin;                   /* a thinned tile's trees stand larger, so its wood keeps its cover */
 uniform vec3 uSun;
 uniform vec3 uShapes[6];
 ${IMPOSTOR_COMMON}
@@ -414,7 +421,7 @@ void main() {
   vec3 shape = uShapes[int(aSize.z)];
   float reach = distance(vec2(aTree.x, aTree.z), uEye.xz);
   float grown = uFullSize ? 1.0 : 1.0 - smoothstep(uFade.x, uFade.y, reach);
-  vec3 scale = vec3(aSize.x, aSize.y, aSize.x) * max(grown, 0.0001);
+  vec3 scale = vec3(aSize.x, aSize.y, aSize.x) * max(grown, 0.0001) * uThin;
   vec3 base = vec3(aTree.x, aTree.y * uExaggeration, aTree.z);
   vec3 centre = base + vec3(0.0, shape.y * scale.y, 0.0);
   vec3 right, up;
@@ -465,12 +472,13 @@ uniform float uExaggeration;
 uniform vec3 uEye;
 uniform vec2 uFade;
 uniform bool uFullSize;
+uniform float uThin;                   /* a thinned tile's trees stand larger, so its wood keeps its cover */
 uniform vec3 uShapes[6];
 out vec2 vSpot;
 void main() {
   float reach = distance(vec2(aTree.x, aTree.z), uEye.xz);
   float grown = uFullSize ? 1.0 : 1.0 - smoothstep(uFade.x, uFade.y, reach);
-  float size = uShapes[int(aSize.z)].x * aSize.x * 1.15 * max(grown, 0.0001);
+  float size = uShapes[int(aSize.z)].x * aSize.x * 1.15 * max(grown, 0.0001) * uThin;
   vec3 place = vec3(aTree.x + aCorner.x * size, aTree.y * uExaggeration, aTree.z + aCorner.y * size);
   vSpot = aCorner * 2.0;
   gl_Position = uClip * vec4(place, 1.0);
@@ -964,14 +972,21 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
       const maskTexture = texture(3, gl.RGBA8, paint.mask.width, paint.mask.height, gl.LINEAR_MIPMAP_LINEAR, mips(paint.mask));
 
-      node.gpu = { heightTexture, reliefTexture, paintTexture, maskTexture, houses: null };
+      node.gpu = { heightTexture, reliefTexture, paintTexture, maskTexture };
       repaintTile(node, paint);
-      if (node.houses?.length) {
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, node.houses, gl.STATIC_DRAW);
-        node.gpu.houses = { vao: houseVao(buffer), buffer, count: node.houses.length / 10 };
-      }
+    },
+
+    /* A set of houses, raised on whatever ground is in memory (map-tiles.mjs houses). */
+    uploadHouses(houses) {
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, houses, gl.STATIC_DRAW);
+      return { vao: houseVao(buffer), buffer, count: houses.length / HOUSE_FLOATS };
+    },
+
+    releaseHouses(set) {
+      gl.deleteVertexArray(set.vao);
+      gl.deleteBuffer(set.buffer);
     },
 
     repaintTile,
@@ -1000,10 +1015,6 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     releaseTile(node) {
       if (!node.gpu) return;
       for (const handle of [node.gpu.heightTexture, node.gpu.reliefTexture, node.gpu.paintTexture, node.gpu.maskTexture, node.gpu.shadeTexture]) if (handle) gl.deleteTexture(handle);
-      if (node.gpu.houses) {
-        gl.deleteVertexArray(node.gpu.houses.vao);
-        gl.deleteBuffer(node.gpu.houses.buffer);
-      }
       node.gpu = null;
     },
 
@@ -1067,7 +1078,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
         triangles += mesh.count / 3;
       }
 
-      const houses = new Set(patches.filter(({ node, reach }) => node.gpu.houses && reach < view.treeFade[1]).map(({ node }) => node));
+      const houses = view.houses ?? [];
       const sources = atlases ? (view.forest ?? []).map(({ node, reach, foreground }) =>
         ({ vao: node.forestGpu.vao, count: node.forestGpu.count, reach, foreground })) : [];
       const lists = shareTrees(sources.sort((a, b) => a.reach - b.reach), view.treeBudget, view.treeFade[1]);
@@ -1090,6 +1101,8 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
             gl.uniform1i(program.u.uFullSize, foreground ? 1 : 0);
           }
           if (crowns) gl.uniform1i(program.u.uDetailedCount, source.detailed);
+          gl.uniform1f(program.u.uThin, source.foreground || !source.detailed || view.treeThin === false ? 1
+            : Math.min(MAX_THIN, Math.sqrt(source.total / source.detailed)));
           gl.bindVertexArray(source.vao);
           gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
         }
@@ -1117,9 +1130,9 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       }
       setShared(houseShadow, view);
       gl.uniform3fv(houseShadow.u.uSun, view.shadowSun);
-      for (const node of houses) {
-        gl.bindVertexArray(node.gpu.houses.vao);
-        gl.drawArrays(gl.TRIANGLES, 0, node.gpu.houses.count);
+      for (const set of houses) {
+        gl.bindVertexArray(set.vao);
+        gl.drawArrays(gl.TRIANGLES, 0, set.count);
       }
       gl.disable(gl.STENCIL_TEST);
       if (gridGpu && view.greenGrid) {
@@ -1136,10 +1149,11 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
       if (capture) greenCache.markForeground();
       setShared(house, view);
-      for (const node of houses) {
-        gl.bindVertexArray(node.gpu.houses.vao);
-        gl.drawArrays(gl.TRIANGLES, 0, node.gpu.houses.count);
-        triangles += node.gpu.houses.count / 3;
+      if (view.houseFade) gl.uniform2f(house.u.uFade, view.houseFade[0], view.houseFade[1]);
+      for (const set of houses) {
+        gl.bindVertexArray(set.vao);
+        gl.drawArrays(gl.TRIANGLES, 0, set.count);
+        triangles += set.count / 3;
       }
 
       if (lists.length) {

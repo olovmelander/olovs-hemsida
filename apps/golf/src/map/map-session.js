@@ -46,6 +46,7 @@ import { createTileStore, fetchKeptFile } from './map-tiles.mjs';
 import { catalogueFor, createTreeRules, loadTreeAtlases, speciesCount } from './map-trees.mjs';
 import { buildGreenGrid, slopeColor, SLOPE_STEPS } from './map-greengrid.mjs';
 import { landRecord, loadForestPicture, loadShores, loadWaterPicture } from './map-land.mjs';
+import { clubRecord, loadClubBuildings } from './map-club-buildings.mjs';
 
 const params = new URLSearchParams(location.search);
 const slug = params.get('bana');
@@ -66,6 +67,16 @@ const TREE_REACH_BEFORE = params.get('treereach') === 'before';
 const TREE_REACH = TREE_REACH_BEFORE
   ? Object.freeze({ perDistance: 2.4, most: 6000, eye: 3000 })
   : Object.freeze({ perDistance: 12, most: 12000, eye: 9000 });
+/* Houses stand further than trees: a roof reads from further off than a crown, and
+   zoomed out over a course they went with the 1 m ground (owner, 27 November). */
+const HOUSE_REACH = Object.freeze({ perDistance: 20, least: 1500, most: 12000, eye: 9000 });
+/* Zoomed out, the trees in view outnumbered the budget and the far woods thinned to a
+   scatter (owner, 27 November: "show a lot more trees on all zoom levels"). Four times
+   the budget on a device that holds the pace, and the trees a thinned wood keeps stand
+   larger so it keeps its cover (map-gl.mjs uThin). ?treebudget=before is the budget as
+   it was, ?treethin=0 the trees at their own size. */
+const TREE_BUDGET_BEFORE = params.get('treebudget') === 'before';
+const TREE_THIN = params.get('treethin') !== '0';
 /* Min vy: standing at the ball, at a golfer's height, on the ground as it really is.
    The relief is drawn at its true height here: raised, a gentle rise becomes a wall. */
 const EYE_HEIGHT_METRES = 1.8, EYE_LOOK_METRES = 120, EYE_PITCH = 0.04, EYE_PITCH_LIMIT = 0.5;
@@ -83,11 +94,16 @@ const QUALITY_STEPS = Object.freeze(TREE_REACH_BEFORE ? [
   { trees: 12000, reach: 1, pixelRatio: 2 },
   { trees: 5000, reach: 1, pixelRatio: 1.6 },
   { trees: 2500, reach: 1, pixelRatio: 1.3 },
-] : [
+] : TREE_BUDGET_BEFORE ? [
   { trees: 40000, reach: 1, pixelRatio: 2 },
   { trees: 20000, reach: 0.6, pixelRatio: 2 },
   { trees: 6000, reach: 0.4, pixelRatio: 1.6 },
   { trees: 3000, reach: 0.25, pixelRatio: 1.3 },
+] : [
+  { trees: 160000, reach: 1, pixelRatio: 2 },
+  { trees: 60000, reach: 0.8, pixelRatio: 2 },
+  { trees: 16000, reach: 0.5, pixelRatio: 1.6 },
+  { trees: 5000, reach: 0.3, pixelRatio: 1.3 },
 ]);
 const QUALITY_KEY = 'banvy-map-quality-v1';
 const SLOW_FRAME_MS = 36, PACE_SAMPLES = 24;
@@ -654,6 +670,10 @@ async function start() {
   const shoresWanted = params.get('waterreach') !== '0';
   const landExtras = landFiles ? [landFiles.water, landFiles.forest, ...(shoresWanted && landFiles.shores ? [landFiles.shores.picture, landFiles.shores.lakes] : [])]
     .map(entry => ({ ...entry, href: assetUrl(entry.file) })) : [];
+  /* The club's own buildings, simpler, in place of the footprints they stand for
+     (map-club-buildings.mjs). ?clubhouses=0 is the layout's houses alone. */
+  const clubFiles = params.get('clubhouses') === '0' ? null : clubRecord(course.ground.groundId);
+  const clubExtras = clubFiles ? [{ file: clubFiles.file, sha256: clubFiles.sha256, bytes: clubFiles.bytes, href: assetUrl(clubFiles.file) }] : [];
   const groundCanvas = $('.map-ground');
   let store = null;
   let hydroRequest = null, hydro = null, visuals = null;
@@ -715,6 +735,11 @@ async function start() {
     structures: course.features.structures,
     onChange: invalidate,
   });
+  if (clubFiles) {
+    loadClubBuildings(clubFiles, fetchAsset, course.ground.frame.fingerprint)
+      .then(club => { if (club) store.setClubBuildings(club); })
+      .catch(error => console.warn('Kartans klubbhus:', error.message));
+  }
 
   // The HUD, position watch and terrain can start while photographic detail loads.
   // Only measured water and shores are dependencies of the shot planner.
@@ -3619,7 +3644,7 @@ async function start() {
   let packageRequest = null, saving = false, check = 0;
   function getPackage() {
     if (!packageRequest) packageRequest = courseDownload(store, course, {
-      extras: [...treeFiles, ...landExtras], moduleUrl: import.meta.url,
+      extras: [...treeFiles, ...landExtras, ...clubExtras], moduleUrl: import.meta.url,
     }).catch(error => { packageRequest = null; throw error; });
     return packageRequest;
   }
@@ -3940,6 +3965,8 @@ async function start() {
       state.stats.treeReach = treeReach;
       const forest = store.forest({ planes, eye, reach: treeReach, exaggeration: state.exaggeration,
         holeTiles: state.mode === 'hole' ? hole().tileIds : [] });
+      const houseReach = state.atEye ? HOUSE_REACH.eye : clamp(distance * HOUSE_REACH.perDistance, HOUSE_REACH.least, HOUSE_REACH.most);
+      const houses = store.houses({ planes, eye, reach: houseReach, exaggeration: state.exaggeration });
       /* A low sun throws the land's own shadow, tile by tile, nearest first. */
       const lowSun = state.light.sun[1] < SHADE_BELOW_SUN && params.get('hillshade') !== '0';
       if (lowSun) shadesWaiting = store.bakeHillShades(selection.patches, state.light.sun, state.exaggeration, store.root.maxY * state.exaggeration);
@@ -3965,6 +3992,9 @@ async function start() {
         treeFade: [treeReach * 0.8, treeReach],
         forest,
         treeBudget: step.trees,
+        treeThin: TREE_THIN,
+        houses,
+        houseFade: [houseReach * 0.85, houseReach],
         /* From the ground the air starts well out, whatever the map's own reach. */
         fog: state.atEye ? [EYE_FOG_METRES, 9000] : [distance * 2.2, Math.max(distance * 14, 9000)],
         /* The greengrid reads the green by itself, as it does in the simulator. */
