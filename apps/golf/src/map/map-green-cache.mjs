@@ -16,8 +16,12 @@ void main() {
   else colour = vec4(vec3(uMode == 2 ? 1.0 : 0.0), 1.0);
 }`;
 
-export const FOREGROUND_UNIT = 9, VISIBILITY_UNIT = 10;
-const SCENE_UNIT = 8;
+/* The units of the cache's three layers. No other texture in the map may take one
+   (map-gl.mjs): the ground's shore field was given the scene's unit 8, the frame was
+   copied into that one-channel field, and every still green view was drawn in its red
+   channel alone (Bro Hof Stadium 1, 28 November). */
+export const SCENE_UNIT = 11, FOREGROUND_UNIT = 9, VISIBILITY_UNIT = 10;
+export const GREEN_CACHE_UNITS = Object.freeze([SCENE_UNIT, FOREGROUND_UNIT, VISIBILITY_UNIT]);
 
 /* Source-over with this ink leaves the cached, depth-tested foreground exactly
    where it was, including the fractional coverage of branches and roof edges. */
@@ -41,7 +45,7 @@ export function createGreenCache(gl, compile) {
     return handle;
   }
   function release() {
-    if (layers) for (const handle of layers) gl.deleteTexture(handle);
+    if (layers) for (const handle of layers.values()) gl.deleteTexture(handle);
     layers = null;
     ready = false;
     failed = false;
@@ -51,8 +55,8 @@ export function createGreenCache(gl, compile) {
     if (layers) return true;
     if (!gl.getContextAttributes()?.stencil) { failed = true; return false; }
     screen ??= compile(gl, SCREEN_VERTEX, SCREEN_FRAGMENT);
-    layers = [texture(SCENE_UNIT, gl.RGB8), texture(FOREGROUND_UNIT, gl.RGB8), texture(VISIBILITY_UNIT, gl.R8)];
-    if (layers.some(handle => !handle) || gl.getError() !== gl.NO_ERROR) {
+    layers = new Map(GREEN_CACHE_UNITS.map(unit => [unit, texture(unit, unit === VISIBILITY_UNIT ? gl.R8 : gl.RGB8)]));
+    if ([...layers.values()].some(handle => !handle) || gl.getError() !== gl.NO_ERROR) {
       release();
       failed = true;
       return false;
@@ -65,6 +69,15 @@ export function createGreenCache(gl, compile) {
     gl.uniform1i(screen.u.uScene, SCENE_UNIT);
     gl.bindVertexArray(null);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  /* A copy or a read reaches whatever texture its unit holds at that moment, and the
+     renderer binds its own between prepare() and finish() and between frames. So each
+     layer is bound to its unit again whenever it is written or shown. */
+  function bindLayers() {
+    for (const [unit, handle] of layers) {
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, handle);
+    }
   }
   function capture(unit) {
     gl.activeTexture(gl.TEXTURE0 + unit);
@@ -80,6 +93,7 @@ export function createGreenCache(gl, compile) {
       gl.stencilOp(gl.KEEP, gl.KEEP, gl.REPLACE);
     },
     finish() {
+      bindLayers();
       capture(SCENE_UNIT);
       gl.disable(gl.DEPTH_TEST);
       gl.stencilFunc(gl.EQUAL, 0, 0xff);
@@ -101,6 +115,7 @@ export function createGreenCache(gl, compile) {
     },
     present() {
       if (!ready || gl.isContextLost()) return false;
+      bindLayers();
       gl.disable(gl.DEPTH_TEST);
       writeScreen(0);
       return true;
