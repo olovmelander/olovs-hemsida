@@ -78,15 +78,32 @@ try {
         gl.readPixels(0,0,canvas.width,canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,data);
         return data;
       };
+      /* The renderer's other passes bind their own textures between the cache's calls.
+         The ground's one-channel shore field once took the scene layer's unit: the frame
+         was copied into it and a still green view was shown red (28 November). Larger
+         than the canvas, so a copy into it succeeds rather than failing loudly. */
+      const stranger = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, stranger);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, canvas.width * 2, canvas.height * 2, 0, gl.RED, gl.UNSIGNED_BYTE, null);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+      const otherPasses = () => {
+        for (let unit = 0; unit < gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS); unit++) {
+          gl.activeTexture(gl.TEXTURE0 + unit);
+          gl.bindTexture(gl.TEXTURE_2D, stranger);
+        }
+      };
       const reference = offset => { clear(); pulse(plain,offset); foreground(); return pixels(); };
       const cache = createGreenCache(gl,compile);
       const offsets = [-.35, .13];
       const refs = offsets.map(reference);
       clear();
       if (!cache.prepare()) throw Error('Unable to prepare cache');
+      otherPasses();
       cache.markForeground(); foreground();
       if (!cache.finish()) throw Error('Unable to capture cache');
       const diffs = offsets.map((offset, index) => {
+        otherPasses();
         if (!cache.present()) throw Error('Unable to present cache');
         pulse(tinted,offset);
         const frame = pixels(), reference = refs[index];

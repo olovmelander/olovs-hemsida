@@ -26,8 +26,11 @@ import { HOUSE_FLOATS, MAP_WALL_FOOT } from './map-houses.mjs';
 const MAX_THIN = 2;
 /* The shore's tone is read over this many metres on every tile: a 1 m tile's old mip 4. */
 export const WATER_TONE_METRES = 16;
-/* The texture unit of the whole ground's shore field; the green cache holds 9 and 10. */
-const SHORE_UNIT = 8;
+/* The texture unit of the whole ground's shore field. The green cache's layers have
+   their own (GREEN_CACHE_UNITS, 9 to 11), and no texture here may take one: on the
+   scene layer's unit, a still green view was copied into this one-channel field and
+   shown red (map-green-cache.test.mjs). */
+export const SHORE_UNIT = 8;
 
 const GROUND_VERTEX = `#version 300 es
 precision highp float;
